@@ -33,6 +33,12 @@ ENV NEXT_PUBLIC_POSTHOG_HOST=$NEXT_PUBLIC_POSTHOG_HOST
 
 RUN echo "Building with NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL}"
 
+# Dummy values so requireEnv() passes at build time.
+# Real secrets are injected by entrypoint.sh from Docker Swarm secrets at runtime.
+ENV ANTHROPIC_API_KEY=build-placeholder
+ENV NEXTAUTH_SECRET=build-placeholder
+ENV NEXTAUTH_URL=https://taxalex.de
+
 RUN npm run build
 
 # Production image
