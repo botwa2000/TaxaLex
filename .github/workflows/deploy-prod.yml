@@ -26,16 +26,15 @@ jobs:
             cd /opt/taxalex
 
             echo "==> Pulling latest code"
-            git pull origin main
+            GIT_SSH_COMMAND='ssh -i /home/deploy/.ssh/id_ed25519_taxalex -F /home/deploy/.ssh/config' git pull origin main
 
             echo "==> Building production image"
-            docker compose -f docker-compose.yml build --no-cache
+            docker build -t taxalex-frontend:latest .
 
-            echo "==> Restarting production container"
-            docker compose -f docker-compose.yml up -d --force-recreate
+            echo "==> Deploying production stack"
+            docker stack deploy -c docker-compose.yml taxalex
+            docker service update --force --image taxalex-frontend:latest taxalex_frontend
 
-            echo "==> Waiting for healthcheck"
-            sleep 15
-            docker compose -f docker-compose.yml ps
-
-            echo "==> Done. Site: https://taxalex.de"
+            echo "==> Waiting for service to converge"
+            sleep 20
+            curl -sf http://localhost:3010/ > /dev/null && echo "==> taxalex.de is up" || echo "==> WARNING: health check failed"

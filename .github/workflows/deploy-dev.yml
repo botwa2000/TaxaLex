@@ -19,19 +19,18 @@ jobs:
           key: ${{ secrets.HETZNER_SSH_KEY }}
           script: |
             set -e
-            cd /opt/taxalex
+            cd /opt/taxalex-dev
 
             echo "==> Pulling latest code"
-            git pull origin main
+            GIT_SSH_COMMAND='ssh -i /home/deploy/.ssh/id_ed25519_taxalex -F /home/deploy/.ssh/config' git pull origin main
 
             echo "==> Building dev image"
-            docker compose -f docker-compose-dev.yml build --no-cache
+            docker build -t taxalex-frontend:dev .
 
-            echo "==> Restarting dev container"
-            docker compose -f docker-compose-dev.yml up -d --force-recreate
+            echo "==> Deploying dev stack"
+            docker stack deploy -c docker-compose-dev.yml taxalex-dev
+            docker service update --force --image taxalex-frontend:dev taxalex-dev_frontend
 
-            echo "==> Waiting for healthcheck"
-            sleep 10
-            docker compose -f docker-compose-dev.yml ps
-
-            echo "==> Done. Site: https://dev.taxalex.de"
+            echo "==> Waiting for service to converge"
+            sleep 20
+            curl -sf http://localhost:3011/ > /dev/null && echo "==> dev.taxalex.de is up" || echo "==> WARNING: health check failed"
