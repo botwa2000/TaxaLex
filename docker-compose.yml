@@ -1,0 +1,61 @@
+services:
+  frontend:
+    build:
+      context: .
+      args:
+        NEXT_PUBLIC_SITE_URL: https://taxalex.de
+        NEXT_PUBLIC_GA_MEASUREMENT_ID: ${NEXT_PUBLIC_GA_MEASUREMENT_ID}
+        NEXT_PUBLIC_POSTHOG_KEY: ${NEXT_PUBLIC_POSTHOG_KEY}
+        NEXT_PUBLIC_POSTHOG_HOST: ${NEXT_PUBLIC_POSTHOG_HOST:-https://eu.i.posthog.com}
+    image: taxalex-frontend:latest
+    container_name: taxalex-frontend
+    ports:
+      - target: 3000
+        published: 3010
+        protocol: tcp
+        mode: host
+    secrets:
+      - anthropic_api_key_prod
+      - openai_api_key_prod
+      - nextauth_secret_prod
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_SITE_URL=https://taxalex.de
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    cap_add:
+      - NET_BIND_SERVICE
+    tmpfs:
+      - /tmp:noexec,nosuid,size=200m
+      - /app/.next/cache:noexec,nosuid,size=100m
+    deploy:
+      mode: replicated
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+        reservations:
+          cpus: '0.1'
+          memory: 100M
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+secrets:
+  anthropic_api_key_prod:
+    external: true
+  openai_api_key_prod:
+    external: true
+  nextauth_secret_prod:
+    external: true

@@ -4,7 +4,7 @@ import { GeistMono } from 'geist/font/mono'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'TaxPax – KI-gestützter Steuer-Einspruch',
+  title: 'TaxAlex – KI-gestützter Steuer-Einspruch',
   description:
     'Erstellen Sie professionelle Einspruchsschreiben gegen fehlerhafte Steuerbescheide – mit Multi-KI-Technologie.',
 }

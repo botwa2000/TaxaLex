@@ -1,5 +1,5 @@
 /**
- * TaxPax Multi-Agent Orchestrator
+ * TaxAlex Multi-Agent Orchestrator
  *
  * Coordinates multiple AI models to produce a legally sound
  * Einspruch document through: Draft → Review → Adversary → Consolidate
@@ -34,7 +34,7 @@ export const AGENTS: Record<AgentRole, AgentConfig> = {
   drafter: {
     role: 'drafter',
     provider: 'anthropic',
-    model: 'claude-sonnet-4-20250514',
+    model: 'claude-sonnet-4-6',
     systemPrompt: `Du bist ein erfahrener Steuerrechtler, spezialisiert auf Einspruchsverfahren 
 nach §347 AO. Erstelle ein vollständiges Einspruchsschreiben basierend auf den 
 bereitgestellten Unterlagen. Verwende die korrekte BFH-Rechtsprechung und 
@@ -56,7 +56,7 @@ Gib eine Liste konkreter Fehler und Verbesserungsvorschläge zurück.`,
   adversary: {
     role: 'adversary',
     provider: 'anthropic',
-    model: 'claude-sonnet-4-20250514',
+    model: 'claude-sonnet-4-6',
     systemPrompt: `Du bist ein erfahrener Finanzbeamter/Sachbearbeiter. Analysiere das 
 Einspruchsschreiben aus Sicht des Finanzamts. Identifiziere jede Schwachstelle, 
 die das Finanzamt nutzen könnte: fehlende Nachweise, angreifbare Formulierungen,
@@ -66,7 +66,7 @@ Bewerte jede Schwachstelle nach Risiko (hoch/mittel/niedrig).`,
   consolidator: {
     role: 'consolidator',
     provider: 'anthropic',
-    model: 'claude-sonnet-4-20250514',
+    model: 'claude-sonnet-4-6',
     systemPrompt: `Du bist ein Senior-Steuerberater, der ein finales Einspruchsschreiben 
 erstellt. Dir liegen vor: ein Entwurf, ein Review mit Fehlern, und eine 
 Gegneranalyse. Erstelle die finale Version, die alle Fehler korrigiert und 
@@ -128,7 +128,7 @@ export async function orchestrate(
   const context = buildContext(bescheidData, documents, userAnswers)
 
   // Step 1: Draft
-  console.log('[TaxPax] Step 1/4: Drafting...')
+  console.log('[TaxAlex] Step 1/4: Drafting...')
   const draftContent = await callAgent(
     AGENTS.drafter,
     `Erstelle ein Einspruchsschreiben basierend auf:\n\n${context}`
@@ -136,7 +136,7 @@ export async function orchestrate(
   outputs.push(makeOutput('drafter', AGENTS.drafter, draftContent))
 
   // Step 2: Review
-  console.log('[TaxPax] Step 2/4: Reviewing...')
+  console.log('[TaxAlex] Step 2/4: Reviewing...')
   const reviewContent = await callAgent(
     AGENTS.reviewer,
     `Prüfe dieses Einspruchsschreiben auf Fehler:\n\n${draftContent}\n\nOriginaldaten:\n${context}`
@@ -144,7 +144,7 @@ export async function orchestrate(
   outputs.push(makeOutput('reviewer', AGENTS.reviewer, reviewContent))
 
   // Step 3: Adversarial
-  console.log('[TaxPax] Step 3/4: Adversarial review...')
+  console.log('[TaxAlex] Step 3/4: Adversarial review...')
   const adversaryContent = await callAgent(
     AGENTS.adversary,
     `Analysiere aus Finanzamt-Perspektive:\n\n${draftContent}\n\nOriginaldaten:\n${context}`
@@ -152,7 +152,7 @@ export async function orchestrate(
   outputs.push(makeOutput('adversary', AGENTS.adversary, adversaryContent))
 
   // Step 4: Consolidate
-  console.log('[TaxPax] Step 4/4: Consolidating...')
+  console.log('[TaxAlex] Step 4/4: Consolidating...')
   const finalDraft = await callAgent(
     AGENTS.consolidator,
     `Erstelle die finale Version des Einspruchsschreibens.

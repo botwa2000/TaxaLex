@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Enable server actions for file uploads
+  output: 'standalone',
   experimental: {
     serverActions: {
       bodySizeLimit: '10mb',

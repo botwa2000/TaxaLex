@@ -9,7 +9,7 @@ export default function HomePage() {
         <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Shield className="w-7 h-7 text-brand-600" />
-            <span className="text-xl font-bold tracking-tight">TaxPax</span>
+            <span className="text-xl font-bold tracking-tight">TaxAlex</span>
           </div>
           <Link
             href="/einspruch"
@@ -33,7 +33,7 @@ export default function HomePage() {
             <span className="text-brand-600">KI erstellt Ihren Einspruch.</span>
           </h1>
           <p className="text-lg text-[var(--muted)] leading-relaxed mb-8">
-            TaxPax nutzt mehrere KI-Modelle, die sich gegenseitig prüfen – für
+            TaxAlex nutzt mehrere KI-Modelle, die sich gegenseitig prüfen – für
             rechtlich fundierte Einspruchsschreiben. Kein Anwalt nötig.
           </p>
           <div className="flex flex-col sm:flex-row gap-3">
@@ -115,7 +115,7 @@ export default function HomePage() {
         <div className="max-w-5xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2 text-sm text-[var(--muted)]">
             <Shield className="w-4 h-4" />
-            TaxPax © {new Date().getFullYear()}
+            TaxAlex © {new Date().getFullYear()}
           </div>
           <div className="flex gap-6 text-sm text-[var(--muted)]">
             <a href="#" className="hover:text-brand-600">Impressum</a>
