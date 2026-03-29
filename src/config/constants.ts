@@ -1,0 +1,79 @@
+/**
+ * Application-wide constants.
+ * Change model names, limits, and timeouts here — nowhere else.
+ */
+
+// ── AI Models ─────────────────────────────────────────────────────────────────
+
+export const MODELS = {
+  drafter: 'claude-sonnet-4-20250514',
+  reviewer: 'gemini-1.5-pro',
+  factchecker: 'sonar-pro',
+  adversary: 'claude-sonnet-4-20250514',
+  consolidator: 'claude-sonnet-4-20250514',
+} as const
+
+// ── AI Pipeline ───────────────────────────────────────────────────────────────
+
+export const PIPELINE = {
+  maxTokens: 4096,
+  /** Hard timeout per agent call in ms */
+  agentTimeoutMs: 60_000,
+  /** Max file size accepted for upload (bytes) */
+  maxUploadBytes: 10 * 1024 * 1024, // 10 MB
+  /** Max number of documents per case */
+  maxDocuments: 10,
+} as const
+
+// ── Auth ──────────────────────────────────────────────────────────────────────
+
+export const AUTH = {
+  /** bcrypt rounds — 12 is secure, don't go lower */
+  bcryptRounds: 12,
+  /** Password reset token TTL in seconds */
+  resetTokenTtl: 3600, // 1 hour
+  /** Min password length */
+  minPasswordLength: 8,
+} as const
+
+// ── Rate Limiting ─────────────────────────────────────────────────────────────
+
+export const RATE_LIMITS = {
+  /** Max AI pipeline requests per IP per hour */
+  generatePerHour: 10,
+  /** Max analyze requests per IP per hour */
+  analyzePerHour: 30,
+  /** Max auth attempts per IP per 15 minutes */
+  authPer15Min: 5,
+} as const
+
+// ── Case & Legal ──────────────────────────────────────────────────────────────
+
+export const LEGAL = {
+  /** Deadline in days by use-case type (from Bescheid date) */
+  deadlineDays: {
+    tax: 30,          // §355 AO
+    jobcenter: 30,    // §84 SGG
+    rente: 30,        // §84 SGG
+    bussgeldd: 14,    // §67 OWiG
+    krankenversicherung: 30, // §84 SGG
+    kuendigung: 21,   // §4 KSchG
+    miete: 60,        // §558b BGB
+  },
+  /** Days before deadline to send first warning */
+  warnAtDays: [14, 7, 3, 1],
+} as const
+
+// ── Supported File Types ──────────────────────────────────────────────────────
+
+export const UPLOAD = {
+  acceptedMimeTypes: [
+    'application/pdf',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'text/plain',
+    'image/jpeg',
+    'image/png',
+    'image/webp',
+  ],
+  acceptedExtensions: '.pdf,.docx,.txt,.jpg,.jpeg,.png,.webp',
+} as const

@@ -1,0 +1,40 @@
+{
+  "enableAllProjectMcpServers": true,
+  "permissions": {
+    "allow": [
+      "Bash(npm run lint:*)",
+      "Bash(npm run build:*)",
+      "Bash(npx prettier:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npm install:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Skill(update-config)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "statusMessage": "Formatting...",
+            "command": "f=$(jq -r '.tool_input.file_path // empty'); [ -z \"$f\" ] && exit 0; echo \"$f\" | grep -qE '\\.(ts|tsx|js|jsx|json|css|md)$' && npx prettier --write \"$f\" 2>/dev/null || true"
+          },
+          {
+            "type": "command",
+            "statusMessage": "Checking brand name...",
+            "command": "f=$(jq -r '.tool_input.file_path // empty'); [ -z \"$f\" ] && exit 0; echo \"$f\" | grep -qE '(brand\\.ts|CLAUDE\\.md|README\\.md|messages/)' && exit 0; grep -qF 'TaxPax' \"$f\" 2>/dev/null && echo '{\"systemMessage\":\"\\u26a0 Hardcoded brand name found — import brand from @/config/brand\"}' || true"
+          },
+          {
+            "type": "command",
+            "statusMessage": "Checking logger usage...",
+            "command": "f=$(jq -r '.tool_input.file_path // empty'); [ -z \"$f\" ] && exit 0; echo \"$f\" | grep -qE '\\.(ts|tsx)$' && echo \"$f\" | grep -qv 'logger\\.ts$' && grep -qE 'console\\.(log|warn|error|info|debug)' \"$f\" 2>/dev/null && echo '{\"systemMessage\":\"\\u26a0 console.* found — use logger from @/lib/logger instead\"}' || true"
+          }
+        ]
+      }
+    ]
+  }
+}

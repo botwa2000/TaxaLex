@@ -1,8 +1,8 @@
-// Core types for the TaxPax multi-agent objection engine
+// Core types for the multi-agent objection engine
 
-export type AgentRole = 'drafter' | 'reviewer' | 'adversary' | 'consolidator'
+export type AgentRole = 'drafter' | 'reviewer' | 'factchecker' | 'adversary' | 'consolidator'
 
-export type AgentProvider = 'anthropic' | 'openai' | 'google'
+export type AgentProvider = 'anthropic' | 'openai' | 'google' | 'perplexity'
 
 export interface AgentConfig {
   role: AgentRole
@@ -91,6 +91,10 @@ export interface GenerateRequest {
   bescheidData: BescheidData
   documents: { name: string; text: string }[]
   userAnswers: Record<string, string>
+  /** BCP-47 language code for the final output document. Defaults to 'de'. */
+  outputLanguage?: string
+  /** BCP-47 language code for agent analysis/log shown to the user. Defaults to 'de'. */
+  uiLanguage?: string
 }
 
 export interface GenerateResponse {

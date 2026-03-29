@@ -1,0 +1,270 @@
+import { auth } from '@/auth'
+import Link from 'next/link'
+import { Plus, AlertTriangle, FolderOpen, ArrowRight, TrendingUp, Clock, CheckCircle2 } from 'lucide-react'
+import { DEMO_USER_ID, DEMO_CASES, getDemoStats } from '@/lib/mockData'
+
+type CaseSummary = {
+  id: string
+  useCase: string
+  status: string
+  deadline: Date | null
+  createdAt: Date
+  updatedAt: Date
+}
+
+export default async function DashboardPage() {
+  const session = await auth()
+  const userId = session!.user!.id as string
+
+  let cases: CaseSummary[] = []
+  let stats = { open: 0, submitted: 0, urgent: 0, total: 0 }
+
+  try {
+    // Try real DB first; fall back to mock data for demo user or when DB is unavailable
+    if (userId === DEMO_USER_ID) throw new Error('demo')
+    const { db } = await import('@/lib/db')
+    const rawCases = await db.case.findMany({
+      where: { userId },
+      orderBy: { updatedAt: 'desc' },
+      take: 20,
+      select: { id: true, useCase: true, status: true, deadline: true, createdAt: true, updatedAt: true },
+    })
+    cases = rawCases as CaseSummary[]
+    const now = new Date()
+    const openStatuses = ['CREATED', 'UPLOADING', 'ANALYZING', 'QUESTIONS', 'GENERATING', 'DRAFT_READY']
+    stats = {
+      open: cases.filter((c) => openStatuses.includes(c.status)).length,
+      submitted: cases.filter((c) => ['SUBMITTED', 'AWAITING_RESPONSE'].includes(c.status)).length,
+      urgent: cases.filter((c) => c.deadline && Math.ceil((c.deadline.getTime() - now.getTime()) / 86400000) <= 7 && c.deadline > now).length,
+      total: cases.length,
+    }
+  } catch {
+    cases = DEMO_CASES as CaseSummary[]
+    stats = getDemoStats()
+  }
+
+  const now = new Date()
+  const urgentCases = cases.filter(
+    (c) => c.deadline && c.deadline > now && daysBetween(now, c.deadline) <= 7
+  )
+
+  return (
+    <div>
+      {/* Page header */}
+      <div className="mb-8">
+        <h1 className="text-2xl font-bold text-[var(--foreground)]">
+          Guten Tag{session?.user?.name ? `, ${session.user.name}` : ''}
+        </h1>
+        <p className="text-sm text-[var(--muted)] mt-1">
+          Ihre Widersprüche und Einsprüche auf einen Blick
+        </p>
+      </div>
+
+      {/* Stats row */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+        <StatCard
+          icon={FolderOpen}
+          label="Offene Fälle"
+          value={stats.open}
+          iconClass="bg-blue-50 text-blue-600"
+        />
+        <StatCard
+          icon={TrendingUp}
+          label="Eingereicht"
+          value={stats.submitted}
+          iconClass="bg-green-50 text-green-600"
+        />
+        <StatCard
+          icon={AlertTriangle}
+          label="Dringende Fristen"
+          value={stats.urgent}
+          iconClass={stats.urgent > 0 ? 'bg-red-50 text-red-600' : 'bg-gray-50 text-gray-400'}
+          urgent={stats.urgent > 0}
+        />
+        <StatCard
+          icon={CheckCircle2}
+          label="Fälle gesamt"
+          value={stats.total}
+          iconClass="bg-purple-50 text-purple-600"
+        />
+      </div>
+
+      {/* Urgent deadline alert */}
+      {urgentCases.length > 0 && (
+        <div className="bg-red-50 border border-red-200 rounded-xl p-4 mb-6 flex items-start gap-3">
+          <AlertTriangle className="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
+          <div className="flex-1">
+            <p className="font-semibold text-red-800 text-sm">
+              {urgentCases.length} Frist{urgentCases.length > 1 ? 'en laufen' : ' läuft'} in weniger als 7 Tagen ab
+            </p>
+            {urgentCases.map((c) => (
+              <Link
+                key={c.id}
+                href={`/cases/${c.id}`}
+                className="flex items-center gap-1 text-sm text-red-700 mt-1 hover:text-red-900 hover:underline"
+              >
+                {useCaseLabel(c.useCase)} (Fall {c.id.slice(-6).toUpperCase()}) — noch {daysBetween(now, c.deadline!)} Tage
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Quick actions */}
+      <div className="grid sm:grid-cols-3 gap-3 mb-8">
+        <Link
+          href="/einspruch"
+          className="bg-brand-600 text-white rounded-xl p-4 hover:bg-brand-700 transition-colors group"
+        >
+          <Plus className="w-5 h-5 mb-2 group-hover:scale-110 transition-transform" />
+          <p className="font-semibold text-sm">Neue Anfrage</p>
+          <p className="text-xs text-brand-200 mt-0.5">Einspruch erstellen</p>
+        </Link>
+        <Link
+          href="/cases"
+          className="bg-white border border-[var(--border)] rounded-xl p-4 hover:border-brand-200 hover:bg-brand-50 transition-colors"
+        >
+          <FolderOpen className="w-5 h-5 text-[var(--muted)] mb-2" />
+          <p className="font-semibold text-sm text-[var(--foreground)]">Alle Fälle</p>
+          <p className="text-xs text-[var(--muted)] mt-0.5">Verlauf anzeigen</p>
+        </Link>
+        <Link
+          href="/billing"
+          className="bg-white border border-[var(--border)] rounded-xl p-4 hover:border-brand-200 hover:bg-brand-50 transition-colors"
+        >
+          <Clock className="w-5 h-5 text-[var(--muted)] mb-2" />
+          <p className="font-semibold text-sm text-[var(--foreground)]">Plan upgraden</p>
+          <p className="text-xs text-[var(--muted)] mt-0.5">Pro ab 9,99 €/Monat</p>
+        </Link>
+      </div>
+
+      {/* Recent cases */}
+      <div className="bg-white rounded-xl border border-[var(--border)]">
+        <div className="px-5 py-3.5 border-b border-[var(--border)] flex items-center justify-between">
+          <h2 className="font-semibold text-sm text-[var(--foreground)]">Zuletzt aktiv</h2>
+          <Link href="/cases" className="text-xs text-brand-600 hover:underline flex items-center gap-1">
+            Alle anzeigen <ArrowRight className="w-3 h-3" />
+          </Link>
+        </div>
+
+        {cases.length === 0 ? (
+          <div className="text-center py-16 text-[var(--muted)]">
+            <FolderOpen className="w-10 h-10 mx-auto mb-3 opacity-30" />
+            <p className="font-medium text-sm">Noch keine Fälle</p>
+            <p className="text-xs mt-1 mb-4">Erstellen Sie Ihre erste Anfrage</p>
+            <Link
+              href="/einspruch"
+              className="inline-flex items-center gap-1.5 bg-brand-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-brand-700 transition-colors"
+            >
+              <Plus className="w-4 h-4" />
+              Erste Anfrage starten
+            </Link>
+          </div>
+        ) : (
+          <div className="divide-y divide-[var(--border)]">
+            {cases.slice(0, 6).map((c) => (
+              <CaseRow key={c.id} c={c} now={now} />
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
+function CaseRow({ c, now }: { c: CaseSummary; now: Date }) {
+  const daysLeft = c.deadline ? daysBetween(now, c.deadline) : null
+  const isUrgent = daysLeft !== null && daysLeft <= 7 && daysLeft >= 0
+  const isOverdue = daysLeft !== null && daysLeft < 0
+
+  return (
+    <Link
+      href={`/cases/${c.id}`}
+      className="flex items-center gap-4 px-5 py-3.5 hover:bg-gray-50 transition-colors"
+    >
+      <div className="flex-1 min-w-0">
+        <p className="text-sm font-medium text-[var(--foreground)] truncate">
+          {useCaseLabel(c.useCase)}
+          <span className="text-[var(--muted)] font-normal ml-2 text-xs">#{c.id.slice(-6).toUpperCase()}</span>
+        </p>
+        <p className="text-xs text-[var(--muted)] mt-0.5">
+          Aktualisiert {new Date(c.updatedAt).toLocaleDateString('de-DE')}
+        </p>
+      </div>
+
+      {c.deadline && (
+        <div className={`text-xs font-medium ${isOverdue ? 'text-red-600' : isUrgent ? 'text-amber-600' : 'text-[var(--muted)]'}`}>
+          {isOverdue ? '⚠ Frist abgelaufen' : `${daysLeft}d Frist`}
+        </div>
+      )}
+
+      <StatusBadge status={c.status} />
+      <ArrowRight className="w-3.5 h-3.5 text-[var(--muted)] shrink-0" />
+    </Link>
+  )
+}
+
+function StatCard({
+  icon: Icon,
+  label,
+  value,
+  iconClass,
+  urgent,
+}: {
+  icon: React.ElementType
+  label: string
+  value: number
+  iconClass: string
+  urgent?: boolean
+}) {
+  return (
+    <div className={`bg-white rounded-xl border p-4 ${urgent && value > 0 ? 'border-red-200' : 'border-[var(--border)]'}`}>
+      <div className={`w-8 h-8 rounded-lg ${iconClass} flex items-center justify-center mb-3`}>
+        <Icon className="w-4 h-4" />
+      </div>
+      <p className="text-2xl font-bold text-[var(--foreground)]">{value}</p>
+      <p className="text-xs text-[var(--muted)] mt-0.5">{label}</p>
+    </div>
+  )
+}
+
+function StatusBadge({ status }: { status: string }) {
+  const map: Record<string, { label: string; className: string }> = {
+    CREATED: { label: 'Neu', className: 'bg-gray-100 text-gray-600' },
+    UPLOADING: { label: 'Upload', className: 'bg-blue-50 text-blue-600' },
+    ANALYZING: { label: 'Analyse', className: 'bg-purple-50 text-purple-600' },
+    QUESTIONS: { label: 'Rückfragen', className: 'bg-amber-50 text-amber-700' },
+    GENERATING: { label: 'Generierung', className: 'bg-purple-50 text-purple-600' },
+    DRAFT_READY: { label: 'Entwurf', className: 'bg-blue-50 text-blue-700' },
+    ADVISOR_REVIEW: { label: 'Anwalt prüft', className: 'bg-orange-50 text-orange-700' },
+    SUBMITTED: { label: 'Eingereicht', className: 'bg-green-50 text-green-700' },
+    AWAITING_RESPONSE: { label: 'Ausstehend', className: 'bg-amber-50 text-amber-700' },
+    CLOSED_SUCCESS: { label: 'Erfolgreich', className: 'bg-green-50 text-green-700' },
+    CLOSED_PARTIAL: { label: 'Teilweise', className: 'bg-yellow-50 text-yellow-700' },
+    REJECTED: { label: 'Abgelehnt', className: 'bg-red-50 text-red-700' },
+  }
+  const { label, className } = map[status] ?? { label: status, className: 'bg-gray-100 text-gray-600' }
+  return (
+    <span className={`text-xs font-medium px-2 py-0.5 rounded-full whitespace-nowrap ${className}`}>{label}</span>
+  )
+}
+
+function daysBetween(a: Date, b: Date) {
+  return Math.ceil((b.getTime() - a.getTime()) / (1000 * 60 * 60 * 24))
+}
+
+function useCaseLabel(useCase: string): string {
+  const labels: Record<string, string> = {
+    tax: 'Steuerbescheid',
+    jobcenter: 'Jobcenter / Bürgergeld',
+    rente: 'Rentenbescheid',
+    bussgeldd: 'Bußgeldbescheid',
+    bussgeld: 'Bußgeldbescheid',
+    krankenversicherung: 'Krankenversicherung',
+    kuendigung: 'Kündigung',
+    miete: 'Mieterhöhung / Kaution',
+    sonstige: 'Sonstiger Bescheid',
+  }
+  return labels[useCase] ?? useCase
+}
