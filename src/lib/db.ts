@@ -6,19 +6,15 @@ import { config } from '@/config/env'
 const globalForPrisma = globalThis as unknown as { prisma: PrismaClient }
 
 function createClient(): PrismaClient {
-  // Prisma 7 requires a driver adapter for direct DB connections.
-  // Falls back gracefully when DATABASE_URL is not set (mockup / build phase).
-  if (config.databaseUrl) {
-    const adapter = new PrismaPg({ connectionString: config.databaseUrl })
-    return new PrismaClient({
-      adapter,
-      log: config.isDev ? ['query', 'error', 'warn'] : ['error'],
-    })
-  }
-  // No DB configured — Prisma client will throw only on actual queries, not on import.
+  // Prisma 7 with engineType "client" requires an adapter at construction time.
+  // We always provide PrismaPg; when DATABASE_URL is absent we use a placeholder
+  // so the constructor succeeds — actual queries will fail at runtime, not at import.
   // This allows the app to start and serve non-DB routes (landing page, etc.).
+  const connectionString = config.databaseUrl ?? 'postgresql://placeholder:placeholder@localhost:5432/placeholder'
+  const adapter = new PrismaPg(connectionString)
   return new PrismaClient({
-    log: config.isDev ? ['error', 'warn'] : ['error'],
+    adapter,
+    log: config.isDev ? ['query', 'error', 'warn'] : ['error'],
   })
 }
 

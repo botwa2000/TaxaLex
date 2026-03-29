@@ -35,4 +35,7 @@ next-env.d.ts
 # claude code local settings (personal overrides — not team-shared)
 .claude/settings.local.json
 
+# deployment credentials — never commit
+.secrets
+
 /src/generated/prisma
