@@ -33,8 +33,8 @@ export const config = {
 
   // ── AI Providers ───────────────────────────────────────────────────────
   anthropicApiKey: requireEnv('ANTHROPIC_API_KEY'),
-  googleAiApiKey: requireEnv('GOOGLE_AI_API_KEY'),
-  perplexityApiKey: requireEnv('PERPLEXITY_API_KEY'),
+  googleAiApiKey: optionalEnv('GOOGLE_AI_API_KEY'),       // required only when pipeline runs
+  perplexityApiKey: optionalEnv('PERPLEXITY_API_KEY'),    // required only when pipeline runs
   openaiApiKey: optionalEnv('OPENAI_API_KEY'),
 
   // ── Auth ───────────────────────────────────────────────────────────────
