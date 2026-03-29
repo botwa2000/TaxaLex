@@ -39,9 +39,11 @@ RUN echo "Building with NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL}"
 ARG ANTHROPIC_API_KEY=build-placeholder
 ARG NEXTAUTH_SECRET=build-placeholder
 ARG NEXTAUTH_URL=https://taxalex.de
+ARG DATABASE_URL=postgresql://placeholder:placeholder@localhost:5432/taxalex
 ENV ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY
 ENV NEXTAUTH_SECRET=$NEXTAUTH_SECRET
 ENV NEXTAUTH_URL=$NEXTAUTH_URL
+ENV DATABASE_URL=$DATABASE_URL
 
 # Generate Prisma client (required before build)
 RUN npx prisma generate
