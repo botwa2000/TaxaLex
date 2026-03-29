@@ -35,9 +35,16 @@ RUN echo "Building with NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL}"
 
 # Dummy values so requireEnv() passes at build time.
 # Real secrets are injected by entrypoint.sh from Docker Swarm secrets at runtime.
-ENV ANTHROPIC_API_KEY=build-placeholder
-ENV NEXTAUTH_SECRET=build-placeholder
-ENV NEXTAUTH_URL=https://taxalex.de
+# Using ARG so placeholders don't persist in final image layers.
+ARG ANTHROPIC_API_KEY=build-placeholder
+ARG NEXTAUTH_SECRET=build-placeholder
+ARG NEXTAUTH_URL=https://taxalex.de
+ENV ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY
+ENV NEXTAUTH_SECRET=$NEXTAUTH_SECRET
+ENV NEXTAUTH_URL=$NEXTAUTH_URL
+
+# Generate Prisma client (required before build)
+RUN npx prisma generate
 
 RUN npm run build
 
