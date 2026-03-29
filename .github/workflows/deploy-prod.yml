@@ -1,0 +1,41 @@
+name: Deploy → taxalex.de
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'Type "deploy" to confirm production deployment'
+        required: true
+
+jobs:
+  deploy:
+    name: Deploy to production
+    runs-on: ubuntu-latest
+    environment: production
+    if: github.event.inputs.confirm == 'deploy'
+
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.HETZNER_HOST }}
+          username: ${{ secrets.HETZNER_USER }}
+          key: ${{ secrets.HETZNER_SSH_KEY }}
+          script: |
+            set -e
+            cd /opt/taxalex
+
+            echo "==> Pulling latest code"
+            git pull origin main
+
+            echo "==> Building production image"
+            docker compose -f docker-compose.yml build --no-cache
+
+            echo "==> Restarting production container"
+            docker compose -f docker-compose.yml up -d --force-recreate
+
+            echo "==> Waiting for healthcheck"
+            sleep 15
+            docker compose -f docker-compose.yml ps
+
+            echo "==> Done. Site: https://taxalex.de"
