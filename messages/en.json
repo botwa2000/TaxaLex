@@ -1,0 +1,80 @@
+{
+  "common": {
+    "appName": "TaxaLex",
+    "tagline": "Your AI-powered objection letter generator",
+    "loading": "Loading...",
+    "error": "Error",
+    "back": "Back",
+    "next": "Next",
+    "download": "Download",
+    "copy": "Copy",
+    "copied": "Copied",
+    "required": "Required"
+  },
+  "nav": {
+    "home": "Home",
+    "newCase": "New objection"
+  },
+  "useCases": {
+    "title": "Which notice do you want to appeal?",
+    "subtitle": "Select the type of administrative decision",
+    "tax": "Tax assessment",
+    "jobcenter": "Jobcenter / Bürgergeld",
+    "rente": "Pension notice",
+    "bussgeldd": "Fine / penalty notice",
+    "krankenversicherung": "Health insurance rejection",
+    "kuendigung": "Employment termination",
+    "miete": "Rent increase / deposit"
+  },
+  "wizard": {
+    "steps": {
+      "upload": "Upload",
+      "questions": "Questions",
+      "generating": "AI Analysis",
+      "result": "Result"
+    },
+    "upload": {
+      "title": "Upload your notice",
+      "subtitle": "Upload your administrative decision and any supporting documents",
+      "dropzone": "Select files",
+      "dropzoneHint": "PDF, DOCX, TXT or images",
+      "analyze": "Analyse documents"
+    },
+    "questions": {
+      "title": "Follow-up questions",
+      "subtitle": "Please answer these questions to optimise your objection letter",
+      "detectedData": "Detected data",
+      "finanzamt": "Tax office",
+      "nachzahlung": "Amount due",
+      "generate": "Generate objection letter"
+    },
+    "generating": {
+      "title": "Multi-AI analysis running...",
+      "agents": {
+        "drafter": "Drafting letter... (Claude)",
+        "reviewer": "Reviewing for errors... (Gemini)",
+        "factchecker": "Fact-checking legal citations... (Perplexity)",
+        "adversary": "Authority perspective check... (Claude)",
+        "consolidator": "Consolidating final version... (Claude)"
+      }
+    },
+    "result": {
+      "title": "Objection letter ready",
+      "subtitle": "Reviewed by {count} AI agents",
+      "agentLog": "AI Agent Log",
+      "outputLanguageWarning": "This document was generated in {language}. The German version is required for submission to German authorities.",
+      "downloadTxt": "Download as TXT"
+    }
+  },
+  "outputLanguage": {
+    "label": "Output language",
+    "hint": "The objection letter is generated in German by default (required for German authorities).",
+    "nonGermanWarning": "For review only — the letter must be in German for official submission."
+  },
+  "errors": {
+    "noFiles": "Please upload at least one file",
+    "analyzeFailed": "Analysis failed. Please try again.",
+    "generateFailed": "Generation failed. Please try again.",
+    "missingDescheid": "Notice data is missing"
+  }
+}

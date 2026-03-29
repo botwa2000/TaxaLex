@@ -1,31 +1,54 @@
 /**
- * TaxAlex Multi-Agent Orchestrator
+ * Multi-Agent Orchestrator
  *
- * Coordinates multiple AI models to produce a legally sound
- * Einspruch document through: Draft → Review → Adversary → Consolidate
+ * Pipeline: Draft → Review (Gemini) → FactCheck (Perplexity) → Adversary → Consolidate
  */
 
 import Anthropic from '@anthropic-ai/sdk'
 import OpenAI from 'openai'
+import { GoogleGenerativeAI } from '@google/generative-ai'
 import type { AgentConfig, AgentOutput, AgentRole, BescheidData } from '@/types'
+import { logger } from '@/lib/logger'
+import { languageNames } from '@/config/i18n'
+import { config } from '@/config/env'
+import { MODELS, PIPELINE } from '@/config/constants'
 
 // --- Provider clients (lazy-initialized) ---
 
 let anthropic: Anthropic | null = null
 let openai: OpenAI | null = null
+let perplexity: OpenAI | null = null
+let googleAI: GoogleGenerativeAI | null = null
 
 function getAnthropic(): Anthropic {
   if (!anthropic) {
-    anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY! })
+    anthropic = new Anthropic({ apiKey: config.anthropicApiKey })
   }
   return anthropic
 }
 
 function getOpenAI(): OpenAI {
   if (!openai) {
-    openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY! })
+    openai = new OpenAI({ apiKey: config.openaiApiKey })
   }
   return openai
+}
+
+function getPerplexity(): OpenAI {
+  if (!perplexity) {
+    perplexity = new OpenAI({
+      apiKey: config.perplexityApiKey,
+      baseURL: 'https://api.perplexity.ai',
+    })
+  }
+  return perplexity
+}
+
+function getGoogleAI(): GoogleGenerativeAI {
+  if (!googleAI) {
+    googleAI = new GoogleGenerativeAI(config.googleAiApiKey)
+  }
+  return googleAI
 }
 
 // --- Agent configurations ---
@@ -34,31 +57,43 @@ export const AGENTS: Record<AgentRole, AgentConfig> = {
   drafter: {
     role: 'drafter',
     provider: 'anthropic',
-    model: 'claude-sonnet-4-6',
-    systemPrompt: `Du bist ein erfahrener Steuerrechtler, spezialisiert auf Einspruchsverfahren 
-nach §347 AO. Erstelle ein vollständiges Einspruchsschreiben basierend auf den 
-bereitgestellten Unterlagen. Verwende die korrekte BFH-Rechtsprechung und 
-Gesetzesgrundlagen. Strukturiere das Schreiben in: Antrag auf AdV, Sachverhalt, 
-Begründung (mit Unterpunkten), Rechtsfolge, konkreter Antrag. 
-Verwende den Fremdvergleich ("fremder Dritter unter gleichen Umständen") statt 
+    model: MODELS.drafter,
+    systemPrompt: `Du bist ein erfahrener Steuerrechtler, spezialisiert auf Einspruchsverfahren
+nach §347 AO. Erstelle ein vollständiges Einspruchsschreiben basierend auf den
+bereitgestellten Unterlagen. Verwende die korrekte BFH-Rechtsprechung und
+Gesetzesgrundlagen. Strukturiere das Schreiben in: Antrag auf AdV, Sachverhalt,
+Begründung (mit Unterpunkten), Rechtsfolge, konkreter Antrag.
+Verwende den Fremdvergleich ("fremder Dritter unter gleichen Umständen") statt
 "ordentlicher Kaufmann". Berücksichtige Verböserungsrisiken nach §367 Abs. 2 AO.`,
   },
   reviewer: {
     role: 'reviewer',
-    provider: 'openai',
-    model: 'gpt-4o',
+    provider: 'google',
+    model: MODELS.reviewer,
     systemPrompt: `Du bist ein Steuerberater, der Einspruchsschreiben auf Fehler prüft.
 Prüfe insbesondere: korrekte Rechtsbegriffe (BFH-konform), mathematische Berechnungen,
-Vollständigkeit der Argumentation, korrekte Gesetzeszitate, Konsistenz der 
+Vollständigkeit der Argumentation, korrekte Gesetzeszitate, Konsistenz der
 Krisenzeitpunkt-Argumentation, ob der Verlustvortrags-Bescheid mitangefochten wird.
 Gib eine Liste konkreter Fehler und Verbesserungsvorschläge zurück.`,
+  },
+  factchecker: {
+    role: 'factchecker',
+    provider: 'perplexity',
+    model: MODELS.factchecker,
+    systemPrompt: `Du bist ein Steuerrechts-Experte, der die Richtigkeit von Rechtsgrundlagen
+in einem deutschen Einspruchsschreiben überprüft. Prüfe mit aktuellen Web-Quellen:
+- Existieren die genannten BFH-Urteile und sind die Aktenzeichen korrekt?
+- Sind die zitierten Paragraphen (AO, EStG, KStG etc.) in der genannten Fassung gültig?
+- Entsprechen die Gesetzeszitate dem aktuellen Stand?
+- Gibt es neuere BFH/FG-Rechtsprechung, die die Argumentation stärkt oder widerlegt?
+Gib konkrete Korrekturen und aktuelle Fundstellen zurück.`,
   },
   adversary: {
     role: 'adversary',
     provider: 'anthropic',
-    model: 'claude-sonnet-4-6',
-    systemPrompt: `Du bist ein erfahrener Finanzbeamter/Sachbearbeiter. Analysiere das 
-Einspruchsschreiben aus Sicht des Finanzamts. Identifiziere jede Schwachstelle, 
+    model: MODELS.adversary,
+    systemPrompt: `Du bist ein erfahrener Finanzbeamter/Sachbearbeiter. Analysiere das
+Einspruchsschreiben aus Sicht des Finanzamts. Identifiziere jede Schwachstelle,
 die das Finanzamt nutzen könnte: fehlende Nachweise, angreifbare Formulierungen,
 Anlaufverluste-Einwand, Going-Concern-Widerspruch, Verböserungsmöglichkeiten.
 Bewerte jede Schwachstelle nach Risiko (hoch/mittel/niedrig).`,
@@ -66,16 +101,16 @@ Bewerte jede Schwachstelle nach Risiko (hoch/mittel/niedrig).`,
   consolidator: {
     role: 'consolidator',
     provider: 'anthropic',
-    model: 'claude-sonnet-4-6',
-    systemPrompt: `Du bist ein Senior-Steuerberater, der ein finales Einspruchsschreiben 
-erstellt. Dir liegen vor: ein Entwurf, ein Review mit Fehlern, und eine 
-Gegneranalyse. Erstelle die finale Version, die alle Fehler korrigiert und 
-alle Schwachstellen präventiv adressiert. Das Ergebnis muss juristisch 
-wasserdicht sein. Verwende formelle, präzise Sprache.`,
+    model: MODELS.consolidator,
+    systemPrompt: `Du bist ein Senior-Steuerberater, der ein finales Einspruchsschreiben
+erstellt. Dir liegen vor: ein Entwurf, ein Review mit Fehlern, eine Faktenchecks
+der Rechtsgrundlagen, und eine Gegneranalyse. Erstelle die finale Version, die alle
+Fehler korrigiert, alle Rechtsgrundlagen verifiziert und alle Schwachstellen präventiv
+adressiert. Das Ergebnis muss juristisch wasserdicht sein. Verwende formelle, präzise Sprache.`,
   },
 }
 
-// --- Core orchestration ---
+// --- Core agent call ---
 
 export async function callAgent(
   config: AgentConfig,
@@ -85,7 +120,7 @@ export async function callAgent(
     const client = getAnthropic()
     const response = await client.messages.create({
       model: config.model,
-      max_tokens: 4096,
+      max_tokens: PIPELINE.maxTokens,
       system: config.systemPrompt,
       messages: [{ role: 'user', content: userMessage }],
     })
@@ -99,7 +134,7 @@ export async function callAgent(
     const client = getOpenAI()
     const response = await client.chat.completions.create({
       model: config.model,
-      max_tokens: 4096,
+      max_tokens: PIPELINE.maxTokens,
       messages: [
         { role: 'system', content: config.systemPrompt },
         { role: 'user', content: userMessage },
@@ -108,51 +143,104 @@ export async function callAgent(
     return response.choices[0]?.message?.content ?? ''
   }
 
+  if (config.provider === 'perplexity') {
+    const client = getPerplexity()
+    const response = await client.chat.completions.create({
+      model: config.model,
+      max_tokens: PIPELINE.maxTokens,
+      messages: [
+        { role: 'system', content: config.systemPrompt },
+        { role: 'user', content: userMessage },
+      ],
+    })
+    return response.choices[0]?.message?.content ?? ''
+  }
+
+  if (config.provider === 'google') {
+    const client = getGoogleAI()
+    const model = client.getGenerativeModel({
+      model: config.model,
+      systemInstruction: config.systemPrompt,
+    })
+    const result = await model.generateContent(userMessage)
+    return result.response.text()
+  }
+
   throw new Error(`Unknown provider: ${config.provider}`)
 }
 
 /**
  * Full multi-agent pipeline:
- * 1. Drafter creates initial Einspruch
- * 2. Reviewer checks for errors
- * 3. Adversary attacks from Finanzamt perspective
- * 4. Consolidator produces final version
+ * 1. Drafter   (Claude)      – creates initial Einspruch
+ * 2. Reviewer  (Gemini)      – checks for legal/math errors
+ * 3. FactCheck (Perplexity)  – verifies citations & case law with live web search
+ * 4. Adversary (Claude)      – attacks from Finanzamt perspective
+ * 5. Consolidator (Claude)   – produces final bulletproof version
  */
 export async function orchestrate(
   bescheidData: BescheidData,
   documents: { name: string; text: string }[],
-  userAnswers: Record<string, string>
+  userAnswers: Record<string, string>,
+  outputLanguage = 'de',
+  uiLanguage = 'de'
 ): Promise<{ outputs: AgentOutput[]; finalDraft: string }> {
   const outputs: AgentOutput[] = []
-
   const context = buildContext(bescheidData, documents, userAnswers)
 
+  // Human-readable language names for prompt injection
+  const outputLangName = languageNames[outputLanguage] ?? outputLanguage
+  const uiLangName = languageNames[uiLanguage] ?? uiLanguage
+
+  // Language instruction appended to analysis agents (reviewer, factchecker, adversary)
+  // These are shown to the user in their language, not submitted to authorities.
+  const analysisLangInstruction = uiLanguage !== 'de'
+    ? `\n\nIMPORTANT: Write your entire analysis and feedback in ${uiLangName}.`
+    : ''
+
+  // Language instruction for the output document (drafter + consolidator)
+  // German is always legally required for submission; we honour overrides for review/export.
+  const draftLangInstruction = outputLanguage !== 'de'
+    ? `\n\nIMPORTANT: Write the complete objection letter in ${outputLangName}. Note: this version is for review only — German is required for official submission.`
+    : ''
+
   // Step 1: Draft
-  console.log('[TaxAlex] Step 1/4: Drafting...')
+  let t = Date.now()
   const draftContent = await callAgent(
     AGENTS.drafter,
-    `Erstelle ein Einspruchsschreiben basierend auf:\n\n${context}`
+    `Erstelle ein Einspruchsschreiben basierend auf:\n\n${context}${draftLangInstruction}`
   )
+  logger.agent('drafter', AGENTS.drafter.provider, AGENTS.drafter.model, Date.now() - t)
   outputs.push(makeOutput('drafter', AGENTS.drafter, draftContent))
 
-  // Step 2: Review
-  console.log('[TaxAlex] Step 2/4: Reviewing...')
+  // Step 2: Review (Gemini)
+  t = Date.now()
   const reviewContent = await callAgent(
     AGENTS.reviewer,
-    `Prüfe dieses Einspruchsschreiben auf Fehler:\n\n${draftContent}\n\nOriginaldaten:\n${context}`
+    `Prüfe dieses Einspruchsschreiben auf Fehler:\n\n${draftContent}\n\nOriginaldaten:\n${context}${analysisLangInstruction}`
   )
+  logger.agent('reviewer', AGENTS.reviewer.provider, AGENTS.reviewer.model, Date.now() - t)
   outputs.push(makeOutput('reviewer', AGENTS.reviewer, reviewContent))
 
-  // Step 3: Adversarial
-  console.log('[TaxAlex] Step 3/4: Adversarial review...')
+  // Step 3: Fact-check (Perplexity)
+  t = Date.now()
+  const factCheckContent = await callAgent(
+    AGENTS.factchecker,
+    `Prüfe die Rechtsgrundlagen in diesem Einspruchsschreiben auf Korrektheit:\n\n${draftContent}${analysisLangInstruction}`
+  )
+  logger.agent('factchecker', AGENTS.factchecker.provider, AGENTS.factchecker.model, Date.now() - t)
+  outputs.push(makeOutput('factchecker', AGENTS.factchecker, factCheckContent))
+
+  // Step 4: Adversarial
+  t = Date.now()
   const adversaryContent = await callAgent(
     AGENTS.adversary,
-    `Analysiere aus Finanzamt-Perspektive:\n\n${draftContent}\n\nOriginaldaten:\n${context}`
+    `Analysiere aus Finanzamt-Perspektive:\n\n${draftContent}\n\nOriginaldaten:\n${context}${analysisLangInstruction}`
   )
+  logger.agent('adversary', AGENTS.adversary.provider, AGENTS.adversary.model, Date.now() - t)
   outputs.push(makeOutput('adversary', AGENTS.adversary, adversaryContent))
 
-  // Step 4: Consolidate
-  console.log('[TaxAlex] Step 4/4: Consolidating...')
+  // Step 5: Consolidate
+  t = Date.now()
   const finalDraft = await callAgent(
     AGENTS.consolidator,
     `Erstelle die finale Version des Einspruchsschreibens.
@@ -160,17 +248,22 @@ export async function orchestrate(
 ENTWURF:
 ${draftContent}
 
-REVIEW (gefundene Fehler):
+REVIEW – gefundene Fehler (Gemini):
 ${reviewContent}
 
-GEGNERANALYSE (Schwachstellen aus FA-Sicht):
+FAKTENCHECK – verifizierte Rechtsgrundlagen (Perplexity):
+${factCheckContent}
+
+GEGNERANALYSE – Schwachstellen aus FA-Sicht:
 ${adversaryContent}
 
 ORIGINALDATEN:
-${context}`
+${context}${draftLangInstruction}`
   )
+  logger.agent('consolidator', AGENTS.consolidator.provider, AGENTS.consolidator.model, Date.now() - t)
   outputs.push(makeOutput('consolidator', AGENTS.consolidator, finalDraft))
 
+  logger.info('Pipeline complete', { totalAgents: outputs.length })
   return { outputs, finalDraft }
 }
 

@@ -1,0 +1,39 @@
+import type { NextAuthConfig } from 'next-auth'
+import { config } from '@/config/env'
+
+/**
+ * Edge-safe auth config — no Prisma/bcrypt imports.
+ * Used by middleware (Edge Runtime). Providers that need DB are added in auth.ts.
+ */
+export const authConfig: NextAuthConfig = {
+  secret: config.nextAuthSecret,
+
+  providers: [],
+
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id
+        token.role = (user as { role?: string }).role ?? 'USER'
+      }
+      return token
+    },
+    async session({ session, token }) {
+      if (session.user) {
+        session.user.id = token.id as string
+        session.user.role = token.role as string
+      }
+      return session
+    },
+  },
+
+  pages: {
+    signIn: '/login',
+    error: '/login',
+  },
+
+  session: {
+    strategy: 'jwt',
+    maxAge: 30 * 24 * 60 * 60,
+  },
+}

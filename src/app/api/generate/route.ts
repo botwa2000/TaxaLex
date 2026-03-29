@@ -1,23 +1,58 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { z } from 'zod'
 import { orchestrate } from '@/lib/agents'
+import { logger } from '@/lib/logger'
+import { PIPELINE } from '@/config/constants'
 
-export const maxDuration = 120 // Allow up to 2 minutes for multi-agent pipeline
+export const maxDuration = 120
+
+const BescheidDataSchema = z.object({
+  finanzamt: z.string().min(1).max(200),
+  steuernummer: z.string().max(50),
+  bescheidDatum: z.string().max(20),
+  steuerart: z.string().max(100),
+  nachzahlung: z.number().nonnegative(),
+  streitigerBetrag: z.number().nonnegative(),
+  rawText: z.string().optional(),
+})
+
+const GenerateSchema = z.object({
+  bescheidData: BescheidDataSchema,
+  documents: z
+    .array(
+      z.object({
+        name: z.string().min(1).max(255),
+        text: z.string().max(500_000),
+      })
+    )
+    .max(PIPELINE.maxDocuments)
+    .default([]),
+  userAnswers: z.record(z.string(), z.string().max(5000)).default({}),
+  outputLanguage: z.string().length(2).optional().default('de'),
+  uiLanguage: z.string().length(2).optional().default('de'),
+})
 
 export async function POST(req: NextRequest) {
   try {
-    const { bescheidData, documents, userAnswers } = await req.json()
+    const body = await req.json()
+    const parsed = GenerateSchema.safeParse(body)
 
-    if (!bescheidData) {
+    if (!parsed.success) {
       return NextResponse.json(
-        { error: 'Bescheid-Daten fehlen' },
+        { error: 'Ungültige Anfrage', details: parsed.error.flatten() },
         { status: 400 }
       )
     }
 
+    const { bescheidData, documents, userAnswers, outputLanguage, uiLanguage } =
+      parsed.data
+
     const { outputs, finalDraft } = await orchestrate(
       bescheidData,
-      documents ?? [],
-      userAnswers ?? {}
+      documents,
+      userAnswers,
+      outputLanguage,
+      uiLanguage
     )
 
     return NextResponse.json({
@@ -25,14 +60,14 @@ export async function POST(req: NextRequest) {
         role: o.role,
         provider: o.provider,
         model: o.model,
-        content: o.content,
+        // content omitted from response in prod — frontend uses finalDraft
         timestamp: o.timestamp,
       })),
       finalDraft,
       status: 'success',
     })
   } catch (error) {
-    console.error('[TaxPax] Generate error:', error)
+    logger.error('Generate error', { error })
     return NextResponse.json(
       { error: 'Einspruch-Generierung fehlgeschlagen' },
       { status: 500 }

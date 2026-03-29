@@ -1,0 +1,80 @@
+{
+  "common": {
+    "appName": "TaxaLex",
+    "tagline": "Ihr KI-gestützter Widerspruch & Einspruch",
+    "loading": "Lädt...",
+    "error": "Fehler",
+    "back": "Zurück",
+    "next": "Weiter",
+    "download": "Herunterladen",
+    "copy": "Kopieren",
+    "copied": "Kopiert",
+    "required": "Pflichtfeld"
+  },
+  "nav": {
+    "home": "Startseite",
+    "newCase": "Neuer Einspruch"
+  },
+  "useCases": {
+    "title": "Welchen Bescheid möchten Sie anfechten?",
+    "subtitle": "Wählen Sie die Art des Bescheids",
+    "tax": "Steuerbescheid",
+    "jobcenter": "Jobcenter / Bürgergeld",
+    "rente": "Rentenbescheid",
+    "bussgeldd": "Bußgeldbescheid",
+    "krankenversicherung": "Krankenversicherung",
+    "kuendigung": "Kündigung",
+    "miete": "Mieterhöhung / Kaution"
+  },
+  "wizard": {
+    "steps": {
+      "upload": "Hochladen",
+      "questions": "Rückfragen",
+      "generating": "KI-Analyse",
+      "result": "Ergebnis"
+    },
+    "upload": {
+      "title": "Bescheid hochladen",
+      "subtitle": "Laden Sie Ihren Bescheid und relevante Unterlagen hoch",
+      "dropzone": "Dateien auswählen",
+      "dropzoneHint": "PDF, DOCX, TXT oder Bilder",
+      "analyze": "Dokumente analysieren"
+    },
+    "questions": {
+      "title": "Rückfragen",
+      "subtitle": "Bitte beantworten Sie diese Fragen für einen optimalen Einspruch",
+      "detectedData": "Erkannte Daten",
+      "finanzamt": "Finanzamt",
+      "nachzahlung": "Nachzahlung",
+      "generate": "Einspruch generieren"
+    },
+    "generating": {
+      "title": "Multi-KI-Analyse läuft...",
+      "agents": {
+        "drafter": "Entwurf wird erstellt... (Claude)",
+        "reviewer": "Fehlerprüfung läuft... (Gemini)",
+        "factchecker": "Faktencheck läuft... (Perplexity)",
+        "adversary": "Finanzamt-Perspektive... (Claude)",
+        "consolidator": "Konsolidierung... (Claude)"
+      }
+    },
+    "result": {
+      "title": "Einspruch fertig",
+      "subtitle": "Geprüft durch {count} KI-Agenten",
+      "agentLog": "KI-Agenten-Protokoll",
+      "outputLanguageWarning": "Dieses Dokument wurde in {language} erstellt. Für die Einreichung beim Finanzamt ist die deutsche Version erforderlich.",
+      "downloadTxt": "Als TXT herunterladen"
+    }
+  },
+  "outputLanguage": {
+    "label": "Ausgabesprache",
+    "hint": "Der Einspruch wird standardmäßig auf Deutsch erstellt (Pflicht für das Finanzamt).",
+    "nonGermanWarning": "Nur zur Überprüfung – für die Einreichung muss das Schreiben auf Deutsch sein."
+  },
+  "errors": {
+    "noFiles": "Bitte laden Sie mindestens eine Datei hoch",
+    "analyzeFailed": "Analyse fehlgeschlagen. Bitte versuchen Sie es erneut.",
+    "generateFailed": "Generierung fehlgeschlagen. Bitte versuchen Sie es erneut.",
+    "missingDescheid": "Bescheid-Daten fehlen"
+  }
+}

@@ -31,3 +31,8 @@ next-env.d.ts
 # uploads
 /uploads/*
 !/uploads/.gitkeep
+
+# claude code local settings (personal overrides — not team-shared)
+.claude/settings.local.json
+
+/src/generated/prisma
