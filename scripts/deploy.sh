@@ -101,6 +101,32 @@ sleep 20
 curl -sf http://localhost:3010/ > /dev/null && echo "==> taxalex.de OK" || echo "==> WARNING: health check failed"
 EOF
 
+# ── migrate ──────────────────────────────────────────────────────────────────
+elif [[ "$CMD" == "migrate" ]]; then
+  # Applies any unapplied migration SQL files directly via psql.
+  # Usage: ./scripts/deploy.sh migrate [dev|prod] <migration_sql_file>
+  ENV="${2:-dev}"
+  SQL_FILE="${3:-}"
+  if [[ "$ENV" == "prod" ]]; then
+    DB_URL="${DATABASE_URL_PROD:-}"
+  else
+    DB_URL="${DATABASE_URL_DEV:-}"
+  fi
+  if [[ -z "$DB_URL" ]]; then
+    echo "Error: DATABASE_URL_${ENV^^} not set in .secrets"
+    exit 1
+  fi
+  if [[ -z "$SQL_FILE" ]]; then
+    echo "Error: provide path to migration SQL file"
+    echo "Usage: $0 migrate [dev|prod] prisma/migrations/<name>/migration.sql"
+    exit 1
+  fi
+  MIGRATION_NAME="$(basename "$(dirname "$SQL_FILE")")"
+  echo "==> Applying migration '$MIGRATION_NAME' to $ENV"
+  cat "$SQL_FILE" | $SSH "psql '$DB_URL'"
+  $SSH "psql '$DB_URL' -c \"INSERT INTO _prisma_migrations (id, checksum, finished_at, migration_name, logs, rolled_back_at, applied_steps_count) VALUES (gen_random_uuid()::text, 'manual', NOW(), '$MIGRATION_NAME', NULL, NULL, 1) ON CONFLICT DO NOTHING;\""
+  echo "==> Migration complete"
+
 # ── secrets ──────────────────────────────────────────────────────────────────
 elif [[ "$CMD" == "secrets" ]]; then
   echo "==> Updating Docker Swarm secrets on server"
@@ -137,6 +163,6 @@ elif [[ "$CMD" == "secrets" ]]; then
   echo "==> Done. Verify with: ssh server 'docker secret ls | grep -E \"anthropic|openai|nextauth\"'"
 
 else
-  echo "Usage: $0 <push [message] | dev | prod | secrets>"
+  echo "Usage: $0 <push [message] | dev | prod | migrate [dev|prod] | secrets>"
   exit 1
 fi

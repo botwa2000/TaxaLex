@@ -11,10 +11,4 @@ for secret_file in /run/secrets/*; do
   fi
 done
 
-# Run Prisma migrations if DATABASE_URL is set and is not the build placeholder
-if [ -n "${DATABASE_URL:-}" ] && [ "$DATABASE_URL" != "postgresql://placeholder:placeholder@localhost:5432/taxalex" ]; then
-  echo "[entrypoint] Running database migrations..."
-  node node_modules/.bin/prisma migrate deploy && echo "[entrypoint] Migrations complete" || echo "[entrypoint] Migration failed — continuing startup"
-fi
-
 exec "$@"
