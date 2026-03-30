@@ -29,24 +29,44 @@ const STEPS = [
 ] as const
 
 const AGENTS = [
-  { id: 'drafter', label: 'Entwurf erstellen', provider: 'Claude', color: 'bg-blue-500' },
-  { id: 'reviewer', label: 'Fehlerprüfung', provider: 'Gemini', color: 'bg-purple-500' },
+  {
+    id: 'drafter',
+    label: 'Einspruch formulieren',
+    detail: 'Erstellt Einspruch basierend auf erkannten Bescheid-Daten',
+    provider: 'Claude',
+    providerColor: 'text-blue-600',
+    color: 'bg-blue-500',
+  },
+  {
+    id: 'reviewer',
+    label: 'Fehler- & Stilprüfung',
+    detail: 'Prüft Grammatik, Formulierungen und formale Anforderungen',
+    provider: 'Gemini',
+    providerColor: 'text-purple-600',
+    color: 'bg-purple-500',
+  },
   {
     id: 'factchecker',
-    label: 'Faktencheck',
+    label: 'Rechts-Faktencheck',
+    detail: 'Recherchiert aktuelle BFH-Urteile und Verwaltungsrichtlinien',
     provider: 'Perplexity',
+    providerColor: 'text-green-600',
     color: 'bg-green-500',
   },
   {
     id: 'adversary',
-    label: 'Finanzamt-Prüfung',
+    label: 'Gegenprüfung (Behördensicht)',
+    detail: 'Simuliert die Perspektive des Finanzamts / der Behörde',
     provider: 'Claude',
+    providerColor: 'text-red-600',
     color: 'bg-red-500',
   },
   {
     id: 'consolidator',
-    label: 'Konsolidierung',
+    label: 'Finales Schreiben',
+    detail: 'Kombiniert alle Perspektiven zum optimalen Einspruch',
     provider: 'Claude',
+    providerColor: 'text-brand-600',
     color: 'bg-brand-500',
   },
 ] as const
@@ -117,7 +137,7 @@ export default function EinspruchPage() {
       // Simulate agent progress while the real call runs
       const timer = setInterval(() => {
         setActiveAgent((prev) => (prev < AGENTS.length - 1 ? prev + 1 : prev))
-      }, 1800)
+      }, 900)
 
       const res = await fetch('/api/generate', {
         method: 'POST',
@@ -389,70 +409,111 @@ export default function EinspruchPage() {
 
         {/* ── Step 3: Generating ── */}
         {step === 'generating' && (
-          <div className="text-center py-8">
-            <div className="w-16 h-16 border-4 border-brand-100 border-t-brand-600 rounded-full animate-spin mx-auto mb-6" />
-            <h1 className="text-2xl font-bold text-[var(--foreground)] mb-2">
-              Multi-KI-Analyse läuft…
-            </h1>
-            <p className="text-[var(--muted)] mb-10 text-sm">
-              {activeAgent >= 0 && activeAgent < AGENTS.length
-                ? `${AGENTS[activeAgent].label} (${AGENTS[activeAgent].provider})…`
-                : 'Finalisierung…'}
-            </p>
+          <div className="py-4">
+            {/* Header */}
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-brand-50 rounded-2xl mb-4">
+                <Brain className="w-8 h-8 text-brand-600 animate-pulse" />
+              </div>
+              <h1 className="text-2xl font-bold text-[var(--foreground)] mb-2">
+                Multi-KI-Analyse läuft…
+              </h1>
+              <p className="text-[var(--muted)] text-sm">
+                {activeAgent >= 0 && activeAgent < AGENTS.length
+                  ? AGENTS[activeAgent].detail
+                  : 'Schreiben wird finalisiert…'}
+              </p>
+            </div>
 
-            {/* Agent steps */}
-            <div className="max-w-sm mx-auto space-y-2 text-left">
+            {/* Progress bar */}
+            <div className="mb-6">
+              <div className="flex items-center justify-between text-xs text-[var(--muted)] mb-2">
+                <span>
+                  {activeAgent >= 0 && activeAgent < AGENTS.length
+                    ? `Schritt ${activeAgent + 1} von ${AGENTS.length}: ${AGENTS[activeAgent].label}`
+                    : `Alle ${AGENTS.length} Agenten abgeschlossen`}
+                </span>
+                <span className="font-medium">
+                  {activeAgent >= AGENTS.length
+                    ? '100 %'
+                    : `${Math.round(((activeAgent) / AGENTS.length) * 100)} %`}
+                </span>
+              </div>
+              <div className="h-2 bg-[var(--border)] rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-brand-500 rounded-full transition-all duration-700"
+                  style={{
+                    width: activeAgent >= AGENTS.length
+                      ? '100%'
+                      : `${(activeAgent / AGENTS.length) * 100}%`,
+                  }}
+                />
+              </div>
+            </div>
+
+            {/* Agent cards */}
+            <div className="space-y-2">
               {AGENTS.map((agent, i) => {
                 const done = i < activeAgent
                 const active = i === activeAgent
                 return (
                   <div
                     key={agent.id}
-                    className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm transition-all ${
+                    className={`flex items-center gap-3 px-4 py-3.5 rounded-xl text-sm transition-all duration-300 ${
                       done
-                        ? 'bg-green-50 border border-green-100'
+                        ? 'bg-green-50 dark:bg-green-950/40 border border-green-100 dark:border-green-900'
                         : active
-                          ? 'bg-brand-50 border border-brand-200'
-                          : 'bg-gray-50 border border-transparent'
+                          ? 'bg-brand-50 dark:bg-brand-950/40 border border-brand-200 dark:border-brand-800 shadow-sm'
+                          : 'bg-[var(--background-subtle)] border border-transparent'
                     }`}
                   >
-                    <div
-                      className={`w-2.5 h-2.5 rounded-full shrink-0 ${
-                        done
-                          ? 'bg-green-500'
-                          : active
-                            ? `${agent.color} animate-pulse`
-                            : 'bg-gray-300'
-                      }`}
-                    />
-                    <span
-                      className={`flex-1 font-medium ${
-                        done
-                          ? 'text-green-700'
-                          : active
-                            ? 'text-brand-700'
-                            : 'text-gray-400'
-                      }`}
-                    >
-                      {agent.label}
-                    </span>
-                    <span
-                      className={`text-xs ${
-                        done
-                          ? 'text-green-500'
-                          : active
-                            ? 'text-brand-500'
-                            : 'text-gray-300'
-                      }`}
-                    >
+                    {/* Status indicator */}
+                    <div className="shrink-0">
+                      {done ? (
+                        <CheckCircle2 className="w-5 h-5 text-green-500" />
+                      ) : active ? (
+                        <Loader2 className="w-5 h-5 text-brand-500 animate-spin" />
+                      ) : (
+                        <div className="w-5 h-5 rounded-full border-2 border-[var(--border)]" />
+                      )}
+                    </div>
+
+                    {/* Content */}
+                    <div className="flex-1 min-w-0">
+                      <p className={`font-semibold leading-tight ${
+                        done ? 'text-green-700 dark:text-green-400' :
+                        active ? 'text-[var(--foreground)]' :
+                        'text-[var(--muted)]'
+                      }`}>
+                        {agent.label}
+                      </p>
+                      {(done || active) && (
+                        <p className={`text-xs mt-0.5 ${
+                          done ? 'text-green-600/70 dark:text-green-500/70' : 'text-[var(--muted)]'
+                        }`}>
+                          {agent.detail}
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Provider badge */}
+                    <span className={`text-xs font-medium shrink-0 px-2 py-0.5 rounded-full ${
+                      done
+                        ? 'bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-400'
+                        : active
+                          ? 'bg-brand-100 dark:bg-brand-900/40 text-brand-700 dark:text-brand-300'
+                          : 'bg-[var(--border)] text-[var(--muted)]'
+                    }`}>
                       {agent.provider}
-                      {done && ' ✓'}
-                      {active && <Loader2 className="w-3 h-3 inline ml-1 animate-spin" />}
                     </span>
                   </div>
                 )
               })}
             </div>
+
+            <p className="text-center text-xs text-[var(--muted)] mt-6">
+              Durchschnittliche Dauer: 20–40 Sekunden · Bitte nicht schließen
+            </p>
           </div>
         )}
 

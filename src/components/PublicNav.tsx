@@ -45,15 +45,15 @@ export function PublicNav({ locale, userGroup }: PublicNavProps) {
   ]
 
   const useCaseLinks = [
-    { label: isEN ? '→ See all use cases' : '→ Alle Anwendungsfälle', href: '/#use-cases', highlight: true },
-    { label: isEN ? 'Tax assessment' : 'Steuerbescheid', href: '/einspruch?type=tax' },
-    { label: isEN ? 'Jobcenter / Bürgergeld' : 'Jobcenter / Bürgergeld', href: '/einspruch?type=jobcenter' },
-    { label: isEN ? 'Pension notice' : 'Rentenbescheid', href: '/einspruch?type=rente' },
-    { label: isEN ? 'Fine / penalty' : 'Bußgeldbescheid', href: '/einspruch?type=bussgeld' },
-    { label: isEN ? 'Health insurance' : 'Krankenversicherung', href: '/einspruch?type=krankenversicherung' },
-    { label: isEN ? 'Dismissal notice' : 'Kündigung', href: '/einspruch?type=kuendigung' },
-    { label: isEN ? 'Rent increase' : 'Mieterhöhung', href: '/einspruch?type=miete' },
-    { label: isEN ? 'Property tax' : 'Grundsteuer', href: '/einspruch?type=grundsteuer' },
+    { label: isEN ? '→ All use cases' : '→ Alle Anwendungsfälle', href: '/anwendungsfaelle', highlight: true },
+    { label: isEN ? 'Tax assessment' : 'Steuerbescheid', href: '/anwendungsfaelle#tax' },
+    { label: isEN ? 'Jobcenter / Bürgergeld' : 'Jobcenter / Bürgergeld', href: '/anwendungsfaelle#jobcenter' },
+    { label: isEN ? 'Pension notice' : 'Rentenbescheid', href: '/anwendungsfaelle#rente' },
+    { label: isEN ? 'Fine / penalty' : 'Bußgeldbescheid', href: '/anwendungsfaelle#bussgeld' },
+    { label: isEN ? 'Health insurance' : 'Krankenversicherung', href: '/anwendungsfaelle#krankenversicherung' },
+    { label: isEN ? 'Dismissal notice' : 'Kündigung', href: '/anwendungsfaelle#kuendigung' },
+    { label: isEN ? 'Rent increase' : 'Mieterhöhung', href: '/anwendungsfaelle#miete' },
+    { label: isEN ? 'Property tax' : 'Grundsteuer', href: '/anwendungsfaelle#grundsteuer' },
   ]
 
   const ctaLabel = userGroup === 'advisor'
@@ -158,7 +158,7 @@ export function PublicNav({ locale, userGroup }: PublicNavProps) {
           {navLinks.map((link) => (
             <Link
               key={link.dropdown ? 'use-cases' : link.href!}
-              href={link.dropdown ? '/#use-cases' : link.href!}
+              href={link.dropdown ? '/anwendungsfaelle' : link.href!}
               onClick={() => setMobileOpen(false)}
               className="block px-3 py-3 text-sm font-medium text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-[var(--background-subtle)] rounded-xl transition-colors"
             >

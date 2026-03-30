@@ -335,19 +335,19 @@ export default function VorlagenPage({
                   {/* Actions */}
                   <div className="flex gap-2 pt-1">
                     <Link
-                      href={`/einspruch?type=${tpl.slug}`}
+                      href={`/vorlagen/${tpl.id}`}
                       className="flex-1 flex items-center justify-center gap-1.5 bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold py-2.5 rounded-xl transition-colors"
                     >
                       <Edit3 className="w-3.5 h-3.5" />
-                      {isEN ? 'Fill with AI' : 'Mit KI ausfüllen'}
+                      {isEN ? 'Open template' : 'Vorlage öffnen'}
                     </Link>
-                    <button
+                    <Link
+                      href={`/einspruch?type=${tpl.slug}`}
                       className="flex items-center justify-center gap-1.5 bg-[var(--background-subtle)] hover:bg-[var(--border)] text-[var(--muted)] hover:text-[var(--foreground)] text-sm font-medium px-3.5 py-2.5 rounded-xl transition-colors"
-                      title={isEN ? 'Download blank template (PDF)' : 'Leere Vorlage herunterladen (PDF)'}
-                      onClick={() => alert(isEN ? 'PDF download coming soon — use "Fill with AI" for a personalised letter.' : 'PDF-Download kommt bald — nutzen Sie „Mit KI ausfüllen" für ein personalisiertes Schreiben.')}
+                      title={isEN ? 'Generate with AI (upload your notice)' : 'Mit KI generieren (Bescheid hochladen)'}
                     >
-                      <Download className="w-4 h-4" />
-                    </button>
+                      <Zap className="w-4 h-4" />
+                    </Link>
                   </div>
                 </div>
               )

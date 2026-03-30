@@ -55,7 +55,7 @@ export function StatCard({
       <p className="text-sm text-[var(--muted)] leading-snug">{label}</p>
 
       {source && (
-        <p className="text-[10px] text-[var(--muted-foreground)] mt-3 leading-tight">
+        <p className="text-xs text-[var(--muted-foreground)] mt-3 leading-tight">
           {sourceUrl ? (
             <a href={sourceUrl} target="_blank" rel="noopener noreferrer" className="hover:underline">
               Quelle: {source}

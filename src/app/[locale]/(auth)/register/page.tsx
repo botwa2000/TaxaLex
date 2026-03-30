@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { Link } from '@/i18n/navigation'
-import { Loader2, CheckCircle2, User, Briefcase, UserCheck, Scale } from 'lucide-react'
+import { Loader2, CheckCircle2, User, Briefcase, UserCheck, Scale, Eye, EyeOff } from 'lucide-react'
 import { AUTH } from '@/config/constants'
 
 type UserType = 'individual' | 'selfemployed' | 'advisor' | 'lawyer'
@@ -57,6 +57,7 @@ export default function RegisterPage() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -185,17 +186,28 @@ export default function RegisterPage() {
           <label htmlFor="password" className="block text-sm font-medium text-[var(--foreground)] mb-1.5">
             Passwort <span className="text-red-500">*</span>
           </label>
-          <input
-            id="password"
-            type="password"
-            required
-            minLength={AUTH.minPasswordLength}
-            autoComplete="new-password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="••••••••"
-            className="w-full border border-[var(--border)] rounded-lg px-3 py-2.5 text-sm bg-[var(--surface)] text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400 transition-colors"
-          />
+          <div className="relative">
+            <input
+              id="password"
+              type={showPassword ? 'text' : 'password'}
+              required
+              minLength={AUTH.minPasswordLength}
+              autoComplete="new-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="••••••••"
+              className="w-full border border-[var(--border)] rounded-lg px-3 py-2.5 pr-10 text-sm bg-[var(--surface)] text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400 transition-colors"
+            />
+            <button
+              type="button"
+              tabIndex={-1}
+              onClick={() => setShowPassword((v) => !v)}
+              aria-label={showPassword ? 'Passwort verbergen' : 'Passwort anzeigen'}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--muted)] hover:text-[var(--foreground)] transition-colors"
+            >
+              {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+            </button>
+          </div>
           {strength && (
             <div className="mt-2">
               <div className="h-1 bg-[var(--border)] rounded-full overflow-hidden">
