@@ -6,14 +6,96 @@
     "error": "Fehler",
     "back": "Zurück",
     "next": "Weiter",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "close": "Schließen",
+    "confirm": "Bestätigen",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
     "download": "Herunterladen",
     "copy": "Kopieren",
     "copied": "Kopiert",
-    "required": "Pflichtfeld"
+    "required": "Pflichtfeld",
+    "optional": "Optional",
+    "or": "oder",
+    "and": "und",
+    "yes": "Ja",
+    "no": "Nein",
+    "learnMore": "Mehr erfahren",
+    "getStarted": "Kostenlos starten",
+    "tryFree": "Kostenlos testen",
+    "viewAll": "Alle anzeigen"
   },
   "nav": {
     "home": "Startseite",
-    "newCase": "Neuer Einspruch"
+    "howItWorks": "Wie es funktioniert",
+    "useCasesNav": "Anwendungsfälle",
+    "pricing": "Preise",
+    "forAdvisors": "Für Steuerberater",
+    "forExpats": "Für Expats",
+    "blog": "Blog",
+    "login": "Anmelden",
+    "register": "Konto erstellen",
+    "dashboard": "Dashboard",
+    "newCase": "Neue Anfrage",
+    "openMenu": "Menü öffnen",
+    "closeMenu": "Menü schließen"
+  },
+  "hero": {
+    "groups": {
+      "individual": {
+        "headline": "Bescheid bekommen? Einspruch einlegen. In Minuten.",
+        "sub": "TaxaLex analysiert Ihren Bescheid mit 5 KI-Agenten und erstellt einen rechtlich fundierten Einspruch – ohne Anwalt.",
+        "cta": "Jetzt kostenlos starten"
+      },
+      "selfemployed": {
+        "headline": "Steuer-Nachzahlung? Legen Sie Einspruch ein – ohne Anwalt.",
+        "sub": "Für Freelancer, Selbstständige und Kleinunternehmer: KI-gestützter Einspruch gegen Steuerbescheide in unter 5 Minuten.",
+        "cta": "Einspruch einlegen"
+      },
+      "expat": {
+        "headline": "German notice? Appeal it in minutes – in your language.",
+        "sub": "TaxaLex helps expats navigate German bureaucracy. Upload your notice, answer a few questions, get a professional objection letter.",
+        "cta": "Start for free"
+      },
+      "advisor": {
+        "headline": "Mehr Mandate. Weniger Aufwand.",
+        "sub": "TaxaLex unterstützt Steuerberater und Anwälte bei der schnellen Erstellung von Einsprüchen und Widersprüchen für ihre Mandanten.",
+        "cta": "Berater-Demo anfordern"
+      }
+    },
+    "tabs": {
+      "individual": "Privatperson",
+      "selfemployed": "Selbstständig",
+      "expat": "Expat",
+      "advisor": "Steuerberater"
+    },
+    "badge": "KI-gestützt · DSGVO-konform · EU-Server",
+    "disclaimer": "KI-generierte Entwürfe. Kein Rechtsrat i.S.d. RDG."
+  },
+  "howItWorks": {
+    "title": "So einfach funktioniert es",
+    "subtitle": "In drei Schritten zu Ihrem fertigen Einspruch",
+    "steps": {
+      "upload": {
+        "number": "1",
+        "title": "Bescheid hochladen",
+        "description": "Laden Sie Ihren Bescheid als PDF, Foto oder DOCX hoch. Unsere OCR erkennt automatisch alle relevanten Daten.",
+        "detail": "Unterstützte Formate: PDF, JPG, PNG, DOCX, TXT (max. 10 MB)"
+      },
+      "analyze": {
+        "number": "2",
+        "title": "KI-Analyse",
+        "description": "Fünf spezialisierte KI-Agenten prüfen Ihren Bescheid: Entwurf, Fehlerprüfung, Faktencheck, Gegenperspektive und Konsolidierung.",
+        "detail": "Claude · Gemini · Perplexity – alle Modelle arbeiten parallel"
+      },
+      "download": {
+        "number": "3",
+        "title": "Herunterladen & einreichen",
+        "description": "Laden Sie Ihren fertigen Einspruch als DOCX oder TXT herunter und reichen Sie ihn direkt beim Finanzamt oder der Behörde ein.",
+        "detail": "Hinweis: KI-Entwurf, kein Rechtsrat i.S.d. RDG. Vor Einreichung prüfen."
+      }
+    }
   },
   "useCases": {
     "title": "Welchen Bescheid möchten Sie anfechten?",
@@ -21,10 +103,367 @@
     "tax": "Steuerbescheid",
     "jobcenter": "Jobcenter / Bürgergeld",
     "rente": "Rentenbescheid",
+    "bussgeld": "Bußgeldbescheid",
     "bussgeldd": "Bußgeldbescheid",
     "krankenversicherung": "Krankenversicherung",
     "kuendigung": "Kündigung",
-    "miete": "Mieterhöhung / Kaution"
+    "miete": "Mieterhöhung / Kaution",
+    "grundsteuer": "Grundsteuer",
+    "sectionTitle": "8 Bescheidarten – alle abgedeckt",
+    "sectionSubtitle": "Von Steuerbescheiden bis Bußgeldern: TaxaLex kennt die relevanten Rechtsgrundlagen für alle häufigen Verwaltungsbescheide.",
+    "appeal": "Einspruch einlegen",
+    "deadline": "Frist",
+    "days": "Tage",
+    "successRate": "Erfolgsquote",
+    "legalBasis": "Rechtsgrundlage",
+    "expandDetails": "Details anzeigen",
+    "collapseDetails": "Details ausblenden"
+  },
+  "stats": {
+    "title": "Zahlen, die zählen",
+    "subtitle": "Verifizierte Statistiken aus offiziellen Quellen",
+    "source": "Quelle"
+  },
+  "pricing": {
+    "title": "Transparent & fair",
+    "subtitle": "Wählen Sie das Modell, das zu Ihnen passt",
+    "tabs": {
+      "individual": "Privatperson",
+      "selfemployed": "Selbstständig",
+      "advisor": "Steuerberater",
+      "lawyer": "Rechtsanwalt"
+    },
+    "popular": "Beliebt",
+    "currentPlan": "Ihr aktueller Plan",
+    "perMonth": "/ Monat",
+    "perCase": "/ Einspruch",
+    "perPack": "/ 5 Einsprüche",
+    "included": "Enthalten",
+    "notIncluded": "Nicht enthalten",
+    "upgrade": "Jetzt upgraden",
+    "contact": "Kontakt aufnehmen",
+    "choosePlan": "Plan wählen",
+    "annualDiscount": "Jährlich zahlen – 2 Monate gratis",
+    "monthly": "Monatlich",
+    "annual": "Jährlich",
+    "vatNote": "Alle Preise zzgl. MwSt.",
+    "freeFeatures": {
+      "title": "Kostenlos-Plan",
+      "description": "1 Einspruch pro Monat"
+    }
+  },
+  "features": {
+    "title": "Warum TaxaLex?",
+    "subtitle": "Vier Alleinstellungsmerkmale, die den Unterschied machen",
+    "items": {
+      "multiAi": {
+        "title": "5 KI-Agenten parallel",
+        "description": "Claude, Gemini und Perplexity prüfen Ihren Einspruch aus verschiedenen Perspektiven – für maximale Qualität."
+      },
+      "legal": {
+        "title": "Aktuelle Rechtsgrundlagen",
+        "description": "Perplexity recherchiert in Echtzeit aktuelle BFH-Urteile und Verwaltungsanweisungen für Ihren konkreten Fall."
+      },
+      "multilingual": {
+        "title": "Mehrsprachig",
+        "description": "Interface in 7 Sprachen. Der Einspruch wird immer auf Deutsch erstellt – für die Behörde."
+      },
+      "privacy": {
+        "title": "DSGVO & Datenschutz",
+        "description": "EU-Server, verschlüsselte Übertragung, keine permanente Speicherung Ihrer Dokumente ohne Zustimmung."
+      }
+    }
+  },
+  "faq": {
+    "title": "Häufige Fragen",
+    "subtitle": "Alles, was Sie über TaxaLex wissen möchten",
+    "categories": {
+      "all": "Alle",
+      "general": "Allgemein",
+      "legal": "Rechtliches",
+      "pricing": "Preise",
+      "technical": "Technik",
+      "advisor": "Für Berater"
+    }
+  },
+  "trust": {
+    "title": "Sicherheit & Datenschutz",
+    "gdpr": "DSGVO-konform",
+    "euServers": "EU-Server",
+    "encrypted": "Verschlüsselt",
+    "rdgNote": "Kein Rechtsrat i.S.d. RDG",
+    "disclaimer": "TaxaLex erstellt KI-generierte Entwürfe für Einsprüche und Widersprüche. Dies stellt keine Rechtsberatung im Sinne des Rechtsdienstleistungsgesetzes (RDG) dar. Vor der Einreichung sollten Sie den Entwurf prüfen und bei komplexen Sachverhalten einen Steuerberater oder Rechtsanwalt konsultieren.",
+    "badges": {
+      "dsgvo": "DSGVO-konform",
+      "eu": "EU-Server (Frankfurt)",
+      "ssl": "SSL-verschlüsselt",
+      "rdg": "Kein Rechtsrat (RDG)"
+    }
+  },
+  "footer": {
+    "tagline": "KI-generierte Entwürfe. Kein Rechtsrat i.S.d. RDG.",
+    "allRightsReserved": "Alle Rechte vorbehalten.",
+    "columns": {
+      "product": "Produkt",
+      "company": "Unternehmen",
+      "support": "Support",
+      "legal": "Rechtliches"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Willkommen zurück",
+      "subtitle": "Melden Sie sich in Ihrem Konto an",
+      "email": "E-Mail-Adresse",
+      "password": "Passwort",
+      "forgotPassword": "Passwort vergessen?",
+      "submit": "Anmelden",
+      "noAccount": "Noch kein Konto?",
+      "register": "Jetzt registrieren",
+      "orContinueWith": "Oder weiter mit",
+      "demoAccounts": "Demo-Zugänge",
+      "demoHint": "Klicken Sie auf einen Zugang, um die Felder automatisch auszufüllen.",
+      "types": {
+        "individual": "Privatperson",
+        "advisor": "Steuerberater",
+        "lawyer": "Rechtsanwalt"
+      }
+    },
+    "register": {
+      "title": "Konto erstellen",
+      "subtitle": "Starten Sie kostenlos mit TaxaLex",
+      "name": "Vollständiger Name",
+      "email": "E-Mail-Adresse",
+      "password": "Passwort",
+      "confirmPassword": "Passwort wiederholen",
+      "agreeToTerms": "Ich stimme den {terms} und der {privacy} zu.",
+      "terms": "AGB",
+      "privacy": "Datenschutzerklärung",
+      "submit": "Konto erstellen",
+      "hasAccount": "Bereits ein Konto?",
+      "login": "Jetzt anmelden",
+      "passwordStrength": {
+        "weak": "Schwach",
+        "fair": "Akzeptabel",
+        "good": "Gut",
+        "strong": "Stark"
+      },
+      "types": {
+        "individual": "Privatperson",
+        "selfemployed": "Selbstständig",
+        "advisor": "Steuerberater",
+        "lawyer": "Rechtsanwalt"
+      },
+      "benefits": {
+        "individual": [
+          "1 kostenloser Einspruch pro Monat",
+          "5 KI-Agenten prüfen Ihren Fall",
+          "Download als DOCX oder TXT"
+        ],
+        "selfemployed": [
+          "Einsprüche gegen Steuerbescheide & USt",
+          "Unbegrenzte Dokumente pro Einspruch",
+          "Priorisierte KI-Verarbeitung"
+        ],
+        "advisor": [
+          "Multi-Mandanten-Dashboard",
+          "Unbegrenzte Einsprüche für alle Mandanten",
+          "White-Label-Exportoption"
+        ],
+        "lawyer": [
+          "Multi-Mandanten-Dashboard",
+          "Unbegrenzte Einsprüche für alle Mandanten",
+          "Erweiterte Rechtsgrundlagen-Recherche"
+        ]
+      }
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Willkommen zurück, {name}",
+    "welcomeAdvisor": "Berater-Dashboard – {name}",
+    "welcomeAdmin": "Admin-Panel – {name}",
+    "stats": {
+      "totalCases": "Einsprüche gesamt",
+      "activeCases": "Aktive Fälle",
+      "submittedCases": "Eingereicht",
+      "successRate": "Erfolgsquote"
+    },
+    "recentCases": "Aktuelle Fälle",
+    "noCases": "Noch keine Fälle",
+    "noCasesHint": "Starten Sie Ihren ersten Einspruch",
+    "newCase": "Neue Anfrage",
+    "viewAll": "Alle Fälle",
+    "status": {
+      "CREATED": "Erstellt",
+      "QUESTIONS": "Rückfragen",
+      "GENERATING": "Wird erstellt",
+      "DRAFT_READY": "Entwurf bereit",
+      "SUBMITTED": "Eingereicht",
+      "AWAITING_RESPONSE": "Ausstehend",
+      "CLOSED_SUCCESS": "Erfolgreich",
+      "CLOSED_REJECTED": "Abgelehnt"
+    },
+    "quickActions": {
+      "title": "Schnellzugriff",
+      "newCase": "Neuer Einspruch",
+      "viewCases": "Meine Fälle",
+      "billing": "Abrechnung",
+      "account": "Einstellungen"
+    }
+  },
+  "billing": {
+    "title": "Abrechnung",
+    "subtitle": "Ihr aktueller Plan und Nutzungsübersicht",
+    "currentPlan": "Aktueller Plan",
+    "usage": "Nutzung diesen Monat",
+    "invoices": "Rechnungen",
+    "noInvoices": "Noch keine Rechnungen",
+    "upgrade": "Plan upgraden",
+    "cancel": "Abo kündigen",
+    "renewsOn": "Verlängert sich am {date}",
+    "casesUsed": "{used} von {total} Einsprüchen genutzt",
+    "unlimited": "Unbegrenzt"
+  },
+  "cases": {
+    "title": "Meine Fälle",
+    "subtitle": "Alle Ihre Einsprüche und Widersprüche",
+    "filter": {
+      "all": "Alle",
+      "active": "Aktiv",
+      "submitted": "Eingereicht",
+      "closed": "Abgeschlossen"
+    },
+    "empty": "Keine Fälle gefunden",
+    "emptyHint": "Starten Sie Ihren ersten Einspruch",
+    "newCase": "Neue Anfrage",
+    "caseId": "Fall-ID",
+    "createdAt": "Erstellt am",
+    "status": "Status",
+    "type": "Typ",
+    "actions": "Aktionen",
+    "viewCase": "Fall ansehen",
+    "downloadDraft": "Entwurf herunterladen"
+  },
+  "account": {
+    "title": "Profil & Einstellungen",
+    "sections": {
+      "profile": "Profil",
+      "security": "Sicherheit",
+      "notifications": "Benachrichtigungen",
+      "language": "Sprache & Region",
+      "danger": "Konto löschen"
+    },
+    "name": "Name",
+    "email": "E-Mail",
+    "role": "Rolle",
+    "language": "Bevorzugte Sprache",
+    "outputLanguage": "Ausgabesprache für Einsprüche",
+    "saveChanges": "Änderungen speichern",
+    "changePassword": "Passwort ändern",
+    "currentPassword": "Aktuelles Passwort",
+    "newPassword": "Neues Passwort",
+    "confirmPassword": "Passwort bestätigen",
+    "deleteAccount": "Konto löschen",
+    "deleteWarning": "Diese Aktion kann nicht rückgängig gemacht werden. Alle Ihre Daten werden gelöscht.",
+    "notifications": {
+      "email": "E-Mail-Benachrichtigungen",
+      "caseUpdates": "Fall-Updates",
+      "newsletter": "Newsletter & Produktneuheiten"
+    }
+  },
+  "advisor": {
+    "dashboard": {
+      "title": "Berater-Dashboard",
+      "clients": "Mandanten",
+      "activeAppeals": "Aktive Einsprüche",
+      "submittedAppeals": "Eingereichte Einsprüche",
+      "recentActivity": "Letzte Aktivitäten",
+      "quickActions": "Schnellzugriff",
+      "addClient": "Mandanten hinzufügen",
+      "newAppeal": "Neuer Einspruch"
+    },
+    "clients": {
+      "title": "Mandanten",
+      "subtitle": "Verwalten Sie Ihre Mandanten",
+      "search": "Mandanten suchen...",
+      "add": "Mandanten hinzufügen",
+      "name": "Name",
+      "email": "E-Mail",
+      "cases": "Fälle",
+      "lastActive": "Zuletzt aktiv",
+      "actions": "Aktionen",
+      "noClients": "Noch keine Mandanten",
+      "modal": {
+        "title": "Mandanten hinzufügen",
+        "name": "Name des Mandanten",
+        "email": "E-Mail-Adresse",
+        "submit": "Hinzufügen"
+      }
+    },
+    "appeals": {
+      "title": "Alle Einsprüche",
+      "subtitle": "Einsprüche aller Ihrer Mandanten",
+      "client": "Mandant",
+      "type": "Typ",
+      "status": "Status",
+      "createdAt": "Erstellt am"
+    },
+    "billing": {
+      "title": "Abrechnung",
+      "plan": "Ihr Berater-Plan",
+      "usage": "Mandanten & Einsprüche"
+    }
+  },
+  "admin": {
+    "title": "Admin-Panel",
+    "subtitle": "System-Übersicht und Benutzerverwaltung",
+    "tabs": {
+      "overview": "Übersicht",
+      "users": "Nutzer",
+      "content": "Inhalte"
+    },
+    "stats": {
+      "totalUsers": "Nutzer gesamt",
+      "totalCases": "Fälle gesamt",
+      "openCases": "Offene Fälle",
+      "submittedCases": "Eingereicht"
+    },
+    "users": {
+      "title": "Nutzer",
+      "since": "Seit"
+    },
+    "content": {
+      "title": "Datenbank-Inhalte",
+      "useCases": "Anwendungsfälle",
+      "faqs": "FAQs",
+      "pricingPlans": "Preispläne",
+      "edit": "Bearbeiten (demnächst)"
+    }
+  },
+  "cookies": {
+    "banner": {
+      "title": "Cookie-Einstellungen",
+      "description": "Wir verwenden Cookies für Analysen und eine bessere Nutzererfahrung. Sie können Ihre Auswahl jederzeit ändern.",
+      "acceptAll": "Alle akzeptieren",
+      "acceptNecessary": "Nur notwendige",
+      "manage": "Einstellungen",
+      "learnMore": "Mehr erfahren"
+    },
+    "types": {
+      "necessary": {
+        "title": "Notwendige Cookies",
+        "description": "Für den Betrieb der Website erforderlich. Können nicht deaktiviert werden."
+      },
+      "analytics": {
+        "title": "Analyse-Cookies",
+        "description": "Google Analytics und PostHog – helfen uns, die Website zu verbessern."
+      },
+      "marketing": {
+        "title": "Marketing-Cookies",
+        "description": "Personalisierte Werbung und Retargeting."
+      }
+    }
   },
   "wizard": {
     "steps": {
@@ -75,6 +514,9 @@
     "noFiles": "Bitte laden Sie mindestens eine Datei hoch",
     "analyzeFailed": "Analyse fehlgeschlagen. Bitte versuchen Sie es erneut.",
     "generateFailed": "Generierung fehlgeschlagen. Bitte versuchen Sie es erneut.",
-    "missingDescheid": "Bescheid-Daten fehlen"
+    "missingDescheid": "Bescheid-Daten fehlen",
+    "unauthorized": "Keine Berechtigung",
+    "notFound": "Seite nicht gefunden",
+    "serverError": "Serverfehler. Bitte versuchen Sie es später erneut."
   }
 }

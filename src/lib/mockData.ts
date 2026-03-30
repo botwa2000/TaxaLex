@@ -198,11 +198,76 @@ export function getDemoStats() {
   return { open, submitted, urgent, total: cases.length }
 }
 
-// All-users list for admin panel
+// All-users list for admin panel — matches seed.ts accounts
 export const DEMO_USERS = [
-  { id: DEMO_USER_ID, name: 'Max Mustermann', email: 'admin@demo.com', role: 'ADMIN', createdAt: daysAgo(180), cases: 5 },
-  { id: 'user_002', name: 'Anna Müller', email: 'anna@demo.com', role: 'PRO', createdAt: daysAgo(90), cases: 3 },
-  { id: 'user_003', name: 'Thomas Weber', email: 'thomas@demo.com', role: 'USER', createdAt: daysAgo(45), cases: 1 },
-  { id: 'user_004', name: 'Fatma Yilmaz', email: 'fatma@demo.com', role: 'USER', createdAt: daysAgo(14), cases: 2 },
-  { id: 'user_005', name: 'Igor Nowak', email: 'igor@demo.com', role: 'USER', createdAt: daysAgo(7), cases: 0 },
+  { id: DEMO_USER_ID,          name: 'Max Mustermann', email: 'admin@taxalex.de',        role: 'ADMIN',   createdAt: daysAgo(180), cases: 5 },
+  { id: 'demo_advisor_001',    name: 'Karin Müller',   email: 'advisor@demo.taxalex.de', role: 'ADVISOR', createdAt: daysAgo(90),  cases: 12 },
+  { id: 'demo_lawyer_001',     name: 'Dr. Fischer',    email: 'lawyer@demo.taxalex.de',  role: 'LAWYER',  createdAt: daysAgo(75),  cases: 8 },
+  { id: 'demo_user_001',       name: 'Anna Schmidt',   email: 'user@demo.taxalex.de',    role: 'USER',    createdAt: daysAgo(45),  cases: 3 },
+  { id: 'demo_expat_001',      name: 'James Wilson',   email: 'expat@demo.taxalex.de',   role: 'USER',    createdAt: daysAgo(14),  cases: 1 },
 ]
+
+// Clients for the advisor/lawyer portal demo
+export interface DemoClient {
+  id: string
+  name: string
+  email: string
+  phone?: string
+  cases: number
+  lastActive: Date
+  status: 'active' | 'inactive'
+  advisorId: string
+}
+
+export interface DemoClientCase {
+  id: string
+  clientId: string
+  useCase: string
+  status: string
+  createdAt: Date
+  deadline?: Date | null
+}
+
+export const DEMO_CLIENTS: DemoClient[] = [
+  { id: 'client_001', name: 'Hermann Becker',   email: 'h.becker@example.com',    cases: 3, lastActive: daysAgo(2),  status: 'active',   advisorId: 'demo_advisor_001' },
+  { id: 'client_002', name: 'Sabine Richter',   email: 's.richter@example.com',   cases: 1, lastActive: daysAgo(7),  status: 'active',   advisorId: 'demo_advisor_001' },
+  { id: 'client_003', name: 'Michael Bauer',    email: 'm.bauer@example.com',     cases: 5, lastActive: daysAgo(14), status: 'active',   advisorId: 'demo_advisor_001' },
+  { id: 'client_004', name: 'Elena Hoffmann',   email: 'e.hoffmann@example.com',  cases: 2, lastActive: daysAgo(30), status: 'inactive', advisorId: 'demo_advisor_001' },
+  { id: 'client_005', name: 'Klaus Zimmermann', email: 'k.zimmermann@example.com', cases: 1, lastActive: daysAgo(60), status: 'inactive', advisorId: 'demo_advisor_001' },
+]
+
+export const DEMO_CLIENT_CASES: DemoClientCase[] = [
+  { id: 'cc_001', clientId: 'client_001', useCase: 'tax',             status: 'DRAFT_READY',       createdAt: daysAgo(5),  deadline: daysFromNow(25) },
+  { id: 'cc_002', clientId: 'client_001', useCase: 'grundsteuer',     status: 'SUBMITTED',          createdAt: daysAgo(30), deadline: null },
+  { id: 'cc_003', clientId: 'client_001', useCase: 'rente',           status: 'AWAITING_RESPONSE',  createdAt: daysAgo(90), deadline: null },
+  { id: 'cc_004', clientId: 'client_002', useCase: 'jobcenter',       status: 'QUESTIONS',          createdAt: daysAgo(3),  deadline: daysFromNow(27) },
+  { id: 'cc_005', clientId: 'client_003', useCase: 'tax',             status: 'DRAFT_READY',        createdAt: daysAgo(8),  deadline: daysFromNow(22) },
+  { id: 'cc_006', clientId: 'client_003', useCase: 'krankenversicherung', status: 'SUBMITTED',      createdAt: daysAgo(45), deadline: null },
+  { id: 'cc_007', clientId: 'client_003', useCase: 'bussgeld',        status: 'CLOSED_SUCCESS',     createdAt: daysAgo(100), deadline: null },
+  { id: 'cc_008', clientId: 'client_003', useCase: 'miete',           status: 'CREATING',           createdAt: daysAgo(1),  deadline: daysFromNow(29) },
+  { id: 'cc_009', clientId: 'client_003', useCase: 'rente',           status: 'AWAITING_RESPONSE',  createdAt: daysAgo(60), deadline: null },
+  { id: 'cc_010', clientId: 'client_004', useCase: 'tax',             status: 'CLOSED_SUCCESS',     createdAt: daysAgo(120), deadline: null },
+  { id: 'cc_011', clientId: 'client_004', useCase: 'kuendigung',      status: 'SUBMITTED',          createdAt: daysAgo(35), deadline: null },
+  { id: 'cc_012', clientId: 'client_005', useCase: 'grundsteuer',     status: 'DRAFT_READY',        createdAt: daysAgo(12), deadline: daysFromNow(18) },
+]
+
+// Helper: get cases for a specific advisor's clients
+export function getAdvisorCases(advisorId: string): DemoClientCase[] {
+  const clientIds = new Set(DEMO_CLIENTS.filter((c) => c.advisorId === advisorId).map((c) => c.id))
+  return DEMO_CLIENT_CASES.filter((c) => clientIds.has(c.clientId))
+}
+
+// Helper: get advisor dashboard stats
+export function getAdvisorStats(advisorId: string) {
+  const cases = getAdvisorCases(advisorId)
+  const clients = DEMO_CLIENTS.filter((c) => c.advisorId === advisorId)
+  const activeStatuses = ['CREATED', 'UPLOADING', 'ANALYZING', 'QUESTIONS', 'GENERATING', 'DRAFT_READY']
+  const submittedStatuses = ['SUBMITTED', 'AWAITING_RESPONSE']
+  return {
+    totalClients: clients.length,
+    activeClients: clients.filter((c) => c.status === 'active').length,
+    activeCases: cases.filter((c) => activeStatuses.includes(c.status)).length,
+    submittedCases: cases.filter((c) => submittedStatuses.includes(c.status)).length,
+    totalCases: cases.length,
+  }
+}

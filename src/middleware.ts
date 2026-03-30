@@ -1,30 +1,59 @@
 import NextAuth from 'next-auth'
 import { authConfig } from '@/auth.config'
-import { NextResponse } from 'next/server'
+import createMiddleware from 'next-intl/middleware'
+import { routing } from '@/i18n/routing'
+import { NextResponse, type NextRequest } from 'next/server'
 
-// Use the edge-safe config (no Prisma) for the middleware
+const handleI18nRouting = createMiddleware(routing)
 const { auth } = NextAuth(authConfig)
 
-const PROTECTED_PREFIXES = ['/dashboard', '/cases', '/account', '/billing', '/admin']
-const AUTH_ONLY_ROUTES = ['/login', '/register']
+// Protected paths (without locale prefix) — unauthenticated users get redirected to login
+const PROTECTED = ['/dashboard', '/cases', '/account', '/billing', '/admin', '/advisor']
+
+// Auth-only paths — authenticated users get redirected to dashboard
+const AUTH_ONLY = ['/login', '/register']
 
 export default auth((req) => {
   const { pathname } = req.nextUrl
   const isAuthenticated = !!req.auth
 
-  if (isAuthenticated && AUTH_ONLY_ROUTES.some((r) => pathname.startsWith(r))) {
-    return NextResponse.redirect(new URL('/dashboard', req.url))
+  // Extract locale from path (e.g. /de/dashboard → de)
+  const localeMatch = pathname.match(/^\/(de|en|tr|ru|pl|ar|uk)(\/|$)/)
+  const locale = localeMatch ? localeMatch[1] : 'de'
+
+  // Normalise: "/de/dashboard" → "/dashboard", "/de/" or "/de" → "/"
+  const cleanPath = localeMatch
+    ? pathname.slice(locale.length + 1) || '/'
+    : pathname
+
+  // Redirect authenticated users away from auth-only pages
+  if (isAuthenticated && AUTH_ONLY.some((p) => cleanPath === p)) {
+    return NextResponse.redirect(new URL(`/${locale}/dashboard`, req.url))
   }
 
-  if (!isAuthenticated && PROTECTED_PREFIXES.some((p) => pathname.startsWith(p))) {
-    const loginUrl = new URL('/login', req.url)
+  // Redirect unauthenticated users away from protected pages
+  if (!isAuthenticated && PROTECTED.some((p) => cleanPath === p || cleanPath.startsWith(p + '/'))) {
+    const loginUrl = new URL(`/${locale}/login`, req.url)
     loginUrl.searchParams.set('callbackUrl', pathname)
     return NextResponse.redirect(loginUrl)
   }
 
-  return NextResponse.next()
+  // Role-based gates (ADVISOR/LAWYER only for /advisor, ADMIN only for /admin)
+  const role = (req.auth as { user?: { role?: string } } | null)?.user?.role
+  if (cleanPath.startsWith('/advisor') && role && !['ADVISOR', 'LAWYER', 'ADMIN'].includes(role)) {
+    return NextResponse.redirect(new URL(`/${locale}/dashboard`, req.url))
+  }
+  if (cleanPath.startsWith('/admin') && role && role !== 'ADMIN') {
+    return NextResponse.redirect(new URL(`/${locale}/dashboard`, req.url))
+  }
+
+  // Let next-intl handle locale routing (prefix redirect, locale cookie, etc.)
+  return handleI18nRouting(req as NextRequest)
 })
 
 export const config = {
-  matcher: ['/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|ico)).*)'],
+  // Match all paths except Next.js internals, static files, and API routes
+  matcher: [
+    '/((?!_next/static|_next/image|favicon.ico|api/auth|api/|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|css|js|woff2?|ttf)).*)',
+  ],
 }

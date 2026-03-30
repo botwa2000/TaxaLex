@@ -52,13 +52,15 @@ export const RATE_LIMITS = {
 export const LEGAL = {
   /** Deadline in days by use-case type (from Bescheid date) */
   deadlineDays: {
-    tax: 30,          // §355 AO
-    jobcenter: 30,    // §84 SGG
-    rente: 30,        // §84 SGG
-    bussgeldd: 14,    // §67 OWiG
-    krankenversicherung: 30, // §84 SGG
-    kuendigung: 21,   // §4 KSchG
-    miete: 60,        // §558b BGB
+    tax: 30,                  // §355 AO
+    jobcenter: 30,            // §84 SGG
+    rente: 30,                // §84 SGG
+    bussgeld: 14,             // §67 OWiG
+    bussgeldd: 14,            // legacy alias — prefer "bussgeld"
+    krankenversicherung: 30,  // §84 SGG
+    kuendigung: 21,           // §4 KSchG
+    miete: 60,                // §558b BGB
+    grundsteuer: 30,          // §355 AO (via §347 AO)
   },
   /** Days before deadline to send first warning */
   warnAtDays: [14, 7, 3, 1],

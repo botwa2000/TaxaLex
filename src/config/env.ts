@@ -56,6 +56,11 @@ export const config = {
   s3AccessKey: optionalEnv('S3_ACCESS_KEY'),
   s3SecretKey: optionalEnv('S3_SECRET_KEY'),
 
+  // ── Analytics (public — loaded client-side only after cookie consent) ─────
+  gaMeasurementId: optionalEnv('NEXT_PUBLIC_GA_MEASUREMENT_ID'),
+  posthogKey: optionalEnv('NEXT_PUBLIC_POSTHOG_KEY'),
+  posthogHost: optionalEnv('NEXT_PUBLIC_POSTHOG_HOST', 'https://eu.posthog.com'),
+
   // ── Observability ──────────────────────────────────────────────────────
   sentryDsn: optionalEnv('SENTRY_DSN'),
 } as const

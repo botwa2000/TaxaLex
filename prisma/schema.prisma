@@ -167,3 +167,105 @@ model CaseOutput {
   @@index([caseId])
   @@index([caseId, isFinal])
 }
+
+// ── Content — DB-backed, admin-editable ───────────────────────────────────────
+
+model PricingPlan {
+  id           String   @id @default(cuid())
+  slug         String   @unique
+  userGroup    String   // "individual" | "selfemployed" | "advisor" | "lawyer"
+  priceOnce    Decimal? @db.Decimal(10, 2)
+  priceMonthly Decimal? @db.Decimal(10, 2)
+  priceAnnual  Decimal? @db.Decimal(10, 2)
+  currency     String   @default("EUR")
+  isPopular    Boolean  @default(false)
+  isActive     Boolean  @default(true)
+  sortOrder    Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  translations PricingPlanTranslation[]
+  features     PricingPlanFeature[]
+
+  @@index([userGroup])
+}
+
+model PricingPlanTranslation {
+  id          String      @id @default(cuid())
+  planId      String
+  locale      String
+  name        String
+  description String?     @db.Text
+  cta         String?
+
+  plan PricingPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
+
+  @@unique([planId, locale])
+  @@index([planId])
+}
+
+model PricingPlanFeature {
+  id        String      @id @default(cuid())
+  planId    String
+  locale    String
+  text      String
+  included  Boolean     @default(true)
+  sortOrder Int         @default(0)
+
+  plan PricingPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
+
+  @@index([planId, locale])
+}
+
+model FAQ {
+  id        String   @id @default(cuid())
+  locale    String
+  category  String   // "general" | "pricing" | "legal" | "technical" | "advisor"
+  userGroup String?  // null = all groups
+  question  String   @db.Text
+  answer    String   @db.Text
+  sortOrder Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([locale, category])
+  @@index([locale, userGroup])
+}
+
+model UseCase {
+  id           String   @id @default(cuid())
+  slug         String   // "tax" | "jobcenter" | "rente" | etc.
+  locale       String
+  title        String
+  shortDesc    String
+  description  String   @db.Text
+  deadlineText String
+  deadlineDays Int
+  legalBasis   String
+  successRate  String?
+  badge        String?
+  icon         String   @default("FileText")
+  sortOrder    Int      @default(0)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@unique([slug, locale])
+  @@index([locale])
+}
+
+model TrustStat {
+  id        String   @id @default(cuid())
+  locale    String
+  value     String
+  label     String
+  source    String
+  sourceUrl String?
+  verified  Boolean  @default(true)
+  sortOrder Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  @@index([locale])
+}

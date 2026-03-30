@@ -323,3 +323,27 @@ return NextResponse.json({ error: 'Generierung fehlgeschlagen' }, { status: 500 
 - No personal data (name, Steuernummer, address) may be logged in production.
 - Document text from uploads must not be stored permanently without explicit user consent.
 - Uploads are processed in memory and deleted — no permanent storage until auth + consent flow is built.
+
+## 13. Dependency Management
+
+**Policy:** Always use the latest stable version within the current major for all packages. Never pin to outdated minors.
+
+**Upgrade workflow:**
+```bash
+npx npm-check-updates -u --target minor   # bump all deps within current major
+npm install
+npm run build                             # verify — fix any compile errors before committing
+```
+
+**Before bumping to a new major version** — these require dedicated migrations with code compliance updates:
+
+| Package | Breaking change in next major |
+|---|---|
+| Next.js 16 | Async params/searchParams, middleware→proxy model |
+| Tailwind 4 | CSS-first config (no tailwind.config.js), new utility names |
+| TypeScript 6 | Stricter defaults, decorator changes |
+| Zod 4 | Error API rewrite (`z.ZodError` shape changes) |
+| ESLint 10 | `next lint` removed, flat config only |
+| Prisma 8 | TBD — monitor release notes |
+
+Do not bump a major version without: (1) reading the migration guide, (2) updating all affected code, (3) verifying the build passes.

@@ -2,28 +2,69 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── Light mode tokens ───────────────────────────────────────────────────── */
 :root {
   --foreground: #0b406d;
+  --foreground-secondary: #1e3a5f;
   --background: #fafbfd;
+  --background-subtle: #f1f5f9;
+  --surface: #ffffff;
+  --surface-hover: #f8fafc;
   --muted: #64748b;
+  --muted-foreground: #94a3b8;
   --border: #e2e8f0;
+  --border-strong: #cbd5e1;
   --success: #059669;
+  --success-bg: #ecfdf5;
   --warning: #d97706;
+  --warning-bg: #fffbeb;
   --danger: #dc2626;
+  --danger-bg: #fef2f2;
+  --info: #0284c7;
+  --info-bg: #f0f9ff;
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.08), 0 2px 4px -2px rgb(0 0 0 / 0.05);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.05);
   --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.08), 0 8px 10px -6px rgb(0 0 0 / 0.05);
+  --radius: 0.75rem;
 }
 
+/* ── Dark mode tokens ────────────────────────────────────────────────────── */
+.dark {
+  --foreground: #e2e8f0;
+  --foreground-secondary: #cbd5e1;
+  --background: #0f172a;
+  --background-subtle: #1e293b;
+  --surface: #1e293b;
+  --surface-hover: #263244;
+  --muted: #94a3b8;
+  --muted-foreground: #64748b;
+  --border: #1e293b;
+  --border-strong: #334155;
+  --success: #10b981;
+  --success-bg: #064e3b;
+  --warning: #f59e0b;
+  --warning-bg: #451a03;
+  --danger: #f87171;
+  --danger-bg: #450a0a;
+  --info: #38bdf8;
+  --info-bg: #0c2340;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.3);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.4), 0 8px 10px -6px rgb(0 0 0 / 0.3);
+}
+
+/* ── Base ────────────────────────────────────────────────────────────────── */
 body {
   color: var(--foreground);
   background: var(--background);
-  font-feature-settings:
-    'rlig' 1,
-    'calt' 1;
+  font-feature-settings: 'rlig' 1, 'calt' 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
+/* ── Utilities ───────────────────────────────────────────────────────────── */
 @layer utilities {
   .text-balance {
     text-wrap: balance;
@@ -35,31 +76,74 @@ body {
       0 4px 16px -2px theme('colors.brand.200');
   }
 
-  .animate-fade-in {
-    animation: fadeIn 0.4s ease-out forwards;
+  .dark .shadow-brand {
+    box-shadow:
+      0 0 0 1px theme('colors.brand.900'),
+      0 4px 16px -2px theme('colors.brand.800');
   }
 
-  .animate-slide-up {
-    animation: slideUp 0.5s ease-out forwards;
+  /* Scrollbar styling */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: var(--border);
+    border-radius: 3px;
   }
 }
 
+/* ── Animations ──────────────────────────────────────────────────────────── */
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
 }
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.animate-fade-in { animation: fadeIn 0.3s ease-out forwards; }
+.animate-slide-up { animation: slideUp 0.4s ease-out forwards; }
+.animate-slide-down { animation: slideDown 0.3s ease-out forwards; }
+.animate-scale-in { animation: scaleIn 0.2s ease-out forwards; }
+
+/* ── Focus ring ──────────────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid theme('colors.brand.500');
+  outline-offset: 2px;
+}
+
+/* ── Dialog backdrop ─────────────────────────────────────────────────────── */
+dialog::backdrop {
+  background: rgb(0 0 0 / 0.5);
+  backdrop-filter: blur(4px);
+}
+
+/* ── Prose-like content for legal pages ──────────────────────────────────── */
+.prose-legal h2 { @apply text-xl font-semibold text-[var(--foreground)] mt-8 mb-3; }
+.prose-legal h3 { @apply text-base font-semibold text-[var(--foreground)] mt-6 mb-2; }
+.prose-legal p  { @apply text-sm text-[var(--muted)] leading-relaxed mb-3; }
+.prose-legal ul { @apply list-disc list-inside text-sm text-[var(--muted)] space-y-1 mb-3; }
+.prose-legal ol { @apply list-decimal list-inside text-sm text-[var(--muted)] space-y-1 mb-3; }
+.prose-legal a  { @apply text-brand-600 hover:underline; }

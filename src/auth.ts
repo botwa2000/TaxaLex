@@ -20,17 +20,27 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         password: { label: 'Passwort', type: 'password' },
       },
       async authorize(credentials) {
-        // Demo credentials — bypasses DB for UI testing
-        if (
-          (credentials?.email === 'admin' || credentials?.email === 'admin@demo.com') &&
-          credentials?.password === 'admin'
-        ) {
-          return {
-            id: 'demo_admin_001',
-            email: 'admin@demo.com',
-            name: 'Admin Demo',
-            role: 'ADMIN',
-          }
+        // Demo accounts — bypasses DB for UI testing
+        const DEMO_ACCOUNTS: Record<string, { id: string; name: string; role: string; password: string }> = {
+          'admin@taxalex.de':          { id: 'demo_admin_001',   name: 'Max Mustermann', role: 'ADMIN',   password: 'Admin1234!' },
+          'advisor@demo.taxalex.de':   { id: 'demo_advisor_001', name: 'Karin Müller',   role: 'ADVISOR', password: 'Demo1234!' },
+          'lawyer@demo.taxalex.de':    { id: 'demo_lawyer_001',  name: 'Dr. Fischer',    role: 'LAWYER',  password: 'Demo1234!' },
+          'user@demo.taxalex.de':      { id: 'demo_user_001',    name: 'Anna Schmidt',   role: 'USER',    password: 'Demo1234!' },
+          'expat@demo.taxalex.de':     { id: 'demo_expat_001',   name: 'James Wilson',   role: 'USER',    password: 'Demo1234!' },
+          // Deprecated alias kept for backwards compatibility
+          'admin@demo.com':            { id: 'demo_admin_001',   name: 'Max Mustermann', role: 'ADMIN',   password: 'admin' },
+        }
+
+        const email = (credentials?.email as string | undefined)?.toLowerCase() ?? ''
+        const password = (credentials?.password as string | undefined) ?? ''
+
+        const demo = DEMO_ACCOUNTS[email]
+        if (demo && password === demo.password) {
+          return { id: demo.id, email, name: demo.name, role: demo.role }
+        }
+        // Also accept the old "admin" / "admin" shorthand
+        if ((email === 'admin') && password === 'admin') {
+          return { id: 'demo_admin_001', email: 'admin@demo.com', name: 'Max Mustermann', role: 'ADMIN' }
         }
 
         const parsed = z
