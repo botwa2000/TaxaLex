@@ -45,6 +45,7 @@ export function PublicNav({ locale, userGroup }: PublicNavProps) {
   ]
 
   const useCaseLinks = [
+    { label: isEN ? '→ See all use cases' : '→ Alle Anwendungsfälle', href: '/#use-cases', highlight: true },
     { label: isEN ? 'Tax assessment' : 'Steuerbescheid', href: '/einspruch?type=tax' },
     { label: isEN ? 'Jobcenter / Bürgergeld' : 'Jobcenter / Bürgergeld', href: '/einspruch?type=jobcenter' },
     { label: isEN ? 'Pension notice' : 'Rentenbescheid', href: '/einspruch?type=rente' },
@@ -86,12 +87,18 @@ export function PublicNav({ locale, userGroup }: PublicNavProps) {
                       onClick={() => setUseCaseDropOpen(false)}
                     />
                     <div className="absolute top-full left-0 mt-1 w-56 bg-[var(--surface)] border border-[var(--border)] rounded-2xl shadow-lg p-1.5 z-20 animate-slide-down">
-                      {useCaseLinks.map((uc) => (
+                      {useCaseLinks.map((uc, i) => (
                         <Link
                           key={uc.href}
                           href={uc.href}
                           onClick={() => setUseCaseDropOpen(false)}
-                          className="block px-3 py-2 text-sm text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-[var(--background-subtle)] rounded-xl transition-colors"
+                          className={cn(
+                            'block px-3 py-2 text-sm rounded-xl transition-colors',
+                            uc.highlight
+                              ? 'text-brand-600 dark:text-brand-400 font-semibold hover:bg-brand-50 dark:hover:bg-brand-950'
+                              : 'text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-[var(--background-subtle)]',
+                            i === 1 && 'mt-1 border-t border-[var(--border)] pt-2'
+                          )}
                         >
                           {uc.label}
                         </Link>
@@ -148,10 +155,10 @@ export function PublicNav({ locale, userGroup }: PublicNavProps) {
       {/* Mobile menu */}
       {mobileOpen && (
         <div className="md:hidden border-t border-[var(--border)] bg-[var(--surface)] px-4 pb-4 space-y-1 animate-slide-down">
-          {navLinks.filter((l) => !l.dropdown).map((link) => (
+          {navLinks.map((link) => (
             <Link
-              key={link.href}
-              href={link.href!}
+              key={link.dropdown ? 'use-cases' : link.href!}
+              href={link.dropdown ? '/#use-cases' : link.href!}
               onClick={() => setMobileOpen(false)}
               className="block px-3 py-2.5 text-sm text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-[var(--background-subtle)] rounded-xl transition-colors"
             >
