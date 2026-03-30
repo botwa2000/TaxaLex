@@ -3,8 +3,6 @@
 import { useEffect } from 'react'
 import { usePathname, useSearchParams } from 'next/navigation'
 
-import { config } from '@/config/env'
-
 interface PostHogProviderProps {
   apiKey?: string
   apiHost?: string
@@ -34,7 +32,7 @@ export async function initPostHog(apiKey: string, apiHost: string) {
   }
 }
 
-export function PostHogProvider({ apiKey = config.posthogKey, apiHost = config.posthogHost ?? 'https://eu.posthog.com', children }: PostHogProviderProps) {
+export function PostHogProvider({ apiKey = process.env.NEXT_PUBLIC_POSTHOG_KEY ?? '', apiHost = process.env.NEXT_PUBLIC_POSTHOG_HOST ?? 'https://eu.posthog.com', children }: PostHogProviderProps) {
   const pathname = usePathname()
   const searchParams = useSearchParams()
 

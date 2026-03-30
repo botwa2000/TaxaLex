@@ -3,13 +3,11 @@
 import Script from 'next/script'
 import { useEffect, useState } from 'react'
 
-import { config } from '@/config/env'
-
 interface GoogleAnalyticsProps {
   measurementId?: string
 }
 
-export function GoogleAnalytics({ measurementId = config.gaMeasurementId }: GoogleAnalyticsProps) {
+export function GoogleAnalytics({ measurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID }: GoogleAnalyticsProps) {
   const [hasConsent, setHasConsent] = useState(false)
 
   useEffect(() => {

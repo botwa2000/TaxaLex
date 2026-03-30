@@ -1,3 +1,5 @@
+import 'server-only'
+
 /**
  * Central environment configuration.
  * This is the ONLY file that reads process.env.
