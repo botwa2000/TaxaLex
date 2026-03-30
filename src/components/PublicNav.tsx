@@ -137,7 +137,7 @@ export function PublicNav({ locale, userGroup }: PublicNavProps) {
             {isEN ? 'Sign in' : 'Anmelden'}
           </Link>
           <Link href="/register">
-            <Button size="sm" variant="primary">
+            <Button size="md" variant="primary">
               {ctaLabel}
             </Button>
           </Link>
@@ -154,19 +154,35 @@ export function PublicNav({ locale, userGroup }: PublicNavProps) {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="md:hidden border-t border-[var(--border)] bg-[var(--surface)] px-4 pb-4 space-y-1 animate-slide-down">
+        <div className="md:hidden border-t border-[var(--border)] bg-[var(--surface)] px-4 pb-5 space-y-1 animate-slide-down">
           {navLinks.map((link) => (
             <Link
               key={link.dropdown ? 'use-cases' : link.href!}
               href={link.dropdown ? '/#use-cases' : link.href!}
               onClick={() => setMobileOpen(false)}
-              className="block px-3 py-2.5 text-sm text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-[var(--background-subtle)] rounded-xl transition-colors"
+              className="block px-3 py-3 text-sm font-medium text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-[var(--background-subtle)] rounded-xl transition-colors"
             >
               {link.label}
             </Link>
           ))}
-          <div className="pt-2 border-t border-[var(--border)] flex items-center gap-2">
-            <LanguageSelector currentLocale={locale} />
+          <div className="pt-3 border-t border-[var(--border)] space-y-2">
+            <Link
+              href="/login"
+              onClick={() => setMobileOpen(false)}
+              className="block px-3 py-3 text-sm font-medium text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-[var(--background-subtle)] rounded-xl transition-colors"
+            >
+              {isEN ? 'Sign in' : 'Anmelden'}
+            </Link>
+            <Link
+              href="/register"
+              onClick={() => setMobileOpen(false)}
+              className="block px-3 py-3 text-sm font-bold text-center text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition-colors"
+            >
+              {ctaLabel}
+            </Link>
+            <div className="px-1">
+              <LanguageSelector currentLocale={locale} />
+            </div>
           </div>
         </div>
       )}

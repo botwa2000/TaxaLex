@@ -103,8 +103,8 @@ export default function RegisterPage() {
 
   return (
     <div className="bg-[var(--surface)] rounded-2xl border border-[var(--border)] p-8 shadow-sm">
-      <h1 className="text-2xl font-bold text-[var(--foreground)] mb-1">Konto erstellen</h1>
-      <p className="text-sm text-[var(--muted)] mb-6">
+      <h1 className="text-2xl sm:text-3xl font-bold text-[var(--foreground)] mb-2">Konto erstellen</h1>
+      <p className="text-sm text-[var(--muted)] mb-7">
         Bereits registriert?{' '}
         <Link href="/login" className="text-brand-600 hover:underline font-medium">
           Anmelden
@@ -213,7 +213,7 @@ export default function RegisterPage() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-brand-600 text-white py-2.5 rounded-lg text-sm font-semibold hover:bg-brand-700 transition-colors disabled:opacity-50 flex items-center justify-center gap-2 mt-2"
+          className="w-full bg-brand-600 text-white py-3.5 rounded-xl text-base font-bold hover:bg-brand-700 active:bg-brand-800 transition-colors disabled:opacity-50 flex items-center justify-center gap-2 mt-2"
         >
           {loading && <Loader2 className="w-4 h-4 animate-spin" />}
           Kostenlos registrieren

@@ -58,7 +58,7 @@ export default async function DashboardPage() {
   return (
     <div>
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-[var(--foreground)]">
+        <h1 className="text-2xl sm:text-3xl font-bold text-[var(--foreground)]">
           {role === 'ADMIN'
             ? `Admin-Panel – ${session?.user?.name ?? ''}`
             : `Guten Tag${session?.user?.name ? `, ${session.user.name}` : ''}`}
@@ -78,7 +78,7 @@ export default async function DashboardPage() {
         )}
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-5 mb-8">
         <StatCard icon={FolderOpen} label="Offene Fälle" value={stats.open} iconClass="bg-blue-50 text-blue-600" />
         <StatCard icon={TrendingUp} label="Eingereicht" value={stats.submitted} iconClass="bg-green-50 text-green-600" />
         <StatCard
@@ -112,21 +112,27 @@ export default async function DashboardPage() {
         </div>
       )}
 
-      <div className="grid sm:grid-cols-3 gap-3 mb-8">
-        <Link href="/einspruch" className="bg-brand-600 text-white rounded-xl p-4 hover:bg-brand-700 transition-colors group">
-          <Plus className="w-5 h-5 mb-2 group-hover:scale-110 transition-transform" />
-          <p className="font-semibold text-sm">Neue Anfrage</p>
-          <p className="text-xs text-brand-200 mt-0.5">Einspruch erstellen</p>
+      <div className="grid sm:grid-cols-3 gap-4 mb-8">
+        <Link href="/einspruch" className="bg-brand-600 text-white rounded-2xl p-5 hover:bg-brand-700 active:bg-brand-800 transition-colors group shadow-sm hover:shadow-md">
+          <div className="w-10 h-10 bg-brand-500 rounded-xl flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
+            <Plus className="w-5 h-5" />
+          </div>
+          <p className="font-bold text-base">Neue Anfrage</p>
+          <p className="text-sm text-brand-200 mt-0.5">Einspruch erstellen</p>
         </Link>
-        <Link href="/cases" className="bg-[var(--surface)] border border-[var(--border)] rounded-xl p-4 hover:border-brand-200 hover:bg-brand-50 dark:hover:bg-brand-950 transition-colors">
-          <FolderOpen className="w-5 h-5 text-[var(--muted)] mb-2" />
-          <p className="font-semibold text-sm text-[var(--foreground)]">Alle Fälle</p>
-          <p className="text-xs text-[var(--muted)] mt-0.5">Verlauf anzeigen</p>
+        <Link href="/cases" className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-5 hover:border-brand-300 hover:shadow-md transition-all">
+          <div className="w-10 h-10 bg-[var(--background-subtle)] rounded-xl flex items-center justify-center mb-3">
+            <FolderOpen className="w-5 h-5 text-[var(--muted)]" />
+          </div>
+          <p className="font-bold text-base text-[var(--foreground)]">Alle Fälle</p>
+          <p className="text-sm text-[var(--muted)] mt-0.5">Verlauf anzeigen</p>
         </Link>
-        <Link href="/billing" className="bg-[var(--surface)] border border-[var(--border)] rounded-xl p-4 hover:border-brand-200 hover:bg-brand-50 dark:hover:bg-brand-950 transition-colors">
-          <Clock className="w-5 h-5 text-[var(--muted)] mb-2" />
-          <p className="font-semibold text-sm text-[var(--foreground)]">Plan upgraden</p>
-          <p className="text-xs text-[var(--muted)] mt-0.5">Pro ab 9,99 €/Monat</p>
+        <Link href="/billing" className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-5 hover:border-brand-300 hover:shadow-md transition-all">
+          <div className="w-10 h-10 bg-[var(--background-subtle)] rounded-xl flex items-center justify-center mb-3">
+            <Clock className="w-5 h-5 text-[var(--muted)]" />
+          </div>
+          <p className="font-bold text-base text-[var(--foreground)]">Plan upgraden</p>
+          <p className="text-sm text-[var(--muted)] mt-0.5">Pro ab 9,99 €/Monat</p>
         </Link>
       </div>
 
@@ -197,12 +203,12 @@ function StatCard({ icon: Icon, label, value, iconClass, urgent }: {
   icon: React.ElementType; label: string; value: number; iconClass: string; urgent?: boolean
 }) {
   return (
-    <div className={`bg-[var(--surface)] rounded-xl border p-4 ${urgent && value > 0 ? 'border-red-200' : 'border-[var(--border)]'}`}>
-      <div className={`w-8 h-8 rounded-lg ${iconClass} flex items-center justify-center mb-3`}>
-        <Icon className="w-4 h-4" />
+    <div className={`bg-[var(--surface)] rounded-2xl border p-5 ${urgent && value > 0 ? 'border-red-200 dark:border-red-900' : 'border-[var(--border)]'}`}>
+      <div className={`w-10 h-10 rounded-xl ${iconClass} flex items-center justify-center mb-3`}>
+        <Icon className="w-5 h-5" />
       </div>
-      <p className="text-2xl font-bold text-[var(--foreground)]">{value}</p>
-      <p className="text-xs text-[var(--muted)] mt-0.5">{label}</p>
+      <p className="text-3xl font-black text-[var(--foreground)] leading-none mb-1">{value}</p>
+      <p className="text-sm text-[var(--muted)]">{label}</p>
     </div>
   )
 }

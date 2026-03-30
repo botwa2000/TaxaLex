@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { Zap, ArrowRight } from 'lucide-react'
 import { Tabs } from './ui/Tabs'
 
 export type UserGroup = 'individual' | 'selfemployed' | 'expat' | 'advisor' | 'lawyer'
@@ -130,25 +131,27 @@ export function UserGroupTabs({ locale, onGroupChange, className }: UserGroupTab
         className="flex-wrap justify-center gap-1 mb-8"
       />
       <div className="text-center max-w-3xl mx-auto animate-fade-in" key={activeGroup}>
-        <h1 className="text-4xl sm:text-5xl font-extrabold text-[var(--foreground)] leading-tight tracking-tight mb-4">
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-[var(--foreground)] leading-tight tracking-tight mb-5 text-balance">
           {activeCopy.headline}
         </h1>
-        <p className="text-lg text-[var(--muted)] leading-relaxed mb-8 max-w-2xl mx-auto">
+        <p className="text-lg sm:text-xl text-[var(--muted)] leading-relaxed mb-10 max-w-2xl mx-auto">
           {activeCopy.sub}
         </p>
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <a
             href={activeCopy.ctaHref}
-            className="inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 text-base font-semibold bg-brand-600 text-white hover:bg-brand-700 transition-colors shadow-sm"
+            className="inline-flex items-center justify-center gap-2.5 rounded-2xl px-8 py-4 text-lg font-bold bg-brand-600 text-white hover:bg-brand-700 active:bg-brand-800 transition-colors shadow-md hover:shadow-lg"
           >
+            <Zap className="w-5 h-5 shrink-0" />
             {activeCopy.cta}
           </a>
           {(activeGroup === 'individual' || activeGroup === 'selfemployed') && (
             <a
               href="/wie-es-funktioniert"
-              className="inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 text-base font-semibold text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-[var(--background-subtle)] transition-colors"
+              className="inline-flex items-center justify-center gap-2 rounded-2xl px-7 py-4 text-base font-semibold text-[var(--muted)] hover:text-[var(--foreground)] border border-[var(--border)] hover:border-[var(--border-strong)] hover:bg-[var(--background-subtle)] transition-colors"
             >
-              {isEN ? 'How it works' : 'Wie es funktioniert'} →
+              {isEN ? 'How it works' : 'Wie es funktioniert'}
+              <ArrowRight className="w-4 h-4" />
             </a>
           )}
         </div>

@@ -16,39 +16,29 @@ export function ProcessStep({
   title,
   description,
   detail,
-  isLast = false,
-  accent = 'bg-brand-600',
 }: ProcessStepProps) {
   return (
-    <div className="flex gap-5">
-      {/* Left: number + connector */}
-      <div className="flex flex-col items-center">
-        <div
-          className={cn(
-            'w-10 h-10 rounded-xl flex items-center justify-center shrink-0 text-white font-bold text-sm shadow-sm',
-            accent
-          )}
-        >
+    <div className="relative flex flex-col bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-6 pt-8 hover:shadow-md hover:border-brand-200 dark:hover:border-brand-800 transition-all group">
+      {/* Step number badge */}
+      <div className="absolute -top-3.5 left-6">
+        <span className="inline-flex w-7 h-7 rounded-full bg-brand-600 text-white text-xs font-bold items-center justify-center shadow-sm">
           {step}
-        </div>
-        {!isLast && (
-          <div className="w-0.5 flex-1 mt-3 mb-0 bg-gradient-to-b from-[var(--border)] to-transparent" />
-        )}
+        </span>
       </div>
 
-      {/* Right: content */}
-      <div className={cn('pb-8 min-w-0', isLast && 'pb-0')}>
-        <div className="flex items-center gap-2 mb-1">
-          <Icon className="w-4 h-4 text-[var(--muted)] shrink-0" />
-          <h3 className="font-semibold text-[var(--foreground)]">{title}</h3>
-        </div>
-        <p className="text-sm text-[var(--muted)] leading-relaxed">{description}</p>
-        {detail && (
-          <p className="mt-2 text-xs text-[var(--muted-foreground)] bg-[var(--background-subtle)] rounded-lg px-3 py-2 leading-relaxed">
-            {detail}
-          </p>
-        )}
+      {/* Icon */}
+      <div className="w-12 h-12 bg-brand-50 dark:bg-brand-950 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-brand-100 dark:group-hover:bg-brand-900 transition-colors shrink-0">
+        <Icon className="w-6 h-6 text-brand-600 dark:text-brand-400" />
       </div>
+
+      <h3 className="text-base font-bold text-[var(--foreground)] mb-2">{title}</h3>
+      <p className="text-sm text-[var(--muted)] leading-relaxed flex-1">{description}</p>
+
+      {detail && (
+        <p className="mt-4 text-xs text-[var(--muted-foreground)] bg-[var(--background-subtle)] rounded-xl px-3 py-2.5 leading-relaxed">
+          {detail}
+        </p>
+      )}
     </div>
   )
 }

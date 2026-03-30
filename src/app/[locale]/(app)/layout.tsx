@@ -8,10 +8,12 @@ import {
   CreditCard,
   Bell,
   Shield,
+  Menu,
 } from 'lucide-react'
 import { Logo } from '@/components/Logo'
 import { redirect } from 'next/navigation'
 import { Link } from '@/i18n/navigation'
+import { MobileSidebarWrapper } from '@/components/MobileSidebarWrapper'
 
 export default async function AppLayout({
   children,
@@ -34,10 +36,8 @@ export default async function AppLayout({
     .slice(0, 2)
     .toUpperCase()
 
-  return (
-    <div className="min-h-screen bg-[var(--background)] flex">
-      {/* ── Sidebar ── */}
-      <aside className="w-60 bg-[var(--surface)] border-r border-[var(--border)] flex flex-col shrink-0 fixed top-0 bottom-0 left-0 z-30">
+  const sidebarContent = (
+    <aside className="w-64 bg-[var(--surface)] border-r border-[var(--border)] flex flex-col shrink-0 h-full">
         {/* Logo */}
         <div className="px-4 py-4 border-b border-[var(--border)]">
           <Logo size="md" href="/dashboard" />
@@ -120,14 +120,18 @@ export default async function AppLayout({
           </div>
         </div>
       </aside>
+  )
 
+  return (
+    <MobileSidebarWrapper sidebar={sidebarContent}>
       {/* ── Main area ── */}
-      <div className="flex-1 flex flex-col min-w-0 ml-60">
+      <div className="flex-1 flex flex-col min-w-0">
         {/* Top bar */}
-        <header className="sticky top-0 z-20 bg-[var(--surface)] border-b border-[var(--border)] px-6 h-14 flex items-center justify-between">
-          <div className="flex items-center gap-2 text-sm text-[var(--muted)]" />
+        <header className="sticky top-0 z-20 bg-[var(--surface)] border-b border-[var(--border)] px-4 sm:px-6 h-14 flex items-center justify-between">
+          {/* Mobile menu trigger — rendered by MobileSidebarWrapper */}
+          <div id="mobile-sidebar-trigger" className="lg:hidden" />
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 ml-auto">
             <button
               title="Benachrichtigungen"
               className="relative p-2 text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-[var(--background-subtle)] rounded-lg transition-colors"
@@ -141,14 +145,15 @@ export default async function AppLayout({
               className="flex items-center gap-1.5 bg-brand-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-brand-700 transition-colors"
             >
               <Plus className="w-4 h-4" />
-              Neue Anfrage
+              <span className="hidden sm:inline">Neue Anfrage</span>
+              <span className="sm:hidden">Neu</span>
             </Link>
           </div>
         </header>
 
-        <main className="flex-1 p-6 max-w-5xl w-full mx-auto">{children}</main>
+        <main className="flex-1 p-5 sm:p-6 lg:p-8 max-w-5xl w-full mx-auto">{children}</main>
       </div>
-    </div>
+    </MobileSidebarWrapper>
   )
 }
 

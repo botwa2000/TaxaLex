@@ -34,13 +34,13 @@ export function TrustBadges({ locale = 'de', variant = 'row', className }: Trust
       )}
     >
       {badges.map(({ icon: Icon, label, detail }) => (
-        <div key={label} className="flex items-center gap-2 text-[var(--muted)]">
-          <div className="w-6 h-6 bg-[var(--background-subtle)] rounded-lg flex items-center justify-center shrink-0">
-            <Icon className="w-3.5 h-3.5 text-brand-600" />
+        <div key={label} className="flex items-center gap-2.5 text-[var(--muted)]">
+          <div className="w-8 h-8 bg-[var(--background-subtle)] rounded-xl flex items-center justify-center shrink-0">
+            <Icon className="w-4 h-4 text-brand-600" />
           </div>
           <div>
-            <span className="text-xs font-medium text-[var(--foreground)]">{label}</span>
-            <span className="text-xs text-[var(--muted)] ml-1 hidden sm:inline">· {detail}</span>
+            <span className="text-sm font-semibold text-[var(--foreground)]">{label}</span>
+            <span className="text-xs text-[var(--muted)] ml-1.5 hidden sm:inline">· {detail}</span>
           </div>
         </div>
       ))}

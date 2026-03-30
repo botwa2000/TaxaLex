@@ -68,7 +68,7 @@ export default async function LandingPage({
       <PublicNav locale={locale} />
 
       {/* Hero */}
-      <section className="py-16 sm:py-24 px-4 bg-gradient-to-b from-[var(--background)] to-[var(--background-subtle,var(--background))]">
+      <section className="py-20 sm:py-32 px-4 bg-gradient-to-b from-brand-50/60 via-[var(--background)] to-[var(--background)] dark:from-brand-950/30 dark:via-[var(--background)] dark:to-[var(--background)]">
         <div className="max-w-4xl mx-auto">
           <UserGroupTabs locale={locale} />
         </div>
@@ -80,19 +80,22 @@ export default async function LandingPage({
       </section>
 
       {/* How it works */}
-      <section id="how-it-works" className="py-16 sm:py-20 px-4">
+      <section id="how-it-works" className="py-20 sm:py-28 px-4">
         <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-[var(--foreground)] mb-3">
-              {isEN ? 'How it works' : 'So funktioniert es'}
+          <div className="text-center mb-14">
+            <p className="text-sm font-semibold text-brand-600 dark:text-brand-400 uppercase tracking-widest mb-3">
+              {isEN ? 'How it works' : 'So einfach geht\u2019s'}
+            </p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-[var(--foreground)] mb-4 leading-tight">
+              {isEN ? 'From notice to objection — in 3 steps' : 'Vom Bescheid zum Einspruch — in 3 Schritten'}
             </h2>
-            <p className="text-[var(--muted)] max-w-xl mx-auto">
+            <p className="text-base sm:text-lg text-[var(--muted)] max-w-xl mx-auto">
               {isEN
                 ? 'Three steps from notice to ready-to-send objection letter.'
                 : 'Drei Schritte vom Bescheid zum versandfertigen Einspruchsschreiben.'}
             </p>
           </div>
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-3 gap-8">
             {processSteps.map((step) => (
               <ProcessStep
                 key={step.step}
@@ -100,6 +103,7 @@ export default async function LandingPage({
                 icon={step.icon}
                 title={step.title}
                 description={step.description}
+                detail={step.detail}
               />
             ))}
           </div>
@@ -107,17 +111,20 @@ export default async function LandingPage({
       </section>
 
       {/* Stats — only real, cited statistics */}
-      <section className="py-16 bg-[var(--surface)] border-y border-[var(--border)] px-4">
+      <section className="py-20 bg-[var(--surface)] border-y border-[var(--border)] px-4">
         <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-10">
-            <h2 className="text-2xl font-bold text-[var(--foreground)] mb-2">
+          <div className="text-center mb-12">
+            <p className="text-sm font-semibold text-brand-600 dark:text-brand-400 uppercase tracking-widest mb-3">
+              {isEN ? 'By the numbers' : 'Zahlen & Fakten'}
+            </p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-[var(--foreground)] mb-3 leading-tight">
               {isEN ? 'Facts, not promises' : 'Fakten, keine Versprechen'}
             </h2>
-            <p className="text-sm text-[var(--muted)]">
+            <p className="text-[var(--muted)]">
               {isEN ? 'All statistics verified and sourced.' : 'Alle Statistiken verifiziert und mit Quellenangabe.'}
             </p>
           </div>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
             {stats.map((s) => (
               <StatCard
                 key={s.label}
@@ -132,19 +139,22 @@ export default async function LandingPage({
       </section>
 
       {/* Use cases — expandable cards */}
-      <section id="use-cases" className="py-16 sm:py-20 px-4">
+      <section id="use-cases" className="py-20 sm:py-28 px-4">
         <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-10">
-            <h2 className="text-3xl font-bold text-[var(--foreground)] mb-3">
+          <div className="text-center mb-12">
+            <p className="text-sm font-semibold text-brand-600 dark:text-brand-400 uppercase tracking-widest mb-3">
+              {isEN ? 'Supported notice types' : 'Unterstützte Bescheidarten'}
+            </p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-[var(--foreground)] mb-4 leading-tight">
               {isEN ? '8 notice types – all covered' : '8 Bescheidarten – alle abgedeckt'}
             </h2>
-            <p className="text-[var(--muted)] max-w-2xl mx-auto">
+            <p className="text-base text-[var(--muted)] max-w-2xl mx-auto">
               {isEN
                 ? 'From tax assessments to fines: TaxaLex knows the relevant legal basis for all common administrative notices.'
                 : 'Von Steuerbescheiden bis Bußgeldern: TaxaLex kennt die relevanten Rechtsgrundlagen für alle häufigen Verwaltungsbescheide.'}
             </p>
           </div>
-          <div className="grid sm:grid-cols-2 gap-3">
+          <div className="grid sm:grid-cols-2 gap-4">
             {useCases.map((uc) => (
               <UseCaseCard key={uc.slug} useCase={uc} locale={locale} />
             ))}
@@ -265,26 +275,29 @@ export default async function LandingPage({
       </section>
 
       {/* Features */}
-      <section id="features" className="py-16 bg-[var(--surface)] border-y border-[var(--border)] px-4">
+      <section id="features" className="py-20 bg-[var(--surface)] border-y border-[var(--border)] px-4">
         <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-[var(--foreground)] mb-3">
+          <div className="text-center mb-14">
+            <p className="text-sm font-semibold text-brand-600 dark:text-brand-400 uppercase tracking-widest mb-3">
               {isEN ? 'Why TaxaLex?' : 'Warum TaxaLex?'}
+            </p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-[var(--foreground)] mb-4 leading-tight">
+              {isEN ? 'Built for legal precision' : 'Gebaut für juristische Präzision'}
             </h2>
-            <p className="text-[var(--muted)]">
+            <p className="text-base text-[var(--muted)] max-w-xl mx-auto">
               {isEN
                 ? 'Four differentiating features that make the difference.'
                 : 'Vier Alleinstellungsmerkmale, die den Unterschied machen.'}
             </p>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
             {features.map((f) => (
-              <div key={f.title} className="flex flex-col gap-3">
-                <div className="w-10 h-10 bg-brand-100 dark:bg-brand-950 rounded-xl flex items-center justify-center shrink-0">
-                  <f.icon className="w-5 h-5 text-brand-700 dark:text-brand-400" />
+              <div key={f.title} className="flex flex-col gap-4">
+                <div className="w-12 h-12 bg-brand-50 dark:bg-brand-950 rounded-2xl flex items-center justify-center shrink-0">
+                  <f.icon className="w-6 h-6 text-brand-600 dark:text-brand-400" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-[var(--foreground)] mb-1">{f.title}</h3>
+                  <h3 className="text-base font-bold text-[var(--foreground)] mb-2">{f.title}</h3>
                   <p className="text-sm text-[var(--muted)] leading-relaxed">{f.description}</p>
                 </div>
               </div>
@@ -332,13 +345,16 @@ export default async function LandingPage({
       </section>
 
       {/* Pricing — individual plans preview */}
-      <section id="pricing" className="py-16 sm:py-20 px-4">
+      <section id="pricing" className="py-20 sm:py-28 px-4">
         <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-10">
-            <h2 className="text-3xl font-bold text-[var(--foreground)] mb-3">
+          <div className="text-center mb-12">
+            <p className="text-sm font-semibold text-brand-600 dark:text-brand-400 uppercase tracking-widest mb-3">
+              {isEN ? 'Pricing' : 'Preise'}
+            </p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-[var(--foreground)] mb-4 leading-tight">
               {isEN ? 'Simple, transparent pricing' : 'Einfache, transparente Preise'}
             </h2>
-            <p className="text-[var(--muted)]">
+            <p className="text-base text-[var(--muted)]">
               {isEN
                 ? 'Start for free. Upgrade when you need more.'
                 : 'Kostenlos starten. Upgraden, wenn Sie mehr brauchen.'}
@@ -361,13 +377,16 @@ export default async function LandingPage({
       </section>
 
       {/* FAQ */}
-      <section id="faq" className="py-16 bg-[var(--surface)] border-y border-[var(--border)] px-4">
+      <section id="faq" className="py-20 bg-[var(--surface)] border-y border-[var(--border)] px-4">
         <div className="max-w-3xl mx-auto">
-          <div className="text-center mb-10">
-            <h2 className="text-3xl font-bold text-[var(--foreground)] mb-3">
+          <div className="text-center mb-12">
+            <p className="text-sm font-semibold text-brand-600 dark:text-brand-400 uppercase tracking-widest mb-3">
+              {isEN ? 'Support' : 'Support'}
+            </p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-[var(--foreground)] mb-4 leading-tight">
               {isEN ? 'Frequently asked questions' : 'Häufige Fragen'}
             </h2>
-            <p className="text-[var(--muted)]">
+            <p className="text-base text-[var(--muted)]">
               {isEN
                 ? 'Everything you want to know about TaxaLex.'
                 : 'Alles, was Sie über TaxaLex wissen möchten.'}
