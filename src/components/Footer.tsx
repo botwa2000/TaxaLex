@@ -12,19 +12,11 @@ const COLUMNS_DE = [
     heading: 'Produkt',
     links: [
       { label: 'Wie es funktioniert', href: '/wie-es-funktioniert' },
-      { label: 'Anwendungsfälle', href: '/anwendungsfaelle' },
+      { label: 'Anwendungsfälle', href: '/#use-cases' },
+      { label: 'Vorlagen', href: '/vorlagen' },
       { label: 'Preise', href: '/preise' },
       { label: 'Für Steuerberater', href: '/fuer-steuerberater' },
       { label: 'Für Expats', href: '/fuer-expats' },
-    ],
-  },
-  {
-    heading: 'Unternehmen',
-    links: [
-      { label: 'Über uns', href: '/ueber-uns' },
-      { label: 'Blog', href: '/blog' },
-      { label: 'Kontakt', href: '/kontakt' },
-      { label: 'Presse', href: '/presse' },
     ],
   },
   {
@@ -51,19 +43,11 @@ const COLUMNS_EN = [
     heading: 'Product',
     links: [
       { label: 'How it works', href: '/wie-es-funktioniert' },
-      { label: 'Use cases', href: '/anwendungsfaelle' },
+      { label: 'Use cases', href: '/#use-cases' },
+      { label: 'Templates', href: '/vorlagen' },
       { label: 'Pricing', href: '/preise' },
       { label: 'For tax advisors', href: '/fuer-steuerberater' },
       { label: 'For expats', href: '/fuer-expats' },
-    ],
-  },
-  {
-    heading: 'Company',
-    links: [
-      { label: 'About us', href: '/ueber-uns' },
-      { label: 'Blog', href: '/blog' },
-      { label: 'Contact', href: '/kontakt' },
-      { label: 'Press', href: '/presse' },
     ],
   },
   {
@@ -94,7 +78,7 @@ export function Footer({ locale }: FooterProps) {
     <footer className="border-t border-[var(--border)] bg-[var(--surface)]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-12 pb-8">
         {/* Top row: logo + columns */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8 mb-12">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8 mb-12">
           {/* Brand column */}
           <div className="col-span-2 sm:col-span-3 lg:col-span-1">
             <div className="mb-3"><Logo size="md" /></div>
