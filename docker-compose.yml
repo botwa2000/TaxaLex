@@ -18,6 +18,7 @@ services:
       - anthropic_api_key_prod
       - openai_api_key_prod
       - nextauth_secret_prod
+      - database_url_prod
     environment:
       - NODE_ENV=production
       - NEXT_PUBLIC_SITE_URL=https://taxalex.de
@@ -59,4 +60,6 @@ secrets:
   openai_api_key_prod:
     external: true
   nextauth_secret_prod:
+    external: true
+  database_url_prod:
     external: true

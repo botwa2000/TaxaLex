@@ -13,6 +13,7 @@ services:
       - anthropic_api_key_dev
       - openai_api_key_dev
       - nextauth_secret_dev
+      - database_url_dev
     environment:
       - NODE_ENV=development
       - NEXT_PUBLIC_SITE_URL=https://dev.taxalex.de
@@ -54,4 +55,6 @@ secrets:
   openai_api_key_dev:
     external: true
   nextauth_secret_dev:
+    external: true
+  database_url_dev:
     external: true

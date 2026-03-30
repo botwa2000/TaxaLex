@@ -120,6 +120,8 @@ elif [[ "$CMD" == "secrets" ]]; then
   create_or_replace "anthropic_api_key_dev"  "${ANTHROPIC_API_KEY_DEV:-}"
   create_or_replace "openai_api_key_prod"    "${OPENAI_API_KEY_PROD:-}"
   create_or_replace "openai_api_key_dev"     "${OPENAI_API_KEY_DEV:-}"
+  create_or_replace "database_url_prod"      "${DATABASE_URL_PROD:-}"
+  create_or_replace "database_url_dev"       "${DATABASE_URL_DEV:-}"
 
   if [[ -n "${NEXTAUTH_SECRET_PROD:-}" ]]; then
     create_or_replace "nextauth_secret_prod" "$NEXTAUTH_SECRET_PROD"
