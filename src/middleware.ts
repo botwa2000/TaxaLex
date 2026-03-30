@@ -18,7 +18,7 @@ export default auth((req) => {
   const isAuthenticated = !!req.auth
 
   // Extract locale from path (e.g. /de/dashboard → de)
-  const localeMatch = pathname.match(/^\/(de|en|tr|ru|pl|ar|uk)(\/|$)/)
+  const localeMatch = pathname.match(/^\/(de|en|fr|it|es|pt|tr|ru|pl|ar|uk)(\/|$)/)
   const locale = localeMatch ? localeMatch[1] : 'de'
 
   // Normalise: "/de/dashboard" → "/dashboard", "/de/" or "/de" → "/"

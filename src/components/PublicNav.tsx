@@ -31,6 +31,10 @@ export function PublicNav({ locale, userGroup }: PublicNavProps) {
       dropdown: true,
     },
     {
+      label: isEN ? 'Templates' : 'Vorlagen',
+      href: '/vorlagen',
+    },
+    {
       label: isEN ? 'Pricing' : 'Preise',
       href: '/preise',
     },

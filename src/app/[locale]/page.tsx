@@ -8,7 +8,7 @@ import { UseCaseCard } from '@/components/UseCaseCard'
 import { FAQAccordion } from '@/components/FAQAccordion'
 import { PricingCard } from '@/components/PricingCard'
 import { getUseCases, getFAQs, getPricingPlans } from '@/lib/contentFallbacks'
-import { Upload, Brain, Download, BarChart3, Clock, CheckCircle2, Shield, Zap, Globe, Lock } from 'lucide-react'
+import { Upload, Brain, Download, BarChart3, Clock, CheckCircle2, Shield, Zap, Globe, Lock, X, Scale, FileText, MessageSquare } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
 
 export default async function LandingPage({
@@ -152,6 +152,116 @@ export default async function LandingPage({
         </div>
       </section>
 
+      {/* Why not ChatGPT? — differentiation section */}
+      <section className="py-16 sm:py-20 px-4 bg-[var(--background)]">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-2 bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 text-sm font-semibold px-4 py-1.5 rounded-full mb-5">
+              <MessageSquare className="w-4 h-4" />
+              {isEN ? 'Why not just use ChatGPT?' : 'Warum nicht einfach ChatGPT?'}
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-bold text-[var(--foreground)] mb-4">
+              {isEN ? 'A specialised tool beats a general one.' : 'Ein Spezialtool schlägt ein Allzwecktool.'}
+            </h2>
+            <p className="text-lg text-[var(--muted)] max-w-2xl mx-auto leading-relaxed">
+              {isEN
+                ? 'ChatGPT writes text. TaxaLex writes legally grounded objection letters — with current law, correct deadlines, and official German letter format.'
+                : 'ChatGPT schreibt Text. TaxaLex schreibt rechtlich fundierte Einspruchsschreiben — mit aktuellem Recht, korrekten Fristen und amtlichem Briefformat.'}
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-6 items-start">
+            {/* ChatGPT column */}
+            <div className="bg-[var(--surface)] border border-[var(--border)] rounded-3xl p-6">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 bg-slate-100 dark:bg-slate-800 rounded-xl flex items-center justify-center">
+                  <MessageSquare className="w-5 h-5 text-slate-400" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-[var(--foreground)]">ChatGPT / General AI</h3>
+                  <p className="text-sm text-[var(--muted)]">{isEN ? 'Generic text generation' : 'Generische Textgenerierung'}</p>
+                </div>
+              </div>
+              <ul className="space-y-3">
+                {(isEN ? [
+                  'No knowledge of current German tax law or case rulings',
+                  'Does not know your filing deadline — you can miss it',
+                  'Generic letter format, not accepted by German authorities',
+                  'Cannot read your actual notice — you type everything manually',
+                  'No legal citations or § references',
+                  'Hallucinated facts — sounds legal but may be wrong',
+                ] : [
+                  'Kein Wissen über aktuelles deutsches Steuerrecht oder BFH-Urteile',
+                  'Kennt Ihre Einspruchsfrist nicht — Sie können sie verpassen',
+                  'Generisches Briefformat, nicht behördenkonform',
+                  'Kann Ihren Bescheid nicht lesen — Sie tippen alles manuell',
+                  'Keine Gesetzeszitate oder §-Angaben',
+                  'Halluzinierte Fakten — klingt legal, kann falsch sein',
+                ]).map((text) => (
+                  <li key={text} className="flex items-start gap-2.5 text-sm text-[var(--muted)]">
+                    <X className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
+                    {text}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* TaxaLex column */}
+            <div className="bg-brand-50 dark:bg-brand-950/60 border-2 border-brand-200 dark:border-brand-800 rounded-3xl p-6 relative">
+              <div className="absolute -top-3 left-6">
+                <span className="bg-brand-600 text-white text-xs font-bold px-3 py-1 rounded-full">
+                  {isEN ? '✦ Built for this' : '✦ Genau dafür gebaut'}
+                </span>
+              </div>
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 bg-brand-100 dark:bg-brand-900 rounded-xl flex items-center justify-center">
+                  <Scale className="w-5 h-5 text-brand-600 dark:text-brand-400" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-[var(--foreground)]">TaxaLex</h3>
+                  <p className="text-sm text-brand-600 dark:text-brand-400">{isEN ? 'Purpose-built for German objections' : 'Speziell für deutsche Einsprüche'}</p>
+                </div>
+              </div>
+              <ul className="space-y-3">
+                {(isEN ? [
+                  'Trained on § AO, § SGG, § BGB, § KSchG and current BFH rulings',
+                  'Calculates your exact deadline and warns if it\'s near',
+                  'Produces DIN 5008-compliant formal German letters',
+                  'Reads your uploaded notice — no manual retyping',
+                  'Every claim is backed by legal citations',
+                  '5 AI models cross-check each other for accuracy',
+                ] : [
+                  'Trainiert auf § AO, § SGG, § BGB, § KSchG und aktuelle BFH-Urteile',
+                  'Berechnet Ihre genaue Frist und warnt bei Ablauf',
+                  'Erstellt DIN 5008-konforme amtliche Schreiben',
+                  'Liest Ihren hochgeladenen Bescheid — kein manuelles Abtippen',
+                  'Jede Aussage mit Gesetzeszitaten belegt',
+                  '5 KI-Modelle prüfen sich gegenseitig auf Korrektheit',
+                ]).map((text) => (
+                  <li key={text} className="flex items-start gap-2.5 text-sm text-[var(--foreground)]">
+                    <CheckCircle2 className="w-4 h-4 text-brand-600 dark:text-brand-400 shrink-0 mt-0.5" />
+                    {text}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          {/* Bottom CTA */}
+          <div className="mt-10 text-center">
+            <p className="text-[var(--muted)] mb-4 text-lg">
+              {isEN
+                ? 'Your first objection is free. No credit card required.'
+                : 'Ihr erster Einspruch ist kostenlos. Keine Kreditkarte nötig.'}
+            </p>
+            <Link href="/einspruch" className="inline-flex items-center gap-2 bg-brand-600 hover:bg-brand-700 text-white font-bold px-8 py-4 rounded-2xl transition-colors text-lg">
+              <Zap className="w-5 h-5" />
+              {isEN ? 'Try it free now' : 'Jetzt kostenlos testen'}
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Features */}
       <section id="features" className="py-16 bg-[var(--surface)] border-y border-[var(--border)] px-4">
         <div className="max-w-5xl mx-auto">
@@ -175,6 +285,44 @@ export default async function LandingPage({
                   <h3 className="font-semibold text-[var(--foreground)] mb-1">{f.title}</h3>
                   <p className="text-sm text-[var(--muted)] leading-relaxed">{f.description}</p>
                 </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Templates teaser */}
+      <section className="py-14 px-4 bg-[var(--surface)] border-y border-[var(--border)]">
+        <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center gap-8">
+          <div className="flex-1">
+            <div className="inline-flex items-center gap-2 bg-brand-50 dark:bg-brand-950 text-brand-700 dark:text-brand-300 text-sm font-semibold px-3 py-1 rounded-full mb-4">
+              <FileText className="w-3.5 h-3.5" />
+              {isEN ? 'Free templates' : 'Kostenlose Vorlagen'}
+            </div>
+            <h2 className="text-2xl font-bold text-[var(--foreground)] mb-3">
+              {isEN ? '16 ready-to-use legal templates' : '16 sofort einsetzbare Rechtsvorlagen'}
+            </h2>
+            <p className="text-[var(--muted)] leading-relaxed mb-5">
+              {isEN
+                ? 'Download blank templates for the most common objections in Germany — tax, Jobcenter, rent, employment and more. Or fill them online with AI in minutes.'
+                : 'Laden Sie leere Vorlagen für die häufigsten Einsprüche in Deutschland herunter — Steuer, Jobcenter, Miete, Arbeit und mehr. Oder füllen Sie sie online mit KI in Minuten aus.'}
+            </p>
+            <Link
+              href="/vorlagen"
+              className="inline-flex items-center gap-2 font-semibold text-brand-600 dark:text-brand-400 hover:underline text-lg"
+            >
+              {isEN ? 'Browse all templates' : 'Alle Vorlagen ansehen'}
+              <FileText className="w-4 h-4" />
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 gap-3 shrink-0">
+            {(isEN
+              ? ['Tax Assessment', 'Jobcenter Rejection', 'Rent Increase', 'Dismissal Notice']
+              : ['Steuerbescheid', 'Jobcenter-Ablehnung', 'Mieterhöhung', 'Kündigung']
+            ).map((name) => (
+              <div key={name} className="bg-[var(--background-subtle)] rounded-xl px-4 py-3 text-sm font-medium text-[var(--foreground)] flex items-center gap-2">
+                <FileText className="w-4 h-4 text-brand-500 shrink-0" />
+                {name}
               </div>
             ))}
           </div>

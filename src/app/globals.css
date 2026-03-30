@@ -56,12 +56,17 @@
 }
 
 /* ── Base ────────────────────────────────────────────────────────────────── */
+html {
+  font-size: 17px;
+}
+
 body {
   color: var(--foreground);
   background: var(--background);
   font-feature-settings: 'rlig' 1, 'calt' 1;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  line-height: 1.65;
 }
 
 /* ── Utilities ───────────────────────────────────────────────────────────── */

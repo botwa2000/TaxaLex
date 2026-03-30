@@ -1,0 +1,522 @@
+{
+  "common": {
+    "appName": "TaxaLex",
+    "tagline": "Your AI-powered objection letter generator",
+    "loading": "Loading...",
+    "error": "Error",
+    "back": "Back",
+    "next": "Next",
+    "save": "Save",
+    "cancel": "Cancel",
+    "close": "Close",
+    "confirm": "Confirm",
+    "delete": "Delete",
+    "edit": "Edit",
+    "download": "Download",
+    "copy": "Copy",
+    "copied": "Copied",
+    "required": "Required",
+    "optional": "Optional",
+    "or": "or",
+    "and": "and",
+    "yes": "Yes",
+    "no": "No",
+    "learnMore": "Learn more",
+    "getStarted": "Get started free",
+    "tryFree": "Try for free",
+    "viewAll": "View all"
+  },
+  "nav": {
+    "home": "Home",
+    "howItWorks": "How it works",
+    "useCasesNav": "Use cases",
+    "pricing": "Pricing",
+    "forAdvisors": "For tax advisors",
+    "forExpats": "For expats",
+    "blog": "Blog",
+    "login": "Sign in",
+    "register": "Create account",
+    "dashboard": "Dashboard",
+    "newCase": "New request",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "hero": {
+    "groups": {
+      "individual": {
+        "headline": "Received a German notice? Appeal it in minutes.",
+        "sub": "TaxaLex analyses your administrative decision with 5 AI agents and drafts a legally grounded objection letter – no lawyer needed.",
+        "cta": "Get started for free"
+      },
+      "selfemployed": {
+        "headline": "Tax bill? Appeal it – without a lawyer.",
+        "sub": "For freelancers and self-employed: AI-powered objection letters against tax assessments in under 5 minutes.",
+        "cta": "Appeal now"
+      },
+      "expat": {
+        "headline": "German notice? Appeal it in minutes – in your language.",
+        "sub": "TaxaLex helps expats navigate German bureaucracy. Upload your notice, answer a few questions, get a professional objection letter.",
+        "cta": "Start for free"
+      },
+      "advisor": {
+        "headline": "More clients. Less effort.",
+        "sub": "TaxaLex supports tax advisors and lawyers in quickly drafting objection letters for their clients.",
+        "cta": "Request advisor demo"
+      }
+    },
+    "tabs": {
+      "individual": "Individual",
+      "selfemployed": "Self-employed",
+      "expat": "Expat",
+      "advisor": "Tax advisor"
+    },
+    "badge": "AI-powered · GDPR-compliant · EU servers",
+    "disclaimer": "AI-generated drafts. Not legal advice."
+  },
+  "howItWorks": {
+    "title": "How it works",
+    "subtitle": "Three steps to your finished objection letter",
+    "steps": {
+      "upload": {
+        "number": "1",
+        "title": "Upload your notice",
+        "description": "Upload your notice as PDF, photo, or DOCX. Our OCR automatically detects all relevant data.",
+        "detail": "Supported formats: PDF, JPG, PNG, DOCX, TXT (max. 10 MB)"
+      },
+      "analyze": {
+        "number": "2",
+        "title": "AI analysis",
+        "description": "Five specialised AI agents review your notice: drafting, error-checking, fact-checking, counter-perspective, and consolidation.",
+        "detail": "Claude · Gemini · Perplexity – all models work in parallel"
+      },
+      "download": {
+        "number": "3",
+        "title": "Download & submit",
+        "description": "Download your finished objection letter as DOCX or TXT and submit it directly to the relevant authority.",
+        "detail": "Note: AI-generated draft, not legal advice. Review before submission."
+      }
+    }
+  },
+  "useCases": {
+    "title": "Which notice do you want to appeal?",
+    "subtitle": "Select the type of administrative decision",
+    "tax": "Tax assessment",
+    "jobcenter": "Jobcenter / Bürgergeld",
+    "rente": "Pension notice",
+    "bussgeld": "Fine / penalty notice",
+    "bussgeldd": "Fine / penalty notice",
+    "krankenversicherung": "Health insurance rejection",
+    "kuendigung": "Employment termination",
+    "miete": "Rent increase / deposit",
+    "grundsteuer": "Property tax (Grundsteuer)",
+    "sectionTitle": "8 notice types – all covered",
+    "sectionSubtitle": "From tax assessments to fines: TaxaLex knows the relevant legal basis for all common administrative notices.",
+    "appeal": "Appeal this notice",
+    "deadline": "Deadline",
+    "days": "days",
+    "successRate": "Success rate",
+    "legalBasis": "Legal basis",
+    "expandDetails": "Show details",
+    "collapseDetails": "Hide details"
+  },
+  "stats": {
+    "title": "Numbers that matter",
+    "subtitle": "Verified statistics from official sources",
+    "source": "Source"
+  },
+  "pricing": {
+    "title": "Transparent & fair",
+    "subtitle": "Choose the plan that fits your needs",
+    "tabs": {
+      "individual": "Individual",
+      "selfemployed": "Self-employed",
+      "advisor": "Tax advisor",
+      "lawyer": "Lawyer"
+    },
+    "popular": "Popular",
+    "currentPlan": "Your current plan",
+    "perMonth": "/ month",
+    "perCase": "/ objection",
+    "perPack": "/ 5 objections",
+    "included": "Included",
+    "notIncluded": "Not included",
+    "upgrade": "Upgrade now",
+    "contact": "Contact us",
+    "choosePlan": "Choose plan",
+    "annualDiscount": "Pay annually – 2 months free",
+    "monthly": "Monthly",
+    "annual": "Annual",
+    "vatNote": "All prices excl. VAT.",
+    "freeFeatures": {
+      "title": "Free plan",
+      "description": "1 objection per month"
+    }
+  },
+  "features": {
+    "title": "Why TaxaLex?",
+    "subtitle": "Four differentiating features that make the difference",
+    "items": {
+      "multiAi": {
+        "title": "5 AI agents in parallel",
+        "description": "Claude, Gemini and Perplexity review your objection from different perspectives – for maximum quality."
+      },
+      "legal": {
+        "title": "Up-to-date legal references",
+        "description": "Perplexity researches current court rulings and administrative guidelines in real time for your specific case."
+      },
+      "multilingual": {
+        "title": "Multilingual",
+        "description": "Interface in 7 languages. The objection letter is always drafted in German – as required by authorities."
+      },
+      "privacy": {
+        "title": "GDPR & Privacy",
+        "description": "EU servers, encrypted transmission, no permanent storage of your documents without consent."
+      }
+    }
+  },
+  "faq": {
+    "title": "Frequently asked questions",
+    "subtitle": "Everything you want to know about TaxaLex",
+    "categories": {
+      "all": "All",
+      "general": "General",
+      "legal": "Legal",
+      "pricing": "Pricing",
+      "technical": "Technical",
+      "advisor": "For advisors"
+    }
+  },
+  "trust": {
+    "title": "Security & Privacy",
+    "gdpr": "GDPR-compliant",
+    "euServers": "EU servers",
+    "encrypted": "Encrypted",
+    "rdgNote": "Not legal advice",
+    "disclaimer": "TaxaLex creates AI-generated drafts for objection letters. This does not constitute legal advice within the meaning of the German Legal Services Act (RDG). Before submission, you should review the draft and consult a tax advisor or lawyer for complex matters.",
+    "badges": {
+      "dsgvo": "GDPR-compliant",
+      "eu": "EU servers (Frankfurt)",
+      "ssl": "SSL-encrypted",
+      "rdg": "Not legal advice (RDG)"
+    }
+  },
+  "footer": {
+    "tagline": "AI-generated drafts. Not legal advice.",
+    "allRightsReserved": "All rights reserved.",
+    "columns": {
+      "product": "Product",
+      "company": "Company",
+      "support": "Support",
+      "legal": "Legal"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Welcome back",
+      "subtitle": "Sign in to your account",
+      "email": "Email address",
+      "password": "Password",
+      "forgotPassword": "Forgot password?",
+      "submit": "Sign in",
+      "noAccount": "Don't have an account?",
+      "register": "Register now",
+      "orContinueWith": "Or continue with",
+      "demoAccounts": "Demo accounts",
+      "demoHint": "Click an account to auto-fill the fields.",
+      "types": {
+        "individual": "Individual",
+        "advisor": "Tax advisor",
+        "lawyer": "Lawyer"
+      }
+    },
+    "register": {
+      "title": "Create account",
+      "subtitle": "Get started free with TaxaLex",
+      "name": "Full name",
+      "email": "Email address",
+      "password": "Password",
+      "confirmPassword": "Confirm password",
+      "agreeToTerms": "I agree to the {terms} and {privacy}.",
+      "terms": "Terms of Service",
+      "privacy": "Privacy Policy",
+      "submit": "Create account",
+      "hasAccount": "Already have an account?",
+      "login": "Sign in",
+      "passwordStrength": {
+        "weak": "Weak",
+        "fair": "Fair",
+        "good": "Good",
+        "strong": "Strong"
+      },
+      "types": {
+        "individual": "Individual",
+        "selfemployed": "Self-employed",
+        "advisor": "Tax advisor",
+        "lawyer": "Lawyer"
+      },
+      "benefits": {
+        "individual": [
+          "1 free objection per month",
+          "5 AI agents review your case",
+          "Download as DOCX or TXT"
+        ],
+        "selfemployed": [
+          "Objections for tax and VAT assessments",
+          "Unlimited documents per objection",
+          "Priority AI processing"
+        ],
+        "advisor": [
+          "Multi-client dashboard",
+          "Unlimited objections for all clients",
+          "White-label export option"
+        ],
+        "lawyer": [
+          "Multi-client dashboard",
+          "Unlimited objections for all clients",
+          "Extended legal research"
+        ]
+      }
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome back, {name}",
+    "welcomeAdvisor": "Advisor dashboard – {name}",
+    "welcomeAdmin": "Admin panel – {name}",
+    "stats": {
+      "totalCases": "Total objections",
+      "activeCases": "Active cases",
+      "submittedCases": "Submitted",
+      "successRate": "Success rate"
+    },
+    "recentCases": "Recent cases",
+    "noCases": "No cases yet",
+    "noCasesHint": "Start your first objection",
+    "newCase": "New request",
+    "viewAll": "All cases",
+    "status": {
+      "CREATED": "Created",
+      "QUESTIONS": "Questions",
+      "GENERATING": "Generating",
+      "DRAFT_READY": "Draft ready",
+      "SUBMITTED": "Submitted",
+      "AWAITING_RESPONSE": "Pending",
+      "CLOSED_SUCCESS": "Successful",
+      "CLOSED_REJECTED": "Rejected"
+    },
+    "quickActions": {
+      "title": "Quick actions",
+      "newCase": "New objection",
+      "viewCases": "My cases",
+      "billing": "Billing",
+      "account": "Settings"
+    }
+  },
+  "billing": {
+    "title": "Billing",
+    "subtitle": "Your current plan and usage overview",
+    "currentPlan": "Current plan",
+    "usage": "Usage this month",
+    "invoices": "Invoices",
+    "noInvoices": "No invoices yet",
+    "upgrade": "Upgrade plan",
+    "cancel": "Cancel subscription",
+    "renewsOn": "Renews on {date}",
+    "casesUsed": "{used} of {total} objections used",
+    "unlimited": "Unlimited"
+  },
+  "cases": {
+    "title": "My cases",
+    "subtitle": "All your objection and appeal cases",
+    "filter": {
+      "all": "All",
+      "active": "Active",
+      "submitted": "Submitted",
+      "closed": "Closed"
+    },
+    "empty": "No cases found",
+    "emptyHint": "Start your first objection",
+    "newCase": "New request",
+    "caseId": "Case ID",
+    "createdAt": "Created",
+    "status": "Status",
+    "type": "Type",
+    "actions": "Actions",
+    "viewCase": "View case",
+    "downloadDraft": "Download draft"
+  },
+  "account": {
+    "title": "Profile & settings",
+    "sections": {
+      "profile": "Profile",
+      "security": "Security",
+      "notifications": "Notifications",
+      "language": "Language & region",
+      "danger": "Delete account"
+    },
+    "name": "Name",
+    "email": "Email",
+    "role": "Role",
+    "language": "Preferred language",
+    "outputLanguage": "Output language for objections",
+    "saveChanges": "Save changes",
+    "changePassword": "Change password",
+    "currentPassword": "Current password",
+    "newPassword": "New password",
+    "confirmPassword": "Confirm password",
+    "deleteAccount": "Delete account",
+    "deleteWarning": "This action cannot be undone. All your data will be deleted.",
+    "notifications": {
+      "email": "Email notifications",
+      "caseUpdates": "Case updates",
+      "newsletter": "Newsletter & product updates"
+    }
+  },
+  "advisor": {
+    "dashboard": {
+      "title": "Advisor dashboard",
+      "clients": "Clients",
+      "activeAppeals": "Active objections",
+      "submittedAppeals": "Submitted objections",
+      "recentActivity": "Recent activity",
+      "quickActions": "Quick actions",
+      "addClient": "Add client",
+      "newAppeal": "New objection"
+    },
+    "clients": {
+      "title": "Clients",
+      "subtitle": "Manage your clients",
+      "search": "Search clients...",
+      "add": "Add client",
+      "name": "Name",
+      "email": "Email",
+      "cases": "Cases",
+      "lastActive": "Last active",
+      "actions": "Actions",
+      "noClients": "No clients yet",
+      "modal": {
+        "title": "Add client",
+        "name": "Client name",
+        "email": "Email address",
+        "submit": "Add"
+      }
+    },
+    "appeals": {
+      "title": "All objections",
+      "subtitle": "Objections across all your clients",
+      "client": "Client",
+      "type": "Type",
+      "status": "Status",
+      "createdAt": "Created"
+    },
+    "billing": {
+      "title": "Billing",
+      "plan": "Your advisor plan",
+      "usage": "Clients & objections"
+    }
+  },
+  "admin": {
+    "title": "Admin panel",
+    "subtitle": "System overview and user management",
+    "tabs": {
+      "overview": "Overview",
+      "users": "Users",
+      "content": "Content"
+    },
+    "stats": {
+      "totalUsers": "Total users",
+      "totalCases": "Total cases",
+      "openCases": "Open cases",
+      "submittedCases": "Submitted"
+    },
+    "users": {
+      "title": "Users",
+      "since": "Since"
+    },
+    "content": {
+      "title": "Database content",
+      "useCases": "Use cases",
+      "faqs": "FAQs",
+      "pricingPlans": "Pricing plans",
+      "edit": "Edit (coming soon)"
+    }
+  },
+  "cookies": {
+    "banner": {
+      "title": "Cookie settings",
+      "description": "We use cookies for analytics and a better user experience. You can change your preferences at any time.",
+      "acceptAll": "Accept all",
+      "acceptNecessary": "Necessary only",
+      "manage": "Settings",
+      "learnMore": "Learn more"
+    },
+    "types": {
+      "necessary": {
+        "title": "Necessary cookies",
+        "description": "Required for the website to function. Cannot be disabled."
+      },
+      "analytics": {
+        "title": "Analytics cookies",
+        "description": "Google Analytics and PostHog – help us improve the website."
+      },
+      "marketing": {
+        "title": "Marketing cookies",
+        "description": "Personalised advertising and retargeting."
+      }
+    }
+  },
+  "wizard": {
+    "steps": {
+      "upload": "Upload",
+      "questions": "Questions",
+      "generating": "AI Analysis",
+      "result": "Result"
+    },
+    "upload": {
+      "title": "Upload your notice",
+      "subtitle": "Upload your administrative decision and any supporting documents",
+      "dropzone": "Select files",
+      "dropzoneHint": "PDF, DOCX, TXT or images",
+      "analyze": "Analyse documents"
+    },
+    "questions": {
+      "title": "Follow-up questions",
+      "subtitle": "Please answer these questions to optimise your objection letter",
+      "detectedData": "Detected data",
+      "finanzamt": "Tax office",
+      "nachzahlung": "Amount due",
+      "generate": "Generate objection letter"
+    },
+    "generating": {
+      "title": "Multi-AI analysis running...",
+      "agents": {
+        "drafter": "Drafting letter... (Claude)",
+        "reviewer": "Reviewing for errors... (Gemini)",
+        "factchecker": "Fact-checking legal citations... (Perplexity)",
+        "adversary": "Authority perspective check... (Claude)",
+        "consolidator": "Consolidating final version... (Claude)"
+      }
+    },
+    "result": {
+      "title": "Objection letter ready",
+      "subtitle": "Reviewed by {count} AI agents",
+      "agentLog": "AI Agent Log",
+      "outputLanguageWarning": "This document was generated in {language}. The German version is required for submission to German authorities.",
+      "downloadTxt": "Download as TXT"
+    }
+  },
+  "outputLanguage": {
+    "label": "Output language",
+    "hint": "The objection letter is generated in German by default (required for German authorities).",
+    "nonGermanWarning": "For review only — the letter must be in German for official submission."
+  },
+  "errors": {
+    "noFiles": "Please upload at least one file",
+    "analyzeFailed": "Analysis failed. Please try again.",
+    "generateFailed": "Generation failed. Please try again.",
+    "missingDescheid": "Notice data is missing",
+    "unauthorized": "Unauthorised",
+    "notFound": "Page not found",
+    "serverError": "Server error. Please try again later."
+  }
+}
