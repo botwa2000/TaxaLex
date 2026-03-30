@@ -21,6 +21,8 @@ services:
     environment:
       - NODE_ENV=production
       - NEXT_PUBLIC_SITE_URL=https://taxalex.de
+      - NEXTAUTH_URL=https://taxalex.de
+      - AUTH_URL=https://taxalex.de
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true

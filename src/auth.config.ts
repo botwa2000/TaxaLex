@@ -7,6 +7,9 @@ import { config } from '@/config/env'
  */
 export const authConfig: NextAuthConfig = {
   secret: config.nextAuthSecret,
+  // Required when running behind a reverse proxy (nginx → Docker container).
+  // Auth.js v5 rejects internal hostnames like 127.0.0.1 without this.
+  trustHost: true,
 
   providers: [],
 

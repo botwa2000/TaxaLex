@@ -16,6 +16,8 @@ services:
     environment:
       - NODE_ENV=development
       - NEXT_PUBLIC_SITE_URL=https://dev.taxalex.de
+      - NEXTAUTH_URL=https://dev.taxalex.de
+      - AUTH_URL=https://dev.taxalex.de
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true
