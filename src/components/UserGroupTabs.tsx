@@ -14,8 +14,8 @@ interface HeroCopy {
 
 const HERO_COPY_DE: Record<UserGroup, HeroCopy> = {
   individual: {
-    headline: 'Bescheid bekommen? Einspruch einlegen — in Minuten.',
-    sub: 'KI-gestützter Einspruch gegen Steuerbescheide, Jobcenter-Bescheide, Bußgelder und mehr. Keine Vorkenntnisse nötig.',
+    headline: 'Juristisch fundierter Einspruch — nicht nur KI-Text.',
+    sub: 'Fünf spezialisierte KI-Agenten entwerfen, prüfen, hinterfragen und validieren Ihr Schreiben gegenseitig. Das Ergebnis: ein rechtlich wasserdichter Brief mit §§-Belegen — in unter 5 Minuten.',
     cta: 'Kostenlos starten',
     ctaHref: '/register',
   },
@@ -47,8 +47,8 @@ const HERO_COPY_DE: Record<UserGroup, HeroCopy> = {
 
 const HERO_COPY_EN: Record<UserGroup, HeroCopy> = {
   individual: {
-    headline: 'Received a notice? File an objection — in minutes.',
-    sub: 'AI-powered appeals against tax assessments, jobcenter notices, fines, and more. No prior knowledge needed.',
+    headline: 'Legally grounded objection — not just AI-generated text.',
+    sub: 'Five specialized AI agents draft, review, fact-check, challenge, and validate each other\'s work. The result: a legally substantiated letter with proper citations — in under 5 minutes.',
     cta: 'Start for free',
     ctaHref: '/register',
   },

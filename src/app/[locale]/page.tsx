@@ -161,12 +161,12 @@ export default async function LandingPage({
               {isEN ? 'Why not just use ChatGPT?' : 'Warum nicht einfach ChatGPT?'}
             </div>
             <h2 className="text-3xl sm:text-4xl font-bold text-[var(--foreground)] mb-4">
-              {isEN ? 'A specialised tool beats a general one.' : 'Ein Spezialtool schlägt ein Allzwecktool.'}
+              {isEN ? 'Quality comes from process — not a single prompt.' : 'Qualität entsteht durch Prozess — nicht durch einen einzigen Prompt.'}
             </h2>
             <p className="text-lg text-[var(--muted)] max-w-2xl mx-auto leading-relaxed">
               {isEN
-                ? 'ChatGPT writes text. TaxaLex writes legally grounded objection letters — with current law, correct deadlines, and official German letter format.'
-                : 'ChatGPT schreibt Text. TaxaLex schreibt rechtlich fundierte Einspruchsschreiben — mit aktuellem Recht, korrekten Fristen und amtlichem Briefformat.'}
+                ? 'ChatGPT can read your notice too. But does it know which legal questions it should be asking? TaxaLex does — automatically, through five specialized agents.'
+                : 'ChatGPT kann Ihren Bescheid lesen. Aber weiß es, welche juristischen Fragen es stellen muss? TaxaLex weiß es — und stellt sie automatisch, durch fünf spezialisierte Agenten.'}
             </p>
           </div>
 
@@ -178,25 +178,25 @@ export default async function LandingPage({
                   <MessageSquare className="w-5 h-5 text-slate-400" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-[var(--foreground)]">ChatGPT / General AI</h3>
-                  <p className="text-sm text-[var(--muted)]">{isEN ? 'Generic text generation' : 'Generische Textgenerierung'}</p>
+                  <h3 className="font-bold text-[var(--foreground)]">ChatGPT</h3>
+                  <p className="text-sm text-[var(--muted)]">{isEN ? 'One prompt → one unreviewed draft' : 'Ein Prompt → ein ungeprüfter Entwurf'}</p>
                 </div>
               </div>
               <ul className="space-y-3">
                 {(isEN ? [
-                  'No knowledge of current German tax law or case rulings',
-                  'Does not know your filing deadline — you can miss it',
-                  'Generic letter format, not accepted by German authorities',
-                  'Cannot read your actual notice — you type everything manually',
-                  'No legal citations or § references',
-                  'Hallucinated facts — sounds legal but may be wrong',
+                  'Writes one draft — no automatic self-review or cross-validation',
+                  'You must know which legal questions to ask; it won\'t ask them for you',
+                  'No live research into current BFH rulings or administrative guidance',
+                  'No adversarial test: "How would the Finanzamt counter this argument?"',
+                  'No deadline calculation unless you explicitly prompt it',
+                  'Result depends entirely on how well you can prompt a general AI',
                 ] : [
-                  'Kein Wissen über aktuelles deutsches Steuerrecht oder BFH-Urteile',
-                  'Kennt Ihre Einspruchsfrist nicht — Sie können sie verpassen',
-                  'Generisches Briefformat, nicht behördenkonform',
-                  'Kann Ihren Bescheid nicht lesen — Sie tippen alles manuell',
-                  'Keine Gesetzeszitate oder §-Angaben',
-                  'Halluzinierte Fakten — klingt legal, kann falsch sein',
+                  'Erstellt einen Entwurf — keine automatische Selbstprüfung oder Quervalidierung',
+                  'Sie müssen wissen, welche Rechtsfragen zu stellen sind — ChatGPT fragt sie nicht von selbst',
+                  'Keine Live-Recherche zu aktuellen BFH-Urteilen oder Verwaltungsvorschriften',
+                  'Kein adversarieller Test: "Was würde das Finanzamt erwidern?"',
+                  'Keine Fristberechnung ohne expliziten Prompt',
+                  'Ergebnis hängt davon ab, wie gut Sie eine allgemeine KI prompten können',
                 ]).map((text) => (
                   <li key={text} className="flex items-start gap-2.5 text-sm text-[var(--muted)]">
                     <X className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
@@ -210,7 +210,7 @@ export default async function LandingPage({
             <div className="bg-brand-50 dark:bg-brand-950/60 border-2 border-brand-200 dark:border-brand-800 rounded-3xl p-6 relative">
               <div className="absolute -top-3 left-6">
                 <span className="bg-brand-600 text-white text-xs font-bold px-3 py-1 rounded-full">
-                  {isEN ? '✦ Built for this' : '✦ Genau dafür gebaut'}
+                  {isEN ? '✦ 5-agent pipeline' : '✦ 5-Agenten-Pipeline'}
                 </span>
               </div>
               <div className="flex items-center gap-3 mb-6">
@@ -219,31 +219,33 @@ export default async function LandingPage({
                 </div>
                 <div>
                   <h3 className="font-bold text-[var(--foreground)]">TaxaLex</h3>
-                  <p className="text-sm text-brand-600 dark:text-brand-400">{isEN ? 'Purpose-built for German objections' : 'Speziell für deutsche Einsprüche'}</p>
+                  <p className="text-sm text-brand-600 dark:text-brand-400">{isEN ? 'Automated expert cross-examination' : 'Automatisierte Experten-Querprüfung'}</p>
                 </div>
               </div>
-              <ul className="space-y-3">
+              <ol className="space-y-3">
                 {(isEN ? [
-                  'Trained on § AO, § SGG, § BGB, § KSchG and current BFH rulings',
-                  'Calculates your exact deadline and warns if it\'s near',
-                  'Produces DIN 5008-compliant formal German letters',
-                  'Reads your uploaded notice — no manual retyping',
-                  'Every claim is backed by legal citations',
-                  '5 AI models cross-check each other for accuracy',
+                  { agent: 'Drafter', desc: 'Creates the initial objection using legal domain knowledge (§ AO, § SGG, § BGB, § KSchG)' },
+                  { agent: 'Reviewer', desc: 'Checks legal correctness, deadline compliance, and formal requirements' },
+                  { agent: 'FactChecker', desc: 'Researches current BFH rulings and administrative guidelines via live search' },
+                  { agent: 'Adversary', desc: 'Attacks the draft as the authority would — to identify and close weak points' },
+                  { agent: 'Consolidator', desc: 'Synthesises all reviews into one legally grounded, citation-backed final letter' },
                 ] : [
-                  'Trainiert auf § AO, § SGG, § BGB, § KSchG und aktuelle BFH-Urteile',
-                  'Berechnet Ihre genaue Frist und warnt bei Ablauf',
-                  'Erstellt DIN 5008-konforme amtliche Schreiben',
-                  'Liest Ihren hochgeladenen Bescheid — kein manuelles Abtippen',
-                  'Jede Aussage mit Gesetzeszitaten belegt',
-                  '5 KI-Modelle prüfen sich gegenseitig auf Korrektheit',
-                ]).map((text) => (
-                  <li key={text} className="flex items-start gap-2.5 text-sm text-[var(--foreground)]">
-                    <CheckCircle2 className="w-4 h-4 text-brand-600 dark:text-brand-400 shrink-0 mt-0.5" />
-                    {text}
+                  { agent: 'Drafter', desc: 'Erstellt den Einspruch mit juristischem Fachwissen (§ AO, § SGG, § BGB, § KSchG)' },
+                  { agent: 'Reviewer', desc: 'Prüft Rechtmäßigkeit, Fristkonformität und formale Anforderungen' },
+                  { agent: 'FactChecker', desc: 'Recherchiert aktuelle BFH-Urteile und Verwaltungsvorschriften per Live-Suche' },
+                  { agent: 'Adversary', desc: 'Greift den Entwurf an wie die Behörde — um Schwachstellen zu schließen' },
+                  { agent: 'Consolidator', desc: 'Fügt alle Prüfungen zu einem rechtlich fundierten, §§-belegten Schreiben zusammen' },
+                ]).map((item, i) => (
+                  <li key={item.agent} className="flex items-start gap-3 text-sm">
+                    <span className="shrink-0 w-5 h-5 rounded-full bg-brand-600 text-white text-xs font-bold flex items-center justify-center mt-0.5">{i + 1}</span>
+                    <span className="text-[var(--foreground)]">
+                      <span className="font-semibold">{item.agent}</span>
+                      {' — '}
+                      <span className="text-[var(--muted)]">{item.desc}</span>
+                    </span>
                   </li>
                 ))}
-              </ul>
+              </ol>
             </div>
           </div>
 
