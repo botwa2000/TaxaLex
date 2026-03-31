@@ -40,7 +40,7 @@ export default async function AppLayout({
     <aside className="w-64 bg-[var(--surface)] border-r border-[var(--border)] flex flex-col shrink-0 h-full">
         {/* Logo */}
         <div className="px-4 py-4 border-b border-[var(--border)]">
-          <Logo size="md" href="/dashboard" />
+          <Logo size="md" href="/" />
         </div>
 
         {/* Navigation */}

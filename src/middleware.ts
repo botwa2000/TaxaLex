@@ -8,7 +8,8 @@ const handleI18nRouting = createMiddleware(routing)
 const { auth } = NextAuth(authConfig)
 
 // Protected paths (without locale prefix) — unauthenticated users get redirected to login
-const PROTECTED = ['/dashboard', '/cases', '/account', '/billing', '/admin', '/advisor']
+// Note: /advisor (root) is a public landing page — only /advisor/* sub-routes are protected
+const PROTECTED = ['/dashboard', '/cases', '/account', '/billing', '/admin', '/advisor/dashboard', '/advisor/clients', '/advisor/appeals', '/advisor/billing']
 
 // Auth-only paths — authenticated users get redirected to dashboard
 const AUTH_ONLY = ['/login', '/register']
@@ -40,7 +41,7 @@ export default auth((req) => {
 
   // Role-based gates (ADVISOR/LAWYER only for /advisor, ADMIN only for /admin)
   const role = (req.auth as { user?: { role?: string } } | null)?.user?.role
-  if (cleanPath.startsWith('/advisor') && role && !['ADVISOR', 'LAWYER', 'ADMIN'].includes(role)) {
+  if (cleanPath.startsWith('/advisor/') && role && !['ADVISOR', 'LAWYER', 'ADMIN'].includes(role)) {
     return NextResponse.redirect(new URL(`/${locale}/dashboard`, req.url))
   }
   if (cleanPath.startsWith('/admin') && role && role !== 'ADMIN') {
