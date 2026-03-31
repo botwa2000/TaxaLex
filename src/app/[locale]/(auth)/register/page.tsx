@@ -3,35 +3,27 @@
 import { useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { Link } from '@/i18n/navigation'
-import { Loader2, CheckCircle2, User, Briefcase, UserCheck, Scale, Eye, EyeOff } from 'lucide-react'
+import { Loader2, CheckCircle2, User, UserCheck, Scale, Eye, EyeOff } from 'lucide-react'
 import { AUTH } from '@/config/constants'
 
-type UserType = 'individual' | 'selfemployed' | 'advisor' | 'lawyer'
+type UserType = 'individual' | 'advisor' | 'lawyer'
 
-const USER_TYPES: { key: UserType; label: string; icon: React.ElementType; benefits: string[] }[] = [
+const USER_TYPES: { key: UserType; label: string; sublabel: string; icon: React.ElementType; benefits: string[] }[] = [
   {
     key: 'individual',
-    label: 'Privatperson',
+    label: 'Privatperson / Selbstständig',
+    sublabel: 'Bescheide anfechten',
     icon: User,
     benefits: [
-      '5 KI-Agenten prüfen und verbessern Ihren Entwurf',
+      'Steuerbescheid, Jobcenter, Rente, Miete u. v. m.',
       'Einspruch in unter 5 Minuten — keine Vorkenntnisse nötig',
-      'Download als DOCX oder TXT',
-    ],
-  },
-  {
-    key: 'selfemployed',
-    label: 'Selbstständig',
-    icon: Briefcase,
-    benefits: [
-      'Steuer-, USt- und Gewerbebescheide anfechten',
-      'Unbegrenzte Dokumente pro Einspruch',
-      'Belege als Betriebsausgaben — Rechnung inklusive',
+      '5 KI-Agenten prüfen und verbessern Ihren Entwurf',
     ],
   },
   {
     key: 'advisor',
     label: 'Steuerberater',
+    sublabel: 'Mandanten betreuen',
     icon: UserCheck,
     benefits: [
       'Entwürfe Ihrer Mandanten schnell prüfen und freigeben',
@@ -42,6 +34,7 @@ const USER_TYPES: { key: UserType; label: string; icon: React.ElementType; benef
   {
     key: 'lawyer',
     label: 'Rechtsanwalt',
+    sublabel: 'Mandanten vertreten',
     icon: Scale,
     benefits: [
       'Entwürfe schnell prüfen und kommentieren',
@@ -126,20 +119,21 @@ export default function RegisterPage() {
       {/* User type selector */}
       <div className="mb-5">
         <p className="text-xs font-semibold uppercase tracking-wider text-[var(--muted)] mb-2">Ich bin…</p>
-        <div className="grid grid-cols-2 gap-2">
+        <div className="grid grid-cols-3 gap-2">
           {USER_TYPES.map((t) => (
             <button
               key={t.key}
               type="button"
               onClick={() => setUserType(t.key)}
-              className={`flex items-center gap-2 px-3 py-2.5 rounded-lg border text-sm font-medium transition-colors text-left ${
+              className={`flex flex-col items-center gap-1.5 px-2 py-3 rounded-lg border text-center transition-colors ${
                 userType === t.key
                   ? 'border-brand-400 bg-brand-50 text-brand-700 dark:bg-brand-950 dark:border-brand-600 dark:text-brand-300'
                   : 'border-[var(--border)] text-[var(--muted)] hover:text-[var(--foreground)] hover:border-[var(--border-strong)]'
               }`}
             >
               <t.icon className="w-4 h-4 shrink-0" />
-              {t.label}
+              <span className="text-xs font-semibold leading-tight">{t.label}</span>
+              <span className="text-[10px] opacity-70 leading-tight">{t.sublabel}</span>
             </button>
           ))}
         </div>

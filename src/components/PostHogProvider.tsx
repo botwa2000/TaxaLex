@@ -17,7 +17,7 @@ let posthogInstance: {
 } | null = null
 
 export async function initPostHog(apiKey: string, apiHost: string) {
-  if (typeof window === 'undefined' || posthogInstance) return
+  if (typeof window === 'undefined' || posthogInstance || !apiKey) return
   try {
     const { default: posthog } = await import('posthog-js')
     posthog.init(apiKey, {
