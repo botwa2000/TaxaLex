@@ -3,17 +3,16 @@ import {
   LayoutDashboard,
   FolderOpen,
   User,
-  LogOut,
   Plus,
   CreditCard,
   Bell,
   Shield,
-  Menu,
 } from 'lucide-react'
 import { Logo } from '@/components/Logo'
 import { redirect } from 'next/navigation'
 import { Link } from '@/i18n/navigation'
 import { MobileSidebarWrapper } from '@/components/MobileSidebarWrapper'
+import { LogoutButton } from '@/components/LogoutButton'
 
 export default async function AppLayout({
   children,
@@ -90,15 +89,7 @@ export default async function AppLayout({
               <p className="text-xs font-medium text-[var(--foreground)] truncate">{userName}</p>
               <p className="text-[11px] text-[var(--muted)] truncate">{userEmail}</p>
             </div>
-            <form action="/api/auth/signout" method="POST">
-              <button
-                type="submit"
-                title="Abmelden"
-                className="p-1.5 text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-[var(--background-subtle)] rounded-lg transition-colors"
-              >
-                <LogOut className="w-3.5 h-3.5" />
-              </button>
-            </form>
+            <LogoutButton />
           </div>
         </div>
       </aside>
