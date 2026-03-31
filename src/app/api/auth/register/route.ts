@@ -17,6 +17,10 @@ const RegisterSchema = z.object({
   locale: z.string().optional(),
 })
 
+function generate6DigitCode(): string {
+  return Math.floor(100000 + Math.random() * 900000).toString()
+}
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
@@ -38,7 +42,7 @@ export async function POST(req: NextRequest) {
     })
 
     if (existing) {
-      // Same message as success to prevent email enumeration
+      // Same response as success to prevent email enumeration
       return NextResponse.json({ success: true }, { status: 201 })
     }
 
@@ -54,28 +58,28 @@ export async function POST(req: NextRequest) {
       select: { id: true, email: true, name: true, locale: true },
     })
 
-    // Create email verification token (24h TTL)
-    const tokenRecord = await db.emailVerificationToken.create({
+    // Create 6-digit code with 15-minute TTL
+    const code = generate6DigitCode()
+    await db.emailVerificationToken.create({
       data: {
         userId: user.id,
-        token: crypto.randomUUID(),
-        expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
+        token: code,
+        expiresAt: new Date(Date.now() + 15 * 60 * 1000),
       },
     })
 
-    const verifyUrl = `${config.appUrl}/${user.locale}/api/auth/verify-email?token=${tokenRecord.token}`
     const dashboardUrl = `${config.appUrl}/${user.locale}/dashboard`
 
     // Send verification + welcome emails (non-blocking — don't fail registration if email fails)
     await Promise.allSettled([
       sendEmail({
         to: user.email,
-        subject: user.locale === 'en' ? 'Confirm your email — TaxaLex' : 'E-Mail bestätigen — TaxaLex',
-        react: createElement(VerifyEmail, { name: user.name, verifyUrl, locale: user.locale }),
+        subject: user.locale === 'en' ? `Your ${user.locale} verification code` : 'Dein Bestätigungscode — TaxaLex',
+        react: createElement(VerifyEmail, { name: user.name, code, locale: user.locale }),
       }),
       sendEmail({
         to: user.email,
-        subject: user.locale === 'en' ? `Welcome to TaxaLex` : `Willkommen bei TaxaLex`,
+        subject: user.locale === 'en' ? 'Welcome to TaxaLex' : 'Willkommen bei TaxaLex',
         react: createElement(Welcome, { name: user.name, dashboardUrl, locale: user.locale }),
       }),
     ])

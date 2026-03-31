@@ -1,9 +1,14 @@
 'use client'
 
 import { useState } from 'react'
+import { usePathname } from 'next/navigation'
+import { Link } from '@/i18n/navigation'
 import { Mail, X, CheckCircle2, Loader2 } from 'lucide-react'
 
 export function VerifyBanner() {
+  const pathname = usePathname()
+  const locale = pathname.split('/')[1] ?? 'de'
+
   const [state, setState] = useState<'idle' | 'loading' | 'sent' | 'error'>('idle')
   const [error, setError] = useState('')
   const [dismissed, setDismissed] = useState(false)
@@ -25,14 +30,21 @@ export function VerifyBanner() {
 
   return (
     <div className="mb-6 flex items-start gap-3 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-xl px-4 py-3.5">
-      <Mail className="w-4.5 h-4.5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
+      <Mail className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
       <div className="flex-1 min-w-0">
         {state === 'sent' ? (
-          <div className="flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-green-600 shrink-0" />
-            <p className="text-sm text-green-700 dark:text-green-400 font-medium">
-              Bestätigungs-E-Mail gesendet — bitte prüfe deinen Posteingang.
-            </p>
+          <div className="flex items-start gap-2">
+            <CheckCircle2 className="w-4 h-4 text-green-600 shrink-0 mt-0.5" />
+            <div>
+              <p className="text-sm text-green-700 dark:text-green-400 font-medium">
+                Neuer Code gesendet — bitte prüfe deinen Posteingang.
+              </p>
+              <p className="text-xs text-green-600 dark:text-green-500 mt-0.5">
+                <Link href={`/${locale}/verify-email`} className="underline hover:no-underline">
+                  Code jetzt eingeben →
+                </Link>
+              </p>
+            </div>
           </div>
         ) : (
           <>
@@ -40,7 +52,14 @@ export function VerifyBanner() {
               Bitte bestätige deine E-Mail-Adresse.
             </p>
             <p className="text-xs text-amber-700 dark:text-amber-400 mt-0.5">
-              Wir haben dir eine Bestätigungs-E-Mail geschickt. Nicht angekommen?{' '}
+              Wir haben dir einen Bestätigungscode geschickt.{' '}
+              <Link
+                href={`/${locale}/verify-email`}
+                className="underline font-medium hover:no-underline"
+              >
+                Code eingeben
+              </Link>
+              {' · '}
               <button
                 onClick={resend}
                 disabled={state === 'loading'}

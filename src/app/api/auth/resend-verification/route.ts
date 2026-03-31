@@ -1,31 +1,66 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@/auth'
 import { createElement } from 'react'
+import { z } from 'zod'
 import { db } from '@/lib/db'
 import { sendEmail } from '@/lib/email'
 import { VerifyEmail } from '@/lib/emailTemplates/VerifyEmail'
 import { logger } from '@/lib/logger'
-import { config } from '@/config/env'
 
-// Rate limit: 1 resend per 5 minutes per user (checked via DB token age)
-const RESEND_COOLDOWN_MS = 5 * 60 * 1000
+// Rate limit: 1 resend per 2 minutes per user (shorter than before since codes expire in 15m)
+const RESEND_COOLDOWN_MS = 2 * 60 * 1000
+
+const ResendSchema = z.object({
+  email: z.string().email().optional(),
+})
+
+function generate6DigitCode(): string {
+  return Math.floor(100000 + Math.random() * 900000).toString()
+}
 
 export async function POST(req: NextRequest) {
-  const session = await auth()
-  if (!session?.user?.id) {
-    return NextResponse.json({ error: 'Nicht angemeldet.' }, { status: 401 })
-  }
-
-  const userId = session.user.id
-
   try {
-    const user = await db.user.findUnique({
-      where: { id: userId },
-      select: { id: true, email: true, name: true, emailVerified: true, locale: true },
-    })
+    const body = await req.json().catch(() => ({}))
+    const parsed = ResendSchema.safeParse(body)
+    const emailParam = parsed.success ? parsed.data.email : undefined
 
-    if (!user) return NextResponse.json({ error: 'Nutzer nicht gefunden.' }, { status: 404 })
-    if (user.emailVerified) return NextResponse.json({ error: 'E-Mail bereits bestätigt.' }, { status: 400 })
+    // Resolve user: either from session (post-login) or from email param (pre-login)
+    let userId: string
+    let userEmail: string
+    let userName: string | null
+    let userLocale: string
+
+    if (emailParam) {
+      // Pre-login flow: email provided in body
+      const user = await db.user.findUnique({
+        where: { email: emailParam.toLowerCase() },
+        select: { id: true, email: true, name: true, emailVerified: true, locale: true },
+      })
+      // Always return 200 to prevent enumeration
+      if (!user || user.emailVerified) {
+        return NextResponse.json({ success: true })
+      }
+      userId = user.id
+      userEmail = user.email
+      userName = user.name
+      userLocale = user.locale ?? 'de'
+    } else {
+      // Post-login flow: must be authenticated
+      const session = await auth()
+      if (!session?.user?.id) {
+        return NextResponse.json({ error: 'Nicht angemeldet.' }, { status: 401 })
+      }
+      const user = await db.user.findUnique({
+        where: { id: session.user.id },
+        select: { id: true, email: true, name: true, emailVerified: true, locale: true },
+      })
+      if (!user) return NextResponse.json({ error: 'Nutzer nicht gefunden.' }, { status: 404 })
+      if (user.emailVerified) return NextResponse.json({ error: 'E-Mail bereits bestätigt.' }, { status: 400 })
+      userId = user.id
+      userEmail = user.email
+      userName = user.name
+      userLocale = user.locale ?? 'de'
+    }
 
     // Check for recent token — enforce cooldown
     const recent = await db.emailVerificationToken.findFirst({
@@ -43,26 +78,24 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    // Delete old tokens, create fresh one
+    // Delete old tokens, create fresh 6-digit code with 15-minute TTL
     await db.emailVerificationToken.deleteMany({ where: { userId } })
-    const tokenRecord = await db.emailVerificationToken.create({
+    const code = generate6DigitCode()
+    await db.emailVerificationToken.create({
       data: {
         userId,
-        token: crypto.randomUUID(),
-        expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
+        token: code,
+        expiresAt: new Date(Date.now() + 15 * 60 * 1000),
       },
     })
 
-    const locale = user.locale ?? 'de'
-    const verifyUrl = `${config.appUrl}/${locale}/api/auth/verify-email?token=${tokenRecord.token}`
-
     await sendEmail({
-      to: user.email,
-      subject: locale === 'en' ? 'Confirm your email — TaxaLex' : 'E-Mail bestätigen — TaxaLex',
-      react: createElement(VerifyEmail, { name: user.name, verifyUrl, locale }),
+      to: userEmail,
+      subject: userLocale === 'en' ? 'Your new verification code — TaxaLex' : 'Neuer Bestätigungscode — TaxaLex',
+      react: createElement(VerifyEmail, { name: userName, code, locale: userLocale }),
     })
 
-    logger.info('Verification email resent', { userId })
+    logger.info('Verification code resent', { userId })
     return NextResponse.json({ success: true })
   } catch (error) {
     logger.error('Resend verification error', { error })

@@ -1,24 +1,31 @@
 import {
-  Body, Button, Container, Head, Heading, Hr, Html,
-  Img, Link, Preview, Section, Text,
+  Body, Container, Head, Heading, Hr, Html,
+  Preview, Section, Text,
 } from '@react-email/components'
 import { brand } from '@/config/brand'
 
 interface Props {
   name?: string | null
-  verifyUrl: string
+  code: string
   locale?: string
 }
 
-export function VerifyEmail({ name, verifyUrl, locale = 'de' }: Props) {
+export function VerifyEmail({ name, code, locale = 'de' }: Props) {
   const isEN = locale === 'en'
-  const greeting = name ? (isEN ? `Hi ${name},` : `Hallo ${name},`) : (isEN ? 'Hi,' : 'Hallo,')
+  const greeting = name
+    ? (isEN ? `Hi ${name},` : `Hallo ${name},`)
+    : (isEN ? 'Hi,' : 'Hallo,')
+
+  // Format code as "123 456" for readability
+  const codeFormatted = `${code.slice(0, 3)} ${code.slice(3)}`
 
   return (
     <Html lang={isEN ? 'en' : 'de'}>
       <Head />
       <Preview>
-        {isEN ? 'Confirm your email address for TaxaLex' : 'Bestätige deine E-Mail-Adresse bei TaxaLex'}
+        {isEN
+          ? `Your ${brand.name} verification code: ${codeFormatted}`
+          : `Dein ${brand.name} Bestätigungscode: ${codeFormatted}`}
       </Preview>
       <Body style={body}>
         <Container style={container}>
@@ -33,29 +40,23 @@ export function VerifyEmail({ name, verifyUrl, locale = 'de' }: Props) {
           <Text style={text}>{greeting}</Text>
           <Text style={text}>
             {isEN
-              ? 'Thank you for registering with TaxaLex. Please confirm your email address by clicking the button below.'
-              : `Danke für deine Registrierung bei ${brand.name}. Bitte bestätige deine E-Mail-Adresse, indem du auf den Button klickst.`}
+              ? 'Enter this code to verify your email address. It expires in 15 minutes.'
+              : 'Gib diesen Code ein, um deine E-Mail-Adresse zu bestätigen. Er ist 15 Minuten gültig.'}
           </Text>
 
-          <Section style={buttonSection}>
-            <Button style={button} href={verifyUrl}>
-              {isEN ? 'Confirm email address' : 'E-Mail-Adresse bestätigen'}
-            </Button>
+          {/* Big code display */}
+          <Section style={codeSection}>
+            <Text style={codeText}>{codeFormatted}</Text>
           </Section>
 
           <Text style={smallText}>
             {isEN
-              ? 'This link expires in 24 hours. If you did not register, please ignore this email.'
-              : 'Dieser Link ist 24 Stunden gültig. Falls du dich nicht registriert hast, ignoriere diese E-Mail.'}
+              ? 'If you did not create a TaxaLex account, you can safely ignore this email.'
+              : 'Falls du kein Konto bei TaxaLex erstellt hast, kannst du diese E-Mail ignorieren.'}
           </Text>
 
           <Hr style={hr} />
 
-          <Text style={footer}>
-            {isEN
-              ? `Or copy this URL into your browser: ${verifyUrl}`
-              : `Oder kopiere diesen Link in deinen Browser: ${verifyUrl}`}
-          </Text>
           <Text style={footer}>
             © {new Date().getFullYear()} {brand.name} — Bad Homburg vor der Höhe, Deutschland
           </Text>
@@ -76,7 +77,7 @@ const container: React.CSSProperties = {
   margin: '40px auto',
   padding: '32px',
   borderRadius: '12px',
-  maxWidth: '520px',
+  maxWidth: '480px',
   border: '1px solid #e2e8f0',
 }
 const logoSection: React.CSSProperties = { marginBottom: '24px' }
@@ -98,16 +99,21 @@ const text: React.CSSProperties = {
   lineHeight: '1.6',
   margin: '0 0 12px',
 }
-const buttonSection: React.CSSProperties = { margin: '28px 0' }
-const button: React.CSSProperties = {
-  backgroundColor: '#2563eb',
-  borderRadius: '8px',
-  color: '#ffffff',
-  fontSize: '15px',
-  fontWeight: '600',
-  padding: '12px 28px',
-  textDecoration: 'none',
-  display: 'inline-block',
+const codeSection: React.CSSProperties = {
+  backgroundColor: '#f0f4ff',
+  borderRadius: '12px',
+  padding: '24px 0',
+  margin: '24px 0',
+  textAlign: 'center',
+  border: '1px solid #c7d7fc',
+}
+const codeText: React.CSSProperties = {
+  fontSize: '42px',
+  fontWeight: '700',
+  color: '#2563eb',
+  letterSpacing: '8px',
+  margin: '0',
+  fontVariantNumeric: 'tabular-nums',
 }
 const smallText: React.CSSProperties = {
   fontSize: '13px',
@@ -120,6 +126,5 @@ const footer: React.CSSProperties = {
   fontSize: '12px',
   color: '#94a3b8',
   lineHeight: '1.5',
-  margin: '0 0 8px',
-  wordBreak: 'break-all',
+  margin: '0',
 }

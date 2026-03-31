@@ -75,8 +75,9 @@ export default function RegisterPage() {
       return
     }
 
-    // Redirect to login preserving locale prefix
-    window.location.href = window.location.pathname.replace('/register', '/login') + '?registered=1'
+    // Redirect to email verification page
+    const base = window.location.pathname.replace('/register', '')
+    window.location.href = `${base}/verify-email?email=${encodeURIComponent(email)}`
   }
 
   const passwordScore =
