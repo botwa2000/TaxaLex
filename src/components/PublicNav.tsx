@@ -40,7 +40,7 @@ export function PublicNav({ locale, userGroup }: PublicNavProps) {
     },
     {
       label: isEN ? 'For advisors' : 'Für Steuerberater',
-      href: '/fuer-steuerberater',
+      href: '/advisor',
     },
   ]
 

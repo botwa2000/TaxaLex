@@ -111,8 +111,8 @@ function getPriceLabel(plan: PricingPlanData, locale: string) {
     const isPack = plan.slug.includes('pack')
     return {
       amount: once === 0 ? (isEN ? 'Free' : 'Kostenlos') : `${currency}${once.toFixed(2).replace('.', ',')}`,
-      period: once === 0 ? null : isPack ? (isEN ? '5 cases' : '5 Einsprüche') : (isEN ? 'per objection' : 'pro Einspruch'),
-      note: isPack ? (isEN ? 'one-time, no expiry' : 'einmalig, kein Ablaufdatum') : null,
+      period: isPack ? null : (once === 0 ? null : isEN ? 'per objection' : 'pro Einspruch'),
+      note: isPack ? (isEN ? 'one-time · 5 objections · no expiry' : 'einmalig · 5 Einsprüche · kein Ablaufdatum') : null,
     }
   }
   if (plan.priceMonthly !== null && plan.priceMonthly !== undefined) {
