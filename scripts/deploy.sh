@@ -160,7 +160,18 @@ elif [[ "$CMD" == "secrets" ]]; then
     echo "    NEXTAUTH_SECRET_DEV not set — keeping existing secret"
   fi
 
-  echo "==> Done. Verify with: ssh server 'docker secret ls | grep -E \"anthropic|openai|nextauth\"'"
+  # TaxaLex-specific secrets (taxalex_ prefix — isolated from other apps on same server)
+  create_or_replace "taxalex_brevo_api_key_prod" "${TAXALEX_BREVO_API_KEY_PROD:-}"
+  create_or_replace "taxalex_brevo_api_key_dev"  "${TAXALEX_BREVO_API_KEY_DEV:-}"
+  create_or_replace "taxalex_app_url_prod"        "${TAXALEX_APP_URL_PROD:-}"
+  create_or_replace "taxalex_app_url_dev"         "${TAXALEX_APP_URL_DEV:-}"
+  # EMAIL_FROM and EMAIL_FROM_NAME are static — only recreate if changed
+  create_or_replace "taxalex_email_from_prod"      "${TAXALEX_EMAIL_FROM_PROD:-no-reply@taxalex.de}"
+  create_or_replace "taxalex_email_from_dev"       "${TAXALEX_EMAIL_FROM_DEV:-no-reply@taxalex.de}"
+  create_or_replace "taxalex_email_from_name_prod" "${TAXALEX_EMAIL_FROM_NAME_PROD:-TaxaLex}"
+  create_or_replace "taxalex_email_from_name_dev"  "${TAXALEX_EMAIL_FROM_NAME_DEV:-TaxaLex}"
+
+  echo "==> Done. Verify with: ssh server 'docker secret ls | grep taxalex'"
 
 else
   echo "Usage: $0 <push [message] | dev | prod | migrate [dev|prod] | secrets>"

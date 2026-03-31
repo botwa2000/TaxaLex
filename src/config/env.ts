@@ -31,7 +31,7 @@ export const config = {
   nodeEnv: process.env.NODE_ENV ?? 'development',
 
   // ── App ────────────────────────────────────────────────────────────────
-  appUrl: optionalEnv('NEXT_PUBLIC_APP_URL', 'http://localhost:3000'),
+  appUrl: optionalEnv('APP_URL', optionalEnv('NEXT_PUBLIC_APP_URL', 'http://localhost:3000')),
 
   // ── AI Providers ───────────────────────────────────────────────────────
   anthropicApiKey: requireEnv('ANTHROPIC_API_KEY'),
@@ -47,6 +47,11 @@ export const config = {
 
   // ── Database ───────────────────────────────────────────────────────────
   databaseUrl: optionalEnv('DATABASE_URL'), // optional until Phase 6
+
+  // ── Email (Brevo) ──────────────────────────────────────────────────────
+  brevoApiKey: optionalEnv('BREVO_API_KEY'),
+  emailFrom: optionalEnv('EMAIL_FROM', 'no-reply@taxalex.de'),
+  emailFromName: optionalEnv('EMAIL_FROM_NAME', 'TaxaLex'),
 
   // ── Payments ───────────────────────────────────────────────────────────
   stripeSecretKey: optionalEnv('STRIPE_SECRET_KEY'),

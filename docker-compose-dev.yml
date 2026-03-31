@@ -4,18 +4,27 @@ services:
       context: .
       args:
         NEXT_PUBLIC_SITE_URL: https://dev.taxalex.de
-        NEXT_PUBLIC_DEBUG_LOGS: "true"
-    image: taxalex-frontend-dev:latest
+        NEXT_PUBLIC_GA_MEASUREMENT_ID: ${NEXT_PUBLIC_GA_MEASUREMENT_ID}
+        NEXT_PUBLIC_POSTHOG_KEY: ${NEXT_PUBLIC_POSTHOG_KEY}
+        NEXT_PUBLIC_POSTHOG_HOST: ${NEXT_PUBLIC_POSTHOG_HOST:-https://eu.i.posthog.com}
+    image: taxalex-frontend:dev
     container_name: taxalex-frontend-dev
     ports:
-      - "3011:3000"
+      - target: 3000
+        published: 3011
+        protocol: tcp
+        mode: host
     secrets:
       - anthropic_api_key_dev
       - openai_api_key_dev
       - nextauth_secret_dev
       - database_url_dev
+      - taxalex_brevo_api_key_dev
+      - taxalex_email_from_dev
+      - taxalex_email_from_name_dev
+      - taxalex_app_url_dev
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production
       - NEXT_PUBLIC_SITE_URL=https://dev.taxalex.de
       - NEXTAUTH_URL=https://dev.taxalex.de
     restart: unless-stopped
@@ -57,4 +66,12 @@ secrets:
   nextauth_secret_dev:
     external: true
   database_url_dev:
+    external: true
+  taxalex_brevo_api_key_dev:
+    external: true
+  taxalex_email_from_dev:
+    external: true
+  taxalex_email_from_name_dev:
+    external: true
+  taxalex_app_url_dev:
     external: true

@@ -19,6 +19,10 @@ services:
       - openai_api_key_prod
       - nextauth_secret_prod
       - database_url_prod
+      - taxalex_brevo_api_key_prod
+      - taxalex_email_from_prod
+      - taxalex_email_from_name_prod
+      - taxalex_app_url_prod
     environment:
       - NODE_ENV=production
       - NEXT_PUBLIC_SITE_URL=https://taxalex.de
@@ -62,4 +66,12 @@ secrets:
   nextauth_secret_prod:
     external: true
   database_url_prod:
+    external: true
+  taxalex_brevo_api_key_prod:
+    external: true
+  taxalex_email_from_prod:
+    external: true
+  taxalex_email_from_name_prod:
+    external: true
+  taxalex_app_url_prod:
     external: true

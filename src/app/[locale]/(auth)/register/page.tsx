@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { usePathname } from 'next/navigation'
 import { Link } from '@/i18n/navigation'
 import { Loader2, CheckCircle2, User, Briefcase, UserCheck, Scale, Eye, EyeOff } from 'lucide-react'
 import { AUTH } from '@/config/constants'
@@ -51,6 +52,10 @@ const USER_TYPES: { key: UserType; label: string; icon: React.ElementType; benef
 ]
 
 export default function RegisterPage() {
+  const pathname = usePathname()
+  // Extract locale from pathname prefix (e.g. /de/register → 'de')
+  const locale = pathname.split('/')[1] ?? 'de'
+
   const [userType, setUserType] = useState<UserType>('individual')
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -67,7 +72,7 @@ export default function RegisterPage() {
     const res = await fetch('/api/auth/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, email, password, userType }),
+      body: JSON.stringify({ name, email, password, userType, locale }),
     })
 
     if (!res.ok) {

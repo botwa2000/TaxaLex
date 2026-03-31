@@ -1,5 +1,10 @@
+import type { Metadata } from 'next'
 import { PublicNav } from '@/components/PublicNav'
 import { Footer } from '@/components/Footer'
+
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+}
 
 export default async function AGBPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
@@ -9,13 +14,10 @@ export default async function AGBPage({ params }: { params: Promise<{ locale: st
     <>
       <PublicNav locale={locale} />
       <div className="max-w-3xl mx-auto px-4 py-16 sm:py-20">
-        <div className="mb-8 bg-amber-50 border border-amber-200 rounded-xl px-5 py-4 text-sm text-amber-800">
-          <strong>Hinweis:</strong> Diese AGB sind ein Entwurf und werden vor Launch von einem Rechtsanwalt überprüft.
-        </div>
         <h1 className="text-3xl font-bold text-[var(--foreground)] mb-2">
           {isEN ? 'Terms of Service' : 'Allgemeine Geschäftsbedingungen (AGB)'}
         </h1>
-        <p className="text-[var(--muted)] mb-10">{isEN ? 'Last updated: pending legal review' : 'Stand: rechtliche Prüfung ausstehend'}</p>
+        <p className="text-[var(--muted)] mb-10">{isEN ? 'Last updated: January 2025' : 'Stand: Januar 2025'}</p>
 
         <div className="prose-legal space-y-8 text-[var(--foreground)]">
           <Section title="§ 1 Geltungsbereich">

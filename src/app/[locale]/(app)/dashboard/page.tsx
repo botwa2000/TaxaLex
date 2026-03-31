@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import { Plus, AlertTriangle, FolderOpen, ArrowRight, TrendingUp, Clock, CheckCircle2 } from 'lucide-react'
 import { DEMO_USER_ID, DEMO_CASES, getDemoStats } from '@/lib/mockData'
 import { Link } from '@/i18n/navigation'
+import { VerifyBanner } from './VerifyBanner'
 
 type CaseSummary = {
   id: string
@@ -26,17 +27,25 @@ export default async function DashboardPage() {
 
   let cases: CaseSummary[] = []
   let stats = { open: 0, submitted: 0, urgent: 0, total: 0 }
+  let emailVerified: Date | null = null
 
   try {
     if (userId === DEMO_USER_ID) throw new Error('demo')
     const { db } = await import('@/lib/db')
-    const rawCases = await db.case.findMany({
-      where: { userId },
-      orderBy: { updatedAt: 'desc' },
-      take: 20,
-      select: { id: true, useCase: true, status: true, deadline: true, createdAt: true, updatedAt: true },
-    })
+    const [rawCases, userRecord] = await Promise.all([
+      db.case.findMany({
+        where: { userId },
+        orderBy: { updatedAt: 'desc' },
+        take: 20,
+        select: { id: true, useCase: true, status: true, deadline: true, createdAt: true, updatedAt: true },
+      }),
+      db.user.findUnique({
+        where: { id: userId },
+        select: { emailVerified: true },
+      }),
+    ])
     cases = rawCases as CaseSummary[]
+    emailVerified = userRecord?.emailVerified ?? null
     const now = new Date()
     const openStatuses = ['CREATED', 'UPLOADING', 'ANALYZING', 'QUESTIONS', 'GENERATING', 'DRAFT_READY']
     stats = {
@@ -57,6 +66,7 @@ export default async function DashboardPage() {
 
   return (
     <div>
+      {!emailVerified && <VerifyBanner />}
       <div className="mb-8">
         <h1 className="text-2xl sm:text-3xl font-bold text-[var(--foreground)]">
           {role === 'ADMIN'

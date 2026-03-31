@@ -79,26 +79,8 @@ export default async function AppLayout({
           )}
         </nav>
 
-        {/* Upgrade CTA */}
+        {/* Bottom: user info + logout */}
         <div className="p-3 border-t border-[var(--border)]">
-          <div className="bg-brand-50 border border-brand-100 rounded-xl p-3 mb-3 dark:bg-brand-950 dark:border-brand-900">
-            <p className="text-xs font-semibold text-brand-800 dark:text-brand-200 mb-0.5">
-              Kostenlos-Plan
-            </p>
-            <p className="text-[11px] text-brand-600 dark:text-brand-400 mb-2">
-              1/1 Einsprüche diesen Monat genutzt
-            </p>
-            <div className="h-1.5 bg-brand-100 dark:bg-brand-900 rounded-full mb-2">
-              <div className="h-1.5 bg-brand-600 rounded-full w-full" />
-            </div>
-            <Link
-              href="/billing"
-              className="block w-full text-center text-xs font-semibold bg-brand-600 text-white py-1.5 rounded-lg hover:bg-brand-700 transition-colors"
-            >
-              Auf Pro upgraden
-            </Link>
-          </div>
-
           {/* User info + logout */}
           <div className="flex items-center gap-2.5 px-1">
             <div className="w-8 h-8 bg-brand-100 text-brand-700 rounded-full flex items-center justify-center text-xs font-bold shrink-0">

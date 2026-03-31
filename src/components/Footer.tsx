@@ -23,6 +23,7 @@ const COLUMNS_DE = [
     heading: 'Support',
     links: [
       { label: 'Häufige Fragen', href: '/#faq' },
+      { label: 'Kontakt', href: '/kontakt' },
       { label: 'Anmelden', href: '/login' },
       { label: 'Konto erstellen', href: '/register' },
     ],
@@ -54,6 +55,7 @@ const COLUMNS_EN = [
     heading: 'Support',
     links: [
       { label: 'FAQ', href: '/#faq' },
+      { label: 'Contact', href: '/kontakt' },
       { label: 'Sign in', href: '/login' },
       { label: 'Create account', href: '/register' },
     ],

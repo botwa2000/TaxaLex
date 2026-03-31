@@ -1,16 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import bcrypt from 'bcryptjs'
+import { createElement } from 'react'
 import { db } from '@/lib/db'
+import { sendEmail } from '@/lib/email'
+import { VerifyEmail } from '@/lib/emailTemplates/VerifyEmail'
+import { Welcome } from '@/lib/emailTemplates/Welcome'
 import { logger } from '@/lib/logger'
 import { AUTH } from '@/config/constants'
+import { config } from '@/config/env'
 
 const RegisterSchema = z.object({
   email: z.string().email('Ungültige E-Mail-Adresse'),
-  password: z
-    .string()
-    .min(AUTH.minPasswordLength, `Mindestens ${AUTH.minPasswordLength} Zeichen`),
+  password: z.string().min(AUTH.minPasswordLength, `Mindestens ${AUTH.minPasswordLength} Zeichen`),
   name: z.string().min(2).max(100).optional(),
+  locale: z.string().optional(),
 })
 
 export async function POST(req: NextRequest) {
@@ -25,7 +29,7 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    const { email, password, name } = parsed.data
+    const { email, password, name, locale = 'de' } = parsed.data
     const normalizedEmail = email.toLowerCase()
 
     const existing = await db.user.findUnique({
@@ -34,11 +38,8 @@ export async function POST(req: NextRequest) {
     })
 
     if (existing) {
-      // Return same message to prevent email enumeration
-      return NextResponse.json(
-        { error: 'Registrierung fehlgeschlagen' },
-        { status: 409 }
-      )
+      // Same message as success to prevent email enumeration
+      return NextResponse.json({ success: true }, { status: 201 })
     }
 
     const passwordHash = await bcrypt.hash(password, AUTH.bcryptRounds)
@@ -48,18 +49,41 @@ export async function POST(req: NextRequest) {
         email: normalizedEmail,
         passwordHash,
         name: name ?? null,
+        locale,
       },
-      select: { id: true, email: true, name: true },
+      select: { id: true, email: true, name: true, locale: true },
     })
 
-    logger.info('User registered', { userId: user.id })
+    // Create email verification token (24h TTL)
+    const tokenRecord = await db.emailVerificationToken.create({
+      data: {
+        userId: user.id,
+        token: crypto.randomUUID(),
+        expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
+      },
+    })
 
+    const verifyUrl = `${config.appUrl}/${user.locale}/api/auth/verify-email?token=${tokenRecord.token}`
+    const dashboardUrl = `${config.appUrl}/${user.locale}/dashboard`
+
+    // Send verification + welcome emails (non-blocking — don't fail registration if email fails)
+    await Promise.allSettled([
+      sendEmail({
+        to: user.email,
+        subject: user.locale === 'en' ? 'Confirm your email — TaxaLex' : 'E-Mail bestätigen — TaxaLex',
+        react: createElement(VerifyEmail, { name: user.name, verifyUrl, locale: user.locale }),
+      }),
+      sendEmail({
+        to: user.email,
+        subject: user.locale === 'en' ? `Welcome to TaxaLex` : `Willkommen bei TaxaLex`,
+        react: createElement(Welcome, { name: user.name, dashboardUrl, locale: user.locale }),
+      }),
+    ])
+
+    logger.info('User registered', { userId: user.id, locale: user.locale })
     return NextResponse.json({ success: true }, { status: 201 })
   } catch (error) {
     logger.error('Registration error', { error })
-    return NextResponse.json(
-      { error: 'Registrierung fehlgeschlagen' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Registrierung fehlgeschlagen' }, { status: 500 })
   }
 }

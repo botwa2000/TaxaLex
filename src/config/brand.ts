@@ -15,4 +15,6 @@ export const brand = {
     'Erstellen Sie professionelle Einspruchsschreiben gegen fehlerhafte Bescheide – mit Multi-KI-Technologie.',
   /** Log prefix used by logger/console */
   logPrefix: '[TaxaLex]',
+  /** Public contact email */
+  supportEmail: 'info@taxalex.de',
 } as const

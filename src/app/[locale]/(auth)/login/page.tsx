@@ -20,6 +20,8 @@ export default function LoginPage() {
   const searchParams = useSearchParams()
   const callbackUrl = searchParams.get('callbackUrl') ?? '/dashboard'
   const registered = searchParams.get('registered')
+  const verified = searchParams.get('verified')
+  const verifyError = searchParams.get('error')
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -69,6 +71,19 @@ export default function LoginPage() {
         <div className="flex items-start gap-2 bg-[var(--success-bg,#ecfdf5)] border border-green-200 text-green-800 text-sm px-3 py-2.5 rounded-lg mb-4">
           <Info className="w-4 h-4 shrink-0 mt-0.5" />
           Konto erfolgreich erstellt. Bitte melden Sie sich an.
+        </div>
+      )}
+
+      {verified && (
+        <div className="flex items-start gap-2 bg-[var(--success-bg,#ecfdf5)] border border-green-200 text-green-800 text-sm px-3 py-2.5 rounded-lg mb-4">
+          <Info className="w-4 h-4 shrink-0 mt-0.5" />
+          E-Mail-Adresse erfolgreich bestätigt. Sie können sich jetzt anmelden.
+        </div>
+      )}
+
+      {verifyError === 'invalid_token' && (
+        <div className="bg-[var(--danger-bg,#fef2f2)] border border-red-200 text-red-700 text-sm px-3 py-2.5 rounded-lg mb-4">
+          Der Bestätigungslink ist ungültig oder abgelaufen. Bitte fordern Sie einen neuen an.
         </div>
       )}
 
@@ -133,13 +148,9 @@ export default function LoginPage() {
             <label htmlFor="password" className="block text-sm font-medium text-[var(--foreground)]">
               Passwort
             </label>
-            <button
-              type="button"
-              onClick={() => alert('Passwort-Reset wird in einer zukünftigen Version verfügbar sein.')}
-              className="text-xs text-brand-600 hover:underline"
-            >
+            <Link href="/forgot-password" className="text-xs text-brand-600 hover:underline">
               Passwort vergessen?
-            </button>
+            </Link>
           </div>
           <div className="relative">
             <input

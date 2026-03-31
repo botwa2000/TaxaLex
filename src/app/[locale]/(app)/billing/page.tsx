@@ -1,149 +1,176 @@
-'use client'
+import { auth } from '@/auth'
+import { CreditCard, FileText, Package, Calendar, UserCheck, Info } from 'lucide-react'
+import { PRICING_PLANS } from '@/lib/contentFallbacks'
+import { BillingActions } from './BillingActions'
 
-import { useState } from 'react'
-import { CheckCircle2, ArrowRight, CreditCard, FileText, Package, Users } from 'lucide-react'
-import { Link } from '@/i18n/navigation'
+// Only show DE features for the billing page
+function getPlanFeatures(slug: string): string[] {
+  const plan = PRICING_PLANS.find((p) => p.slug === slug)
+  if (!plan) return []
+  return plan.features
+    .filter((f) => f.locale === 'de' && f.included)
+    .sort((a, b) => a.sortOrder - b.sortOrder)
+    .map((f) => f.text)
+}
 
-const plans = [
-  {
-    id: 'single',
-    name: 'Einzelfall',
-    audience: 'Privatpersonen',
-    price: '5,99',
-    period: 'pro Einspruch',
-    description: 'Einmalig zahlen, einmalig nutzen.',
-    icon: FileText,
-    features: ['Ein vollständiger Einspruch', 'Alle Bescheid-Typen', 'PDF- & TXT-Download', '5 KI-Agenten', '30 Tage Zugriff auf den Entwurf'],
-    missing: ['Frist-Erinnerungen', 'Dokumenten-Archiv', 'API-Zugang'],
-    cta: 'Jetzt erstellen',
-    highlight: false,
-  },
-  {
-    id: 'pack',
-    name: '5er-Paket',
-    audience: 'Selbstständige & Familien',
-    price: '19,99',
-    period: 'einmalig',
-    description: 'Für Selbstständige oder wenn mehrere Bescheide anfallen.',
-    icon: Package,
-    features: ['5 Einsprüche ohne Ablaufdatum', 'Alle Bescheid-Typen', 'PDF- & TXT-Download', 'Frist-Erinnerungen per E-Mail', 'Dokumenten-Archiv', 'Prioritäts-Support'],
-    missing: ['Mandanten-Verwaltung', 'API-Zugang'],
-    cta: '5er-Paket kaufen',
-    highlight: true,
-  },
-  {
-    id: 'profi',
-    name: 'Profi-Flatrate',
-    audience: 'Berater & Kanzleien',
-    price: '49',
-    period: 'pro Monat',
-    description: 'Unbegrenzte Nutzung für Profis.',
-    icon: Users,
-    features: ['Unbegrenzte Einsprüche', 'Alle Bescheid-Typen', 'Bis zu 5 Teammitglieder', 'Mandanten-Verwaltung', 'API-Zugang (REST)', 'SLA & dedizierter Support'],
-    missing: [],
-    cta: 'Profi-Zugang anfragen',
-    highlight: false,
-  },
-]
+function getPlanName(slug: string): string {
+  const plan = PRICING_PLANS.find((p) => p.slug === slug)
+  return plan?.translations['de']?.name ?? slug
+}
 
-export default function BillingPage() {
-  const [loadingPlan, setLoadingPlan] = useState<string | null>(null)
+function getPlanCta(slug: string): string {
+  const plan = PRICING_PLANS.find((p) => p.slug === slug)
+  return plan?.translations['de']?.cta ?? 'Kaufen'
+}
+
+export default async function BillingPage() {
+  await auth()
+
+  const plans = [
+    {
+      slug: 'individual-single',
+      icon: FileText,
+      priceLabel: '5,99 €',
+      periodLabel: 'pro Einspruch',
+      highlight: false,
+    },
+    {
+      slug: 'individual-pack',
+      icon: Package,
+      priceLabel: '19,99 €',
+      periodLabel: 'einmalig · 5 Einsprüche',
+      highlight: true,
+    },
+    {
+      slug: 'individual-monthly',
+      icon: Calendar,
+      priceLabel: '9,99 €',
+      periodLabel: 'pro Monat',
+      highlight: false,
+    },
+  ]
 
   return (
     <div>
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-[var(--foreground)]">Abrechnung & Guthaben</h1>
         <p className="text-sm text-[var(--muted)] mt-1">
-          Kaufen Sie Einsprüche einzeln oder als Paket — kein Abo erforderlich.
+          Kaufen Sie Einsprüche einzeln, als Paket oder per Monats-Flat — kein Abo-Zwang.
         </p>
       </div>
 
-      {/* Current credit status */}
-      <div className="bg-[var(--surface)] rounded-xl border border-[var(--border)] p-5 mb-8">
-        <div className="flex items-start justify-between gap-4 flex-wrap">
+      {/* Current status */}
+      <div className="bg-[var(--surface)] rounded-xl border border-[var(--border)] p-5 mb-8 flex items-center justify-between gap-4 flex-wrap">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 bg-[var(--background-subtle)] rounded-xl flex items-center justify-center">
+            <CreditCard className="w-5 h-5 text-[var(--muted)]" />
+          </div>
           <div>
-            <div className="flex items-center gap-2 mb-1">
-              <span className="text-sm font-semibold text-[var(--foreground)]">Guthaben:</span>
-              <span className="text-xs font-semibold bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full">
-                0 Einsprüche verfügbar
+            <p className="text-sm font-semibold text-[var(--foreground)]">Aktueller Plan</p>
+            <p className="text-xs text-[var(--muted)]">Kein aktiver Plan · 0 Einsprüche verfügbar</p>
+          </div>
+        </div>
+        <span className="text-xs text-[var(--muted)] border border-[var(--border)] px-3 py-1 rounded-full">
+          Zahlung folgt (Stripe)
+        </span>
+      </div>
+
+      {/* Pricing plans */}
+      <h2 className="text-base font-semibold text-[var(--foreground)] mb-4">Guthaben kaufen</h2>
+      <div className="grid md:grid-cols-3 gap-5 mb-8">
+        {plans.map(({ slug, icon: Icon, priceLabel, periodLabel, highlight }) => {
+          const features = getPlanFeatures(slug)
+          const name = getPlanName(slug)
+          const cta = getPlanCta(slug)
+          return (
+            <div
+              key={slug}
+              className={`rounded-2xl border flex flex-col bg-[var(--surface)] ${
+                highlight
+                  ? 'border-brand-500 ring-2 ring-brand-100 dark:ring-brand-900'
+                  : 'border-[var(--border)]'
+              }`}
+            >
+              {highlight && (
+                <div className="bg-brand-600 text-white text-xs font-semibold text-center py-1.5 rounded-t-[14px]">
+                  Beliebteste Wahl
+                </div>
+              )}
+              <div className="p-5 flex flex-col flex-1">
+                <div className="flex items-start gap-3 mb-4">
+                  <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${highlight ? 'bg-brand-50 dark:bg-brand-950 text-brand-600' : 'bg-[var(--background-subtle)] text-[var(--muted)]'}`}>
+                    <Icon className="w-4.5 h-4.5" />
+                  </div>
+                  <div>
+                    <p className="font-bold text-[var(--foreground)]">{name}</p>
+                    <div className="flex items-baseline gap-1 mt-0.5">
+                      <span className="text-xl font-bold text-[var(--foreground)]">{priceLabel}</span>
+                      <span className="text-xs text-[var(--muted)]">{periodLabel}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <ul className="space-y-2 flex-1 mb-5">
+                  {features.map((f) => (
+                    <li key={f} className="flex items-start gap-2 text-sm">
+                      <span className="text-green-500 shrink-0 mt-0.5 font-bold">✓</span>
+                      <span className="text-[var(--foreground)]">{f}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <BillingActions planSlug={slug} cta={cta} highlight={highlight} />
+              </div>
+            </div>
+          )
+        })}
+      </div>
+
+      {/* Professional review add-on */}
+      <div className="rounded-2xl border-2 border-dashed border-amber-300 dark:border-amber-700 bg-amber-50/50 dark:bg-amber-950/20 p-5 mb-8">
+        <div className="flex items-start gap-4">
+          <div className="w-10 h-10 bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-400 rounded-xl flex items-center justify-center shrink-0">
+            <UserCheck className="w-5 h-5" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 mb-1 flex-wrap">
+              <p className="font-bold text-[var(--foreground)]">Profi-Prüfung</p>
+              <span className="text-xs font-semibold bg-amber-100 dark:bg-amber-900/60 text-amber-700 dark:text-amber-400 px-2 py-0.5 rounded-full">
+                Optionales Add-on
               </span>
             </div>
-            <p className="text-xs text-[var(--muted)] mt-2">Kaufen Sie einen Einzelfall oder ein 5er-Paket um loszulegen.</p>
+            <p className="text-sm text-[var(--muted)] mb-3 leading-relaxed">
+              Lassen Sie Ihren Einspruch von einem zugelassenen Steuerberater oder Rechtsanwalt prüfen,
+              bevor Sie ihn einreichen. Der Experte kann freigeben, kommentieren oder Rückfragen stellen.
+            </p>
+            <div className="flex items-center gap-4 flex-wrap text-sm">
+              <div>
+                <span className="font-bold text-[var(--foreground)]">99 €</span>
+                <span className="text-[var(--muted)] ml-1">/ Fall (Standard)</span>
+              </div>
+              <div className="flex items-center gap-1 text-amber-700 dark:text-amber-400 text-xs font-medium">
+                <span className="font-bold text-base">69 €</span>
+                <span>/ Fall für Monats-Flat-Abonnenten</span>
+              </div>
+            </div>
           </div>
-          <button
-            disabled
-            className="flex items-center gap-1.5 text-sm border border-[var(--border)] px-3 py-1.5 rounded-lg text-[var(--muted)] cursor-not-allowed"
-          >
-            <FileText className="w-3.5 h-3.5" />
-            Rechnungen
-          </button>
+        </div>
+        <div className="mt-4 flex items-start gap-2 text-xs text-[var(--muted)] border-t border-amber-200 dark:border-amber-800 pt-3">
+          <Info className="w-3.5 h-3.5 shrink-0 mt-0.5 text-amber-500" />
+          <span>
+            Nach der Generierung Ihres Einspruchs anklickbar. Die Prüfung erfolgt durch verifizierte Experten aus unserem Netzwerk.{' '}
+            <a href="/advisor" className="text-amber-700 dark:text-amber-400 hover:underline font-medium">Mehr erfahren →</a>
+          </span>
         </div>
       </div>
 
-      <h2 className="text-lg font-semibold text-[var(--foreground)] mb-4">Guthaben kaufen</h2>
-      <div className="grid md:grid-cols-3 gap-5 mb-8">
-        {plans.map((plan) => (
-          <div
-            key={plan.id}
-            className={`rounded-2xl border flex flex-col bg-[var(--surface)] ${plan.highlight ? 'border-brand-600 ring-2 ring-brand-100' : 'border-[var(--border)]'}`}
-          >
-            {plan.highlight && (
-              <div className="bg-brand-600 text-white text-xs font-semibold text-center py-1.5 rounded-t-2xl">
-                Beliebteste Wahl
-              </div>
-            )}
-            <div className="p-5 flex flex-col flex-1">
-              <div className="mb-4">
-                <p className="text-[11px] font-semibold uppercase tracking-wider text-[var(--muted)] mb-1">{plan.audience}</p>
-                <p className="font-bold text-[var(--foreground)] text-lg">{plan.name}</p>
-                <div className="flex items-baseline gap-1 mt-1">
-                  <span className="text-2xl font-bold text-[var(--foreground)]">{plan.price} €</span>
-                  <span className="text-sm text-[var(--muted)]">{plan.period}</span>
-                </div>
-                <p className="text-xs text-[var(--muted)] mt-1">{plan.description}</p>
-              </div>
-              <ul className="space-y-2 flex-1 mb-5">
-                {plan.features.map((f) => (
-                  <li key={f} className="flex items-start gap-2 text-sm">
-                    <CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" />
-                    <span className="text-[var(--foreground)]">{f}</span>
-                  </li>
-                ))}
-                {plan.missing.map((f) => (
-                  <li key={f} className="flex items-start gap-2 text-sm opacity-40">
-                    <div className="w-4 h-4 shrink-0 mt-0.5 flex items-center justify-center">
-                      <div className="w-3 h-px bg-gray-400" />
-                    </div>
-                    <span className="text-[var(--muted)]">{f}</span>
-                  </li>
-                ))}
-              </ul>
-              <button
-                onClick={() => alert(`${plan.name}: Stripe-Integration kommt in Kürze.`)}
-                className={`w-full py-2.5 rounded-xl text-sm font-semibold transition-colors ${plan.highlight ? 'bg-brand-600 text-white hover:bg-brand-700' : 'border border-brand-600 text-brand-600 hover:bg-brand-50'}`}
-              >
-                {plan.cta}
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Payment method */}
+      {/* Invoices placeholder */}
       <div className="bg-[var(--surface)] rounded-xl border border-[var(--border)] p-5">
-        <h2 className="font-semibold text-sm text-[var(--foreground)] mb-4">Zahlungsmethode</h2>
-        <div className="flex items-center gap-3 py-3 border border-dashed border-[var(--border)] rounded-xl px-4">
-          <CreditCard className="w-8 h-8 text-[var(--muted)]" />
-          <div>
-            <p className="text-sm text-[var(--muted)]">Noch keine Zahlungsmethode hinterlegt</p>
-            <p className="text-xs text-[var(--muted)]">Wird beim Kauf hinzugefügt (Stripe)</p>
-          </div>
-          <button
-            onClick={() => alert('Zahlungsmethode: Stripe-Integration kommt in Kürze.')}
-            className="ml-auto flex items-center gap-1 text-sm font-medium text-brand-600 hover:text-brand-700"
-          >
-            Hinzufügen <ArrowRight className="w-3.5 h-3.5" />
-          </button>
+        <h2 className="font-semibold text-sm text-[var(--foreground)] mb-4">Rechnungen</h2>
+        <div className="text-center py-8 text-[var(--muted)]">
+          <FileText className="w-8 h-8 mx-auto mb-2 opacity-30" />
+          <p className="text-sm">Noch keine Rechnungen vorhanden.</p>
+          <p className="text-xs mt-1">Rechnungen erscheinen hier nach dem ersten Kauf.</p>
         </div>
       </div>
     </div>

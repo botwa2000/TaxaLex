@@ -102,18 +102,16 @@ export default async function AccountPage() {
           </p>
           <div className="flex gap-3 flex-wrap">
             <button
-              className="text-sm border border-[var(--border)] px-3 py-1.5 rounded-lg hover:bg-[var(--background-subtle)] transition-colors text-[var(--foreground)]"
-              onClick={() => alert('Daten-Export: wird in einer zukünftigen Version verfügbar sein.')}
+              disabled
+              title="Daten-Export folgt mit DSGVO-Implementierung (Phase 5)"
+              className="text-sm border border-[var(--border)] px-3 py-1.5 rounded-lg text-[var(--muted)] disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Daten exportieren
             </button>
             <button
-              className="text-sm border border-red-200 text-red-600 px-3 py-1.5 rounded-lg hover:bg-red-50 transition-colors"
-              onClick={() => {
-                if (confirm('Möchten Sie Ihr Konto wirklich löschen?')) {
-                  alert('Konto-Löschung: wird mit DSGVO-Compliance verfügbar sein.')
-                }
-              }}
+              disabled
+              title="Konto-Löschung folgt mit DSGVO-Implementierung (Phase 5)"
+              className="text-sm border border-red-200 text-red-400 px-3 py-1.5 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Konto löschen
             </button>

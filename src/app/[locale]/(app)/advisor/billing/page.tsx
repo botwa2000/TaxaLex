@@ -113,7 +113,7 @@ export default async function AdvisorBillingPage() {
       <p className="text-xs text-center text-[var(--muted)] mt-4">
         Stripe-Zahlungsintegration folgt. Kontakt:{' '}
         <Link href="/kontakt" className="text-brand-600 hover:underline">
-          kontakt@taxalex.de
+          info@taxalex.de
         </Link>
       </p>
     </div>
