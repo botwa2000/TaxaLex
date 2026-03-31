@@ -1,164 +1,68 @@
 'use client'
 
-import { useState } from 'react'
 import { Zap, ArrowRight } from 'lucide-react'
-import { Tabs } from './ui/Tabs'
+import { Link } from '@/i18n/navigation'
 
-export type UserGroup = 'individual' | 'selfemployed' | 'expat' | 'advisor' | 'lawyer'
-
-interface HeroCopy {
-  headline: string
-  sub: string
-  cta: string
-  ctaHref: string
-}
-
-const HERO_COPY_DE: Record<UserGroup, HeroCopy> = {
-  individual: {
-    headline: 'Juristisch fundierter Einspruch — nicht nur KI-Text.',
-    sub: 'Fünf spezialisierte KI-Agenten entwerfen, prüfen, hinterfragen und validieren Ihr Schreiben gegenseitig. Das Ergebnis: ein rechtlich wasserdichter Brief mit §§-Belegen — in unter 5 Minuten.',
-    cta: 'Kostenlos starten',
-    ctaHref: '/register',
-  },
-  selfemployed: {
-    headline: 'Steuer-Nachzahlung? Legen Sie Einspruch ein — ohne Anwalt.',
-    sub: 'Für Freiberufler und Selbstständige: Finanzamt, Gewerbesteuer, Umsatzsteuer — professioneller Einspruch in Minuten.',
-    cta: 'Jetzt Einspruch einlegen',
-    ctaHref: '/register',
-  },
-  expat: {
-    headline: 'German notice? Appeal it in minutes — in your language.',
-    sub: 'Navigate German bureaucracy with confidence. We generate your official appeal in German, so you don\'t have to.',
-    cta: 'Start for free',
-    ctaHref: '/register',
-  },
-  advisor: {
-    headline: 'Mehr Mandate. Weniger Aufwand.',
-    sub: 'Verwalten Sie Einsprüche für alle Ihre Mandanten zentral — mit KI-gestützter Vorbereitung, die Ihnen Stunden spart.',
-    cta: 'Berater-Demo starten',
-    ctaHref: '/login?role=advisor',
-  },
-  lawyer: {
-    headline: 'Rechtliche Einsprüche skalieren — effizient und sicher.',
-    sub: 'Für Rechtsanwälte und Kanzleien: Mandantenübersicht, KI-Vorlagen, Fristmanagement — alles in einer Oberfläche.',
-    cta: 'Anwalt-Zugang anfragen',
-    ctaHref: '/login?role=lawyer',
-  },
-}
-
-const HERO_COPY_EN: Record<UserGroup, HeroCopy> = {
-  individual: {
-    headline: 'Legally grounded objection — not just AI-generated text.',
-    sub: 'Five specialized AI agents draft, review, fact-check, challenge, and validate each other\'s work. The result: a legally substantiated letter with proper citations — in under 5 minutes.',
-    cta: 'Start for free',
-    ctaHref: '/register',
-  },
-  selfemployed: {
-    headline: 'Tax demand? File an objection — without a lawyer.',
-    sub: 'For freelancers and the self-employed: income tax, trade tax, VAT — professional appeals in minutes.',
-    cta: 'File an objection now',
-    ctaHref: '/register',
-  },
-  expat: {
-    headline: 'German notice? Appeal it in minutes — in your language.',
-    sub: 'Navigate German bureaucracy with confidence. We generate your official appeal in German, so you don\'t have to.',
-    cta: 'Start for free',
-    ctaHref: '/register',
-  },
-  advisor: {
-    headline: 'More clients. Less overhead.',
-    sub: 'Manage appeals for all your clients centrally — with AI-assisted preparation that saves you hours per case.',
-    cta: 'Start advisor demo',
-    ctaHref: '/login?role=advisor',
-  },
-  lawyer: {
-    headline: 'Scale legal objections — efficiently and securely.',
-    sub: 'For attorneys and law firms: client overview, AI templates, deadline management — all in one interface.',
-    cta: 'Request lawyer access',
-    ctaHref: '/login?role=lawyer',
-  },
-}
-
-const TAB_LABELS_DE: Record<UserGroup, string> = {
-  individual: 'Privatperson',
-  selfemployed: 'Selbstständig',
-  expat: 'Expat',
-  advisor: 'Steuerberater',
-  lawyer: 'Rechtsanwalt',
-}
-
-const TAB_LABELS_EN: Record<UserGroup, string> = {
-  individual: 'Individual',
-  selfemployed: 'Self-employed',
-  expat: 'Expat',
-  advisor: 'Tax advisor',
-  lawyer: 'Lawyer',
-}
-
+// Props kept for API compatibility — locale is the only prop used now
 interface UserGroupTabsProps {
   locale: string
-  onGroupChange?: (group: UserGroup) => void
+  onGroupChange?: (group: string) => void
   className?: string
 }
 
-export function UserGroupTabs({ locale, onGroupChange, className }: UserGroupTabsProps) {
-  const [activeGroup, setActiveGroup] = useState<UserGroup>('individual')
+export type UserGroup = string
+
+export function UserGroupTabs({ locale, className }: UserGroupTabsProps) {
   const isEN = locale === 'en'
-  const copy = isEN ? HERO_COPY_EN : HERO_COPY_DE
-  const labels = isEN ? TAB_LABELS_EN : TAB_LABELS_DE
-
-  const tabItems = (Object.keys(labels) as UserGroup[]).map((g) => ({
-    id: g,
-    label: labels[g],
-  }))
-
-  function handleChange(id: string) {
-    const group = id as UserGroup
-    setActiveGroup(group)
-    onGroupChange?.(group)
-  }
-
-  const activeCopy = copy[activeGroup]
 
   return (
     <div className={className}>
-      <Tabs
-        items={tabItems}
-        activeId={activeGroup}
-        onChange={handleChange}
-        variant="pills"
-        size="sm"
-        className="flex-wrap justify-center gap-1 mb-8"
-      />
-      <div className="text-center max-w-3xl mx-auto animate-fade-in" key={activeGroup}>
+      <div className="text-center max-w-3xl mx-auto">
+
+        {/* Social proof badge */}
+        <div className="inline-flex items-center gap-2 bg-green-50 dark:bg-green-950/40 text-green-700 dark:text-green-300 text-sm font-semibold px-4 py-1.5 rounded-full mb-6">
+          <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse shrink-0" />
+          {isEN
+            ? '67 % of objections are fully or partially successful — BMF statistics'
+            : '67 % aller Einsprüche werden ganz oder teilweise erstattet — BMF-Statistik'}
+        </div>
+
+        {/* Headline */}
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-[var(--foreground)] leading-tight tracking-tight mb-5 text-balance">
-          {activeCopy.headline}
+          {isEN
+            ? <>Received an official German notice?<br className="hidden sm:block" /> You can appeal it.</>
+            : <>Bescheid bekommen?<br className="hidden sm:block" /> Sie können widersprechen.</>}
         </h1>
+
+        {/* Subheadline */}
         <p className="text-lg sm:text-xl text-[var(--muted)] leading-relaxed mb-10 max-w-2xl mx-auto">
-          {activeCopy.sub}
+          {isEN
+            ? 'Most people pay without challenging — because appealing feels complicated and a lawyer costs €200–500. TaxaLex analyses your document, asks the right expert questions, and drafts a well-reasoned objection letter in minutes.'
+            : 'Die meisten zahlen, ohne zu widersprechen — weil es kompliziert wirkt und ein Anwalt €200–500 kostet. TaxaLex analysiert Ihr Dokument, stellt die richtigen Fachfragen und erstellt einen fundierten Einspruch in Minuten.'}
         </p>
+
+        {/* CTAs */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <a
-            href={activeCopy.ctaHref}
+          <Link
+            href="/einspruch"
             className="inline-flex items-center justify-center gap-2.5 rounded-2xl px-8 py-4 text-lg font-bold bg-brand-600 text-white hover:bg-brand-700 active:bg-brand-800 transition-colors shadow-md hover:shadow-lg"
           >
             <Zap className="w-5 h-5 shrink-0" />
-            {activeCopy.cta}
-          </a>
-          {(activeGroup === 'individual' || activeGroup === 'selfemployed') && (
-            <a
-              href="/wie-es-funktioniert"
-              className="inline-flex items-center justify-center gap-2 rounded-2xl px-7 py-4 text-base font-semibold text-[var(--muted)] hover:text-[var(--foreground)] border border-[var(--border)] hover:border-[var(--border-strong)] hover:bg-[var(--background-subtle)] transition-colors"
-            >
-              {isEN ? 'How it works' : 'Wie es funktioniert'}
-              <ArrowRight className="w-4 h-4" />
-            </a>
-          )}
+            {isEN ? 'Create my objection' : 'Einspruch erstellen'}
+          </Link>
+          <Link
+            href="/wie-es-funktioniert"
+            className="inline-flex items-center justify-center gap-2 rounded-2xl px-7 py-4 text-base font-semibold text-[var(--muted)] hover:text-[var(--foreground)] border border-[var(--border)] hover:border-[var(--border-strong)] hover:bg-[var(--background-subtle)] transition-colors"
+          >
+            {isEN ? 'How it works' : 'Wie es funktioniert'}
+            <ArrowRight className="w-4 h-4" />
+          </Link>
         </div>
       </div>
     </div>
   )
 }
 
-// Export active group copy getter for use in server components
-export { HERO_COPY_DE, HERO_COPY_EN }
+// Kept for any remaining imports — no longer used internally
+export const HERO_COPY_DE = {}
+export const HERO_COPY_EN = {}

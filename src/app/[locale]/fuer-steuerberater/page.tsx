@@ -67,7 +67,7 @@ export default async function FuerSteuerberaterPage({
               href="/register"
               className="inline-flex items-center gap-2 bg-brand-600 text-white px-8 py-3.5 rounded-xl font-semibold hover:bg-brand-700 transition-colors"
             >
-              {isEN ? 'Start free trial' : 'Kostenlos testen'}
+              {isEN ? 'Try the demo' : 'Demo ansehen'}
               <ArrowRight className="w-4 h-4" />
             </Link>
             <Link

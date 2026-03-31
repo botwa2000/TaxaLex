@@ -13,8 +13,8 @@ const USER_TYPES: { key: UserType; label: string; icon: React.ElementType; benef
     label: 'Privatperson',
     icon: User,
     benefits: [
-      '1 kostenloser Einspruch pro Monat',
-      '5 KI-Agenten prüfen Ihren Fall',
+      '5 KI-Agenten prüfen und verbessern Ihren Entwurf',
+      'Einspruch in unter 5 Minuten — keine Vorkenntnisse nötig',
       'Download als DOCX oder TXT',
     ],
   },
@@ -23,9 +23,9 @@ const USER_TYPES: { key: UserType; label: string; icon: React.ElementType; benef
     label: 'Selbstständig',
     icon: Briefcase,
     benefits: [
-      'Einsprüche gegen Steuerbescheide & USt',
+      'Steuer-, USt- und Gewerbebescheide anfechten',
       'Unbegrenzte Dokumente pro Einspruch',
-      'Priorisierte KI-Verarbeitung',
+      'Belege als Betriebsausgaben — Rechnung inklusive',
     ],
   },
   {
@@ -33,9 +33,9 @@ const USER_TYPES: { key: UserType; label: string; icon: React.ElementType; benef
     label: 'Steuerberater',
     icon: UserCheck,
     benefits: [
-      'Multi-Mandanten-Dashboard',
-      'Unbegrenzte Einsprüche für alle Mandanten',
-      'White-Label-Exportoption',
+      'Entwürfe Ihrer Mandanten schnell prüfen und freigeben',
+      'Freigabe-Link direkt an Mandanten — keine Rückfragen',
+      'Zeit sparen: Prüfung statt Erstellung',
     ],
   },
   {
@@ -43,9 +43,9 @@ const USER_TYPES: { key: UserType; label: string; icon: React.ElementType; benef
     label: 'Rechtsanwalt',
     icon: Scale,
     benefits: [
-      'Multi-Mandanten-Dashboard',
-      'Unbegrenzte Einsprüche für alle Mandanten',
-      'Erweiterte Rechtsgrundlagen-Recherche',
+      'Entwürfe schnell prüfen und kommentieren',
+      'Freigabe-Workflow für alle Rechtsgebiete',
+      'Steuer, Miete, Arbeit, Soziales — alles in einem',
     ],
   },
 ]

@@ -20,9 +20,9 @@ const STEPS = [
 ] as const
 
 const AGENTS = [
-  { id: 'drafter',      label: 'Einspruch formulieren',      detail: 'Erstellt rechtssicheren Einspruch basierend auf erkannten Bescheid-Daten', provider: 'Claude',      color: 'bg-blue-500'   },
-  { id: 'reviewer',     label: 'Fehler- & Stilprüfung',      detail: 'Prüft Grammatik, Formulierungen und formale Anforderungen',               provider: 'Gemini',      color: 'bg-purple-500' },
-  { id: 'factchecker',  label: 'Rechts-Faktencheck',         detail: 'Recherchiert aktuelle BFH-Urteile und Verwaltungsrichtlinien',             provider: 'Perplexity',  color: 'bg-green-500'  },
+  { id: 'drafter',      label: 'Einspruch formulieren',      detail: 'Formuliert einen strukturierten Einspruch basierend auf den erkannten Bescheid-Daten', provider: 'Claude',      color: 'bg-blue-500'   },
+  { id: 'reviewer',     label: 'Fehler- & Stilprüfung',      detail: 'Prüft Formulierungen, Fristkonformität und formale Anforderungen',         provider: 'Gemini',      color: 'bg-purple-500' },
+  { id: 'factchecker',  label: 'Rechts-Faktencheck',         detail: 'Verifiziert zitierte Rechtsquellen und Urteile per Live-Recherche',        provider: 'Perplexity',  color: 'bg-green-500'  },
   { id: 'adversary',    label: 'Gegenprüfung (Behördensicht)',detail: 'Simuliert die Perspektive des Finanzamts / der Behörde',                  provider: 'Claude',      color: 'bg-red-500'    },
   { id: 'consolidator', label: 'Finales Schreiben',           detail: 'Kombiniert alle Perspektiven zum optimalen Einspruch',                    provider: 'Claude',      color: 'bg-brand-500'  },
 ] as const

@@ -162,51 +162,51 @@ export default async function LandingPage({
         </div>
       </section>
 
-      {/* Why not ChatGPT? — differentiation section */}
+      {/* Why not a generic AI chatbot? — differentiation section */}
       <section className="py-16 sm:py-20 px-4 bg-[var(--background)]">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 text-sm font-semibold px-4 py-1.5 rounded-full mb-5">
               <MessageSquare className="w-4 h-4" />
-              {isEN ? 'Why not just use ChatGPT?' : 'Warum nicht einfach ChatGPT?'}
+              {isEN ? 'Why not just use an AI chatbot?' : 'Warum nicht einfach einen KI-Chatbot nutzen?'}
             </div>
             <h2 className="text-3xl sm:text-4xl font-bold text-[var(--foreground)] mb-4">
               {isEN ? 'Quality comes from process — not a single prompt.' : 'Qualität entsteht durch Prozess — nicht durch einen einzigen Prompt.'}
             </h2>
             <p className="text-lg text-[var(--muted)] max-w-2xl mx-auto leading-relaxed">
               {isEN
-                ? 'ChatGPT can read your notice too. But does it know which legal questions it should be asking? TaxaLex does — automatically, through five specialized agents.'
-                : 'ChatGPT kann Ihren Bescheid lesen. Aber weiß es, welche juristischen Fragen es stellen muss? TaxaLex weiß es — und stellt sie automatisch, durch fünf spezialisierte Agenten.'}
+                ? 'A general AI assistant can read your notice — but AI systems are known to hallucinate legal sources and miss domain-specific questions. TaxaLex uses five specialized agents that check each other\'s work.'
+                : 'Ein allgemeiner KI-Assistent kann Ihren Bescheid lesen — aber KI-Systeme neigen dazu, Rechtsquellen zu erfinden und fachspezifische Fragen zu übersehen. TaxaLex nutzt fünf spezialisierte Agenten, die gegenseitig ihre Arbeit prüfen.'}
             </p>
           </div>
 
           <div className="grid lg:grid-cols-2 gap-6 items-start">
-            {/* ChatGPT column */}
+            {/* Generic AI column */}
             <div className="bg-[var(--surface)] border border-[var(--border)] rounded-3xl p-6">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 bg-slate-100 dark:bg-slate-800 rounded-xl flex items-center justify-center">
                   <MessageSquare className="w-5 h-5 text-slate-400" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-[var(--foreground)]">ChatGPT</h3>
-                  <p className="text-sm text-[var(--muted)]">{isEN ? 'One prompt → one unreviewed draft' : 'Ein Prompt → ein ungeprüfter Entwurf'}</p>
+                  <h3 className="font-bold text-[var(--foreground)]">{isEN ? 'Generic AI assistant' : 'Allgemeiner KI-Assistent'}</h3>
+                  <p className="text-sm text-[var(--muted)]">{isEN ? 'One prompt → one unverified draft' : 'Ein Prompt → ein ungeprüfter Entwurf'}</p>
                 </div>
               </div>
               <ul className="space-y-3">
                 {(isEN ? [
-                  'Writes one draft — no automatic self-review or cross-validation',
-                  'You must know which legal questions to ask; it won\'t ask them for you',
-                  'No live research into current BFH rulings or administrative guidance',
-                  'No adversarial test: "How would the Finanzamt counter this argument?"',
-                  'No deadline calculation unless you explicitly prompt it',
-                  'Result depends entirely on how well you can prompt a general AI',
+                  'Generates one draft without any automatic cross-checking or self-review',
+                  'Does not know which domain-specific legal questions to ask — you need to prompt them',
+                  'Can hallucinate legal citations and case references — errors go undetected without verification',
+                  'No perspective test: "How would the authority counter this argument?"',
+                  'No automatic deadline calculation from the document',
+                  'Output quality and completeness depend heavily on how the prompt is written',
                 ] : [
-                  'Erstellt einen Entwurf — keine automatische Selbstprüfung oder Quervalidierung',
-                  'Sie müssen wissen, welche Rechtsfragen zu stellen sind — ChatGPT fragt sie nicht von selbst',
-                  'Keine Live-Recherche zu aktuellen BFH-Urteilen oder Verwaltungsvorschriften',
-                  'Kein adversarieller Test: "Was würde das Finanzamt erwidern?"',
-                  'Keine Fristberechnung ohne expliziten Prompt',
-                  'Ergebnis hängt davon ab, wie gut Sie eine allgemeine KI prompten können',
+                  'Erstellt einen Entwurf ohne automatische Gegen- oder Querprüfung',
+                  'Stellt nicht von sich aus die richtigen Rechtsfragen — das Fachwissen muss vom Nutzer kommen',
+                  'Kann Rechtsquellen und Urteile erfinden (Halluzinationen) — ohne Gegenprüfung unbemerkt',
+                  'Keine Perspektivprüfung: „Was würde die Behörde einwenden?"',
+                  'Keine automatische Fristberechnung aus dem Bescheid',
+                  'Qualität und Vollständigkeit hängen stark von der Formulierung des Prompts ab',
                 ]).map((text) => (
                   <li key={text} className="flex items-start gap-2.5 text-sm text-[var(--muted)]">
                     <X className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
@@ -236,15 +236,15 @@ export default async function LandingPage({
                 {(isEN ? [
                   { agent: 'Drafter', desc: 'Creates the initial objection using legal domain knowledge (§ AO, § SGG, § BGB, § KSchG)' },
                   { agent: 'Reviewer', desc: 'Checks legal correctness, deadline compliance, and formal requirements' },
-                  { agent: 'FactChecker', desc: 'Researches current BFH rulings and administrative guidelines via live search' },
-                  { agent: 'Adversary', desc: 'Attacks the draft as the authority would — to identify and close weak points' },
-                  { agent: 'Consolidator', desc: 'Synthesises all reviews into one legally grounded, citation-backed final letter' },
+                  { agent: 'FactChecker', desc: 'Verifies cited legal sources and rulings via live search — flags inaccuracies before they reach the final draft' },
+                  { agent: 'Adversary', desc: 'Reviews the draft from the authority\'s perspective — to identify and address weak points' },
+                  { agent: 'Consolidator', desc: 'Combines all reviews into one structured, clearly reasoned final letter' },
                 ] : [
-                  { agent: 'Drafter', desc: 'Erstellt den Einspruch mit juristischem Fachwissen (§ AO, § SGG, § BGB, § KSchG)' },
-                  { agent: 'Reviewer', desc: 'Prüft Rechtmäßigkeit, Fristkonformität und formale Anforderungen' },
-                  { agent: 'FactChecker', desc: 'Recherchiert aktuelle BFH-Urteile und Verwaltungsvorschriften per Live-Suche' },
-                  { agent: 'Adversary', desc: 'Greift den Entwurf an wie die Behörde — um Schwachstellen zu schließen' },
-                  { agent: 'Consolidator', desc: 'Fügt alle Prüfungen zu einem rechtlich fundierten, §§-belegten Schreiben zusammen' },
+                  { agent: 'Drafter', desc: 'Formuliert den Einspruch auf Basis relevanter Rechtsgrundlagen (§ AO, § SGG, § BGB, § KSchG)' },
+                  { agent: 'Reviewer', desc: 'Prüft Fristkonformität, formale Anforderungen und sprachliche Korrektheit' },
+                  { agent: 'FactChecker', desc: 'Verifiziert zitierte Rechtsquellen und Urteile per Live-Suche — erkennt Ungenauigkeiten' },
+                  { agent: 'Adversary', desc: 'Analysiert den Entwurf aus Behördenperspektive — um Schwachstellen zu erkennen und zu schließen' },
+                  { agent: 'Consolidator', desc: 'Fasst alle Prüfungen zu einem strukturierten, klar begründeten Abschlussschreiben zusammen' },
                 ]).map((item, i) => (
                   <li key={item.agent} className="flex items-start gap-3 text-sm">
                     <span className="shrink-0 w-5 h-5 rounded-full bg-brand-600 text-white text-xs font-bold flex items-center justify-center mt-0.5">{i + 1}</span>
@@ -263,12 +263,12 @@ export default async function LandingPage({
           <div className="mt-10 text-center">
             <p className="text-[var(--muted)] mb-4 text-lg">
               {isEN
-                ? 'Your first objection is free. No credit card required.'
-                : 'Ihr erster Einspruch ist kostenlos. Keine Kreditkarte nötig.'}
+                ? 'See how it works — try the interactive demo, no registration required.'
+                : 'Sehen Sie, wie es funktioniert — interaktive Demo, ohne Registrierung.'}
             </p>
             <Link href="/einspruch" className="inline-flex items-center gap-2 bg-brand-600 hover:bg-brand-700 text-white font-bold px-8 py-4 rounded-2xl transition-colors text-lg">
               <Zap className="w-5 h-5" />
-              {isEN ? 'Try it free now' : 'Jetzt kostenlos testen'}
+              {isEN ? 'Try the demo' : 'Demo starten'}
             </Link>
           </div>
         </div>
@@ -356,8 +356,8 @@ export default async function LandingPage({
             </h2>
             <p className="text-base text-[var(--muted)]">
               {isEN
-                ? 'Start for free. Upgrade when you need more.'
-                : 'Kostenlos starten. Upgraden, wenn Sie mehr brauchen.'}
+                ? 'Pay per case, or subscribe for unlimited access. No hidden fees.'
+                : 'Pro Fall oder als Abo. Keine versteckten Kosten.'}
             </p>
           </div>
           <div className="grid sm:grid-cols-3 gap-6 mb-8">
@@ -396,9 +396,9 @@ export default async function LandingPage({
         </div>
       </section>
 
-      {/* Trust / legal disclaimer */}
-      <section className="py-12 px-4 bg-[var(--surface)] border-t border-[var(--border)]">
-        <div className="max-w-4xl mx-auto text-center space-y-4">
+      {/* Legal disclaimer */}
+      <section className="py-10 px-4 bg-[var(--surface)] border-t border-[var(--border)]">
+        <div className="max-w-4xl mx-auto text-center space-y-3">
           <div className="flex items-center justify-center gap-2">
             <Shield className="w-4 h-4 text-brand-600" />
             <p className="text-sm font-medium text-[var(--foreground)]">
@@ -410,7 +410,6 @@ export default async function LandingPage({
               ? 'TaxaLex generates AI-assisted draft letters. These are not legal advice within the meaning of the German Legal Services Act (RDG). For complex cases, please consult a qualified tax advisor or lawyer.'
               : 'TaxaLex erstellt KI-gestützte Entwurfsschreiben. Diese stellen keine Rechtsberatung i.S.d. Rechtsdienstleistungsgesetzes (RDG) dar. Bei komplexen Fällen empfehlen wir die Hinzuziehung eines Steuerberaters oder Anwalts.'}
           </p>
-          <TrustBadges locale={locale} variant="row" className="mt-4" />
         </div>
       </section>
 

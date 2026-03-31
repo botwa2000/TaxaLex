@@ -58,7 +58,7 @@ export default function RegisterPage() {
 
       {/* Benefits */}
       <div className="bg-brand-50 border border-brand-100 rounded-xl p-3.5 mb-5 space-y-1.5">
-        {['1 kostenloser Einspruch pro Monat', 'Alle Bescheid-Typen unterstützt', 'Keine Kreditkarte erforderlich'].map((b) => (
+        {['Alle Bescheid-Typen unterstützt', '5 KI-Agenten prüfen gegenseitig', 'Keine Kreditkarte erforderlich'].map((b) => (
           <div key={b} className="flex items-center gap-2 text-xs text-brand-800">
             <CheckCircle2 className="w-3.5 h-3.5 text-brand-600 shrink-0" />
             {b}

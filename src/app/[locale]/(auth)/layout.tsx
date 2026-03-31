@@ -15,13 +15,13 @@ export default async function AuthLayout({
 
   const trustPoints = isEN
     ? [
-        { icon: CheckCircle2, text: 'First objection free — no credit card' },
-        { icon: Clock, text: 'Draft ready in under 5 minutes' },
+        { icon: CheckCircle2, text: 'Draft ready in under 5 minutes' },
+        { icon: Clock, text: 'Interactive demo — no registration required' },
         { icon: Shield, text: 'GDPR-compliant · EU servers · Encrypted' },
       ]
     : [
-        { icon: CheckCircle2, text: 'Erster Einspruch kostenlos – keine Kreditkarte' },
-        { icon: Clock, text: 'Entwurf fertig in unter 5 Minuten' },
+        { icon: CheckCircle2, text: 'Entwurf fertig in unter 5 Minuten' },
+        { icon: Clock, text: 'Interaktive Demo – ohne Registrierung' },
         { icon: Shield, text: 'DSGVO-konform · EU-Server · Verschlüsselt' },
       ]
 
@@ -51,13 +51,13 @@ export default async function AuthLayout({
             </div>
             <h2 className="text-3xl font-extrabold text-white leading-tight mb-4">
               {isEN
-                ? 'Fight German bureaucracy — with legal precision.'
-                : 'Gegen Bescheide ankämpfen — mit juristischer Präzision.'}
+                ? 'Respond to German official notices — structured and clearly reasoned.'
+                : 'Bescheide strukturiert und begründet widersprechen.'}
             </h2>
             <p className="text-brand-200 leading-relaxed mb-10">
               {isEN
-                ? '5 specialized AI agents draft, review, and validate your objection letter — in under 5 minutes.'
-                : '5 spezialisierte KI-Agenten entwerfen, prüfen und validieren Ihr Einspruchsschreiben – in unter 5 Minuten.'}
+                ? '5 specialized AI agents draft, cross-check, and improve your objection letter — in under 5 minutes.'
+                : '5 spezialisierte KI-Agenten entwerfen, prüfen und verbessern Ihr Einspruchsschreiben – in unter 5 Minuten.'}
             </p>
             <ul className="space-y-4">
               {trustPoints.map((p) => (

@@ -1,27 +1,24 @@
 import { auth } from '@/auth'
 import { redirect } from 'next/navigation'
-import { DEMO_CLIENTS, DEMO_CLIENT_CASES, getAdvisorStats } from '@/lib/mockData'
-import { Users, FileText, Clock, CheckCircle2, Plus, LayoutDashboard } from 'lucide-react'
+import { Clock, CheckCircle2, MessageSquare, LayoutDashboard, Info } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
 
-const USE_CASE_LABELS: Record<string, string> = {
-  tax: 'Steuerbescheid',
-  jobcenter: 'Jobcenter',
-  rente: 'Rentenbescheid',
-  bussgeld: 'Bußgeldbescheid',
-  krankenversicherung: 'Krankenversicherung',
-  kuendigung: 'Kündigung',
-  miete: 'Mieterhöhung',
-  grundsteuer: 'Grundsteuer',
-}
+// Demo pending review — shown until real review requests exist
+const DEMO_REVIEWS = [
+  {
+    id: 'demo-rev-001',
+    caseType: 'Einkommensteuerbescheid 2023',
+    userName: 'Max Mustermann',
+    note: 'Bitte prüfen, ob die Werbungskosten korrekt berücksichtigt sind.',
+    requestedAt: '2026-03-29T09:15:00Z',
+    deadline: '2026-04-12T00:00:00Z',
+    status: 'PENDING' as const,
+  },
+]
 
-const STATUS_LABEL: Record<string, { label: string; className: string }> = {
-  DRAFT_READY: { label: 'Entwurf bereit', className: 'bg-blue-50 text-blue-700' },
-  SUBMITTED: { label: 'Eingereicht', className: 'bg-green-50 text-green-700' },
-  AWAITING_RESPONSE: { label: 'Ausstehend', className: 'bg-amber-50 text-amber-700' },
-  QUESTIONS: { label: 'Rückfragen', className: 'bg-amber-50 text-amber-700' },
-  CLOSED_SUCCESS: { label: 'Erfolgreich', className: 'bg-green-50 text-green-700' },
-  CREATING: { label: 'Wird erstellt', className: 'bg-gray-100 text-gray-600' },
+function daysBetween(from: string, to: string) {
+  const ms = new Date(to).getTime() - new Date(from).getTime()
+  return Math.ceil(ms / (1000 * 60 * 60 * 24))
 }
 
 export default async function AdvisorDashboardPage() {
@@ -31,39 +28,47 @@ export default async function AdvisorDashboardPage() {
     redirect('/dashboard')
   }
 
-  const advisorId = session.user?.id ?? 'demo_advisor_001'
-  const stats = getAdvisorStats(advisorId)
-  const recentCases = DEMO_CLIENT_CASES.slice(0, 5)
-  const clientMap = Object.fromEntries(DEMO_CLIENTS.map((c) => [c.id, c]))
+  const isLawyer = session.user?.role === 'LAWYER'
+  const today = new Date().toISOString()
 
   return (
     <div>
-      <div className="mb-8 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-brand-100 rounded-lg flex items-center justify-center">
-            <LayoutDashboard className="w-4 h-4 text-brand-700" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold text-[var(--foreground)]">Berater-Dashboard</h1>
-            <p className="text-sm text-[var(--muted)]">Willkommen, {session.user?.name}</p>
-          </div>
+      {/* Header */}
+      <div className="mb-8 flex items-center gap-3">
+        <div className="w-8 h-8 bg-brand-100 rounded-lg flex items-center justify-center">
+          <LayoutDashboard className="w-4 h-4 text-brand-700" />
         </div>
-        <Link
-          href="/einspruch"
-          className="flex items-center gap-1.5 bg-brand-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-brand-700 transition-colors"
-        >
-          <Plus className="w-4 h-4" />
-          Neuer Einspruch
-        </Link>
+        <div>
+          <h1 className="text-2xl font-bold text-[var(--foreground)]">
+            {isLawyer ? 'Anwalt-Dashboard' : 'Berater-Dashboard'}
+          </h1>
+          <p className="text-sm text-[var(--muted)]">Willkommen, {session.user?.name}</p>
+        </div>
       </div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+      {/* Explainer banner */}
+      <div className="bg-brand-50 dark:bg-brand-950/40 border border-brand-100 dark:border-brand-900 rounded-xl p-4 mb-6 flex gap-3">
+        <Info className="w-5 h-5 text-brand-600 shrink-0 mt-0.5" />
+        <div className="text-sm text-brand-800 dark:text-brand-200 leading-relaxed">
+          <p className="font-semibold mb-1">Ihre Rolle auf TaxaLex</p>
+          <p>
+            Wenn ein Nutzer einen Einspruch erstellt hat und eine Prüfung wünscht, erhalten Sie
+            eine E-Mail mit einem Prüf-Link. Sie öffnen den Brief, können ihn{' '}
+            <strong>freigeben</strong>, einen <strong>Kommentar senden</strong> oder eine{' '}
+            <strong>Rückfrage stellen</strong>. Der Nutzer wird sofort benachrichtigt.
+          </p>
+          <p className="mt-1 text-brand-600 dark:text-brand-400 text-xs">
+            Einsprüche werden von TaxaLex erstellt — Ihre Zeit fließt in die Prüfung, nicht in die Erstellung.
+          </p>
+        </div>
+      </div>
+
+      {/* Stats row */}
+      <div className="grid grid-cols-3 gap-4 mb-6">
         {[
-          { icon: Users, label: 'Mandanten', value: stats.totalClients, color: 'bg-blue-50 text-blue-600' },
-          { icon: FileText, label: 'Fälle gesamt', value: stats.totalCases, color: 'bg-purple-50 text-purple-600' },
-          { icon: Clock, label: 'Aktive Fälle', value: stats.activeCases, color: 'bg-amber-50 text-amber-600' },
-          { icon: CheckCircle2, label: 'Eingereicht', value: stats.submittedCases, color: 'bg-green-50 text-green-600' },
+          { icon: Clock, label: 'Ausstehend', value: DEMO_REVIEWS.filter(r => r.status === 'PENDING').length, color: 'bg-amber-50 text-amber-600' },
+          { icon: CheckCircle2, label: 'Freigegeben', value: 0, color: 'bg-green-50 text-green-600' },
+          { icon: MessageSquare, label: 'Kommentiert', value: 0, color: 'bg-blue-50 text-blue-600' },
         ].map((s) => (
           <div key={s.label} className="bg-[var(--surface)] rounded-xl border border-[var(--border)] p-4">
             <div className={`w-8 h-8 rounded-lg ${s.color} flex items-center justify-center mb-3`}>
@@ -75,60 +80,65 @@ export default async function AdvisorDashboardPage() {
         ))}
       </div>
 
-      {/* Recent cases */}
-      <div className="bg-[var(--surface)] rounded-xl border border-[var(--border)] mb-6">
+      {/* Pending reviews */}
+      <div className="bg-[var(--surface)] rounded-xl border border-[var(--border)]">
         <div className="px-5 py-4 border-b border-[var(--border)] flex items-center justify-between">
-          <h2 className="font-semibold text-sm text-[var(--foreground)]">Letzte Fälle</h2>
-          <Link href="/advisor/appeals" className="text-xs text-brand-600 hover:underline">
-            Alle ansehen
-          </Link>
+          <h2 className="font-semibold text-sm text-[var(--foreground)]">Ausstehende Prüfungen</h2>
+          <span className="text-xs text-[var(--muted)] bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 px-2 py-0.5 rounded-full font-medium">
+            {DEMO_REVIEWS.length} ausstehend
+          </span>
         </div>
+
         <div className="divide-y divide-[var(--border)]">
-          {recentCases.map((c) => {
-            const client = clientMap[c.clientId]
-            const status = STATUS_LABEL[c.status] ?? { label: c.status, className: 'bg-gray-100 text-gray-600' }
+          {DEMO_REVIEWS.map((review) => {
+            const daysLeft = daysBetween(today, review.deadline)
+            const urgency = daysLeft <= 3 ? 'text-red-600' : daysLeft <= 7 ? 'text-amber-600' : 'text-[var(--muted)]'
             return (
-              <div key={c.id} className="flex items-center gap-3 px-5 py-3.5">
+              <div key={review.id} className="px-5 py-4 flex items-start gap-4">
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-[var(--foreground)]">
-                    {USE_CASE_LABELS[c.useCase] ?? c.useCase}
+                  <div className="flex items-center gap-2 mb-0.5">
+                    <p className="text-sm font-semibold text-[var(--foreground)]">{review.caseType}</p>
+                    <span className="text-xs bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 px-2 py-0.5 rounded-full font-medium">
+                      Ausstehend
+                    </span>
+                  </div>
+                  <p className="text-xs text-[var(--muted)] mb-1">
+                    Von: {review.userName} · Angefragt {new Date(review.requestedAt).toLocaleDateString('de-DE')}
                   </p>
-                  <p className="text-xs text-[var(--muted)]">
-                    {client?.name ?? '–'} · {new Date(c.createdAt).toLocaleDateString('de-DE')}
-                  </p>
+                  {review.note && (
+                    <p className="text-xs text-[var(--foreground)] bg-[var(--background-subtle)] rounded-lg px-3 py-2 mt-2 italic">
+                      „{review.note}"
+                    </p>
+                  )}
                 </div>
-                <span className={`text-xs font-medium px-2 py-0.5 rounded-full shrink-0 ${status.className}`}>
-                  {status.label}
-                </span>
-                {c.deadline && (
-                  <p className="text-xs text-[var(--muted)] hidden sm:block shrink-0">
-                    Frist: {new Date(c.deadline).toLocaleDateString('de-DE')}
+                <div className="shrink-0 text-right">
+                  <p className={`text-xs font-medium ${urgency} mb-2`}>
+                    Frist: {new Date(review.deadline).toLocaleDateString('de-DE')}
+                    <br />
+                    <span className="font-normal">({daysLeft} Tage)</span>
                   </p>
-                )}
+                  <Link
+                    href="/advisor/reviews"
+                    className="inline-flex items-center gap-1 bg-brand-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold hover:bg-brand-700 transition-colors"
+                  >
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                    Jetzt prüfen
+                  </Link>
+                </div>
               </div>
             )
           })}
         </div>
       </div>
 
-      {/* Quick actions */}
-      <div className="grid sm:grid-cols-2 gap-4">
-        <Link
-          href="/advisor/clients"
-          className="bg-[var(--surface)] border border-[var(--border)] rounded-xl p-5 hover:border-brand-300 transition-colors group"
-        >
-          <Users className="w-5 h-5 text-brand-600 mb-3" />
-          <h3 className="font-semibold text-[var(--foreground)] mb-1 group-hover:text-brand-600">Mandanten verwalten</h3>
-          <p className="text-xs text-[var(--muted)]">{stats.totalClients} Mandanten · {stats.activeClients} aktiv</p>
-        </Link>
-        <Link
-          href="/advisor/appeals"
-          className="bg-[var(--surface)] border border-[var(--border)] rounded-xl p-5 hover:border-brand-300 transition-colors group"
-        >
-          <FileText className="w-5 h-5 text-brand-600 mb-3" />
-          <h3 className="font-semibold text-[var(--foreground)] mb-1 group-hover:text-brand-600">Alle Einsprüche</h3>
-          <p className="text-xs text-[var(--muted)]">{stats.activeCases} aktiv · {stats.submittedCases} eingereicht</p>
-        </Link>
+      {/* Completed reviews (empty state) */}
+      <div className="bg-[var(--surface)] rounded-xl border border-[var(--border)] mt-4">
+        <div className="px-5 py-4 border-b border-[var(--border)]">
+          <h2 className="font-semibold text-sm text-[var(--foreground)]">Abgeschlossene Prüfungen</h2>
+        </div>
+        <div className="px-5 py-10 text-center text-[var(--muted)] text-sm">
+          Noch keine abgeschlossenen Prüfungen.
+        </div>
       </div>
     </div>
   )

@@ -76,8 +76,8 @@ export default function PricingPage({ params }: PricingPageProps) {
         </h1>
         <p className="text-lg text-[var(--muted)] max-w-xl mx-auto">
           {isEN
-            ? 'Start for free. Pay only when you need more. No hidden fees.'
-            : 'Kostenlos starten. Nur zahlen, wenn Sie mehr brauchen. Keine versteckten Kosten.'}
+            ? 'Simple pricing — pay per case or subscribe for unlimited access. No hidden fees.'
+            : 'Klare Preise — pro Fall oder mit Abo. Keine versteckten Kosten.'}
         </p>
       </section>
 

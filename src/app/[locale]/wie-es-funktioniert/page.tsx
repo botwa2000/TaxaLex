@@ -170,7 +170,7 @@ export default async function HowItWorksPage({
               href="/einspruch"
               className="inline-flex items-center gap-2 bg-brand-600 text-white px-8 py-3.5 rounded-xl font-semibold hover:bg-brand-700 transition-colors"
             >
-              {isEN ? 'Start now for free' : 'Jetzt kostenlos starten'}
+              {isEN ? 'Try the demo' : 'Demo starten'}
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
