@@ -14,7 +14,8 @@ interface PricingCardProps {
 
 export function PricingCard({ plan, locale, currentPlanSlug, className }: PricingCardProps) {
   const t = plan.translations[locale] ?? plan.translations['de']
-  const features = plan.features.filter((f) => f.locale === locale || f.locale === 'de')
+  const featuresForLocale = plan.features.filter((f) => f.locale === locale)
+  const features = featuresForLocale.length > 0 ? featuresForLocale : plan.features.filter((f) => f.locale === 'de')
   const isCurrent = currentPlanSlug === plan.slug
   const isPopular = plan.isPopular
 
@@ -107,10 +108,11 @@ function getPriceLabel(plan: PricingPlanData, locale: string) {
 
   if (plan.priceOnce !== null && plan.priceOnce !== undefined) {
     const once = Number(plan.priceOnce)
+    const isPack = plan.slug.includes('pack')
     return {
       amount: once === 0 ? (isEN ? 'Free' : 'Kostenlos') : `${currency}${once.toFixed(2).replace('.', ',')}`,
-      period: once === 0 ? null : isEN ? 'per objection' : 'pro Einspruch',
-      note: null,
+      period: once === 0 ? null : isPack ? (isEN ? '5 cases' : '5 Einsprüche') : (isEN ? 'per objection' : 'pro Einspruch'),
+      note: isPack ? (isEN ? 'one-time, no expiry' : 'einmalig, kein Ablaufdatum') : null,
     }
   }
   if (plan.priceMonthly !== null && plan.priceMonthly !== undefined) {

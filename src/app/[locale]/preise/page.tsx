@@ -6,9 +6,9 @@ import { Footer } from '@/components/Footer'
 import { PricingCard } from '@/components/PricingCard'
 import { TrustBadges } from '@/components/TrustBadges'
 import { getPricingPlans } from '@/lib/contentFallbacks'
-import { CheckCircle2, Shield } from 'lucide-react'
+import { CheckCircle2, Shield, UserCheck } from 'lucide-react'
 
-type UserGroup = 'individual' | 'selfemployed' | 'advisor' | 'lawyer'
+type UserGroup = 'individual' | 'selfemployed'
 
 interface PricingPageProps {
   params: Promise<{ locale: string }>
@@ -33,36 +33,10 @@ export default function PricingPage({ params }: PricingPageProps) {
     ? [
         { key: 'individual', label: 'Individual' },
         { key: 'selfemployed', label: 'Self-employed' },
-        { key: 'advisor', label: 'Tax advisor' },
-        { key: 'lawyer', label: 'Lawyer' },
       ]
     : [
         { key: 'individual', label: 'Privatperson' },
         { key: 'selfemployed', label: 'Selbstständig' },
-        { key: 'advisor', label: 'Steuerberater' },
-        { key: 'lawyer', label: 'Rechtsanwalt' },
-      ]
-
-  const comparisonFeatures = isEN
-    ? [
-        { feature: 'AI objection letter (5 agents)', individual: true, advisor: true },
-        { feature: 'Document upload (PDF, photo, scan)', individual: true, advisor: true },
-        { feature: 'German-language output', individual: true, advisor: true },
-        { feature: 'Download DOCX / TXT', individual: true, advisor: true },
-        { feature: 'Multi-client dashboard', individual: false, advisor: true },
-        { feature: 'Client management', individual: false, advisor: true },
-        { feature: 'White-label export', individual: false, advisor: true },
-        { feature: 'Priority processing', individual: false, advisor: true },
-      ]
-    : [
-        { feature: 'KI-Einspruchsschreiben (5 Agenten)', individual: true, advisor: true },
-        { feature: 'Dokument-Upload (PDF, Foto, Scan)', individual: true, advisor: true },
-        { feature: 'Ausgabe auf Deutsch', individual: true, advisor: true },
-        { feature: 'Download DOCX / TXT', individual: true, advisor: true },
-        { feature: 'Multi-Mandanten-Dashboard', individual: false, advisor: true },
-        { feature: 'Mandantenverwaltung', individual: false, advisor: true },
-        { feature: 'White-Label-Export', individual: false, advisor: true },
-        { feature: 'Priorisierte Verarbeitung', individual: false, advisor: true },
       ]
 
   return (
@@ -114,36 +88,40 @@ export default function PricingPage({ params }: PricingPageProps) {
         </div>
       </section>
 
-      {/* Comparison table */}
+      {/* Professional review add-on */}
       <section className="py-16 px-4 bg-[var(--surface)] border-y border-[var(--border)]">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-2xl font-bold text-[var(--foreground)] mb-8 text-center">
-            {isEN ? 'Individual vs. advisor' : 'Privat vs. Berater'}
-          </h2>
-          <div className="border border-[var(--border)] rounded-2xl overflow-hidden">
-            <div className="grid grid-cols-3 bg-[var(--background-subtle)] px-6 py-3 text-xs font-semibold uppercase tracking-wider text-[var(--muted)]">
-              <span>{isEN ? 'Feature' : 'Funktion'}</span>
-              <span className="text-center">{isEN ? 'Individual' : 'Privat'}</span>
-              <span className="text-center">{isEN ? 'Advisor' : 'Berater'}</span>
-            </div>
-            <div className="divide-y divide-[var(--border)]">
-              {comparisonFeatures.map((row) => (
-                <div key={row.feature} className="grid grid-cols-3 px-6 py-3.5 text-sm">
-                  <span className="text-[var(--foreground)]">{row.feature}</span>
-                  <span className="text-center">
-                    {row.individual
-                      ? <CheckCircle2 className="w-4 h-4 text-green-500 mx-auto" />
-                      : <span className="text-[var(--muted)]">–</span>}
-                  </span>
-                  <span className="text-center">
-                    {row.advisor
-                      ? <CheckCircle2 className="w-4 h-4 text-green-500 mx-auto" />
-                      : <span className="text-[var(--muted)]">–</span>}
-                  </span>
-                </div>
-              ))}
-            </div>
+        <div className="max-w-2xl mx-auto text-center">
+          <div className="w-12 h-12 bg-brand-100 dark:bg-brand-950 rounded-2xl flex items-center justify-center mx-auto mb-4">
+            <UserCheck className="w-6 h-6 text-brand-600" />
           </div>
+          <h2 className="text-2xl font-bold text-[var(--foreground)] mb-3">
+            {isEN ? 'Optional: professional review' : 'Optional: Prüfung durch Fachmann'}
+          </h2>
+          <p className="text-[var(--muted)] mb-6 leading-relaxed">
+            {isEN
+              ? 'Add a review by a licensed tax advisor or lawyer to any case. The professional receives a secure link, checks the AI draft, and either approves it or sends targeted feedback — no appointment needed.'
+              : 'Jeder Fall kann optional durch einen zugelassenen Steuerberater oder Rechtsanwalt geprüft werden. Der Fachmann erhält einen sicheren Link, prüft den KI-Entwurf und gibt ihn frei oder sendet gezieltes Feedback — kein Kanzlei-Termin nötig.'}
+          </p>
+          <div className="inline-flex items-baseline gap-2 bg-[var(--background)] border border-[var(--border)] rounded-2xl px-8 py-5 mb-6">
+            <span className="text-4xl font-extrabold text-[var(--foreground)]">€49</span>
+            <span className="text-[var(--muted)] text-sm">{isEN ? '/ case' : '/ Fall'}</span>
+          </div>
+          <ul className="text-sm text-[var(--muted)] space-y-2 mb-2">
+            {(isEN
+              ? ['Licensed tax advisor or lawyer', 'Approval or written feedback within 48 h', 'Secure link — no account needed for the reviewer', 'Add to any plan at checkout']
+              : ['Zugelassener Steuerberater oder Rechtsanwalt', 'Freigabe oder schriftliches Feedback innerhalb 48 h', 'Sicherer Link — kein Konto für den Prüfer nötig', 'Zu jedem Plan beim Kauf zubuchbar']
+            ).map((item) => (
+              <li key={item} className="flex items-center justify-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-green-500 shrink-0" />
+                {item}
+              </li>
+            ))}
+          </ul>
+          <p className="text-xs text-[var(--muted)] mt-4">
+            {isEN
+              ? 'Note: Professional review is a quality check, not legal advice within the meaning of the RDG.'
+              : 'Hinweis: Die Berater-Prüfung ist eine fachliche Qualitätsprüfung, keine Rechtsberatung i.S.d. RDG.'}
+          </p>
         </div>
       </section>
 

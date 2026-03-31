@@ -68,7 +68,7 @@ export function LanguageSelector({ currentLocale, variant = 'select', className 
         aria-haspopup="listbox"
       >
         <span className="text-base leading-none">{flag}</span>
-        <span className="font-medium hidden sm:inline">{current.toUpperCase()}</span>
+        <span className="font-medium">{current.toUpperCase()}</span>
         <ChevronDown className={cn('w-3 h-3 transition-transform', open && 'rotate-180')} />
       </button>
 
