@@ -51,6 +51,9 @@ if [[ "$CMD" == "push" ]]; then
   fi
   eval "$GIT_PUSH" git push origin main
   echo "==> Pushed to GitHub"
+  echo ""
+  echo "    Next: ./scripts/deploy.sh dev   — deploy to dev.taxalex.de"
+  echo "          ./scripts/deploy.sh prod  — deploy to taxalex.de"
 
 # ── dev ──────────────────────────────────────────────────────────────────────
 elif [[ "$CMD" == "dev" ]]; then
