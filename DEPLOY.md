@@ -22,7 +22,7 @@ All credentials are loaded from `.secrets` (gitignored). See setup below.
 | **Docker image** | `taxalex-frontend:dev` | `taxalex-frontend:latest` |
 | **Port** | 3011 | 3010 |
 
-**Server:** bonidoc Hetzner VPS (details in `.secrets`, not here)
+**Server:** `91.99.212.17` — shared Hetzner VPS hosting both bonidoc and taxalex (`HETZNER_HOST` in `.secrets`)
 **Repo:** https://github.com/botwa2000/TaxaLex
 
 ---
@@ -172,7 +172,7 @@ Configs at `/etc/nginx/sites-enabled/taxalex.de` and `dev.taxalex.de` (already l
 | Stacks | `bonifatus`, `bonifatus-dev` | `taxalex`, `taxalex-dev` |
 | GitHub key | `id_ed25519` | `id_ed25519_taxalex` |
 
-No shared networks, volumes, or secrets between projects.
+No shared networks or volumes between projects. **Secrets naming rule:** all TaxAlex secrets must use the `taxalex_` prefix (e.g. `taxalex_stripe_webhook_secret_prod`) to avoid Docker Swarm name collisions with bonifatus secrets on the same server. Generic names like `stripe_webhook_secret_dev` are owned by bonifatus.
 
 ---
 
