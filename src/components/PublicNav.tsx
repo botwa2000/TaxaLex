@@ -1,7 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { Menu, X, ChevronDown } from 'lucide-react'
+import { useSession, signOut } from 'next-auth/react'
+import { Menu, X, ChevronDown, LogOut, LayoutDashboard } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Logo } from './Logo'
 import { Button } from './ui/Button'
@@ -18,6 +19,8 @@ export function PublicNav({ locale, userGroup }: PublicNavProps) {
   const [useCaseDropOpen, setUseCaseDropOpen] = useState(false)
   const pathname = usePathname()
   const isEN = locale === 'en'
+  const { data: session, status } = useSession()
+  const isLoggedIn = status === 'authenticated' && !!session?.user
 
   const navLinks = [
     {
@@ -128,17 +131,43 @@ export function PublicNav({ locale, userGroup }: PublicNavProps) {
           <div className="hidden sm:block">
             <LanguageSelector currentLocale={locale} />
           </div>
-          <Link
-            href="/login"
-            className="hidden sm:block text-sm text-[var(--muted)] hover:text-[var(--foreground)] px-3 py-2 rounded-lg hover:bg-[var(--background-subtle)] transition-colors"
-          >
-            {isEN ? 'Sign in' : 'Anmelden'}
-          </Link>
-          <Link href="/register">
-            <Button size="md" variant="primary">
-              {ctaLabel}
-            </Button>
-          </Link>
+          {isLoggedIn ? (
+            <>
+              <Link
+                href="/dashboard"
+                className="hidden sm:flex items-center gap-1.5 text-sm text-[var(--muted)] hover:text-[var(--foreground)] px-3 py-2 rounded-lg hover:bg-[var(--background-subtle)] transition-colors"
+              >
+                <LayoutDashboard className="w-3.5 h-3.5" />
+                {isEN ? 'Dashboard' : 'Dashboard'}
+              </Link>
+              <button
+                onClick={() => signOut({ callbackUrl: '/login' })}
+                className="hidden sm:flex items-center gap-1.5 text-sm text-[var(--muted)] hover:text-[var(--foreground)] px-3 py-2 rounded-lg hover:bg-[var(--background-subtle)] transition-colors"
+              >
+                <LogOut className="w-3.5 h-3.5" />
+                {isEN ? 'Sign out' : 'Abmelden'}
+              </button>
+              <Link href="/einspruch">
+                <Button size="md" variant="primary">
+                  {isEN ? 'New appeal' : 'Neuer Einspruch'}
+                </Button>
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link
+                href="/login"
+                className="hidden sm:block text-sm text-[var(--muted)] hover:text-[var(--foreground)] px-3 py-2 rounded-lg hover:bg-[var(--background-subtle)] transition-colors"
+              >
+                {isEN ? 'Sign in' : 'Anmelden'}
+              </Link>
+              <Link href="/register">
+                <Button size="md" variant="primary">
+                  {ctaLabel}
+                </Button>
+              </Link>
+            </>
+          )}
           {/* Mobile menu toggle */}
           <button
             className="md:hidden p-2 text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-[var(--background-subtle)] rounded-lg transition-colors"
@@ -164,20 +193,49 @@ export function PublicNav({ locale, userGroup }: PublicNavProps) {
             </Link>
           ))}
           <div className="pt-3 border-t border-[var(--border)] space-y-2">
-            <Link
-              href="/login"
-              onClick={() => setMobileOpen(false)}
-              className="block px-3 py-3 text-sm font-medium text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-[var(--background-subtle)] rounded-xl transition-colors"
-            >
-              {isEN ? 'Sign in' : 'Anmelden'}
-            </Link>
-            <Link
-              href="/register"
-              onClick={() => setMobileOpen(false)}
-              className="block px-3 py-3 text-sm font-bold text-center text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition-colors"
-            >
-              {ctaLabel}
-            </Link>
+            {isLoggedIn ? (
+              <>
+                <Link
+                  href="/dashboard"
+                  onClick={() => setMobileOpen(false)}
+                  className="flex items-center gap-2 px-3 py-3 text-sm font-medium text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-[var(--background-subtle)] rounded-xl transition-colors"
+                >
+                  <LayoutDashboard className="w-4 h-4" />
+                  Dashboard
+                </Link>
+                <Link
+                  href="/einspruch"
+                  onClick={() => setMobileOpen(false)}
+                  className="block px-3 py-3 text-sm font-bold text-center text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition-colors"
+                >
+                  {isEN ? 'New appeal' : 'Neuer Einspruch'}
+                </Link>
+                <button
+                  onClick={() => { setMobileOpen(false); signOut({ callbackUrl: '/login' }) }}
+                  className="flex items-center gap-2 w-full px-3 py-3 text-sm font-medium text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-[var(--background-subtle)] rounded-xl transition-colors"
+                >
+                  <LogOut className="w-4 h-4" />
+                  {isEN ? 'Sign out' : 'Abmelden'}
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  onClick={() => setMobileOpen(false)}
+                  className="block px-3 py-3 text-sm font-medium text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-[var(--background-subtle)] rounded-xl transition-colors"
+                >
+                  {isEN ? 'Sign in' : 'Anmelden'}
+                </Link>
+                <Link
+                  href="/register"
+                  onClick={() => setMobileOpen(false)}
+                  className="block px-3 py-3 text-sm font-bold text-center text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition-colors"
+                >
+                  {ctaLabel}
+                </Link>
+              </>
+            )}
             <div className="px-1">
               <LanguageSelector currentLocale={locale} />
             </div>

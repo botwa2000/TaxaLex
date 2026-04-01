@@ -1,30 +1,85 @@
 import { auth } from '@/auth'
 import { redirect } from 'next/navigation'
-import { DEMO_USERS, DEMO_CASES } from '@/lib/mockData'
+import { db } from '@/lib/db'
 import { Shield } from 'lucide-react'
 import { AdminClient } from './AdminClient'
 import { USE_CASES, FAQS, PRICING_PLANS } from '@/lib/contentFallbacks'
+import { config } from '@/config/env'
 
 export default async function AdminPage() {
   const session = await auth()
   if (session?.user?.role !== 'ADMIN') redirect('/dashboard')
 
-  const stats = {
-    totalUsers: DEMO_USERS.length,
-    totalCases: DEMO_CASES.length,
-    openCases: DEMO_CASES.filter((c) =>
-      ['CREATED', 'QUESTIONS', 'GENERATING', 'DRAFT_READY'].includes(c.status)
-    ).length,
-    submittedCases: DEMO_CASES.filter((c) =>
-      ['SUBMITTED', 'AWAITING_RESPONSE'].includes(c.status)
-    ).length,
+  const oneWeekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
+
+  const [
+    users,
+    cases,
+    totalUsers,
+    totalCases,
+    newUsersThisWeek,
+    openCases,
+    submittedCases,
+  ] = await Promise.all([
+    db.user.findMany({
+      orderBy: { createdAt: 'desc' },
+      select: {
+        id:            true,
+        name:          true,
+        email:         true,
+        role:          true,
+        creditBalance: true,
+        locale:        true,
+        createdAt:     true,
+        emailVerified: true,
+        _count:        { select: { cases: true } },
+        subscription:  {
+          select: { status: true, planSlug: true, currentPeriodEnd: true },
+        },
+      },
+    }),
+    db.case.findMany({
+      orderBy: { createdAt: 'desc' },
+      take: 200,
+      select: {
+        id:        true,
+        useCase:   true,
+        status:    true,
+        createdAt: true,
+        deadline:  true,
+        userId:    true,
+        user:      { select: { name: true, email: true } },
+        _count:    { select: { outputs: true } },
+      },
+    }),
+    db.user.count(),
+    db.case.count(),
+    db.user.count({ where: { createdAt: { gte: oneWeekAgo } } }),
+    db.case.count({
+      where: {
+        status: { in: ['CREATED', 'QUESTIONS', 'GENERATING', 'DRAFT_READY'] as const },
+      },
+    }),
+    db.case.count({
+      where: {
+        status: { in: ['SUBMITTED', 'AWAITING_RESPONSE'] as const },
+      },
+    }),
+  ])
+
+  const contentStats = {
+    useCases:     USE_CASES.filter((u) => u.locale === 'de').length,
+    faqs:         FAQS.filter((f) => f.locale === 'de').length,
+    pricingPlans: PRICING_PLANS.length,
   }
 
-  // Content stats: count DE-locale entries only to avoid double-counting
-  const contentStats = {
-    useCases: USE_CASES.filter((u) => u.locale === 'de').length,
-    faqs: FAQS.filter((f) => f.locale === 'de').length,
-    pricingPlans: PRICING_PLANS.length,
+  const systemHealth = {
+    anthropic:  !!config.anthropicApiKey,
+    google:     !!config.googleAiApiKey,
+    perplexity: !!config.perplexityApiKey,
+    stripe:     !!config.stripeSecretKey,
+    brevo:      !!config.brevoApiKey,
+    s3:         !!config.s3Endpoint,
   }
 
   return (
@@ -40,10 +95,11 @@ export default async function AdminPage() {
       </div>
 
       <AdminClient
-        users={DEMO_USERS as Parameters<typeof AdminClient>[0]['users']}
-        cases={DEMO_CASES as Parameters<typeof AdminClient>[0]['cases']}
-        stats={stats}
+        users={users}
+        cases={cases}
+        stats={{ totalUsers, totalCases, openCases, submittedCases, newUsersThisWeek }}
         contentStats={contentStats}
+        systemHealth={systemHealth}
       />
     </div>
   )
