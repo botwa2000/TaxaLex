@@ -1,14 +1,10 @@
 'use client'
 
 import { useState } from 'react'
-import { usePathname } from 'next/navigation'
 import { Link } from '@/i18n/navigation'
 import { Mail, X, CheckCircle2, Loader2 } from 'lucide-react'
 
 export function VerifyBanner() {
-  const pathname = usePathname()
-  const locale = pathname.split('/')[1] ?? 'de'
-
   const [state, setState] = useState<'idle' | 'loading' | 'sent' | 'error'>('idle')
   const [error, setError] = useState('')
   const [dismissed, setDismissed] = useState(false)
@@ -40,7 +36,7 @@ export function VerifyBanner() {
                 Neuer Code gesendet — bitte prüfe deinen Posteingang.
               </p>
               <p className="text-xs text-green-600 dark:text-green-500 mt-0.5">
-                <Link href={`/${locale}/verify-email`} className="underline hover:no-underline">
+                <Link href="/verify-email" className="underline hover:no-underline">
                   Code jetzt eingeben →
                 </Link>
               </p>
@@ -54,7 +50,7 @@ export function VerifyBanner() {
             <p className="text-xs text-amber-700 dark:text-amber-400 mt-0.5">
               Wir haben dir einen Bestätigungscode geschickt.{' '}
               <Link
-                href={`/${locale}/verify-email`}
+                href="/verify-email"
                 className="underline font-medium hover:no-underline"
               >
                 Code eingeben

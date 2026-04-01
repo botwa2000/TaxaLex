@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
+import { createElement } from 'react'
 import { db } from '@/lib/db'
+import { sendEmail } from '@/lib/email'
+import { Welcome } from '@/lib/emailTemplates/Welcome'
 import { logger } from '@/lib/logger'
+import { config } from '@/config/env'
 
 const VerifySchema = z.object({
   email: z.string().email(),
@@ -21,7 +25,7 @@ export async function POST(req: NextRequest) {
 
     const user = await db.user.findUnique({
       where: { email: email.toLowerCase() },
-      select: { id: true, emailVerified: true },
+      select: { id: true, name: true, locale: true, emailVerified: true },
     })
 
     // Generic error — don't reveal whether email exists
@@ -55,6 +59,16 @@ export async function POST(req: NextRequest) {
     ])
 
     logger.info('Email verified', { userId: user.id })
+
+    // Send welcome email now that the address is confirmed — non-blocking
+    const locale = user.locale ?? 'de'
+    const dashboardUrl = `${config.appUrl}/${locale}/dashboard`
+    void sendEmail({
+      to: email.toLowerCase(),
+      subject: locale === 'en' ? 'Welcome to TaxaLex' : 'Willkommen bei TaxaLex',
+      react: createElement(Welcome, { name: user.name, dashboardUrl, locale }),
+    }).catch((err) => logger.warn('Welcome email failed', { userId: user.id, err }))
+
     return NextResponse.json({ success: true })
   } catch (error) {
     logger.error('Email verification error', { error })

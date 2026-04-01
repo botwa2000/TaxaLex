@@ -5,10 +5,8 @@ import { createElement } from 'react'
 import { db } from '@/lib/db'
 import { sendEmail } from '@/lib/email'
 import { VerifyEmail } from '@/lib/emailTemplates/VerifyEmail'
-import { Welcome } from '@/lib/emailTemplates/Welcome'
 import { logger } from '@/lib/logger'
 import { AUTH } from '@/config/constants'
-import { config } from '@/config/env'
 
 const RegisterSchema = z.object({
   email: z.string().email('Ungültige E-Mail-Adresse'),
@@ -68,19 +66,12 @@ export async function POST(req: NextRequest) {
       },
     })
 
-    const dashboardUrl = `${config.appUrl}/${user.locale}/dashboard`
-
-    // Send verification + welcome emails (non-blocking — don't fail registration if email fails)
+    // Send verification email only — welcome email is sent after the user verifies
     await Promise.allSettled([
       sendEmail({
         to: user.email,
-        subject: user.locale === 'en' ? `Your ${user.locale} verification code` : 'Dein Bestätigungscode — TaxaLex',
+        subject: user.locale === 'en' ? 'Your verification code — TaxaLex' : 'Dein Bestätigungscode — TaxaLex',
         react: createElement(VerifyEmail, { name: user.name, code, locale: user.locale }),
-      }),
-      sendEmail({
-        to: user.email,
-        subject: user.locale === 'en' ? 'Welcome to TaxaLex' : 'Willkommen bei TaxaLex',
-        react: createElement(Welcome, { name: user.name, dashboardUrl, locale: user.locale }),
       }),
     ])
 

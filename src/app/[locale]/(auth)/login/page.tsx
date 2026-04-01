@@ -42,6 +42,18 @@ export default function LoginPage() {
     })
 
     if (result?.error) {
+      // Check if this is an unverified email (gives a better redirect than a generic error)
+      const check = await fetch('/api/auth/verification-status', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      }).then((r) => r.json()).catch(() => ({ needs_verification: false }))
+
+      if (check.needs_verification) {
+        router.push(`/verify-email?email=${encodeURIComponent(email)}`)
+        return
+      }
+
       setError('E-Mail oder Passwort falsch.')
       setLoading(false)
       return

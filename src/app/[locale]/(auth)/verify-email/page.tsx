@@ -185,12 +185,12 @@ export default function VerifyEmailPage() {
             onChange={(e) => handleChange(i, e.target.value)}
             onKeyDown={(e) => handleKeyDown(i, e)}
             disabled={loading || success}
-            className={`w-11 h-14 text-center text-2xl font-bold rounded-xl border transition-colors focus:outline-none focus:ring-2 focus:ring-brand-400 focus:border-brand-400 bg-[var(--surface)] text-[var(--foreground)] disabled:opacity-50 ${
+            className={`w-11 h-14 text-center text-2xl font-bold rounded-xl border-2 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-400 focus:border-brand-400 bg-[var(--surface)] text-[var(--foreground)] disabled:opacity-50 ${
               error
                 ? 'border-red-400 bg-red-50 dark:bg-red-950/20'
                 : digit
                   ? 'border-brand-400 bg-brand-50 dark:bg-brand-950/40'
-                  : 'border-[var(--border)]'
+                  : 'border-gray-300 dark:border-gray-600'
             }`}
           />
         ))}

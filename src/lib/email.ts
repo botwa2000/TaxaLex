@@ -27,7 +27,9 @@ export async function sendEmail(options: {
   subject: string
   react: ReactElement
 }): Promise<void> {
-  const { to, subject, react } = options
+  const { to, react } = options
+  // Prefix dev emails so they're easy to distinguish in the inbox
+  const subject = config.isDev ? `[DEV] ${options.subject}` : options.subject
 
   if (!config.brevoApiKey) {
     logger.warn('BREVO_API_KEY not set — email suppressed', { to, subject })
