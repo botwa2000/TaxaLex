@@ -2,6 +2,7 @@ import { auth } from '@/auth'
 import { DEMO_USER_ID, DEMO_USER } from '@/lib/mockData'
 import { PRICING_PLANS } from '@/lib/contentFallbacks'
 import { Link } from '@/i18n/navigation'
+import { DeleteAccountButton } from './DeleteAccountButton'
 import {
   Plus,
   FileText,
@@ -323,9 +324,9 @@ export default async function AccountPage() {
         <div className="px-5 py-4">
           <p className="text-xs font-semibold uppercase tracking-wide text-[var(--muted)] mb-2">Datenschutz (DSGVO)</p>
           <p className="text-xs text-[var(--muted)] mb-3">
-            Daten exportieren oder Konto löschen — folgt mit DSGVO-Implementierung.
+            Datenexport folgt. Kontoloschung ist sofort wirksam und unwiderruflich.
           </p>
-          <div className="flex gap-2">
+          <div className="flex gap-2 items-start">
             <button
               disabled
               title="Folgt in Kürze"
@@ -333,13 +334,7 @@ export default async function AccountPage() {
             >
               Daten exportieren
             </button>
-            <button
-              disabled
-              title="Folgt in Kürze"
-              className="text-xs border border-red-200 text-red-400 px-3 py-1.5 rounded-lg disabled:opacity-40 disabled:cursor-not-allowed"
-            >
-              Konto löschen
-            </button>
+            <DeleteAccountButton />
           </div>
         </div>
       </div>
