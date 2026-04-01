@@ -44,7 +44,38 @@ cp .secrets.example .secrets
 chmod +x scripts/deploy.sh
 ```
 
-That's it.
+### 3. Set up GitHub SSH access (required for `push` command)
+
+The deploy script pushes to GitHub via SSH. A dedicated key is already configured for this machine. On a **new machine**, do this once:
+
+```bash
+# Generate a dedicated key for GitHub only (never reuse a server key)
+ssh-keygen -t ed25519 -C "taxalex-github" -f ~/.ssh/id_ed25519_github -N ""
+
+# Add to ~/.ssh/config
+cat >> ~/.ssh/config << 'EOF'
+
+Host github.com
+  HostName github.com
+  User git
+  IdentityFile ~/.ssh/id_ed25519_github
+  IdentitiesOnly yes
+EOF
+
+# Show the public key — paste this into github.com/settings/keys
+cat ~/.ssh/id_ed25519_github.pub
+
+# Switch the remote to SSH
+git remote set-url origin git@github.com:botwa2000/TaxaLex.git
+
+# Verify
+ssh -T git@github.com
+# Expected: "Hi botwa2000! You've successfully authenticated..."
+```
+
+**Why a dedicated key:** the Hetzner server key (`id_rsa`) must never be added to GitHub — if one is compromised the other stays safe.
+
+**This machine (Windows, Alexa):** already configured. Key: `~/.ssh/id_ed25519_github`, added to github.com/settings/keys as `taxalex-github`.
 
 ---
 
