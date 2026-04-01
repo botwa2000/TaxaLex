@@ -27,10 +27,14 @@ source "$SECRETS_FILE"
 : "${HETZNER_HOST:?HETZNER_HOST not set in .secrets}"
 : "${HETZNER_USER:?HETZNER_USER not set in .secrets}"
 : "${HETZNER_SSH_KEY:?HETZNER_SSH_KEY not set in .secrets}"
+: "${GITHUB_SSH_KEY:?GITHUB_SSH_KEY not set in .secrets}"
 
 SSH_KEY="${HETZNER_SSH_KEY/#\~/$HOME}"
+GITHUB_KEY="${GITHUB_SSH_KEY/#\~/$HOME}"
 SSH="ssh -i $SSH_KEY -o StrictHostKeyChecking=accept-new ${HETZNER_USER}@${HETZNER_HOST}"
 GIT_SSH="GIT_SSH_COMMAND='ssh -i /home/deploy/.ssh/id_ed25519_taxalex -F /home/deploy/.ssh/config'"
+# Used for local → GitHub push
+GIT_PUSH="GIT_SSH_COMMAND='ssh -i $GITHUB_KEY -o IdentitiesOnly=yes'"
 
 CMD="${1:-}"
 
@@ -45,7 +49,7 @@ if [[ "$CMD" == "push" ]]; then
   else
     git commit -m "$MSG"
   fi
-  git push origin main
+  eval "$GIT_PUSH" git push origin main
   echo "==> Pushed to GitHub"
 
 # ── dev ──────────────────────────────────────────────────────────────────────
