@@ -3,6 +3,7 @@ import type { ReactNode } from 'react'
 import type { Metadata } from 'next'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages } from 'next-intl/server'
+import { SessionProvider } from '@/components/SessionProvider'
 import { ThemeProvider } from '@/components/ThemeProvider'
 import { CookieConsent } from '@/components/CookieConsent'
 import { GoogleAnalytics } from '@/components/GoogleAnalytics'
@@ -54,14 +55,16 @@ export default async function LocaleLayout({
         />
       </head>
       <body className="min-h-screen bg-[var(--background)] text-[var(--foreground)] antialiased">
-        <NextIntlClientProvider messages={messages}>
-          <ThemeProvider initialTheme={userTheme ?? undefined}>
-            {children}
-            <CookieConsent locale={locale} />
-            <GoogleAnalytics />
-            <PostHogProvider />
-          </ThemeProvider>
-        </NextIntlClientProvider>
+        <SessionProvider session={session}>
+          <NextIntlClientProvider messages={messages}>
+            <ThemeProvider initialTheme={userTheme ?? undefined}>
+              {children}
+              <CookieConsent locale={locale} />
+              <GoogleAnalytics />
+              <PostHogProvider />
+            </ThemeProvider>
+          </NextIntlClientProvider>
+        </SessionProvider>
       </body>
     </html>
   )
