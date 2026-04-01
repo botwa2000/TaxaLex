@@ -171,6 +171,22 @@ elif [[ "$CMD" == "secrets" ]]; then
   create_or_replace "taxalex_email_from_name_prod" "${TAXALEX_EMAIL_FROM_NAME_PROD:-TaxaLex}"
   create_or_replace "taxalex_email_from_name_dev"  "${TAXALEX_EMAIL_FROM_NAME_DEV:-TaxaLex}"
 
+  # Stripe
+  create_or_replace "stripe_secret_key_prod"      "${STRIPE_SECRET_KEY_PROD:-}"
+  create_or_replace "stripe_secret_key_dev"       "${STRIPE_SECRET_KEY_DEV:-}"
+  create_or_replace "stripe_publishable_key_prod" "${STRIPE_PUBLISHABLE_KEY_PROD:-}"
+  create_or_replace "stripe_publishable_key_dev"  "${STRIPE_PUBLISHABLE_KEY_DEV:-}"
+  if [[ -n "${STRIPE_WEBHOOK_SECRET_PROD:-}" ]]; then
+    create_or_replace "stripe_webhook_secret_prod" "$STRIPE_WEBHOOK_SECRET_PROD"
+  else
+    echo "    STRIPE_WEBHOOK_SECRET_PROD not set — skipping (add after registering webhook)"
+  fi
+  if [[ -n "${STRIPE_WEBHOOK_SECRET_DEV:-}" ]]; then
+    create_or_replace "stripe_webhook_secret_dev"  "$STRIPE_WEBHOOK_SECRET_DEV"
+  else
+    echo "    STRIPE_WEBHOOK_SECRET_DEV not set — skipping (add after registering webhook)"
+  fi
+
   echo "==> Done. Verify with: ssh server 'docker secret ls | grep taxalex'"
 
 else

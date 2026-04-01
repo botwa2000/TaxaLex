@@ -55,6 +55,7 @@ export const config = {
 
   // ── Payments ───────────────────────────────────────────────────────────
   stripeSecretKey: optionalEnv('STRIPE_SECRET_KEY'),
+  stripePublishableKey: optionalEnv('STRIPE_PUBLISHABLE_KEY'),
   stripeWebhookSecret: optionalEnv('STRIPE_WEBHOOK_SECRET'),
 
   // ── Storage ────────────────────────────────────────────────────────────

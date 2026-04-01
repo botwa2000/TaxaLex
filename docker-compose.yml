@@ -23,10 +23,14 @@ services:
       - taxalex_email_from_prod
       - taxalex_email_from_name_prod
       - taxalex_app_url_prod
+      - stripe_secret_key_prod
+      - stripe_publishable_key_prod
+      - stripe_webhook_secret_prod
     environment:
       - NODE_ENV=production
       - NEXT_PUBLIC_SITE_URL=https://taxalex.de
       - NEXTAUTH_URL=https://taxalex.de
+      - FEATURE_PAYMENTS=true
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true
@@ -74,4 +78,10 @@ secrets:
   taxalex_email_from_name_prod:
     external: true
   taxalex_app_url_prod:
+    external: true
+  stripe_secret_key_prod:
+    external: true
+  stripe_publishable_key_prod:
+    external: true
+  stripe_webhook_secret_prod:
     external: true

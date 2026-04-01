@@ -33,6 +33,23 @@ enum CaseStatus {
   REJECTED
 }
 
+enum SubscriptionStatus {
+  ACTIVE
+  PAST_DUE
+  CANCELED
+  UNPAID
+  TRIALING
+}
+
+enum CreditReason {
+  PURCHASE_SINGLE
+  PURCHASE_PACK
+  SUBSCRIPTION_GRANT
+  CASE_CREATED
+  REFUND
+  ADMIN_GRANT
+}
+
 enum DocumentType {
   BESCHEID
   JAHRESABSCHLUSS
@@ -59,11 +76,16 @@ model User {
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
 
+  stripeCustomerId         String?   @unique
+  creditBalance            Int       @default(0)
+
   accounts                 Account[]
   sessions                 Session[]
   cases                    Case[]
   emailVerificationTokens  EmailVerificationToken[]
   passwordResetTokens      PasswordResetToken[]
+  subscription             Subscription?
+  creditLedger             CreditLedger[]
 
   @@index([email])
 }
@@ -206,10 +228,11 @@ model PricingPlan {
   priceAnnual  Decimal? @db.Decimal(10, 2)
   currency     String   @default("EUR")
   isPopular    Boolean  @default(false)
-  isActive     Boolean  @default(true)
-  sortOrder    Int      @default(0)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  isActive        Boolean  @default(true)
+  sortOrder       Int      @default(0)
+  stripeProductId String?  // cached after first checkout; never changes for a given plan
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 
   translations PricingPlanTranslation[]
   features     PricingPlanFeature[]
@@ -280,6 +303,50 @@ model UseCase {
 
   @@unique([slug, locale])
   @@index([locale])
+}
+
+// ── Payments ──────────────────────────────────────────────────────────────────
+
+model Subscription {
+  id                   String             @id @default(cuid())
+  userId               String             @unique
+  stripeSubscriptionId String             @unique
+  stripePriceId        String
+  planSlug             String
+  status               SubscriptionStatus
+  currentPeriodStart   DateTime
+  currentPeriodEnd     DateTime
+  cancelAtPeriodEnd    Boolean            @default(false)
+  canceledAt           DateTime?
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model CreditLedger {
+  id          String       @id @default(cuid())
+  userId      String
+  delta       Int          // positive = added, negative = consumed
+  reason      CreditReason
+  referenceId String?      // stripePaymentIntentId or caseId
+  createdAt   DateTime     @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+// Idempotency guard — prevents double-processing the same Stripe webhook event
+model StripeEvent {
+  id          String    @id @default(cuid())
+  stripeId    String    @unique
+  type        String
+  processed   Boolean   @default(false)
+  processedAt DateTime?
+  createdAt   DateTime  @default(now())
+
+  @@index([stripeId])
 }
 
 model TrustStat {

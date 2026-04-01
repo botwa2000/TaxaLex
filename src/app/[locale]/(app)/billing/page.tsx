@@ -1,108 +1,210 @@
 import { auth } from '@/auth'
-import { CreditCard, FileText, Package, Calendar, UserCheck, Info } from 'lucide-react'
+import { db } from '@/lib/db'
+import { stripe } from '@/lib/stripe'
 import { PRICING_PLANS } from '@/lib/contentFallbacks'
-import { BillingActions } from './BillingActions'
+import {
+  CreditCard, FileText, Package, Calendar, UserCheck,
+  Info, CheckCircle2, AlertTriangle, Download, ExternalLink,
+  Zap, Shield,
+} from 'lucide-react'
+import { CheckoutButton, PortalButton } from './BillingActions'
+import { notFound } from 'next/navigation'
+import { getLocale } from 'next-intl/server'
 
-// Only show DE features for the billing page
-function getPlanFeatures(slug: string): string[] {
-  const plan = PRICING_PLANS.find((p) => p.slug === slug)
-  if (!plan) return []
-  return plan.features
-    .filter((f) => f.locale === 'de' && f.included)
-    .sort((a, b) => a.sortOrder - b.sortOrder)
-    .map((f) => f.text)
+// ── helpers ───────────────────────────────────────────────────────────────────
+
+function planIcon(slug: string) {
+  if (slug.includes('pack'))    return Package
+  if (slug.includes('monthly')) return Calendar
+  return FileText
 }
 
-function getPlanName(slug: string): string {
-  const plan = PRICING_PLANS.find((p) => p.slug === slug)
-  return plan?.translations['de']?.name ?? slug
+function formatEur(cents: number): string {
+  return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(cents / 100)
 }
 
-function getPlanCta(slug: string): string {
-  const plan = PRICING_PLANS.find((p) => p.slug === slug)
-  return plan?.translations['de']?.cta ?? 'Kaufen'
+function formatDate(iso: string | Date): string {
+  return new Intl.DateTimeFormat('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' })
+    .format(new Date(iso))
 }
+
+type StatusInfo = {
+  label:     string
+  sublabel:  string
+  color:     'green' | 'amber' | 'gray' | 'red'
+  icon:      typeof CheckCircle2
+}
+
+function getStatusInfo(sub: { status: string; planSlug: string; currentPeriodEnd: Date; cancelAtPeriodEnd: boolean } | null, credits: number): StatusInfo {
+  if (sub?.status === 'ACTIVE' || sub?.status === 'TRIALING') {
+    const plan = PRICING_PLANS.find((p) => p.slug === sub.planSlug)
+    const name = (plan?.translations as Record<string, { name: string }>)['de']?.name ?? sub.planSlug
+    return {
+      label:    `${name} — aktiv`,
+      sublabel: sub.cancelAtPeriodEnd
+        ? `Läuft ab am ${formatDate(sub.currentPeriodEnd)} (nicht verlängert)`
+        : `Verlängert sich am ${formatDate(sub.currentPeriodEnd)}`,
+      color: sub.cancelAtPeriodEnd ? 'amber' : 'green',
+      icon: sub.cancelAtPeriodEnd ? AlertTriangle : CheckCircle2,
+    }
+  }
+  if (sub?.status === 'PAST_DUE') {
+    return {
+      label:    'Zahlung ausstehend',
+      sublabel: 'Bitte Zahlungsmethode im Abo-Portal aktualisieren.',
+      color:    'amber',
+      icon:     AlertTriangle,
+    }
+  }
+  if (credits > 0) {
+    return {
+      label:    `${credits} Einspruch${credits === 1 ? '' : '·e'} verfügbar`,
+      sublabel: 'Guthaben ohne Ablaufdatum',
+      color:    'green',
+      icon:     CheckCircle2,
+    }
+  }
+  return {
+    label:    'Kein aktiver Plan',
+    sublabel: 'Wählen Sie ein Paket, um zu starten.',
+    color:    'gray',
+    icon:     CreditCard,
+  }
+}
+
+// ── page ──────────────────────────────────────────────────────────────────────
 
 export default async function BillingPage() {
-  await auth()
+  const session = await auth()
+  if (!session?.user?.id) notFound()
 
-  const plans = [
-    {
-      slug: 'individual-single',
-      icon: FileText,
-      priceLabel: '5,99 €',
-      periodLabel: 'pro Einspruch',
-      highlight: false,
-    },
-    {
-      slug: 'individual-pack',
-      icon: Package,
-      priceLabel: '19,99 €',
-      periodLabel: 'einmalig · 5 Einsprüche',
-      highlight: true,
-    },
-    {
-      slug: 'individual-monthly',
-      icon: Calendar,
-      priceLabel: '9,99 €',
-      periodLabel: 'pro Monat',
-      highlight: false,
-    },
-  ]
+  const locale = await getLocale()
+  const userId = session.user.id
+
+  // Fetch billing state from DB
+  const user = await db.user.findUnique({
+    where:  { id: userId },
+    select: { creditBalance: true, stripeCustomerId: true, subscription: true },
+  }).catch(() => null)
+
+  const creditBalance = user?.creditBalance  ?? 0
+  const sub           = user?.subscription   ?? null
+
+  // Fetch paid invoices from Stripe (non-blocking — empty array on error)
+  const invoices = user?.stripeCustomerId
+    ? await stripe.invoices.list({
+        customer: user.stripeCustomerId,
+        limit: 12,
+        status: 'paid',
+      }).then((r) => r.data).catch(() => [])
+    : []
+
+  const status = getStatusInfo(sub, creditBalance)
+  const StatusIcon = status.icon
+
+  const colorMap = {
+    green: { bg: 'bg-green-50 dark:bg-green-950/20', border: 'border-green-200 dark:border-green-800', icon: 'bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-400', text: 'text-green-700 dark:text-green-400' },
+    amber: { bg: 'bg-amber-50 dark:bg-amber-950/20', border: 'border-amber-200 dark:border-amber-800', icon: 'bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-400', text: 'text-amber-700 dark:text-amber-400' },
+    gray:  { bg: 'bg-[var(--surface)]',               border: 'border-[var(--border)]',                  icon: 'bg-[var(--background-subtle)] text-[var(--muted)]',                     text: 'text-[var(--muted)]' },
+    red:   { bg: 'bg-red-50 dark:bg-red-950/20',      border: 'border-red-200 dark:border-red-800',      icon: 'bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-400',          text: 'text-red-700 dark:text-red-400' },
+  }
+  const c = colorMap[status.color]
+
+  const hasActiveSub   = sub?.status === 'ACTIVE' || sub?.status === 'TRIALING'
+  const currentPlanSlug = sub?.planSlug ?? null
 
   return (
-    <div>
+    <div className="max-w-3xl">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-[var(--foreground)]">Abrechnung & Guthaben</h1>
+        <h1 className="text-2xl font-bold text-[var(--foreground)]">Abrechnung & Plan</h1>
         <p className="text-sm text-[var(--muted)] mt-1">
-          Kaufen Sie Einsprüche einzeln, als Paket oder per Monats-Flat — kein Abo-Zwang.
+          Einsprüche einzeln, als Paket oder per Flat — alle Preise netto, keine versteckten Kosten.
         </p>
       </div>
 
-      {/* Current status */}
-      <div className="bg-[var(--surface)] rounded-xl border border-[var(--border)] p-5 mb-8 flex items-center justify-between gap-4 flex-wrap">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-[var(--background-subtle)] rounded-xl flex items-center justify-center">
-            <CreditCard className="w-5 h-5 text-[var(--muted)]" />
+      {/* ── Current status ─────────────────────────────────────────── */}
+      <div className={`rounded-2xl border p-5 mb-8 ${c.bg} ${c.border}`}>
+        <div className="flex items-start justify-between gap-4 flex-wrap">
+          <div className="flex items-center gap-3">
+            <div className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 ${c.icon}`}>
+              <StatusIcon className="w-5 h-5" />
+            </div>
+            <div>
+              <p className={`font-semibold text-sm ${c.text}`}>{status.label}</p>
+              <p className="text-xs text-[var(--muted)] mt-0.5">{status.sublabel}</p>
+            </div>
           </div>
-          <div>
-            <p className="text-sm font-semibold text-[var(--foreground)]">Aktueller Plan</p>
-            <p className="text-xs text-[var(--muted)]">Kein aktiver Plan · 0 Einsprüche verfügbar</p>
-          </div>
+          {hasActiveSub && <PortalButton locale={locale} />}
         </div>
-        <span className="text-xs text-[var(--muted)] border border-[var(--border)] px-3 py-1 rounded-full">
-          Zahlung folgt (Stripe)
-        </span>
+
+        {/* Credit balance chips */}
+        {(creditBalance > 0 || hasActiveSub) && (
+          <div className="flex gap-3 mt-4 pt-4 border-t border-[var(--border)]/40 flex-wrap">
+            {hasActiveSub && (
+              <span className="flex items-center gap-1.5 text-xs font-medium bg-white/60 dark:bg-black/20 border border-[var(--border)] rounded-full px-3 py-1 text-[var(--foreground)]">
+                <Zap className="w-3 h-3 text-brand-500" />
+                Unbegrenzte Einsprüche
+              </span>
+            )}
+            {!hasActiveSub && creditBalance > 0 && (
+              <span className="flex items-center gap-1.5 text-xs font-medium bg-white/60 dark:bg-black/20 border border-[var(--border)] rounded-full px-3 py-1 text-[var(--foreground)]">
+                <Package className="w-3 h-3 text-brand-500" />
+                {creditBalance} {creditBalance === 1 ? 'Einspruch' : 'Einsprüche'} im Guthaben
+              </span>
+            )}
+            <span className="flex items-center gap-1.5 text-xs font-medium bg-white/60 dark:bg-black/20 border border-[var(--border)] rounded-full px-3 py-1 text-[var(--foreground)]">
+              <Shield className="w-3 h-3 text-green-500" />
+              Zahlung via Stripe · DSGVO-konform
+            </span>
+          </div>
+        )}
       </div>
 
-      {/* Pricing plans */}
-      <h2 className="text-base font-semibold text-[var(--foreground)] mb-4">Guthaben kaufen</h2>
-      <div className="grid md:grid-cols-3 gap-5 mb-8">
-        {plans.map(({ slug, icon: Icon, priceLabel, periodLabel, highlight }) => {
-          const features = getPlanFeatures(slug)
-          const name = getPlanName(slug)
-          const cta = getPlanCta(slug)
+      {/* ── Plans ──────────────────────────────────────────────────── */}
+      <h2 className="text-base font-semibold text-[var(--foreground)] mb-4">
+        {hasActiveSub ? 'Plan wechseln' : 'Plan auswählen'}
+      </h2>
+      <div className="grid md:grid-cols-3 gap-4 mb-8">
+        {PRICING_PLANS.map((plan) => {
+          const Icon        = planIcon(plan.slug)
+          const name        = (plan.translations as Record<string, { name: string; cta: string }>)['de']?.name ?? plan.slug
+          const cta         = (plan.translations as Record<string, { name: string; cta: string }>)['de']?.cta  ?? 'Kaufen'
+          const isCurrent   = currentPlanSlug === plan.slug
+          const features    = plan.features.filter((f) => f.locale === 'de' && f.included).sort((a, b) => a.sortOrder - b.sortOrder)
+          const priceLabel  = plan.priceOnce    != null ? `${plan.priceOnce.toFixed(2).replace('.', ',')} €`    : `${plan.priceMonthly?.toFixed(2).replace('.', ',')} €`
+          const periodLabel = plan.priceOnce    != null ? (plan.slug.includes('pack') ? 'einmalig · 5 Einsprüche' : 'einmalig · 1 Einspruch') : 'pro Monat'
+
           return (
             <div
-              key={slug}
-              className={`rounded-2xl border flex flex-col bg-[var(--surface)] ${
-                highlight
+              key={plan.slug}
+              className={`rounded-2xl border flex flex-col bg-[var(--surface)] relative ${
+                plan.isPopular && !isCurrent
                   ? 'border-brand-500 ring-2 ring-brand-100 dark:ring-brand-900'
-                  : 'border-[var(--border)]'
+                  : isCurrent
+                    ? 'border-green-400 ring-2 ring-green-100 dark:ring-green-900'
+                    : 'border-[var(--border)]'
               }`}
             >
-              {highlight && (
+              {isCurrent && (
+                <div className="bg-green-600 text-white text-xs font-semibold text-center py-1.5 rounded-t-[14px]">
+                  Ihr aktueller Plan
+                </div>
+              )}
+              {!isCurrent && plan.isPopular && (
                 <div className="bg-brand-600 text-white text-xs font-semibold text-center py-1.5 rounded-t-[14px]">
                   Beliebteste Wahl
                 </div>
               )}
+
               <div className="p-5 flex flex-col flex-1">
                 <div className="flex items-start gap-3 mb-4">
-                  <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${highlight ? 'bg-brand-50 dark:bg-brand-950 text-brand-600' : 'bg-[var(--background-subtle)] text-[var(--muted)]'}`}>
-                    <Icon className="w-4.5 h-4.5" />
+                  <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${
+                    plan.isPopular ? 'bg-brand-50 dark:bg-brand-950 text-brand-600' : 'bg-[var(--background-subtle)] text-[var(--muted)]'
+                  }`}>
+                    <Icon className="w-4 h-4" />
                   </div>
                   <div>
-                    <p className="font-bold text-[var(--foreground)]">{name}</p>
+                    <p className="font-bold text-sm text-[var(--foreground)]">{name}</p>
                     <div className="flex items-baseline gap-1 mt-0.5">
                       <span className="text-xl font-bold text-[var(--foreground)]">{priceLabel}</span>
                       <span className="text-xs text-[var(--muted)]">{periodLabel}</span>
@@ -110,23 +212,30 @@ export default async function BillingPage() {
                   </div>
                 </div>
 
-                <ul className="space-y-2 flex-1 mb-5">
+                <ul className="space-y-1.5 flex-1 mb-5">
                   {features.map((f) => (
-                    <li key={f} className="flex items-start gap-2 text-sm">
-                      <span className="text-green-500 shrink-0 mt-0.5 font-bold">✓</span>
-                      <span className="text-[var(--foreground)]">{f}</span>
+                    <li key={f.text} className="flex items-start gap-2 text-xs">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-green-500 shrink-0 mt-0.5" />
+                      <span className="text-[var(--foreground)]">{f.text}</span>
                     </li>
                   ))}
                 </ul>
 
-                <BillingActions planSlug={slug} cta={cta} highlight={highlight} />
+                <CheckoutButton
+                  planSlug={plan.slug}
+                  cta={isCurrent ? '✓ Aktiver Plan' : cta}
+                  highlight={plan.isPopular && !isCurrent}
+                  locale={locale}
+                  disabled={isCurrent}
+                  disabledReason="Dies ist Ihr aktueller Plan"
+                />
               </div>
             </div>
           )
         })}
       </div>
 
-      {/* Professional review add-on */}
+      {/* ── Professional review add-on ──────────────────────────────── */}
       <div className="rounded-2xl border-2 border-dashed border-amber-300 dark:border-amber-700 bg-amber-50/50 dark:bg-amber-950/20 p-5 mb-8">
         <div className="flex items-start gap-4">
           <div className="w-10 h-10 bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-400 rounded-xl flex items-center justify-center shrink-0">
@@ -140,13 +249,12 @@ export default async function BillingPage() {
               </span>
             </div>
             <p className="text-sm text-[var(--muted)] mb-3 leading-relaxed">
-              Lassen Sie Ihren Einspruch von einem zugelassenen Steuerberater oder Rechtsanwalt prüfen,
-              bevor Sie ihn einreichen. Der Experte kann freigeben, kommentieren oder Rückfragen stellen.
+              Lassen Sie Ihren Einspruch von einem verifizierten Steuerberater oder Rechtsanwalt prüfen, bevor Sie ihn einreichen.
             </p>
             <div className="flex items-center gap-4 flex-wrap text-sm">
               <div>
                 <span className="font-bold text-[var(--foreground)]">99 €</span>
-                <span className="text-[var(--muted)] ml-1">/ Fall (Standard)</span>
+                <span className="text-[var(--muted)] ml-1">/ Fall</span>
               </div>
               <div className="flex items-center gap-1 text-amber-700 dark:text-amber-400 text-xs font-medium">
                 <span className="font-bold text-base">69 €</span>
@@ -157,21 +265,74 @@ export default async function BillingPage() {
         </div>
         <div className="mt-4 flex items-start gap-2 text-xs text-[var(--muted)] border-t border-amber-200 dark:border-amber-800 pt-3">
           <Info className="w-3.5 h-3.5 shrink-0 mt-0.5 text-amber-500" />
-          <span>
-            Nach der Generierung Ihres Einspruchs anklickbar. Die Prüfung erfolgt durch verifizierte Experten aus unserem Netzwerk.{' '}
-            <a href="/advisor" className="text-amber-700 dark:text-amber-400 hover:underline font-medium">Mehr erfahren →</a>
-          </span>
+          <span>Nach der Generierung Ihres Einspruchs anklickbar. Die Prüfung erfolgt durch verifizierte Experten.</span>
         </div>
       </div>
 
-      {/* Invoices placeholder */}
-      <div className="bg-[var(--surface)] rounded-xl border border-[var(--border)] p-5">
-        <h2 className="font-semibold text-sm text-[var(--foreground)] mb-4">Rechnungen</h2>
-        <div className="text-center py-8 text-[var(--muted)]">
-          <FileText className="w-8 h-8 mx-auto mb-2 opacity-30" />
-          <p className="text-sm">Noch keine Rechnungen vorhanden.</p>
-          <p className="text-xs mt-1">Rechnungen erscheinen hier nach dem ersten Kauf.</p>
-        </div>
+      {/* ── Invoices ────────────────────────────────────────────────── */}
+      <div className="bg-[var(--surface)] rounded-2xl border border-[var(--border)] p-5">
+        <h2 className="font-semibold text-sm text-[var(--foreground)] mb-4 flex items-center gap-2">
+          <FileText className="w-4 h-4 text-[var(--muted)]" />
+          Rechnungen
+        </h2>
+
+        {invoices.length === 0 ? (
+          <div className="text-center py-8 text-[var(--muted)]">
+            <FileText className="w-8 h-8 mx-auto mb-2 opacity-30" />
+            <p className="text-sm">Noch keine Rechnungen vorhanden.</p>
+            <p className="text-xs mt-1">Rechnungen erscheinen hier nach dem ersten Kauf.</p>
+          </div>
+        ) : (
+          <div className="divide-y divide-[var(--border)]">
+            {invoices.map((inv) => (
+              <div key={inv.id} className="flex items-center justify-between py-3 gap-3">
+                <div className="min-w-0">
+                  <p className="text-sm font-medium text-[var(--foreground)] truncate">
+                    {inv.lines.data[0]?.description ?? 'TaxaLex'}
+                  </p>
+                  <p className="text-xs text-[var(--muted)] mt-0.5">
+                    {inv.number ?? inv.id} · {new Intl.DateTimeFormat('de-DE').format(new Date(inv.created * 1000))}
+                  </p>
+                </div>
+                <div className="flex items-center gap-3 shrink-0">
+                  <span className="text-sm font-semibold text-[var(--foreground)]">
+                    {new Intl.NumberFormat('de-DE', { style: 'currency', currency: inv.currency.toUpperCase() }).format(inv.amount_paid / 100)}
+                  </span>
+                  <div className="flex gap-1.5">
+                    {inv.invoice_pdf && (
+                      <a
+                        href={inv.invoice_pdf}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-1.5 rounded-lg border border-[var(--border)] text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-[var(--background-subtle)] transition-colors"
+                        title="Rechnung als PDF"
+                      >
+                        <Download className="w-3.5 h-3.5" />
+                      </a>
+                    )}
+                    {inv.hosted_invoice_url && (
+                      <a
+                        href={inv.hosted_invoice_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-1.5 rounded-lg border border-[var(--border)] text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-[var(--background-subtle)] transition-colors"
+                        title="Online anzeigen"
+                      >
+                        <ExternalLink className="w-3.5 h-3.5" />
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {invoices.length > 0 && (
+          <p className="text-xs text-[var(--muted)] mt-4 pt-3 border-t border-[var(--border)]">
+            Alle Rechnungen tragen den Hinweis: „Gemäß §19 UStG wird keine Umsatzsteuer berechnet."
+          </p>
+        )}
       </div>
     </div>
   )
