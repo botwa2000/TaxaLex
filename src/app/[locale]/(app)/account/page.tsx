@@ -3,6 +3,7 @@ import { DEMO_USER_ID, DEMO_USER } from '@/lib/mockData'
 import { PRICING_PLANS } from '@/lib/contentFallbacks'
 import { Link } from '@/i18n/navigation'
 import { DeleteAccountButton } from './DeleteAccountButton'
+import { ThemeSettingRow } from '@/components/ThemeSettingRow'
 import {
   Plus,
   FileText,
@@ -26,6 +27,7 @@ type UserRecord = {
   name: string | null
   role: string
   locale: string
+  theme: string
   emailVerified: Date | null
   createdAt: Date
 }
@@ -49,10 +51,10 @@ export default async function AccountPage() {
     const { db } = await import('@/lib/db')
     user = await db.user.findUnique({
       where: { id: userId },
-      select: { id: true, email: true, name: true, role: true, locale: true, emailVerified: true, createdAt: true },
+      select: { id: true, email: true, name: true, role: true, locale: true, theme: true, emailVerified: true, createdAt: true },
     })
   } catch {
-    user = { ...(DEMO_USER as unknown as UserRecord), emailVerified: null }
+    user = { ...(DEMO_USER as unknown as UserRecord), emailVerified: null, theme: 'system' }
   }
 
   if (!user) return null
@@ -302,6 +304,12 @@ export default async function AccountPage() {
               Passwort ändern <ArrowRight className="w-3 h-3" />
             </Link>
           </div>
+        </div>
+
+        {/* Appearance */}
+        <div className="px-5 py-4 border-b border-[var(--border)]">
+          <p className="text-xs font-semibold uppercase tracking-wide text-[var(--muted)] mb-3">Darstellung</p>
+          <ThemeSettingRow initialTheme={user.theme} />
         </div>
 
         {/* Billing shortcut */}

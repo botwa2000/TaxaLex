@@ -5,7 +5,6 @@ import { Menu, X, ChevronDown } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Logo } from './Logo'
 import { Button } from './ui/Button'
-import { ThemeToggle } from './ui/ThemeToggle'
 import { LanguageSelector } from './ui/LanguageSelector'
 import { Link, usePathname } from '@/i18n/navigation'
 
@@ -129,7 +128,6 @@ export function PublicNav({ locale, userGroup }: PublicNavProps) {
           <div className="hidden sm:block">
             <LanguageSelector currentLocale={locale} />
           </div>
-          <ThemeToggle />
           <Link
             href="/login"
             className="hidden sm:block text-sm text-[var(--muted)] hover:text-[var(--foreground)] px-3 py-2 rounded-lg hover:bg-[var(--background-subtle)] transition-colors"

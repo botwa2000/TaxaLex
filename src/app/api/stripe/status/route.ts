@@ -31,7 +31,7 @@ export async function GET() {
         status:   'paid',
       }).catch(() => ({ data: [] }))
 
-      invoices = stripeInvoices.data.map((inv) => ({
+      invoices = stripeInvoices.data.map((inv: import('stripe').Stripe.Invoice) => ({
         id:         inv.id,
         number:     inv.number ?? inv.id,
         amountPaid: inv.amount_paid,

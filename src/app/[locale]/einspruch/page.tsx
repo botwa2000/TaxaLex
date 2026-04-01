@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect, Suspense } from 'react'
-import { useSearchParams } from 'next/navigation'
+import { useSearchParams, useRouter } from 'next/navigation'
 import {
   Upload, MessageSquare, Brain, FileCheck, Loader2, ArrowLeft, ArrowRight,
   X, CheckCircle2, FileText, Copy, Download, AlertCircle, ScanSearch, Tag,
@@ -166,6 +166,7 @@ function getPartialDraft(agentIdx: number): string {
 
 function EinspruchPageInner() {
   const searchParams = useSearchParams()
+  const router       = useRouter()
   const type = searchParams.get('type')
   const useCaseLabel = type ? (USE_CASE_LABELS[type] ?? type.replace(/-/g, ' ')) : null
 
@@ -252,6 +253,8 @@ function EinspruchPageInner() {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ documents: docs }),
         })
+        if (res.status === 401) { router.push('/login?callbackUrl=/einspruch'); return }
+        if (res.status === 402) { router.push('/billing?reason=credits');       return }
         if (res.ok) {
           const data = await res.json()
           pendingBescheidRef.current  = data.bescheidData    ?? null
@@ -271,6 +274,8 @@ function EinspruchPageInner() {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ bescheidData, documents: docs, userAnswers: answers }),
       })
+      if (res.status === 401) { router.push('/login?callbackUrl=/einspruch'); return }
+      if (res.status === 402) { router.push('/billing?reason=credits');       return }
       if (res.ok) pendingResultRef.current = await res.json()
     } catch { /* fall through to demo data */ }
   }

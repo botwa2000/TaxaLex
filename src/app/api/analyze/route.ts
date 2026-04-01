@@ -3,6 +3,7 @@ import { z } from 'zod'
 import { callAgent, AGENTS } from '@/lib/agents'
 import { logger } from '@/lib/logger'
 import { PIPELINE } from '@/config/constants'
+import { auth } from '@/auth'
 
 const AnalyzeSchema = z.object({
   documents: z
@@ -18,6 +19,28 @@ const AnalyzeSchema = z.object({
 })
 
 export async function POST(req: NextRequest) {
+  // Auth guard
+  const session = await auth()
+  if (!session?.user?.id) {
+    return NextResponse.json({ error: 'Nicht angemeldet' }, { status: 401 })
+  }
+
+  // Payment guard (skip for demo accounts)
+  const userId = session.user.id as string
+  if (!userId.startsWith('demo_')) {
+    const { db } = await import('@/lib/db')
+    const user = await db.user.findUnique({
+      where: { id: userId },
+      select: { creditBalance: true, subscription: { select: { status: true } } },
+    })
+    const hasAccess =
+      (user?.creditBalance ?? 0) > 0 ||
+      ['ACTIVE', 'TRIALING'].includes(user?.subscription?.status ?? '')
+    if (!hasAccess) {
+      return NextResponse.json({ error: 'Kein Guthaben — bitte ein Paket kaufen' }, { status: 402 })
+    }
+  }
+
   try {
     const body = await req.json()
     const parsed = AnalyzeSchema.safeParse(body)

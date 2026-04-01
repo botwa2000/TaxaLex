@@ -96,7 +96,7 @@ export default async function BillingPage() {
         customer: user.stripeCustomerId,
         limit: 12,
         status: 'paid',
-      }).then((r) => r.data).catch(() => [])
+      }).then((r: { data: unknown[] }) => r.data as import('stripe').Stripe.Invoice[]).catch(() => [])
     : []
 
   const status = getStatusInfo(sub, creditBalance)
@@ -284,7 +284,7 @@ export default async function BillingPage() {
           </div>
         ) : (
           <div className="divide-y divide-[var(--border)]">
-            {invoices.map((inv) => (
+            {(invoices as import('stripe').Stripe.Invoice[]).map((inv) => (
               <div key={inv.id} className="flex items-center justify-between py-3 gap-3">
                 <div className="min-w-0">
                   <p className="text-sm font-medium text-[var(--foreground)] truncate">

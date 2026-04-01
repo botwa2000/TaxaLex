@@ -9,6 +9,7 @@ import { GoogleAnalytics } from '@/components/GoogleAnalytics'
 import { PostHogProvider } from '@/components/PostHogProvider'
 import { locales } from '@/config/i18n'
 import { brand } from '@/config/brand'
+import { auth } from '@/auth'
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }))
@@ -30,9 +31,13 @@ export default async function LocaleLayout({
   children: ReactNode
   params: Promise<{ locale: string }>
 }) {
-  const { locale } = await params
+  const [{ locale }, session] = await Promise.all([params, auth()])
   const messages = await getMessages()
   const isRtl = RTL_LOCALES.has(locale)
+
+  // User's saved theme from DB (null for guests → falls back to localStorage/OS)
+  const userTheme = (session?.user as { theme?: string } | undefined)?.theme ?? null
+  const foucTheme = userTheme && userTheme !== 'system' ? JSON.stringify(userTheme) : 'null'
 
   return (
     <html
@@ -41,16 +46,16 @@ export default async function LocaleLayout({
       suppressHydrationWarning
     >
       <head>
-        {/* Anti-FOUC: read stored theme preference before first paint */}
+        {/* Anti-FOUC: use DB theme for logged-in users, localStorage/OS for guests */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `try{var t=localStorage.getItem('theme');if(t==='dark'||(t===null&&window.matchMedia('(prefers-color-scheme:dark)').matches)){document.documentElement.classList.add('dark')}}catch(_){}`,
+            __html: `try{var t=${foucTheme}||localStorage.getItem('theme');if(t==='dark'||(t===null&&window.matchMedia('(prefers-color-scheme:dark)').matches)){document.documentElement.classList.add('dark')}}catch(_){}`,
           }}
         />
       </head>
       <body className="min-h-screen bg-[var(--background)] text-[var(--foreground)] antialiased">
         <NextIntlClientProvider messages={messages}>
-          <ThemeProvider>
+          <ThemeProvider initialTheme={userTheme ?? undefined}>
             {children}
             <CookieConsent locale={locale} />
             <GoogleAnalytics />

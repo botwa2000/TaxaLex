@@ -13,6 +13,7 @@ import { redirect } from 'next/navigation'
 import { Link } from '@/i18n/navigation'
 import { MobileSidebarWrapper } from '@/components/MobileSidebarWrapper'
 import { LogoutButton } from '@/components/LogoutButton'
+import { IdleTimer } from '@/components/IdleTimer'
 
 export default async function AppLayout({
   children,
@@ -96,6 +97,8 @@ export default async function AppLayout({
   )
 
   return (
+    <>
+    <IdleTimer />
     <MobileSidebarWrapper sidebar={sidebarContent}>
       {/* ── Main area ── */}
       <div className="flex-1 flex flex-col min-w-0">
@@ -127,6 +130,7 @@ export default async function AppLayout({
         <main className="flex-1 p-5 sm:p-6 lg:p-8 max-w-5xl w-full mx-auto">{children}</main>
       </div>
     </MobileSidebarWrapper>
+    </>
   )
 }
 

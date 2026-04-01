@@ -20,16 +20,28 @@ export function useTheme() {
   return useContext(ThemeContext)
 }
 
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
+export function ThemeProvider({
+  children,
+  initialTheme,
+}: {
+  children: React.ReactNode
+  initialTheme?: string
+}) {
   const [theme, setThemeState] = useState<Theme>('light')
 
   useEffect(() => {
-    // Sync state with the class applied by the anti-FOUC script
-    const stored = localStorage.getItem('theme') as Theme | null
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-    const resolved: Theme = stored ?? (prefersDark ? 'dark' : 'light')
+    let resolved: Theme
+    if (initialTheme === 'dark' || initialTheme === 'light') {
+      // DB preference takes priority for logged-in users
+      resolved = initialTheme
+    } else {
+      // 'system' or no preference: fall back to localStorage / OS
+      const stored = localStorage.getItem('theme') as Theme | null
+      resolved = stored ?? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+    }
     setThemeState(resolved)
-  }, [])
+    document.documentElement.classList.toggle('dark', resolved === 'dark')
+  }, [initialTheme])
 
   function setTheme(next: Theme) {
     setThemeState(next)
