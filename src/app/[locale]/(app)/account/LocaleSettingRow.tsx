@@ -3,10 +3,12 @@
 import { useState, useRef, useEffect } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import { ChevronDown } from 'lucide-react'
-import { locales, localeLabels, localeFlags, type Locale } from '@/config/i18n'
+import { locales, localeLabels, localeFlagCodes, type Locale } from '@/config/i18n'
 import { cn } from '@/lib/utils'
+import { useTranslations } from 'next-intl'
 
 export function LocaleSettingRow({ initialLocale }: { initialLocale: string }) {
+  const t = useTranslations('account')
   const router = useRouter()
   const pathname = usePathname()
   const [current, setCurrent] = useState<Locale>((initialLocale as Locale) || 'de')
@@ -40,7 +42,7 @@ export function LocaleSettingRow({ initialLocale }: { initialLocale: string }) {
 
   return (
     <div className="flex items-center justify-between py-1">
-      <span className="text-sm text-[var(--muted)]">Sprache</span>
+      <span className="text-sm text-[var(--muted)]">{t('languageLabel')}</span>
       <div ref={ref} className="relative">
         <button
           onClick={() => setOpen(!open)}
@@ -48,7 +50,7 @@ export function LocaleSettingRow({ initialLocale }: { initialLocale: string }) {
           aria-expanded={open}
           aria-haspopup="listbox"
         >
-          <span className="text-base leading-none">{localeFlags[current]}</span>
+          <FlagImg code={localeFlagCodes[current]} label={localeLabels[current]} />
           <span>{localeLabels[current]}</span>
           <ChevronDown className={cn('w-3 h-3 text-[var(--muted)] transition-transform', open && 'rotate-180')} />
         </button>
@@ -68,7 +70,7 @@ export function LocaleSettingRow({ initialLocale }: { initialLocale: string }) {
                     : 'text-[var(--muted)] hover:bg-[var(--background-subtle)] hover:text-[var(--foreground)]'
                 )}
               >
-                <span className="text-base leading-none">{localeFlags[locale]}</span>
+                <FlagImg code={localeFlagCodes[locale]} label={localeLabels[locale]} />
                 <span>{localeLabels[locale]}</span>
               </button>
             ))}
@@ -76,5 +78,19 @@ export function LocaleSettingRow({ initialLocale }: { initialLocale: string }) {
         )}
       </div>
     </div>
+  )
+}
+
+function FlagImg({ code, label }: { code: string; label: string }) {
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={`https://flagcdn.com/w20/${code}.png`}
+      srcSet={`https://flagcdn.com/w40/${code}.png 2x`}
+      width={20}
+      height={15}
+      alt={label}
+      className="rounded-sm object-cover shrink-0"
+    />
   )
 }

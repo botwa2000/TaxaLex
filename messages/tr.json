@@ -1,45 +1,59 @@
 {
   "common": {
     "appName": "TaxaLex",
-    "tagline": "Your AI-powered objection letter generator",
-    "loading": "Loading...",
-    "error": "Error",
-    "back": "Back",
-    "next": "Next",
-    "save": "Save",
-    "cancel": "Cancel",
-    "close": "Close",
-    "confirm": "Confirm",
-    "delete": "Delete",
-    "edit": "Edit",
-    "download": "Download",
-    "copy": "Copy",
-    "copied": "Copied",
-    "required": "Required",
-    "optional": "Optional",
-    "or": "or",
-    "and": "and",
-    "yes": "Yes",
-    "no": "No",
-    "learnMore": "Learn more",
-    "getStarted": "Get started free",
-    "tryFree": "Try for free",
-    "viewAll": "View all"
+    "tagline": "İdari kararlara itiraz için yapay zeka asistanınız",
+    "loading": "Yükleniyor...",
+    "error": "Hata",
+    "back": "Geri",
+    "next": "İleri",
+    "save": "Kaydet",
+    "cancel": "İptal",
+    "close": "Kapat",
+    "confirm": "Onayla",
+    "delete": "Sil",
+    "edit": "Düzenle",
+    "download": "İndir",
+    "copy": "Kopyala",
+    "copied": "Kopyalandı",
+    "required": "Zorunlu",
+    "optional": "İsteğe bağlı",
+    "or": "veya",
+    "and": "ve",
+    "yes": "Evet",
+    "no": "Hayır",
+    "learnMore": "Daha fazla bilgi",
+    "getStarted": "Ücretsiz başla",
+    "tryFree": "Ücretsiz dene",
+    "viewAll": "Tümünü gör"
   },
   "nav": {
-    "home": "Home",
-    "howItWorks": "How it works",
-    "useCasesNav": "Use cases",
-    "pricing": "Pricing",
-    "forAdvisors": "For tax advisors",
-    "forExpats": "For expats",
+    "home": "Ana Sayfa",
+    "howItWorks": "Nasıl çalışır",
+    "useCasesNav": "Kullanım alanları",
+    "pricing": "Fiyatlar",
+    "forAdvisors": "Vergi danışmanları için",
+    "forExpats": "Expatlar için",
     "blog": "Blog",
-    "login": "Sign in",
-    "register": "Create account",
-    "dashboard": "Dashboard",
-    "newCase": "New request",
-    "openMenu": "Open menu",
-    "closeMenu": "Close menu"
+    "login": "Giriş yap",
+    "register": "Hesap oluştur",
+    "dashboard": "Panel",
+    "newCase": "Yeni başvuru",
+    "openMenu": "Menüyü aç",
+    "closeMenu": "Menüyü kapat",
+    "cases": "Davalarım",
+    "account": "Profil & Ayarlar",
+    "billing": "Faturalama",
+    "logout": "Çıkış yap",
+    "notifications": "Bildirimler",
+    "advisorDashboard": "Danışman paneli",
+    "advisorClients": "Müşteriler",
+    "advisorAppeals": "Tüm itirazlar",
+    "advisorBilling": "Danışman faturalaması",
+    "adminPanel": "Yönetim paneli",
+    "sectionOverview": "Genel bakış",
+    "sectionAccount": "Hesap",
+    "sectionAdvisor": "Danışman",
+    "sectionAdmin": "Yönetim"
   },
   "hero": {
     "groups": {
@@ -212,256 +226,399 @@
   },
   "auth": {
     "login": {
-      "title": "Welcome back",
-      "subtitle": "Sign in to your account",
-      "email": "Email address",
-      "password": "Password",
-      "forgotPassword": "Forgot password?",
-      "submit": "Sign in",
-      "noAccount": "Don't have an account?",
-      "register": "Register now",
-      "orContinueWith": "Or continue with",
-      "demoAccounts": "Demo accounts",
-      "demoHint": "Click an account to auto-fill the fields.",
+      "title": "Tekrar hoş geldiniz",
+      "subtitle": "Hesabınıza giriş yapın",
+      "email": "E-posta adresi",
+      "password": "Şifre",
+      "forgotPassword": "Şifrenizi mi unuttunuz?",
+      "submit": "Giriş yap",
+      "noAccount": "Hesabınız yok mu?",
+      "register": "Şimdi kaydol",
+      "orContinueWith": "Veya şununla devam et",
+      "demoAccounts": "Demo hesapları",
+      "demoHint": "Alanları otomatik doldurmak için bir hesaba tıklayın.",
       "types": {
-        "individual": "Individual",
-        "advisor": "Tax advisor",
-        "lawyer": "Lawyer"
+        "individual": "Bireysel",
+        "advisor": "Vergi danışmanı",
+        "lawyer": "Avukat"
       }
     },
     "register": {
-      "title": "Create account",
-      "subtitle": "Get started free with TaxaLex",
-      "name": "Full name",
-      "email": "Email address",
-      "password": "Password",
-      "confirmPassword": "Confirm password",
-      "agreeToTerms": "I agree to the {terms} and {privacy}.",
-      "terms": "Terms of Service",
-      "privacy": "Privacy Policy",
-      "submit": "Create account",
-      "hasAccount": "Already have an account?",
-      "login": "Sign in",
+      "title": "Hesap oluştur",
+      "subtitle": "TaxaLex ile ücretsiz başlayın",
+      "name": "Tam adınız",
+      "email": "E-posta adresi",
+      "password": "Şifre",
+      "confirmPassword": "Şifreyi onayla",
+      "agreeToTerms": "{terms} ve {privacy} kabul ediyorum.",
+      "terms": "Kullanım koşulları",
+      "privacy": "Gizlilik politikası",
+      "submit": "Hesap oluştur",
+      "hasAccount": "Zaten hesabınız var mı?",
+      "login": "Giriş yap",
       "passwordStrength": {
-        "weak": "Weak",
-        "fair": "Fair",
-        "good": "Good",
-        "strong": "Strong"
+        "weak": "Zayıf",
+        "fair": "Kabul edilebilir",
+        "good": "İyi",
+        "strong": "Güçlü"
       },
       "types": {
-        "individual": "Individual",
-        "selfemployed": "Self-employed",
-        "advisor": "Tax advisor",
-        "lawyer": "Lawyer"
+        "individual": "Bireysel",
+        "selfemployed": "Serbest çalışan",
+        "advisor": "Vergi danışmanı",
+        "lawyer": "Avukat"
       },
       "benefits": {
         "individual": [
-          "1 free objection per month",
-          "5 AI agents review your case",
-          "Download as DOCX or TXT"
+          "Ayda 1 ücretsiz itiraz",
+          "5 yapay zeka ajanı davanızı inceler",
+          "DOCX veya TXT olarak indirin"
         ],
         "selfemployed": [
-          "Objections for tax and VAT assessments",
-          "Unlimited documents per objection",
-          "Priority AI processing"
+          "Vergi ve KDV kararlarına itiraz",
+          "İtiraz başına sınırsız belge",
+          "Öncelikli yapay zeka işleme"
         ],
         "advisor": [
-          "Multi-client dashboard",
-          "Unlimited objections for all clients",
-          "White-label export option"
+          "Çok müşterili panel",
+          "Tüm müşteriler için sınırsız itiraz",
+          "White-label dışa aktarma seçeneği"
         ],
         "lawyer": [
-          "Multi-client dashboard",
-          "Unlimited objections for all clients",
-          "Extended legal research"
+          "Çok müşterili panel",
+          "Tüm müşteriler için sınırsız itiraz",
+          "Gelişmiş hukuki araştırma"
         ]
       }
     }
   },
   "dashboard": {
-    "title": "Dashboard",
-    "welcome": "Welcome back, {name}",
-    "welcomeAdvisor": "Advisor dashboard – {name}",
-    "welcomeAdmin": "Admin panel – {name}",
+    "title": "Panel",
+    "welcome": "Tekrar hoş geldiniz, {name}",
+    "welcomeAdvisor": "Danışman paneli – {name}",
+    "welcomeAdmin": "Yönetim paneli – {name}",
     "stats": {
-      "totalCases": "Total objections",
-      "activeCases": "Active cases",
-      "submittedCases": "Submitted",
-      "successRate": "Success rate"
+      "totalCases": "Toplam itiraz",
+      "activeCases": "Aktif davalar",
+      "submittedCases": "Gönderildi",
+      "successRate": "Başarı oranı"
     },
-    "recentCases": "Recent cases",
-    "noCases": "No cases yet",
-    "noCasesHint": "Start your first objection",
-    "newCase": "New request",
-    "viewAll": "All cases",
+    "recentCases": "Son davalar",
+    "noCases": "Dava yok",
+    "noCasesHint": "İlk itirazınızı başlatın",
+    "newCase": "Yeni başvuru",
+    "viewAll": "Tüm davalar",
     "status": {
-      "CREATED": "Created",
-      "QUESTIONS": "Questions",
-      "GENERATING": "Generating",
-      "DRAFT_READY": "Draft ready",
-      "SUBMITTED": "Submitted",
-      "AWAITING_RESPONSE": "Pending",
-      "CLOSED_SUCCESS": "Successful",
-      "CLOSED_REJECTED": "Rejected"
+      "CREATED": "Oluşturuldu",
+      "QUESTIONS": "Sorular",
+      "GENERATING": "Oluşturuluyor",
+      "DRAFT_READY": "Taslak hazır",
+      "SUBMITTED": "Gönderildi",
+      "AWAITING_RESPONSE": "Beklemede",
+      "CLOSED_SUCCESS": "Başarılı",
+      "CLOSED_REJECTED": "Reddedildi"
     },
     "quickActions": {
-      "title": "Quick actions",
-      "newCase": "New objection",
-      "viewCases": "My cases",
-      "billing": "Billing",
-      "account": "Settings"
+      "title": "Hızlı erişim",
+      "newCase": "Yeni itiraz",
+      "viewCases": "Davalarım",
+      "billing": "Faturalama",
+      "account": "Ayarlar"
     }
   },
   "billing": {
-    "title": "Billing",
-    "subtitle": "Your current plan and usage overview",
-    "currentPlan": "Current plan",
-    "usage": "Usage this month",
-    "invoices": "Invoices",
-    "noInvoices": "No invoices yet",
-    "upgrade": "Upgrade plan",
-    "cancel": "Cancel subscription",
-    "renewsOn": "Renews on {date}",
-    "casesUsed": "{used} of {total} objections used",
-    "unlimited": "Unlimited"
+    "title": "Faturalama",
+    "subtitle": "Mevcut planınız ve kullanım özeti",
+    "currentPlan": "Mevcut plan",
+    "usage": "Bu ayki kullanım",
+    "invoices": "Faturalar",
+    "noInvoices": "Fatura yok",
+    "upgrade": "Planı yükselt",
+    "cancel": "Aboneliği iptal et",
+    "renewsOn": "{date} tarihinde yenilenir",
+    "casesUsed": "{total} itirazdan {used} tanesi kullanıldı",
+    "unlimited": "Sınırsız"
   },
   "cases": {
-    "title": "My cases",
-    "subtitle": "All your objection and appeal cases",
+    "title": "Davalarım",
+    "subtitle": "Tüm itiraz ve şikayetleriniz",
     "filter": {
-      "all": "All",
-      "active": "Active",
-      "submitted": "Submitted",
-      "closed": "Closed"
+      "all": "Tümü",
+      "active": "Aktif",
+      "submitted": "Gönderildi",
+      "closed": "Kapalı"
     },
-    "empty": "No cases found",
-    "emptyHint": "Start your first objection",
-    "newCase": "New request",
-    "caseId": "Case ID",
-    "createdAt": "Created",
-    "status": "Status",
-    "type": "Type",
-    "actions": "Actions",
-    "viewCase": "View case",
-    "downloadDraft": "Download draft"
+    "empty": "Dava bulunamadı",
+    "emptyHint": "İlk itirazınızı başlatın",
+    "newCase": "Yeni başvuru",
+    "caseId": "Dava No",
+    "createdAt": "Oluşturma tarihi",
+    "status": "Durum",
+    "type": "Tür",
+    "actions": "İşlemler",
+    "viewCase": "Davayı görüntüle",
+    "downloadDraft": "Taslağı indir"
   },
   "account": {
-    "title": "Profile & settings",
+    "title": "Profil & Ayarlar",
     "sections": {
-      "profile": "Profile",
-      "security": "Security",
-      "notifications": "Notifications",
-      "language": "Language & region",
-      "danger": "Delete account"
+      "profile": "Profil",
+      "security": "Güvenlik",
+      "notifications": "Bildirimler",
+      "language": "Dil & Bölge",
+      "appearance": "Görünüm",
+      "danger": "Hesabı sil"
     },
-    "name": "Name",
-    "email": "Email",
-    "role": "Role",
-    "language": "Preferred language",
-    "outputLanguage": "Output language for objections",
-    "saveChanges": "Save changes",
-    "changePassword": "Change password",
-    "currentPassword": "Current password",
-    "newPassword": "New password",
-    "confirmPassword": "Confirm password",
-    "deleteAccount": "Delete account",
-    "deleteWarning": "This action cannot be undone. All your data will be deleted.",
+    "name": "Ad",
+    "email": "E-posta",
+    "role": "Rol",
+    "language": "Tercih edilen dil",
+    "outputLanguage": "İtirazlar için çıktı dili",
+    "saveChanges": "Değişiklikleri kaydet",
+    "changePassword": "Şifreyi değiştir",
+    "currentPassword": "Mevcut şifre",
+    "newPassword": "Yeni şifre",
+    "confirmPassword": "Şifreyi onayla",
+    "deleteAccount": "Hesabı sil",
+    "deleteWarning": "Bu işlem geri alınamaz. Tüm verileriniz silinecektir.",
     "notifications": {
-      "email": "Email notifications",
-      "caseUpdates": "Case updates",
-      "newsletter": "Newsletter & product updates"
+      "email": "E-posta bildirimleri",
+      "caseUpdates": "Dava güncellemeleri",
+      "newsletter": "Bülten & ürün haberleri"
+    },
+    "memberSince": "Üye olma tarihi",
+    "logout": "Çıkış yap",
+    "startNewCase": "Yeni itiraz başlat",
+    "templatesTitle": "Şablonlar & Örnekler",
+    "templatesDesc": "İndirip özelleştirebileceğiniz ücretsiz şablonlar",
+    "templatesViewAll": "Tümünü gör",
+    "templatesFree": "Ücretsiz",
+    "templatesUseAI": "Yapay zekayı tercih edin – 5 dakikada itiraz oluşturun",
+    "plansTitle": "Planlar & Fiyatlar",
+    "plansViewAll": "Tüm ayrıntılar",
+    "settingsTitle": "Hesap & Ayarlar",
+    "emailVerified": "E-posta onaylandı",
+    "emailNotVerified": "E-posta onaylanmadı",
+    "emailNotVerifiedHint": "Lütfen e-posta adresinizi onaylayın. Gelen kutunuzu kontrol edin.",
+    "accountType": "Hesap türü",
+    "password": "Şifre",
+    "twoFactor": "İki faktörlü doğrulama (2FA)",
+    "twoFactorNotEnabled": "Etkin değil",
+    "theme": {
+      "label": "Görünüm",
+      "light": "Açık",
+      "dark": "Koyu",
+      "system": "Sistem"
+    },
+    "billingManage": "Ödemeleri & planı yönet",
+    "billingManageDesc": "Faturalar, yükseltme, paket satın alma",
+    "gdprTitle": "Veri koruma (GDPR)",
+    "gdprNote": "Veri dışa aktarma yakında. Hesap silme işlemi anlık ve geri alınamaz.",
+    "exportData": "Verileri dışa aktar",
+    "languageLabel": "Dil",
+    "statCases": "Toplam dava",
+    "statCredits": "Krediler",
+    "statPlan": "Mevcut plan",
+    "planFree": "Ücretsiz",
+    "planPro": "Pro"
+  },
+  "admin": {
+    "title": "Yönetim paneli",
+    "subtitle": "Sistem genel bakışı ve kullanıcı yönetimi",
+    "tabs": {
+      "overview": "Genel bakış",
+      "users": "Kullanıcılar",
+      "cases": "Davalar",
+      "pricing": "Fiyatlar",
+      "emails": "E-postalar",
+      "system": "Sistem",
+      "content": "İçerik"
+    },
+    "stats": {
+      "totalUsers": "Toplam kullanıcı",
+      "totalCases": "Toplam dava",
+      "openCases": "Açık davalar",
+      "submittedCases": "Gönderildi"
+    },
+    "overview": {
+      "totalUsers": "Toplam kullanıcı",
+      "verifiedSuffix": "doğrulandı",
+      "new7d": "Yeni (7 gün)",
+      "ofTotalPct": "% toplam",
+      "activated": "Etkinleştirildi",
+      "activationPct": "% etkinleştirme oranı",
+      "activeSubscriptions": "Aktif abonelikler",
+      "conversionPct": "% dönüşüm",
+      "totalCases": "Toplam dava",
+      "thisWeek": "bu hafta",
+      "closedSuccess": "Başarıyla kapatıldı",
+      "stillOpen": "hâlâ açık",
+      "recentUsers": "Yeni kullanıcılar",
+      "recentCases": "Son davalar"
+    },
+    "users": {
+      "title": "Kullanıcılar",
+      "since": "Tarihinden beri",
+      "caseSuffix": "dava",
+      "casesSuffix": "dava",
+      "grantCredits": "Kredi ver",
+      "grantLoading": "İşleniyor…",
+      "grantError": "Kredi verilemedi",
+      "changeRole": "Rolü değiştir:",
+      "creditsFor": "Krediler:",
+      "subscription": "Subscription",
+      "noSubscription": "No active subscription",
+      "subscriptionUntil": "until",
+      "subscriptionCancels": "cancels at period end",
+      "noCases": "No cases yet.",
+      "ledger": "Payments / Credits"
+    },
+    "cases": {
+      "filterAll": "Tümü",
+      "filterOpen": "Açık",
+      "filterSubmitted": "Gönderildi",
+      "filterClosed": "Kapalı",
+      "noneFound": "Bu kategoride dava yok.",
+      "deadline": "Son tarih"
+    },
+    "pricing": {
+      "loading": "Fiyat planları yükleniyor…",
+      "noPlansHint": "Veritabanında fiyat planı yok.",
+      "recommended": "Önerilen",
+      "inactive": "Aktif değil",
+      "group": "Grup",
+      "once": "Tek seferlik",
+      "monthly": "Aylık",
+      "annual": "Yıllık",
+      "active": "Aktif",
+      "standard": "Standart",
+      "features": "Özellikler"
+    },
+    "emails": {
+      "devWarning": "Dev modu aktif — giden tüm e-postalar konuya DEV - öneki alır.",
+      "trigger": "Tetikleyici",
+      "subject": "Konu",
+      "variables": "Değişkenler",
+      "ttl": "Geçerlilik",
+      "templates": {
+        "verification": "Doğrulama kodu",
+        "verificationTrigger": "Kullanıcı kayıt olur",
+        "verificationSubject": "Doğrulama kodunuz — TaxaLex",
+        "welcome": "Hoş geldiniz e-postası",
+        "welcomeTrigger": "E-posta doğrulandı",
+        "welcomeSubject": "TaxaLex'e hoş geldiniz — {name}",
+        "passwordReset": "Şifre sıfırlama",
+        "passwordResetTrigger": "Şifre unutuldu",
+        "passwordResetSubject": "Şifrenizi sıfırlayın — TaxaLex"
+      }
+    },
+    "system": {
+      "title": "Sistem durumu",
+      "environment": "Ortam",
+      "dev": "Geliştirme",
+      "prod": "Üretim",
+      "database": "Veritabanı",
+      "ai": "Yapay zeka (Anthropic)",
+      "stripe": "Ödemeler (Stripe)",
+      "emailService": "E-postalar (Brevo)",
+      "ok": "Tamam",
+      "notConfigured": "Yapılandırılmadı",
+      "services": {
+        "anthropic": "Anthropic (Claude)",
+        "anthropicNote": "Required — app will not start without this key",
+        "google": "Google AI (Gemini)",
+        "googleNote": "Optional — for Gemini agents",
+        "perplexity": "Perplexity (Sonar)",
+        "perplexityNote": "Optional — for fact-check agent",
+        "stripe": "Stripe",
+        "stripeNote": "Optional — for payments",
+        "brevo": "Brevo (Email)",
+        "brevoNote": "Optional — emails suppressed without key",
+        "s3": "S3 (File storage)",
+        "s3Note": "Optional — for document uploads"
+      }
+    },
+    "content": {
+      "title": "Veritabanı içerikleri",
+      "useCases": "Kullanım alanları",
+      "faqs": "Sık sorulan sorular",
+      "pricingPlans": "Fiyat planları",
+      "edit": "Düzenle (yakında)"
     }
   },
   "advisor": {
     "dashboard": {
-      "title": "Advisor dashboard",
-      "clients": "Clients",
-      "activeAppeals": "Active objections",
-      "submittedAppeals": "Submitted objections",
-      "recentActivity": "Recent activity",
-      "quickActions": "Quick actions",
-      "addClient": "Add client",
-      "newAppeal": "New objection"
+      "title": "Danışman paneli",
+      "clients": "Müşteriler",
+      "activeAppeals": "Aktif itirazlar",
+      "submittedAppeals": "Gönderilen itirazlar",
+      "recentActivity": "Son aktiviteler",
+      "quickActions": "Hızlı erişim",
+      "addClient": "Müşteri ekle",
+      "newAppeal": "Yeni itiraz"
     },
     "clients": {
-      "title": "Clients",
-      "subtitle": "Manage your clients",
-      "search": "Search clients...",
-      "add": "Add client",
-      "name": "Name",
-      "email": "Email",
-      "cases": "Cases",
-      "lastActive": "Last active",
-      "actions": "Actions",
-      "noClients": "No clients yet",
+      "title": "Müşteriler",
+      "subtitle": "Müşterilerinizi yönetin",
+      "search": "Müşteri ara...",
+      "add": "Müşteri ekle",
+      "name": "Ad",
+      "email": "E-posta",
+      "cases": "Davalar",
+      "lastActive": "Son aktivite",
+      "actions": "İşlemler",
+      "noClients": "Müşteri yok",
       "modal": {
-        "title": "Add client",
-        "name": "Client name",
-        "email": "Email address",
-        "submit": "Add"
+        "title": "Müşteri ekle",
+        "name": "Müşteri adı",
+        "email": "E-posta adresi",
+        "submit": "Ekle"
       }
     },
     "appeals": {
-      "title": "All objections",
-      "subtitle": "Objections across all your clients",
-      "client": "Client",
-      "type": "Type",
-      "status": "Status",
-      "createdAt": "Created"
+      "title": "Tüm itirazlar",
+      "subtitle": "Tüm müşterilerinizin itirazları",
+      "client": "Müşteri",
+      "type": "Tür",
+      "status": "Durum",
+      "createdAt": "Oluşturma tarihi"
     },
     "billing": {
-      "title": "Billing",
-      "plan": "Your advisor plan",
-      "usage": "Clients & objections"
+      "title": "Faturalama",
+      "plan": "Danışman planınız",
+      "usage": "Müşteriler & itirazlar"
     }
   },
-  "admin": {
-    "title": "Admin panel",
-    "subtitle": "System overview and user management",
-    "tabs": {
-      "overview": "Overview",
-      "users": "Users",
-      "content": "Content"
-    },
-    "stats": {
-      "totalUsers": "Total users",
-      "totalCases": "Total cases",
-      "openCases": "Open cases",
-      "submittedCases": "Submitted"
-    },
-    "users": {
-      "title": "Users",
-      "since": "Since"
-    },
-    "content": {
-      "title": "Database content",
-      "useCases": "Use cases",
-      "faqs": "FAQs",
-      "pricingPlans": "Pricing plans",
-      "edit": "Edit (coming soon)"
-    }
+  "errors": {
+    "noFiles": "Lütfen en az bir dosya yükleyin",
+    "analyzeFailed": "Analiz başarısız oldu. Lütfen tekrar deneyin.",
+    "generateFailed": "Oluşturma başarısız oldu. Lütfen tekrar deneyin.",
+    "missingDescheid": "Karar verileri eksik",
+    "unauthorized": "Yetkisiz",
+    "notFound": "Sayfa bulunamadı",
+    "serverError": "Sunucu hatası. Lütfen daha sonra tekrar deneyin."
   },
   "cookies": {
     "banner": {
-      "title": "Cookie settings",
-      "description": "We use cookies for analytics and a better user experience. You can change your preferences at any time.",
-      "acceptAll": "Accept all",
-      "acceptNecessary": "Necessary only",
-      "manage": "Settings",
-      "learnMore": "Learn more"
+      "title": "Çerez ayarları",
+      "description": "Analiz ve daha iyi kullanıcı deneyimi için çerezler kullanıyoruz.",
+      "acceptAll": "Tümünü kabul et",
+      "acceptNecessary": "Yalnızca zorunlular",
+      "manage": "Ayarlar",
+      "learnMore": "Daha fazla bilgi"
     },
     "types": {
       "necessary": {
-        "title": "Necessary cookies",
-        "description": "Required for the website to function. Cannot be disabled."
+        "title": "Zorunlu çerezler",
+        "description": "Sitenin çalışması için gereklidir."
       },
       "analytics": {
-        "title": "Analytics cookies",
-        "description": "Google Analytics and PostHog – help us improve the website."
+        "title": "Analitik çerezler",
+        "description": "Google Analytics ve PostHog."
       },
       "marketing": {
-        "title": "Marketing cookies",
-        "description": "Personalised advertising and retargeting."
+        "title": "Pazarlama çerezleri",
+        "description": "Kişiselleştirilmiş reklamlar."
       }
     }
   },
@@ -506,17 +663,8 @@
     }
   },
   "outputLanguage": {
-    "label": "Output language",
-    "hint": "The objection letter is generated in German by default (required for German authorities).",
-    "nonGermanWarning": "For review only — the letter must be in German for official submission."
-  },
-  "errors": {
-    "noFiles": "Please upload at least one file",
-    "analyzeFailed": "Analysis failed. Please try again.",
-    "generateFailed": "Generation failed. Please try again.",
-    "missingDescheid": "Notice data is missing",
-    "unauthorized": "Unauthorised",
-    "notFound": "Page not found",
-    "serverError": "Server error. Please try again later."
+    "label": "Çıktı dili",
+    "hint": "İtiraz varsayılan olarak Almanca oluşturulur (Alman makamları için gereklidir).",
+    "nonGermanWarning": "Yalnızca inceleme amaçlıdır — resmi başvuru için mektup Almanca olmalıdır."
   }
 }

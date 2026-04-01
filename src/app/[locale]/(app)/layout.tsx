@@ -15,6 +15,7 @@ import { MobileSidebarWrapper } from '@/components/MobileSidebarWrapper'
 import { LogoutButton } from '@/components/LogoutButton'
 import { IdleTimer } from '@/components/IdleTimer'
 import { LanguageSelector } from '@/components/ui/LanguageSelector'
+import { getTranslations } from 'next-intl/server'
 
 export default async function AppLayout({
   children,
@@ -23,7 +24,7 @@ export default async function AppLayout({
   children: React.ReactNode
   params: Promise<{ locale: string }>
 }) {
-  const [session, { locale }] = await Promise.all([auth(), params])
+  const [session, { locale }, t] = await Promise.all([auth(), params, getTranslations('nav')])
   if (!session) redirect('/login')
 
   const isAdmin = session!.user?.role === 'ADMIN'
@@ -47,35 +48,35 @@ export default async function AppLayout({
         {/* Navigation */}
         <nav className="flex-1 p-3 space-y-0.5 overflow-y-auto">
           <p className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted)] px-3 py-2">
-            Übersicht
+            {t('sectionOverview')}
           </p>
-          <NavItem href="/dashboard" icon={LayoutDashboard} label="Dashboard" />
-          <NavItem href="/cases" icon={FolderOpen} label="Meine Fälle" />
+          <NavItem href="/dashboard" icon={LayoutDashboard} label={t('dashboard')} />
+          <NavItem href="/cases" icon={FolderOpen} label={t('cases')} />
 
           <p className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted)] px-3 pt-4 pb-2">
-            Konto
+            {t('sectionAccount')}
           </p>
-          <NavItem href="/account" icon={User} label="Profil & Einstellungen" />
-          <NavItem href="/billing" icon={CreditCard} label="Abrechnung" />
+          <NavItem href="/account" icon={User} label={t('account')} />
+          <NavItem href="/billing" icon={CreditCard} label={t('billing')} />
 
           {isAdvisor && (
             <>
               <p className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted)] px-3 pt-4 pb-2">
-                Berater
+                {t('sectionAdvisor')}
               </p>
-              <NavItem href="/advisor/dashboard" icon={LayoutDashboard} label="Berater-Dashboard" highlight />
-              <NavItem href="/advisor/clients" icon={FolderOpen} label="Mandanten" highlight />
-              <NavItem href="/advisor/appeals" icon={Shield} label="Alle Einsprüche" highlight />
-              <NavItem href="/advisor/billing" icon={CreditCard} label="Berater-Abrechnung" highlight />
+              <NavItem href="/advisor/dashboard" icon={LayoutDashboard} label={t('advisorDashboard')} highlight />
+              <NavItem href="/advisor/clients" icon={FolderOpen} label={t('advisorClients')} highlight />
+              <NavItem href="/advisor/appeals" icon={Shield} label={t('advisorAppeals')} highlight />
+              <NavItem href="/advisor/billing" icon={CreditCard} label={t('advisorBilling')} highlight />
             </>
           )}
 
           {isAdmin && (
             <>
               <p className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted)] px-3 pt-4 pb-2">
-                Administration
+                {t('sectionAdmin')}
               </p>
-              <NavItem href="/admin" icon={Shield} label="Admin-Panel" highlight />
+              <NavItem href="/admin" icon={Shield} label={t('adminPanel')} highlight />
             </>
           )}
         </nav>
@@ -126,8 +127,8 @@ export default async function AppLayout({
               className="flex items-center gap-1.5 bg-brand-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-brand-700 transition-colors"
             >
               <Plus className="w-4 h-4" />
-              <span className="hidden sm:inline">Neue Anfrage</span>
-              <span className="sm:hidden">Neu</span>
+              <span className="hidden sm:inline">{t('newCase')}</span>
+              <span className="sm:hidden">+</span>
             </Link>
           </div>
         </header>

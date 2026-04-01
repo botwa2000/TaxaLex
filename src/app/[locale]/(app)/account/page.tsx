@@ -4,6 +4,7 @@ import { PRICING_PLANS } from '@/lib/contentFallbacks'
 import { Link } from '@/i18n/navigation'
 import { DeleteAccountButton } from './DeleteAccountButton'
 import { ThemeSettingRow } from '@/components/ThemeSettingRow'
+import { getTranslations } from 'next-intl/server'
 import {
   Plus,
   FileText,
@@ -43,7 +44,7 @@ const TEMPLATE_HIGHLIGHTS = [
 ]
 
 export default async function AccountPage() {
-  const session = await auth()
+  const [session, t] = await Promise.all([auth(), getTranslations('account')])
   const userId = session!.user!.id as string
   let user: UserRecord | null = null
 
@@ -65,7 +66,7 @@ export default async function AccountPage() {
   const isAdvisor = ['ADVISOR', 'LAWYER'].includes(user.role)
   const displayName = user.name ?? user.email.split('@')[0]
   const initials = (user.name ?? user.email).slice(0, 2).toUpperCase()
-  const memberSince = new Date(user.createdAt).toLocaleDateString('de-DE', { month: 'long', year: 'numeric' })
+  const memberSince = new Date(user.createdAt).toLocaleDateString(undefined, { month: 'long', year: 'numeric' })
 
   const individualPlans = PRICING_PLANS.filter((p) => p.userGroup === 'individual')
 
@@ -85,14 +86,14 @@ export default async function AccountPage() {
               <div className="flex items-center gap-2 mt-1.5">
                 <span className="inline-flex items-center gap-1 text-xs font-medium bg-white/20 px-2 py-0.5 rounded-full">
                   {isPro ? <Crown className="w-3 h-3" /> : isAdvisor ? <ShieldCheck className="w-3 h-3" /> : <User className="w-3 h-3" />}
-                  {isPro ? 'Pro' : isAdvisor ? user.role : 'Free'}
+                  {isPro ? t('planPro') : isAdvisor ? user.role : t('planFree')}
                 </span>
-                <span className="text-brand-300 text-xs">Mitglied seit {memberSince}</span>
+                <span className="text-brand-300 text-xs">{t('memberSince')} {memberSince}</span>
               </div>
             </div>
           </div>
           <div className="flex items-center gap-2 shrink-0">
-            <span className="text-xs text-brand-200">Abmelden</span>
+            <span className="text-xs text-brand-200">{t('logout')}</span>
             <LogoutButton />
           </div>
         </div>
@@ -104,14 +105,14 @@ export default async function AccountPage() {
             className="inline-flex items-center gap-2 bg-white text-brand-700 px-4 py-2.5 rounded-xl text-sm font-bold hover:bg-brand-50 transition-colors shadow-sm"
           >
             <Plus className="w-4 h-4" />
-            Neuen Einspruch starten
+            {t('startNewCase')}
           </Link>
           <Link
             href="/cases"
             className="inline-flex items-center gap-2 bg-white/15 text-white px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-white/25 transition-colors"
           >
             <FileText className="w-4 h-4" />
-            Meine Fälle
+            {t('myCases')}
           </Link>
         </div>
       </div>
@@ -121,10 +122,8 @@ export default async function AccountPage() {
         <div className="flex items-start gap-3 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3.5">
           <Mail className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
           <div>
-            <p className="text-sm font-semibold text-amber-800">E-Mail-Adresse nicht bestätigt</p>
-            <p className="text-xs text-amber-700 mt-0.5">
-              Bitte bestätigen Sie Ihre E-Mail-Adresse. Check your inbox for the confirmation link.
-            </p>
+            <p className="text-sm font-semibold text-amber-800">{t('emailNotVerified')}</p>
+            <p className="text-xs text-amber-700 mt-0.5">{t('emailNotVerifiedHint')}</p>
           </div>
         </div>
       )}
@@ -133,15 +132,15 @@ export default async function AccountPage() {
       <div className="grid grid-cols-3 gap-3">
         <div className="bg-[var(--surface)] border border-[var(--border)] rounded-xl p-4 text-center">
           <p className="text-2xl font-black text-[var(--foreground)]">{isDemo ? '3' : '0'}</p>
-          <p className="text-xs text-[var(--muted)] mt-0.5">Fälle gesamt</p>
+          <p className="text-xs text-[var(--muted)] mt-0.5">{t('statCases')}</p>
         </div>
         <div className="bg-[var(--surface)] border border-[var(--border)] rounded-xl p-4 text-center">
           <p className="text-2xl font-black text-[var(--foreground)]">{isPro ? '∞' : isDemo ? '2' : '0'}</p>
-          <p className="text-xs text-[var(--muted)] mt-0.5">Guthaben</p>
+          <p className="text-xs text-[var(--muted)] mt-0.5">{t('statCredits')}</p>
         </div>
         <div className="bg-[var(--surface)] border border-[var(--border)] rounded-xl p-4 text-center">
-          <p className="text-2xl font-black text-brand-600">{isPro ? 'Pro' : 'Free'}</p>
-          <p className="text-xs text-[var(--muted)] mt-0.5">Aktueller Plan</p>
+          <p className="text-2xl font-black text-brand-600">{isPro ? t('planPro') : t('planFree')}</p>
+          <p className="text-xs text-[var(--muted)] mt-0.5">{t('statPlan')}</p>
         </div>
       </div>
 
@@ -149,27 +148,27 @@ export default async function AccountPage() {
       <div className="bg-[var(--surface)] rounded-xl border border-[var(--border)]">
         <div className="px-5 py-4 border-b border-[var(--border)] flex items-center justify-between">
           <div>
-            <h2 className="font-semibold text-[var(--foreground)]">Vorlagen & Muster</h2>
-            <p className="text-xs text-[var(--muted)] mt-0.5">Kostenlose Vorlagen zum Herunterladen und Anpassen</p>
+            <h2 className="font-semibold text-[var(--foreground)]">{t('templatesTitle')}</h2>
+            <p className="text-xs text-[var(--muted)] mt-0.5">{t('templatesDesc')}</p>
           </div>
           <Link href="/vorlagen" className="text-xs text-brand-600 hover:underline flex items-center gap-1 shrink-0">
-            Alle anzeigen <ArrowRight className="w-3 h-3" />
+            {t('templatesViewAll')} <ArrowRight className="w-3 h-3" />
           </Link>
         </div>
         <div className="divide-y divide-[var(--border)]">
-          {TEMPLATE_HIGHLIGHTS.map((t) => (
+          {TEMPLATE_HIGHLIGHTS.map((tpl) => (
             <Link
-              key={t.slug + t.titleDE}
-              href={`/vorlagen/${t.slug}`}
+              key={tpl.slug + tpl.titleDE}
+              href={`/vorlagen/${tpl.slug}`}
               className="flex items-center gap-3 px-5 py-3.5 hover:bg-[var(--background-subtle)] transition-colors group"
             >
-              <span className="text-xl shrink-0">{t.icon}</span>
+              <span className="text-xl shrink-0">{tpl.icon}</span>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-[var(--foreground)] truncate">{t.titleDE}</p>
-                <p className="text-xs text-[var(--muted)]">{t.law}</p>
+                <p className="text-sm font-medium text-[var(--foreground)] truncate">{tpl.titleDE}</p>
+                <p className="text-xs text-[var(--muted)]">{tpl.law}</p>
               </div>
               <div className="flex items-center gap-2 shrink-0">
-                <span className="text-xs text-brand-600 font-medium hidden sm:block">Kostenlos</span>
+                <span className="text-xs text-brand-600 font-medium hidden sm:block">{t('templatesFree')}</span>
                 <Download className="w-3.5 h-3.5 text-[var(--muted)] group-hover:text-brand-600 transition-colors" />
               </div>
             </Link>
@@ -181,7 +180,7 @@ export default async function AccountPage() {
             className="inline-flex items-center gap-2 text-sm font-semibold text-brand-600 hover:text-brand-700"
           >
             <Zap className="w-4 h-4" />
-            Lieber KI nutzen — Einspruch in 5 Minuten erstellen
+            {t('templatesUseAI')}
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
@@ -191,9 +190,9 @@ export default async function AccountPage() {
       {!isPro && !isAdvisor && (
         <div>
           <div className="flex items-center justify-between mb-3">
-            <h2 className="font-semibold text-[var(--foreground)]">Pakete & Preise</h2>
+            <h2 className="font-semibold text-[var(--foreground)]">{t('plansTitle')}</h2>
             <Link href="/billing" className="text-xs text-brand-600 hover:underline">
-              Alle Details
+              {t('plansViewAll')}
             </Link>
           </div>
           <div className="grid sm:grid-cols-3 gap-3">
@@ -269,67 +268,67 @@ export default async function AccountPage() {
       {/* ── Profile & settings ── */}
       <div className="bg-[var(--surface)] rounded-xl border border-[var(--border)]">
         <div className="px-5 py-4 border-b border-[var(--border)]">
-          <h2 className="font-semibold text-[var(--foreground)]">Konto & Einstellungen</h2>
+          <h2 className="font-semibold text-[var(--foreground)]">{t('settingsTitle')}</h2>
         </div>
 
         {/* Profile row */}
         <div className="px-5 py-4 border-b border-[var(--border)]">
           <div className="flex items-center justify-between mb-3">
-            <p className="text-xs font-semibold uppercase tracking-wide text-[var(--muted)]">Profil</p>
+            <p className="text-xs font-semibold uppercase tracking-wide text-[var(--muted)]">{t('sections.profile')}</p>
           </div>
           <div className="space-y-2.5">
-            <SettingRow label="Name" value={user.name ?? '—'} />
-            <SettingRow label="E-Mail" value={user.email} />
+            <SettingRow label={t('name')} value={user.name ?? '—'} />
+            <SettingRow label={t('email')} value={user.email} />
             <SettingRow
-              label="E-Mail bestätigt"
-              value={user.emailVerified ? 'Ja' : 'Nein'}
+              label={t('emailVerified')}
+              value={user.emailVerified ? '✓' : '✗'}
               valueClass={user.emailVerified ? 'text-green-600' : 'text-amber-600'}
             />
-            <SettingRow label="Konto-Typ" value={user.role} />
-            <SettingRow label="Mitglied seit" value={memberSince} />
+            <SettingRow label={t('accountType')} value={user.role} />
+            <SettingRow label={t('memberSince')} value={memberSince} />
           </div>
         </div>
 
         {/* Security row */}
         <div className="px-5 py-4 border-b border-[var(--border)]">
-          <p className="text-xs font-semibold uppercase tracking-wide text-[var(--muted)] mb-3">Sicherheit</p>
+          <p className="text-xs font-semibold uppercase tracking-wide text-[var(--muted)] mb-3">{t('sections.security')}</p>
           <div className="space-y-2.5">
-            <SettingRow label="Passwort" value="••••••••••" />
-            <SettingRow label="Zwei-Faktor (2FA)" value="Nicht aktiviert" valueClass="text-[var(--muted)]" />
+            <SettingRow label={t('password')} value="••••••••••" />
+            <SettingRow label={t('twoFactor')} value={t('twoFactorNotEnabled')} valueClass="text-[var(--muted)]" />
           </div>
           <div className="mt-3">
             <Link
               href="/forgot-password"
               className="text-xs text-brand-600 hover:underline inline-flex items-center gap-1"
             >
-              Passwort ändern <ArrowRight className="w-3 h-3" />
+              {t('changePassword')} <ArrowRight className="w-3 h-3" />
             </Link>
           </div>
         </div>
 
         {/* Appearance */}
         <div className="px-5 py-4 border-b border-[var(--border)]">
-          <p className="text-xs font-semibold uppercase tracking-wide text-[var(--muted)] mb-3">Darstellung</p>
+          <p className="text-xs font-semibold uppercase tracking-wide text-[var(--muted)] mb-3">{t('sections.appearance')}</p>
           <ThemeSettingRow initialTheme={user.theme} />
         </div>
 
         {/* Language */}
         <div className="px-5 py-4 border-b border-[var(--border)]">
-          <p className="text-xs font-semibold uppercase tracking-wide text-[var(--muted)] mb-3">Sprache & Region</p>
+          <p className="text-xs font-semibold uppercase tracking-wide text-[var(--muted)] mb-3">{t('sections.language')}</p>
           <LocaleSettingRow initialLocale={user.locale || 'de'} />
         </div>
 
         {/* Billing shortcut */}
         <div className="px-5 py-4 border-b border-[var(--border)]">
-          <p className="text-xs font-semibold uppercase tracking-wide text-[var(--muted)] mb-3">Abrechnung</p>
+          <p className="text-xs font-semibold uppercase tracking-wide text-[var(--muted)] mb-3">{t('billing')}</p>
           <Link
             href="/billing"
             className="flex items-center gap-3 p-3 bg-[var(--background-subtle)] rounded-lg hover:bg-[var(--border)] transition-colors"
           >
             <CreditCard className="w-5 h-5 text-brand-600 shrink-0" />
             <div className="flex-1">
-              <p className="text-sm font-medium text-[var(--foreground)]">Zahlungen & Plan verwalten</p>
-              <p className="text-xs text-[var(--muted)]">Rechnungen, Upgrade, Pakete kaufen</p>
+              <p className="text-sm font-medium text-[var(--foreground)]">{t('billingManage')}</p>
+              <p className="text-xs text-[var(--muted)]">{t('billingManageDesc')}</p>
             </div>
             <ArrowRight className="w-4 h-4 text-[var(--muted)]" />
           </Link>
@@ -337,17 +336,14 @@ export default async function AccountPage() {
 
         {/* GDPR */}
         <div className="px-5 py-4">
-          <p className="text-xs font-semibold uppercase tracking-wide text-[var(--muted)] mb-2">Datenschutz (DSGVO)</p>
-          <p className="text-xs text-[var(--muted)] mb-3">
-            Datenexport folgt. Kontoloschung ist sofort wirksam und unwiderruflich.
-          </p>
+          <p className="text-xs font-semibold uppercase tracking-wide text-[var(--muted)] mb-2">{t('gdprTitle')}</p>
+          <p className="text-xs text-[var(--muted)] mb-3">{t('gdprNote')}</p>
           <div className="flex gap-2 items-start">
             <button
               disabled
-              title="Folgt in Kürze"
               className="text-xs border border-[var(--border)] px-3 py-1.5 rounded-lg text-[var(--muted)] disabled:opacity-40 disabled:cursor-not-allowed"
             >
-              Daten exportieren
+              {t('exportData')}
             </button>
             <DeleteAccountButton />
           </div>

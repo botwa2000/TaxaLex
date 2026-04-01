@@ -63,6 +63,25 @@ export const localeFlags: Record<Locale, string> = {
   uk: '🇺🇦',
 }
 
+/**
+ * flagcdn.com country codes for each locale.
+ * Used to render proper flag images that display on all platforms including Windows.
+ * URL pattern: https://flagcdn.com/w20/{code}.png
+ */
+export const localeFlagCodes: Record<Locale, string> = {
+  de: 'de',
+  en: 'gb',
+  fr: 'fr',
+  it: 'it',
+  es: 'es',
+  pt: 'pt',
+  tr: 'tr',
+  ru: 'ru',
+  pl: 'pl',
+  ar: 'sa',
+  uk: 'ua',
+}
+
 /** Resolve locale from Accept-Language header, falling back to default. */
 export function resolveLocale(acceptLanguage: string | null): Locale {
   if (!acceptLanguage) return defaultLocale

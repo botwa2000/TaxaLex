@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
+import { useTranslations } from 'next-intl'
 import {
   Users, FolderOpen, Clock, CheckCircle2, Activity, TrendingUp,
   CreditCard, ChevronDown, ChevronRight, Check, X, Plus, UserCog,
@@ -86,15 +87,6 @@ interface Props {
 type AdminTab = 'overview' | 'users' | 'cases' | 'pricing' | 'emails' | 'system'
 type CaseFilter = 'all' | 'open' | 'submitted' | 'closed'
 
-const TABS: { key: AdminTab; label: string; icon: React.ElementType }[] = [
-  { key: 'overview', label: 'Übersicht', icon: TrendingUp },
-  { key: 'users',    label: 'Nutzer',    icon: Users },
-  { key: 'cases',    label: 'Fälle',     icon: FolderOpen },
-  { key: 'pricing',  label: 'Preise',    icon: Tag },
-  { key: 'emails',   label: 'E-Mails',   icon: Mail },
-  { key: 'system',   label: 'System',    icon: Activity },
-]
-
 const ROLES = ['USER', 'PRO', 'ADVISOR', 'LAWYER', 'ADMIN'] as const
 type UserRole = typeof ROLES[number]
 
@@ -137,12 +129,23 @@ const USE_CASE_LABELS: Record<string, string> = {
   grundsteuer: 'Grundsteuer', kuendigung: 'Kündigung',
 }
 
-function fmt(d: Date | string) { return new Date(d).toLocaleDateString('de-DE') }
+function fmt(d: Date | string) { return new Date(d).toLocaleDateString(undefined) }
 function fmtEuro(v: string | null) { return v ? `${parseFloat(v).toFixed(2)} €` : '—' }
 
 // ── Main component ────────────────────────────────────────────────────────────
 
 export function AdminClient({ users: initialUsers, cases, stats, systemHealth }: Props) {
+  const t = useTranslations('admin')
+
+  const TABS: { key: AdminTab; label: string; icon: React.ElementType }[] = [
+    { key: 'overview', label: t('tabs.overview'), icon: TrendingUp },
+    { key: 'users',    label: t('tabs.users'),    icon: Users },
+    { key: 'cases',    label: t('tabs.cases'),    icon: FolderOpen },
+    { key: 'pricing',  label: t('tabs.pricing'),  icon: Tag },
+    { key: 'emails',   label: t('tabs.emails'),   icon: Mail },
+    { key: 'system',   label: t('tabs.system'),   icon: Activity },
+  ]
+
   const [tab, setTab]               = useState<AdminTab>('overview')
   const [caseFilter, setCaseFilter] = useState<CaseFilter>('all')
   const [users, setUsers]           = useState(initialUsers)
@@ -216,7 +219,7 @@ export function AdminClient({ users: initialUsers, cases, stats, systemHealth }:
       setGrantUserId(null)
       setGrantAmount(1)
     } catch {
-      setGrantError('Gutschrift fehlgeschlagen')
+      setGrantError(t('users.grantError'))
     } finally {
       setGrantLoading(false)
     }
@@ -268,18 +271,18 @@ export function AdminClient({ users: initialUsers, cases, stats, systemHealth }:
     <div>
       {/* Tabs */}
       <div className="flex items-center gap-1 border-b border-[var(--border)] mb-6 overflow-x-auto">
-        {TABS.map((t) => (
+        {TABS.map((tabItem) => (
           <button
-            key={t.key}
-            onClick={() => setTab(t.key)}
+            key={tabItem.key}
+            onClick={() => setTab(tabItem.key)}
             className={`flex items-center gap-2 px-4 py-2.5 text-sm font-medium border-b-2 transition-colors -mb-px whitespace-nowrap ${
-              tab === t.key
+              tab === tabItem.key
                 ? 'border-brand-600 text-brand-600 dark:border-brand-400 dark:text-brand-400'
                 : 'border-transparent text-[var(--muted)] hover:text-[var(--foreground)]'
             }`}
           >
-            <t.icon className="w-3.5 h-3.5" />
-            {t.label}
+            <tabItem.icon className="w-3.5 h-3.5" />
+            {tabItem.label}
           </button>
         ))}
       </div>
@@ -291,33 +294,33 @@ export function AdminClient({ users: initialUsers, cases, stats, systemHealth }:
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
             {[
               {
-                icon: Users, label: 'Nutzer gesamt', value: stats.totalUsers,
-                sub: `${stats.verifiedUsers} verifiziert`,
+                icon: Users, label: t('overview.totalUsers'), value: stats.totalUsers,
+                sub: `${stats.verifiedUsers} ${t('overview.verifiedSuffix')}`,
                 color: 'bg-blue-50 text-blue-600 dark:bg-blue-950 dark:text-blue-400',
               },
               {
-                icon: TrendingUp, label: 'Neue (7 Tage)', value: stats.newUsersThisWeek,
-                sub: `${stats.totalUsers > 0 ? Math.round((stats.newUsersThisWeek / stats.totalUsers) * 100) : 0}% des Gesamts`,
+                icon: TrendingUp, label: t('overview.new7d'), value: stats.newUsersThisWeek,
+                sub: `${stats.totalUsers > 0 ? Math.round((stats.newUsersThisWeek / stats.totalUsers) * 100) : 0}% ${t('overview.ofTotalPct')}`,
                 color: 'bg-brand-50 text-brand-700 dark:bg-brand-950 dark:text-brand-400',
               },
               {
-                icon: UserCheck, label: 'Aktiviert', value: stats.usersWithCases,
-                sub: `${stats.totalUsers > 0 ? Math.round((stats.usersWithCases / stats.totalUsers) * 100) : 0}% Aktivierungsrate`,
+                icon: UserCheck, label: t('overview.activated'), value: stats.usersWithCases,
+                sub: `${stats.totalUsers > 0 ? Math.round((stats.usersWithCases / stats.totalUsers) * 100) : 0}% ${t('overview.activationPct')}`,
                 color: 'bg-green-50 text-green-600 dark:bg-green-950 dark:text-green-400',
               },
               {
-                icon: CreditCard, label: 'Aktive Abos', value: stats.activeSubscriptions,
-                sub: `${stats.totalUsers > 0 ? Math.round((stats.activeSubscriptions / stats.totalUsers) * 100) : 0}% Conversion`,
+                icon: CreditCard, label: t('overview.activeSubscriptions'), value: stats.activeSubscriptions,
+                sub: `${stats.totalUsers > 0 ? Math.round((stats.activeSubscriptions / stats.totalUsers) * 100) : 0}% ${t('overview.conversionPct')}`,
                 color: 'bg-purple-50 text-purple-700 dark:bg-purple-950 dark:text-purple-400',
               },
               {
-                icon: FolderOpen, label: 'Fälle gesamt', value: stats.totalCases,
-                sub: `${stats.casesThisWeek} diese Woche`,
+                icon: FolderOpen, label: t('overview.totalCases'), value: stats.totalCases,
+                sub: `${stats.casesThisWeek} ${t('overview.thisWeek')}`,
                 color: 'bg-indigo-50 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-400',
               },
               {
-                icon: CheckCircle2, label: 'Erfolgreich abgeschl.', value: stats.closedSuccessCases,
-                sub: `${stats.openCases} noch offen`,
+                icon: CheckCircle2, label: t('overview.closedSuccess'), value: stats.closedSuccessCases,
+                sub: `${stats.openCases} ${t('overview.stillOpen')}`,
                 color: 'bg-emerald-50 text-emerald-600 dark:bg-emerald-950 dark:text-emerald-400',
               },
             ].map((s) => (
@@ -336,7 +339,7 @@ export function AdminClient({ users: initialUsers, cases, stats, systemHealth }:
             {/* Recent signups */}
             <div className="bg-[var(--surface)] rounded-xl border border-[var(--border)]">
               <div className="px-5 py-4 border-b border-[var(--border)]">
-                <h2 className="font-semibold text-sm text-[var(--foreground)]">Neue Nutzer</h2>
+                <h2 className="font-semibold text-sm text-[var(--foreground)]">{t('overview.recentUsers')}</h2>
               </div>
               <div className="divide-y divide-[var(--border)]">
                 {users.slice(0, 5).map((u) => (
@@ -357,7 +360,7 @@ export function AdminClient({ users: initialUsers, cases, stats, systemHealth }:
             {/* Recent cases */}
             <div className="bg-[var(--surface)] rounded-xl border border-[var(--border)]">
               <div className="px-5 py-4 border-b border-[var(--border)]">
-                <h2 className="font-semibold text-sm text-[var(--foreground)]">Neueste Fälle</h2>
+                <h2 className="font-semibold text-sm text-[var(--foreground)]">{t('overview.recentCases')}</h2>
               </div>
               <div className="divide-y divide-[var(--border)]">
                 {cases.slice(0, 5).map((c) => {
@@ -382,7 +385,7 @@ export function AdminClient({ users: initialUsers, cases, stats, systemHealth }:
       {tab === 'users' && (
         <div className="bg-[var(--surface)] rounded-xl border border-[var(--border)]">
           <div className="px-5 py-4 border-b border-[var(--border)]">
-            <h2 className="font-semibold text-sm text-[var(--foreground)]">Nutzer ({users.length})</h2>
+            <h2 className="font-semibold text-sm text-[var(--foreground)]">{t('users.title')} ({users.length})</h2>
           </div>
           <div className="divide-y divide-[var(--border)]">
             {users.map((user) => (
@@ -410,7 +413,7 @@ export function AdminClient({ users: initialUsers, cases, stats, systemHealth }:
                       {user.name ?? '—'}
                     </p>
                     <p className="text-xs text-[var(--muted)] truncate">
-                      {user.email} · {user._count.cases} Fall{user._count.cases !== 1 ? 'fälle' : ''}
+                      {user.email} · {user._count.cases} {user._count.cases !== 1 ? t('users.casesSuffix') : t('users.caseSuffix')}
                       {user.subscription && ` · ${user.subscription.planSlug} (${user.subscription.status})`}
                     </p>
                   </div>
@@ -446,7 +449,7 @@ export function AdminClient({ users: initialUsers, cases, stats, systemHealth }:
                 {/* Role change inline */}
                 {roleUserId === user.id && (
                   <div className="mx-5 mb-3 p-2 bg-[var(--background-subtle)] rounded-xl border border-[var(--border)]">
-                    <p className="text-xs text-[var(--muted)] mb-2 px-1">Rolle ändern:</p>
+                    <p className="text-xs text-[var(--muted)] mb-2 px-1">{t('users.changeRole')}</p>
                     <div className="flex flex-wrap gap-1">
                       {ROLES.map((r) => (
                         <button
@@ -473,7 +476,7 @@ export function AdminClient({ users: initialUsers, cases, stats, systemHealth }:
                 {/* Grant credits inline */}
                 {grantUserId === user.id && (
                   <div className="mx-5 mb-3 p-3 bg-[var(--background-subtle)] rounded-xl border border-[var(--border)]">
-                    <p className="text-xs text-[var(--muted)] mb-2">Credits für {user.name ?? user.email}:</p>
+                    <p className="text-xs text-[var(--muted)] mb-2">{t('users.creditsFor')} {user.name ?? user.email}:</p>
                     <div className="flex items-center gap-2 flex-wrap">
                       <input
                         type="number" min={1} max={1000} value={grantAmount}
@@ -487,7 +490,7 @@ export function AdminClient({ users: initialUsers, cases, stats, systemHealth }:
                         className="flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 bg-brand-600 text-white rounded-lg hover:bg-brand-700 disabled:opacity-50 transition-colors"
                       >
                         <UserCog className="w-3.5 h-3.5" />
-                        {grantLoading ? 'Wird gebucht…' : 'Gutschreiben'}
+                        {grantLoading ? t('users.grantLoading') : t('users.grantCredits')}
                       </button>
                       <button onClick={() => setGrantUserId(null)} className="text-[var(--muted)] hover:text-[var(--foreground)]">
                         <X className="w-3.5 h-3.5" />
@@ -512,10 +515,10 @@ export function AdminClient({ users: initialUsers, cases, stats, systemHealth }:
         <div>
           <div className="flex items-center gap-1 mb-4 flex-wrap">
             {([
-              { key: 'all',       label: `Alle (${cases.length})` },
-              { key: 'open',      label: `Offen (${cases.filter((c) => ['CREATED','QUESTIONS','GENERATING','DRAFT_READY','ANALYZING','UPLOADING'].includes(c.status)).length})` },
-              { key: 'submitted', label: `Eingereicht (${cases.filter((c) => ['SUBMITTED','AWAITING_RESPONSE','APPROVED','ADVISOR_REVIEW'].includes(c.status)).length})` },
-              { key: 'closed',    label: `Abgeschl. (${cases.filter((c) => ['CLOSED_SUCCESS','CLOSED_PARTIAL','REJECTED'].includes(c.status)).length})` },
+              { key: 'all',       label: `${t('cases.filterAll')} (${cases.length})` },
+              { key: 'open',      label: `${t('cases.filterOpen')} (${cases.filter((c) => ['CREATED','QUESTIONS','GENERATING','DRAFT_READY','ANALYZING','UPLOADING'].includes(c.status)).length})` },
+              { key: 'submitted', label: `${t('cases.filterSubmitted')} (${cases.filter((c) => ['SUBMITTED','AWAITING_RESPONSE','APPROVED','ADVISOR_REVIEW'].includes(c.status)).length})` },
+              { key: 'closed',    label: `${t('cases.filterClosed')} (${cases.filter((c) => ['CLOSED_SUCCESS','CLOSED_PARTIAL','REJECTED'].includes(c.status)).length})` },
             ] as { key: CaseFilter; label: string }[]).map((f) => (
               <button
                 key={f.key}
@@ -544,13 +547,13 @@ export function AdminClient({ users: initialUsers, cases, stats, systemHealth }:
                     </div>
                     <span className={`text-xs font-medium px-2 py-0.5 rounded-full shrink-0 ${s.cls}`}>{s.label}</span>
                     {c.deadline && (
-                      <p className="text-xs text-[var(--muted)] hidden sm:block shrink-0">Frist: {fmt(c.deadline)}</p>
+                      <p className="text-xs text-[var(--muted)] hidden sm:block shrink-0">{t('cases.deadline')}: {fmt(c.deadline)}</p>
                     )}
                   </div>
                 )
               })}
               {filteredCases.length === 0 && (
-                <p className="px-5 py-10 text-sm text-center text-[var(--muted)]">Keine Fälle in dieser Kategorie.</p>
+                <p className="px-5 py-10 text-sm text-center text-[var(--muted)]">{t('cases.noneFound')}</p>
               )}
             </div>
           </div>
@@ -563,12 +566,12 @@ export function AdminClient({ users: initialUsers, cases, stats, systemHealth }:
           {!plansLoaded && (
             <div className="flex items-center gap-2 text-sm text-[var(--muted)] py-8 justify-center">
               <Loader2 className="w-4 h-4 animate-spin" />
-              Preispläne laden…
+              {t('pricing.loading')}
             </div>
           )}
           {plansLoaded && plans.length === 0 && (
             <div className="bg-amber-50 dark:bg-amber-950 border border-amber-200 dark:border-amber-800 rounded-xl px-5 py-4 text-sm text-amber-800 dark:text-amber-300">
-              Keine Preispläne in der Datenbank. Führe zuerst <code>npx prisma db seed</code> aus.
+              {t('pricing.noPlansHint')} <code>npx prisma db seed</code>
             </div>
           )}
           {plans.map((plan) => {
@@ -619,14 +622,14 @@ export function AdminClient({ users: initialUsers, cases, stats, systemHealth }:
                     <div className="flex items-center gap-2">
                       <h3 className="font-semibold text-[var(--foreground)]">{name}</h3>
                       {plan.isPopular && (
-                        <span className="text-xs font-medium bg-brand-50 text-brand-700 dark:bg-brand-950 dark:text-brand-400 px-2 py-0.5 rounded-full">Empfohlen</span>
+                        <span className="text-xs font-medium bg-brand-50 text-brand-700 dark:bg-brand-950 dark:text-brand-400 px-2 py-0.5 rounded-full">{t('pricing.recommended')}</span>
                       )}
                       {!plan.isActive && (
-                        <span className="text-xs font-medium bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full">Inaktiv</span>
+                        <span className="text-xs font-medium bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full">{t('pricing.inactive')}</span>
                       )}
                     </div>
                     <p className="text-xs text-[var(--muted)] mt-0.5">
-                      {plan.slug} · Gruppe: {plan.userGroup}
+                      {plan.slug} · {t('pricing.group')}: {plan.userGroup}
                     </p>
                   </div>
                   <div className="flex items-center gap-3 shrink-0">
@@ -641,7 +644,7 @@ export function AdminClient({ users: initialUsers, cases, stats, systemHealth }:
                         ? <ToggleRight className="w-5 h-5 text-green-500" />
                         : <ToggleLeft className="w-5 h-5" />
                       }
-                      {plan.isActive ? 'Aktiv' : 'Inaktiv'}
+                      {plan.isActive ? t('pricing.active') : t('pricing.inactive')}
                     </button>
                     {/* Popular toggle */}
                     <button
@@ -651,20 +654,20 @@ export function AdminClient({ users: initialUsers, cases, stats, systemHealth }:
                       title="Empfehlung umschalten"
                     >
                       <ShieldCheck className={`w-4 h-4 ${plan.isPopular ? 'text-brand-600' : ''}`} />
-                      {plan.isPopular ? 'Empfohlen' : 'Standard'}
+                      {plan.isPopular ? t('pricing.recommended') : t('pricing.standard')}
                     </button>
                   </div>
                 </div>
 
                 <div className="flex flex-wrap gap-6">
-                  {priceField('priceOnce', 'Einmalig')}
-                  {priceField('priceMonthly', 'Monatlich')}
-                  {priceField('priceAnnual', 'Jährlich')}
+                  {priceField('priceOnce', t('pricing.once'))}
+                  {priceField('priceMonthly', t('pricing.monthly'))}
+                  {priceField('priceAnnual', t('pricing.annual'))}
                 </div>
 
                 {plan.features.length > 0 && (
                   <div className="mt-4 pt-4 border-t border-[var(--border)]">
-                    <p className="text-xs text-[var(--muted)] mb-2">Features ({plan.features.length})</p>
+                    <p className="text-xs text-[var(--muted)] mb-2">{t('pricing.features')} ({plan.features.length})</p>
                     <div className="flex flex-wrap gap-x-4 gap-y-1">
                       {plan.features.map((f, i) => (
                         <span key={i} className={`text-xs ${f.included ? 'text-[var(--foreground)]' : 'text-[var(--muted)] line-through'}`}>
@@ -686,36 +689,36 @@ export function AdminClient({ users: initialUsers, cases, stats, systemHealth }:
           {systemHealth.isDev && (
             <div className="flex items-start gap-2 bg-amber-50 dark:bg-amber-950 border border-amber-200 dark:border-amber-800 rounded-xl px-5 py-3.5 text-sm text-amber-800 dark:text-amber-300">
               <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
-              <span>Dev-Modus aktiv — alle ausgehenden E-Mails erhalten das Präfix <strong>DEV -</strong> im Betreff.</span>
+              <span>{t('emails.devWarning')}</span>
             </div>
           )}
 
           {[
             {
               id: 'verify',
-              name: 'Bestätigungscode',
-              trigger: 'Wird gesendet wenn: Nutzer registriert sich',
-              subject: 'Dein Bestätigungscode — TaxaLex',
+              name: t('emails.templates.verification'),
+              trigger: t('emails.templates.verificationTrigger'),
+              subject: t('emails.templates.verificationSubject'),
               vars: ['name (optional)', 'code (6-stellig)', 'locale'],
-              ttl: '15 Minuten Gültigkeit',
+              ttl: '15 min',
               file: 'src/lib/emailTemplates/VerifyEmail.tsx',
             },
             {
               id: 'welcome',
-              name: 'Willkommens-E-Mail',
-              trigger: 'Wird gesendet wenn: Nutzer verifiziert seine E-Mail-Adresse',
-              subject: 'Dein TaxaLex-Konto ist bereit',
+              name: t('emails.templates.welcome'),
+              trigger: t('emails.templates.welcomeTrigger'),
+              subject: t('emails.templates.welcomeSubject'),
               vars: ['name (optional)', 'dashboardUrl', 'locale'],
               ttl: null,
               file: 'src/lib/emailTemplates/Welcome.tsx',
             },
             {
               id: 'reset',
-              name: 'Passwort zurücksetzen',
-              trigger: 'Wird gesendet wenn: Nutzer fordert Passwort-Reset an',
-              subject: 'Passwort für TaxaLex zurücksetzen',
+              name: t('emails.templates.passwordReset'),
+              trigger: t('emails.templates.passwordResetTrigger'),
+              subject: t('emails.templates.passwordResetSubject'),
               vars: ['name (optional)', 'resetUrl', 'locale'],
-              ttl: '1 Stunde Gültigkeit',
+              ttl: '1h',
               file: 'src/lib/emailTemplates/PasswordReset.tsx',
             },
           ].map((tpl) => (
@@ -732,13 +735,13 @@ export function AdminClient({ users: initialUsers, cases, stats, systemHealth }:
 
               <div className="space-y-2">
                 <div className="flex gap-2 items-start">
-                  <span className="text-xs font-medium text-[var(--muted)] w-16 shrink-0 pt-0.5">Betreff</span>
+                  <span className="text-xs font-medium text-[var(--muted)] w-16 shrink-0 pt-0.5">{t('emails.subject')}</span>
                   <code className="text-xs text-[var(--foreground)] bg-[var(--background-subtle)] px-2 py-1 rounded">
                     {systemHealth.isDev ? `DEV - ${tpl.subject}` : tpl.subject}
                   </code>
                 </div>
                 <div className="flex gap-2 items-start">
-                  <span className="text-xs font-medium text-[var(--muted)] w-16 shrink-0 pt-0.5">Variablen</span>
+                  <span className="text-xs font-medium text-[var(--muted)] w-16 shrink-0 pt-0.5">{t('emails.variables')}</span>
                   <div className="flex flex-wrap gap-1">
                     {tpl.vars.map((v) => (
                       <code key={v} className="text-xs bg-[var(--background-subtle)] text-brand-600 dark:text-brand-400 px-1.5 py-0.5 rounded">
@@ -749,14 +752,14 @@ export function AdminClient({ users: initialUsers, cases, stats, systemHealth }:
                 </div>
                 {tpl.ttl && (
                   <div className="flex gap-2 items-center">
-                    <span className="text-xs font-medium text-[var(--muted)] w-16 shrink-0">Ablauf</span>
+                    <span className="text-xs font-medium text-[var(--muted)] w-16 shrink-0">{t('emails.ttl')}</span>
                     <span className="text-xs text-amber-600 dark:text-amber-400">{tpl.ttl}</span>
                   </div>
                 )}
                 <div className="flex gap-2 items-center">
                   <span className="text-xs font-medium text-[var(--muted)] w-16 shrink-0">Provider</span>
                   <span className="text-xs text-[var(--muted)]">
-                    Brevo Transactional · von {String(systemHealth.brevo ? 'konfiguriert' : 'NICHT konfiguriert')}
+                    Brevo Transactional · {String(systemHealth.brevo ? t('system.ok') : t('system.notConfigured'))}
                   </span>
                 </div>
               </div>
@@ -775,16 +778,16 @@ export function AdminClient({ users: initialUsers, cases, stats, systemHealth }:
         <div className="space-y-6">
           <div className="bg-[var(--surface)] rounded-xl border border-[var(--border)]">
             <div className="px-5 py-4 border-b border-[var(--border)]">
-              <h2 className="font-semibold text-sm text-[var(--foreground)]">API-Dienste</h2>
+              <h2 className="font-semibold text-sm text-[var(--foreground)]">{t('system.title')}</h2>
             </div>
             <div className="divide-y divide-[var(--border)]">
               {[
-                { key: 'anthropic',  label: 'Anthropic (Claude)',  note: 'Pflicht — App startet nicht ohne diesen Key' },
-                { key: 'google',     label: 'Google AI (Gemini)',  note: 'Optional — für Gemini-Agenten' },
-                { key: 'perplexity', label: 'Perplexity (Sonar)', note: 'Optional — für Faktencheck-Agent' },
-                { key: 'stripe',     label: 'Stripe',             note: 'Optional — für Zahlungen' },
-                { key: 'brevo',      label: 'Brevo (E-Mail)',     note: 'Optional — E-Mails werden ohne Key unterdrückt' },
-                { key: 's3',         label: 'S3 (Dateispeicher)', note: 'Optional — für Dokumenten-Upload' },
+                { key: 'anthropic',  label: t('system.services.anthropic'),  note: t('system.services.anthropicNote')  },
+                { key: 'google',     label: t('system.services.google'),     note: t('system.services.googleNote')     },
+                { key: 'perplexity', label: t('system.services.perplexity'), note: t('system.services.perplexityNote') },
+                { key: 'stripe',     label: t('system.services.stripe'),     note: t('system.services.stripeNote')     },
+                { key: 'brevo',      label: t('system.services.brevo'),      note: t('system.services.brevoNote')      },
+                { key: 's3',         label: t('system.services.s3'),         note: t('system.services.s3Note')         },
               ].map((svc) => (
                 <div key={svc.key} className="flex items-center justify-between px-5 py-3.5">
                   <div>
@@ -794,7 +797,7 @@ export function AdminClient({ users: initialUsers, cases, stats, systemHealth }:
                   <div className="flex items-center gap-2">
                     <div className={`w-2 h-2 rounded-full ${systemHealth[svc.key] ? 'bg-green-500' : 'bg-red-400'}`} />
                     <span className={`text-xs font-medium ${systemHealth[svc.key] ? 'text-green-600 dark:text-green-400' : 'text-red-500 dark:text-red-400'}`}>
-                      {systemHealth[svc.key] ? 'Konfiguriert' : 'Fehlt'}
+                      {systemHealth[svc.key] ? t('system.ok') : t('system.notConfigured')}
                     </span>
                   </div>
                 </div>
@@ -840,6 +843,7 @@ function UserStatusDot({ user }: { user: AdminUser }) {
 }
 
 function UserDetailPanel({ detail }: { detail: UserDetail }) {
+  const t = useTranslations('admin')
   return (
     <div className="mx-5 mb-4 border border-[var(--border)] rounded-xl overflow-hidden divide-y divide-[var(--border)]">
       {/* Subscription + credits */}
@@ -850,20 +854,20 @@ function UserDetailPanel({ detail }: { detail: UserDetail }) {
         </div>
         {detail.subscription ? (
           <div>
-            <p className="text-xs font-semibold text-[var(--muted)] uppercase tracking-wide mb-1">Abonnement</p>
+            <p className="text-xs font-semibold text-[var(--muted)] uppercase tracking-wide mb-1">{t('users.subscription')}</p>
             <p className="text-sm font-medium text-[var(--foreground)]">
               {detail.subscription.planSlug}
               <span className="ml-1.5 text-xs font-normal text-green-600 dark:text-green-400">{detail.subscription.status}</span>
             </p>
             <p className="text-xs text-[var(--muted)]">
-              bis {new Date(detail.subscription.currentPeriodEnd).toLocaleDateString('de-DE')}
-              {detail.subscription.cancelAtPeriodEnd && ' (kündigt zum Periodenende)'}
+              {t('users.subscriptionUntil')} {new Date(detail.subscription.currentPeriodEnd).toLocaleDateString(undefined)}
+              {detail.subscription.cancelAtPeriodEnd && ` (${t('users.subscriptionCancels')})`}
             </p>
           </div>
         ) : (
           <div>
-            <p className="text-xs font-semibold text-[var(--muted)] uppercase tracking-wide mb-1">Abonnement</p>
-            <p className="text-sm text-[var(--muted)]">Kein aktives Abo</p>
+            <p className="text-xs font-semibold text-[var(--muted)] uppercase tracking-wide mb-1">{t('users.subscription')}</p>
+            <p className="text-sm text-[var(--muted)]">{t('users.noSubscription')}</p>
           </div>
         )}
       </div>
@@ -872,7 +876,7 @@ function UserDetailPanel({ detail }: { detail: UserDetail }) {
       {detail.cases.length > 0 && (
         <div className="px-4 py-3">
           <p className="text-xs font-semibold text-[var(--muted)] uppercase tracking-wide mb-2">
-            Fälle ({detail.cases.length})
+            {t('tabs.cases')} ({detail.cases.length})
           </p>
           <div className="space-y-1">
             {detail.cases.map((c) => {
@@ -881,7 +885,7 @@ function UserDetailPanel({ detail }: { detail: UserDetail }) {
                 <div key={c.id} className="flex items-center gap-2 text-xs">
                   <span className={`px-1.5 py-0.5 rounded text-xs font-medium ${s.cls}`}>{s.label}</span>
                   <span className="text-[var(--foreground)]">{USE_CASE_LABELS[c.useCase] ?? c.useCase}</span>
-                  <span className="text-[var(--muted)]">{new Date(c.createdAt).toLocaleDateString('de-DE')}</span>
+                  <span className="text-[var(--muted)]">{new Date(c.createdAt).toLocaleDateString(undefined)}</span>
                   {c._count.outputs > 0 && <span className="text-[var(--muted)]">{c._count.outputs} Outputs</span>}
                 </div>
               )
@@ -891,7 +895,7 @@ function UserDetailPanel({ detail }: { detail: UserDetail }) {
       )}
       {detail.cases.length === 0 && (
         <div className="px-4 py-3">
-          <p className="text-xs text-[var(--muted)]">Noch keine Fälle erstellt.</p>
+          <p className="text-xs text-[var(--muted)]">{t('users.noCases')}</p>
         </div>
       )}
 
@@ -899,7 +903,7 @@ function UserDetailPanel({ detail }: { detail: UserDetail }) {
       {detail.ledger.length > 0 && (
         <div className="px-4 py-3">
           <p className="text-xs font-semibold text-[var(--muted)] uppercase tracking-wide mb-2">
-            Zahlungen / Gutschriften
+            {t('users.ledger')}
           </p>
           <div className="space-y-1">
             {detail.ledger.map((entry) => (
@@ -908,7 +912,7 @@ function UserDetailPanel({ detail }: { detail: UserDetail }) {
                   {entry.delta > 0 ? `+${entry.delta}` : entry.delta}
                 </span>
                 <span className="text-[var(--foreground)]">{CREDIT_REASON_LABELS[entry.reason] ?? entry.reason}</span>
-                <span className="text-[var(--muted)] ml-auto shrink-0">{new Date(entry.createdAt).toLocaleDateString('de-DE')}</span>
+                <span className="text-[var(--muted)] ml-auto shrink-0">{new Date(entry.createdAt).toLocaleDateString(undefined)}</span>
               </div>
             ))}
           </div>

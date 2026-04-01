@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
-import { locales, localeLabels, localeFlags, type Locale } from '@/config/i18n'
+import { locales, localeLabels, localeFlagCodes, type Locale } from '@/config/i18n'
 import { ChevronDown } from 'lucide-react'
 
 interface LanguageSelectorProps {
@@ -47,7 +47,6 @@ export function LanguageSelector({ currentLocale, variant = 'select', className,
   }
 
   const current = currentLocale as Locale
-  const flag = localeFlags[current] ?? '🌐'
 
   if (variant === 'minimal') {
     return (
@@ -58,13 +57,13 @@ export function LanguageSelector({ currentLocale, variant = 'select', className,
             onClick={() => handleChange(locale)}
             title={localeLabels[locale]}
             className={cn(
-              'text-xs px-1.5 py-0.5 rounded-md transition-colors',
+              'flex items-center gap-1 text-xs px-1.5 py-0.5 rounded-md transition-colors',
               locale === currentLocale
                 ? 'bg-brand-100 text-brand-700 font-medium dark:bg-brand-900 dark:text-brand-300'
                 : 'text-[var(--muted)] hover:bg-[var(--background-subtle)]'
             )}
           >
-            {localeFlags[locale]}
+            <FlagImg code={localeFlagCodes[locale as Locale]} label={localeLabels[locale as Locale]} />
           </button>
         ))}
       </div>
@@ -75,11 +74,11 @@ export function LanguageSelector({ currentLocale, variant = 'select', className,
     <div ref={ref} className={cn('relative', className)}>
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-1 text-sm text-[var(--muted)] hover:text-[var(--foreground)] px-2 py-1.5 rounded-lg hover:bg-[var(--background-subtle)] transition-colors"
+        className="flex items-center gap-1.5 text-sm text-[var(--muted)] hover:text-[var(--foreground)] px-2 py-1.5 rounded-lg hover:bg-[var(--background-subtle)] transition-colors"
         aria-expanded={open}
         aria-haspopup="listbox"
       >
-        <span className="text-base leading-none">{flag}</span>
+        <FlagImg code={localeFlagCodes[current]} label={localeLabels[current]} />
         <span className="font-medium">{current.toUpperCase()}</span>
         <ChevronDown className={cn('w-3 h-3 transition-transform', open && 'rotate-180')} />
       </button>
@@ -99,12 +98,27 @@ export function LanguageSelector({ currentLocale, variant = 'select', className,
                   : 'text-[var(--muted)] hover:bg-[var(--background-subtle)] hover:text-[var(--foreground)]'
               )}
             >
-              <span className="text-base leading-none">{localeFlags[locale]}</span>
-              <span>{localeLabels[locale]}</span>
+              <FlagImg code={localeFlagCodes[locale as Locale]} label={localeLabels[locale as Locale]} />
+              <span>{localeLabels[locale as Locale]}</span>
             </button>
           ))}
         </div>
       )}
     </div>
+  )
+}
+
+/** Renders a country flag as an image from flagcdn.com — works on all platforms including Windows. */
+function FlagImg({ code, label }: { code: string; label: string }) {
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={`https://flagcdn.com/w20/${code}.png`}
+      srcSet={`https://flagcdn.com/w40/${code}.png 2x`}
+      width={20}
+      height={15}
+      alt={label}
+      className="rounded-sm object-cover shrink-0"
+    />
   )
 }

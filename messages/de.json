@@ -39,7 +39,21 @@
     "dashboard": "Dashboard",
     "newCase": "Neue Anfrage",
     "openMenu": "Menü öffnen",
-    "closeMenu": "Menü schließen"
+    "closeMenu": "Menü schließen",
+    "cases": "Meine Fälle",
+    "account": "Profil & Einstellungen",
+    "billing": "Abrechnung",
+    "logout": "Abmelden",
+    "notifications": "Benachrichtigungen",
+    "advisorDashboard": "Berater-Dashboard",
+    "advisorClients": "Mandanten",
+    "advisorAppeals": "Alle Einsprüche",
+    "advisorBilling": "Berater-Abrechnung",
+    "adminPanel": "Admin-Panel",
+    "sectionOverview": "Übersicht",
+    "sectionAccount": "Konto",
+    "sectionAdvisor": "Berater",
+    "sectionAdmin": "Administration"
   },
   "hero": {
     "groups": {
@@ -352,6 +366,7 @@
       "security": "Sicherheit",
       "notifications": "Benachrichtigungen",
       "language": "Sprache & Region",
+      "appearance": "Darstellung",
       "danger": "Konto löschen"
     },
     "name": "Name",
@@ -370,7 +385,43 @@
       "email": "E-Mail-Benachrichtigungen",
       "caseUpdates": "Fall-Updates",
       "newsletter": "Newsletter & Produktneuheiten"
-    }
+    },
+    "memberSince": "Mitglied seit",
+    "logout": "Abmelden",
+    "startNewCase": "Neuen Einspruch starten",
+    "templatesTitle": "Vorlagen & Muster",
+    "templatesDesc": "Kostenlose Vorlagen zum Herunterladen und Anpassen",
+    "templatesViewAll": "Alle anzeigen",
+    "templatesFree": "Kostenlos",
+    "templatesUseAI": "Lieber KI nutzen – Einspruch in 5 Minuten erstellen",
+    "plansTitle": "Pakete & Preise",
+    "plansViewAll": "Alle Details",
+    "settingsTitle": "Konto & Einstellungen",
+    "emailVerified": "E-Mail bestätigt",
+    "emailNotVerified": "E-Mail-Adresse nicht bestätigt",
+    "emailNotVerifiedHint": "Bitte bestätigen Sie Ihre E-Mail-Adresse. Prüfen Sie Ihren Posteingang.",
+    "accountType": "Konto-Typ",
+    "password": "Passwort",
+    "twoFactor": "Zwei-Faktor (2FA)",
+    "twoFactorNotEnabled": "Nicht aktiviert",
+    "theme": {
+      "label": "Darstellung",
+      "light": "Hell",
+      "dark": "Dunkel",
+      "system": "System"
+    },
+    "billingManage": "Zahlungen & Plan verwalten",
+    "billingManageDesc": "Rechnungen, Upgrade, Pakete kaufen",
+    "gdprTitle": "Datenschutz (DSGVO)",
+    "gdprNote": "Datenexport folgt. Kontolöschung ist sofort wirksam und unwiderruflich.",
+    "exportData": "Daten exportieren",
+    "languageLabel": "Sprache",
+    "statCases": "Fälle gesamt",
+    "statCredits": "Guthaben",
+    "statPlan": "Aktueller Plan",
+    "planFree": "Free",
+    "planPro": "Pro",
+    "billing": "Abrechnung"
   },
   "advisor": {
     "dashboard": {
@@ -421,6 +472,10 @@
     "tabs": {
       "overview": "Übersicht",
       "users": "Nutzer",
+      "cases": "Fälle",
+      "pricing": "Preise",
+      "emails": "E-Mails",
+      "system": "System",
       "content": "Inhalte"
     },
     "stats": {
@@ -429,9 +484,103 @@
       "openCases": "Offene Fälle",
       "submittedCases": "Eingereicht"
     },
+    "overview": {
+      "totalUsers": "Nutzer gesamt",
+      "verifiedSuffix": "verifiziert",
+      "new7d": "Neue (7 Tage)",
+      "ofTotalPct": "% des Gesamts",
+      "activated": "Aktiviert",
+      "activationPct": "% Aktivierungsrate",
+      "activeSubscriptions": "Aktive Abos",
+      "conversionPct": "% Conversion",
+      "totalCases": "Fälle gesamt",
+      "thisWeek": "diese Woche",
+      "closedSuccess": "Erfolgreich abgeschl.",
+      "stillOpen": "noch offen",
+      "recentUsers": "Neue Nutzer",
+      "recentCases": "Neueste Fälle"
+    },
     "users": {
       "title": "Nutzer",
-      "since": "Seit"
+      "since": "Seit",
+      "caseSuffix": "Fall",
+      "casesSuffix": "Fälle",
+      "grantCredits": "Gutschreiben",
+      "grantLoading": "Wird gebucht…",
+      "grantError": "Gutschrift fehlgeschlagen",
+      "changeRole": "Rolle ändern:",
+      "creditsFor": "Credits für",
+      "subscription": "Abonnement",
+      "noSubscription": "Kein aktives Abo",
+      "subscriptionUntil": "bis",
+      "subscriptionCancels": "kündigt zum Periodenende",
+      "noCases": "Noch keine Fälle erstellt.",
+      "ledger": "Zahlungen / Gutschriften"
+    },
+    "cases": {
+      "filterAll": "Alle",
+      "filterOpen": "Offen",
+      "filterSubmitted": "Eingereicht",
+      "filterClosed": "Abgeschl.",
+      "noneFound": "Keine Fälle in dieser Kategorie.",
+      "deadline": "Frist"
+    },
+    "pricing": {
+      "loading": "Preispläne laden…",
+      "noPlansHint": "Keine Preispläne in der Datenbank.",
+      "recommended": "Empfohlen",
+      "inactive": "Inaktiv",
+      "group": "Gruppe",
+      "once": "Einmalig",
+      "monthly": "Monatlich",
+      "annual": "Jährlich",
+      "active": "Aktiv",
+      "standard": "Standard",
+      "features": "Features"
+    },
+    "emails": {
+      "devWarning": "Dev-Modus aktiv — alle ausgehenden E-Mails erhalten das Präfix DEV - im Betreff.",
+      "trigger": "Trigger",
+      "subject": "Betreff",
+      "variables": "Variablen",
+      "ttl": "Gültig",
+      "templates": {
+        "verification": "Bestätigungscode",
+        "verificationTrigger": "Nutzer registriert sich",
+        "verificationSubject": "Dein Bestätigungscode — TaxaLex",
+        "welcome": "Willkommens-E-Mail",
+        "welcomeTrigger": "E-Mail verifiziert",
+        "welcomeSubject": "Willkommen bei TaxaLex — {name}",
+        "passwordReset": "Passwort zurücksetzen",
+        "passwordResetTrigger": "Passwort vergessen",
+        "passwordResetSubject": "Passwort zurücksetzen — TaxaLex"
+      }
+    },
+    "system": {
+      "title": "System-Status",
+      "environment": "Umgebung",
+      "dev": "Entwicklung",
+      "prod": "Produktion",
+      "database": "Datenbank",
+      "ai": "KI (Anthropic)",
+      "stripe": "Zahlungen (Stripe)",
+      "emailService": "E-Mails (Brevo)",
+      "ok": "OK",
+      "notConfigured": "Nicht konfiguriert",
+      "services": {
+        "anthropic": "Anthropic (Claude)",
+        "anthropicNote": "Pflicht — App startet nicht ohne diesen Key",
+        "google": "Google AI (Gemini)",
+        "googleNote": "Optional — für Gemini-Agenten",
+        "perplexity": "Perplexity (Sonar)",
+        "perplexityNote": "Optional — für Faktencheck-Agent",
+        "stripe": "Stripe",
+        "stripeNote": "Optional — für Zahlungen",
+        "brevo": "Brevo (E-Mail)",
+        "brevoNote": "Optional — E-Mails werden ohne Key unterdrückt",
+        "s3": "S3 (Dateispeicher)",
+        "s3Note": "Optional — für Dokumenten-Upload"
+      }
     },
     "content": {
       "title": "Datenbank-Inhalte",

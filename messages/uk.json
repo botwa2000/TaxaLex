@@ -431,7 +431,13 @@
     },
     "users": {
       "title": "Users",
-      "since": "Since"
+      "since": "Since",
+      "subscription": "Subscription",
+      "noSubscription": "No active subscription",
+      "subscriptionUntil": "until",
+      "subscriptionCancels": "cancels at period end",
+      "noCases": "No cases yet.",
+      "ledger": "Payments / Credits"
     },
     "content": {
       "title": "Database content",
@@ -439,6 +445,22 @@
       "faqs": "FAQs",
       "pricingPlans": "Pricing plans",
       "edit": "Edit (coming soon)"
+    },
+    "system": {
+      "services": {
+        "anthropic": "Anthropic (Claude)",
+        "anthropicNote": "Required — app will not start without this key",
+        "google": "Google AI (Gemini)",
+        "googleNote": "Optional — for Gemini agents",
+        "perplexity": "Perplexity (Sonar)",
+        "perplexityNote": "Optional — for fact-check agent",
+        "stripe": "Stripe",
+        "stripeNote": "Optional — for payments",
+        "brevo": "Brevo (Email)",
+        "brevoNote": "Optional — emails suppressed without key",
+        "s3": "S3 (File storage)",
+        "s3Note": "Optional — for document uploads"
+      }
     }
   },
   "cookies": {

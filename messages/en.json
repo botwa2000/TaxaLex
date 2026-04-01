@@ -39,7 +39,21 @@
     "dashboard": "Dashboard",
     "newCase": "New request",
     "openMenu": "Open menu",
-    "closeMenu": "Close menu"
+    "closeMenu": "Close menu",
+    "cases": "My cases",
+    "account": "Profile & settings",
+    "billing": "Billing",
+    "logout": "Sign out",
+    "notifications": "Notifications",
+    "advisorDashboard": "Advisor dashboard",
+    "advisorClients": "Clients",
+    "advisorAppeals": "All appeals",
+    "advisorBilling": "Advisor billing",
+    "adminPanel": "Admin panel",
+    "sectionOverview": "Overview",
+    "sectionAccount": "Account",
+    "sectionAdvisor": "Advisor",
+    "sectionAdmin": "Administration"
   },
   "hero": {
     "groups": {
@@ -352,6 +366,7 @@
       "security": "Security",
       "notifications": "Notifications",
       "language": "Language & region",
+      "appearance": "Appearance",
       "danger": "Delete account"
     },
     "name": "Name",
@@ -370,7 +385,43 @@
       "email": "Email notifications",
       "caseUpdates": "Case updates",
       "newsletter": "Newsletter & product updates"
-    }
+    },
+    "memberSince": "Member since",
+    "logout": "Sign out",
+    "startNewCase": "Start new objection",
+    "templatesTitle": "Templates & samples",
+    "templatesDesc": "Free templates to download and customise",
+    "templatesViewAll": "View all",
+    "templatesFree": "Free",
+    "templatesUseAI": "Prefer AI — create your objection in 5 minutes",
+    "plansTitle": "Plans & pricing",
+    "plansViewAll": "View details",
+    "settingsTitle": "Account & settings",
+    "emailVerified": "Email verified",
+    "emailNotVerified": "Email address not verified",
+    "emailNotVerifiedHint": "Please verify your email address. Check your inbox for the confirmation link.",
+    "accountType": "Account type",
+    "password": "Password",
+    "twoFactor": "Two-factor (2FA)",
+    "twoFactorNotEnabled": "Not enabled",
+    "theme": {
+      "label": "Appearance",
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
+    },
+    "billingManage": "Manage payments & plan",
+    "billingManageDesc": "Invoices, upgrade, buy credits",
+    "gdprTitle": "Privacy (GDPR)",
+    "gdprNote": "Data export coming soon. Account deletion is immediate and irreversible.",
+    "exportData": "Export data",
+    "languageLabel": "Language",
+    "statCases": "Total cases",
+    "statCredits": "Credits",
+    "statPlan": "Current plan",
+    "planFree": "Free",
+    "planPro": "Pro",
+    "billing": "Billing"
   },
   "advisor": {
     "dashboard": {
@@ -421,6 +472,10 @@
     "tabs": {
       "overview": "Overview",
       "users": "Users",
+      "cases": "Cases",
+      "pricing": "Pricing",
+      "emails": "Emails",
+      "system": "System",
       "content": "Content"
     },
     "stats": {
@@ -429,9 +484,103 @@
       "openCases": "Open cases",
       "submittedCases": "Submitted"
     },
+    "overview": {
+      "totalUsers": "Total users",
+      "verifiedSuffix": "verified",
+      "new7d": "New (7 days)",
+      "ofTotalPct": "% of total",
+      "activated": "Activated",
+      "activationPct": "% activation rate",
+      "activeSubscriptions": "Active subscriptions",
+      "conversionPct": "% conversion",
+      "totalCases": "Total cases",
+      "thisWeek": "this week",
+      "closedSuccess": "Successfully closed",
+      "stillOpen": "still open",
+      "recentUsers": "Recent sign-ups",
+      "recentCases": "Recent cases"
+    },
     "users": {
       "title": "Users",
-      "since": "Since"
+      "since": "Since",
+      "caseSuffix": "case",
+      "casesSuffix": "cases",
+      "grantCredits": "Grant",
+      "grantLoading": "Saving…",
+      "grantError": "Failed to grant credits",
+      "changeRole": "Change role:",
+      "creditsFor": "Credits for",
+      "subscription": "Subscription",
+      "noSubscription": "No active subscription",
+      "subscriptionUntil": "until",
+      "subscriptionCancels": "cancels at period end",
+      "noCases": "No cases yet.",
+      "ledger": "Payments / Credits"
+    },
+    "cases": {
+      "filterAll": "All",
+      "filterOpen": "Open",
+      "filterSubmitted": "Submitted",
+      "filterClosed": "Closed",
+      "noneFound": "No cases in this category.",
+      "deadline": "Deadline"
+    },
+    "pricing": {
+      "loading": "Loading pricing plans…",
+      "noPlansHint": "No pricing plans in the database.",
+      "recommended": "Recommended",
+      "inactive": "Inactive",
+      "group": "Group",
+      "once": "One-time",
+      "monthly": "Monthly",
+      "annual": "Annual",
+      "active": "Active",
+      "standard": "Standard",
+      "features": "Features"
+    },
+    "emails": {
+      "devWarning": "Dev mode active — all outgoing emails will have the prefix DEV - in the subject line.",
+      "trigger": "Trigger",
+      "subject": "Subject",
+      "variables": "Variables",
+      "ttl": "Valid for",
+      "templates": {
+        "verification": "Verification code",
+        "verificationTrigger": "User registers",
+        "verificationSubject": "Your verification code — TaxaLex",
+        "welcome": "Welcome email",
+        "welcomeTrigger": "Email verified",
+        "welcomeSubject": "Welcome to TaxaLex — {name}",
+        "passwordReset": "Password reset",
+        "passwordResetTrigger": "Forgot password",
+        "passwordResetSubject": "Reset your password — TaxaLex"
+      }
+    },
+    "system": {
+      "title": "System status",
+      "environment": "Environment",
+      "dev": "Development",
+      "prod": "Production",
+      "database": "Database",
+      "ai": "AI (Anthropic)",
+      "stripe": "Payments (Stripe)",
+      "emailService": "Emails (Brevo)",
+      "ok": "OK",
+      "notConfigured": "Not configured",
+      "services": {
+        "anthropic": "Anthropic (Claude)",
+        "anthropicNote": "Required — app will not start without this key",
+        "google": "Google AI (Gemini)",
+        "googleNote": "Optional — for Gemini agents",
+        "perplexity": "Perplexity (Sonar)",
+        "perplexityNote": "Optional — for fact-check agent",
+        "stripe": "Stripe",
+        "stripeNote": "Optional — for payments",
+        "brevo": "Brevo (Email)",
+        "brevoNote": "Optional — emails suppressed without key",
+        "s3": "S3 (File storage)",
+        "s3Note": "Optional — for document uploads"
+      }
     },
     "content": {
       "title": "Database content",

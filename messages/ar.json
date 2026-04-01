@@ -1,45 +1,59 @@
 {
   "common": {
     "appName": "TaxaLex",
-    "tagline": "Your AI-powered objection letter generator",
-    "loading": "Loading...",
-    "error": "Error",
-    "back": "Back",
-    "next": "Next",
-    "save": "Save",
-    "cancel": "Cancel",
-    "close": "Close",
-    "confirm": "Confirm",
-    "delete": "Delete",
-    "edit": "Edit",
-    "download": "Download",
-    "copy": "Copy",
-    "copied": "Copied",
-    "required": "Required",
-    "optional": "Optional",
-    "or": "or",
-    "and": "and",
-    "yes": "Yes",
-    "no": "No",
-    "learnMore": "Learn more",
-    "getStarted": "Get started free",
-    "tryFree": "Try for free",
-    "viewAll": "View all"
+    "tagline": "مساعدك الذكي للطعن في القرارات الإدارية",
+    "loading": "جارٍ التحميل...",
+    "error": "خطأ",
+    "back": "رجوع",
+    "next": "التالي",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "close": "إغلاق",
+    "confirm": "تأكيد",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "download": "تنزيل",
+    "copy": "نسخ",
+    "copied": "تم النسخ",
+    "required": "مطلوب",
+    "optional": "اختياري",
+    "or": "أو",
+    "and": "و",
+    "yes": "نعم",
+    "no": "لا",
+    "learnMore": "معرفة المزيد",
+    "getStarted": "ابدأ مجاناً",
+    "tryFree": "جرّب مجاناً",
+    "viewAll": "عرض الكل"
   },
   "nav": {
-    "home": "Home",
-    "howItWorks": "How it works",
-    "useCasesNav": "Use cases",
-    "pricing": "Pricing",
-    "forAdvisors": "For tax advisors",
-    "forExpats": "For expats",
-    "blog": "Blog",
-    "login": "Sign in",
-    "register": "Create account",
-    "dashboard": "Dashboard",
-    "newCase": "New request",
-    "openMenu": "Open menu",
-    "closeMenu": "Close menu"
+    "home": "الرئيسية",
+    "howItWorks": "كيف يعمل",
+    "useCasesNav": "حالات الاستخدام",
+    "pricing": "الأسعار",
+    "forAdvisors": "للمستشارين الضريبيين",
+    "forExpats": "للمغتربين",
+    "blog": "المدونة",
+    "login": "تسجيل الدخول",
+    "register": "إنشاء حساب",
+    "dashboard": "لوحة التحكم",
+    "newCase": "طلب جديد",
+    "openMenu": "فتح القائمة",
+    "closeMenu": "إغلاق القائمة",
+    "cases": "قضاياي",
+    "account": "الملف الشخصي والإعدادات",
+    "billing": "الفواتير",
+    "logout": "تسجيل الخروج",
+    "notifications": "الإشعارات",
+    "advisorDashboard": "لوحة المستشار",
+    "advisorClients": "العملاء",
+    "advisorAppeals": "جميع الطعون",
+    "advisorBilling": "فواتير المستشار",
+    "adminPanel": "لوحة الإدارة",
+    "sectionOverview": "نظرة عامة",
+    "sectionAccount": "الحساب",
+    "sectionAdvisor": "المستشار",
+    "sectionAdmin": "الإدارة"
   },
   "hero": {
     "groups": {
@@ -212,256 +226,399 @@
   },
   "auth": {
     "login": {
-      "title": "Welcome back",
-      "subtitle": "Sign in to your account",
-      "email": "Email address",
-      "password": "Password",
-      "forgotPassword": "Forgot password?",
-      "submit": "Sign in",
-      "noAccount": "Don't have an account?",
-      "register": "Register now",
-      "orContinueWith": "Or continue with",
-      "demoAccounts": "Demo accounts",
-      "demoHint": "Click an account to auto-fill the fields.",
+      "title": "مرحباً بعودتك",
+      "subtitle": "سجّل الدخول إلى حسابك",
+      "email": "عنوان البريد الإلكتروني",
+      "password": "كلمة المرور",
+      "forgotPassword": "هل نسيت كلمة المرور؟",
+      "submit": "تسجيل الدخول",
+      "noAccount": "ليس لديك حساب؟",
+      "register": "سجّل الآن",
+      "orContinueWith": "أو تابع باستخدام",
+      "demoAccounts": "حسابات تجريبية",
+      "demoHint": "انقر على حساب لملء الحقول تلقائياً.",
       "types": {
-        "individual": "Individual",
-        "advisor": "Tax advisor",
-        "lawyer": "Lawyer"
+        "individual": "فرد",
+        "advisor": "مستشار ضريبي",
+        "lawyer": "محامٍ"
       }
     },
     "register": {
-      "title": "Create account",
-      "subtitle": "Get started free with TaxaLex",
-      "name": "Full name",
-      "email": "Email address",
-      "password": "Password",
-      "confirmPassword": "Confirm password",
-      "agreeToTerms": "I agree to the {terms} and {privacy}.",
-      "terms": "Terms of Service",
-      "privacy": "Privacy Policy",
-      "submit": "Create account",
-      "hasAccount": "Already have an account?",
-      "login": "Sign in",
+      "title": "إنشاء حساب",
+      "subtitle": "ابدأ مجاناً مع TaxaLex",
+      "name": "الاسم الكامل",
+      "email": "عنوان البريد الإلكتروني",
+      "password": "كلمة المرور",
+      "confirmPassword": "تأكيد كلمة المرور",
+      "agreeToTerms": "أوافق على {terms} و{privacy}.",
+      "terms": "شروط الاستخدام",
+      "privacy": "سياسة الخصوصية",
+      "submit": "إنشاء حساب",
+      "hasAccount": "لديك حساب بالفعل؟",
+      "login": "تسجيل الدخول",
       "passwordStrength": {
-        "weak": "Weak",
-        "fair": "Fair",
-        "good": "Good",
-        "strong": "Strong"
+        "weak": "ضعيفة",
+        "fair": "مقبولة",
+        "good": "جيدة",
+        "strong": "قوية"
       },
       "types": {
-        "individual": "Individual",
-        "selfemployed": "Self-employed",
-        "advisor": "Tax advisor",
-        "lawyer": "Lawyer"
+        "individual": "فرد",
+        "selfemployed": "عامل مستقل",
+        "advisor": "مستشار ضريبي",
+        "lawyer": "محامٍ"
       },
       "benefits": {
         "individual": [
-          "1 free objection per month",
-          "5 AI agents review your case",
-          "Download as DOCX or TXT"
+          "طعن مجاني واحد شهرياً",
+          "5 وكلاء ذكاء اصطناعي يراجعون قضيتك",
+          "التنزيل بصيغة DOCX أو TXT"
         ],
         "selfemployed": [
-          "Objections for tax and VAT assessments",
-          "Unlimited documents per objection",
-          "Priority AI processing"
+          "طعون ضد قرارات الضرائب وضريبة القيمة المضافة",
+          "مستندات غير محدودة لكل طعن",
+          "معالجة الذكاء الاصطناعي ذات الأولوية"
         ],
         "advisor": [
-          "Multi-client dashboard",
-          "Unlimited objections for all clients",
-          "White-label export option"
+          "لوحة تحكم متعددة العملاء",
+          "طعون غير محدودة لجميع العملاء",
+          "خيار التصدير بالعلامة البيضاء"
         ],
         "lawyer": [
-          "Multi-client dashboard",
-          "Unlimited objections for all clients",
-          "Extended legal research"
+          "لوحة تحكم متعددة العملاء",
+          "طعون غير محدودة لجميع العملاء",
+          "بحث قانوني موسّع"
         ]
       }
     }
   },
   "dashboard": {
-    "title": "Dashboard",
-    "welcome": "Welcome back, {name}",
-    "welcomeAdvisor": "Advisor dashboard – {name}",
-    "welcomeAdmin": "Admin panel – {name}",
+    "title": "لوحة التحكم",
+    "welcome": "مرحباً بعودتك، {name}",
+    "welcomeAdvisor": "لوحة المستشار – {name}",
+    "welcomeAdmin": "لوحة الإدارة – {name}",
     "stats": {
-      "totalCases": "Total objections",
-      "activeCases": "Active cases",
-      "submittedCases": "Submitted",
-      "successRate": "Success rate"
+      "totalCases": "إجمالي الطعون",
+      "activeCases": "القضايا النشطة",
+      "submittedCases": "مُقدَّمة",
+      "successRate": "معدل النجاح"
     },
-    "recentCases": "Recent cases",
-    "noCases": "No cases yet",
-    "noCasesHint": "Start your first objection",
-    "newCase": "New request",
-    "viewAll": "All cases",
+    "recentCases": "القضايا الأخيرة",
+    "noCases": "لا توجد قضايا",
+    "noCasesHint": "ابدأ طعنك الأول",
+    "newCase": "طلب جديد",
+    "viewAll": "جميع القضايا",
     "status": {
-      "CREATED": "Created",
-      "QUESTIONS": "Questions",
-      "GENERATING": "Generating",
-      "DRAFT_READY": "Draft ready",
-      "SUBMITTED": "Submitted",
-      "AWAITING_RESPONSE": "Pending",
-      "CLOSED_SUCCESS": "Successful",
-      "CLOSED_REJECTED": "Rejected"
+      "CREATED": "تم الإنشاء",
+      "QUESTIONS": "أسئلة",
+      "GENERATING": "جارٍ الإنشاء",
+      "DRAFT_READY": "المسودة جاهزة",
+      "SUBMITTED": "مُقدَّمة",
+      "AWAITING_RESPONSE": "في الانتظار",
+      "CLOSED_SUCCESS": "ناجحة",
+      "CLOSED_REJECTED": "مرفوضة"
     },
     "quickActions": {
-      "title": "Quick actions",
-      "newCase": "New objection",
-      "viewCases": "My cases",
-      "billing": "Billing",
-      "account": "Settings"
+      "title": "وصول سريع",
+      "newCase": "طعن جديد",
+      "viewCases": "قضاياي",
+      "billing": "الفواتير",
+      "account": "الإعدادات"
     }
   },
   "billing": {
-    "title": "Billing",
-    "subtitle": "Your current plan and usage overview",
-    "currentPlan": "Current plan",
-    "usage": "Usage this month",
-    "invoices": "Invoices",
-    "noInvoices": "No invoices yet",
-    "upgrade": "Upgrade plan",
-    "cancel": "Cancel subscription",
-    "renewsOn": "Renews on {date}",
-    "casesUsed": "{used} of {total} objections used",
-    "unlimited": "Unlimited"
+    "title": "الفواتير",
+    "subtitle": "خطتك الحالية وملخص الاستخدام",
+    "currentPlan": "الخطة الحالية",
+    "usage": "الاستخدام هذا الشهر",
+    "invoices": "الفواتير",
+    "noInvoices": "لا توجد فواتير",
+    "upgrade": "ترقية الخطة",
+    "cancel": "إلغاء الاشتراك",
+    "renewsOn": "يتجدد في {date}",
+    "casesUsed": "تم استخدام {used} من {total} طعناً",
+    "unlimited": "غير محدود"
   },
   "cases": {
-    "title": "My cases",
-    "subtitle": "All your objection and appeal cases",
+    "title": "قضاياي",
+    "subtitle": "جميع طعونك واعتراضاتك",
     "filter": {
-      "all": "All",
-      "active": "Active",
-      "submitted": "Submitted",
-      "closed": "Closed"
+      "all": "الكل",
+      "active": "نشطة",
+      "submitted": "مُقدَّمة",
+      "closed": "مغلقة"
     },
-    "empty": "No cases found",
-    "emptyHint": "Start your first objection",
-    "newCase": "New request",
-    "caseId": "Case ID",
-    "createdAt": "Created",
-    "status": "Status",
-    "type": "Type",
-    "actions": "Actions",
-    "viewCase": "View case",
-    "downloadDraft": "Download draft"
+    "empty": "لم يتم العثور على قضايا",
+    "emptyHint": "ابدأ طعنك الأول",
+    "newCase": "طلب جديد",
+    "caseId": "رقم القضية",
+    "createdAt": "تاريخ الإنشاء",
+    "status": "الحالة",
+    "type": "النوع",
+    "actions": "الإجراءات",
+    "viewCase": "عرض القضية",
+    "downloadDraft": "تنزيل المسودة"
   },
   "account": {
-    "title": "Profile & settings",
+    "title": "الملف الشخصي والإعدادات",
     "sections": {
-      "profile": "Profile",
-      "security": "Security",
-      "notifications": "Notifications",
-      "language": "Language & region",
-      "danger": "Delete account"
+      "profile": "الملف الشخصي",
+      "security": "الأمان",
+      "notifications": "الإشعارات",
+      "language": "اللغة والمنطقة",
+      "appearance": "المظهر",
+      "danger": "حذف الحساب"
     },
-    "name": "Name",
-    "email": "Email",
-    "role": "Role",
-    "language": "Preferred language",
-    "outputLanguage": "Output language for objections",
-    "saveChanges": "Save changes",
-    "changePassword": "Change password",
-    "currentPassword": "Current password",
-    "newPassword": "New password",
-    "confirmPassword": "Confirm password",
-    "deleteAccount": "Delete account",
-    "deleteWarning": "This action cannot be undone. All your data will be deleted.",
+    "name": "الاسم",
+    "email": "البريد الإلكتروني",
+    "role": "الدور",
+    "language": "اللغة المفضلة",
+    "outputLanguage": "لغة الإخراج للطعون",
+    "saveChanges": "حفظ التغييرات",
+    "changePassword": "تغيير كلمة المرور",
+    "currentPassword": "كلمة المرور الحالية",
+    "newPassword": "كلمة المرور الجديدة",
+    "confirmPassword": "تأكيد كلمة المرور",
+    "deleteAccount": "حذف الحساب",
+    "deleteWarning": "لا يمكن التراجع عن هذا الإجراء. سيتم حذف جميع بياناتك.",
     "notifications": {
-      "email": "Email notifications",
-      "caseUpdates": "Case updates",
-      "newsletter": "Newsletter & product updates"
+      "email": "إشعارات البريد الإلكتروني",
+      "caseUpdates": "تحديثات القضايا",
+      "newsletter": "النشرة الإخبارية وأخبار المنتج"
+    },
+    "memberSince": "عضو منذ",
+    "logout": "تسجيل الخروج",
+    "startNewCase": "بدء طعن جديد",
+    "templatesTitle": "النماذج والأمثلة",
+    "templatesDesc": "نماذج مجانية للتنزيل والتخصيص",
+    "templatesViewAll": "عرض الكل",
+    "templatesFree": "مجاني",
+    "templatesUseAI": "يفضل استخدام الذكاء الاصطناعي – أنشئ طعناً في 5 دقائق",
+    "plansTitle": "الخطط والأسعار",
+    "plansViewAll": "جميع التفاصيل",
+    "settingsTitle": "الحساب والإعدادات",
+    "emailVerified": "تم تأكيد البريد الإلكتروني",
+    "emailNotVerified": "البريد الإلكتروني غير مؤكد",
+    "emailNotVerifiedHint": "يرجى تأكيد عنوان بريدك الإلكتروني. تحقق من صندوق الوارد.",
+    "accountType": "نوع الحساب",
+    "password": "كلمة المرور",
+    "twoFactor": "المصادقة الثنائية (2FA)",
+    "twoFactorNotEnabled": "غير مفعّل",
+    "theme": {
+      "label": "المظهر",
+      "light": "فاتح",
+      "dark": "داكن",
+      "system": "النظام"
+    },
+    "billingManage": "إدارة المدفوعات والخطة",
+    "billingManageDesc": "الفواتير، الترقية، شراء الحزم",
+    "gdprTitle": "حماية البيانات (GDPR)",
+    "gdprNote": "تصدير البيانات قريباً. حذف الحساب فوري ولا يمكن التراجع عنه.",
+    "exportData": "تصدير البيانات",
+    "languageLabel": "اللغة",
+    "statCases": "إجمالي القضايا",
+    "statCredits": "الرصيد",
+    "statPlan": "الخطة الحالية",
+    "planFree": "مجاني",
+    "planPro": "Pro"
+  },
+  "admin": {
+    "title": "لوحة الإدارة",
+    "subtitle": "نظرة عامة على النظام وإدارة المستخدمين",
+    "tabs": {
+      "overview": "نظرة عامة",
+      "users": "المستخدمون",
+      "cases": "القضايا",
+      "pricing": "الأسعار",
+      "emails": "البريد الإلكتروني",
+      "system": "النظام",
+      "content": "المحتوى"
+    },
+    "stats": {
+      "totalUsers": "إجمالي المستخدمين",
+      "totalCases": "إجمالي القضايا",
+      "openCases": "القضايا المفتوحة",
+      "submittedCases": "مُقدَّمة"
+    },
+    "overview": {
+      "totalUsers": "إجمالي المستخدمين",
+      "verifiedSuffix": "مُتحقَّق منهم",
+      "new7d": "جدد (7 أيام)",
+      "ofTotalPct": "% من الإجمالي",
+      "activated": "مُفعَّلون",
+      "activationPct": "% معدل التفعيل",
+      "activeSubscriptions": "الاشتراكات النشطة",
+      "conversionPct": "% التحويل",
+      "totalCases": "إجمالي القضايا",
+      "thisWeek": "هذا الأسبوع",
+      "closedSuccess": "مغلقة بنجاح",
+      "stillOpen": "لا تزال مفتوحة",
+      "recentUsers": "مستخدمون جدد",
+      "recentCases": "القضايا الأخيرة"
+    },
+    "users": {
+      "title": "المستخدمون",
+      "since": "منذ",
+      "caseSuffix": "قضية",
+      "casesSuffix": "قضايا",
+      "grantCredits": "منح رصيد",
+      "grantLoading": "جارٍ المنح…",
+      "grantError": "فشل منح الرصيد",
+      "changeRole": "تغيير الدور:",
+      "creditsFor": "رصيد لـ",
+      "subscription": "Subscription",
+      "noSubscription": "No active subscription",
+      "subscriptionUntil": "until",
+      "subscriptionCancels": "cancels at period end",
+      "noCases": "No cases yet.",
+      "ledger": "Payments / Credits"
+    },
+    "cases": {
+      "filterAll": "الكل",
+      "filterOpen": "مفتوحة",
+      "filterSubmitted": "مُقدَّمة",
+      "filterClosed": "مغلقة",
+      "noneFound": "لا توجد قضايا في هذه الفئة.",
+      "deadline": "الموعد النهائي"
+    },
+    "pricing": {
+      "loading": "جارٍ تحميل خطط الأسعار…",
+      "noPlansHint": "لا توجد خطط أسعار في قاعدة البيانات.",
+      "recommended": "موصى به",
+      "inactive": "غير نشط",
+      "group": "مجموعة",
+      "once": "لمرة واحدة",
+      "monthly": "شهري",
+      "annual": "سنوي",
+      "active": "نشط",
+      "standard": "قياسي",
+      "features": "الميزات"
+    },
+    "emails": {
+      "devWarning": "وضع التطوير نشط — جميع رسائل البريد الصادرة تحمل البادئة DEV - في الموضوع.",
+      "trigger": "المشغّل",
+      "subject": "الموضوع",
+      "variables": "المتغيرات",
+      "ttl": "الصلاحية",
+      "templates": {
+        "verification": "رمز التحقق",
+        "verificationTrigger": "يسجّل المستخدم",
+        "verificationSubject": "رمز التحقق الخاص بك — TaxaLex",
+        "welcome": "رسالة الترحيب",
+        "welcomeTrigger": "تم التحقق من البريد الإلكتروني",
+        "welcomeSubject": "مرحباً بك في TaxaLex — {name}",
+        "passwordReset": "إعادة تعيين كلمة المرور",
+        "passwordResetTrigger": "نسيان كلمة المرور",
+        "passwordResetSubject": "إعادة تعيين كلمة المرور — TaxaLex"
+      }
+    },
+    "system": {
+      "title": "حالة النظام",
+      "environment": "البيئة",
+      "dev": "التطوير",
+      "prod": "الإنتاج",
+      "database": "قاعدة البيانات",
+      "ai": "الذكاء الاصطناعي (Anthropic)",
+      "stripe": "المدفوعات (Stripe)",
+      "emailService": "البريد الإلكتروني (Brevo)",
+      "ok": "يعمل",
+      "notConfigured": "غير مكوَّن",
+      "services": {
+        "anthropic": "Anthropic (Claude)",
+        "anthropicNote": "Required — app will not start without this key",
+        "google": "Google AI (Gemini)",
+        "googleNote": "Optional — for Gemini agents",
+        "perplexity": "Perplexity (Sonar)",
+        "perplexityNote": "Optional — for fact-check agent",
+        "stripe": "Stripe",
+        "stripeNote": "Optional — for payments",
+        "brevo": "Brevo (Email)",
+        "brevoNote": "Optional — emails suppressed without key",
+        "s3": "S3 (File storage)",
+        "s3Note": "Optional — for document uploads"
+      }
+    },
+    "content": {
+      "title": "محتوى قاعدة البيانات",
+      "useCases": "حالات الاستخدام",
+      "faqs": "الأسئلة الشائعة",
+      "pricingPlans": "خطط الأسعار",
+      "edit": "تعديل (قريباً)"
     }
   },
   "advisor": {
     "dashboard": {
-      "title": "Advisor dashboard",
-      "clients": "Clients",
-      "activeAppeals": "Active objections",
-      "submittedAppeals": "Submitted objections",
-      "recentActivity": "Recent activity",
-      "quickActions": "Quick actions",
-      "addClient": "Add client",
-      "newAppeal": "New objection"
+      "title": "لوحة المستشار",
+      "clients": "العملاء",
+      "activeAppeals": "الطعون النشطة",
+      "submittedAppeals": "الطعون المُقدَّمة",
+      "recentActivity": "النشاط الأخير",
+      "quickActions": "وصول سريع",
+      "addClient": "إضافة عميل",
+      "newAppeal": "طعن جديد"
     },
     "clients": {
-      "title": "Clients",
-      "subtitle": "Manage your clients",
-      "search": "Search clients...",
-      "add": "Add client",
-      "name": "Name",
-      "email": "Email",
-      "cases": "Cases",
-      "lastActive": "Last active",
-      "actions": "Actions",
-      "noClients": "No clients yet",
+      "title": "العملاء",
+      "subtitle": "إدارة عملائك",
+      "search": "البحث عن عملاء...",
+      "add": "إضافة عميل",
+      "name": "الاسم",
+      "email": "البريد الإلكتروني",
+      "cases": "القضايا",
+      "lastActive": "آخر نشاط",
+      "actions": "الإجراءات",
+      "noClients": "لا يوجد عملاء",
       "modal": {
-        "title": "Add client",
-        "name": "Client name",
-        "email": "Email address",
-        "submit": "Add"
+        "title": "إضافة عميل",
+        "name": "اسم العميل",
+        "email": "عنوان البريد الإلكتروني",
+        "submit": "إضافة"
       }
     },
     "appeals": {
-      "title": "All objections",
-      "subtitle": "Objections across all your clients",
-      "client": "Client",
-      "type": "Type",
-      "status": "Status",
-      "createdAt": "Created"
+      "title": "جميع الطعون",
+      "subtitle": "طعون جميع عملائك",
+      "client": "العميل",
+      "type": "النوع",
+      "status": "الحالة",
+      "createdAt": "تاريخ الإنشاء"
     },
     "billing": {
-      "title": "Billing",
-      "plan": "Your advisor plan",
-      "usage": "Clients & objections"
+      "title": "الفواتير",
+      "plan": "خطة المستشار الخاصة بك",
+      "usage": "العملاء والطعون"
     }
   },
-  "admin": {
-    "title": "Admin panel",
-    "subtitle": "System overview and user management",
-    "tabs": {
-      "overview": "Overview",
-      "users": "Users",
-      "content": "Content"
-    },
-    "stats": {
-      "totalUsers": "Total users",
-      "totalCases": "Total cases",
-      "openCases": "Open cases",
-      "submittedCases": "Submitted"
-    },
-    "users": {
-      "title": "Users",
-      "since": "Since"
-    },
-    "content": {
-      "title": "Database content",
-      "useCases": "Use cases",
-      "faqs": "FAQs",
-      "pricingPlans": "Pricing plans",
-      "edit": "Edit (coming soon)"
-    }
+  "errors": {
+    "noFiles": "يرجى تحميل ملف واحد على الأقل",
+    "analyzeFailed": "فشل التحليل. يرجى المحاولة مجدداً.",
+    "generateFailed": "فشل الإنشاء. يرجى المحاولة مجدداً.",
+    "missingDescheid": "بيانات الإشعار مفقودة",
+    "unauthorized": "غير مصرح",
+    "notFound": "الصفحة غير موجودة",
+    "serverError": "خطأ في الخادم. يرجى المحاولة لاحقاً."
   },
   "cookies": {
     "banner": {
-      "title": "Cookie settings",
-      "description": "We use cookies for analytics and a better user experience. You can change your preferences at any time.",
-      "acceptAll": "Accept all",
-      "acceptNecessary": "Necessary only",
-      "manage": "Settings",
-      "learnMore": "Learn more"
+      "title": "إعدادات ملفات تعريف الارتباط",
+      "description": "نستخدم ملفات تعريف الارتباط للتحليل وتحسين تجربة المستخدم.",
+      "acceptAll": "قبول الكل",
+      "acceptNecessary": "الضرورية فقط",
+      "manage": "الإعدادات",
+      "learnMore": "معرفة المزيد"
     },
     "types": {
       "necessary": {
-        "title": "Necessary cookies",
-        "description": "Required for the website to function. Cannot be disabled."
+        "title": "ملفات تعريف الارتباط الضرورية",
+        "description": "مطلوبة لتشغيل الموقع."
       },
       "analytics": {
-        "title": "Analytics cookies",
-        "description": "Google Analytics and PostHog – help us improve the website."
+        "title": "ملفات تعريف الارتباط التحليلية",
+        "description": "Google Analytics وPostHog."
       },
       "marketing": {
-        "title": "Marketing cookies",
-        "description": "Personalised advertising and retargeting."
+        "title": "ملفات تعريف الارتباط التسويقية",
+        "description": "إعلانات مخصصة."
       }
     }
   },
@@ -506,17 +663,8 @@
     }
   },
   "outputLanguage": {
-    "label": "Output language",
-    "hint": "The objection letter is generated in German by default (required for German authorities).",
-    "nonGermanWarning": "For review only — the letter must be in German for official submission."
-  },
-  "errors": {
-    "noFiles": "Please upload at least one file",
-    "analyzeFailed": "Analysis failed. Please try again.",
-    "generateFailed": "Generation failed. Please try again.",
-    "missingDescheid": "Notice data is missing",
-    "unauthorized": "Unauthorised",
-    "notFound": "Page not found",
-    "serverError": "Server error. Please try again later."
+    "label": "لغة الإخراج",
+    "hint": "يُنشأ الطعن باللغة الألمانية افتراضياً (مطلوب للسلطات الألمانية).",
+    "nonGermanWarning": "للمراجعة فقط — يجب أن تكون الرسالة بالألمانية للتقديم الرسمي."
   }
 }

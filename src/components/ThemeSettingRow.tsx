@@ -2,17 +2,19 @@
 
 import { useState } from 'react'
 import { Sun, Moon, Monitor } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 type ThemeValue = 'light' | 'dark' | 'system'
 
-const THEMES: { value: ThemeValue; label: string; icon: React.ElementType }[] = [
-  { value: 'light',  label: 'Hell',    icon: Sun     },
-  { value: 'dark',   label: 'Dunkel',  icon: Moon    },
-  { value: 'system', label: 'System',  icon: Monitor },
-]
-
 export function ThemeSettingRow({ initialTheme }: { initialTheme: string }) {
+  const t = useTranslations('account.theme')
   const [current, setCurrent] = useState<ThemeValue>((initialTheme as ThemeValue) || 'system')
+
+  const THEMES: { value: ThemeValue; label: string; icon: React.ElementType }[] = [
+    { value: 'light',  label: t('light'),  icon: Sun     },
+    { value: 'dark',   label: t('dark'),   icon: Moon    },
+    { value: 'system', label: t('system'), icon: Monitor },
+  ]
 
   async function handleChange(theme: ThemeValue) {
     setCurrent(theme)
@@ -34,7 +36,7 @@ export function ThemeSettingRow({ initialTheme }: { initialTheme: string }) {
 
   return (
     <div className="flex items-center justify-between py-1">
-      <span className="text-sm text-[var(--muted)]">Darstellung</span>
+      <span className="text-sm text-[var(--muted)]">{t('label')}</span>
       <div className="flex items-center gap-0.5 bg-[var(--background-subtle)] rounded-lg p-0.5">
         {THEMES.map(({ value, label, icon: Icon }) => (
           <button

@@ -1,45 +1,59 @@
 {
   "common": {
     "appName": "TaxaLex",
-    "tagline": "Your AI-powered objection letter generator",
-    "loading": "Loading...",
+    "tagline": "Tu asistente IA para recurrir decisiones administrativas",
+    "loading": "Cargando...",
     "error": "Error",
-    "back": "Back",
-    "next": "Next",
-    "save": "Save",
-    "cancel": "Cancel",
-    "close": "Close",
-    "confirm": "Confirm",
-    "delete": "Delete",
-    "edit": "Edit",
-    "download": "Download",
-    "copy": "Copy",
-    "copied": "Copied",
-    "required": "Required",
-    "optional": "Optional",
-    "or": "or",
-    "and": "and",
-    "yes": "Yes",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "close": "Cerrar",
+    "confirm": "Confirmar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "download": "Descargar",
+    "copy": "Copiar",
+    "copied": "Copiado",
+    "required": "Obligatorio",
+    "optional": "Opcional",
+    "or": "o",
+    "and": "y",
+    "yes": "Sí",
     "no": "No",
-    "learnMore": "Learn more",
-    "getStarted": "Get started free",
-    "tryFree": "Try for free",
-    "viewAll": "View all"
+    "learnMore": "Saber más",
+    "getStarted": "Empezar gratis",
+    "tryFree": "Probar gratis",
+    "viewAll": "Ver todo"
   },
   "nav": {
-    "home": "Home",
-    "howItWorks": "How it works",
-    "useCasesNav": "Use cases",
-    "pricing": "Pricing",
-    "forAdvisors": "For tax advisors",
-    "forExpats": "For expats",
+    "home": "Inicio",
+    "howItWorks": "Cómo funciona",
+    "useCasesNav": "Casos de uso",
+    "pricing": "Precios",
+    "forAdvisors": "Para asesores fiscales",
+    "forExpats": "Para expatriados",
     "blog": "Blog",
-    "login": "Sign in",
-    "register": "Create account",
-    "dashboard": "Dashboard",
-    "newCase": "New request",
-    "openMenu": "Open menu",
-    "closeMenu": "Close menu"
+    "login": "Iniciar sesión",
+    "register": "Crear cuenta",
+    "dashboard": "Panel de control",
+    "newCase": "Nueva solicitud",
+    "openMenu": "Abrir menú",
+    "closeMenu": "Cerrar menú",
+    "cases": "Mis casos",
+    "account": "Perfil & Ajustes",
+    "billing": "Facturación",
+    "logout": "Cerrar sesión",
+    "notifications": "Notificaciones",
+    "advisorDashboard": "Panel de asesor",
+    "advisorClients": "Clientes",
+    "advisorAppeals": "Todos los recursos",
+    "advisorBilling": "Facturación asesor",
+    "adminPanel": "Panel de administración",
+    "sectionOverview": "Resumen",
+    "sectionAccount": "Cuenta",
+    "sectionAdvisor": "Asesor",
+    "sectionAdmin": "Administración"
   },
   "hero": {
     "groups": {
@@ -212,256 +226,399 @@
   },
   "auth": {
     "login": {
-      "title": "Welcome back",
-      "subtitle": "Sign in to your account",
-      "email": "Email address",
-      "password": "Password",
-      "forgotPassword": "Forgot password?",
-      "submit": "Sign in",
-      "noAccount": "Don't have an account?",
-      "register": "Register now",
-      "orContinueWith": "Or continue with",
-      "demoAccounts": "Demo accounts",
-      "demoHint": "Click an account to auto-fill the fields.",
+      "title": "Bienvenido de nuevo",
+      "subtitle": "Inicia sesión en tu cuenta",
+      "email": "Dirección de correo electrónico",
+      "password": "Contraseña",
+      "forgotPassword": "¿Olvidaste tu contraseña?",
+      "submit": "Iniciar sesión",
+      "noAccount": "¿No tienes cuenta?",
+      "register": "Regístrate ahora",
+      "orContinueWith": "O continuar con",
+      "demoAccounts": "Cuentas de demostración",
+      "demoHint": "Haz clic en una cuenta para rellenar los campos automáticamente.",
       "types": {
-        "individual": "Individual",
-        "advisor": "Tax advisor",
-        "lawyer": "Lawyer"
+        "individual": "Particular",
+        "advisor": "Asesor fiscal",
+        "lawyer": "Abogado"
       }
     },
     "register": {
-      "title": "Create account",
-      "subtitle": "Get started free with TaxaLex",
-      "name": "Full name",
-      "email": "Email address",
-      "password": "Password",
-      "confirmPassword": "Confirm password",
-      "agreeToTerms": "I agree to the {terms} and {privacy}.",
-      "terms": "Terms of Service",
-      "privacy": "Privacy Policy",
-      "submit": "Create account",
-      "hasAccount": "Already have an account?",
-      "login": "Sign in",
+      "title": "Crear cuenta",
+      "subtitle": "Empieza gratis con TaxaLex",
+      "name": "Nombre completo",
+      "email": "Dirección de correo electrónico",
+      "password": "Contraseña",
+      "confirmPassword": "Confirmar contraseña",
+      "agreeToTerms": "Acepto los {terms} y la {privacy}.",
+      "terms": "Términos de uso",
+      "privacy": "Política de privacidad",
+      "submit": "Crear cuenta",
+      "hasAccount": "¿Ya tienes cuenta?",
+      "login": "Iniciar sesión",
       "passwordStrength": {
-        "weak": "Weak",
-        "fair": "Fair",
-        "good": "Good",
-        "strong": "Strong"
+        "weak": "Débil",
+        "fair": "Aceptable",
+        "good": "Buena",
+        "strong": "Fuerte"
       },
       "types": {
-        "individual": "Individual",
-        "selfemployed": "Self-employed",
-        "advisor": "Tax advisor",
-        "lawyer": "Lawyer"
+        "individual": "Particular",
+        "selfemployed": "Autónomo",
+        "advisor": "Asesor fiscal",
+        "lawyer": "Abogado"
       },
       "benefits": {
         "individual": [
-          "1 free objection per month",
-          "5 AI agents review your case",
-          "Download as DOCX or TXT"
+          "1 recurso gratuito al mes",
+          "5 agentes IA revisan tu caso",
+          "Descarga en DOCX o TXT"
         ],
         "selfemployed": [
-          "Objections for tax and VAT assessments",
-          "Unlimited documents per objection",
-          "Priority AI processing"
+          "Recursos contra liquidaciones fiscales e IVA",
+          "Documentos ilimitados por recurso",
+          "Procesamiento IA prioritario"
         ],
         "advisor": [
-          "Multi-client dashboard",
-          "Unlimited objections for all clients",
-          "White-label export option"
+          "Panel de múltiples clientes",
+          "Recursos ilimitados para todos los clientes",
+          "Opción de exportación de marca blanca"
         ],
         "lawyer": [
-          "Multi-client dashboard",
-          "Unlimited objections for all clients",
-          "Extended legal research"
+          "Panel de múltiples clientes",
+          "Recursos ilimitados para todos los clientes",
+          "Investigación jurídica avanzada"
         ]
       }
     }
   },
   "dashboard": {
-    "title": "Dashboard",
-    "welcome": "Welcome back, {name}",
-    "welcomeAdvisor": "Advisor dashboard – {name}",
-    "welcomeAdmin": "Admin panel – {name}",
+    "title": "Panel de control",
+    "welcome": "Bienvenido de nuevo, {name}",
+    "welcomeAdvisor": "Panel de asesor – {name}",
+    "welcomeAdmin": "Panel de administración – {name}",
     "stats": {
-      "totalCases": "Total objections",
-      "activeCases": "Active cases",
-      "submittedCases": "Submitted",
-      "successRate": "Success rate"
+      "totalCases": "Recursos totales",
+      "activeCases": "Casos activos",
+      "submittedCases": "Presentados",
+      "successRate": "Tasa de éxito"
     },
-    "recentCases": "Recent cases",
-    "noCases": "No cases yet",
-    "noCasesHint": "Start your first objection",
-    "newCase": "New request",
-    "viewAll": "All cases",
+    "recentCases": "Casos recientes",
+    "noCases": "Sin casos",
+    "noCasesHint": "Empieza tu primer recurso",
+    "newCase": "Nueva solicitud",
+    "viewAll": "Todos los casos",
     "status": {
-      "CREATED": "Created",
-      "QUESTIONS": "Questions",
-      "GENERATING": "Generating",
-      "DRAFT_READY": "Draft ready",
-      "SUBMITTED": "Submitted",
-      "AWAITING_RESPONSE": "Pending",
-      "CLOSED_SUCCESS": "Successful",
-      "CLOSED_REJECTED": "Rejected"
+      "CREATED": "Creado",
+      "QUESTIONS": "Preguntas",
+      "GENERATING": "Generando",
+      "DRAFT_READY": "Borrador listo",
+      "SUBMITTED": "Presentado",
+      "AWAITING_RESPONSE": "Pendiente",
+      "CLOSED_SUCCESS": "Exitoso",
+      "CLOSED_REJECTED": "Rechazado"
     },
     "quickActions": {
-      "title": "Quick actions",
-      "newCase": "New objection",
-      "viewCases": "My cases",
-      "billing": "Billing",
-      "account": "Settings"
+      "title": "Acceso rápido",
+      "newCase": "Nuevo recurso",
+      "viewCases": "Mis casos",
+      "billing": "Facturación",
+      "account": "Ajustes"
     }
   },
   "billing": {
-    "title": "Billing",
-    "subtitle": "Your current plan and usage overview",
-    "currentPlan": "Current plan",
-    "usage": "Usage this month",
-    "invoices": "Invoices",
-    "noInvoices": "No invoices yet",
-    "upgrade": "Upgrade plan",
-    "cancel": "Cancel subscription",
-    "renewsOn": "Renews on {date}",
-    "casesUsed": "{used} of {total} objections used",
-    "unlimited": "Unlimited"
+    "title": "Facturación",
+    "subtitle": "Tu plan actual y resumen de uso",
+    "currentPlan": "Plan actual",
+    "usage": "Uso este mes",
+    "invoices": "Facturas",
+    "noInvoices": "Sin facturas",
+    "upgrade": "Actualizar plan",
+    "cancel": "Cancelar suscripción",
+    "renewsOn": "Se renueva el {date}",
+    "casesUsed": "{used} de {total} recursos utilizados",
+    "unlimited": "Ilimitado"
   },
   "cases": {
-    "title": "My cases",
-    "subtitle": "All your objection and appeal cases",
+    "title": "Mis casos",
+    "subtitle": "Todos tus recursos y reclamaciones",
     "filter": {
-      "all": "All",
-      "active": "Active",
-      "submitted": "Submitted",
-      "closed": "Closed"
+      "all": "Todos",
+      "active": "Activos",
+      "submitted": "Presentados",
+      "closed": "Cerrados"
     },
-    "empty": "No cases found",
-    "emptyHint": "Start your first objection",
-    "newCase": "New request",
-    "caseId": "Case ID",
-    "createdAt": "Created",
-    "status": "Status",
-    "type": "Type",
-    "actions": "Actions",
-    "viewCase": "View case",
-    "downloadDraft": "Download draft"
+    "empty": "No se encontraron casos",
+    "emptyHint": "Empieza tu primer recurso",
+    "newCase": "Nueva solicitud",
+    "caseId": "ID del caso",
+    "createdAt": "Creado el",
+    "status": "Estado",
+    "type": "Tipo",
+    "actions": "Acciones",
+    "viewCase": "Ver caso",
+    "downloadDraft": "Descargar borrador"
   },
   "account": {
-    "title": "Profile & settings",
+    "title": "Perfil & Ajustes",
     "sections": {
-      "profile": "Profile",
-      "security": "Security",
-      "notifications": "Notifications",
-      "language": "Language & region",
-      "danger": "Delete account"
+      "profile": "Perfil",
+      "security": "Seguridad",
+      "notifications": "Notificaciones",
+      "language": "Idioma & Región",
+      "appearance": "Apariencia",
+      "danger": "Eliminar cuenta"
     },
-    "name": "Name",
-    "email": "Email",
-    "role": "Role",
-    "language": "Preferred language",
-    "outputLanguage": "Output language for objections",
-    "saveChanges": "Save changes",
-    "changePassword": "Change password",
-    "currentPassword": "Current password",
-    "newPassword": "New password",
-    "confirmPassword": "Confirm password",
-    "deleteAccount": "Delete account",
-    "deleteWarning": "This action cannot be undone. All your data will be deleted.",
+    "name": "Nombre",
+    "email": "Correo electrónico",
+    "role": "Rol",
+    "language": "Idioma preferido",
+    "outputLanguage": "Idioma de salida para recursos",
+    "saveChanges": "Guardar cambios",
+    "changePassword": "Cambiar contraseña",
+    "currentPassword": "Contraseña actual",
+    "newPassword": "Nueva contraseña",
+    "confirmPassword": "Confirmar contraseña",
+    "deleteAccount": "Eliminar cuenta",
+    "deleteWarning": "Esta acción no se puede deshacer. Todos tus datos serán eliminados.",
     "notifications": {
-      "email": "Email notifications",
-      "caseUpdates": "Case updates",
-      "newsletter": "Newsletter & product updates"
+      "email": "Notificaciones por correo",
+      "caseUpdates": "Actualizaciones de casos",
+      "newsletter": "Newsletter & novedades del producto"
+    },
+    "memberSince": "Miembro desde",
+    "logout": "Cerrar sesión",
+    "startNewCase": "Iniciar un nuevo recurso",
+    "templatesTitle": "Plantillas & Modelos",
+    "templatesDesc": "Plantillas gratuitas para descargar y personalizar",
+    "templatesViewAll": "Ver todo",
+    "templatesFree": "Gratis",
+    "templatesUseAI": "Prefiere la IA – crea un recurso en 5 minutos",
+    "plansTitle": "Planes & Precios",
+    "plansViewAll": "Todos los detalles",
+    "settingsTitle": "Cuenta & Ajustes",
+    "emailVerified": "Correo confirmado",
+    "emailNotVerified": "Correo no confirmado",
+    "emailNotVerifiedHint": "Confirma tu dirección de correo electrónico. Revisa tu bandeja de entrada.",
+    "accountType": "Tipo de cuenta",
+    "password": "Contraseña",
+    "twoFactor": "Autenticación de dos factores (2FA)",
+    "twoFactorNotEnabled": "No activado",
+    "theme": {
+      "label": "Apariencia",
+      "light": "Claro",
+      "dark": "Oscuro",
+      "system": "Sistema"
+    },
+    "billingManage": "Gestionar pagos & plan",
+    "billingManageDesc": "Facturas, actualización, compra de paquetes",
+    "gdprTitle": "Privacidad (RGPD)",
+    "gdprNote": "Exportación de datos próximamente. La eliminación de la cuenta es inmediata e irreversible.",
+    "exportData": "Exportar datos",
+    "languageLabel": "Idioma",
+    "statCases": "Casos totales",
+    "statCredits": "Créditos",
+    "statPlan": "Plan actual",
+    "planFree": "Gratis",
+    "planPro": "Pro"
+  },
+  "admin": {
+    "title": "Panel de administración",
+    "subtitle": "Resumen del sistema y gestión de usuarios",
+    "tabs": {
+      "overview": "Resumen",
+      "users": "Usuarios",
+      "cases": "Casos",
+      "pricing": "Precios",
+      "emails": "Correos",
+      "system": "Sistema",
+      "content": "Contenido"
+    },
+    "stats": {
+      "totalUsers": "Usuarios totales",
+      "totalCases": "Casos totales",
+      "openCases": "Casos abiertos",
+      "submittedCases": "Presentados"
+    },
+    "overview": {
+      "totalUsers": "Usuarios totales",
+      "verifiedSuffix": "verificados",
+      "new7d": "Nuevos (7 días)",
+      "ofTotalPct": "% del total",
+      "activated": "Activados",
+      "activationPct": "% tasa de activación",
+      "activeSubscriptions": "Suscripciones activas",
+      "conversionPct": "% conversión",
+      "totalCases": "Casos totales",
+      "thisWeek": "esta semana",
+      "closedSuccess": "Cerrados con éxito",
+      "stillOpen": "aún abiertos",
+      "recentUsers": "Nuevos usuarios",
+      "recentCases": "Casos recientes"
+    },
+    "users": {
+      "title": "Usuarios",
+      "since": "Desde",
+      "caseSuffix": "caso",
+      "casesSuffix": "casos",
+      "grantCredits": "Asignar créditos",
+      "grantLoading": "Asignando…",
+      "grantError": "Error al asignar",
+      "changeRole": "Cambiar rol:",
+      "creditsFor": "Créditos para",
+      "subscription": "Subscription",
+      "noSubscription": "No active subscription",
+      "subscriptionUntil": "until",
+      "subscriptionCancels": "cancels at period end",
+      "noCases": "No cases yet.",
+      "ledger": "Payments / Credits"
+    },
+    "cases": {
+      "filterAll": "Todos",
+      "filterOpen": "Abiertos",
+      "filterSubmitted": "Presentados",
+      "filterClosed": "Cerrados",
+      "noneFound": "No hay casos en esta categoría.",
+      "deadline": "Plazo"
+    },
+    "pricing": {
+      "loading": "Cargando planes de precios…",
+      "noPlansHint": "No hay planes de precios en la base de datos.",
+      "recommended": "Recomendado",
+      "inactive": "Inactivo",
+      "group": "Grupo",
+      "once": "Único",
+      "monthly": "Mensual",
+      "annual": "Anual",
+      "active": "Activo",
+      "standard": "Estándar",
+      "features": "Características"
+    },
+    "emails": {
+      "devWarning": "Modo dev activo — todos los correos salientes reciben el prefijo DEV - en el asunto.",
+      "trigger": "Disparador",
+      "subject": "Asunto",
+      "variables": "Variables",
+      "ttl": "Validez",
+      "templates": {
+        "verification": "Código de verificación",
+        "verificationTrigger": "El usuario se registra",
+        "verificationSubject": "Tu código de verificación — TaxaLex",
+        "welcome": "Correo de bienvenida",
+        "welcomeTrigger": "Correo verificado",
+        "welcomeSubject": "Bienvenido a TaxaLex — {name}",
+        "passwordReset": "Restablecer contraseña",
+        "passwordResetTrigger": "Contraseña olvidada",
+        "passwordResetSubject": "Restablecer tu contraseña — TaxaLex"
+      }
+    },
+    "system": {
+      "title": "Estado del sistema",
+      "environment": "Entorno",
+      "dev": "Desarrollo",
+      "prod": "Producción",
+      "database": "Base de datos",
+      "ai": "IA (Anthropic)",
+      "stripe": "Pagos (Stripe)",
+      "emailService": "Correos (Brevo)",
+      "ok": "OK",
+      "notConfigured": "No configurado",
+      "services": {
+        "anthropic": "Anthropic (Claude)",
+        "anthropicNote": "Required — app will not start without this key",
+        "google": "Google AI (Gemini)",
+        "googleNote": "Optional — for Gemini agents",
+        "perplexity": "Perplexity (Sonar)",
+        "perplexityNote": "Optional — for fact-check agent",
+        "stripe": "Stripe",
+        "stripeNote": "Optional — for payments",
+        "brevo": "Brevo (Email)",
+        "brevoNote": "Optional — emails suppressed without key",
+        "s3": "S3 (File storage)",
+        "s3Note": "Optional — for document uploads"
+      }
+    },
+    "content": {
+      "title": "Contenido de la base de datos",
+      "useCases": "Casos de uso",
+      "faqs": "Preguntas frecuentes",
+      "pricingPlans": "Planes de precios",
+      "edit": "Editar (próximamente)"
     }
   },
   "advisor": {
     "dashboard": {
-      "title": "Advisor dashboard",
-      "clients": "Clients",
-      "activeAppeals": "Active objections",
-      "submittedAppeals": "Submitted objections",
-      "recentActivity": "Recent activity",
-      "quickActions": "Quick actions",
-      "addClient": "Add client",
-      "newAppeal": "New objection"
+      "title": "Panel de asesor",
+      "clients": "Clientes",
+      "activeAppeals": "Recursos activos",
+      "submittedAppeals": "Recursos presentados",
+      "recentActivity": "Actividad reciente",
+      "quickActions": "Acceso rápido",
+      "addClient": "Añadir cliente",
+      "newAppeal": "Nuevo recurso"
     },
     "clients": {
-      "title": "Clients",
-      "subtitle": "Manage your clients",
-      "search": "Search clients...",
-      "add": "Add client",
-      "name": "Name",
-      "email": "Email",
-      "cases": "Cases",
-      "lastActive": "Last active",
-      "actions": "Actions",
-      "noClients": "No clients yet",
+      "title": "Clientes",
+      "subtitle": "Gestiona tus clientes",
+      "search": "Buscar clientes...",
+      "add": "Añadir cliente",
+      "name": "Nombre",
+      "email": "Correo electrónico",
+      "cases": "Casos",
+      "lastActive": "Última actividad",
+      "actions": "Acciones",
+      "noClients": "Sin clientes",
       "modal": {
-        "title": "Add client",
-        "name": "Client name",
-        "email": "Email address",
-        "submit": "Add"
+        "title": "Añadir cliente",
+        "name": "Nombre del cliente",
+        "email": "Dirección de correo electrónico",
+        "submit": "Añadir"
       }
     },
     "appeals": {
-      "title": "All objections",
-      "subtitle": "Objections across all your clients",
-      "client": "Client",
-      "type": "Type",
-      "status": "Status",
-      "createdAt": "Created"
+      "title": "Todos los recursos",
+      "subtitle": "Recursos de todos tus clientes",
+      "client": "Cliente",
+      "type": "Tipo",
+      "status": "Estado",
+      "createdAt": "Creado el"
     },
     "billing": {
-      "title": "Billing",
-      "plan": "Your advisor plan",
-      "usage": "Clients & objections"
+      "title": "Facturación",
+      "plan": "Tu plan de asesor",
+      "usage": "Clientes & recursos"
     }
   },
-  "admin": {
-    "title": "Admin panel",
-    "subtitle": "System overview and user management",
-    "tabs": {
-      "overview": "Overview",
-      "users": "Users",
-      "content": "Content"
-    },
-    "stats": {
-      "totalUsers": "Total users",
-      "totalCases": "Total cases",
-      "openCases": "Open cases",
-      "submittedCases": "Submitted"
-    },
-    "users": {
-      "title": "Users",
-      "since": "Since"
-    },
-    "content": {
-      "title": "Database content",
-      "useCases": "Use cases",
-      "faqs": "FAQs",
-      "pricingPlans": "Pricing plans",
-      "edit": "Edit (coming soon)"
-    }
+  "errors": {
+    "noFiles": "Por favor sube al menos un archivo",
+    "analyzeFailed": "Análisis fallido. Por favor, inténtalo de nuevo.",
+    "generateFailed": "Generación fallida. Por favor, inténtalo de nuevo.",
+    "missingDescheid": "Faltan datos del aviso",
+    "unauthorized": "Sin autorización",
+    "notFound": "Página no encontrada",
+    "serverError": "Error del servidor. Por favor, inténtalo más tarde."
   },
   "cookies": {
     "banner": {
-      "title": "Cookie settings",
-      "description": "We use cookies for analytics and a better user experience. You can change your preferences at any time.",
-      "acceptAll": "Accept all",
-      "acceptNecessary": "Necessary only",
-      "manage": "Settings",
-      "learnMore": "Learn more"
+      "title": "Configuración de cookies",
+      "description": "Usamos cookies para análisis y una mejor experiencia de usuario.",
+      "acceptAll": "Aceptar todas",
+      "acceptNecessary": "Solo necesarias",
+      "manage": "Ajustes",
+      "learnMore": "Saber más"
     },
     "types": {
       "necessary": {
-        "title": "Necessary cookies",
-        "description": "Required for the website to function. Cannot be disabled."
+        "title": "Cookies necesarias",
+        "description": "Requeridas para el funcionamiento del sitio."
       },
       "analytics": {
-        "title": "Analytics cookies",
-        "description": "Google Analytics and PostHog – help us improve the website."
+        "title": "Cookies analíticas",
+        "description": "Google Analytics y PostHog."
       },
       "marketing": {
-        "title": "Marketing cookies",
-        "description": "Personalised advertising and retargeting."
+        "title": "Cookies de marketing",
+        "description": "Publicidad personalizada."
       }
     }
   },
@@ -506,17 +663,8 @@
     }
   },
   "outputLanguage": {
-    "label": "Output language",
-    "hint": "The objection letter is generated in German by default (required for German authorities).",
-    "nonGermanWarning": "For review only — the letter must be in German for official submission."
-  },
-  "errors": {
-    "noFiles": "Please upload at least one file",
-    "analyzeFailed": "Analysis failed. Please try again.",
-    "generateFailed": "Generation failed. Please try again.",
-    "missingDescheid": "Notice data is missing",
-    "unauthorized": "Unauthorised",
-    "notFound": "Page not found",
-    "serverError": "Server error. Please try again later."
+    "label": "Idioma de salida",
+    "hint": "El recurso se genera en alemán por defecto (requerido por las autoridades alemanas).",
+    "nonGermanWarning": "Solo para revisión — la carta debe estar en alemán para su presentación oficial."
   }
 }

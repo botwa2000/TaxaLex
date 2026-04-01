@@ -1,45 +1,59 @@
 {
   "common": {
     "appName": "TaxaLex",
-    "tagline": "Your AI-powered objection letter generator",
-    "loading": "Loading...",
-    "error": "Error",
-    "back": "Back",
-    "next": "Next",
-    "save": "Save",
-    "cancel": "Cancel",
-    "close": "Close",
-    "confirm": "Confirm",
-    "delete": "Delete",
-    "edit": "Edit",
-    "download": "Download",
-    "copy": "Copy",
-    "copied": "Copied",
-    "required": "Required",
-    "optional": "Optional",
-    "or": "or",
-    "and": "and",
-    "yes": "Yes",
-    "no": "No",
-    "learnMore": "Learn more",
-    "getStarted": "Get started free",
-    "tryFree": "Try for free",
-    "viewAll": "View all"
+    "tagline": "Ваш ИИ-помощник для обжалования административных решений",
+    "loading": "Загрузка...",
+    "error": "Ошибка",
+    "back": "Назад",
+    "next": "Далее",
+    "save": "Сохранить",
+    "cancel": "Отмена",
+    "close": "Закрыть",
+    "confirm": "Подтвердить",
+    "delete": "Удалить",
+    "edit": "Редактировать",
+    "download": "Скачать",
+    "copy": "Копировать",
+    "copied": "Скопировано",
+    "required": "Обязательно",
+    "optional": "Необязательно",
+    "or": "или",
+    "and": "и",
+    "yes": "Да",
+    "no": "Нет",
+    "learnMore": "Узнать больше",
+    "getStarted": "Начать бесплатно",
+    "tryFree": "Попробовать бесплатно",
+    "viewAll": "Показать все"
   },
   "nav": {
-    "home": "Home",
-    "howItWorks": "How it works",
-    "useCasesNav": "Use cases",
-    "pricing": "Pricing",
-    "forAdvisors": "For tax advisors",
-    "forExpats": "For expats",
-    "blog": "Blog",
-    "login": "Sign in",
-    "register": "Create account",
-    "dashboard": "Dashboard",
-    "newCase": "New request",
-    "openMenu": "Open menu",
-    "closeMenu": "Close menu"
+    "home": "Главная",
+    "howItWorks": "Как это работает",
+    "useCasesNav": "Примеры использования",
+    "pricing": "Цены",
+    "forAdvisors": "Для налоговых консультантов",
+    "forExpats": "Для экспатов",
+    "blog": "Блог",
+    "login": "Войти",
+    "register": "Создать аккаунт",
+    "dashboard": "Панель управления",
+    "newCase": "Новая заявка",
+    "openMenu": "Открыть меню",
+    "closeMenu": "Закрыть меню",
+    "cases": "Мои дела",
+    "account": "Профиль и настройки",
+    "billing": "Оплата",
+    "logout": "Выйти",
+    "notifications": "Уведомления",
+    "advisorDashboard": "Панель консультанта",
+    "advisorClients": "Клиенты",
+    "advisorAppeals": "Все жалобы",
+    "advisorBilling": "Оплата консультанта",
+    "adminPanel": "Панель администратора",
+    "sectionOverview": "Обзор",
+    "sectionAccount": "Аккаунт",
+    "sectionAdvisor": "Консультант",
+    "sectionAdmin": "Администрирование"
   },
   "hero": {
     "groups": {
@@ -212,256 +226,399 @@
   },
   "auth": {
     "login": {
-      "title": "Welcome back",
-      "subtitle": "Sign in to your account",
-      "email": "Email address",
-      "password": "Password",
-      "forgotPassword": "Forgot password?",
-      "submit": "Sign in",
-      "noAccount": "Don't have an account?",
-      "register": "Register now",
-      "orContinueWith": "Or continue with",
-      "demoAccounts": "Demo accounts",
-      "demoHint": "Click an account to auto-fill the fields.",
+      "title": "С возвращением",
+      "subtitle": "Войдите в свой аккаунт",
+      "email": "Адрес электронной почты",
+      "password": "Пароль",
+      "forgotPassword": "Забыли пароль?",
+      "submit": "Войти",
+      "noAccount": "Нет аккаунта?",
+      "register": "Зарегистрироваться",
+      "orContinueWith": "Или продолжить с",
+      "demoAccounts": "Демо-аккаунты",
+      "demoHint": "Нажмите на аккаунт для автозаполнения полей.",
       "types": {
-        "individual": "Individual",
-        "advisor": "Tax advisor",
-        "lawyer": "Lawyer"
+        "individual": "Физическое лицо",
+        "advisor": "Налоговый консультант",
+        "lawyer": "Адвокат"
       }
     },
     "register": {
-      "title": "Create account",
-      "subtitle": "Get started free with TaxaLex",
-      "name": "Full name",
-      "email": "Email address",
-      "password": "Password",
-      "confirmPassword": "Confirm password",
-      "agreeToTerms": "I agree to the {terms} and {privacy}.",
-      "terms": "Terms of Service",
-      "privacy": "Privacy Policy",
-      "submit": "Create account",
-      "hasAccount": "Already have an account?",
-      "login": "Sign in",
+      "title": "Создать аккаунт",
+      "subtitle": "Начните бесплатно с TaxaLex",
+      "name": "Полное имя",
+      "email": "Адрес электронной почты",
+      "password": "Пароль",
+      "confirmPassword": "Подтвердите пароль",
+      "agreeToTerms": "Я принимаю {terms} и {privacy}.",
+      "terms": "Условия использования",
+      "privacy": "Политику конфиденциальности",
+      "submit": "Создать аккаунт",
+      "hasAccount": "Уже есть аккаунт?",
+      "login": "Войти",
       "passwordStrength": {
-        "weak": "Weak",
-        "fair": "Fair",
-        "good": "Good",
-        "strong": "Strong"
+        "weak": "Слабый",
+        "fair": "Приемлемый",
+        "good": "Хороший",
+        "strong": "Надёжный"
       },
       "types": {
-        "individual": "Individual",
-        "selfemployed": "Self-employed",
-        "advisor": "Tax advisor",
-        "lawyer": "Lawyer"
+        "individual": "Физическое лицо",
+        "selfemployed": "Самозанятый",
+        "advisor": "Налоговый консультант",
+        "lawyer": "Адвокат"
       },
       "benefits": {
         "individual": [
-          "1 free objection per month",
-          "5 AI agents review your case",
-          "Download as DOCX or TXT"
+          "1 бесплатное обжалование в месяц",
+          "5 ИИ-агентов анализируют ваше дело",
+          "Скачивание в DOCX или TXT"
         ],
         "selfemployed": [
-          "Objections for tax and VAT assessments",
-          "Unlimited documents per objection",
-          "Priority AI processing"
+          "Жалобы на налоговые и НДС-решения",
+          "Неограниченные документы на жалобу",
+          "Приоритетная обработка ИИ"
         ],
         "advisor": [
-          "Multi-client dashboard",
-          "Unlimited objections for all clients",
-          "White-label export option"
+          "Панель для нескольких клиентов",
+          "Неограниченные жалобы для всех клиентов",
+          "Экспорт под белым лейблом"
         ],
         "lawyer": [
-          "Multi-client dashboard",
-          "Unlimited objections for all clients",
-          "Extended legal research"
+          "Панель для нескольких клиентов",
+          "Неограниченные жалобы для всех клиентов",
+          "Расширенный правовой анализ"
         ]
       }
     }
   },
   "dashboard": {
-    "title": "Dashboard",
-    "welcome": "Welcome back, {name}",
-    "welcomeAdvisor": "Advisor dashboard – {name}",
-    "welcomeAdmin": "Admin panel – {name}",
+    "title": "Панель управления",
+    "welcome": "С возвращением, {name}",
+    "welcomeAdvisor": "Панель консультанта – {name}",
+    "welcomeAdmin": "Панель администратора – {name}",
     "stats": {
-      "totalCases": "Total objections",
-      "activeCases": "Active cases",
-      "submittedCases": "Submitted",
-      "successRate": "Success rate"
+      "totalCases": "Всего жалоб",
+      "activeCases": "Активные дела",
+      "submittedCases": "Поданы",
+      "successRate": "Процент успеха"
     },
-    "recentCases": "Recent cases",
-    "noCases": "No cases yet",
-    "noCasesHint": "Start your first objection",
-    "newCase": "New request",
-    "viewAll": "All cases",
+    "recentCases": "Последние дела",
+    "noCases": "Дел нет",
+    "noCasesHint": "Начните своё первое обжалование",
+    "newCase": "Новая заявка",
+    "viewAll": "Все дела",
     "status": {
-      "CREATED": "Created",
-      "QUESTIONS": "Questions",
-      "GENERATING": "Generating",
-      "DRAFT_READY": "Draft ready",
-      "SUBMITTED": "Submitted",
-      "AWAITING_RESPONSE": "Pending",
-      "CLOSED_SUCCESS": "Successful",
-      "CLOSED_REJECTED": "Rejected"
+      "CREATED": "Создано",
+      "QUESTIONS": "Вопросы",
+      "GENERATING": "Формируется",
+      "DRAFT_READY": "Черновик готов",
+      "SUBMITTED": "Подано",
+      "AWAITING_RESPONSE": "Ожидание ответа",
+      "CLOSED_SUCCESS": "Успешно",
+      "CLOSED_REJECTED": "Отклонено"
     },
     "quickActions": {
-      "title": "Quick actions",
-      "newCase": "New objection",
-      "viewCases": "My cases",
-      "billing": "Billing",
-      "account": "Settings"
+      "title": "Быстрый доступ",
+      "newCase": "Новое обжалование",
+      "viewCases": "Мои дела",
+      "billing": "Оплата",
+      "account": "Настройки"
     }
   },
   "billing": {
-    "title": "Billing",
-    "subtitle": "Your current plan and usage overview",
-    "currentPlan": "Current plan",
-    "usage": "Usage this month",
-    "invoices": "Invoices",
-    "noInvoices": "No invoices yet",
-    "upgrade": "Upgrade plan",
-    "cancel": "Cancel subscription",
-    "renewsOn": "Renews on {date}",
-    "casesUsed": "{used} of {total} objections used",
-    "unlimited": "Unlimited"
+    "title": "Оплата",
+    "subtitle": "Ваш текущий тариф и обзор использования",
+    "currentPlan": "Текущий тариф",
+    "usage": "Использование в этом месяце",
+    "invoices": "Счета",
+    "noInvoices": "Счетов нет",
+    "upgrade": "Повысить тариф",
+    "cancel": "Отменить подписку",
+    "renewsOn": "Продление {date}",
+    "casesUsed": "Использовано {used} из {total} жалоб",
+    "unlimited": "Неограниченно"
   },
   "cases": {
-    "title": "My cases",
-    "subtitle": "All your objection and appeal cases",
+    "title": "Мои дела",
+    "subtitle": "Все ваши жалобы и обжалования",
     "filter": {
-      "all": "All",
-      "active": "Active",
-      "submitted": "Submitted",
-      "closed": "Closed"
+      "all": "Все",
+      "active": "Активные",
+      "submitted": "Поданы",
+      "closed": "Закрытые"
     },
-    "empty": "No cases found",
-    "emptyHint": "Start your first objection",
-    "newCase": "New request",
-    "caseId": "Case ID",
-    "createdAt": "Created",
-    "status": "Status",
-    "type": "Type",
-    "actions": "Actions",
-    "viewCase": "View case",
-    "downloadDraft": "Download draft"
+    "empty": "Дел не найдено",
+    "emptyHint": "Начните своё первое обжалование",
+    "newCase": "Новая заявка",
+    "caseId": "Номер дела",
+    "createdAt": "Создано",
+    "status": "Статус",
+    "type": "Тип",
+    "actions": "Действия",
+    "viewCase": "Просмотреть дело",
+    "downloadDraft": "Скачать черновик"
   },
   "account": {
-    "title": "Profile & settings",
+    "title": "Профиль и настройки",
     "sections": {
-      "profile": "Profile",
-      "security": "Security",
-      "notifications": "Notifications",
-      "language": "Language & region",
-      "danger": "Delete account"
+      "profile": "Профиль",
+      "security": "Безопасность",
+      "notifications": "Уведомления",
+      "language": "Язык и регион",
+      "appearance": "Внешний вид",
+      "danger": "Удалить аккаунт"
     },
-    "name": "Name",
-    "email": "Email",
-    "role": "Role",
-    "language": "Preferred language",
-    "outputLanguage": "Output language for objections",
-    "saveChanges": "Save changes",
-    "changePassword": "Change password",
-    "currentPassword": "Current password",
-    "newPassword": "New password",
-    "confirmPassword": "Confirm password",
-    "deleteAccount": "Delete account",
-    "deleteWarning": "This action cannot be undone. All your data will be deleted.",
+    "name": "Имя",
+    "email": "Электронная почта",
+    "role": "Роль",
+    "language": "Предпочтительный язык",
+    "outputLanguage": "Язык вывода для жалоб",
+    "saveChanges": "Сохранить изменения",
+    "changePassword": "Изменить пароль",
+    "currentPassword": "Текущий пароль",
+    "newPassword": "Новый пароль",
+    "confirmPassword": "Подтвердите пароль",
+    "deleteAccount": "Удалить аккаунт",
+    "deleteWarning": "Это действие нельзя отменить. Все ваши данные будут удалены.",
     "notifications": {
-      "email": "Email notifications",
-      "caseUpdates": "Case updates",
-      "newsletter": "Newsletter & product updates"
+      "email": "Уведомления по email",
+      "caseUpdates": "Обновления дел",
+      "newsletter": "Рассылка и новости продукта"
+    },
+    "memberSince": "Участник с",
+    "logout": "Выйти",
+    "startNewCase": "Начать новое обжалование",
+    "templatesTitle": "Шаблоны и образцы",
+    "templatesDesc": "Бесплатные шаблоны для скачивания и редактирования",
+    "templatesViewAll": "Показать все",
+    "templatesFree": "Бесплатно",
+    "templatesUseAI": "Лучше использовать ИИ — создайте жалобу за 5 минут",
+    "plansTitle": "Тарифы и цены",
+    "plansViewAll": "Все подробности",
+    "settingsTitle": "Аккаунт и настройки",
+    "emailVerified": "Email подтверждён",
+    "emailNotVerified": "Email не подтверждён",
+    "emailNotVerifiedHint": "Пожалуйста, подтвердите свой email. Проверьте входящие.",
+    "accountType": "Тип аккаунта",
+    "password": "Пароль",
+    "twoFactor": "Двухфакторная аутентификация (2FA)",
+    "twoFactorNotEnabled": "Не активировано",
+    "theme": {
+      "label": "Внешний вид",
+      "light": "Светлая",
+      "dark": "Тёмная",
+      "system": "Системная"
+    },
+    "billingManage": "Управление платежами и тарифом",
+    "billingManageDesc": "Счета, повышение тарифа, покупка пакетов",
+    "gdprTitle": "Защита данных (GDPR)",
+    "gdprNote": "Экспорт данных скоро. Удаление аккаунта происходит немедленно и необратимо.",
+    "exportData": "Экспортировать данные",
+    "languageLabel": "Язык",
+    "statCases": "Всего дел",
+    "statCredits": "Кредиты",
+    "statPlan": "Текущий тариф",
+    "planFree": "Бесплатный",
+    "planPro": "Pro"
+  },
+  "admin": {
+    "title": "Панель администратора",
+    "subtitle": "Обзор системы и управление пользователями",
+    "tabs": {
+      "overview": "Обзор",
+      "users": "Пользователи",
+      "cases": "Дела",
+      "pricing": "Цены",
+      "emails": "Письма",
+      "system": "Система",
+      "content": "Контент"
+    },
+    "stats": {
+      "totalUsers": "Всего пользователей",
+      "totalCases": "Всего дел",
+      "openCases": "Открытые дела",
+      "submittedCases": "Поданы"
+    },
+    "overview": {
+      "totalUsers": "Всего пользователей",
+      "verifiedSuffix": "подтверждено",
+      "new7d": "Новые (7 дней)",
+      "ofTotalPct": "% от общего",
+      "activated": "Активировано",
+      "activationPct": "% процент активации",
+      "activeSubscriptions": "Активные подписки",
+      "conversionPct": "% конверсия",
+      "totalCases": "Всего дел",
+      "thisWeek": "на этой неделе",
+      "closedSuccess": "Успешно закрыто",
+      "stillOpen": "ещё открыто",
+      "recentUsers": "Новые пользователи",
+      "recentCases": "Последние дела"
+    },
+    "users": {
+      "title": "Пользователи",
+      "since": "С",
+      "caseSuffix": "дело",
+      "casesSuffix": "дел",
+      "grantCredits": "Начислить кредиты",
+      "grantLoading": "Начисляется…",
+      "grantError": "Ошибка начисления",
+      "changeRole": "Изменить роль:",
+      "creditsFor": "Кредиты для",
+      "subscription": "Subscription",
+      "noSubscription": "No active subscription",
+      "subscriptionUntil": "until",
+      "subscriptionCancels": "cancels at period end",
+      "noCases": "No cases yet.",
+      "ledger": "Payments / Credits"
+    },
+    "cases": {
+      "filterAll": "Все",
+      "filterOpen": "Открытые",
+      "filterSubmitted": "Поданы",
+      "filterClosed": "Закрытые",
+      "noneFound": "В этой категории нет дел.",
+      "deadline": "Срок"
+    },
+    "pricing": {
+      "loading": "Загрузка тарифов…",
+      "noPlansHint": "В базе данных нет тарифов.",
+      "recommended": "Рекомендуется",
+      "inactive": "Неактивен",
+      "group": "Группа",
+      "once": "Единоразово",
+      "monthly": "Ежемесячно",
+      "annual": "Ежегодно",
+      "active": "Активен",
+      "standard": "Стандарт",
+      "features": "Функции"
+    },
+    "emails": {
+      "devWarning": "Режим разработки — все исходящие письма получают префикс DEV - в теме.",
+      "trigger": "Триггер",
+      "subject": "Тема",
+      "variables": "Переменные",
+      "ttl": "Срок действия",
+      "templates": {
+        "verification": "Код подтверждения",
+        "verificationTrigger": "Пользователь регистрируется",
+        "verificationSubject": "Ваш код подтверждения — TaxaLex",
+        "welcome": "Приветственное письмо",
+        "welcomeTrigger": "Email подтверждён",
+        "welcomeSubject": "Добро пожаловать в TaxaLex — {name}",
+        "passwordReset": "Сброс пароля",
+        "passwordResetTrigger": "Забыт пароль",
+        "passwordResetSubject": "Сброс пароля — TaxaLex"
+      }
+    },
+    "system": {
+      "title": "Состояние системы",
+      "environment": "Окружение",
+      "dev": "Разработка",
+      "prod": "Продакшн",
+      "database": "База данных",
+      "ai": "ИИ (Anthropic)",
+      "stripe": "Платежи (Stripe)",
+      "emailService": "Письма (Brevo)",
+      "ok": "ОК",
+      "notConfigured": "Не настроено",
+      "services": {
+        "anthropic": "Anthropic (Claude)",
+        "anthropicNote": "Required — app will not start without this key",
+        "google": "Google AI (Gemini)",
+        "googleNote": "Optional — for Gemini agents",
+        "perplexity": "Perplexity (Sonar)",
+        "perplexityNote": "Optional — for fact-check agent",
+        "stripe": "Stripe",
+        "stripeNote": "Optional — for payments",
+        "brevo": "Brevo (Email)",
+        "brevoNote": "Optional — emails suppressed without key",
+        "s3": "S3 (File storage)",
+        "s3Note": "Optional — for document uploads"
+      }
+    },
+    "content": {
+      "title": "Содержимое базы данных",
+      "useCases": "Примеры использования",
+      "faqs": "Часто задаваемые вопросы",
+      "pricingPlans": "Тарифные планы",
+      "edit": "Редактировать (скоро)"
     }
   },
   "advisor": {
     "dashboard": {
-      "title": "Advisor dashboard",
-      "clients": "Clients",
-      "activeAppeals": "Active objections",
-      "submittedAppeals": "Submitted objections",
-      "recentActivity": "Recent activity",
-      "quickActions": "Quick actions",
-      "addClient": "Add client",
-      "newAppeal": "New objection"
+      "title": "Панель консультанта",
+      "clients": "Клиенты",
+      "activeAppeals": "Активные жалобы",
+      "submittedAppeals": "Поданные жалобы",
+      "recentActivity": "Последняя активность",
+      "quickActions": "Быстрый доступ",
+      "addClient": "Добавить клиента",
+      "newAppeal": "Новое обжалование"
     },
     "clients": {
-      "title": "Clients",
-      "subtitle": "Manage your clients",
-      "search": "Search clients...",
-      "add": "Add client",
-      "name": "Name",
+      "title": "Клиенты",
+      "subtitle": "Управляйте своими клиентами",
+      "search": "Поиск клиентов...",
+      "add": "Добавить клиента",
+      "name": "Имя",
       "email": "Email",
-      "cases": "Cases",
-      "lastActive": "Last active",
-      "actions": "Actions",
-      "noClients": "No clients yet",
+      "cases": "Дела",
+      "lastActive": "Последняя активность",
+      "actions": "Действия",
+      "noClients": "Клиентов нет",
       "modal": {
-        "title": "Add client",
-        "name": "Client name",
-        "email": "Email address",
-        "submit": "Add"
+        "title": "Добавить клиента",
+        "name": "Имя клиента",
+        "email": "Адрес электронной почты",
+        "submit": "Добавить"
       }
     },
     "appeals": {
-      "title": "All objections",
-      "subtitle": "Objections across all your clients",
-      "client": "Client",
-      "type": "Type",
-      "status": "Status",
-      "createdAt": "Created"
+      "title": "Все жалобы",
+      "subtitle": "Жалобы всех ваших клиентов",
+      "client": "Клиент",
+      "type": "Тип",
+      "status": "Статус",
+      "createdAt": "Создано"
     },
     "billing": {
-      "title": "Billing",
-      "plan": "Your advisor plan",
-      "usage": "Clients & objections"
+      "title": "Оплата",
+      "plan": "Ваш тариф консультанта",
+      "usage": "Клиенты и жалобы"
     }
   },
-  "admin": {
-    "title": "Admin panel",
-    "subtitle": "System overview and user management",
-    "tabs": {
-      "overview": "Overview",
-      "users": "Users",
-      "content": "Content"
-    },
-    "stats": {
-      "totalUsers": "Total users",
-      "totalCases": "Total cases",
-      "openCases": "Open cases",
-      "submittedCases": "Submitted"
-    },
-    "users": {
-      "title": "Users",
-      "since": "Since"
-    },
-    "content": {
-      "title": "Database content",
-      "useCases": "Use cases",
-      "faqs": "FAQs",
-      "pricingPlans": "Pricing plans",
-      "edit": "Edit (coming soon)"
-    }
+  "errors": {
+    "noFiles": "Пожалуйста, загрузите хотя бы один файл",
+    "analyzeFailed": "Анализ не удался. Пожалуйста, попробуйте снова.",
+    "generateFailed": "Генерация не удалась. Пожалуйста, попробуйте снова.",
+    "missingDescheid": "Данные уведомления отсутствуют",
+    "unauthorized": "Нет доступа",
+    "notFound": "Страница не найдена",
+    "serverError": "Ошибка сервера. Пожалуйста, попробуйте позже."
   },
   "cookies": {
     "banner": {
-      "title": "Cookie settings",
-      "description": "We use cookies for analytics and a better user experience. You can change your preferences at any time.",
-      "acceptAll": "Accept all",
-      "acceptNecessary": "Necessary only",
-      "manage": "Settings",
-      "learnMore": "Learn more"
+      "title": "Настройки файлов cookie",
+      "description": "Мы используем файлы cookie для аналитики и улучшения работы сайта.",
+      "acceptAll": "Принять все",
+      "acceptNecessary": "Только необходимые",
+      "manage": "Настройки",
+      "learnMore": "Узнать больше"
     },
     "types": {
       "necessary": {
-        "title": "Necessary cookies",
-        "description": "Required for the website to function. Cannot be disabled."
+        "title": "Необходимые cookie",
+        "description": "Требуются для работы сайта."
       },
       "analytics": {
-        "title": "Analytics cookies",
-        "description": "Google Analytics and PostHog – help us improve the website."
+        "title": "Аналитические cookie",
+        "description": "Google Analytics и PostHog."
       },
       "marketing": {
-        "title": "Marketing cookies",
-        "description": "Personalised advertising and retargeting."
+        "title": "Маркетинговые cookie",
+        "description": "Персонализированная реклама."
       }
     }
   },
@@ -506,17 +663,8 @@
     }
   },
   "outputLanguage": {
-    "label": "Output language",
-    "hint": "The objection letter is generated in German by default (required for German authorities).",
-    "nonGermanWarning": "For review only — the letter must be in German for official submission."
-  },
-  "errors": {
-    "noFiles": "Please upload at least one file",
-    "analyzeFailed": "Analysis failed. Please try again.",
-    "generateFailed": "Generation failed. Please try again.",
-    "missingDescheid": "Notice data is missing",
-    "unauthorized": "Unauthorised",
-    "notFound": "Page not found",
-    "serverError": "Server error. Please try again later."
+    "label": "Язык вывода",
+    "hint": "Жалоба создаётся на немецком языке по умолчанию (требуется для немецких органов власти).",
+    "nonGermanWarning": "Только для ознакомления — для официальной подачи письмо должно быть на немецком."
   }
 }
