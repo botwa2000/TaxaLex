@@ -3,6 +3,7 @@ import { authConfig } from '@/auth.config'
 import createMiddleware from 'next-intl/middleware'
 import { routing } from '@/i18n/routing'
 import { NextResponse, type NextRequest } from 'next/server'
+import { locales } from '@/config/i18n'
 
 const handleI18nRouting = createMiddleware(routing)
 const { auth } = NextAuth(authConfig)
@@ -28,8 +29,11 @@ export default auth((req) => {
     : pathname
 
   // Redirect authenticated users away from auth-only pages
+  // Use the user's saved locale preference if available, otherwise fall back to URL locale
   if (isAuthenticated && AUTH_ONLY.some((p) => cleanPath === p)) {
-    return NextResponse.redirect(new URL(`/${locale}/dashboard`, req.url))
+    const savedLocale = (req.auth as { user?: { locale?: string } } | null)?.user?.locale
+    const targetLocale = savedLocale && locales.includes(savedLocale as (typeof locales)[number]) ? savedLocale : locale
+    return NextResponse.redirect(new URL(`/${targetLocale}/dashboard`, req.url))
   }
 
   // Redirect unauthenticated users away from protected pages

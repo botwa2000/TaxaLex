@@ -14,6 +14,7 @@ import { Link } from '@/i18n/navigation'
 import { MobileSidebarWrapper } from '@/components/MobileSidebarWrapper'
 import { LogoutButton } from '@/components/LogoutButton'
 import { IdleTimer } from '@/components/IdleTimer'
+import { LanguageSelector } from '@/components/ui/LanguageSelector'
 
 export default async function AppLayout({
   children,
@@ -22,7 +23,7 @@ export default async function AppLayout({
   children: React.ReactNode
   params: Promise<{ locale: string }>
 }) {
-  const [session] = await Promise.all([auth(), params])
+  const [session, { locale }] = await Promise.all([auth(), params])
   if (!session) redirect('/login')
 
   const isAdmin = session!.user?.role === 'ADMIN'
@@ -79,8 +80,12 @@ export default async function AppLayout({
           )}
         </nav>
 
-        {/* Bottom: user info + logout */}
-        <div className="p-3 border-t border-[var(--border)]">
+        {/* Bottom: language selector + user info + logout */}
+        <div className="p-3 border-t border-[var(--border)] space-y-2">
+          {/* Language selector */}
+          <div className="px-1">
+            <LanguageSelector currentLocale={locale} persistLocale />
+          </div>
           {/* User info + logout */}
           <div className="flex items-center gap-2.5 px-1">
             <div className="w-8 h-8 bg-brand-100 text-brand-700 rounded-full flex items-center justify-center text-xs font-bold shrink-0">

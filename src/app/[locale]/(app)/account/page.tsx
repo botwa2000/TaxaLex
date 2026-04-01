@@ -20,6 +20,7 @@ import {
   Download,
 } from 'lucide-react'
 import { LogoutButton } from '@/components/LogoutButton'
+import { LocaleSettingRow } from './LocaleSettingRow'
 
 type UserRecord = {
   id: string
@@ -310,6 +311,12 @@ export default async function AccountPage() {
         <div className="px-5 py-4 border-b border-[var(--border)]">
           <p className="text-xs font-semibold uppercase tracking-wide text-[var(--muted)] mb-3">Darstellung</p>
           <ThemeSettingRow initialTheme={user.theme} />
+        </div>
+
+        {/* Language */}
+        <div className="px-5 py-4 border-b border-[var(--border)]">
+          <p className="text-xs font-semibold uppercase tracking-wide text-[var(--muted)] mb-3">Sprache & Region</p>
+          <LocaleSettingRow initialLocale={user.locale || 'de'} />
         </div>
 
         {/* Billing shortcut */}

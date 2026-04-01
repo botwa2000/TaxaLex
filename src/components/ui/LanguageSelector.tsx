@@ -10,9 +10,11 @@ interface LanguageSelectorProps {
   currentLocale: string
   variant?: 'select' | 'minimal'
   className?: string
+  /** When true, also persists the chosen locale to the user's account via API */
+  persistLocale?: boolean
 }
 
-export function LanguageSelector({ currentLocale, variant = 'select', className }: LanguageSelectorProps) {
+export function LanguageSelector({ currentLocale, variant = 'select', className, persistLocale = false }: LanguageSelectorProps) {
   const router = useRouter()
   const pathname = usePathname()
   const [open, setOpen] = useState(false)
@@ -29,6 +31,16 @@ export function LanguageSelector({ currentLocale, variant = 'select', className 
 
   function handleChange(newLocale: string) {
     setOpen(false)
+
+    if (persistLocale) {
+      // Fire-and-forget — don't block navigation
+      fetch('/api/user/locale', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ locale: newLocale }),
+      }).catch(() => {})
+    }
+
     const segments = pathname.split('/')
     segments[1] = newLocale
     router.push(segments.join('/'))

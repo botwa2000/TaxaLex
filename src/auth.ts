@@ -67,7 +67,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         // Block login until email is verified
         if (!user.emailVerified) return null
 
-        return { id: user.id, email: user.email, name: user.name, role: user.role, theme: user.theme }
+        return { id: user.id, email: user.email, name: user.name, role: user.role, theme: user.theme, locale: user.locale }
       },
     }),
 

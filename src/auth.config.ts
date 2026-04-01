@@ -16,17 +16,19 @@ export const authConfig: NextAuthConfig = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.id    = user.id
-        token.role  = (user as { role?: string }).role  ?? 'USER'
-        token.theme = (user as { theme?: string }).theme ?? 'system'
+        token.id     = user.id
+        token.role   = (user as { role?: string }).role    ?? 'USER'
+        token.theme  = (user as { theme?: string }).theme  ?? 'system'
+        token.locale = (user as { locale?: string }).locale ?? 'de'
       }
       return token
     },
     async session({ session, token }) {
       if (session.user) {
-        session.user.id    = token.id    as string
-        session.user.role  = token.role  as string
-        session.user.theme = (token.theme as string | undefined) ?? 'system'
+        session.user.id     = token.id     as string
+        session.user.role   = token.role   as string
+        session.user.theme  = (token.theme  as string | undefined) ?? 'system'
+        session.user.locale = (token.locale as string | undefined) ?? 'de'
       }
       return session
     },
