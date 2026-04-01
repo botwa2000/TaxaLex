@@ -3,7 +3,6 @@ import { redirect } from 'next/navigation'
 import { db } from '@/lib/db'
 import { Shield } from 'lucide-react'
 import { AdminClient } from './AdminClient'
-import { USE_CASES, FAQS, PRICING_PLANS } from '@/lib/contentFallbacks'
 import { config } from '@/config/env'
 
 export default async function AdminPage() {
@@ -16,10 +15,14 @@ export default async function AdminPage() {
     users,
     cases,
     totalUsers,
-    totalCases,
+    verifiedUsers,
     newUsersThisWeek,
+    usersWithCases,
+    activeSubscriptions,
+    totalCases,
+    casesThisWeek,
     openCases,
-    submittedCases,
+    closedSuccessCases,
   ] = await Promise.all([
     db.user.findMany({
       orderBy: { createdAt: 'desc' },
@@ -53,25 +56,19 @@ export default async function AdminPage() {
       },
     }),
     db.user.count(),
-    db.case.count(),
+    db.user.count({ where: { emailVerified: { not: null } } }),
     db.user.count({ where: { createdAt: { gte: oneWeekAgo } } }),
+    db.user.count({ where: { cases: { some: {} } } }),
+    db.subscription.count({ where: { status: { in: ['ACTIVE', 'TRIALING'] } } }),
+    db.case.count(),
+    db.case.count({ where: { createdAt: { gte: oneWeekAgo } } }),
     db.case.count({
-      where: {
-        status: { in: ['CREATED', 'QUESTIONS', 'GENERATING', 'DRAFT_READY'] as const },
-      },
+      where: { status: { in: ['CREATED', 'UPLOADING', 'ANALYZING', 'QUESTIONS', 'GENERATING', 'DRAFT_READY'] as const } },
     }),
     db.case.count({
-      where: {
-        status: { in: ['SUBMITTED', 'AWAITING_RESPONSE'] as const },
-      },
+      where: { status: { in: ['CLOSED_SUCCESS', 'SUBMITTED', 'APPROVED'] as const } },
     }),
   ])
-
-  const contentStats = {
-    useCases:     USE_CASES.filter((u) => u.locale === 'de').length,
-    faqs:         FAQS.filter((f) => f.locale === 'de').length,
-    pricingPlans: PRICING_PLANS.length,
-  }
 
   const systemHealth = {
     anthropic:  !!config.anthropicApiKey,
@@ -80,6 +77,7 @@ export default async function AdminPage() {
     stripe:     !!config.stripeSecretKey,
     brevo:      !!config.brevoApiKey,
     s3:         !!config.s3Endpoint,
+    isDev:      config.isDev,
   }
 
   return (
@@ -97,8 +95,17 @@ export default async function AdminPage() {
       <AdminClient
         users={users}
         cases={cases}
-        stats={{ totalUsers, totalCases, openCases, submittedCases, newUsersThisWeek }}
-        contentStats={contentStats}
+        stats={{
+          totalUsers,
+          verifiedUsers,
+          newUsersThisWeek,
+          usersWithCases,
+          activeSubscriptions,
+          totalCases,
+          casesThisWeek,
+          openCases,
+          closedSuccessCases,
+        }}
         systemHealth={systemHealth}
       />
     </div>
