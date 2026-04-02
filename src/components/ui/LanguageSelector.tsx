@@ -108,17 +108,14 @@ export function LanguageSelector({ currentLocale, variant = 'select', className,
   )
 }
 
-/** Renders a country flag as an image from flagcdn.com — works on all platforms including Windows. */
+/** Renders a country flag using the flag-icons CSS library — no external requests, works on all platforms. */
 function FlagImg({ code, label }: { code: string; label: string }) {
   return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src={`https://flagcdn.com/w20/${code}.png`}
-      srcSet={`https://flagcdn.com/w40/${code}.png 2x`}
-      width={20}
-      height={15}
-      alt={label}
-      className="rounded-sm object-cover shrink-0"
+    <span
+      className={`fi fi-${code} rounded-sm shrink-0`}
+      style={{ fontSize: '20px', lineHeight: 1 }}
+      role="img"
+      aria-label={label}
     />
   )
 }
