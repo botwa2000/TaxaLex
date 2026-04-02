@@ -1,16 +1,16 @@
 {
   "common": {
     "appName": "TaxaLex",
-    "tagline": "Ihr KI-gestützter Widerspruch & Einspruch",
-    "loading": "Lädt...",
+    "tagline": "Ihr KI-gestÃ¼tzter Widerspruch & Einspruch",
+    "loading": "LÃ¤dt...",
     "error": "Fehler",
-    "back": "Zurück",
+    "back": "ZurÃ¼ck",
     "next": "Weiter",
     "save": "Speichern",
     "cancel": "Abbrechen",
-    "close": "Schließen",
-    "confirm": "Bestätigen",
-    "delete": "Löschen",
+    "close": "SchlieÃŸen",
+    "confirm": "BestÃ¤tigen",
+    "delete": "LÃ¶schen",
     "edit": "Bearbeiten",
     "download": "Herunterladen",
     "copy": "Kopieren",
@@ -29,28 +29,28 @@
   "nav": {
     "home": "Startseite",
     "howItWorks": "Wie es funktioniert",
-    "useCasesNav": "Anwendungsfälle",
+    "useCasesNav": "AnwendungsfÃ¤lle",
     "pricing": "Preise",
-    "forAdvisors": "Für Steuerberater",
-    "forExpats": "Für Expats",
+    "forAdvisors": "FÃ¼r Steuerberater",
+    "forExpats": "FÃ¼r Expats",
     "blog": "Blog",
     "login": "Anmelden",
     "register": "Konto erstellen",
     "dashboard": "Dashboard",
     "newCase": "Neue Anfrage",
-    "openMenu": "Menü öffnen",
-    "closeMenu": "Menü schließen",
-    "cases": "Meine Fälle",
+    "openMenu": "MenÃ¼ Ã¶ffnen",
+    "closeMenu": "MenÃ¼ schlieÃŸen",
+    "cases": "Meine FÃ¤lle",
     "account": "Profil & Einstellungen",
     "billing": "Abrechnung",
     "logout": "Abmelden",
     "notifications": "Benachrichtigungen",
     "advisorDashboard": "Berater-Dashboard",
     "advisorClients": "Mandanten",
-    "advisorAppeals": "Alle Einsprüche",
+    "advisorAppeals": "Alle EinsprÃ¼che",
     "advisorBilling": "Berater-Abrechnung",
     "adminPanel": "Admin-Panel",
-    "sectionOverview": "Übersicht",
+    "sectionOverview": "Ãœbersicht",
     "sectionAccount": "Konto",
     "sectionAdvisor": "Berater",
     "sectionAdmin": "Administration"
@@ -59,33 +59,33 @@
     "groups": {
       "individual": {
         "headline": "Bescheid bekommen? Einspruch einlegen. In Minuten.",
-        "sub": "TaxaLex analysiert Ihren Bescheid mit 5 KI-Agenten und erstellt einen rechtlich fundierten Einspruch – ohne Anwalt.",
+        "sub": "TaxaLex analysiert Ihren Bescheid mit 5 KI-Agenten und erstellt einen rechtlich fundierten Einspruch â€“ ohne Anwalt.",
         "cta": "Jetzt kostenlos starten"
       },
       "selfemployed": {
-        "headline": "Steuer-Nachzahlung? Legen Sie Einspruch ein – ohne Anwalt.",
-        "sub": "Für Freelancer, Selbstständige und Kleinunternehmer: KI-gestützter Einspruch gegen Steuerbescheide in unter 5 Minuten.",
+        "headline": "Steuer-Nachzahlung? Legen Sie Einspruch ein â€“ ohne Anwalt.",
+        "sub": "FÃ¼r Freelancer, SelbststÃ¤ndige und Kleinunternehmer: KI-gestÃ¼tzter Einspruch gegen Steuerbescheide in unter 5 Minuten.",
         "cta": "Einspruch einlegen"
       },
       "expat": {
-        "headline": "German notice? Appeal it in minutes – in your language.",
+        "headline": "German notice? Appeal it in minutes â€“ in your language.",
         "sub": "TaxaLex helps expats navigate German bureaucracy. Upload your notice, answer a few questions, get a professional objection letter.",
         "cta": "Start for free"
       },
       "advisor": {
         "headline": "Mehr Mandate. Weniger Aufwand.",
-        "sub": "TaxaLex unterstützt Steuerberater und Anwälte bei der schnellen Erstellung von Einsprüchen und Widersprüchen für ihre Mandanten.",
+        "sub": "TaxaLex unterstÃ¼tzt Steuerberater und AnwÃ¤lte bei der schnellen Erstellung von EinsprÃ¼chen und WidersprÃ¼chen fÃ¼r ihre Mandanten.",
         "cta": "Berater-Demo anfordern"
       }
     },
     "tabs": {
       "individual": "Privatperson",
-      "selfemployed": "Selbstständig",
+      "selfemployed": "SelbststÃ¤ndig",
       "expat": "Expat",
       "advisor": "Steuerberater"
     },
-    "badge": "KI-gestützt · DSGVO-konform · EU-Server",
-    "disclaimer": "KI-generierte Entwürfe. Kein Rechtsrat i.S.d. RDG."
+    "badge": "KI-gestÃ¼tzt Â· DSGVO-konform Â· EU-Server",
+    "disclaimer": "KI-generierte EntwÃ¼rfe. Kein Rechtsrat i.S.d. RDG."
   },
   "howItWorks": {
     "title": "So einfach funktioniert es",
@@ -95,36 +95,36 @@
         "number": "1",
         "title": "Bescheid hochladen",
         "description": "Laden Sie Ihren Bescheid als PDF, Foto oder DOCX hoch. Unsere OCR erkennt automatisch alle relevanten Daten.",
-        "detail": "Unterstützte Formate: PDF, JPG, PNG, DOCX, TXT (max. 10 MB)"
+        "detail": "UnterstÃ¼tzte Formate: PDF, JPG, PNG, DOCX, TXT (max. 10 MB)"
       },
       "analyze": {
         "number": "2",
         "title": "KI-Analyse",
-        "description": "Fünf spezialisierte KI-Agenten prüfen Ihren Bescheid: Entwurf, Fehlerprüfung, Faktencheck, Gegenperspektive und Konsolidierung.",
-        "detail": "Claude · Gemini · Perplexity – alle Modelle arbeiten parallel"
+        "description": "FÃ¼nf spezialisierte KI-Agenten prÃ¼fen Ihren Bescheid: Entwurf, FehlerprÃ¼fung, Faktencheck, Gegenperspektive und Konsolidierung.",
+        "detail": "Claude Â· Gemini Â· Perplexity â€“ alle Modelle arbeiten parallel"
       },
       "download": {
         "number": "3",
         "title": "Herunterladen & einreichen",
-        "description": "Laden Sie Ihren fertigen Einspruch als DOCX oder TXT herunter und reichen Sie ihn direkt beim Finanzamt oder der Behörde ein.",
-        "detail": "Hinweis: KI-Entwurf, kein Rechtsrat i.S.d. RDG. Vor Einreichung prüfen."
+        "description": "Laden Sie Ihren fertigen Einspruch als DOCX oder TXT herunter und reichen Sie ihn direkt beim Finanzamt oder der BehÃ¶rde ein.",
+        "detail": "Hinweis: KI-Entwurf, kein Rechtsrat i.S.d. RDG. Vor Einreichung prÃ¼fen."
       }
     }
   },
   "useCases": {
-    "title": "Welchen Bescheid möchten Sie anfechten?",
-    "subtitle": "Wählen Sie die Art des Bescheids",
+    "title": "Welchen Bescheid mÃ¶chten Sie anfechten?",
+    "subtitle": "WÃ¤hlen Sie die Art des Bescheids",
     "tax": "Steuerbescheid",
-    "jobcenter": "Jobcenter / Bürgergeld",
+    "jobcenter": "Jobcenter / BÃ¼rgergeld",
     "rente": "Rentenbescheid",
-    "bussgeld": "Bußgeldbescheid",
-    "bussgeldd": "Bußgeldbescheid",
+    "bussgeld": "BuÃŸgeldbescheid",
+    "bussgeldd": "BuÃŸgeldbescheid",
     "krankenversicherung": "Krankenversicherung",
-    "kuendigung": "Kündigung",
-    "miete": "Mieterhöhung / Kaution",
+    "kuendigung": "KÃ¼ndigung",
+    "miete": "MieterhÃ¶hung / Kaution",
     "grundsteuer": "Grundsteuer",
-    "sectionTitle": "8 Bescheidarten – alle abgedeckt",
-    "sectionSubtitle": "Von Steuerbescheiden bis Bußgeldern: TaxaLex kennt die relevanten Rechtsgrundlagen für alle häufigen Verwaltungsbescheide.",
+    "sectionTitle": "8 Bescheidarten â€“ alle abgedeckt",
+    "sectionSubtitle": "Von Steuerbescheiden bis BuÃŸgeldern: TaxaLex kennt die relevanten Rechtsgrundlagen fÃ¼r alle hÃ¤ufigen Verwaltungsbescheide.",
     "appeal": "Einspruch einlegen",
     "deadline": "Frist",
     "days": "Tage",
@@ -134,16 +134,16 @@
     "collapseDetails": "Details ausblenden"
   },
   "stats": {
-    "title": "Zahlen, die zählen",
+    "title": "Zahlen, die zÃ¤hlen",
     "subtitle": "Verifizierte Statistiken aus offiziellen Quellen",
     "source": "Quelle"
   },
   "pricing": {
     "title": "Transparent & fair",
-    "subtitle": "Wählen Sie das Modell, das zu Ihnen passt",
+    "subtitle": "WÃ¤hlen Sie das Modell, das zu Ihnen passt",
     "tabs": {
       "individual": "Privatperson",
-      "selfemployed": "Selbstständig",
+      "selfemployed": "SelbststÃ¤ndig",
       "advisor": "Steuerberater",
       "lawyer": "Rechtsanwalt"
     },
@@ -151,15 +151,15 @@
     "currentPlan": "Ihr aktueller Plan",
     "perMonth": "/ Monat",
     "perCase": "/ Einspruch",
-    "perPack": "/ 5 Einsprüche",
+    "perPack": "/ 5 EinsprÃ¼che",
     "included": "Enthalten",
     "notIncluded": "Nicht enthalten",
     "upgrade": "Jetzt upgraden",
     "contact": "Kontakt aufnehmen",
-    "choosePlan": "Plan wählen",
-    "annualDiscount": "Jährlich zahlen – 2 Monate gratis",
+    "choosePlan": "Plan wÃ¤hlen",
+    "annualDiscount": "JÃ¤hrlich zahlen â€“ 2 Monate gratis",
     "monthly": "Monatlich",
-    "annual": "Jährlich",
+    "annual": "JÃ¤hrlich",
     "vatNote": "Alle Preise zzgl. MwSt.",
     "freeFeatures": {
       "title": "Kostenlos-Plan",
@@ -172,50 +172,50 @@
     "items": {
       "multiAi": {
         "title": "5 KI-Agenten parallel",
-        "description": "Claude, Gemini und Perplexity prüfen Ihren Einspruch aus verschiedenen Perspektiven – für maximale Qualität."
+        "description": "Claude, Gemini und Perplexity prÃ¼fen Ihren Einspruch aus verschiedenen Perspektiven â€“ fÃ¼r maximale QualitÃ¤t."
       },
       "legal": {
         "title": "Aktuelle Rechtsgrundlagen",
-        "description": "Perplexity recherchiert in Echtzeit aktuelle BFH-Urteile und Verwaltungsanweisungen für Ihren konkreten Fall."
+        "description": "Perplexity recherchiert in Echtzeit aktuelle BFH-Urteile und Verwaltungsanweisungen fÃ¼r Ihren konkreten Fall."
       },
       "multilingual": {
         "title": "Mehrsprachig",
-        "description": "Interface in 7 Sprachen. Der Einspruch wird immer auf Deutsch erstellt – für die Behörde."
+        "description": "Interface in 7 Sprachen. Der Einspruch wird immer auf Deutsch erstellt â€“ fÃ¼r die BehÃ¶rde."
       },
       "privacy": {
         "title": "DSGVO & Datenschutz",
-        "description": "EU-Server, verschlüsselte Übertragung, keine permanente Speicherung Ihrer Dokumente ohne Zustimmung."
+        "description": "EU-Server, verschlÃ¼sselte Ãœbertragung, keine permanente Speicherung Ihrer Dokumente ohne Zustimmung."
       }
     }
   },
   "faq": {
-    "title": "Häufige Fragen",
-    "subtitle": "Alles, was Sie über TaxaLex wissen möchten",
+    "title": "HÃ¤ufige Fragen",
+    "subtitle": "Alles, was Sie Ã¼ber TaxaLex wissen mÃ¶chten",
     "categories": {
       "all": "Alle",
       "general": "Allgemein",
       "legal": "Rechtliches",
       "pricing": "Preise",
       "technical": "Technik",
-      "advisor": "Für Berater"
+      "advisor": "FÃ¼r Berater"
     }
   },
   "trust": {
     "title": "Sicherheit & Datenschutz",
     "gdpr": "DSGVO-konform",
     "euServers": "EU-Server",
-    "encrypted": "Verschlüsselt",
+    "encrypted": "VerschlÃ¼sselt",
     "rdgNote": "Kein Rechtsrat i.S.d. RDG",
-    "disclaimer": "TaxaLex erstellt KI-generierte Entwürfe für Einsprüche und Widersprüche. Dies stellt keine Rechtsberatung im Sinne des Rechtsdienstleistungsgesetzes (RDG) dar. Vor der Einreichung sollten Sie den Entwurf prüfen und bei komplexen Sachverhalten einen Steuerberater oder Rechtsanwalt konsultieren.",
+    "disclaimer": "TaxaLex erstellt KI-generierte EntwÃ¼rfe fÃ¼r EinsprÃ¼che und WidersprÃ¼che. Dies stellt keine Rechtsberatung im Sinne des Rechtsdienstleistungsgesetzes (RDG) dar. Vor der Einreichung sollten Sie den Entwurf prÃ¼fen und bei komplexen Sachverhalten einen Steuerberater oder Rechtsanwalt konsultieren.",
     "badges": {
       "dsgvo": "DSGVO-konform",
       "eu": "EU-Server (Frankfurt)",
-      "ssl": "SSL-verschlüsselt",
+      "ssl": "SSL-verschlÃ¼sselt",
       "rdg": "Kein Rechtsrat (RDG)"
     }
   },
   "footer": {
-    "tagline": "KI-generierte Entwürfe. Kein Rechtsrat i.S.d. RDG.",
+    "tagline": "KI-generierte EntwÃ¼rfe. Kein Rechtsrat i.S.d. RDG.",
     "allRightsReserved": "Alle Rechte vorbehalten.",
     "columns": {
       "product": "Produkt",
@@ -226,7 +226,7 @@
   },
   "auth": {
     "login": {
-      "title": "Willkommen zurück",
+      "title": "Willkommen zurÃ¼ck",
       "subtitle": "Melden Sie sich in Ihrem Konto an",
       "email": "E-Mail-Adresse",
       "password": "Passwort",
@@ -235,8 +235,8 @@
       "noAccount": "Noch kein Konto?",
       "register": "Jetzt registrieren",
       "orContinueWith": "Oder weiter mit",
-      "demoAccounts": "Demo-Zugänge",
-      "demoHint": "Klicken Sie auf einen Zugang, um die Felder automatisch auszufüllen.",
+      "demoAccounts": "Demo-ZugÃ¤nge",
+      "demoHint": "Klicken Sie auf einen Zugang, um die Felder automatisch auszufÃ¼llen.",
       "types": {
         "individual": "Privatperson",
         "advisor": "Steuerberater",
@@ -246,13 +246,13 @@
     "register": {
       "title": "Konto erstellen",
       "subtitle": "Starten Sie kostenlos mit TaxaLex",
-      "name": "Vollständiger Name",
+      "name": "VollstÃ¤ndiger Name",
       "email": "E-Mail-Adresse",
       "password": "Passwort",
       "confirmPassword": "Passwort wiederholen",
       "agreeToTerms": "Ich stimme den {terms} und der {privacy} zu.",
       "terms": "AGB",
-      "privacy": "Datenschutzerklärung",
+      "privacy": "DatenschutzerklÃ¤rung",
       "submit": "Konto erstellen",
       "hasAccount": "Bereits ein Konto?",
       "login": "Jetzt anmelden",
@@ -264,29 +264,29 @@
       },
       "types": {
         "individual": "Privatperson",
-        "selfemployed": "Selbstständig",
+        "selfemployed": "SelbststÃ¤ndig",
         "advisor": "Steuerberater",
         "lawyer": "Rechtsanwalt"
       },
       "benefits": {
         "individual": [
           "1 kostenloser Einspruch pro Monat",
-          "5 KI-Agenten prüfen Ihren Fall",
+          "5 KI-Agenten prÃ¼fen Ihren Fall",
           "Download als DOCX oder TXT"
         ],
         "selfemployed": [
-          "Einsprüche gegen Steuerbescheide & USt",
+          "EinsprÃ¼che gegen Steuerbescheide & USt",
           "Unbegrenzte Dokumente pro Einspruch",
           "Priorisierte KI-Verarbeitung"
         ],
         "advisor": [
           "Multi-Mandanten-Dashboard",
-          "Unbegrenzte Einsprüche für alle Mandanten",
+          "Unbegrenzte EinsprÃ¼che fÃ¼r alle Mandanten",
           "White-Label-Exportoption"
         ],
         "lawyer": [
           "Multi-Mandanten-Dashboard",
-          "Unbegrenzte Einsprüche für alle Mandanten",
+          "Unbegrenzte EinsprÃ¼che fÃ¼r alle Mandanten",
           "Erweiterte Rechtsgrundlagen-Recherche"
         ]
       }
@@ -294,23 +294,23 @@
   },
   "dashboard": {
     "title": "Dashboard",
-    "welcome": "Willkommen zurück, {name}",
-    "welcomeAdvisor": "Berater-Dashboard – {name}",
-    "welcomeAdmin": "Admin-Panel – {name}",
+    "welcome": "Willkommen zurÃ¼ck, {name}",
+    "welcomeAdvisor": "Berater-Dashboard â€“ {name}",
+    "welcomeAdmin": "Admin-Panel â€“ {name}",
     "stats": {
-      "totalCases": "Einsprüche gesamt",
-      "activeCases": "Aktive Fälle",
+      "totalCases": "EinsprÃ¼che gesamt",
+      "activeCases": "Aktive FÃ¤lle",
       "submittedCases": "Eingereicht",
       "successRate": "Erfolgsquote"
     },
-    "recentCases": "Aktuelle Fälle",
-    "noCases": "Noch keine Fälle",
+    "recentCases": "Aktuelle FÃ¤lle",
+    "noCases": "Noch keine FÃ¤lle",
     "noCasesHint": "Starten Sie Ihren ersten Einspruch",
     "newCase": "Neue Anfrage",
-    "viewAll": "Alle Fälle",
+    "viewAll": "Alle FÃ¤lle",
     "status": {
       "CREATED": "Erstellt",
-      "QUESTIONS": "Rückfragen",
+      "QUESTIONS": "RÃ¼ckfragen",
       "GENERATING": "Wird erstellt",
       "DRAFT_READY": "Entwurf bereit",
       "SUBMITTED": "Eingereicht",
@@ -321,34 +321,34 @@
     "quickActions": {
       "title": "Schnellzugriff",
       "newCase": "Neuer Einspruch",
-      "viewCases": "Meine Fälle",
+      "viewCases": "Meine FÃ¤lle",
       "billing": "Abrechnung",
       "account": "Einstellungen"
     }
   },
   "billing": {
     "title": "Abrechnung",
-    "subtitle": "Ihr aktueller Plan und Nutzungsübersicht",
+    "subtitle": "Ihr aktueller Plan und NutzungsÃ¼bersicht",
     "currentPlan": "Aktueller Plan",
     "usage": "Nutzung diesen Monat",
     "invoices": "Rechnungen",
     "noInvoices": "Noch keine Rechnungen",
     "upgrade": "Plan upgraden",
-    "cancel": "Abo kündigen",
-    "renewsOn": "Verlängert sich am {date}",
-    "casesUsed": "{used} von {total} Einsprüchen genutzt",
+    "cancel": "Abo kÃ¼ndigen",
+    "renewsOn": "VerlÃ¤ngert sich am {date}",
+    "casesUsed": "{used} von {total} EinsprÃ¼chen genutzt",
     "unlimited": "Unbegrenzt"
   },
   "cases": {
-    "title": "Meine Fälle",
-    "subtitle": "Alle Ihre Einsprüche und Widersprüche",
+    "title": "Meine FÃ¤lle",
+    "subtitle": "Alle Ihre EinsprÃ¼che und WidersprÃ¼che",
     "filter": {
       "all": "Alle",
       "active": "Aktiv",
       "submitted": "Eingereicht",
       "closed": "Abgeschlossen"
     },
-    "empty": "Keine Fälle gefunden",
+    "empty": "Keine FÃ¤lle gefunden",
     "emptyHint": "Starten Sie Ihren ersten Einspruch",
     "newCase": "Neue Anfrage",
     "caseId": "Fall-ID",
@@ -367,20 +367,20 @@
       "notifications": "Benachrichtigungen",
       "language": "Sprache & Region",
       "appearance": "Darstellung",
-      "danger": "Konto löschen"
+      "danger": "Konto lÃ¶schen"
     },
     "name": "Name",
     "email": "E-Mail",
     "role": "Rolle",
     "language": "Bevorzugte Sprache",
-    "outputLanguage": "Ausgabesprache für Einsprüche",
-    "saveChanges": "Änderungen speichern",
-    "changePassword": "Passwort ändern",
+    "outputLanguage": "Ausgabesprache fÃ¼r EinsprÃ¼che",
+    "saveChanges": "Ã„nderungen speichern",
+    "changePassword": "Passwort Ã¤ndern",
     "currentPassword": "Aktuelles Passwort",
     "newPassword": "Neues Passwort",
-    "confirmPassword": "Passwort bestätigen",
-    "deleteAccount": "Konto löschen",
-    "deleteWarning": "Diese Aktion kann nicht rückgängig gemacht werden. Alle Ihre Daten werden gelöscht.",
+    "confirmPassword": "Passwort bestÃ¤tigen",
+    "deleteAccount": "Konto lÃ¶schen",
+    "deleteWarning": "Diese Aktion kann nicht rÃ¼ckgÃ¤ngig gemacht werden. Alle Ihre Daten werden gelÃ¶scht.",
     "notifications": {
       "email": "E-Mail-Benachrichtigungen",
       "caseUpdates": "Fall-Updates",
@@ -393,13 +393,13 @@
     "templatesDesc": "Kostenlose Vorlagen zum Herunterladen und Anpassen",
     "templatesViewAll": "Alle anzeigen",
     "templatesFree": "Kostenlos",
-    "templatesUseAI": "Lieber KI nutzen – Einspruch in 5 Minuten erstellen",
+    "templatesUseAI": "Lieber KI nutzen â€“ Einspruch in 5 Minuten erstellen",
     "plansTitle": "Pakete & Preise",
     "plansViewAll": "Alle Details",
     "settingsTitle": "Konto & Einstellungen",
-    "emailVerified": "E-Mail bestätigt",
-    "emailNotVerified": "E-Mail-Adresse nicht bestätigt",
-    "emailNotVerifiedHint": "Bitte bestätigen Sie Ihre E-Mail-Adresse. Prüfen Sie Ihren Posteingang.",
+    "emailVerified": "E-Mail bestÃ¤tigt",
+    "emailNotVerified": "E-Mail-Adresse nicht bestÃ¤tigt",
+    "emailNotVerifiedHint": "Bitte bestÃ¤tigen Sie Ihre E-Mail-Adresse. PrÃ¼fen Sie Ihren Posteingang.",
     "accountType": "Konto-Typ",
     "password": "Passwort",
     "twoFactor": "Zwei-Faktor (2FA)",
@@ -413,10 +413,10 @@
     "billingManage": "Zahlungen & Plan verwalten",
     "billingManageDesc": "Rechnungen, Upgrade, Pakete kaufen",
     "gdprTitle": "Datenschutz (DSGVO)",
-    "gdprNote": "Datenexport folgt. Kontolöschung ist sofort wirksam und unwiderruflich.",
+    "gdprNote": "Datenexport folgt. KontolÃ¶schung ist sofort wirksam und unwiderruflich.",
     "exportData": "Daten exportieren",
     "languageLabel": "Sprache",
-    "statCases": "Fälle gesamt",
+    "statCases": "FÃ¤lle gesamt",
     "statCredits": "Guthaben",
     "statPlan": "Aktueller Plan",
     "planFree": "Free",
@@ -427,34 +427,34 @@
     "dashboard": {
       "title": "Berater-Dashboard",
       "clients": "Mandanten",
-      "activeAppeals": "Aktive Einsprüche",
-      "submittedAppeals": "Eingereichte Einsprüche",
-      "recentActivity": "Letzte Aktivitäten",
+      "activeAppeals": "Aktive EinsprÃ¼che",
+      "submittedAppeals": "Eingereichte EinsprÃ¼che",
+      "recentActivity": "Letzte AktivitÃ¤ten",
       "quickActions": "Schnellzugriff",
-      "addClient": "Mandanten hinzufügen",
+      "addClient": "Mandanten hinzufÃ¼gen",
       "newAppeal": "Neuer Einspruch"
     },
     "clients": {
       "title": "Mandanten",
       "subtitle": "Verwalten Sie Ihre Mandanten",
       "search": "Mandanten suchen...",
-      "add": "Mandanten hinzufügen",
+      "add": "Mandanten hinzufÃ¼gen",
       "name": "Name",
       "email": "E-Mail",
-      "cases": "Fälle",
+      "cases": "FÃ¤lle",
       "lastActive": "Zuletzt aktiv",
       "actions": "Aktionen",
       "noClients": "Noch keine Mandanten",
       "modal": {
-        "title": "Mandanten hinzufügen",
+        "title": "Mandanten hinzufÃ¼gen",
         "name": "Name des Mandanten",
         "email": "E-Mail-Adresse",
-        "submit": "Hinzufügen"
+        "submit": "HinzufÃ¼gen"
       }
     },
     "appeals": {
-      "title": "Alle Einsprüche",
-      "subtitle": "Einsprüche aller Ihrer Mandanten",
+      "title": "Alle EinsprÃ¼che",
+      "subtitle": "EinsprÃ¼che aller Ihrer Mandanten",
       "client": "Mandant",
       "type": "Typ",
       "status": "Status",
@@ -463,16 +463,72 @@
     "billing": {
       "title": "Abrechnung",
       "plan": "Ihr Berater-Plan",
-      "usage": "Mandanten & Einsprüche"
+      "usage": "Mandanten & EinsprÃ¼che"
+    },
+    "handoff": {
+      "title": "Professionelle Prüfung anfragen",
+      "selectAdvisor": "Berater auswählen",
+      "scope": {
+        "label": "Umfang der Beauftragung",
+        "reviewOnly": "Nur Prüfung — ich reiche selbst ein",
+        "fullRepresentation": "Vollständige Vertretung"
+      },
+      "clientNotes": "Hinweise für den Berater (optional)",
+      "submit": "Prüfung anfragen",
+      "submitted": "Anfrage gesendet"
+    },
+    "assignment": {
+      "pending": "Entscheidung erforderlich",
+      "accepted": "In Prüfung",
+      "declined": "Abgelehnt",
+      "changesRequested": "Rückfragen offen",
+      "approved": "Freigegeben",
+      "finalized": "Abgeschlossen"
+    },
+    "packet": {
+      "brief": "Fallzusammenfassung",
+      "facts": "Sachverhalt",
+      "analysis": "KI-Analyse",
+      "draft": "Einspruchsentwurf",
+      "clientContext": "Mandantenangaben",
+      "coreArgument": "Kernargument",
+      "evidenceGaps": "Beweislücken",
+      "counterarguments": "Gegenargumente"
+    },
+    "viability": {
+      "high": "Hohe Erfolgsaussicht",
+      "medium": "Mittlere Erfolgsaussicht",
+      "low": "Geringe Erfolgsaussicht"
+    },
+    "actions": {
+      "accept": "Fall annehmen",
+      "decline": "Ablehnen",
+      "finalize": "Freigeben und abschließen",
+      "addAnnotation": "Rückfrage stellen",
+      "resolveAnnotation": "Als geklärt markieren",
+      "replyToAnnotation": "Antworten",
+      "submitReply": "Antwort senden"
+    },
+    "annotation": {
+      "aiPreFill": "KI-Vorschlag aus Ihren Unterlagen:",
+      "open": "Offen",
+      "answered": "Beantwortet",
+      "resolved": "Geklärt"
+    },
+    "decline": {
+      "title": "Fall ablehnen",
+      "reason": "Grund der Ablehnung",
+      "reasonPlaceholder": "Bitte geben Sie einen Grund an...",
+      "confirm": "Ablehnen bestätigen"
     }
   },
   "admin": {
     "title": "Admin-Panel",
-    "subtitle": "System-Übersicht und Benutzerverwaltung",
+    "subtitle": "System-Ãœbersicht und Benutzerverwaltung",
     "tabs": {
-      "overview": "Übersicht",
+      "overview": "Ãœbersicht",
       "users": "Nutzer",
-      "cases": "Fälle",
+      "cases": "FÃ¤lle",
       "pricing": "Preise",
       "emails": "E-Mails",
       "system": "System",
@@ -480,8 +536,8 @@
     },
     "stats": {
       "totalUsers": "Nutzer gesamt",
-      "totalCases": "Fälle gesamt",
-      "openCases": "Offene Fälle",
+      "totalCases": "FÃ¤lle gesamt",
+      "openCases": "Offene FÃ¤lle",
       "submittedCases": "Eingereicht"
     },
     "overview": {
@@ -493,28 +549,28 @@
       "activationPct": "% Aktivierungsrate",
       "activeSubscriptions": "Aktive Abos",
       "conversionPct": "% Conversion",
-      "totalCases": "Fälle gesamt",
+      "totalCases": "FÃ¤lle gesamt",
       "thisWeek": "diese Woche",
       "closedSuccess": "Erfolgreich abgeschl.",
       "stillOpen": "noch offen",
       "recentUsers": "Neue Nutzer",
-      "recentCases": "Neueste Fälle"
+      "recentCases": "Neueste FÃ¤lle"
     },
     "users": {
       "title": "Nutzer",
       "since": "Seit",
       "caseSuffix": "Fall",
-      "casesSuffix": "Fälle",
+      "casesSuffix": "FÃ¤lle",
       "grantCredits": "Gutschreiben",
-      "grantLoading": "Wird gebucht…",
+      "grantLoading": "Wird gebuchtâ€¦",
       "grantError": "Gutschrift fehlgeschlagen",
-      "changeRole": "Rolle ändern:",
-      "creditsFor": "Credits für",
+      "changeRole": "Rolle Ã¤ndern:",
+      "creditsFor": "Credits fÃ¼r",
       "subscription": "Abonnement",
       "noSubscription": "Kein aktives Abo",
       "subscriptionUntil": "bis",
-      "subscriptionCancels": "kündigt zum Periodenende",
-      "noCases": "Noch keine Fälle erstellt.",
+      "subscriptionCancels": "kÃ¼ndigt zum Periodenende",
+      "noCases": "Noch keine FÃ¤lle erstellt.",
       "ledger": "Zahlungen / Gutschriften"
     },
     "cases": {
@@ -522,38 +578,38 @@
       "filterOpen": "Offen",
       "filterSubmitted": "Eingereicht",
       "filterClosed": "Abgeschl.",
-      "noneFound": "Keine Fälle in dieser Kategorie.",
+      "noneFound": "Keine FÃ¤lle in dieser Kategorie.",
       "deadline": "Frist"
     },
     "pricing": {
-      "loading": "Preispläne laden…",
-      "noPlansHint": "Keine Preispläne in der Datenbank.",
+      "loading": "PreisplÃ¤ne ladenâ€¦",
+      "noPlansHint": "Keine PreisplÃ¤ne in der Datenbank.",
       "recommended": "Empfohlen",
       "inactive": "Inaktiv",
       "group": "Gruppe",
       "once": "Einmalig",
       "monthly": "Monatlich",
-      "annual": "Jährlich",
+      "annual": "JÃ¤hrlich",
       "active": "Aktiv",
       "standard": "Standard",
       "features": "Features"
     },
     "emails": {
-      "devWarning": "Dev-Modus aktiv — alle ausgehenden E-Mails erhalten das Präfix DEV - im Betreff.",
+      "devWarning": "Dev-Modus aktiv â€” alle ausgehenden E-Mails erhalten das PrÃ¤fix DEV - im Betreff.",
       "trigger": "Trigger",
       "subject": "Betreff",
       "variables": "Variablen",
-      "ttl": "Gültig",
+      "ttl": "GÃ¼ltig",
       "templates": {
-        "verification": "Bestätigungscode",
+        "verification": "BestÃ¤tigungscode",
         "verificationTrigger": "Nutzer registriert sich",
-        "verificationSubject": "Dein Bestätigungscode — TaxaLex",
+        "verificationSubject": "Dein BestÃ¤tigungscode â€” TaxaLex",
         "welcome": "Willkommens-E-Mail",
         "welcomeTrigger": "E-Mail verifiziert",
-        "welcomeSubject": "Willkommen bei TaxaLex — {name}",
-        "passwordReset": "Passwort zurücksetzen",
+        "welcomeSubject": "Willkommen bei TaxaLex â€” {name}",
+        "passwordReset": "Passwort zurÃ¼cksetzen",
         "passwordResetTrigger": "Passwort vergessen",
-        "passwordResetSubject": "Passwort zurücksetzen — TaxaLex"
+        "passwordResetSubject": "Passwort zurÃ¼cksetzen â€” TaxaLex"
       }
     },
     "system": {
@@ -569,31 +625,31 @@
       "notConfigured": "Nicht konfiguriert",
       "services": {
         "anthropic": "Anthropic (Claude)",
-        "anthropicNote": "Pflicht — App startet nicht ohne diesen Key",
+        "anthropicNote": "Pflicht â€” App startet nicht ohne diesen Key",
         "google": "Google AI (Gemini)",
-        "googleNote": "Optional — für Gemini-Agenten",
+        "googleNote": "Optional â€” fÃ¼r Gemini-Agenten",
         "perplexity": "Perplexity (Sonar)",
-        "perplexityNote": "Optional — für Faktencheck-Agent",
+        "perplexityNote": "Optional â€” fÃ¼r Faktencheck-Agent",
         "stripe": "Stripe",
-        "stripeNote": "Optional — für Zahlungen",
+        "stripeNote": "Optional â€” fÃ¼r Zahlungen",
         "brevo": "Brevo (E-Mail)",
-        "brevoNote": "Optional — E-Mails werden ohne Key unterdrückt",
+        "brevoNote": "Optional â€” E-Mails werden ohne Key unterdrÃ¼ckt",
         "s3": "S3 (Dateispeicher)",
-        "s3Note": "Optional — für Dokumenten-Upload"
+        "s3Note": "Optional â€” fÃ¼r Dokumenten-Upload"
       }
     },
     "content": {
       "title": "Datenbank-Inhalte",
-      "useCases": "Anwendungsfälle",
+      "useCases": "AnwendungsfÃ¤lle",
       "faqs": "FAQs",
-      "pricingPlans": "Preispläne",
-      "edit": "Bearbeiten (demnächst)"
+      "pricingPlans": "PreisplÃ¤ne",
+      "edit": "Bearbeiten (demnÃ¤chst)"
     }
   },
   "cookies": {
     "banner": {
       "title": "Cookie-Einstellungen",
-      "description": "Wir verwenden Cookies für Analysen und eine bessere Nutzererfahrung. Sie können Ihre Auswahl jederzeit ändern.",
+      "description": "Wir verwenden Cookies fÃ¼r Analysen und eine bessere Nutzererfahrung. Sie kÃ¶nnen Ihre Auswahl jederzeit Ã¤ndern.",
       "acceptAll": "Alle akzeptieren",
       "acceptNecessary": "Nur notwendige",
       "manage": "Einstellungen",
@@ -602,11 +658,11 @@
     "types": {
       "necessary": {
         "title": "Notwendige Cookies",
-        "description": "Für den Betrieb der Website erforderlich. Können nicht deaktiviert werden."
+        "description": "FÃ¼r den Betrieb der Website erforderlich. KÃ¶nnen nicht deaktiviert werden."
       },
       "analytics": {
         "title": "Analyse-Cookies",
-        "description": "Google Analytics und PostHog – helfen uns, die Website zu verbessern."
+        "description": "Google Analytics und PostHog â€“ helfen uns, die Website zu verbessern."
       },
       "marketing": {
         "title": "Marketing-Cookies",
@@ -617,47 +673,47 @@
   "wizard": {
     "steps": {
       "upload": "Hochladen",
-      "questions": "Rückfragen",
+      "questions": "RÃ¼ckfragen",
       "generating": "KI-Analyse",
       "result": "Ergebnis"
     },
     "upload": {
       "title": "Bescheid hochladen",
       "subtitle": "Laden Sie Ihren Bescheid und relevante Unterlagen hoch",
-      "dropzone": "Dateien auswählen",
+      "dropzone": "Dateien auswÃ¤hlen",
       "dropzoneHint": "PDF, DOCX, TXT oder Bilder",
       "analyze": "Dokumente analysieren"
     },
     "questions": {
-      "title": "Rückfragen",
-      "subtitle": "Bitte beantworten Sie diese Fragen für einen optimalen Einspruch",
+      "title": "RÃ¼ckfragen",
+      "subtitle": "Bitte beantworten Sie diese Fragen fÃ¼r einen optimalen Einspruch",
       "detectedData": "Erkannte Daten",
       "finanzamt": "Finanzamt",
       "nachzahlung": "Nachzahlung",
       "generate": "Einspruch generieren"
     },
     "generating": {
-      "title": "Multi-KI-Analyse läuft...",
+      "title": "Multi-KI-Analyse lÃ¤uft...",
       "agents": {
         "drafter": "Entwurf wird erstellt... (Claude)",
-        "reviewer": "Fehlerprüfung läuft... (Gemini)",
-        "factchecker": "Faktencheck läuft... (Perplexity)",
+        "reviewer": "FehlerprÃ¼fung lÃ¤uft... (Gemini)",
+        "factchecker": "Faktencheck lÃ¤uft... (Perplexity)",
         "adversary": "Finanzamt-Perspektive... (Claude)",
         "consolidator": "Konsolidierung... (Claude)"
       }
     },
     "result": {
       "title": "Einspruch fertig",
-      "subtitle": "Geprüft durch {count} KI-Agenten",
+      "subtitle": "GeprÃ¼ft durch {count} KI-Agenten",
       "agentLog": "KI-Agenten-Protokoll",
-      "outputLanguageWarning": "Dieses Dokument wurde in {language} erstellt. Für die Einreichung beim Finanzamt ist die deutsche Version erforderlich.",
+      "outputLanguageWarning": "Dieses Dokument wurde in {language} erstellt. FÃ¼r die Einreichung beim Finanzamt ist die deutsche Version erforderlich.",
       "downloadTxt": "Als TXT herunterladen"
     }
   },
   "outputLanguage": {
     "label": "Ausgabesprache",
-    "hint": "Der Einspruch wird standardmäßig auf Deutsch erstellt (Pflicht für das Finanzamt).",
-    "nonGermanWarning": "Nur zur Überprüfung – für die Einreichung muss das Schreiben auf Deutsch sein."
+    "hint": "Der Einspruch wird standardmÃ¤ÃŸig auf Deutsch erstellt (Pflicht fÃ¼r das Finanzamt).",
+    "nonGermanWarning": "Nur zur ÃœberprÃ¼fung â€“ fÃ¼r die Einreichung muss das Schreiben auf Deutsch sein."
   },
   "errors": {
     "noFiles": "Bitte laden Sie mindestens eine Datei hoch",
@@ -666,6 +722,6 @@
     "missingDescheid": "Bescheid-Daten fehlen",
     "unauthorized": "Keine Berechtigung",
     "notFound": "Seite nicht gefunden",
-    "serverError": "Serverfehler. Bitte versuchen Sie es später erneut."
+    "serverError": "Serverfehler. Bitte versuchen Sie es spÃ¤ter erneut."
   }
 }

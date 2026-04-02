@@ -74,7 +74,97 @@ export interface EinspruchDocument {
   createdAt: Date
 }
 
-// API request/response types
+// ── Advisor Flow Types ────────────────────────────────────────────────────────
+
+export type ViabilityScore = 'HIGH' | 'MEDIUM' | 'LOW'
+
+export type AdvisorAssignmentStatus =
+  | 'PENDING'
+  | 'ACCEPTED'
+  | 'DECLINED'
+  | 'CHANGES_REQUESTED'
+  | 'APPROVED'
+  | 'FINALIZED'
+
+export type AuthorizationScope = 'REVIEW_ONLY' | 'FULL_REPRESENTATION'
+
+export type AnnotationStatus = 'OPEN' | 'ANSWERED' | 'RESOLVED'
+
+export type PacketSection = 'BRIEF' | 'FACTS' | 'ANALYSIS' | 'DRAFT' | 'CLIENT_CONTEXT'
+
+export interface ExtractedFacts {
+  finanzamt: string
+  steuernummer: string
+  steuerart: string
+  bescheidDatum: string
+  amountDisputed: number
+  amountTotal: number
+  periods: string[]
+  paragraphsCited: string[]
+  deadline: string | null
+}
+
+export interface AnalysisSummary {
+  coreArgument: string
+  evidenceGaps: string[]
+  counterarguments: string[]
+  viabilityScore: ViabilityScore
+  viabilitySummary: string
+}
+
+export interface ClientContext {
+  userAnswers: Record<string, string>
+  clientNotes?: string
+  scope: AuthorizationScope
+}
+
+export interface PacketDocument {
+  id: string
+  name: string
+  type: string
+  storagePath: string
+}
+
+export interface HandoffPacketData {
+  id: string
+  caseId: string
+  version: number
+  briefSummary: string
+  extractedFacts: ExtractedFacts
+  analysisSummary: AnalysisSummary
+  draftContent: string
+  clientContext: ClientContext
+  documents: PacketDocument[]
+  createdAt: Date
+}
+
+export interface AnnotationData {
+  id: string
+  section: PacketSection
+  paragraphIndex?: number | null
+  content: string
+  status: AnnotationStatus
+  author: { id: string; name: string | null }
+  replyContent?: string | null
+  repliedAt?: Date | null
+  aiPreFilled: boolean
+  aiPreFillText?: string | null
+  createdAt: Date
+}
+
+export interface AdvisorAssignmentData {
+  id: string
+  caseId: string
+  status: AdvisorAssignmentStatus
+  scope: AuthorizationScope
+  declineReason?: string | null
+  advisor: { id: string; name: string | null; email: string }
+  acceptedAt?: Date | null
+  finalizedAt?: Date | null
+  createdAt: Date
+}
+
+// ── API request/response types ────────────────────────────────────────────────
 
 export interface AnalyzeRequest {
   caseId: string

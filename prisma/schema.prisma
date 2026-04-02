@@ -62,6 +62,40 @@ enum DocumentType {
   KORRESPONDENZ
 }
 
+enum ViabilityScore {
+  HIGH
+  MEDIUM
+  LOW
+}
+
+enum AdvisorAssignmentStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+  CHANGES_REQUESTED
+  APPROVED
+  FINALIZED
+}
+
+enum AuthorizationScope {
+  REVIEW_ONLY
+  FULL_REPRESENTATION
+}
+
+enum AnnotationStatus {
+  OPEN
+  ANSWERED
+  RESOLVED
+}
+
+enum PacketSection {
+  BRIEF
+  FACTS
+  ANALYSIS
+  DRAFT
+  CLIENT_CONTEXT
+}
+
 // ── User & Auth ───────────────────────────────────────────────────────────────
 
 model User {
@@ -87,6 +121,8 @@ model User {
   passwordResetTokens      PasswordResetToken[]
   subscription             Subscription?
   creditLedger             CreditLedger[]
+  advisorAssignments       AdvisorAssignment[]      @relation("AdvisorAssignments")
+  authoredAnnotations      CaseAnnotation[]         @relation("AnnotationAuthor")
 
   @@index([email])
 }
@@ -175,6 +211,12 @@ model Case {
   documents Document[]
   outputs   CaseOutput[]
 
+  viabilityScore   ViabilityScore?
+  viabilitySummary String?
+  assignment       AdvisorAssignment?
+  handoffPacket    HandoffPacket?
+  annotations      CaseAnnotation[]
+
   @@index([userId])
   @@index([status])
   @@index([deadline])
@@ -216,6 +258,62 @@ model CaseOutput {
 
   @@index([caseId])
   @@index([caseId, isFinal])
+}
+
+// ── Advisor Communication Flow ────────────────────────────────────────────────
+
+model AdvisorAssignment {
+  id            String                  @id @default(cuid())
+  caseId        String                  @unique
+  case          Case                    @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  advisorId     String
+  advisor       User                    @relation("AdvisorAssignments", fields: [advisorId], references: [id])
+  status        AdvisorAssignmentStatus @default(PENDING)
+  scope         AuthorizationScope      @default(REVIEW_ONLY)
+  declineReason String?
+  acceptedAt    DateTime?
+  finalizedAt   DateTime?
+  createdAt     DateTime                @default(now())
+  updatedAt     DateTime                @updatedAt
+
+  @@index([advisorId])
+  @@index([status])
+}
+
+model HandoffPacket {
+  id              String   @id @default(cuid())
+  caseId          String   @unique
+  case            Case     @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  version         Int      @default(1)
+  briefSummary    String
+  extractedFacts  Json
+  analysisSummary Json
+  draftContent    String   @db.Text
+  clientContext   Json
+  documents       Json
+  createdAt       DateTime @default(now())
+}
+
+model CaseAnnotation {
+  id             String           @id @default(cuid())
+  caseId         String
+  case           Case             @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  authorId       String
+  author         User             @relation("AnnotationAuthor", fields: [authorId], references: [id])
+  section        PacketSection
+  paragraphIndex Int?
+  content        String           @db.Text
+  status         AnnotationStatus @default(OPEN)
+  replyContent   String?          @db.Text
+  repliedAt      DateTime?
+  aiPreFilled    Boolean          @default(false)
+  aiPreFillText  String?          @db.Text
+  resolvedAt     DateTime?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  @@index([caseId])
+  @@index([caseId, status])
 }
 
 // ── Content — DB-backed, admin-editable ───────────────────────────────────────

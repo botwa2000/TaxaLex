@@ -1,74 +1,74 @@
 {
   "common": {
     "appName": "TaxaLex",
-    "tagline": "İdari kararlara itiraz için yapay zeka asistanınız",
-    "loading": "Yükleniyor...",
+    "tagline": "Ä°dari kararlara itiraz iÃ§in yapay zeka asistanÄ±nÄ±z",
+    "loading": "YÃ¼kleniyor...",
     "error": "Hata",
     "back": "Geri",
-    "next": "İleri",
+    "next": "Ä°leri",
     "save": "Kaydet",
-    "cancel": "İptal",
+    "cancel": "Ä°ptal",
     "close": "Kapat",
     "confirm": "Onayla",
     "delete": "Sil",
-    "edit": "Düzenle",
-    "download": "İndir",
+    "edit": "DÃ¼zenle",
+    "download": "Ä°ndir",
     "copy": "Kopyala",
-    "copied": "Kopyalandı",
+    "copied": "KopyalandÄ±",
     "required": "Zorunlu",
-    "optional": "İsteğe bağlı",
+    "optional": "Ä°steÄŸe baÄŸlÄ±",
     "or": "veya",
     "and": "ve",
     "yes": "Evet",
-    "no": "Hayır",
+    "no": "HayÄ±r",
     "learnMore": "Daha fazla bilgi",
-    "getStarted": "Ücretsiz başla",
-    "tryFree": "Ücretsiz dene",
-    "viewAll": "Tümünü gör"
+    "getStarted": "Ãœcretsiz baÅŸla",
+    "tryFree": "Ãœcretsiz dene",
+    "viewAll": "TÃ¼mÃ¼nÃ¼ gÃ¶r"
   },
   "nav": {
     "home": "Ana Sayfa",
-    "howItWorks": "Nasıl çalışır",
-    "useCasesNav": "Kullanım alanları",
+    "howItWorks": "NasÄ±l Ã§alÄ±ÅŸÄ±r",
+    "useCasesNav": "KullanÄ±m alanlarÄ±",
     "pricing": "Fiyatlar",
-    "forAdvisors": "Vergi danışmanları için",
-    "forExpats": "Expatlar için",
+    "forAdvisors": "Vergi danÄ±ÅŸmanlarÄ± iÃ§in",
+    "forExpats": "Expatlar iÃ§in",
     "blog": "Blog",
-    "login": "Giriş yap",
-    "register": "Hesap oluştur",
+    "login": "GiriÅŸ yap",
+    "register": "Hesap oluÅŸtur",
     "dashboard": "Panel",
-    "newCase": "Yeni başvuru",
-    "openMenu": "Menüyü aç",
-    "closeMenu": "Menüyü kapat",
-    "cases": "Davalarım",
+    "newCase": "Yeni baÅŸvuru",
+    "openMenu": "MenÃ¼yÃ¼ aÃ§",
+    "closeMenu": "MenÃ¼yÃ¼ kapat",
+    "cases": "DavalarÄ±m",
     "account": "Profil & Ayarlar",
     "billing": "Faturalama",
-    "logout": "Çıkış yap",
+    "logout": "Ã‡Ä±kÄ±ÅŸ yap",
     "notifications": "Bildirimler",
-    "advisorDashboard": "Danışman paneli",
-    "advisorClients": "Müşteriler",
-    "advisorAppeals": "Tüm itirazlar",
-    "advisorBilling": "Danışman faturalaması",
-    "adminPanel": "Yönetim paneli",
-    "sectionOverview": "Genel bakış",
+    "advisorDashboard": "DanÄ±ÅŸman paneli",
+    "advisorClients": "MÃ¼ÅŸteriler",
+    "advisorAppeals": "TÃ¼m itirazlar",
+    "advisorBilling": "DanÄ±ÅŸman faturalamasÄ±",
+    "adminPanel": "YÃ¶netim paneli",
+    "sectionOverview": "Genel bakÄ±ÅŸ",
     "sectionAccount": "Hesap",
-    "sectionAdvisor": "Danışman",
-    "sectionAdmin": "Yönetim"
+    "sectionAdvisor": "DanÄ±ÅŸman",
+    "sectionAdmin": "YÃ¶netim"
   },
   "hero": {
     "groups": {
       "individual": {
         "headline": "Received a German notice? Appeal it in minutes.",
-        "sub": "TaxaLex analyses your administrative decision with 5 AI agents and drafts a legally grounded objection letter – no lawyer needed.",
+        "sub": "TaxaLex analyses your administrative decision with 5 AI agents and drafts a legally grounded objection letter â€“ no lawyer needed.",
         "cta": "Get started for free"
       },
       "selfemployed": {
-        "headline": "Tax bill? Appeal it – without a lawyer.",
+        "headline": "Tax bill? Appeal it â€“ without a lawyer.",
         "sub": "For freelancers and self-employed: AI-powered objection letters against tax assessments in under 5 minutes.",
         "cta": "Appeal now"
       },
       "expat": {
-        "headline": "German notice? Appeal it in minutes – in your language.",
+        "headline": "German notice? Appeal it in minutes â€“ in your language.",
         "sub": "TaxaLex helps expats navigate German bureaucracy. Upload your notice, answer a few questions, get a professional objection letter.",
         "cta": "Start for free"
       },
@@ -84,7 +84,7 @@
       "expat": "Expat",
       "advisor": "Tax advisor"
     },
-    "badge": "AI-powered · GDPR-compliant · EU servers",
+    "badge": "AI-powered Â· GDPR-compliant Â· EU servers",
     "disclaimer": "AI-generated drafts. Not legal advice."
   },
   "howItWorks": {
@@ -101,7 +101,7 @@
         "number": "2",
         "title": "AI analysis",
         "description": "Five specialised AI agents review your notice: drafting, error-checking, fact-checking, counter-perspective, and consolidation.",
-        "detail": "Claude · Gemini · Perplexity – all models work in parallel"
+        "detail": "Claude Â· Gemini Â· Perplexity â€“ all models work in parallel"
       },
       "download": {
         "number": "3",
@@ -115,7 +115,7 @@
     "title": "Which notice do you want to appeal?",
     "subtitle": "Select the type of administrative decision",
     "tax": "Tax assessment",
-    "jobcenter": "Jobcenter / Bürgergeld",
+    "jobcenter": "Jobcenter / BÃ¼rgergeld",
     "rente": "Pension notice",
     "bussgeld": "Fine / penalty notice",
     "bussgeldd": "Fine / penalty notice",
@@ -123,7 +123,7 @@
     "kuendigung": "Employment termination",
     "miete": "Rent increase / deposit",
     "grundsteuer": "Property tax (Grundsteuer)",
-    "sectionTitle": "8 notice types – all covered",
+    "sectionTitle": "8 notice types â€“ all covered",
     "sectionSubtitle": "From tax assessments to fines: TaxaLex knows the relevant legal basis for all common administrative notices.",
     "appeal": "Appeal this notice",
     "deadline": "Deadline",
@@ -157,7 +157,7 @@
     "upgrade": "Upgrade now",
     "contact": "Contact us",
     "choosePlan": "Choose plan",
-    "annualDiscount": "Pay annually – 2 months free",
+    "annualDiscount": "Pay annually â€“ 2 months free",
     "monthly": "Monthly",
     "annual": "Annual",
     "vatNote": "All prices excl. VAT.",
@@ -172,7 +172,7 @@
     "items": {
       "multiAi": {
         "title": "5 AI agents in parallel",
-        "description": "Claude, Gemini and Perplexity review your objection from different perspectives – for maximum quality."
+        "description": "Claude, Gemini and Perplexity review your objection from different perspectives â€“ for maximum quality."
       },
       "legal": {
         "title": "Up-to-date legal references",
@@ -180,7 +180,7 @@
       },
       "multilingual": {
         "title": "Multilingual",
-        "description": "Interface in 7 languages. The objection letter is always drafted in German – as required by authorities."
+        "description": "Interface in 7 languages. The objection letter is always drafted in German â€“ as required by authorities."
       },
       "privacy": {
         "title": "GDPR & Privacy",
@@ -226,245 +226,245 @@
   },
   "auth": {
     "login": {
-      "title": "Tekrar hoş geldiniz",
-      "subtitle": "Hesabınıza giriş yapın",
+      "title": "Tekrar hoÅŸ geldiniz",
+      "subtitle": "HesabÄ±nÄ±za giriÅŸ yapÄ±n",
       "email": "E-posta adresi",
-      "password": "Şifre",
-      "forgotPassword": "Şifrenizi mi unuttunuz?",
-      "submit": "Giriş yap",
-      "noAccount": "Hesabınız yok mu?",
-      "register": "Şimdi kaydol",
-      "orContinueWith": "Veya şununla devam et",
-      "demoAccounts": "Demo hesapları",
-      "demoHint": "Alanları otomatik doldurmak için bir hesaba tıklayın.",
+      "password": "Åžifre",
+      "forgotPassword": "Åžifrenizi mi unuttunuz?",
+      "submit": "GiriÅŸ yap",
+      "noAccount": "HesabÄ±nÄ±z yok mu?",
+      "register": "Åžimdi kaydol",
+      "orContinueWith": "Veya ÅŸununla devam et",
+      "demoAccounts": "Demo hesaplarÄ±",
+      "demoHint": "AlanlarÄ± otomatik doldurmak iÃ§in bir hesaba tÄ±klayÄ±n.",
       "types": {
         "individual": "Bireysel",
-        "advisor": "Vergi danışmanı",
+        "advisor": "Vergi danÄ±ÅŸmanÄ±",
         "lawyer": "Avukat"
       }
     },
     "register": {
-      "title": "Hesap oluştur",
-      "subtitle": "TaxaLex ile ücretsiz başlayın",
-      "name": "Tam adınız",
+      "title": "Hesap oluÅŸtur",
+      "subtitle": "TaxaLex ile Ã¼cretsiz baÅŸlayÄ±n",
+      "name": "Tam adÄ±nÄ±z",
       "email": "E-posta adresi",
-      "password": "Şifre",
-      "confirmPassword": "Şifreyi onayla",
+      "password": "Åžifre",
+      "confirmPassword": "Åžifreyi onayla",
       "agreeToTerms": "{terms} ve {privacy} kabul ediyorum.",
-      "terms": "Kullanım koşulları",
-      "privacy": "Gizlilik politikası",
-      "submit": "Hesap oluştur",
-      "hasAccount": "Zaten hesabınız var mı?",
-      "login": "Giriş yap",
+      "terms": "KullanÄ±m koÅŸullarÄ±",
+      "privacy": "Gizlilik politikasÄ±",
+      "submit": "Hesap oluÅŸtur",
+      "hasAccount": "Zaten hesabÄ±nÄ±z var mÄ±?",
+      "login": "GiriÅŸ yap",
       "passwordStrength": {
-        "weak": "Zayıf",
+        "weak": "ZayÄ±f",
         "fair": "Kabul edilebilir",
-        "good": "İyi",
-        "strong": "Güçlü"
+        "good": "Ä°yi",
+        "strong": "GÃ¼Ã§lÃ¼"
       },
       "types": {
         "individual": "Bireysel",
-        "selfemployed": "Serbest çalışan",
-        "advisor": "Vergi danışmanı",
+        "selfemployed": "Serbest Ã§alÄ±ÅŸan",
+        "advisor": "Vergi danÄ±ÅŸmanÄ±",
         "lawyer": "Avukat"
       },
       "benefits": {
         "individual": [
-          "Ayda 1 ücretsiz itiraz",
-          "5 yapay zeka ajanı davanızı inceler",
+          "Ayda 1 Ã¼cretsiz itiraz",
+          "5 yapay zeka ajanÄ± davanÄ±zÄ± inceler",
           "DOCX veya TXT olarak indirin"
         ],
         "selfemployed": [
-          "Vergi ve KDV kararlarına itiraz",
-          "İtiraz başına sınırsız belge",
-          "Öncelikli yapay zeka işleme"
+          "Vergi ve KDV kararlarÄ±na itiraz",
+          "Ä°tiraz baÅŸÄ±na sÄ±nÄ±rsÄ±z belge",
+          "Ã–ncelikli yapay zeka iÅŸleme"
         ],
         "advisor": [
-          "Çok müşterili panel",
-          "Tüm müşteriler için sınırsız itiraz",
-          "White-label dışa aktarma seçeneği"
+          "Ã‡ok mÃ¼ÅŸterili panel",
+          "TÃ¼m mÃ¼ÅŸteriler iÃ§in sÄ±nÄ±rsÄ±z itiraz",
+          "White-label dÄ±ÅŸa aktarma seÃ§eneÄŸi"
         ],
         "lawyer": [
-          "Çok müşterili panel",
-          "Tüm müşteriler için sınırsız itiraz",
-          "Gelişmiş hukuki araştırma"
+          "Ã‡ok mÃ¼ÅŸterili panel",
+          "TÃ¼m mÃ¼ÅŸteriler iÃ§in sÄ±nÄ±rsÄ±z itiraz",
+          "GeliÅŸmiÅŸ hukuki araÅŸtÄ±rma"
         ]
       }
     }
   },
   "dashboard": {
     "title": "Panel",
-    "welcome": "Tekrar hoş geldiniz, {name}",
-    "welcomeAdvisor": "Danışman paneli – {name}",
-    "welcomeAdmin": "Yönetim paneli – {name}",
+    "welcome": "Tekrar hoÅŸ geldiniz, {name}",
+    "welcomeAdvisor": "DanÄ±ÅŸman paneli â€“ {name}",
+    "welcomeAdmin": "YÃ¶netim paneli â€“ {name}",
     "stats": {
       "totalCases": "Toplam itiraz",
       "activeCases": "Aktif davalar",
-      "submittedCases": "Gönderildi",
-      "successRate": "Başarı oranı"
+      "submittedCases": "GÃ¶nderildi",
+      "successRate": "BaÅŸarÄ± oranÄ±"
     },
     "recentCases": "Son davalar",
     "noCases": "Dava yok",
-    "noCasesHint": "İlk itirazınızı başlatın",
-    "newCase": "Yeni başvuru",
-    "viewAll": "Tüm davalar",
+    "noCasesHint": "Ä°lk itirazÄ±nÄ±zÄ± baÅŸlatÄ±n",
+    "newCase": "Yeni baÅŸvuru",
+    "viewAll": "TÃ¼m davalar",
     "status": {
-      "CREATED": "Oluşturuldu",
+      "CREATED": "OluÅŸturuldu",
       "QUESTIONS": "Sorular",
-      "GENERATING": "Oluşturuluyor",
-      "DRAFT_READY": "Taslak hazır",
-      "SUBMITTED": "Gönderildi",
+      "GENERATING": "OluÅŸturuluyor",
+      "DRAFT_READY": "Taslak hazÄ±r",
+      "SUBMITTED": "GÃ¶nderildi",
       "AWAITING_RESPONSE": "Beklemede",
-      "CLOSED_SUCCESS": "Başarılı",
+      "CLOSED_SUCCESS": "BaÅŸarÄ±lÄ±",
       "CLOSED_REJECTED": "Reddedildi"
     },
     "quickActions": {
-      "title": "Hızlı erişim",
+      "title": "HÄ±zlÄ± eriÅŸim",
       "newCase": "Yeni itiraz",
-      "viewCases": "Davalarım",
+      "viewCases": "DavalarÄ±m",
       "billing": "Faturalama",
       "account": "Ayarlar"
     }
   },
   "billing": {
     "title": "Faturalama",
-    "subtitle": "Mevcut planınız ve kullanım özeti",
+    "subtitle": "Mevcut planÄ±nÄ±z ve kullanÄ±m Ã¶zeti",
     "currentPlan": "Mevcut plan",
-    "usage": "Bu ayki kullanım",
+    "usage": "Bu ayki kullanÄ±m",
     "invoices": "Faturalar",
     "noInvoices": "Fatura yok",
-    "upgrade": "Planı yükselt",
-    "cancel": "Aboneliği iptal et",
+    "upgrade": "PlanÄ± yÃ¼kselt",
+    "cancel": "AboneliÄŸi iptal et",
     "renewsOn": "{date} tarihinde yenilenir",
-    "casesUsed": "{total} itirazdan {used} tanesi kullanıldı",
-    "unlimited": "Sınırsız"
+    "casesUsed": "{total} itirazdan {used} tanesi kullanÄ±ldÄ±",
+    "unlimited": "SÄ±nÄ±rsÄ±z"
   },
   "cases": {
-    "title": "Davalarım",
-    "subtitle": "Tüm itiraz ve şikayetleriniz",
+    "title": "DavalarÄ±m",
+    "subtitle": "TÃ¼m itiraz ve ÅŸikayetleriniz",
     "filter": {
-      "all": "Tümü",
+      "all": "TÃ¼mÃ¼",
       "active": "Aktif",
-      "submitted": "Gönderildi",
-      "closed": "Kapalı"
+      "submitted": "GÃ¶nderildi",
+      "closed": "KapalÄ±"
     },
-    "empty": "Dava bulunamadı",
-    "emptyHint": "İlk itirazınızı başlatın",
-    "newCase": "Yeni başvuru",
+    "empty": "Dava bulunamadÄ±",
+    "emptyHint": "Ä°lk itirazÄ±nÄ±zÄ± baÅŸlatÄ±n",
+    "newCase": "Yeni baÅŸvuru",
     "caseId": "Dava No",
-    "createdAt": "Oluşturma tarihi",
+    "createdAt": "OluÅŸturma tarihi",
     "status": "Durum",
-    "type": "Tür",
-    "actions": "İşlemler",
-    "viewCase": "Davayı görüntüle",
-    "downloadDraft": "Taslağı indir"
+    "type": "TÃ¼r",
+    "actions": "Ä°ÅŸlemler",
+    "viewCase": "DavayÄ± gÃ¶rÃ¼ntÃ¼le",
+    "downloadDraft": "TaslaÄŸÄ± indir"
   },
   "account": {
     "title": "Profil & Ayarlar",
     "sections": {
       "profile": "Profil",
-      "security": "Güvenlik",
+      "security": "GÃ¼venlik",
       "notifications": "Bildirimler",
-      "language": "Dil & Bölge",
-      "appearance": "Görünüm",
-      "danger": "Hesabı sil"
+      "language": "Dil & BÃ¶lge",
+      "appearance": "GÃ¶rÃ¼nÃ¼m",
+      "danger": "HesabÄ± sil"
     },
     "name": "Ad",
     "email": "E-posta",
     "role": "Rol",
     "language": "Tercih edilen dil",
-    "outputLanguage": "İtirazlar için çıktı dili",
-    "saveChanges": "Değişiklikleri kaydet",
-    "changePassword": "Şifreyi değiştir",
-    "currentPassword": "Mevcut şifre",
-    "newPassword": "Yeni şifre",
-    "confirmPassword": "Şifreyi onayla",
-    "deleteAccount": "Hesabı sil",
-    "deleteWarning": "Bu işlem geri alınamaz. Tüm verileriniz silinecektir.",
+    "outputLanguage": "Ä°tirazlar iÃ§in Ã§Ä±ktÄ± dili",
+    "saveChanges": "DeÄŸiÅŸiklikleri kaydet",
+    "changePassword": "Åžifreyi deÄŸiÅŸtir",
+    "currentPassword": "Mevcut ÅŸifre",
+    "newPassword": "Yeni ÅŸifre",
+    "confirmPassword": "Åžifreyi onayla",
+    "deleteAccount": "HesabÄ± sil",
+    "deleteWarning": "Bu iÅŸlem geri alÄ±namaz. TÃ¼m verileriniz silinecektir.",
     "notifications": {
       "email": "E-posta bildirimleri",
-      "caseUpdates": "Dava güncellemeleri",
-      "newsletter": "Bülten & ürün haberleri"
+      "caseUpdates": "Dava gÃ¼ncellemeleri",
+      "newsletter": "BÃ¼lten & Ã¼rÃ¼n haberleri"
     },
-    "memberSince": "Üye olma tarihi",
-    "logout": "Çıkış yap",
-    "startNewCase": "Yeni itiraz başlat",
-    "templatesTitle": "Şablonlar & Örnekler",
-    "templatesDesc": "İndirip özelleştirebileceğiniz ücretsiz şablonlar",
-    "templatesViewAll": "Tümünü gör",
-    "templatesFree": "Ücretsiz",
-    "templatesUseAI": "Yapay zekayı tercih edin – 5 dakikada itiraz oluşturun",
+    "memberSince": "Ãœye olma tarihi",
+    "logout": "Ã‡Ä±kÄ±ÅŸ yap",
+    "startNewCase": "Yeni itiraz baÅŸlat",
+    "templatesTitle": "Åžablonlar & Ã–rnekler",
+    "templatesDesc": "Ä°ndirip Ã¶zelleÅŸtirebileceÄŸiniz Ã¼cretsiz ÅŸablonlar",
+    "templatesViewAll": "TÃ¼mÃ¼nÃ¼ gÃ¶r",
+    "templatesFree": "Ãœcretsiz",
+    "templatesUseAI": "Yapay zekayÄ± tercih edin â€“ 5 dakikada itiraz oluÅŸturun",
     "plansTitle": "Planlar & Fiyatlar",
-    "plansViewAll": "Tüm ayrıntılar",
+    "plansViewAll": "TÃ¼m ayrÄ±ntÄ±lar",
     "settingsTitle": "Hesap & Ayarlar",
-    "emailVerified": "E-posta onaylandı",
-    "emailNotVerified": "E-posta onaylanmadı",
-    "emailNotVerifiedHint": "Lütfen e-posta adresinizi onaylayın. Gelen kutunuzu kontrol edin.",
-    "accountType": "Hesap türü",
-    "password": "Şifre",
-    "twoFactor": "İki faktörlü doğrulama (2FA)",
-    "twoFactorNotEnabled": "Etkin değil",
+    "emailVerified": "E-posta onaylandÄ±",
+    "emailNotVerified": "E-posta onaylanmadÄ±",
+    "emailNotVerifiedHint": "LÃ¼tfen e-posta adresinizi onaylayÄ±n. Gelen kutunuzu kontrol edin.",
+    "accountType": "Hesap tÃ¼rÃ¼",
+    "password": "Åžifre",
+    "twoFactor": "Ä°ki faktÃ¶rlÃ¼ doÄŸrulama (2FA)",
+    "twoFactorNotEnabled": "Etkin deÄŸil",
     "theme": {
-      "label": "Görünüm",
-      "light": "Açık",
+      "label": "GÃ¶rÃ¼nÃ¼m",
+      "light": "AÃ§Ä±k",
       "dark": "Koyu",
       "system": "Sistem"
     },
-    "billingManage": "Ödemeleri & planı yönet",
-    "billingManageDesc": "Faturalar, yükseltme, paket satın alma",
+    "billingManage": "Ã–demeleri & planÄ± yÃ¶net",
+    "billingManageDesc": "Faturalar, yÃ¼kseltme, paket satÄ±n alma",
     "gdprTitle": "Veri koruma (GDPR)",
-    "gdprNote": "Veri dışa aktarma yakında. Hesap silme işlemi anlık ve geri alınamaz.",
-    "exportData": "Verileri dışa aktar",
+    "gdprNote": "Veri dÄ±ÅŸa aktarma yakÄ±nda. Hesap silme iÅŸlemi anlÄ±k ve geri alÄ±namaz.",
+    "exportData": "Verileri dÄ±ÅŸa aktar",
     "languageLabel": "Dil",
     "statCases": "Toplam dava",
     "statCredits": "Krediler",
     "statPlan": "Mevcut plan",
-    "planFree": "Ücretsiz",
+    "planFree": "Ãœcretsiz",
     "planPro": "Pro"
   },
   "admin": {
-    "title": "Yönetim paneli",
-    "subtitle": "Sistem genel bakışı ve kullanıcı yönetimi",
+    "title": "YÃ¶netim paneli",
+    "subtitle": "Sistem genel bakÄ±ÅŸÄ± ve kullanÄ±cÄ± yÃ¶netimi",
     "tabs": {
-      "overview": "Genel bakış",
-      "users": "Kullanıcılar",
+      "overview": "Genel bakÄ±ÅŸ",
+      "users": "KullanÄ±cÄ±lar",
       "cases": "Davalar",
       "pricing": "Fiyatlar",
       "emails": "E-postalar",
       "system": "Sistem",
-      "content": "İçerik"
+      "content": "Ä°Ã§erik"
     },
     "stats": {
-      "totalUsers": "Toplam kullanıcı",
+      "totalUsers": "Toplam kullanÄ±cÄ±",
       "totalCases": "Toplam dava",
-      "openCases": "Açık davalar",
-      "submittedCases": "Gönderildi"
+      "openCases": "AÃ§Ä±k davalar",
+      "submittedCases": "GÃ¶nderildi"
     },
     "overview": {
-      "totalUsers": "Toplam kullanıcı",
-      "verifiedSuffix": "doğrulandı",
-      "new7d": "Yeni (7 gün)",
+      "totalUsers": "Toplam kullanÄ±cÄ±",
+      "verifiedSuffix": "doÄŸrulandÄ±",
+      "new7d": "Yeni (7 gÃ¼n)",
       "ofTotalPct": "% toplam",
-      "activated": "Etkinleştirildi",
-      "activationPct": "% etkinleştirme oranı",
+      "activated": "EtkinleÅŸtirildi",
+      "activationPct": "% etkinleÅŸtirme oranÄ±",
       "activeSubscriptions": "Aktif abonelikler",
-      "conversionPct": "% dönüşüm",
+      "conversionPct": "% dÃ¶nÃ¼ÅŸÃ¼m",
       "totalCases": "Toplam dava",
       "thisWeek": "bu hafta",
-      "closedSuccess": "Başarıyla kapatıldı",
-      "stillOpen": "hâlâ açık",
-      "recentUsers": "Yeni kullanıcılar",
+      "closedSuccess": "BaÅŸarÄ±yla kapatÄ±ldÄ±",
+      "stillOpen": "hÃ¢lÃ¢ aÃ§Ä±k",
+      "recentUsers": "Yeni kullanÄ±cÄ±lar",
       "recentCases": "Son davalar"
     },
     "users": {
-      "title": "Kullanıcılar",
+      "title": "KullanÄ±cÄ±lar",
       "since": "Tarihinden beri",
       "caseSuffix": "dava",
       "casesSuffix": "dava",
       "grantCredits": "Kredi ver",
-      "grantLoading": "İşleniyor…",
+      "grantLoading": "Ä°ÅŸleniyorâ€¦",
       "grantError": "Kredi verilemedi",
-      "changeRole": "Rolü değiştir:",
+      "changeRole": "RolÃ¼ deÄŸiÅŸtir:",
       "creditsFor": "Krediler:",
       "subscription": "Subscription",
       "noSubscription": "No active subscription",
@@ -474,151 +474,207 @@
       "ledger": "Payments / Credits"
     },
     "cases": {
-      "filterAll": "Tümü",
-      "filterOpen": "Açık",
-      "filterSubmitted": "Gönderildi",
-      "filterClosed": "Kapalı",
+      "filterAll": "TÃ¼mÃ¼",
+      "filterOpen": "AÃ§Ä±k",
+      "filterSubmitted": "GÃ¶nderildi",
+      "filterClosed": "KapalÄ±",
       "noneFound": "Bu kategoride dava yok.",
       "deadline": "Son tarih"
     },
     "pricing": {
-      "loading": "Fiyat planları yükleniyor…",
-      "noPlansHint": "Veritabanında fiyat planı yok.",
-      "recommended": "Önerilen",
-      "inactive": "Aktif değil",
+      "loading": "Fiyat planlarÄ± yÃ¼kleniyorâ€¦",
+      "noPlansHint": "VeritabanÄ±nda fiyat planÄ± yok.",
+      "recommended": "Ã–nerilen",
+      "inactive": "Aktif deÄŸil",
       "group": "Grup",
       "once": "Tek seferlik",
-      "monthly": "Aylık",
-      "annual": "Yıllık",
+      "monthly": "AylÄ±k",
+      "annual": "YÄ±llÄ±k",
       "active": "Aktif",
       "standard": "Standart",
-      "features": "Özellikler"
+      "features": "Ã–zellikler"
     },
     "emails": {
-      "devWarning": "Dev modu aktif — giden tüm e-postalar konuya DEV - öneki alır.",
+      "devWarning": "Dev modu aktif â€” giden tÃ¼m e-postalar konuya DEV - Ã¶neki alÄ±r.",
       "trigger": "Tetikleyici",
       "subject": "Konu",
-      "variables": "Değişkenler",
-      "ttl": "Geçerlilik",
+      "variables": "DeÄŸiÅŸkenler",
+      "ttl": "GeÃ§erlilik",
       "templates": {
-        "verification": "Doğrulama kodu",
-        "verificationTrigger": "Kullanıcı kayıt olur",
-        "verificationSubject": "Doğrulama kodunuz — TaxaLex",
-        "welcome": "Hoş geldiniz e-postası",
-        "welcomeTrigger": "E-posta doğrulandı",
-        "welcomeSubject": "TaxaLex'e hoş geldiniz — {name}",
-        "passwordReset": "Şifre sıfırlama",
-        "passwordResetTrigger": "Şifre unutuldu",
-        "passwordResetSubject": "Şifrenizi sıfırlayın — TaxaLex"
+        "verification": "DoÄŸrulama kodu",
+        "verificationTrigger": "KullanÄ±cÄ± kayÄ±t olur",
+        "verificationSubject": "DoÄŸrulama kodunuz â€” TaxaLex",
+        "welcome": "HoÅŸ geldiniz e-postasÄ±",
+        "welcomeTrigger": "E-posta doÄŸrulandÄ±",
+        "welcomeSubject": "TaxaLex'e hoÅŸ geldiniz â€” {name}",
+        "passwordReset": "Åžifre sÄ±fÄ±rlama",
+        "passwordResetTrigger": "Åžifre unutuldu",
+        "passwordResetSubject": "Åžifrenizi sÄ±fÄ±rlayÄ±n â€” TaxaLex"
       }
     },
     "system": {
       "title": "Sistem durumu",
       "environment": "Ortam",
-      "dev": "Geliştirme",
-      "prod": "Üretim",
-      "database": "Veritabanı",
+      "dev": "GeliÅŸtirme",
+      "prod": "Ãœretim",
+      "database": "VeritabanÄ±",
       "ai": "Yapay zeka (Anthropic)",
-      "stripe": "Ödemeler (Stripe)",
+      "stripe": "Ã–demeler (Stripe)",
       "emailService": "E-postalar (Brevo)",
       "ok": "Tamam",
-      "notConfigured": "Yapılandırılmadı",
+      "notConfigured": "YapÄ±landÄ±rÄ±lmadÄ±",
       "services": {
         "anthropic": "Anthropic (Claude)",
-        "anthropicNote": "Required — app will not start without this key",
+        "anthropicNote": "Required â€” app will not start without this key",
         "google": "Google AI (Gemini)",
-        "googleNote": "Optional — for Gemini agents",
+        "googleNote": "Optional â€” for Gemini agents",
         "perplexity": "Perplexity (Sonar)",
-        "perplexityNote": "Optional — for fact-check agent",
+        "perplexityNote": "Optional â€” for fact-check agent",
         "stripe": "Stripe",
-        "stripeNote": "Optional — for payments",
+        "stripeNote": "Optional â€” for payments",
         "brevo": "Brevo (Email)",
-        "brevoNote": "Optional — emails suppressed without key",
+        "brevoNote": "Optional â€” emails suppressed without key",
         "s3": "S3 (File storage)",
-        "s3Note": "Optional — for document uploads"
+        "s3Note": "Optional â€” for document uploads"
       }
     },
     "content": {
-      "title": "Veritabanı içerikleri",
-      "useCases": "Kullanım alanları",
-      "faqs": "Sık sorulan sorular",
-      "pricingPlans": "Fiyat planları",
-      "edit": "Düzenle (yakında)"
+      "title": "VeritabanÄ± iÃ§erikleri",
+      "useCases": "KullanÄ±m alanlarÄ±",
+      "faqs": "SÄ±k sorulan sorular",
+      "pricingPlans": "Fiyat planlarÄ±",
+      "edit": "DÃ¼zenle (yakÄ±nda)"
     }
   },
   "advisor": {
     "dashboard": {
-      "title": "Danışman paneli",
-      "clients": "Müşteriler",
+      "title": "DanÄ±ÅŸman paneli",
+      "clients": "MÃ¼ÅŸteriler",
       "activeAppeals": "Aktif itirazlar",
-      "submittedAppeals": "Gönderilen itirazlar",
+      "submittedAppeals": "GÃ¶nderilen itirazlar",
       "recentActivity": "Son aktiviteler",
-      "quickActions": "Hızlı erişim",
-      "addClient": "Müşteri ekle",
+      "quickActions": "HÄ±zlÄ± eriÅŸim",
+      "addClient": "MÃ¼ÅŸteri ekle",
       "newAppeal": "Yeni itiraz"
     },
     "clients": {
-      "title": "Müşteriler",
-      "subtitle": "Müşterilerinizi yönetin",
-      "search": "Müşteri ara...",
-      "add": "Müşteri ekle",
+      "title": "MÃ¼ÅŸteriler",
+      "subtitle": "MÃ¼ÅŸterilerinizi yÃ¶netin",
+      "search": "MÃ¼ÅŸteri ara...",
+      "add": "MÃ¼ÅŸteri ekle",
       "name": "Ad",
       "email": "E-posta",
       "cases": "Davalar",
       "lastActive": "Son aktivite",
-      "actions": "İşlemler",
-      "noClients": "Müşteri yok",
+      "actions": "Ä°ÅŸlemler",
+      "noClients": "MÃ¼ÅŸteri yok",
       "modal": {
-        "title": "Müşteri ekle",
-        "name": "Müşteri adı",
+        "title": "MÃ¼ÅŸteri ekle",
+        "name": "MÃ¼ÅŸteri adÄ±",
         "email": "E-posta adresi",
         "submit": "Ekle"
       }
     },
     "appeals": {
-      "title": "Tüm itirazlar",
-      "subtitle": "Tüm müşterilerinizin itirazları",
-      "client": "Müşteri",
-      "type": "Tür",
+      "title": "TÃ¼m itirazlar",
+      "subtitle": "TÃ¼m mÃ¼ÅŸterilerinizin itirazlarÄ±",
+      "client": "MÃ¼ÅŸteri",
+      "type": "TÃ¼r",
       "status": "Durum",
-      "createdAt": "Oluşturma tarihi"
+      "createdAt": "OluÅŸturma tarihi"
     },
     "billing": {
       "title": "Faturalama",
-      "plan": "Danışman planınız",
-      "usage": "Müşteriler & itirazlar"
+      "plan": "DanÄ±ÅŸman planÄ±nÄ±z",
+      "usage": "MÃ¼ÅŸteriler & itirazlar"
+    },
+    "handoff": {
+      "title": "Request Professional Review",
+      "selectAdvisor": "Select Advisor",
+      "scope": {
+        "label": "Scope of engagement",
+        "reviewOnly": "Review only",
+        "fullRepresentation": "Full representation"
+      },
+      "clientNotes": "Notes for the advisor (optional)",
+      "submit": "Request review",
+      "submitted": "Request sent"
+    },
+    "assignment": {
+      "pending": "Decision required",
+      "accepted": "Under review",
+      "declined": "Declined",
+      "changesRequested": "Questions pending",
+      "approved": "Approved",
+      "finalized": "Finalized"
+    },
+    "packet": {
+      "brief": "Case summary",
+      "facts": "Facts",
+      "analysis": "AI analysis",
+      "draft": "Appeal draft",
+      "clientContext": "Client information",
+      "coreArgument": "Core argument",
+      "evidenceGaps": "Evidence gaps",
+      "counterarguments": "Counterarguments"
+    },
+    "viability": {
+      "high": "High success probability",
+      "medium": "Medium success probability",
+      "low": "Low success probability"
+    },
+    "actions": {
+      "accept": "Accept case",
+      "decline": "Decline",
+      "finalize": "Approve and finalize",
+      "addAnnotation": "Ask question",
+      "resolveAnnotation": "Mark as resolved",
+      "replyToAnnotation": "Reply",
+      "submitReply": "Send reply"
+    },
+    "annotation": {
+      "aiPreFill": "AI suggestion from your documents:",
+      "open": "Open",
+      "answered": "Answered",
+      "resolved": "Resolved"
+    },
+    "decline": {
+      "title": "Decline case",
+      "reason": "Reason for declining",
+      "reasonPlaceholder": "Please provide a reason...",
+      "confirm": "Confirm decline"
     }
   },
   "errors": {
-    "noFiles": "Lütfen en az bir dosya yükleyin",
-    "analyzeFailed": "Analiz başarısız oldu. Lütfen tekrar deneyin.",
-    "generateFailed": "Oluşturma başarısız oldu. Lütfen tekrar deneyin.",
+    "noFiles": "LÃ¼tfen en az bir dosya yÃ¼kleyin",
+    "analyzeFailed": "Analiz baÅŸarÄ±sÄ±z oldu. LÃ¼tfen tekrar deneyin.",
+    "generateFailed": "OluÅŸturma baÅŸarÄ±sÄ±z oldu. LÃ¼tfen tekrar deneyin.",
     "missingDescheid": "Karar verileri eksik",
     "unauthorized": "Yetkisiz",
-    "notFound": "Sayfa bulunamadı",
-    "serverError": "Sunucu hatası. Lütfen daha sonra tekrar deneyin."
+    "notFound": "Sayfa bulunamadÄ±",
+    "serverError": "Sunucu hatasÄ±. LÃ¼tfen daha sonra tekrar deneyin."
   },
   "cookies": {
     "banner": {
-      "title": "Çerez ayarları",
-      "description": "Analiz ve daha iyi kullanıcı deneyimi için çerezler kullanıyoruz.",
-      "acceptAll": "Tümünü kabul et",
-      "acceptNecessary": "Yalnızca zorunlular",
+      "title": "Ã‡erez ayarlarÄ±",
+      "description": "Analiz ve daha iyi kullanÄ±cÄ± deneyimi iÃ§in Ã§erezler kullanÄ±yoruz.",
+      "acceptAll": "TÃ¼mÃ¼nÃ¼ kabul et",
+      "acceptNecessary": "YalnÄ±zca zorunlular",
       "manage": "Ayarlar",
       "learnMore": "Daha fazla bilgi"
     },
     "types": {
       "necessary": {
-        "title": "Zorunlu çerezler",
-        "description": "Sitenin çalışması için gereklidir."
+        "title": "Zorunlu Ã§erezler",
+        "description": "Sitenin Ã§alÄ±ÅŸmasÄ± iÃ§in gereklidir."
       },
       "analytics": {
-        "title": "Analitik çerezler",
+        "title": "Analitik Ã§erezler",
         "description": "Google Analytics ve PostHog."
       },
       "marketing": {
-        "title": "Pazarlama çerezleri",
-        "description": "Kişiselleştirilmiş reklamlar."
+        "title": "Pazarlama Ã§erezleri",
+        "description": "KiÅŸiselleÅŸtirilmiÅŸ reklamlar."
       }
     }
   },
@@ -663,8 +719,8 @@
     }
   },
   "outputLanguage": {
-    "label": "Çıktı dili",
-    "hint": "İtiraz varsayılan olarak Almanca oluşturulur (Alman makamları için gereklidir).",
-    "nonGermanWarning": "Yalnızca inceleme amaçlıdır — resmi başvuru için mektup Almanca olmalıdır."
+    "label": "Ã‡Ä±ktÄ± dili",
+    "hint": "Ä°tiraz varsayÄ±lan olarak Almanca oluÅŸturulur (Alman makamlarÄ± iÃ§in gereklidir).",
+    "nonGermanWarning": "YalnÄ±zca inceleme amaÃ§lÄ±dÄ±r â€” resmi baÅŸvuru iÃ§in mektup Almanca olmalÄ±dÄ±r."
   }
 }

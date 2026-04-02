@@ -566,3 +566,250 @@ and can be tested without Brevo.
 6. **deadline-reminder** — sent 7 days and 2 days before Einspruch deadline (cron Phase 4)
 7. **advisor-review-invite** — sent to reviewer when user requests review (Phase 6)
 8. **advisor-review-done** — sent to user when reviewer responds (Phase 6)
+
+---
+
+## Part 3: Advisor Communication Flow — Detailed Build Specification
+
+> Status: **In progress** — 2026-04-02  
+> This section supersedes the Phase 7 stub above and contains the full implementation spec.
+
+---
+
+### Design Principles
+
+- Advisor touches zero email, zero attachments, zero "please resend the document"
+- Everything the advisor needs is in one compiled packet at one URL
+- Standard case: 10 minutes advisor time max
+- All communication is async, section-anchored, and threaded in-platform
+- Feature-flagged: `FEATURE_ADVISOR=true` gates all routes and UI
+
+---
+
+### New Database Models
+
+**Add to `prisma/schema.prisma`:**
+
+```prisma
+enum ViabilityScore { HIGH MEDIUM LOW }
+
+enum AdvisorAssignmentStatus {
+  PENDING             // awaiting advisor accept/decline
+  ACCEPTED            // advisor is reviewing
+  DECLINED            // advisor declined, reason logged
+  CHANGES_REQUESTED   // advisor sent annotations, waiting for client
+  APPROVED            // advisor approved the draft
+  FINALIZED           // final document generated
+}
+
+enum AuthorizationScope {
+  REVIEW_ONLY          // advisor reviews, client sends
+  FULL_REPRESENTATION  // advisor handles filing
+}
+
+enum AnnotationStatus { OPEN ANSWERED RESOLVED }
+
+enum PacketSection { BRIEF FACTS ANALYSIS DRAFT CLIENT_CONTEXT }
+
+// Extend Case model — add these fields:
+// viabilityScore      ViabilityScore?
+// viabilitySummary    String?
+// assignment          AdvisorAssignment?
+// handoffPacket       HandoffPacket?
+// annotations         CaseAnnotation[]
+
+model AdvisorAssignment {
+  id            String                  @id @default(cuid())
+  caseId        String                  @unique
+  case          Case                    @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  advisorId     String
+  advisor       User                    @relation("AdvisorAssignments", fields: [advisorId], references: [id])
+  status        AdvisorAssignmentStatus @default(PENDING)
+  scope         AuthorizationScope      @default(REVIEW_ONLY)
+  declineReason String?
+  acceptedAt    DateTime?
+  finalizedAt   DateTime?
+  createdAt     DateTime                @default(now())
+  updatedAt     DateTime                @updatedAt
+}
+
+model HandoffPacket {
+  id             String   @id @default(cuid())
+  caseId         String   @unique
+  case           Case     @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  version        Int      @default(1)
+  briefSummary   String   // "Einkommensteuer 2022 · €3,240 · deadline in 14 days"
+  extractedFacts Json     // { finanzamt, steuernummer, amounts, periods, paragraphs, deadline }
+  analysisSummary Json    // { coreArgument, evidenceGaps[], counterarguments[], viabilityScore, viabilitySummary }
+  draftContent   String   @db.Text
+  clientContext  Json     // { userAnswers, clientNotes, scope }
+  documents      Json     // [{ id, name, type, storagePath }]
+  createdAt      DateTime @default(now())
+}
+
+model CaseAnnotation {
+  id             String           @id @default(cuid())
+  caseId         String
+  case           Case             @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  authorId       String
+  author         User             @relation("AnnotationAuthor", fields: [authorId], references: [id])
+  section        PacketSection
+  paragraphIndex Int?             // null = entire section
+  content        String           @db.Text
+  status         AnnotationStatus @default(OPEN)
+  replyContent   String?          @db.Text
+  repliedAt      DateTime?
+  aiPreFilled    Boolean          @default(false)
+  aiPreFillText  String?          @db.Text
+  resolvedAt     DateTime?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+}
+```
+
+**Add to User model:**
+```prisma
+advisorAssignments  AdvisorAssignment[]  @relation("AdvisorAssignments")
+authoredAnnotations CaseAnnotation[]     @relation("AnnotationAuthor")
+```
+
+---
+
+### New Types (`src/types/index.ts`)
+
+```typescript
+type ViabilityScore = 'HIGH' | 'MEDIUM' | 'LOW'
+type AdvisorAssignmentStatus = 'PENDING' | 'ACCEPTED' | 'DECLINED' | 'CHANGES_REQUESTED' | 'APPROVED' | 'FINALIZED'
+type AuthorizationScope = 'REVIEW_ONLY' | 'FULL_REPRESENTATION'
+type AnnotationStatus = 'OPEN' | 'ANSWERED' | 'RESOLVED'
+type PacketSection = 'BRIEF' | 'FACTS' | 'ANALYSIS' | 'DRAFT' | 'CLIENT_CONTEXT'
+
+interface HandoffPacketData {
+  id: string; caseId: string; version: number
+  briefSummary: string
+  extractedFacts: ExtractedFacts
+  analysisSummary: AnalysisSummary
+  draftContent: string
+  clientContext: ClientContext
+  documents: PacketDocument[]
+  createdAt: Date
+}
+
+interface ExtractedFacts {
+  finanzamt: string; steuernummer: string; steuerart: string
+  bescheidDatum: string; amountDisputed: number; amountTotal: number
+  periods: string[]; paragraphsCited: string[]; deadline: string | null
+}
+
+interface AnalysisSummary {
+  coreArgument: string; evidenceGaps: string[]
+  counterarguments: string[]; viabilityScore: ViabilityScore; viabilitySummary: string
+}
+
+interface ClientContext {
+  userAnswers: Record<string, string>; clientNotes?: string; scope: AuthorizationScope
+}
+
+interface PacketDocument { id: string; name: string; type: string; storagePath: string }
+
+interface AnnotationData {
+  id: string; section: PacketSection; paragraphIndex?: number
+  content: string; status: AnnotationStatus
+  author: { id: string; name: string | null }
+  replyContent?: string; repliedAt?: Date
+  aiPreFilled: boolean; aiPreFillText?: string; createdAt: Date
+}
+```
+
+---
+
+### New Constants (`src/config/constants.ts`)
+
+```typescript
+export const ADVISOR = {
+  autoDeclineAfterHours: 48,
+  maxAnnotationsPerCase: 20,
+  maxAnnotationLength: 2000,
+  notificationReminderHours: [24, 6],
+} as const
+```
+
+---
+
+### New Lib Files
+
+| File | Purpose |
+|---|---|
+| `src/lib/viability.ts` | Score HIGH/MEDIUM/LOW from adversary + factchecker outputs |
+| `src/lib/handoff.ts` | Compile HandoffPacket from case data + agent outputs |
+| `src/lib/emails/advisorEmails.ts` | 5 transactional emails for advisor flow |
+
+---
+
+### API Routes
+
+| Route | Method | Auth | Purpose |
+|---|---|---|---|
+| `/api/case/[id]/handoff` | POST | case owner | Compile packet, create assignment |
+| `/api/advisors` | GET | authenticated | List available advisors |
+| `/api/advisor/cases` | GET | ADVISOR/LAWYER | List assigned cases |
+| `/api/advisor/cases/[id]` | GET | assigned advisor | Full packet + annotations |
+| `/api/advisor/cases/[id]/status` | PATCH | assigned advisor | Accept / decline |
+| `/api/case/[id]/annotations` | POST | advisor or owner | Add annotation |
+| `/api/case/[id]/annotations/[annotationId]` | PATCH | role-appropriate | Reply / resolve |
+| `/api/advisor/cases/[id]/finalize` | POST | assigned advisor | Approve → APPROVED |
+
+---
+
+### UI Pages
+
+| Page | Who sees it | Purpose |
+|---|---|---|
+| `/[locale]/(app)/advisor/dashboard` | ADVISOR / LAWYER | Case queue: PENDING / ACCEPTED / FINALIZED columns |
+| `/[locale]/(app)/advisor/cases/[id]` | assigned advisor | Two-panel: packet left, annotation thread right |
+| `/[locale]/(app)/cases/[id]` (extended) | case owner | Handoff request section + annotation replies |
+
+---
+
+### UI Components
+
+| Component | Location |
+|---|---|
+| `ViabilityBadge` | `src/components/advisor/ViabilityBadge.tsx` |
+| `CaseCard` | `src/components/advisor/CaseCard.tsx` |
+| `HandoffPacketViewer` | `src/components/advisor/HandoffPacketViewer.tsx` |
+| `AnnotationPanel` | `src/components/advisor/AnnotationPanel.tsx` |
+| `AnnotationThread` | `src/components/advisor/AnnotationThread.tsx` |
+| `DeclineModal` | `src/components/advisor/DeclineModal.tsx` |
+| `HandoffRequestForm` | `src/components/client/HandoffRequestForm.tsx` |
+| `AnnotationReplyCard` | `src/components/client/AnnotationReplyCard.tsx` |
+
+---
+
+### Build Checklist
+
+- [x] IMPLEMENTATION_PLAN.md updated
+- [x] Schema migration: 3 new models + 5 new enums + Case + User extensions
+- [x] Types: all advisor flow types added to `src/types/index.ts`
+- [x] Constants: ADVISOR block added to `src/config/constants.ts`
+- [x] `src/lib/viability.ts` — viability scorer
+- [x] `src/lib/handoff.ts` — packet compiler
+- [x] `src/lib/emails/advisorEmails.ts` — 5 notification emails
+- [x] `POST /api/case/[id]/handoff` — with Zod schema
+- [x] `GET /api/advisors`
+- [x] `GET /api/advisor/cases`
+- [x] `GET /api/advisor/cases/[id]`
+- [x] `PATCH /api/advisor/cases/[id]/status`
+- [x] `POST /api/case/[id]/annotations`
+- [x] `PATCH /api/case/[id]/annotations/[annotationId]`
+- [x] `POST /api/advisor/cases/[id]/finalize`
+- [x] Components: ViabilityBadge, CaseCard, HandoffPacketViewer, AnnotationPanel, AnnotationThread, DeclineModal
+- [x] Components: HandoffRequestForm, AnnotationReplyCard
+- [x] Page: `/advisor/dashboard`
+- [x] Page: `/advisor/cases/[id]`
+- [x] Client case detail extensions
+- [x] Translations: advisor.* keys in all 11 locales
+- [x] `npx tsc --noEmit` passes — 0 errors
+- [x] `npm run build` passes — 356 static pages, 0 errors
+- [ ] Migration runs on dev DB (runs on deploy via deploy.sh)
+- [ ] Deployed and smoke-tested

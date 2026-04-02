@@ -1,7 +1,7 @@
 {
   "common": {
     "appName": "TaxaLex",
-    "tagline": "Votre assistant IA pour contester les décisions administratives",
+    "tagline": "Votre assistant IA pour contester les dÃ©cisions administratives",
     "loading": "Chargement...",
     "error": "Erreur",
     "back": "Retour",
@@ -12,9 +12,9 @@
     "confirm": "Confirmer",
     "delete": "Supprimer",
     "edit": "Modifier",
-    "download": "Télécharger",
+    "download": "TÃ©lÃ©charger",
     "copy": "Copier",
-    "copied": "Copié",
+    "copied": "CopiÃ©",
     "required": "Obligatoire",
     "optional": "Facultatif",
     "or": "ou",
@@ -28,29 +28,29 @@
   },
   "nav": {
     "home": "Accueil",
-    "howItWorks": "Comment ça marche",
+    "howItWorks": "Comment Ã§a marche",
     "useCasesNav": "Cas d'utilisation",
     "pricing": "Tarifs",
     "forAdvisors": "Pour les conseillers fiscaux",
-    "forExpats": "Pour les expatriés",
+    "forExpats": "Pour les expatriÃ©s",
     "blog": "Blog",
     "login": "Se connecter",
-    "register": "Créer un compte",
+    "register": "CrÃ©er un compte",
     "dashboard": "Tableau de bord",
     "newCase": "Nouvelle demande",
     "openMenu": "Ouvrir le menu",
     "closeMenu": "Fermer le menu",
     "cases": "Mes dossiers",
-    "account": "Profil & Paramètres",
+    "account": "Profil & ParamÃ¨tres",
     "billing": "Facturation",
-    "logout": "Se déconnecter",
+    "logout": "Se dÃ©connecter",
     "notifications": "Notifications",
     "advisorDashboard": "Tableau de bord conseiller",
     "advisorClients": "Clients",
     "advisorAppeals": "Tous les recours",
     "advisorBilling": "Facturation conseiller",
     "adminPanel": "Panneau d'administration",
-    "sectionOverview": "Aperçu",
+    "sectionOverview": "AperÃ§u",
     "sectionAccount": "Compte",
     "sectionAdvisor": "Conseiller",
     "sectionAdmin": "Administration"
@@ -59,16 +59,16 @@
     "groups": {
       "individual": {
         "headline": "Received a German notice? Appeal it in minutes.",
-        "sub": "TaxaLex analyses your administrative decision with 5 AI agents and drafts a legally grounded objection letter – no lawyer needed.",
+        "sub": "TaxaLex analyses your administrative decision with 5 AI agents and drafts a legally grounded objection letter â€“ no lawyer needed.",
         "cta": "Get started for free"
       },
       "selfemployed": {
-        "headline": "Tax bill? Appeal it – without a lawyer.",
+        "headline": "Tax bill? Appeal it â€“ without a lawyer.",
         "sub": "For freelancers and self-employed: AI-powered objection letters against tax assessments in under 5 minutes.",
         "cta": "Appeal now"
       },
       "expat": {
-        "headline": "German notice? Appeal it in minutes – in your language.",
+        "headline": "German notice? Appeal it in minutes â€“ in your language.",
         "sub": "TaxaLex helps expats navigate German bureaucracy. Upload your notice, answer a few questions, get a professional objection letter.",
         "cta": "Start for free"
       },
@@ -84,7 +84,7 @@
       "expat": "Expat",
       "advisor": "Tax advisor"
     },
-    "badge": "AI-powered · GDPR-compliant · EU servers",
+    "badge": "AI-powered Â· GDPR-compliant Â· EU servers",
     "disclaimer": "AI-generated drafts. Not legal advice."
   },
   "howItWorks": {
@@ -101,7 +101,7 @@
         "number": "2",
         "title": "AI analysis",
         "description": "Five specialised AI agents review your notice: drafting, error-checking, fact-checking, counter-perspective, and consolidation.",
-        "detail": "Claude · Gemini · Perplexity – all models work in parallel"
+        "detail": "Claude Â· Gemini Â· Perplexity â€“ all models work in parallel"
       },
       "download": {
         "number": "3",
@@ -115,7 +115,7 @@
     "title": "Which notice do you want to appeal?",
     "subtitle": "Select the type of administrative decision",
     "tax": "Tax assessment",
-    "jobcenter": "Jobcenter / Bürgergeld",
+    "jobcenter": "Jobcenter / BÃ¼rgergeld",
     "rente": "Pension notice",
     "bussgeld": "Fine / penalty notice",
     "bussgeldd": "Fine / penalty notice",
@@ -123,7 +123,7 @@
     "kuendigung": "Employment termination",
     "miete": "Rent increase / deposit",
     "grundsteuer": "Property tax (Grundsteuer)",
-    "sectionTitle": "8 notice types – all covered",
+    "sectionTitle": "8 notice types â€“ all covered",
     "sectionSubtitle": "From tax assessments to fines: TaxaLex knows the relevant legal basis for all common administrative notices.",
     "appeal": "Appeal this notice",
     "deadline": "Deadline",
@@ -157,7 +157,7 @@
     "upgrade": "Upgrade now",
     "contact": "Contact us",
     "choosePlan": "Choose plan",
-    "annualDiscount": "Pay annually – 2 months free",
+    "annualDiscount": "Pay annually â€“ 2 months free",
     "monthly": "Monthly",
     "annual": "Annual",
     "vatNote": "All prices excl. VAT.",
@@ -172,7 +172,7 @@
     "items": {
       "multiAi": {
         "title": "5 AI agents in parallel",
-        "description": "Claude, Gemini and Perplexity review your objection from different perspectives – for maximum quality."
+        "description": "Claude, Gemini and Perplexity review your objection from different perspectives â€“ for maximum quality."
       },
       "legal": {
         "title": "Up-to-date legal references",
@@ -180,7 +180,7 @@
       },
       "multilingual": {
         "title": "Multilingual",
-        "description": "Interface in 7 languages. The objection letter is always drafted in German – as required by authorities."
+        "description": "Interface in 7 languages. The objection letter is always drafted in German â€“ as required by authorities."
       },
       "privacy": {
         "title": "GDPR & Privacy",
@@ -227,15 +227,15 @@
   "auth": {
     "login": {
       "title": "Bon retour",
-      "subtitle": "Connectez-vous à votre compte",
+      "subtitle": "Connectez-vous Ã  votre compte",
       "email": "Adresse e-mail",
       "password": "Mot de passe",
-      "forgotPassword": "Mot de passe oublié ?",
+      "forgotPassword": "Mot de passe oubliÃ© ?",
       "submit": "Se connecter",
       "noAccount": "Pas encore de compte ?",
       "register": "S'inscrire maintenant",
       "orContinueWith": "Ou continuer avec",
-      "demoAccounts": "Comptes de démonstration",
+      "demoAccounts": "Comptes de dÃ©monstration",
       "demoHint": "Cliquez sur un compte pour remplir automatiquement les champs.",
       "types": {
         "individual": "Particulier",
@@ -244,7 +244,7 @@
       }
     },
     "register": {
-      "title": "Créer un compte",
+      "title": "CrÃ©er un compte",
       "subtitle": "Commencez gratuitement avec TaxaLex",
       "name": "Nom complet",
       "email": "Adresse e-mail",
@@ -252,9 +252,9 @@
       "confirmPassword": "Confirmer le mot de passe",
       "agreeToTerms": "J'accepte les {terms} et la {privacy}.",
       "terms": "Conditions d'utilisation",
-      "privacy": "Politique de confidentialité",
-      "submit": "Créer un compte",
-      "hasAccount": "Déjà un compte ?",
+      "privacy": "Politique de confidentialitÃ©",
+      "submit": "CrÃ©er un compte",
+      "hasAccount": "DÃ©jÃ  un compte ?",
       "login": "Se connecter",
       "passwordStrength": {
         "weak": "Faible",
@@ -264,7 +264,7 @@
       },
       "types": {
         "individual": "Particulier",
-        "selfemployed": "Indépendant",
+        "selfemployed": "IndÃ©pendant",
         "advisor": "Conseiller fiscal",
         "lawyer": "Avocat"
       },
@@ -272,21 +272,21 @@
         "individual": [
           "1 recours gratuit par mois",
           "5 agents IA examinent votre dossier",
-          "Téléchargement en DOCX ou TXT"
+          "TÃ©lÃ©chargement en DOCX ou TXT"
         ],
         "selfemployed": [
           "Recours contre les avis fiscaux et TVA",
-          "Documents illimités par recours",
+          "Documents illimitÃ©s par recours",
           "Traitement IA prioritaire"
         ],
         "advisor": [
           "Tableau de bord multi-clients",
-          "Recours illimités pour tous les clients",
+          "Recours illimitÃ©s pour tous les clients",
           "Option d'export en marque blanche"
         ],
         "lawyer": [
           "Tableau de bord multi-clients",
-          "Recours illimités pour tous les clients",
+          "Recours illimitÃ©s pour tous les clients",
           "Recherche juridique approfondie"
         ]
       }
@@ -295,49 +295,49 @@
   "dashboard": {
     "title": "Tableau de bord",
     "welcome": "Bon retour, {name}",
-    "welcomeAdvisor": "Tableau de bord conseiller – {name}",
-    "welcomeAdmin": "Panneau d'administration – {name}",
+    "welcomeAdvisor": "Tableau de bord conseiller â€“ {name}",
+    "welcomeAdmin": "Panneau d'administration â€“ {name}",
     "stats": {
       "totalCases": "Recours au total",
       "activeCases": "Dossiers actifs",
       "submittedCases": "Soumis",
-      "successRate": "Taux de succès"
+      "successRate": "Taux de succÃ¨s"
     },
-    "recentCases": "Dossiers récents",
+    "recentCases": "Dossiers rÃ©cents",
     "noCases": "Aucun dossier",
     "noCasesHint": "Commencez votre premier recours",
     "newCase": "Nouvelle demande",
     "viewAll": "Tous les dossiers",
     "status": {
-      "CREATED": "Créé",
+      "CREATED": "CrÃ©Ã©",
       "QUESTIONS": "Questions",
       "GENERATING": "En cours",
-      "DRAFT_READY": "Brouillon prêt",
+      "DRAFT_READY": "Brouillon prÃªt",
       "SUBMITTED": "Soumis",
       "AWAITING_RESPONSE": "En attente",
-      "CLOSED_SUCCESS": "Réussi",
-      "CLOSED_REJECTED": "Rejeté"
+      "CLOSED_SUCCESS": "RÃ©ussi",
+      "CLOSED_REJECTED": "RejetÃ©"
     },
     "quickActions": {
-      "title": "Accès rapide",
+      "title": "AccÃ¨s rapide",
       "newCase": "Nouveau recours",
       "viewCases": "Mes dossiers",
       "billing": "Facturation",
-      "account": "Paramètres"
+      "account": "ParamÃ¨tres"
     }
   },
   "billing": {
     "title": "Facturation",
-    "subtitle": "Votre plan actuel et aperçu d'utilisation",
+    "subtitle": "Votre plan actuel et aperÃ§u d'utilisation",
     "currentPlan": "Plan actuel",
     "usage": "Utilisation ce mois",
     "invoices": "Factures",
     "noInvoices": "Aucune facture",
-    "upgrade": "Mettre à niveau",
-    "cancel": "Résilier l'abonnement",
+    "upgrade": "Mettre Ã  niveau",
+    "cancel": "RÃ©silier l'abonnement",
     "renewsOn": "Renouvellement le {date}",
-    "casesUsed": "{used} sur {total} recours utilisés",
-    "unlimited": "Illimité"
+    "casesUsed": "{used} sur {total} recours utilisÃ©s",
+    "unlimited": "IllimitÃ©"
   },
   "cases": {
     "title": "Mes dossiers",
@@ -346,33 +346,33 @@
       "all": "Tous",
       "active": "Actifs",
       "submitted": "Soumis",
-      "closed": "Clôturés"
+      "closed": "ClÃ´turÃ©s"
     },
-    "empty": "Aucun dossier trouvé",
+    "empty": "Aucun dossier trouvÃ©",
     "emptyHint": "Commencez votre premier recours",
     "newCase": "Nouvelle demande",
     "caseId": "ID du dossier",
-    "createdAt": "Créé le",
+    "createdAt": "CrÃ©Ã© le",
     "status": "Statut",
     "type": "Type",
     "actions": "Actions",
     "viewCase": "Voir le dossier",
-    "downloadDraft": "Télécharger le brouillon"
+    "downloadDraft": "TÃ©lÃ©charger le brouillon"
   },
   "account": {
-    "title": "Profil & Paramètres",
+    "title": "Profil & ParamÃ¨tres",
     "sections": {
       "profile": "Profil",
-      "security": "Sécurité",
+      "security": "SÃ©curitÃ©",
       "notifications": "Notifications",
-      "language": "Langue & Région",
+      "language": "Langue & RÃ©gion",
       "appearance": "Apparence",
       "danger": "Supprimer le compte"
     },
     "name": "Nom",
     "email": "E-mail",
-    "role": "Rôle",
-    "language": "Langue préférée",
+    "role": "RÃ´le",
+    "language": "Langue prÃ©fÃ©rÃ©e",
     "outputLanguage": "Langue de sortie pour les recours",
     "saveChanges": "Enregistrer les modifications",
     "changePassword": "Changer le mot de passe",
@@ -380,58 +380,58 @@
     "newPassword": "Nouveau mot de passe",
     "confirmPassword": "Confirmer le mot de passe",
     "deleteAccount": "Supprimer le compte",
-    "deleteWarning": "Cette action est irréversible. Toutes vos données seront supprimées.",
+    "deleteWarning": "Cette action est irrÃ©versible. Toutes vos donnÃ©es seront supprimÃ©es.",
     "notifications": {
       "email": "Notifications par e-mail",
-      "caseUpdates": "Mises à jour des dossiers",
-      "newsletter": "Newsletter & nouveautés produit"
+      "caseUpdates": "Mises Ã  jour des dossiers",
+      "newsletter": "Newsletter & nouveautÃ©s produit"
     },
     "memberSince": "Membre depuis",
-    "logout": "Se déconnecter",
+    "logout": "Se dÃ©connecter",
     "startNewCase": "Commencer un nouveau recours",
-    "templatesTitle": "Modèles & Exemples",
-    "templatesDesc": "Modèles gratuits à télécharger et personnaliser",
+    "templatesTitle": "ModÃ¨les & Exemples",
+    "templatesDesc": "ModÃ¨les gratuits Ã  tÃ©lÃ©charger et personnaliser",
     "templatesViewAll": "Voir tout",
     "templatesFree": "Gratuit",
-    "templatesUseAI": "Préférez l'IA – créez un recours en 5 minutes",
+    "templatesUseAI": "PrÃ©fÃ©rez l'IA â€“ crÃ©ez un recours en 5 minutes",
     "plansTitle": "Forfaits & Tarifs",
-    "plansViewAll": "Tous les détails",
-    "settingsTitle": "Compte & Paramètres",
-    "emailVerified": "E-mail confirmé",
-    "emailNotVerified": "E-mail non confirmé",
-    "emailNotVerifiedHint": "Veuillez confirmer votre adresse e-mail. Vérifiez votre boîte de réception.",
+    "plansViewAll": "Tous les dÃ©tails",
+    "settingsTitle": "Compte & ParamÃ¨tres",
+    "emailVerified": "E-mail confirmÃ©",
+    "emailNotVerified": "E-mail non confirmÃ©",
+    "emailNotVerifiedHint": "Veuillez confirmer votre adresse e-mail. VÃ©rifiez votre boÃ®te de rÃ©ception.",
     "accountType": "Type de compte",
     "password": "Mot de passe",
-    "twoFactor": "Authentification à deux facteurs (2FA)",
-    "twoFactorNotEnabled": "Non activé",
+    "twoFactor": "Authentification Ã  deux facteurs (2FA)",
+    "twoFactorNotEnabled": "Non activÃ©",
     "theme": {
       "label": "Apparence",
       "light": "Clair",
       "dark": "Sombre",
-      "system": "Système"
+      "system": "SystÃ¨me"
     },
-    "billingManage": "Gérer les paiements & le plan",
-    "billingManageDesc": "Factures, mise à niveau, achat de forfaits",
-    "gdprTitle": "Protection des données (RGPD)",
-    "gdprNote": "Export des données à venir. La suppression du compte est immédiate et irréversible.",
-    "exportData": "Exporter les données",
+    "billingManage": "GÃ©rer les paiements & le plan",
+    "billingManageDesc": "Factures, mise Ã  niveau, achat de forfaits",
+    "gdprTitle": "Protection des donnÃ©es (RGPD)",
+    "gdprNote": "Export des donnÃ©es Ã  venir. La suppression du compte est immÃ©diate et irrÃ©versible.",
+    "exportData": "Exporter les donnÃ©es",
     "languageLabel": "Langue",
     "statCases": "Dossiers au total",
-    "statCredits": "Crédits",
+    "statCredits": "CrÃ©dits",
     "statPlan": "Plan actuel",
     "planFree": "Gratuit",
     "planPro": "Pro"
   },
   "admin": {
     "title": "Panneau d'administration",
-    "subtitle": "Aperçu du système et gestion des utilisateurs",
+    "subtitle": "AperÃ§u du systÃ¨me et gestion des utilisateurs",
     "tabs": {
-      "overview": "Aperçu",
+      "overview": "AperÃ§u",
       "users": "Utilisateurs",
       "cases": "Dossiers",
       "pricing": "Tarifs",
       "emails": "E-mails",
-      "system": "Système",
+      "system": "SystÃ¨me",
       "content": "Contenu"
     },
     "stats": {
@@ -442,30 +442,30 @@
     },
     "overview": {
       "totalUsers": "Utilisateurs au total",
-      "verifiedSuffix": "vérifiés",
+      "verifiedSuffix": "vÃ©rifiÃ©s",
       "new7d": "Nouveaux (7 jours)",
       "ofTotalPct": "% du total",
-      "activated": "Activés",
+      "activated": "ActivÃ©s",
       "activationPct": "% taux d'activation",
       "activeSubscriptions": "Abonnements actifs",
       "conversionPct": "% conversion",
       "totalCases": "Dossiers au total",
       "thisWeek": "cette semaine",
-      "closedSuccess": "Clôturés avec succès",
+      "closedSuccess": "ClÃ´turÃ©s avec succÃ¨s",
       "stillOpen": "encore ouverts",
       "recentUsers": "Nouveaux utilisateurs",
-      "recentCases": "Dossiers récents"
+      "recentCases": "Dossiers rÃ©cents"
     },
     "users": {
       "title": "Utilisateurs",
       "since": "Depuis",
       "caseSuffix": "dossier",
       "casesSuffix": "dossiers",
-      "grantCredits": "Attribuer des crédits",
-      "grantLoading": "Attribution en cours…",
-      "grantError": "Échec de l'attribution",
-      "changeRole": "Changer le rôle :",
-      "creditsFor": "Crédits pour",
+      "grantCredits": "Attribuer des crÃ©dits",
+      "grantLoading": "Attribution en coursâ€¦",
+      "grantError": "Ã‰chec de l'attribution",
+      "changeRole": "Changer le rÃ´le :",
+      "creditsFor": "CrÃ©dits pour",
       "subscription": "Subscription",
       "noSubscription": "No active subscription",
       "subscriptionUntil": "until",
@@ -477,14 +477,14 @@
       "filterAll": "Tous",
       "filterOpen": "Ouverts",
       "filterSubmitted": "Soumis",
-      "filterClosed": "Clôturés",
-      "noneFound": "Aucun dossier dans cette catégorie.",
-      "deadline": "Délai"
+      "filterClosed": "ClÃ´turÃ©s",
+      "noneFound": "Aucun dossier dans cette catÃ©gorie.",
+      "deadline": "DÃ©lai"
     },
     "pricing": {
-      "loading": "Chargement des plans tarifaires…",
-      "noPlansHint": "Aucun plan tarifaire en base de données.",
-      "recommended": "Recommandé",
+      "loading": "Chargement des plans tarifairesâ€¦",
+      "noPlansHint": "Aucun plan tarifaire en base de donnÃ©es.",
+      "recommended": "RecommandÃ©",
       "inactive": "Inactif",
       "group": "Groupe",
       "once": "Unique",
@@ -492,58 +492,58 @@
       "annual": "Annuel",
       "active": "Actif",
       "standard": "Standard",
-      "features": "Fonctionnalités"
+      "features": "FonctionnalitÃ©s"
     },
     "emails": {
-      "devWarning": "Mode dev actif — tous les e-mails sortants reçoivent le préfixe DEV - dans l'objet.",
-      "trigger": "Déclencheur",
+      "devWarning": "Mode dev actif â€” tous les e-mails sortants reÃ§oivent le prÃ©fixe DEV - dans l'objet.",
+      "trigger": "DÃ©clencheur",
       "subject": "Objet",
       "variables": "Variables",
-      "ttl": "Validité",
+      "ttl": "ValiditÃ©",
       "templates": {
-        "verification": "Code de vérification",
+        "verification": "Code de vÃ©rification",
         "verificationTrigger": "L'utilisateur s'inscrit",
-        "verificationSubject": "Votre code de vérification — TaxaLex",
+        "verificationSubject": "Votre code de vÃ©rification â€” TaxaLex",
         "welcome": "E-mail de bienvenue",
-        "welcomeTrigger": "E-mail vérifié",
-        "welcomeSubject": "Bienvenue sur TaxaLex — {name}",
-        "passwordReset": "Réinitialisation du mot de passe",
-        "passwordResetTrigger": "Mot de passe oublié",
-        "passwordResetSubject": "Réinitialiser votre mot de passe — TaxaLex"
+        "welcomeTrigger": "E-mail vÃ©rifiÃ©",
+        "welcomeSubject": "Bienvenue sur TaxaLex â€” {name}",
+        "passwordReset": "RÃ©initialisation du mot de passe",
+        "passwordResetTrigger": "Mot de passe oubliÃ©",
+        "passwordResetSubject": "RÃ©initialiser votre mot de passe â€” TaxaLex"
       }
     },
     "system": {
-      "title": "État du système",
+      "title": "Ã‰tat du systÃ¨me",
       "environment": "Environnement",
-      "dev": "Développement",
+      "dev": "DÃ©veloppement",
       "prod": "Production",
-      "database": "Base de données",
+      "database": "Base de donnÃ©es",
       "ai": "IA (Anthropic)",
       "stripe": "Paiements (Stripe)",
       "emailService": "E-mails (Brevo)",
       "ok": "OK",
-      "notConfigured": "Non configuré",
+      "notConfigured": "Non configurÃ©",
       "services": {
         "anthropic": "Anthropic (Claude)",
-        "anthropicNote": "Required — app will not start without this key",
+        "anthropicNote": "Required â€” app will not start without this key",
         "google": "Google AI (Gemini)",
-        "googleNote": "Optional — for Gemini agents",
+        "googleNote": "Optional â€” for Gemini agents",
         "perplexity": "Perplexity (Sonar)",
-        "perplexityNote": "Optional — for fact-check agent",
+        "perplexityNote": "Optional â€” for fact-check agent",
         "stripe": "Stripe",
-        "stripeNote": "Optional — for payments",
+        "stripeNote": "Optional â€” for payments",
         "brevo": "Brevo (Email)",
-        "brevoNote": "Optional — emails suppressed without key",
+        "brevoNote": "Optional â€” emails suppressed without key",
         "s3": "S3 (File storage)",
-        "s3Note": "Optional — for document uploads"
+        "s3Note": "Optional â€” for document uploads"
       }
     },
     "content": {
-      "title": "Contenu de la base de données",
+      "title": "Contenu de la base de donnÃ©es",
       "useCases": "Cas d'utilisation",
       "faqs": "FAQ",
       "pricingPlans": "Plans tarifaires",
-      "edit": "Modifier (bientôt disponible)"
+      "edit": "Modifier (bientÃ´t disponible)"
     }
   },
   "advisor": {
@@ -552,20 +552,20 @@
       "clients": "Clients",
       "activeAppeals": "Recours actifs",
       "submittedAppeals": "Recours soumis",
-      "recentActivity": "Activité récente",
-      "quickActions": "Accès rapide",
+      "recentActivity": "ActivitÃ© rÃ©cente",
+      "quickActions": "AccÃ¨s rapide",
       "addClient": "Ajouter un client",
       "newAppeal": "Nouveau recours"
     },
     "clients": {
       "title": "Clients",
-      "subtitle": "Gérez vos clients",
+      "subtitle": "GÃ©rez vos clients",
       "search": "Rechercher des clients...",
       "add": "Ajouter un client",
       "name": "Nom",
       "email": "E-mail",
       "cases": "Dossiers",
-      "lastActive": "Dernière activité",
+      "lastActive": "DerniÃ¨re activitÃ©",
       "actions": "Actions",
       "noClients": "Aucun client",
       "modal": {
@@ -581,35 +581,91 @@
       "client": "Client",
       "type": "Type",
       "status": "Statut",
-      "createdAt": "Créé le"
+      "createdAt": "CrÃ©Ã© le"
     },
     "billing": {
       "title": "Facturation",
       "plan": "Votre plan conseiller",
       "usage": "Clients & recours"
+    },
+    "handoff": {
+      "title": "Request Professional Review",
+      "selectAdvisor": "Select Advisor",
+      "scope": {
+        "label": "Scope of engagement",
+        "reviewOnly": "Review only",
+        "fullRepresentation": "Full representation"
+      },
+      "clientNotes": "Notes for the advisor (optional)",
+      "submit": "Request review",
+      "submitted": "Request sent"
+    },
+    "assignment": {
+      "pending": "Decision required",
+      "accepted": "Under review",
+      "declined": "Declined",
+      "changesRequested": "Questions pending",
+      "approved": "Approved",
+      "finalized": "Finalized"
+    },
+    "packet": {
+      "brief": "Case summary",
+      "facts": "Facts",
+      "analysis": "AI analysis",
+      "draft": "Appeal draft",
+      "clientContext": "Client information",
+      "coreArgument": "Core argument",
+      "evidenceGaps": "Evidence gaps",
+      "counterarguments": "Counterarguments"
+    },
+    "viability": {
+      "high": "High success probability",
+      "medium": "Medium success probability",
+      "low": "Low success probability"
+    },
+    "actions": {
+      "accept": "Accept case",
+      "decline": "Decline",
+      "finalize": "Approve and finalize",
+      "addAnnotation": "Ask question",
+      "resolveAnnotation": "Mark as resolved",
+      "replyToAnnotation": "Reply",
+      "submitReply": "Send reply"
+    },
+    "annotation": {
+      "aiPreFill": "AI suggestion from your documents:",
+      "open": "Open",
+      "answered": "Answered",
+      "resolved": "Resolved"
+    },
+    "decline": {
+      "title": "Decline case",
+      "reason": "Reason for declining",
+      "reasonPlaceholder": "Please provide a reason...",
+      "confirm": "Confirm decline"
     }
   },
   "errors": {
-    "noFiles": "Veuillez télécharger au moins un fichier",
-    "analyzeFailed": "Analyse échouée. Veuillez réessayer.",
-    "generateFailed": "Génération échouée. Veuillez réessayer.",
-    "missingDescheid": "Données de l'avis manquantes",
-    "unauthorized": "Non autorisé",
+    "noFiles": "Veuillez tÃ©lÃ©charger au moins un fichier",
+    "analyzeFailed": "Analyse Ã©chouÃ©e. Veuillez rÃ©essayer.",
+    "generateFailed": "GÃ©nÃ©ration Ã©chouÃ©e. Veuillez rÃ©essayer.",
+    "missingDescheid": "DonnÃ©es de l'avis manquantes",
+    "unauthorized": "Non autorisÃ©",
     "notFound": "Page introuvable",
-    "serverError": "Erreur serveur. Veuillez réessayer plus tard."
+    "serverError": "Erreur serveur. Veuillez rÃ©essayer plus tard."
   },
   "cookies": {
     "banner": {
-      "title": "Paramètres des cookies",
-      "description": "Nous utilisons des cookies pour l'analyse et une meilleure expérience utilisateur.",
+      "title": "ParamÃ¨tres des cookies",
+      "description": "Nous utilisons des cookies pour l'analyse et une meilleure expÃ©rience utilisateur.",
       "acceptAll": "Tout accepter",
-      "acceptNecessary": "Nécessaires uniquement",
-      "manage": "Paramètres",
+      "acceptNecessary": "NÃ©cessaires uniquement",
+      "manage": "ParamÃ¨tres",
       "learnMore": "En savoir plus"
     },
     "types": {
       "necessary": {
-        "title": "Cookies nécessaires",
+        "title": "Cookies nÃ©cessaires",
         "description": "Requis pour le fonctionnement du site."
       },
       "analytics": {
@@ -618,7 +674,7 @@
       },
       "marketing": {
         "title": "Cookies marketing",
-        "description": "Publicité personnalisée."
+        "description": "PublicitÃ© personnalisÃ©e."
       }
     }
   },
@@ -664,7 +720,7 @@
   },
   "outputLanguage": {
     "label": "Langue de sortie",
-    "hint": "Le recours est généré en allemand par défaut (requis pour les autorités allemandes).",
-    "nonGermanWarning": "Pour révision uniquement — la lettre doit être en allemand pour une soumission officielle."
+    "hint": "Le recours est gÃ©nÃ©rÃ© en allemand par dÃ©faut (requis pour les autoritÃ©s allemandes).",
+    "nonGermanWarning": "Pour rÃ©vision uniquement â€” la lettre doit Ãªtre en allemand pour une soumission officielle."
   }
 }

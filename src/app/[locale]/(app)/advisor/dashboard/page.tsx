@@ -1,24 +1,26 @@
 import { auth } from '@/auth'
 import { redirect } from 'next/navigation'
+import { db } from '@/lib/db'
+import { features } from '@/config/features'
+import { CaseCard } from '@/components/advisor/CaseCard'
 import { Clock, CheckCircle2, MessageSquare, LayoutDashboard, Info } from 'lucide-react'
-import { Link } from '@/i18n/navigation'
+import type { ViabilityScore, AdvisorAssignmentStatus } from '@/types'
 
-// Demo pending review — shown until real review requests exist
-const DEMO_REVIEWS = [
-  {
-    id: 'demo-rev-001',
-    caseType: 'Einkommensteuerbescheid 2023',
-    userName: 'Max Mustermann',
-    note: 'Bitte prüfen, ob die Werbungskosten korrekt berücksichtigt sind.',
-    requestedAt: '2026-03-29T09:15:00Z',
-    deadline: '2026-04-12T00:00:00Z',
-    status: 'PENDING' as const,
-  },
-]
-
-function daysBetween(from: string, to: string) {
-  const ms = new Date(to).getTime() - new Date(from).getTime()
-  return Math.ceil(ms / (1000 * 60 * 60 * 24))
+type AssignmentRow = {
+  id: string
+  status: AdvisorAssignmentStatus
+  scope: string
+  createdAt: Date
+  acceptedAt: Date | null
+  case: {
+    id: string
+    useCase: string
+    deadline: Date | null
+    viabilityScore: string | null
+    viabilitySummary: string | null
+    handoffPacket: { briefSummary: string; extractedFacts: Record<string, unknown> } | null
+    _count: { annotations: number }
+  }
 }
 
 export default async function AdvisorDashboardPage() {
@@ -29,14 +31,58 @@ export default async function AdvisorDashboardPage() {
   }
 
   const isLawyer = session.user?.role === 'LAWYER'
-  const today = new Date().toISOString()
+  const advisorId = session.user!.id as string
+
+  let assignments: AssignmentRow[] = []
+  let stats = { pending: 0, accepted: 0, finalized: 0, openAnnotations: 0 }
+
+  if (features.advisorModule) {
+    try {
+      const raw = await db.advisorAssignment.findMany({
+        where: { advisorId },
+        include: {
+          case: {
+            select: {
+              id: true,
+              useCase: true,
+              deadline: true,
+              viabilityScore: true,
+              viabilitySummary: true,
+              handoffPacket: {
+                select: { briefSummary: true, extractedFacts: true },
+              },
+              _count: {
+                select: {
+                  annotations: { where: { status: { in: ['OPEN', 'ANSWERED'] } } },
+                },
+              },
+            },
+          },
+        },
+        orderBy: [{ case: { deadline: 'asc' } }, { createdAt: 'desc' }],
+      })
+
+      assignments = raw as AssignmentRow[]
+      stats = {
+        pending: assignments.filter(a => a.status === 'PENDING').length,
+        accepted: assignments.filter(a => a.status === 'ACCEPTED' || a.status === 'CHANGES_REQUESTED').length,
+        finalized: assignments.filter(a => a.status === 'FINALIZED' || a.status === 'APPROVED').length,
+        openAnnotations: assignments.reduce((sum, a) => sum + a.case._count.annotations, 0),
+      }
+    } catch {
+      // DB unavailable — show empty state
+    }
+  }
+
+  const pending = assignments.filter(a => a.status === 'PENDING')
+  const active = assignments.filter(a => ['ACCEPTED', 'CHANGES_REQUESTED'].includes(a.status))
+  const done = assignments.filter(a => ['APPROVED', 'FINALIZED', 'DECLINED'].includes(a.status))
 
   return (
     <div>
-      {/* Header */}
       <div className="mb-8 flex items-center gap-3">
-        <div className="w-8 h-8 bg-brand-100 rounded-lg flex items-center justify-center">
-          <LayoutDashboard className="w-4 h-4 text-brand-700" />
+        <div className="w-8 h-8 bg-brand-100 dark:bg-brand-950 rounded-lg flex items-center justify-center">
+          <LayoutDashboard className="w-4 h-4 text-brand-700 dark:text-brand-400" />
         </div>
         <div>
           <h1 className="text-2xl font-bold text-[var(--foreground)]">
@@ -46,29 +92,22 @@ export default async function AdvisorDashboardPage() {
         </div>
       </div>
 
-      {/* Explainer banner */}
-      <div className="bg-brand-50 dark:bg-brand-950/40 border border-brand-100 dark:border-brand-900 rounded-xl p-4 mb-6 flex gap-3">
-        <Info className="w-5 h-5 text-brand-600 shrink-0 mt-0.5" />
-        <div className="text-sm text-brand-800 dark:text-brand-200 leading-relaxed">
-          <p className="font-semibold mb-1">Ihre Rolle auf TaxaLex</p>
-          <p>
-            Wenn ein Nutzer einen Einspruch erstellt hat und eine Prüfung wünscht, erhalten Sie
-            eine E-Mail mit einem Prüf-Link. Sie öffnen den Brief, können ihn{' '}
-            <strong>freigeben</strong>, einen <strong>Kommentar senden</strong> oder eine{' '}
-            <strong>Rückfrage stellen</strong>. Der Nutzer wird sofort benachrichtigt.
-          </p>
-          <p className="mt-1 text-brand-600 dark:text-brand-400 text-xs">
-            Einsprüche werden von TaxaLex erstellt — Ihre Zeit fließt in die Prüfung, nicht in die Erstellung.
+      {!features.advisorModule && (
+        <div className="bg-brand-50 dark:bg-brand-950/40 border border-brand-100 dark:border-brand-900 rounded-xl p-4 mb-6 flex gap-3">
+          <Info className="w-5 h-5 text-brand-600 shrink-0 mt-0.5" />
+          <p className="text-sm text-brand-800 dark:text-brand-200">
+            Das Beratungsmodul ist noch nicht aktiviert. Setzen Sie <code className="font-mono text-xs bg-brand-100 dark:bg-brand-900 px-1 rounded">FEATURE_ADVISOR=true</code> in der Konfiguration.
           </p>
         </div>
-      </div>
+      )}
 
-      {/* Stats row */}
-      <div className="grid grid-cols-3 gap-4 mb-6">
+      {/* Stats */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
         {[
-          { icon: Clock, label: 'Ausstehend', value: DEMO_REVIEWS.filter(r => r.status === 'PENDING').length, color: 'bg-amber-50 text-amber-600' },
-          { icon: CheckCircle2, label: 'Freigegeben', value: 0, color: 'bg-green-50 text-green-600' },
-          { icon: MessageSquare, label: 'Kommentiert', value: 0, color: 'bg-blue-50 text-blue-600' },
+          { icon: Clock, label: 'Entscheidung nötig', value: stats.pending, color: 'bg-amber-50 dark:bg-amber-950/40 text-amber-600' },
+          { icon: MessageSquare, label: 'In Prüfung', value: stats.accepted, color: 'bg-blue-50 dark:bg-blue-950/40 text-blue-600' },
+          { icon: CheckCircle2, label: 'Abgeschlossen', value: stats.finalized, color: 'bg-green-50 dark:bg-green-950/40 text-green-600' },
+          { icon: MessageSquare, label: 'Offene Rückfragen', value: stats.openAnnotations, color: 'bg-red-50 dark:bg-red-950/40 text-red-600' },
         ].map((s) => (
           <div key={s.label} className="bg-[var(--surface)] rounded-xl border border-[var(--border)] p-4">
             <div className={`w-8 h-8 rounded-lg ${s.color} flex items-center justify-center mb-3`}>
@@ -80,66 +119,100 @@ export default async function AdvisorDashboardPage() {
         ))}
       </div>
 
-      {/* Pending reviews */}
-      <div className="bg-[var(--surface)] rounded-xl border border-[var(--border)]">
-        <div className="px-5 py-4 border-b border-[var(--border)] flex items-center justify-between">
-          <h2 className="font-semibold text-sm text-[var(--foreground)]">Ausstehende Prüfungen</h2>
-          <span className="text-xs text-[var(--muted)] bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 px-2 py-0.5 rounded-full font-medium">
-            {DEMO_REVIEWS.length} ausstehend
-          </span>
-        </div>
+      {/* Pending — needs decision */}
+      {pending.length > 0 && (
+        <section className="mb-6">
+          <h2 className="text-sm font-semibold text-[var(--foreground)] mb-3 flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-amber-500 inline-block" />
+            Entscheidung erforderlich ({pending.length})
+          </h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {pending.map(a => (
+              <CaseCard
+                key={a.id}
+                assignmentId={a.id}
+                caseId={a.case.id}
+                status={a.status}
+                briefSummary={a.case.handoffPacket?.briefSummary ?? null}
+                viabilityScore={(a.case.viabilityScore as ViabilityScore) ?? null}
+                viabilitySummary={a.case.viabilitySummary}
+                deadline={a.case.deadline?.toISOString() ?? null}
+                openAnnotations={a.case._count.annotations}
+                amountDisputed={extractAmount(a.case.handoffPacket?.extractedFacts)}
+              />
+            ))}
+          </div>
+        </section>
+      )}
 
-        <div className="divide-y divide-[var(--border)]">
-          {DEMO_REVIEWS.map((review) => {
-            const daysLeft = daysBetween(today, review.deadline)
-            const urgency = daysLeft <= 3 ? 'text-red-600' : daysLeft <= 7 ? 'text-amber-600' : 'text-[var(--muted)]'
-            return (
-              <div key={review.id} className="px-5 py-4 flex items-start gap-4">
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-0.5">
-                    <p className="text-sm font-semibold text-[var(--foreground)]">{review.caseType}</p>
-                    <span className="text-xs bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 px-2 py-0.5 rounded-full font-medium">
-                      Ausstehend
-                    </span>
-                  </div>
-                  <p className="text-xs text-[var(--muted)] mb-1">
-                    Von: {review.userName} · Angefragt {new Date(review.requestedAt).toLocaleDateString('de-DE')}
-                  </p>
-                  {review.note && (
-                    <p className="text-xs text-[var(--foreground)] bg-[var(--background-subtle)] rounded-lg px-3 py-2 mt-2 italic">
-                      „{review.note}"
-                    </p>
-                  )}
-                </div>
-                <div className="shrink-0 text-right">
-                  <p className={`text-xs font-medium ${urgency} mb-2`}>
-                    Frist: {new Date(review.deadline).toLocaleDateString('de-DE')}
-                    <br />
-                    <span className="font-normal">({daysLeft} Tage)</span>
-                  </p>
-                  <Link
-                    href="/advisor/reviews"
-                    className="inline-flex items-center gap-1 bg-brand-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold hover:bg-brand-700 transition-colors"
-                  >
-                    <CheckCircle2 className="w-3.5 h-3.5" />
-                    Jetzt prüfen
-                  </Link>
-                </div>
-              </div>
-            )
-          })}
-        </div>
-      </div>
+      {/* Active — in review */}
+      {active.length > 0 && (
+        <section className="mb-6">
+          <h2 className="text-sm font-semibold text-[var(--foreground)] mb-3 flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-blue-500 inline-block" />
+            In Prüfung ({active.length})
+          </h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {active.map(a => (
+              <CaseCard
+                key={a.id}
+                assignmentId={a.id}
+                caseId={a.case.id}
+                status={a.status}
+                briefSummary={a.case.handoffPacket?.briefSummary ?? null}
+                viabilityScore={(a.case.viabilityScore as ViabilityScore) ?? null}
+                viabilitySummary={a.case.viabilitySummary}
+                deadline={a.case.deadline?.toISOString() ?? null}
+                openAnnotations={a.case._count.annotations}
+                amountDisputed={extractAmount(a.case.handoffPacket?.extractedFacts)}
+              />
+            ))}
+          </div>
+        </section>
+      )}
 
-      {/* Completed reviews (empty state) */}
-      <div className="bg-[var(--surface)] rounded-xl border border-[var(--border)] mt-4">
-        <div className="px-5 py-4 border-b border-[var(--border)]">
-          <h2 className="font-semibold text-sm text-[var(--foreground)]">Abgeschlossene Prüfungen</h2>
+      {/* Done */}
+      {done.length > 0 && (
+        <section>
+          <h2 className="text-sm font-semibold text-[var(--foreground)] mb-3 flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-green-500 inline-block" />
+            Abgeschlossen ({done.length})
+          </h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {done.map(a => (
+              <CaseCard
+                key={a.id}
+                assignmentId={a.id}
+                caseId={a.case.id}
+                status={a.status}
+                briefSummary={a.case.handoffPacket?.briefSummary ?? null}
+                viabilityScore={(a.case.viabilityScore as ViabilityScore) ?? null}
+                viabilitySummary={a.case.viabilitySummary}
+                deadline={a.case.deadline?.toISOString() ?? null}
+                openAnnotations={0}
+                amountDisputed={extractAmount(a.case.handoffPacket?.extractedFacts)}
+              />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Empty state */}
+      {features.advisorModule && assignments.length === 0 && (
+        <div className="bg-[var(--surface)] rounded-xl border border-[var(--border)] text-center py-16 text-[var(--muted)]">
+          <LayoutDashboard className="w-10 h-10 mx-auto mb-3 opacity-30" />
+          <p className="font-medium text-sm">Noch keine Fälle zugewiesen</p>
+          <p className="text-xs mt-1">
+            Mandanten können Sie über ihre Fall-Ansicht als Berater einladen.
+          </p>
         </div>
-        <div className="px-5 py-10 text-center text-[var(--muted)] text-sm">
-          Noch keine abgeschlossenen Prüfungen.
-        </div>
-      </div>
+      )}
     </div>
   )
+}
+
+function extractAmount(facts: Record<string, unknown> | null | undefined): number | null {
+  if (!facts) return null
+  const v = facts.amountDisputed
+  return typeof v === 'number' ? v : null
 }

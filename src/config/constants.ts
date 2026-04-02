@@ -66,6 +66,19 @@ export const LEGAL = {
   warnAtDays: [14, 7, 3, 1],
 } as const
 
+// ── Advisor Module ────────────────────────────────────────────────────────────
+
+export const ADVISOR = {
+  /** Auto-decline unresponded assignments after this many hours */
+  autoDeclineAfterHours: 48,
+  /** Max annotations per case */
+  maxAnnotationsPerCase: 20,
+  /** Max character length per annotation */
+  maxAnnotationLength: 2000,
+  /** Hours before auto-decline at which reminders are sent */
+  notificationReminderHours: [24, 6],
+} as const
+
 // ── Supported File Types ──────────────────────────────────────────────────────
 
 export const UPLOAD = {

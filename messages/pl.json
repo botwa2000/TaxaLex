@@ -587,6 +587,62 @@
       "title": "Rozliczenia",
       "plan": "Twój plan doradcy",
       "usage": "Klienci i odwołania"
+    },
+    "handoff": {
+      "title": "Request Professional Review",
+      "selectAdvisor": "Select Advisor",
+      "scope": {
+        "label": "Scope of engagement",
+        "reviewOnly": "Review only",
+        "fullRepresentation": "Full representation"
+      },
+      "clientNotes": "Notes for the advisor (optional)",
+      "submit": "Request review",
+      "submitted": "Request sent"
+    },
+    "assignment": {
+      "pending": "Decision required",
+      "accepted": "Under review",
+      "declined": "Declined",
+      "changesRequested": "Questions pending",
+      "approved": "Approved",
+      "finalized": "Finalized"
+    },
+    "packet": {
+      "brief": "Case summary",
+      "facts": "Facts",
+      "analysis": "AI analysis",
+      "draft": "Appeal draft",
+      "clientContext": "Client information",
+      "coreArgument": "Core argument",
+      "evidenceGaps": "Evidence gaps",
+      "counterarguments": "Counterarguments"
+    },
+    "viability": {
+      "high": "High success probability",
+      "medium": "Medium success probability",
+      "low": "Low success probability"
+    },
+    "actions": {
+      "accept": "Accept case",
+      "decline": "Decline",
+      "finalize": "Approve and finalize",
+      "addAnnotation": "Ask question",
+      "resolveAnnotation": "Mark as resolved",
+      "replyToAnnotation": "Reply",
+      "submitReply": "Send reply"
+    },
+    "annotation": {
+      "aiPreFill": "AI suggestion from your documents:",
+      "open": "Open",
+      "answered": "Answered",
+      "resolved": "Resolved"
+    },
+    "decline": {
+      "title": "Decline case",
+      "reason": "Reason for declining",
+      "reasonPlaceholder": "Please provide a reason...",
+      "confirm": "Confirm decline"
     }
   },
   "errors": {

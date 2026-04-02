@@ -8,7 +8,11 @@ import {
   DEMO_USER_ID, DEMO_CASES, DEMO_DOCUMENTS, DEMO_AGENT_OUTPUTS, DEMO_FINAL_DRAFT,
 } from '@/lib/mockData'
 import { CaseDetailClient } from '@/app/(app)/cases/[id]/CaseDetailClient'
+import { HandoffRequestForm } from '@/components/client/HandoffRequestForm'
+import { AnnotationReplyCard } from '@/components/client/AnnotationReplyCard'
+import { features } from '@/config/features'
 import { Link } from '@/i18n/navigation'
+import type { AnnotationData } from '@/types'
 
 type CaseDetail = {
   id: string
@@ -36,13 +40,33 @@ export default async function CaseDetailPage({
   let documents: { id: string; name: string; type: string; createdAt: Date }[] = []
   let agentOutputs: { role: string; provider: string; model: string; durationMs: number; summary: string }[] = []
   let finalDraft: string | null = null
+  let annotations: AnnotationData[] = []
+  let hasActiveAssignment = false
 
   try {
     if (userId === DEMO_USER_ID) throw new Error('demo')
     const { db } = await import('@/lib/db')
-    const raw = await db.case.findFirst({ where: { id, userId } })
+    const raw = await db.case.findFirst({
+      where: { id, userId },
+      include: features.advisorModule
+        ? {
+            assignment: { select: { status: true } },
+            annotations: {
+              include: { author: { select: { id: true, name: true } } },
+              orderBy: { createdAt: 'asc' },
+            },
+          }
+        : undefined,
+    })
     if (!raw) notFound()
     caseData = raw as CaseDetail
+
+    if (features.advisorModule && 'assignment' in raw && raw.assignment) {
+      hasActiveAssignment = !['DECLINED'].includes((raw.assignment as { status: string }).status)
+    }
+    if (features.advisorModule && 'annotations' in raw) {
+      annotations = ((raw as { annotations: unknown[] }).annotations as AnnotationData[]) ?? []
+    }
   } catch {
     const found = DEMO_CASES.find((c) => c.id === id)
     if (!found) notFound()
@@ -131,7 +155,25 @@ export default async function CaseDetailPage({
       </div>
 
       {/* Tab content */}
-      {tab === 'overview' && <OverviewTab caseData={caseData} daysLeft={daysLeft} isUrgent={isUrgent} isOverdue={isOverdue} />}
+      {tab === 'overview' && (
+        <>
+          <OverviewTab caseData={caseData} daysLeft={daysLeft} isUrgent={isUrgent} isOverdue={isOverdue} />
+          {features.advisorModule && caseData.status === 'DRAFT_READY' && !hasActiveAssignment && (
+            <div className="mt-6">
+              <HandoffRequestForm caseId={caseData.id} />
+            </div>
+          )}
+          {features.advisorModule && annotations.length > 0 && (
+            <div className="mt-6">
+              <AnnotationReplyCard
+                caseId={caseData.id}
+                annotations={annotations}
+                onUpdate={() => {}}
+              />
+            </div>
+          )}
+        </>
+      )}
       {tab === 'documents' && <DocumentsTab documents={documents} caseId={caseData.id} />}
       {tab === 'ai' && <AIAnalysisTab outputs={agentOutputs} />}
       {tab === 'letter' && <LetterTab draft={finalDraft} status={caseData.status} caseId={caseData.id} />}
