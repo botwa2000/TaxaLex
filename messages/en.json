@@ -296,24 +296,24 @@
       },
       "benefits": {
         "individual": [
-          "1 free objection per month",
-          "5 AI agents review your case",
-          "Download as DOCX or TXT"
+          "5 AI agents analyse your notice and draft a legally grounded objection",
+          "8 notice types covered: tax, Jobcenter, pension, fines, rent and more",
+          "Finished letter ready to send — download as DOCX or TXT in minutes"
         ],
         "selfemployed": [
-          "Objections for tax and VAT assessments",
-          "Unlimited documents per objection",
-          "Priority AI processing"
+          "Appeal tax assessments, VAT notices, and trade office decisions",
+          "5 AI agents draft your objection — no legal knowledge required",
+          "Finished letter in minutes — download and send directly"
         ],
         "advisor": [
-          "Multi-client dashboard",
-          "Unlimited objections for all clients",
-          "White-label export option"
+          "Review AI-prepared client drafts and accept or decline with one click",
+          "Annotate specific sections and request clarifications — no email back-and-forth",
+          "Full case packet per client: extracted facts, AI analysis, and viability score"
         ],
         "lawyer": [
-          "Multi-client dashboard",
-          "Unlimited objections for all clients",
-          "Extended legal research"
+          "Review objections across all legal areas: tax, employment, rent, social law",
+          "Annotate draft sections and resolve client questions in one threaded view",
+          "Structured handoff with extracted facts and AI viability assessment per case"
         ]
       },
       "iAm": "I am…",

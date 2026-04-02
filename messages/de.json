@@ -296,24 +296,24 @@
       },
       "benefits": {
         "individual": [
-          "1 kostenloser Einspruch pro Monat",
-          "5 KI-Agenten prÃ¼fen Ihren Fall",
-          "Download als DOCX oder TXT"
+          "5 KI-Agenten analysieren Ihren Bescheid und formulieren einen fundierten Einspruch",
+          "8 Bescheidarten: Steuern, Jobcenter, Rente, Bußgelder, Miete u. v. m.",
+          "Fertiges Einspruchsschreiben als DOCX oder TXT – versandfertig in Minuten"
         ],
         "selfemployed": [
-          "EinsprÃ¼che gegen Steuerbescheide & USt",
-          "Unbegrenzte Dokumente pro Einspruch",
-          "Priorisierte KI-Verarbeitung"
+          "Steuerbescheide, Umsatzsteuer-Nachzahlungen und Gewerbebescheide anfechten",
+          "5 KI-Agenten formulieren Ihren Einspruch – ohne juristische Vorkenntnisse",
+          "Fertiges Schreiben in Minuten herunterladen und direkt versenden"
         ],
         "advisor": [
-          "Multi-Mandanten-Dashboard",
-          "Unbegrenzte EinsprÃ¼che fÃ¼r alle Mandanten",
-          "White-Label-Exportoption"
+          "KI-aufbereitete Mandanten-Entwürfe mit einem Klick annehmen oder ablehnen",
+          "Einzelne Abschnitte kommentieren und Rückfragen stellen – kein E-Mail-Pingpong",
+          "Vollständiges Fallpaket: extrahierte Daten, KI-Analyse und Erfolgseinschätzung"
         ],
         "lawyer": [
-          "Multi-Mandanten-Dashboard",
-          "Unbegrenzte EinsprÃ¼che fÃ¼r alle Mandanten",
-          "Erweiterte Rechtsgrundlagen-Recherche"
+          "Einsprüche aus allen Rechtsgebieten prüfen: Steuer, Arbeit, Miete, Sozialrecht",
+          "Entwurfsabschnitte kommentieren und Mandantenrückfragen direkt im Thread klären",
+          "Strukturierte Übergabe mit extrahierten Fakten und KI-Erfolgseinschätzung"
         ]
       },
       "iAm": "Ich bin…",
