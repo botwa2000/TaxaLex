@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { signIn } from 'next-auth/react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import { Loader2, Info, ChevronDown, Eye, EyeOff } from 'lucide-react'
 import { features } from '@/config/features'
@@ -16,6 +17,7 @@ const DEMO_ACCOUNTS = [
 ]
 
 export default function LoginPage() {
+  const t = useTranslations('auth.login')
   const router = useRouter()
   const searchParams = useSearchParams()
   const callbackUrl = searchParams.get('callbackUrl') ?? '/dashboard'
@@ -42,7 +44,6 @@ export default function LoginPage() {
     })
 
     if (result?.error) {
-      // Check if this is an unverified email (gives a better redirect than a generic error)
       const check = await fetch('/api/auth/verification-status', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -54,7 +55,7 @@ export default function LoginPage() {
         return
       }
 
-      setError('E-Mail oder Passwort falsch.')
+      setError(t('errorInvalid'))
       setLoading(false)
       return
     }
@@ -71,31 +72,31 @@ export default function LoginPage() {
 
   return (
     <div className="bg-[var(--surface)] rounded-2xl border border-[var(--border)] p-8 shadow-sm">
-      <h1 className="text-2xl sm:text-3xl font-bold text-[var(--foreground)] mb-2">Willkommen zurück</h1>
+      <h1 className="text-2xl sm:text-3xl font-bold text-[var(--foreground)] mb-2">{t('title')}</h1>
       <p className="text-sm text-[var(--muted)] mb-7">
-        Noch kein Konto?{' '}
+        {t('noAccount')}{' '}
         <Link href="register" className="text-brand-600 hover:underline font-medium">
-          Jetzt kostenlos registrieren
+          {t('register')}
         </Link>
       </p>
 
       {registered && (
         <div className="flex items-start gap-2 bg-[var(--success-bg,#ecfdf5)] border border-green-200 text-green-800 text-sm px-3 py-2.5 rounded-lg mb-4">
           <Info className="w-4 h-4 shrink-0 mt-0.5" />
-          Konto erfolgreich erstellt. Bitte melden Sie sich an.
+          {t('successRegistered')}
         </div>
       )}
 
       {verified && (
         <div className="flex items-start gap-2 bg-[var(--success-bg,#ecfdf5)] border border-green-200 text-green-800 text-sm px-3 py-2.5 rounded-lg mb-4">
           <Info className="w-4 h-4 shrink-0 mt-0.5" />
-          E-Mail-Adresse erfolgreich bestätigt. Sie können sich jetzt anmelden.
+          {t('successVerified')}
         </div>
       )}
 
       {verifyError === 'invalid_token' && (
         <div className="bg-[var(--danger-bg,#fef2f2)] border border-red-200 text-red-700 text-sm px-3 py-2.5 rounded-lg mb-4">
-          Der Bestätigungslink ist ungültig oder abgelaufen. Bitte fordern Sie einen neuen an.
+          {t('errorInvalidToken')}
         </div>
       )}
 
@@ -114,7 +115,7 @@ export default function LoginPage() {
         >
           <span className="flex items-center gap-1.5">
             <Info className="w-3.5 h-3.5 text-brand-600" />
-            Demo-Zugangsdaten (5 Accounts verfügbar)
+            {t('demoAvailable')}
           </span>
           <ChevronDown className={`w-3.5 h-3.5 text-brand-600 transition-transform ${demoOpen ? 'rotate-180' : ''}`} />
         </button>
@@ -141,7 +142,7 @@ export default function LoginPage() {
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label htmlFor="email" className="block text-sm font-medium text-[var(--foreground)] mb-1.5">
-            E-Mail
+            {t('email')}
           </label>
           <input
             id="email"
@@ -158,10 +159,10 @@ export default function LoginPage() {
         <div>
           <div className="flex items-center justify-between mb-1.5">
             <label htmlFor="password" className="block text-sm font-medium text-[var(--foreground)]">
-              Passwort
+              {t('password')}
             </label>
             <Link href="/forgot-password" className="text-xs text-brand-600 hover:underline">
-              Passwort vergessen?
+              {t('forgotPassword')}
             </Link>
           </div>
           <div className="relative">
@@ -179,7 +180,7 @@ export default function LoginPage() {
               type="button"
               tabIndex={-1}
               onClick={() => setShowPassword((v) => !v)}
-              aria-label={showPassword ? 'Passwort verbergen' : 'Passwort anzeigen'}
+              aria-label={showPassword ? t('hidePassword') : t('showPassword')}
               className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--muted)] hover:text-[var(--foreground)] transition-colors"
             >
               {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -193,7 +194,7 @@ export default function LoginPage() {
           className="w-full bg-brand-600 text-white py-3.5 rounded-xl text-base font-bold hover:bg-brand-700 active:bg-brand-800 transition-colors disabled:opacity-50 flex items-center justify-center gap-2 mt-2"
         >
           {loading && <Loader2 className="w-4 h-4 animate-spin" />}
-          Anmelden
+          {t('submit')}
         </button>
       </form>
 
@@ -201,7 +202,7 @@ export default function LoginPage() {
         <>
           <div className="flex items-center gap-3 my-5">
             <div className="flex-1 h-px bg-[var(--border)]" />
-            <span className="text-xs text-[var(--muted)]">oder</span>
+            <span className="text-xs text-[var(--muted)]">{t('orContinueWith')}</span>
             <div className="flex-1 h-px bg-[var(--border)]" />
           </div>
           <button
@@ -214,7 +215,7 @@ export default function LoginPage() {
               <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
               <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
             </svg>
-            Mit Google anmelden
+            {t('withGoogle')}
           </button>
         </>
       )}

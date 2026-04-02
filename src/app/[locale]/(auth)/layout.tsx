@@ -1,3 +1,4 @@
+import { getTranslations } from 'next-intl/server'
 import { brand } from '@/config/brand'
 import { Logo } from '@/components/Logo'
 import { Link } from '@/i18n/navigation'
@@ -11,19 +12,13 @@ export default async function AuthLayout({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
-  const isEN = locale === 'en'
+  const t = await getTranslations({ locale, namespace: 'auth.layout' })
 
-  const trustPoints = isEN
-    ? [
-        { icon: CheckCircle2, text: 'Draft ready in under 5 minutes' },
-        { icon: Clock, text: 'Interactive demo — no registration required' },
-        { icon: Shield, text: 'GDPR-compliant · EU servers · Encrypted' },
-      ]
-    : [
-        { icon: CheckCircle2, text: 'Entwurf fertig in unter 5 Minuten' },
-        { icon: Clock, text: 'Interaktive Demo – ohne Registrierung' },
-        { icon: Shield, text: 'DSGVO-konform · EU-Server · Verschlüsselt' },
-      ]
+  const trustPoints = [
+    { icon: CheckCircle2, text: t('trustDraft') },
+    { icon: Clock, text: t('trustDemo') },
+    { icon: Shield, text: t('trustGdpr') },
+  ]
 
   return (
     <div className="min-h-screen bg-[var(--background)] flex flex-col">
@@ -35,7 +30,7 @@ export default async function AuthLayout({
             href="/"
             className="text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition-colors"
           >
-            ← {isEN ? 'Back to home' : 'Zurück zur Startseite'}
+            ← {t('backToHome')}
           </Link>
         </div>
       </header>
@@ -47,17 +42,13 @@ export default async function AuthLayout({
           <div>
             <div className="inline-flex items-center gap-2 bg-brand-500/40 dark:bg-brand-800 text-brand-100 text-xs font-semibold px-3 py-1.5 rounded-full mb-8">
               <Shield className="w-3.5 h-3.5" />
-              {isEN ? 'Trusted by German taxpayers' : 'Von deutschen Steuerzahlern vertraut'}
+              {t('trusted')}
             </div>
             <h2 className="text-3xl font-extrabold text-white leading-tight mb-4">
-              {isEN
-                ? 'Respond to German official notices — structured and clearly reasoned.'
-                : 'Bescheide strukturiert und begründet widersprechen.'}
+              {t('headline')}
             </h2>
             <p className="text-brand-200 leading-relaxed mb-10">
-              {isEN
-                ? '5 specialized AI agents draft, cross-check, and improve your objection letter — in under 5 minutes.'
-                : '5 spezialisierte KI-Agenten entwerfen, prüfen und verbessern Ihr Einspruchsschreiben – in unter 5 Minuten.'}
+              {t('description')}
             </p>
             <ul className="space-y-4">
               {trustPoints.map((p) => (
@@ -83,7 +74,7 @@ export default async function AuthLayout({
         <p className="text-xs text-[var(--muted)]">
           © {new Date().getFullYear()} {brand.name} ·{' '}
           <Link href="/datenschutz" className="hover:underline">
-            {isEN ? 'Privacy' : 'Datenschutz'}
+            {t('privacy')}
           </Link>
           {' · '}
           <Link href="/impressum" className="hover:underline">

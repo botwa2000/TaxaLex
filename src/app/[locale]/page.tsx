@@ -1,3 +1,4 @@
+import { getTranslations } from 'next-intl/server'
 import { PublicNav } from '@/components/PublicNav'
 import { Footer } from '@/components/Footer'
 import { UserGroupTabs } from '@/components/UserGroupTabs'
@@ -17,51 +18,38 @@ export default async function LandingPage({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
-  const isEN = locale === 'en'
+  // isDE: only German users see German inline text; all other locales fall back to English
+  const isDE = locale === 'de'
+
+  const [tHiw, tFeatures, tStats] = await Promise.all([
+    getTranslations({ locale, namespace: 'howItWorks' }),
+    getTranslations({ locale, namespace: 'features' }),
+    getTranslations({ locale, namespace: 'stats' }),
+  ])
 
   const useCases = getUseCases(locale)
   const faqs = getFAQs(locale)
   const individualPlans = getPricingPlans('individual')
 
-  const processSteps = isEN
-    ? [
-        { step: 1, icon: Upload, title: 'Upload your notice', description: 'Upload the official document (PDF, photo, or scan). Supported: tax assessments, fines, Jobcenter, pension notices, and more.', detail: 'Formats: PDF, JPG, PNG, DOCX, TXT (max. 10 MB)' },
-        { step: 2, icon: Brain, title: 'AI analysis', description: 'Our multi-AI pipeline analyses the notice, checks legal deadlines, identifies objection grounds, and prepares a professionally worded draft.', detail: 'Claude · Gemini · Perplexity — all models work in parallel' },
-        { step: 3, icon: Download, title: 'Download & send', description: 'Review the draft, make adjustments if needed, and download it ready to send. The letter is written in German for official submission.', detail: 'Note: AI-generated draft. Not legal advice. Review before submission.' },
-      ]
-    : [
-        { step: 1, icon: Upload, title: 'Bescheid hochladen', description: 'Laden Sie das offizielle Dokument hoch (PDF, Foto oder Scan). Unterstützt: Steuerbescheide, Bußgelder, Jobcenter, Rentenbescheide und mehr.', detail: 'Formate: PDF, JPG, PNG, DOCX, TXT (max. 10 MB)' },
-        { step: 2, icon: Brain, title: 'KI-Analyse', description: 'Unsere Multi-KI-Pipeline analysiert den Bescheid, prüft gesetzliche Fristen, identifiziert Einspruchsgründe und formuliert einen professionellen Entwurf.', detail: 'Claude · Gemini · Perplexity – alle Modelle arbeiten parallel' },
-        { step: 3, icon: Download, title: 'Herunterladen & versenden', description: 'Entwurf prüfen, bei Bedarf anpassen und als versandfertige Datei herunterladen. Das Schreiben ist auf Deutsch für die Einreichung beim Amt.', detail: 'Hinweis: KI-Entwurf, kein Rechtsrat i.S.d. RDG. Vor Einreichung prüfen.' },
-      ]
+  const processSteps = [
+    { step: 1, icon: Upload, title: tHiw('steps.upload.title'), description: tHiw('steps.upload.description'), detail: tHiw('steps.upload.detail') },
+    { step: 2, icon: Brain, title: tHiw('steps.analyze.title'), description: tHiw('steps.analyze.description'), detail: tHiw('steps.analyze.detail') },
+    { step: 3, icon: Download, title: tHiw('steps.download.title'), description: tHiw('steps.download.description'), detail: tHiw('steps.download.detail') },
+  ]
 
-  const stats = isEN
-    ? [
-        { value: '3,3 Mio.', label: 'Tax objections filed per year in Germany', icon: BarChart3, source: 'BMF Finanzbericht 2023' },
-        { value: '67 %', label: 'Partial or full success rate', icon: CheckCircle2, source: 'BMF Steuerstatistik' },
-        { value: '30 days', label: 'Legal deadline (§ 355 AO)', icon: Clock, source: '§ 355 AO' },
-        { value: '< 5 min', label: 'Average generation time', icon: Brain, source: 'TaxaLex internal measurement' },
-      ]
-    : [
-        { value: '3,3 Mio.', label: 'Einsprüche pro Jahr in DE', icon: BarChart3, source: 'BMF Finanzbericht 2023' },
-        { value: '67 %', label: 'Teilweise / vollständige Stattgabe', icon: CheckCircle2, source: 'BMF Steuerstatistik' },
-        { value: '30 Tage', label: 'Gesetzliche Einspruchsfrist (§ 355 AO)', icon: Clock, source: '§ 355 AO' },
-        { value: '< 5 min', label: 'Durchschnittliche Generierungszeit', icon: Brain, source: 'TaxaLex intern gemessen' },
-      ]
+  const statsItems = [
+    { value: tStats('items.objections.value'), label: tStats('items.objections.label'), icon: BarChart3, source: 'BMF Finanzbericht 2023' },
+    { value: tStats('items.successRate.value'), label: tStats('items.successRate.label'), icon: CheckCircle2, source: 'BMF Steuerstatistik' },
+    { value: tStats('items.deadline.value'), label: tStats('items.deadline.label'), icon: Clock, source: '§ 355 AO' },
+    { value: tStats('items.speed.value'), label: tStats('items.speed.label'), icon: Brain, source: isDE ? 'TaxaLex intern gemessen' : 'TaxaLex internal measurement' },
+  ]
 
-  const features = isEN
-    ? [
-        { icon: Brain, title: '5 AI agents in parallel', description: 'Claude, Gemini and Perplexity review your objection from different perspectives — for maximum quality.' },
-        { icon: CheckCircle2, title: 'Up-to-date legal references', description: 'Perplexity researches current court rulings and administrative guidelines in real time for your specific case.' },
-        { icon: Globe, title: 'Multilingual', description: 'Interface in 7 languages. The objection letter is always drafted in German — as required by German authorities.' },
-        { icon: Lock, title: 'GDPR & Privacy', description: 'EU servers, encrypted transmission, no permanent storage of your documents without explicit consent.' },
-      ]
-    : [
-        { icon: Brain, title: '5 KI-Agenten parallel', description: 'Claude, Gemini und Perplexity prüfen Ihren Einspruch aus verschiedenen Perspektiven – für maximale Qualität.' },
-        { icon: CheckCircle2, title: 'Aktuelle Rechtsgrundlagen', description: 'Perplexity recherchiert in Echtzeit aktuelle BFH-Urteile und Verwaltungsanweisungen für Ihren konkreten Fall.' },
-        { icon: Globe, title: 'Mehrsprachig', description: 'Interface in 7 Sprachen. Der Einspruch wird immer auf Deutsch erstellt – für die Behörde.' },
-        { icon: Lock, title: 'DSGVO & Datenschutz', description: 'EU-Server, verschlüsselte Übertragung, keine permanente Speicherung Ihrer Dokumente ohne Zustimmung.' },
-      ]
+  const featureItems = [
+    { icon: Brain, title: tFeatures('items.multiAi.title'), description: tFeatures('items.multiAi.description') },
+    { icon: CheckCircle2, title: tFeatures('items.legal.title'), description: tFeatures('items.legal.description') },
+    { icon: Globe, title: tFeatures('items.multilingual.title'), description: tFeatures('items.multilingual.description') },
+    { icon: Lock, title: tFeatures('items.privacy.title'), description: tFeatures('items.privacy.description') },
+  ]
 
   return (
     <>
@@ -84,15 +72,13 @@ export default async function LandingPage({
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-14">
             <p className="text-sm font-semibold text-brand-600 dark:text-brand-400 uppercase tracking-widest mb-3">
-              {isEN ? 'How it works' : 'So einfach geht\u2019s'}
+              {tHiw('title')}
             </p>
             <h2 className="text-3xl sm:text-4xl font-bold text-[var(--foreground)] mb-4 leading-tight">
-              {isEN ? 'From notice to objection — in 3 steps' : 'Vom Bescheid zum Einspruch — in 3 Schritten'}
+              {isDE ? 'Vom Bescheid zum Einspruch — in 3 Schritten' : 'From notice to objection — in 3 steps'}
             </h2>
             <p className="text-base sm:text-lg text-[var(--muted)] max-w-xl mx-auto">
-              {isEN
-                ? 'Three steps from notice to ready-to-send objection letter.'
-                : 'Drei Schritte vom Bescheid zum versandfertigen Einspruchsschreiben.'}
+              {tHiw('subtitle')}
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
@@ -115,17 +101,17 @@ export default async function LandingPage({
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
             <p className="text-sm font-semibold text-brand-600 dark:text-brand-400 uppercase tracking-widest mb-3">
-              {isEN ? 'By the numbers' : 'Zahlen & Fakten'}
+              {isDE ? 'Zahlen & Fakten' : 'By the numbers'}
             </p>
             <h2 className="text-3xl sm:text-4xl font-bold text-[var(--foreground)] mb-3 leading-tight">
-              {isEN ? 'Facts, not promises' : 'Fakten, keine Versprechen'}
+              {isDE ? 'Fakten, keine Versprechen' : 'Facts, not promises'}
             </h2>
             <p className="text-[var(--muted)]">
-              {isEN ? 'All statistics verified and sourced.' : 'Alle Statistiken verifiziert und mit Quellenangabe.'}
+              {tStats('subtitle')}
             </p>
           </div>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
-            {stats.map((s) => (
+            {statsItems.map((s) => (
               <StatCard
                 key={s.label}
                 value={s.value}
@@ -143,15 +129,15 @@ export default async function LandingPage({
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
             <p className="text-sm font-semibold text-brand-600 dark:text-brand-400 uppercase tracking-widest mb-3">
-              {isEN ? 'Supported notice types' : 'Unterstützte Bescheidarten'}
+              {isDE ? 'Unterstützte Bescheidarten' : 'Supported notice types'}
             </p>
             <h2 className="text-3xl sm:text-4xl font-bold text-[var(--foreground)] mb-4 leading-tight">
-              {isEN ? '8 notice types – all covered' : '8 Bescheidarten – alle abgedeckt'}
+              {isDE ? '8 Bescheidarten – alle abgedeckt' : '8 notice types – all covered'}
             </h2>
             <p className="text-base text-[var(--muted)] max-w-2xl mx-auto">
-              {isEN
-                ? 'From tax assessments to fines: TaxaLex knows the relevant legal basis for all common administrative notices.'
-                : 'Von Steuerbescheiden bis Bußgeldern: TaxaLex kennt die relevanten Rechtsgrundlagen für alle häufigen Verwaltungsbescheide.'}
+              {isDE
+                ? 'Von Steuerbescheiden bis Bußgeldern: TaxaLex kennt die relevanten Rechtsgrundlagen für alle häufigen Verwaltungsbescheide.'
+                : 'From tax assessments to fines: TaxaLex knows the relevant legal basis for all common administrative notices.'}
             </p>
           </div>
           <div className="grid sm:grid-cols-2 gap-4">
@@ -168,15 +154,15 @@ export default async function LandingPage({
           <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 text-sm font-semibold px-4 py-1.5 rounded-full mb-5">
               <MessageSquare className="w-4 h-4" />
-              {isEN ? 'Why not just use an AI chatbot?' : 'Warum nicht einfach einen KI-Chatbot nutzen?'}
+              {isDE ? 'Warum nicht einfach einen KI-Chatbot nutzen?' : 'Why not just use an AI chatbot?'}
             </div>
             <h2 className="text-3xl sm:text-4xl font-bold text-[var(--foreground)] mb-4">
-              {isEN ? 'Quality comes from process — not a single prompt.' : 'Qualität entsteht durch Prozess — nicht durch einen einzigen Prompt.'}
+              {isDE ? 'Qualität entsteht durch Prozess — nicht durch einen einzigen Prompt.' : 'Quality comes from process — not a single prompt.'}
             </h2>
             <p className="text-lg text-[var(--muted)] max-w-2xl mx-auto leading-relaxed">
-              {isEN
-                ? 'A general AI assistant can read your notice — but AI systems are known to hallucinate legal sources and miss domain-specific questions. TaxaLex uses five specialized agents that check each other\'s work.'
-                : 'Ein allgemeiner KI-Assistent kann Ihren Bescheid lesen — aber KI-Systeme neigen dazu, Rechtsquellen zu erfinden und fachspezifische Fragen zu übersehen. TaxaLex nutzt fünf spezialisierte Agenten, die gegenseitig ihre Arbeit prüfen.'}
+              {isDE
+                ? 'Ein allgemeiner KI-Assistent kann Ihren Bescheid lesen — aber KI-Systeme neigen dazu, Rechtsquellen zu erfinden und fachspezifische Fragen zu übersehen. TaxaLex nutzt fünf spezialisierte Agenten, die gegenseitig ihre Arbeit prüfen.'
+                : 'A general AI assistant can read your notice — but AI systems are known to hallucinate legal sources and miss domain-specific questions. TaxaLex uses five specialized agents that check each other\'s work.'}
             </p>
           </div>
 
@@ -188,25 +174,25 @@ export default async function LandingPage({
                   <MessageSquare className="w-5 h-5 text-slate-400" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-[var(--foreground)]">{isEN ? 'Generic AI assistant' : 'Allgemeiner KI-Assistent'}</h3>
-                  <p className="text-sm text-[var(--muted)]">{isEN ? 'One prompt → one unverified draft' : 'Ein Prompt → ein ungeprüfter Entwurf'}</p>
+                  <h3 className="font-bold text-[var(--foreground)]">{isDE ? 'Allgemeiner KI-Assistent' : 'Generic AI assistant'}</h3>
+                  <p className="text-sm text-[var(--muted)]">{isDE ? 'Ein Prompt → ein ungeprüfter Entwurf' : 'One prompt → one unverified draft'}</p>
                 </div>
               </div>
               <ul className="space-y-3">
-                {(isEN ? [
-                  'Generates one draft without any automatic cross-checking or self-review',
-                  'Does not know which domain-specific legal questions to ask — you need to prompt them',
-                  'Can hallucinate legal citations and case references — errors go undetected without verification',
-                  'No perspective test: "How would the authority counter this argument?"',
-                  'No automatic deadline calculation from the document',
-                  'Output quality and completeness depend heavily on how the prompt is written',
-                ] : [
+                {(isDE ? [
                   'Erstellt einen Entwurf ohne automatische Gegen- oder Querprüfung',
                   'Stellt nicht von sich aus die richtigen Rechtsfragen — das Fachwissen muss vom Nutzer kommen',
                   'Kann Rechtsquellen und Urteile erfinden (Halluzinationen) — ohne Gegenprüfung unbemerkt',
                   'Keine Perspektivprüfung: „Was würde die Behörde einwenden?"',
                   'Keine automatische Fristberechnung aus dem Bescheid',
                   'Qualität und Vollständigkeit hängen stark von der Formulierung des Prompts ab',
+                ] : [
+                  'Generates one draft without any automatic cross-checking or self-review',
+                  'Does not know which domain-specific legal questions to ask — you need to prompt them',
+                  'Can hallucinate legal citations and case references — errors go undetected without verification',
+                  'No perspective test: "How would the authority counter this argument?"',
+                  'No automatic deadline calculation from the document',
+                  'Output quality and completeness depend heavily on how the prompt is written',
                 ]).map((text) => (
                   <li key={text} className="flex items-start gap-2.5 text-sm text-[var(--muted)]">
                     <X className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
@@ -220,7 +206,7 @@ export default async function LandingPage({
             <div className="bg-brand-50 dark:bg-brand-950/60 border-2 border-brand-200 dark:border-brand-800 rounded-3xl p-6 relative">
               <div className="absolute -top-3 left-6">
                 <span className="bg-brand-600 text-white text-xs font-bold px-3 py-1 rounded-full">
-                  {isEN ? '✦ 5-agent pipeline' : '✦ 5-Agenten-Pipeline'}
+                  {isDE ? '✦ 5-Agenten-Pipeline' : '✦ 5-agent pipeline'}
                 </span>
               </div>
               <div className="flex items-center gap-3 mb-6">
@@ -229,22 +215,22 @@ export default async function LandingPage({
                 </div>
                 <div>
                   <h3 className="font-bold text-[var(--foreground)]">TaxaLex</h3>
-                  <p className="text-sm text-brand-600 dark:text-brand-400">{isEN ? 'Automated expert cross-examination' : 'Automatisierte Experten-Querprüfung'}</p>
+                  <p className="text-sm text-brand-600 dark:text-brand-400">{isDE ? 'Automatisierte Experten-Querprüfung' : 'Automated expert cross-examination'}</p>
                 </div>
               </div>
               <ol className="space-y-3">
-                {(isEN ? [
-                  { agent: 'Drafter', desc: 'Creates the initial objection using legal domain knowledge (§ AO, § SGG, § BGB, § KSchG)' },
-                  { agent: 'Reviewer', desc: 'Checks legal correctness, deadline compliance, and formal requirements' },
-                  { agent: 'FactChecker', desc: 'Verifies cited legal sources and rulings via live search — flags inaccuracies before they reach the final draft' },
-                  { agent: 'Adversary', desc: 'Reviews the draft from the authority\'s perspective — to identify and address weak points' },
-                  { agent: 'Consolidator', desc: 'Combines all reviews into one structured, clearly reasoned final letter' },
-                ] : [
+                {(isDE ? [
                   { agent: 'Drafter', desc: 'Formuliert den Einspruch auf Basis relevanter Rechtsgrundlagen (§ AO, § SGG, § BGB, § KSchG)' },
                   { agent: 'Reviewer', desc: 'Prüft Fristkonformität, formale Anforderungen und sprachliche Korrektheit' },
                   { agent: 'FactChecker', desc: 'Verifiziert zitierte Rechtsquellen und Urteile per Live-Suche — erkennt Ungenauigkeiten' },
                   { agent: 'Adversary', desc: 'Analysiert den Entwurf aus Behördenperspektive — um Schwachstellen zu erkennen und zu schließen' },
                   { agent: 'Consolidator', desc: 'Fasst alle Prüfungen zu einem strukturierten, klar begründeten Abschlussschreiben zusammen' },
+                ] : [
+                  { agent: 'Drafter', desc: 'Creates the initial objection using legal domain knowledge (§ AO, § SGG, § BGB, § KSchG)' },
+                  { agent: 'Reviewer', desc: 'Checks legal correctness, deadline compliance, and formal requirements' },
+                  { agent: 'FactChecker', desc: 'Verifies cited legal sources and rulings via live search — flags inaccuracies before they reach the final draft' },
+                  { agent: 'Adversary', desc: 'Reviews the draft from the authority\'s perspective — to identify and address weak points' },
+                  { agent: 'Consolidator', desc: 'Combines all reviews into one structured, clearly reasoned final letter' },
                 ]).map((item, i) => (
                   <li key={item.agent} className="flex items-start gap-3 text-sm">
                     <span className="shrink-0 w-5 h-5 rounded-full bg-brand-600 text-white text-xs font-bold flex items-center justify-center mt-0.5">{i + 1}</span>
@@ -262,13 +248,13 @@ export default async function LandingPage({
           {/* Bottom CTA */}
           <div className="mt-10 text-center">
             <p className="text-[var(--muted)] mb-4 text-lg">
-              {isEN
-                ? 'See how it works — try the interactive demo, no registration required.'
-                : 'Sehen Sie, wie es funktioniert — interaktive Demo, ohne Registrierung.'}
+              {isDE
+                ? 'Sehen Sie, wie es funktioniert — interaktive Demo, ohne Registrierung.'
+                : 'See how it works — try the interactive demo, no registration required.'}
             </p>
             <Link href="/einspruch" className="inline-flex items-center gap-2 bg-brand-600 hover:bg-brand-700 text-white font-bold px-8 py-4 rounded-2xl transition-colors text-lg">
               <Zap className="w-5 h-5" />
-              {isEN ? 'Try the demo' : 'Demo starten'}
+              {isDE ? 'Demo starten' : 'Try the demo'}
             </Link>
           </div>
         </div>
@@ -279,19 +265,17 @@ export default async function LandingPage({
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-14">
             <p className="text-sm font-semibold text-brand-600 dark:text-brand-400 uppercase tracking-widest mb-3">
-              {isEN ? 'Why TaxaLex?' : 'Warum TaxaLex?'}
+              {tFeatures('title')}
             </p>
             <h2 className="text-3xl sm:text-4xl font-bold text-[var(--foreground)] mb-4 leading-tight">
-              {isEN ? 'Built for legal precision' : 'Gebaut für juristische Präzision'}
+              {isDE ? 'Gebaut für juristische Präzision' : 'Built for legal precision'}
             </h2>
             <p className="text-base text-[var(--muted)] max-w-xl mx-auto">
-              {isEN
-                ? 'Four differentiating features that make the difference.'
-                : 'Vier Alleinstellungsmerkmale, die den Unterschied machen.'}
+              {tFeatures('subtitle')}
             </p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-            {features.map((f) => (
+            {featureItems.map((f) => (
               <div key={f.title} className="flex flex-col gap-4">
                 <div className="w-12 h-12 bg-brand-50 dark:bg-brand-950 rounded-2xl flex items-center justify-center shrink-0">
                   <f.icon className="w-6 h-6 text-brand-600 dark:text-brand-400" />
@@ -312,28 +296,28 @@ export default async function LandingPage({
           <div className="flex-1">
             <div className="inline-flex items-center gap-2 bg-brand-50 dark:bg-brand-950 text-brand-700 dark:text-brand-300 text-sm font-semibold px-3 py-1 rounded-full mb-4">
               <FileText className="w-3.5 h-3.5" />
-              {isEN ? 'Free templates' : 'Kostenlose Vorlagen'}
+              {isDE ? 'Kostenlose Vorlagen' : 'Free templates'}
             </div>
             <h2 className="text-2xl font-bold text-[var(--foreground)] mb-3">
-              {isEN ? '16 ready-to-use legal templates' : '16 sofort einsetzbare Rechtsvorlagen'}
+              {isDE ? '16 sofort einsetzbare Rechtsvorlagen' : '16 ready-to-use legal templates'}
             </h2>
             <p className="text-[var(--muted)] leading-relaxed mb-5">
-              {isEN
-                ? 'Download blank templates for the most common objections in Germany — tax, Jobcenter, rent, employment and more. Or fill them online with AI in minutes.'
-                : 'Laden Sie leere Vorlagen für die häufigsten Einsprüche in Deutschland herunter — Steuer, Jobcenter, Miete, Arbeit und mehr. Oder füllen Sie sie online mit KI in Minuten aus.'}
+              {isDE
+                ? 'Laden Sie leere Vorlagen für die häufigsten Einsprüche in Deutschland herunter — Steuer, Jobcenter, Miete, Arbeit und mehr. Oder füllen Sie sie online mit KI in Minuten aus.'
+                : 'Download blank templates for the most common objections in Germany — tax, Jobcenter, rent, employment and more. Or fill them online with AI in minutes.'}
             </p>
             <Link
               href="/vorlagen"
               className="inline-flex items-center gap-2 font-semibold text-brand-600 dark:text-brand-400 hover:underline text-lg"
             >
-              {isEN ? 'Browse all templates' : 'Alle Vorlagen ansehen'}
+              {isDE ? 'Alle Vorlagen ansehen' : 'Browse all templates'}
               <FileText className="w-4 h-4" />
             </Link>
           </div>
           <div className="grid grid-cols-2 gap-3 shrink-0">
-            {(isEN
-              ? ['Tax Assessment', 'Jobcenter Rejection', 'Rent Increase', 'Dismissal Notice']
-              : ['Steuerbescheid', 'Jobcenter-Ablehnung', 'Mieterhöhung', 'Kündigung']
+            {(isDE
+              ? ['Steuerbescheid', 'Jobcenter-Ablehnung', 'Mieterhöhung', 'Kündigung']
+              : ['Tax Assessment', 'Jobcenter Rejection', 'Rent Increase', 'Dismissal Notice']
             ).map((name) => (
               <div key={name} className="bg-[var(--background-subtle)] rounded-xl px-4 py-3 text-sm font-medium text-[var(--foreground)] flex items-center gap-2">
                 <FileText className="w-4 h-4 text-brand-500 shrink-0" />
@@ -349,15 +333,15 @@ export default async function LandingPage({
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
             <p className="text-sm font-semibold text-brand-600 dark:text-brand-400 uppercase tracking-widest mb-3">
-              {isEN ? 'Pricing' : 'Preise'}
+              {isDE ? 'Preise' : 'Pricing'}
             </p>
             <h2 className="text-3xl sm:text-4xl font-bold text-[var(--foreground)] mb-4 leading-tight">
-              {isEN ? 'Simple, transparent pricing' : 'Einfache, transparente Preise'}
+              {isDE ? 'Einfache, transparente Preise' : 'Simple, transparent pricing'}
             </h2>
             <p className="text-base text-[var(--muted)]">
-              {isEN
-                ? 'Pay per case, or subscribe for unlimited access. No hidden fees.'
-                : 'Pro Fall oder als Abo. Keine versteckten Kosten.'}
+              {isDE
+                ? 'Pro Fall oder als Abo. Keine versteckten Kosten.'
+                : 'Pay per case, or subscribe for unlimited access. No hidden fees.'}
             </p>
           </div>
           <div className="grid sm:grid-cols-3 gap-6 mb-8">
@@ -370,7 +354,7 @@ export default async function LandingPage({
               href="/preise"
               className="text-sm text-brand-600 hover:underline underline-offset-2 dark:text-brand-400"
             >
-              {isEN ? 'View all plans including advisor & lawyer →' : 'Alle Pläne inkl. Berater & Anwalt ansehen →'}
+              {isDE ? 'Alle Pläne inkl. Berater & Anwalt ansehen →' : 'View all plans including advisor & lawyer →'}
             </Link>
           </div>
         </div>
@@ -381,15 +365,15 @@ export default async function LandingPage({
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-12">
             <p className="text-sm font-semibold text-brand-600 dark:text-brand-400 uppercase tracking-widest mb-3">
-              {isEN ? 'Support' : 'Support'}
+              Support
             </p>
             <h2 className="text-3xl sm:text-4xl font-bold text-[var(--foreground)] mb-4 leading-tight">
-              {isEN ? 'Frequently asked questions' : 'Häufige Fragen'}
+              {isDE ? 'Häufige Fragen' : 'Frequently asked questions'}
             </h2>
             <p className="text-base text-[var(--muted)]">
-              {isEN
-                ? 'Everything you want to know about TaxaLex.'
-                : 'Alles, was Sie über TaxaLex wissen möchten.'}
+              {isDE
+                ? 'Alles, was Sie über TaxaLex wissen möchten.'
+                : 'Everything you want to know about TaxaLex.'}
             </p>
           </div>
           <FAQAccordion faqs={faqs} locale={locale} />
@@ -402,13 +386,13 @@ export default async function LandingPage({
           <div className="flex items-center justify-center gap-2">
             <Shield className="w-4 h-4 text-brand-600" />
             <p className="text-sm font-medium text-[var(--foreground)]">
-              {isEN ? 'Legal notice' : 'Rechtlicher Hinweis'}
+              {isDE ? 'Rechtlicher Hinweis' : 'Legal notice'}
             </p>
           </div>
           <p className="text-sm text-[var(--muted)] max-w-2xl mx-auto leading-relaxed">
-            {isEN
-              ? 'TaxaLex generates AI-assisted draft letters. These are not legal advice within the meaning of the German Legal Services Act (RDG). For complex cases, please consult a qualified tax advisor or lawyer.'
-              : 'TaxaLex erstellt KI-gestützte Entwurfsschreiben. Diese stellen keine Rechtsberatung i.S.d. Rechtsdienstleistungsgesetzes (RDG) dar. Bei komplexen Fällen empfehlen wir die Hinzuziehung eines Steuerberaters oder Anwalts.'}
+            {isDE
+              ? 'TaxaLex erstellt KI-gestützte Entwurfsschreiben. Diese stellen keine Rechtsberatung i.S.d. Rechtsdienstleistungsgesetzes (RDG) dar. Bei komplexen Fällen empfehlen wir die Hinzuziehung eines Steuerberaters oder Anwalts.'
+              : 'TaxaLex generates AI-assisted draft letters. These are not legal advice within the meaning of the German Legal Services Act (RDG). For complex cases, please consult a qualified tax advisor or lawyer.'}
           </p>
         </div>
       </section>

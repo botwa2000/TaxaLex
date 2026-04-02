@@ -136,7 +136,25 @@
   "stats": {
     "title": "Numbers that matter",
     "subtitle": "Verified statistics from official sources",
-    "source": "Source"
+    "source": "Source",
+    "items": {
+      "objections": {
+        "value": "3.3M",
+        "label": "Tax objections filed per year in Germany"
+      },
+      "successRate": {
+        "value": "67 %",
+        "label": "Partial or full success rate"
+      },
+      "deadline": {
+        "value": "30 days",
+        "label": "Legal deadline (§ 355 AO)"
+      },
+      "speed": {
+        "value": "< 5 min",
+        "label": "Average generation time"
+      }
+    }
   },
   "pricing": {
     "title": "Transparent & fair",
@@ -241,7 +259,15 @@
         "individual": "Privato",
         "advisor": "Consulente fiscale",
         "lawyer": "Avvocato"
-      }
+      },
+      "errorInvalid": "Invalid email or password.",
+      "successRegistered": "Account created. Please sign in.",
+      "successVerified": "Email confirmed. You can now sign in.",
+      "errorInvalidToken": "The confirmation link is invalid or expired. Please request a new one.",
+      "showPassword": "Show password",
+      "hidePassword": "Hide password",
+      "withGoogle": "Sign in with Google",
+      "demoAvailable": "Demo accounts (5 available)"
     },
     "register": {
       "title": "Crea account",
@@ -289,7 +315,27 @@
           "Ricorsi illimitati per tutti i clienti",
           "Ricerca legale approfondita"
         ]
-      }
+      },
+      "iAm": "I am…",
+      "sublabels": {
+        "individual": "Appeal notices",
+        "advisor": "Manage clients",
+        "lawyer": "Represent clients"
+      },
+      "registerFree": "Register for free",
+      "passwordStrengthLabel": "Password strength:",
+      "passwordMinLength": "Min. {n} characters",
+      "errorFailed": "Registration failed."
+    },
+    "layout": {
+      "backToHome": "Back to home",
+      "trusted": "Trusted by German taxpayers",
+      "headline": "Respond to German official notices — structured and clearly reasoned.",
+      "description": "5 specialized AI agents draft, cross-check, and improve your objection letter — in under 5 minutes.",
+      "trustDraft": "Draft ready in under 5 minutes",
+      "trustDemo": "Interactive demo — no registration required",
+      "trustGdpr": "GDPR-compliant · EU servers · Encrypted",
+      "privacy": "Privacy"
     }
   },
   "dashboard": {

@@ -136,7 +136,25 @@
   "stats": {
     "title": "Zahlen, die zÃ¤hlen",
     "subtitle": "Verifizierte Statistiken aus offiziellen Quellen",
-    "source": "Quelle"
+    "source": "Quelle",
+    "items": {
+      "objections": {
+        "value": "3,3 Mio.",
+        "label": "Einsprüche pro Jahr in Deutschland"
+      },
+      "successRate": {
+        "value": "67 %",
+        "label": "Teilweise / vollständige Stattgabe"
+      },
+      "deadline": {
+        "value": "30 Tage",
+        "label": "Gesetzliche Einspruchsfrist (§ 355 AO)"
+      },
+      "speed": {
+        "value": "< 5 min",
+        "label": "Durchschnittliche Generierungszeit"
+      }
+    }
   },
   "pricing": {
     "title": "Transparent & fair",
@@ -241,7 +259,15 @@
         "individual": "Privatperson",
         "advisor": "Steuerberater",
         "lawyer": "Rechtsanwalt"
-      }
+      },
+      "errorInvalid": "E-Mail oder Passwort falsch.",
+      "successRegistered": "Konto erfolgreich erstellt. Bitte melden Sie sich an.",
+      "successVerified": "E-Mail-Adresse erfolgreich bestätigt. Sie können sich jetzt anmelden.",
+      "errorInvalidToken": "Der Bestätigungslink ist ungültig oder abgelaufen. Bitte fordern Sie einen neuen an.",
+      "showPassword": "Passwort anzeigen",
+      "hidePassword": "Passwort verbergen",
+      "withGoogle": "Mit Google anmelden",
+      "demoAvailable": "Demo-Zugangsdaten (5 Accounts verfügbar)"
     },
     "register": {
       "title": "Konto erstellen",
@@ -289,7 +315,27 @@
           "Unbegrenzte EinsprÃ¼che fÃ¼r alle Mandanten",
           "Erweiterte Rechtsgrundlagen-Recherche"
         ]
-      }
+      },
+      "iAm": "Ich bin…",
+      "sublabels": {
+        "individual": "Bescheide anfechten",
+        "advisor": "Mandanten betreuen",
+        "lawyer": "Mandanten vertreten"
+      },
+      "registerFree": "Kostenlos registrieren",
+      "passwordStrengthLabel": "Passwortstärke:",
+      "passwordMinLength": "Min. {n} Zeichen",
+      "errorFailed": "Registrierung fehlgeschlagen."
+    },
+    "layout": {
+      "backToHome": "Zurück zur Startseite",
+      "trusted": "Von deutschen Steuerzahlern vertraut",
+      "headline": "Bescheide strukturiert und begründet widersprechen.",
+      "description": "5 spezialisierte KI-Agenten entwerfen, prüfen und verbessern Ihr Einspruchsschreiben – in unter 5 Minuten.",
+      "trustDraft": "Entwurf fertig in unter 5 Minuten",
+      "trustDemo": "Interaktive Demo – ohne Registrierung",
+      "trustGdpr": "DSGVO-konform · EU-Server · Verschlüsselt",
+      "privacy": "Datenschutz"
     }
   },
   "dashboard": {
