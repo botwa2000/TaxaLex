@@ -53,22 +53,27 @@
     "sectionOverview": "Overview",
     "sectionAccount": "Account",
     "sectionAdvisor": "Advisor",
-    "sectionAdmin": "Administration"
+    "sectionAdmin": "Administration",
+    "templates": "Templates",
+    "allUseCases": "→ All use cases",
+    "startFree": "Start for free",
+    "advisorDemo": "Advisor demo",
+    "newAppeal": "New appeal"
   },
   "hero": {
     "groups": {
       "individual": {
         "headline": "Received a German notice? Appeal it in minutes.",
-        "sub": "TaxaLex analyses your administrative decision with 5 AI agents and drafts a legally grounded objection letter â€“ no lawyer needed.",
+        "sub": "TaxaLex analyses your administrative decision with 5 AI agents and drafts a legally grounded objection letter – no lawyer needed.",
         "cta": "Get started for free"
       },
       "selfemployed": {
-        "headline": "Tax bill? Appeal it â€“ without a lawyer.",
+        "headline": "Tax bill? Appeal it – without a lawyer.",
         "sub": "For freelancers and self-employed: AI-powered objection letters against tax assessments in under 5 minutes.",
         "cta": "Appeal now"
       },
       "expat": {
-        "headline": "German notice? Appeal it in minutes â€“ in your language.",
+        "headline": "German notice? Appeal it in minutes – in your language.",
         "sub": "TaxaLex helps expats navigate German bureaucracy. Upload your notice, answer a few questions, get a professional objection letter.",
         "cta": "Start for free"
       },
@@ -84,7 +89,7 @@
       "expat": "Expat",
       "advisor": "Tax advisor"
     },
-    "badge": "AI-powered Â· GDPR-compliant Â· EU servers",
+    "badge": "AI-powered · GDPR-compliant · EU servers",
     "disclaimer": "AI-generated drafts. Not legal advice."
   },
   "howItWorks": {
@@ -101,7 +106,7 @@
         "number": "2",
         "title": "AI analysis",
         "description": "Five specialised AI agents review your notice: drafting, error-checking, fact-checking, counter-perspective, and consolidation.",
-        "detail": "Claude Â· Gemini Â· Perplexity â€“ all models work in parallel"
+        "detail": "Claude · Gemini · Perplexity – all models work in parallel"
       },
       "download": {
         "number": "3",
@@ -115,7 +120,7 @@
     "title": "Which notice do you want to appeal?",
     "subtitle": "Select the type of administrative decision",
     "tax": "Tax assessment",
-    "jobcenter": "Jobcenter / BÃ¼rgergeld",
+    "jobcenter": "Jobcenter / Bürgergeld",
     "rente": "Pension notice",
     "bussgeld": "Fine / penalty notice",
     "bussgeldd": "Fine / penalty notice",
@@ -123,7 +128,7 @@
     "kuendigung": "Employment termination",
     "miete": "Rent increase / deposit",
     "grundsteuer": "Property tax (Grundsteuer)",
-    "sectionTitle": "8 notice types â€“ all covered",
+    "sectionTitle": "8 notice types – all covered",
     "sectionSubtitle": "From tax assessments to fines: TaxaLex knows the relevant legal basis for all common administrative notices.",
     "appeal": "Appeal this notice",
     "deadline": "Deadline",
@@ -175,7 +180,7 @@
     "upgrade": "Upgrade now",
     "contact": "Contact us",
     "choosePlan": "Choose plan",
-    "annualDiscount": "Pay annually â€“ 2 months free",
+    "annualDiscount": "Pay annually – 2 months free",
     "monthly": "Monthly",
     "annual": "Annual",
     "vatNote": "All prices excl. VAT.",
@@ -190,7 +195,7 @@
     "items": {
       "multiAi": {
         "title": "5 AI agents in parallel",
-        "description": "Claude, Gemini and Perplexity review your objection from different perspectives â€“ for maximum quality."
+        "description": "Claude, Gemini and Perplexity review your objection from different perspectives – for maximum quality."
       },
       "legal": {
         "title": "Up-to-date legal references",
@@ -198,7 +203,7 @@
       },
       "multilingual": {
         "title": "Multilingual",
-        "description": "Interface in 7 languages. The objection letter is always drafted in German â€“ as required by authorities."
+        "description": "Interface in 7 languages. The objection letter is always drafted in German – as required by authorities."
       },
       "privacy": {
         "title": "GDPR & Privacy",
@@ -355,8 +360,8 @@
   "dashboard": {
     "title": "Dashboard",
     "welcome": "Welcome back, {name}",
-    "welcomeAdvisor": "Advisor dashboard â€“ {name}",
-    "welcomeAdmin": "Admin panel â€“ {name}",
+    "welcomeAdvisor": "Advisor dashboard – {name}",
+    "welcomeAdmin": "Admin panel – {name}",
     "stats": {
       "totalCases": "Total objections",
       "activeCases": "Active cases",
@@ -453,7 +458,7 @@
     "templatesDesc": "Free templates to download and customise",
     "templatesViewAll": "View all",
     "templatesFree": "Free",
-    "templatesUseAI": "Prefer AI â€” create your objection in 5 minutes",
+    "templatesUseAI": "Prefer AI — create your objection in 5 minutes",
     "plansTitle": "Plans & pricing",
     "plansViewAll": "View details",
     "settingsTitle": "Account & settings",
@@ -636,7 +641,7 @@
       "caseSuffix": "case",
       "casesSuffix": "cases",
       "grantCredits": "Grant",
-      "grantLoading": "Savingâ€¦",
+      "grantLoading": "Saving…",
       "grantError": "Failed to grant credits",
       "changeRole": "Change role:",
       "creditsFor": "Credits for",
@@ -656,7 +661,7 @@
       "deadline": "Deadline"
     },
     "pricing": {
-      "loading": "Loading pricing plansâ€¦",
+      "loading": "Loading pricing plans…",
       "noPlansHint": "No pricing plans in the database.",
       "recommended": "Recommended",
       "inactive": "Inactive",
@@ -669,7 +674,7 @@
       "features": "Features"
     },
     "emails": {
-      "devWarning": "Dev mode active â€” all outgoing emails will have the prefix DEV - in the subject line.",
+      "devWarning": "Dev mode active — all outgoing emails will have the prefix DEV - in the subject line.",
       "trigger": "Trigger",
       "subject": "Subject",
       "variables": "Variables",
@@ -677,13 +682,13 @@
       "templates": {
         "verification": "Verification code",
         "verificationTrigger": "User registers",
-        "verificationSubject": "Your verification code â€” TaxaLex",
+        "verificationSubject": "Your verification code — TaxaLex",
         "welcome": "Welcome email",
         "welcomeTrigger": "Email verified",
-        "welcomeSubject": "Welcome to TaxaLex â€” {name}",
+        "welcomeSubject": "Welcome to TaxaLex — {name}",
         "passwordReset": "Password reset",
         "passwordResetTrigger": "Forgot password",
-        "passwordResetSubject": "Reset your password â€” TaxaLex"
+        "passwordResetSubject": "Reset your password — TaxaLex"
       }
     },
     "system": {
@@ -699,17 +704,17 @@
       "notConfigured": "Not configured",
       "services": {
         "anthropic": "Anthropic (Claude)",
-        "anthropicNote": "Required â€” app will not start without this key",
+        "anthropicNote": "Required — app will not start without this key",
         "google": "Google AI (Gemini)",
-        "googleNote": "Optional â€” for Gemini agents",
+        "googleNote": "Optional — for Gemini agents",
         "perplexity": "Perplexity (Sonar)",
-        "perplexityNote": "Optional â€” for fact-check agent",
+        "perplexityNote": "Optional — for fact-check agent",
         "stripe": "Stripe",
-        "stripeNote": "Optional â€” for payments",
+        "stripeNote": "Optional — for payments",
         "brevo": "Brevo (Email)",
-        "brevoNote": "Optional â€” emails suppressed without key",
+        "brevoNote": "Optional — emails suppressed without key",
         "s3": "S3 (File storage)",
-        "s3Note": "Optional â€” for document uploads"
+        "s3Note": "Optional — for document uploads"
       }
     },
     "content": {
@@ -736,7 +741,7 @@
       },
       "analytics": {
         "title": "Analytics cookies",
-        "description": "Google Analytics and PostHog â€“ help us improve the website."
+        "description": "Google Analytics and PostHog – help us improve the website."
       },
       "marketing": {
         "title": "Marketing cookies",
@@ -787,7 +792,7 @@
   "outputLanguage": {
     "label": "Output language",
     "hint": "The objection letter is generated in German by default (required for German authorities).",
-    "nonGermanWarning": "For review only â€” the letter must be in German for official submission."
+    "nonGermanWarning": "For review only — the letter must be in German for official submission."
   },
   "errors": {
     "noFiles": "Please upload at least one file",

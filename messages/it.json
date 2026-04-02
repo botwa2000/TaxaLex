@@ -19,9 +19,9 @@
     "optional": "Facoltativo",
     "or": "o",
     "and": "e",
-    "yes": "SÃ¬",
+    "yes": "Sì",
     "no": "No",
-    "learnMore": "Scopri di piÃ¹",
+    "learnMore": "Scopri di più",
     "getStarted": "Inizia gratuitamente",
     "tryFree": "Prova gratis",
     "viewAll": "Vedi tutto"
@@ -53,22 +53,27 @@
     "sectionOverview": "Panoramica",
     "sectionAccount": "Account",
     "sectionAdvisor": "Consulente",
-    "sectionAdmin": "Amministrazione"
+    "sectionAdmin": "Amministrazione",
+    "templates": "Modelli",
+    "allUseCases": "→ Tutti i casi",
+    "startFree": "Inizia gratis",
+    "advisorDemo": "Demo consulente",
+    "newAppeal": "Nuovo ricorso"
   },
   "hero": {
     "groups": {
       "individual": {
         "headline": "Received a German notice? Appeal it in minutes.",
-        "sub": "TaxaLex analyses your administrative decision with 5 AI agents and drafts a legally grounded objection letter â€“ no lawyer needed.",
+        "sub": "TaxaLex analyses your administrative decision with 5 AI agents and drafts a legally grounded objection letter – no lawyer needed.",
         "cta": "Get started for free"
       },
       "selfemployed": {
-        "headline": "Tax bill? Appeal it â€“ without a lawyer.",
+        "headline": "Tax bill? Appeal it – without a lawyer.",
         "sub": "For freelancers and self-employed: AI-powered objection letters against tax assessments in under 5 minutes.",
         "cta": "Appeal now"
       },
       "expat": {
-        "headline": "German notice? Appeal it in minutes â€“ in your language.",
+        "headline": "German notice? Appeal it in minutes – in your language.",
         "sub": "TaxaLex helps expats navigate German bureaucracy. Upload your notice, answer a few questions, get a professional objection letter.",
         "cta": "Start for free"
       },
@@ -84,7 +89,7 @@
       "expat": "Expat",
       "advisor": "Tax advisor"
     },
-    "badge": "AI-powered Â· GDPR-compliant Â· EU servers",
+    "badge": "AI-powered · GDPR-compliant · EU servers",
     "disclaimer": "AI-generated drafts. Not legal advice."
   },
   "howItWorks": {
@@ -101,7 +106,7 @@
         "number": "2",
         "title": "AI analysis",
         "description": "Five specialised AI agents review your notice: drafting, error-checking, fact-checking, counter-perspective, and consolidation.",
-        "detail": "Claude Â· Gemini Â· Perplexity â€“ all models work in parallel"
+        "detail": "Claude · Gemini · Perplexity – all models work in parallel"
       },
       "download": {
         "number": "3",
@@ -115,7 +120,7 @@
     "title": "Which notice do you want to appeal?",
     "subtitle": "Select the type of administrative decision",
     "tax": "Tax assessment",
-    "jobcenter": "Jobcenter / BÃ¼rgergeld",
+    "jobcenter": "Jobcenter / Bürgergeld",
     "rente": "Pension notice",
     "bussgeld": "Fine / penalty notice",
     "bussgeldd": "Fine / penalty notice",
@@ -123,7 +128,7 @@
     "kuendigung": "Employment termination",
     "miete": "Rent increase / deposit",
     "grundsteuer": "Property tax (Grundsteuer)",
-    "sectionTitle": "8 notice types â€“ all covered",
+    "sectionTitle": "8 notice types – all covered",
     "sectionSubtitle": "From tax assessments to fines: TaxaLex knows the relevant legal basis for all common administrative notices.",
     "appeal": "Appeal this notice",
     "deadline": "Deadline",
@@ -175,7 +180,7 @@
     "upgrade": "Upgrade now",
     "contact": "Contact us",
     "choosePlan": "Choose plan",
-    "annualDiscount": "Pay annually â€“ 2 months free",
+    "annualDiscount": "Pay annually – 2 months free",
     "monthly": "Monthly",
     "annual": "Annual",
     "vatNote": "All prices excl. VAT.",
@@ -190,7 +195,7 @@
     "items": {
       "multiAi": {
         "title": "5 AI agents in parallel",
-        "description": "Claude, Gemini and Perplexity review your objection from different perspectives â€“ for maximum quality."
+        "description": "Claude, Gemini and Perplexity review your objection from different perspectives – for maximum quality."
       },
       "legal": {
         "title": "Up-to-date legal references",
@@ -198,7 +203,7 @@
       },
       "multilingual": {
         "title": "Multilingual",
-        "description": "Interface in 7 languages. The objection letter is always drafted in German â€“ as required by authorities."
+        "description": "Interface in 7 languages. The objection letter is always drafted in German – as required by authorities."
       },
       "privacy": {
         "title": "GDPR & Privacy",
@@ -280,7 +285,7 @@
       "terms": "Termini di servizio",
       "privacy": "Informativa sulla privacy",
       "submit": "Crea account",
-      "hasAccount": "Hai giÃ  un account?",
+      "hasAccount": "Hai già un account?",
       "login": "Accedi",
       "passwordStrength": {
         "weak": "Debole",
@@ -355,8 +360,8 @@
   "dashboard": {
     "title": "Dashboard",
     "welcome": "Bentornato, {name}",
-    "welcomeAdvisor": "Dashboard consulente â€“ {name}",
-    "welcomeAdmin": "Pannello admin â€“ {name}",
+    "welcomeAdvisor": "Dashboard consulente – {name}",
+    "welcomeAdmin": "Pannello admin – {name}",
     "stats": {
       "totalCases": "Ricorsi totali",
       "activeCases": "Casi attivi",
@@ -440,11 +445,11 @@
     "newPassword": "Nuova password",
     "confirmPassword": "Conferma password",
     "deleteAccount": "Elimina account",
-    "deleteWarning": "Questa azione Ã¨ irreversibile. Tutti i tuoi dati saranno eliminati.",
+    "deleteWarning": "Questa azione è irreversibile. Tutti i tuoi dati saranno eliminati.",
     "notifications": {
       "email": "Notifiche via e-mail",
       "caseUpdates": "Aggiornamenti sui casi",
-      "newsletter": "Newsletter & novitÃ  prodotto"
+      "newsletter": "Newsletter & novità prodotto"
     },
     "memberSince": "Membro dal",
     "logout": "Esci",
@@ -453,7 +458,7 @@
     "templatesDesc": "Modelli gratuiti da scaricare e personalizzare",
     "templatesViewAll": "Vedi tutto",
     "templatesFree": "Gratuito",
-    "templatesUseAI": "Preferisci l'IA â€“ crea un ricorso in 5 minuti",
+    "templatesUseAI": "Preferisci l'IA – crea un ricorso in 5 minuti",
     "plansTitle": "Piani & Prezzi",
     "plansViewAll": "Tutti i dettagli",
     "settingsTitle": "Account & Impostazioni",
@@ -473,7 +478,7 @@
     "billingManage": "Gestisci pagamenti & piano",
     "billingManageDesc": "Fatture, upgrade, acquisto di pacchetti",
     "gdprTitle": "Privacy (GDPR)",
-    "gdprNote": "Esportazione dati in arrivo. L'eliminazione dell'account Ã¨ immediata e irreversibile.",
+    "gdprNote": "Esportazione dati in arrivo. L'eliminazione dell'account è immediata e irreversibile.",
     "exportData": "Esporta dati",
     "languageLabel": "Lingua",
     "statCases": "Casi totali",
@@ -522,7 +527,7 @@
       "caseSuffix": "caso",
       "casesSuffix": "casi",
       "grantCredits": "Assegna crediti",
-      "grantLoading": "Assegnazione in corsoâ€¦",
+      "grantLoading": "Assegnazione in corso…",
       "grantError": "Assegnazione fallita",
       "changeRole": "Cambia ruolo:",
       "creditsFor": "Crediti per",
@@ -542,7 +547,7 @@
       "deadline": "Scadenza"
     },
     "pricing": {
-      "loading": "Caricamento piani tariffariâ€¦",
+      "loading": "Caricamento piani tariffari…",
       "noPlansHint": "Nessun piano tariffario nel database.",
       "recommended": "Consigliato",
       "inactive": "Inattivo",
@@ -552,24 +557,24 @@
       "annual": "Annuale",
       "active": "Attivo",
       "standard": "Standard",
-      "features": "FunzionalitÃ "
+      "features": "Funzionalità"
     },
     "emails": {
-      "devWarning": "ModalitÃ  dev attiva â€” tutte le e-mail in uscita ricevono il prefisso DEV - nell'oggetto.",
+      "devWarning": "Modalità dev attiva — tutte le e-mail in uscita ricevono il prefisso DEV - nell'oggetto.",
       "trigger": "Trigger",
       "subject": "Oggetto",
       "variables": "Variabili",
-      "ttl": "ValiditÃ ",
+      "ttl": "Validità",
       "templates": {
         "verification": "Codice di verifica",
         "verificationTrigger": "L'utente si registra",
-        "verificationSubject": "Il tuo codice di verifica â€” TaxaLex",
+        "verificationSubject": "Il tuo codice di verifica — TaxaLex",
         "welcome": "E-mail di benvenuto",
         "welcomeTrigger": "E-mail verificata",
-        "welcomeSubject": "Benvenuto su TaxaLex â€” {name}",
+        "welcomeSubject": "Benvenuto su TaxaLex — {name}",
         "passwordReset": "Reimpostazione password",
         "passwordResetTrigger": "Password dimenticata",
-        "passwordResetSubject": "Reimposta la tua password â€” TaxaLex"
+        "passwordResetSubject": "Reimposta la tua password — TaxaLex"
       }
     },
     "system": {
@@ -585,17 +590,17 @@
       "notConfigured": "Non configurato",
       "services": {
         "anthropic": "Anthropic (Claude)",
-        "anthropicNote": "Required â€” app will not start without this key",
+        "anthropicNote": "Required — app will not start without this key",
         "google": "Google AI (Gemini)",
-        "googleNote": "Optional â€” for Gemini agents",
+        "googleNote": "Optional — for Gemini agents",
         "perplexity": "Perplexity (Sonar)",
-        "perplexityNote": "Optional â€” for fact-check agent",
+        "perplexityNote": "Optional — for fact-check agent",
         "stripe": "Stripe",
-        "stripeNote": "Optional â€” for payments",
+        "stripeNote": "Optional — for payments",
         "brevo": "Brevo (Email)",
-        "brevoNote": "Optional â€” emails suppressed without key",
+        "brevoNote": "Optional — emails suppressed without key",
         "s3": "S3 (File storage)",
-        "s3Note": "Optional â€” for document uploads"
+        "s3Note": "Optional — for document uploads"
       }
     },
     "content": {
@@ -612,7 +617,7 @@
       "clients": "Clienti",
       "activeAppeals": "Ricorsi attivi",
       "submittedAppeals": "Ricorsi inviati",
-      "recentActivity": "AttivitÃ  recente",
+      "recentActivity": "Attività recente",
       "quickActions": "Accesso rapido",
       "addClient": "Aggiungi cliente",
       "newAppeal": "Nuovo ricorso"
@@ -625,7 +630,7 @@
       "name": "Nome",
       "email": "E-mail",
       "cases": "Casi",
-      "lastActive": "Ultima attivitÃ ",
+      "lastActive": "Ultima attività",
       "actions": "Azioni",
       "noClients": "Nessun cliente",
       "modal": {
@@ -726,7 +731,7 @@
     "missingDescheid": "Dati dell'avviso mancanti",
     "unauthorized": "Non autorizzato",
     "notFound": "Pagina non trovata",
-    "serverError": "Errore del server. Riprova piÃ¹ tardi."
+    "serverError": "Errore del server. Riprova più tardi."
   },
   "cookies": {
     "banner": {
@@ -735,7 +740,7 @@
       "acceptAll": "Accetta tutti",
       "acceptNecessary": "Solo necessari",
       "manage": "Impostazioni",
-      "learnMore": "Scopri di piÃ¹"
+      "learnMore": "Scopri di più"
     },
     "types": {
       "necessary": {
@@ -748,7 +753,7 @@
       },
       "marketing": {
         "title": "Cookie di marketing",
-        "description": "PubblicitÃ  personalizzata."
+        "description": "Pubblicità personalizzata."
       }
     }
   },
@@ -794,7 +799,7 @@
   },
   "outputLanguage": {
     "label": "Lingua di output",
-    "hint": "Il ricorso viene generato in tedesco per impostazione predefinita (richiesto per le autoritÃ  tedesche).",
-    "nonGermanWarning": "Solo per revisione â€” la lettera deve essere in tedesco per la presentazione ufficiale."
+    "hint": "Il ricorso viene generato in tedesco per impostazione predefinita (richiesto per le autorità tedesche).",
+    "nonGermanWarning": "Solo per revisione — la lettera deve essere in tedesco per la presentazione ufficiale."
   }
 }

@@ -53,7 +53,12 @@
     "sectionOverview": "نظرة عامة",
     "sectionAccount": "الحساب",
     "sectionAdvisor": "المستشار",
-    "sectionAdmin": "الإدارة"
+    "sectionAdmin": "الإدارة",
+    "templates": "القوالب",
+    "allUseCases": "→ جميع الحالات",
+    "startFree": "ابدأ مجاناً",
+    "advisorDemo": "عرض المستشار",
+    "newAppeal": "طعن جديد"
   },
   "hero": {
     "groups": {

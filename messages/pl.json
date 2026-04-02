@@ -53,7 +53,12 @@
     "sectionOverview": "Przegląd",
     "sectionAccount": "Konto",
     "sectionAdvisor": "Doradca",
-    "sectionAdmin": "Administracja"
+    "sectionAdmin": "Administracja",
+    "templates": "Szablony",
+    "allUseCases": "→ Wszystkie przypadki",
+    "startFree": "Zacznij za darmo",
+    "advisorDemo": "Demo doradcy",
+    "newAppeal": "Nowe odwołanie"
   },
   "hero": {
     "groups": {

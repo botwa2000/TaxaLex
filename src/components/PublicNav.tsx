@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useSession, signOut } from 'next-auth/react'
+import { useTranslations } from 'next-intl'
 import { Menu, X, ChevronDown, LogOut, LayoutDashboard } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Logo } from './Logo'
@@ -18,49 +19,32 @@ export function PublicNav({ locale, userGroup }: PublicNavProps) {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [useCaseDropOpen, setUseCaseDropOpen] = useState(false)
   const pathname = usePathname()
-  const isEN = locale === 'en'
   const { data: session, status } = useSession()
   const isLoggedIn = status === 'authenticated' && !!session?.user
+  const t = useTranslations('nav')
+  const tUC = useTranslations('useCases')
 
   const navLinks = [
-    {
-      label: isEN ? 'How it works' : 'Wie es funktioniert',
-      href: '/wie-es-funktioniert',
-    },
-    {
-      label: isEN ? 'Use cases' : 'Anwendungsfälle',
-      href: null,
-      dropdown: true,
-    },
-    {
-      label: isEN ? 'Templates' : 'Vorlagen',
-      href: '/vorlagen',
-    },
-    {
-      label: isEN ? 'Pricing' : 'Preise',
-      href: '/preise',
-    },
-    {
-      label: isEN ? 'For advisors' : 'Für Steuerberater',
-      href: '/advisor',
-    },
+    { label: t('howItWorks'), href: '/wie-es-funktioniert' },
+    { label: t('useCasesNav'), href: null, dropdown: true },
+    { label: t('templates'), href: '/vorlagen' },
+    { label: t('pricing'), href: '/preise' },
+    { label: t('forAdvisors'), href: '/advisor' },
   ]
 
   const useCaseLinks = [
-    { label: isEN ? '→ All use cases' : '→ Alle Anwendungsfälle', href: '/anwendungsfaelle', highlight: true },
-    { label: isEN ? 'Tax assessment' : 'Steuerbescheid', href: '/anwendungsfaelle#tax' },
-    { label: isEN ? 'Jobcenter / Bürgergeld' : 'Jobcenter / Bürgergeld', href: '/anwendungsfaelle#jobcenter' },
-    { label: isEN ? 'Pension notice' : 'Rentenbescheid', href: '/anwendungsfaelle#rente' },
-    { label: isEN ? 'Fine / penalty' : 'Bußgeldbescheid', href: '/anwendungsfaelle#bussgeld' },
-    { label: isEN ? 'Health insurance' : 'Krankenversicherung', href: '/anwendungsfaelle#krankenversicherung' },
-    { label: isEN ? 'Dismissal notice' : 'Kündigung', href: '/anwendungsfaelle#kuendigung' },
-    { label: isEN ? 'Rent increase' : 'Mieterhöhung', href: '/anwendungsfaelle#miete' },
-    { label: isEN ? 'Property tax' : 'Grundsteuer', href: '/anwendungsfaelle#grundsteuer' },
+    { label: t('allUseCases'), href: '/anwendungsfaelle', highlight: true },
+    { label: tUC('tax'), href: '/anwendungsfaelle#tax' },
+    { label: tUC('jobcenter'), href: '/anwendungsfaelle#jobcenter' },
+    { label: tUC('rente'), href: '/anwendungsfaelle#rente' },
+    { label: tUC('bussgeld'), href: '/anwendungsfaelle#bussgeld' },
+    { label: tUC('krankenversicherung'), href: '/anwendungsfaelle#krankenversicherung' },
+    { label: tUC('kuendigung'), href: '/anwendungsfaelle#kuendigung' },
+    { label: tUC('miete'), href: '/anwendungsfaelle#miete' },
+    { label: tUC('grundsteuer'), href: '/anwendungsfaelle#grundsteuer' },
   ]
 
-  const ctaLabel = userGroup === 'advisor'
-    ? (isEN ? 'Advisor demo' : 'Berater-Demo')
-    : (isEN ? 'Start for free' : 'Kostenlos starten')
+  const ctaLabel = userGroup === 'advisor' ? t('advisorDemo') : t('startFree')
 
   return (
     <header className="sticky top-0 z-40 bg-[var(--surface)]/90 backdrop-blur-md border-b border-[var(--border)]">
@@ -138,18 +122,18 @@ export function PublicNav({ locale, userGroup }: PublicNavProps) {
                 className="hidden sm:flex items-center gap-1.5 text-sm text-[var(--muted)] hover:text-[var(--foreground)] px-3 py-2 rounded-lg hover:bg-[var(--background-subtle)] transition-colors"
               >
                 <LayoutDashboard className="w-3.5 h-3.5" />
-                {isEN ? 'Dashboard' : 'Dashboard'}
+                {t('dashboard')}
               </Link>
               <button
-                onClick={() => signOut({ callbackUrl: '/login' })}
+                onClick={() => signOut({ callbackUrl: `/${locale}/login` })}
                 className="hidden sm:flex items-center gap-1.5 text-sm text-[var(--muted)] hover:text-[var(--foreground)] px-3 py-2 rounded-lg hover:bg-[var(--background-subtle)] transition-colors"
               >
                 <LogOut className="w-3.5 h-3.5" />
-                {isEN ? 'Sign out' : 'Abmelden'}
+                {t('logout')}
               </button>
               <Link href="/einspruch">
                 <Button size="md" variant="primary">
-                  {isEN ? 'New appeal' : 'Neuer Einspruch'}
+                  {t('newAppeal')}
                 </Button>
               </Link>
             </>
@@ -159,7 +143,7 @@ export function PublicNav({ locale, userGroup }: PublicNavProps) {
                 href="/login"
                 className="hidden sm:block text-sm text-[var(--muted)] hover:text-[var(--foreground)] px-3 py-2 rounded-lg hover:bg-[var(--background-subtle)] transition-colors"
               >
-                {isEN ? 'Sign in' : 'Anmelden'}
+                {t('login')}
               </Link>
               <Link href="/register">
                 <Button size="md" variant="primary">
@@ -172,7 +156,7 @@ export function PublicNav({ locale, userGroup }: PublicNavProps) {
           <button
             className="md:hidden p-2 text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-[var(--background-subtle)] rounded-lg transition-colors"
             onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label="Toggle menu"
+            aria-label={mobileOpen ? t('closeMenu') : t('openMenu')}
           >
             {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
@@ -201,21 +185,21 @@ export function PublicNav({ locale, userGroup }: PublicNavProps) {
                   className="flex items-center gap-2 px-3 py-3 text-sm font-medium text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-[var(--background-subtle)] rounded-xl transition-colors"
                 >
                   <LayoutDashboard className="w-4 h-4" />
-                  Dashboard
+                  {t('dashboard')}
                 </Link>
                 <Link
                   href="/einspruch"
                   onClick={() => setMobileOpen(false)}
                   className="block px-3 py-3 text-sm font-bold text-center text-white bg-brand-600 hover:bg-brand-700 rounded-xl transition-colors"
                 >
-                  {isEN ? 'New appeal' : 'Neuer Einspruch'}
+                  {t('newAppeal')}
                 </Link>
                 <button
-                  onClick={() => { setMobileOpen(false); signOut({ callbackUrl: '/login' }) }}
+                  onClick={() => { setMobileOpen(false); signOut({ callbackUrl: `/${locale}/login` }) }}
                   className="flex items-center gap-2 w-full px-3 py-3 text-sm font-medium text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-[var(--background-subtle)] rounded-xl transition-colors"
                 >
                   <LogOut className="w-4 h-4" />
-                  {isEN ? 'Sign out' : 'Abmelden'}
+                  {t('logout')}
                 </button>
               </>
             ) : (
@@ -225,7 +209,7 @@ export function PublicNav({ locale, userGroup }: PublicNavProps) {
                   onClick={() => setMobileOpen(false)}
                   className="block px-3 py-3 text-sm font-medium text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-[var(--background-subtle)] rounded-xl transition-colors"
                 >
-                  {isEN ? 'Sign in' : 'Anmelden'}
+                  {t('login')}
                 </Link>
                 <Link
                   href="/register"

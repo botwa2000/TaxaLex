@@ -39,7 +39,12 @@
     "dashboard": "Dashboard",
     "newCase": "New request",
     "openMenu": "Open menu",
-    "closeMenu": "Close menu"
+    "closeMenu": "Close menu",
+    "templates": "Шаблони",
+    "allUseCases": "→ Всі випадки",
+    "startFree": "Почати безкоштовно",
+    "advisorDemo": "Демо радника",
+    "newAppeal": "Нове оскарження"
   },
   "hero": {
     "groups": {

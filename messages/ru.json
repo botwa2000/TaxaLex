@@ -53,7 +53,12 @@
     "sectionOverview": "Обзор",
     "sectionAccount": "Аккаунт",
     "sectionAdvisor": "Консультант",
-    "sectionAdmin": "Администрирование"
+    "sectionAdmin": "Администрирование",
+    "templates": "Шаблоны",
+    "allUseCases": "→ Все случаи",
+    "startFree": "Начать бесплатно",
+    "advisorDemo": "Демо советника",
+    "newAppeal": "Новое обжалование"
   },
   "hero": {
     "groups": {
