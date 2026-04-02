@@ -1,28 +1,22 @@
 import { Shield, Server, Lock, Scale } from 'lucide-react'
+import { getTranslations } from 'next-intl/server'
 import { cn } from '@/lib/utils'
 
 interface TrustBadgesProps {
-  locale?: string
+  locale: string
   variant?: 'row' | 'grid'
   className?: string
 }
 
-const BADGES_DE = [
-  { icon: Shield, label: 'DSGVO-konform', detail: 'Daten in der EU' },
-  { icon: Server, label: 'EU-Server', detail: 'Hetzner, Deutschland' },
-  { icon: Lock, label: 'Verschlüsselt', detail: 'TLS 1.3 + AES-256' },
-  { icon: Scale, label: 'Kein Rechtsrat', detail: 'i.S.d. RDG' },
-]
+export async function TrustBadges({ locale, variant = 'row', className }: TrustBadgesProps) {
+  const t = await getTranslations({ locale, namespace: 'trust' })
 
-const BADGES_EN = [
-  { icon: Shield, label: 'GDPR-compliant', detail: 'Data in the EU' },
-  { icon: Server, label: 'EU servers', detail: 'Hetzner, Germany' },
-  { icon: Lock, label: 'Encrypted', detail: 'TLS 1.3 + AES-256' },
-  { icon: Scale, label: 'Not legal advice', detail: 'AI-generated draft' },
-]
-
-export function TrustBadges({ locale = 'de', variant = 'row', className }: TrustBadgesProps) {
-  const badges = locale === 'en' ? BADGES_EN : BADGES_DE
+  const badges = [
+    { icon: Shield, label: t('gdpr'), detail: t('gdprDetail') },
+    { icon: Server, label: t('euServers'), detail: t('euServersDetail') },
+    { icon: Lock, label: t('encrypted'), detail: t('encryptedDetail') },
+    { icon: Scale, label: t('rdgNote'), detail: t('rdgDetail') },
+  ]
 
   return (
     <div

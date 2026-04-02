@@ -114,7 +114,8 @@
         "description": "Laden Sie Ihren fertigen Einspruch als DOCX oder TXT herunter und reichen Sie ihn direkt beim Finanzamt oder der Behörde ein.",
         "detail": "Hinweis: KI-Entwurf, kein Rechtsrat i.S.d. RDG. Vor Einreichung prüfen."
       }
-    }
+    },
+    "sectionHeading": "Vom Bescheid zum Einspruch — in 3 Schritten"
   },
   "useCases": {
     "title": "Welchen Bescheid möchten Sie anfechten?",
@@ -136,7 +137,8 @@
     "successRate": "Erfolgsquote",
     "legalBasis": "Rechtsgrundlage",
     "expandDetails": "Details anzeigen",
-    "collapseDetails": "Details ausblenden"
+    "collapseDetails": "Details ausblenden",
+    "sectionLabel": "Unterstützte Bescheidarten"
   },
   "stats": {
     "title": "Zahlen, die zählen",
@@ -159,7 +161,10 @@
         "value": "< 5 min",
         "label": "Durchschnittliche Generierungszeit"
       }
-    }
+    },
+    "sectionLabel": "Zahlen & Fakten",
+    "sectionHeading": "Fakten, keine Versprechen",
+    "sourceInternal": "TaxaLex intern gemessen"
   },
   "pricing": {
     "title": "Transparent & fair",
@@ -187,7 +192,11 @@
     "freeFeatures": {
       "title": "Kostenlos-Plan",
       "description": "1 Einspruch pro Monat"
-    }
+    },
+    "sectionLabel": "Preise",
+    "sectionHeading": "Einfache, transparente Preise",
+    "sectionSub": "Pro Fall oder als Abo. Keine versteckten Kosten.",
+    "viewAll": "Alle Pläne inkl. Berater & Anwalt ansehen →"
   },
   "features": {
     "title": "Warum TaxaLex?",
@@ -209,7 +218,8 @@
         "title": "DSGVO & Datenschutz",
         "description": "EU-Server, verschlüsselte Übertragung, keine permanente Speicherung Ihrer Dokumente ohne Zustimmung."
       }
-    }
+    },
+    "sectionHeading": "Gebaut für juristische Präzision"
   },
   "faq": {
     "title": "Häufige Fragen",
@@ -235,7 +245,12 @@
       "eu": "EU-Server (Frankfurt)",
       "ssl": "SSL-verschlüsselt",
       "rdg": "Kein Rechtsrat (RDG)"
-    }
+    },
+    "legalHeading": "Rechtlicher Hinweis",
+    "gdprDetail": "Daten in der EU",
+    "euServersDetail": "Hetzner, Deutschland",
+    "encryptedDetail": "TLS 1.3 + AES-256",
+    "rdgDetail": "i.S.d. RDG"
   },
   "footer": {
     "tagline": "KI-generierte Entwürfe. Kein Rechtsrat i.S.d. RDG.",
@@ -802,5 +817,37 @@
     "unauthorized": "Keine Berechtigung",
     "notFound": "Seite nicht gefunden",
     "serverError": "Serverfehler. Bitte versuchen Sie es später erneut."
+  },
+  "chatbot": {
+    "sectionLabel": "Warum nicht einfach einen KI-Chatbot nutzen?",
+    "sectionHeading": "Qualität entsteht durch Prozess — nicht durch einen einzigen Prompt.",
+    "sectionSub": "Ein allgemeiner KI-Assistent kann Ihren Bescheid lesen — aber KI-Systeme neigen dazu, Rechtsquellen zu erfinden und fachspezifische Fragen zu übersehen. TaxaLex nutzt fünf spezialisierte Agenten, die gegenseitig ihre Arbeit prüfen.",
+    "genericTitle": "Allgemeiner KI-Assistent",
+    "genericSub": "Ein Prompt → ein ungepüfter Entwurf",
+    "generic1": "Erstellt einen Entwurf ohne automatische Gegen- oder Querprüfung",
+    "generic2": "Stellt nicht von sich aus die richtigen Rechtsfragen — das Fachwissen muss vom Nutzer kommen",
+    "generic3": "Kann Rechtsquellen und Urteile erfinden (Halluzinationen) — ohne Gegenprüfung unbemerkt",
+    "generic4": "Keine Perspektivprüfung: „Was würde die Behörde einwenden?“",
+    "generic5": "Keine automatische Fristberechnung aus dem Bescheid",
+    "generic6": "Qualität und Vollständigkeit hängen stark von der Formulierung des Prompts ab",
+    "taxalexLabel": "✦ 5-Agenten-Pipeline",
+    "taxalexSub": "Automatisierte Experten-Querprüfung",
+    "agentDrafter": "Formuliert den Einspruch auf Basis relevanter Rechtsgrundlagen (§ AO, § SGG, § BGB, § KSchG)",
+    "agentReviewer": "Prüft Fristkonformität, formale Anforderungen und sprachliche Korrektheit",
+    "agentFactChecker": "Verifiziert zitierte Rechtsquellen und Urteile per Live-Suche — erkennt Ungenauigkeiten",
+    "agentAdversary": "Analysiert den Entwurf aus Behördenperspektive — um Schwächen zu erkennen und zu schließen",
+    "agentConsolidator": "Fasst alle Prüfungen zu einem strukturierten, klar begründeten Abschlussschreiben zusammen",
+    "ctaText": "Sehen Sie, wie es funktioniert — interaktive Demo, ohne Registrierung.",
+    "ctaButton": "Demo starten"
+  },
+  "templates": {
+    "sectionLabel": "Kostenlose Vorlagen",
+    "sectionHeading": "16 sofort einsetzbare Rechtsvorlagen",
+    "description": "Laden Sie leere Vorlagen für die häufigsten Einspüche in Deutschland herunter — Steuer, Jobcenter, Miete, Arbeit und mehr. Oder füllen Sie sie online mit KI in Minuten aus.",
+    "cta": "Alle Vorlagen ansehen",
+    "name1": "Steuerbescheid",
+    "name2": "Jobcenter-Ablehnung",
+    "name3": "Mieterhöhung",
+    "name4": "Kündigung"
   }
 }

@@ -114,7 +114,8 @@
         "description": "Download your finished objection letter as DOCX or TXT and submit it directly to the relevant authority.",
         "detail": "Note: AI-generated draft, not legal advice. Review before submission."
       }
-    }
+    },
+    "sectionHeading": "From notice to objection — in 3 steps"
   },
   "useCases": {
     "title": "Which notice do you want to appeal?",
@@ -136,7 +137,8 @@
     "successRate": "Success rate",
     "legalBasis": "Legal basis",
     "expandDetails": "Show details",
-    "collapseDetails": "Hide details"
+    "collapseDetails": "Hide details",
+    "sectionLabel": "Supported notice types"
   },
   "stats": {
     "title": "Numbers that matter",
@@ -159,7 +161,10 @@
         "value": "< 5 min",
         "label": "Average generation time"
       }
-    }
+    },
+    "sectionLabel": "By the numbers",
+    "sectionHeading": "Facts, not promises",
+    "sourceInternal": "TaxaLex internal measurement"
   },
   "pricing": {
     "title": "Transparent & fair",
@@ -187,7 +192,11 @@
     "freeFeatures": {
       "title": "Free plan",
       "description": "1 objection per month"
-    }
+    },
+    "sectionLabel": "Pricing",
+    "sectionHeading": "Simple, transparent pricing",
+    "sectionSub": "Pay per case, or subscribe for unlimited access. No hidden fees.",
+    "viewAll": "View all plans including advisor & lawyer →"
   },
   "features": {
     "title": "Why TaxaLex?",
@@ -209,7 +218,8 @@
         "title": "GDPR & Privacy",
         "description": "EU servers, encrypted transmission, no permanent storage of your documents without consent."
       }
-    }
+    },
+    "sectionHeading": "Built for legal precision"
   },
   "faq": {
     "title": "Frequently asked questions",
@@ -235,7 +245,12 @@
       "eu": "EU servers (Frankfurt)",
       "ssl": "SSL-encrypted",
       "rdg": "Not legal advice (RDG)"
-    }
+    },
+    "legalHeading": "Legal notice",
+    "gdprDetail": "Data in the EU",
+    "euServersDetail": "Hetzner, Germany",
+    "encryptedDetail": "TLS 1.3 + AES-256",
+    "rdgDetail": "AI-generated draft"
   },
   "footer": {
     "tagline": "AI-generated drafts. Not legal advice.",
@@ -802,5 +817,37 @@
     "unauthorized": "Unauthorised",
     "notFound": "Page not found",
     "serverError": "Server error. Please try again later."
+  },
+  "chatbot": {
+    "sectionLabel": "Why not just use an AI chatbot?",
+    "sectionHeading": "Quality comes from process — not a single prompt.",
+    "sectionSub": "A general AI assistant can read your notice — but AI systems are known to hallucinate legal sources and miss domain-specific questions. TaxaLex uses five specialized agents that check each other's work.",
+    "genericTitle": "Generic AI assistant",
+    "genericSub": "One prompt → one unverified draft",
+    "generic1": "Generates one draft without any automatic cross-checking or self-review",
+    "generic2": "Does not know which domain-specific legal questions to ask — you need to prompt them",
+    "generic3": "Can hallucinate legal citations and case references — errors go undetected without verification",
+    "generic4": "No perspective test: \"How would the authority counter this argument?\"",
+    "generic5": "No automatic deadline calculation from the document",
+    "generic6": "Output quality and completeness depend heavily on how the prompt is written",
+    "taxalexLabel": "✦ 5-agent pipeline",
+    "taxalexSub": "Automated expert cross-examination",
+    "agentDrafter": "Creates the initial objection using legal domain knowledge (§ AO, § SGG, § BGB, § KSchG)",
+    "agentReviewer": "Checks legal correctness, deadline compliance, and formal requirements",
+    "agentFactChecker": "Verifies cited legal sources and rulings via live search — flags inaccuracies before they reach the final draft",
+    "agentAdversary": "Reviews the draft from the authority's perspective — to identify and address weak points",
+    "agentConsolidator": "Combines all reviews into one structured, clearly reasoned final letter",
+    "ctaText": "See how it works — try the interactive demo, no registration required.",
+    "ctaButton": "Try the demo"
+  },
+  "templates": {
+    "sectionLabel": "Free templates",
+    "sectionHeading": "16 ready-to-use legal templates",
+    "description": "Download blank templates for the most common objections in Germany — tax, Jobcenter, rent, employment and more. Or fill them online with AI in minutes.",
+    "cta": "Browse all templates",
+    "name1": "Tax Assessment",
+    "name2": "Jobcenter Rejection",
+    "name3": "Rent Increase",
+    "name4": "Dismissal Notice"
   }
 }
