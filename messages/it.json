@@ -55,7 +55,7 @@
     "sectionAdvisor": "Consulente",
     "sectionAdmin": "Amministrazione",
     "templates": "Modelli",
-    "allUseCases": "→ Tutti i casi",
+    "allUseCases": "→ Tutti i casi d'uso",
     "startFree": "Inizia gratis",
     "advisorDemo": "Demo consulente",
     "newAppeal": "Nuovo ricorso"
@@ -63,203 +63,203 @@
   "hero": {
     "groups": {
       "individual": {
-        "headline": "Received a German notice? Appeal it in minutes.",
-        "sub": "TaxaLex analyses your administrative decision with 5 AI agents and drafts a legally grounded objection letter – no lawyer needed.",
-        "cta": "Get started for free"
+        "headline": "Hai ricevuto un avviso tedesco? Fai ricorso in pochi minuti.",
+        "sub": "TaxaLex analizza la tua decisione amministrativa con 5 agenti IA e redige una lettera di opposizione giuridicamente fondata — senza bisogno di un avvocato.",
+        "cta": "Inizia gratuitamente"
       },
       "selfemployed": {
-        "headline": "Tax bill? Appeal it – without a lawyer.",
-        "sub": "For freelancers and self-employed: AI-powered objection letters against tax assessments in under 5 minutes.",
-        "cta": "Appeal now"
+        "headline": "Avviso fiscale? Fai ricorso — senza avvocato.",
+        "sub": "Per freelance e lavoratori autonomi: lettere di opposizione agli accertamenti fiscali con IA, in meno di 5 minuti.",
+        "cta": "Fai ricorso ora"
       },
       "expat": {
-        "headline": "German notice? Appeal it in minutes – in your language.",
-        "sub": "TaxaLex helps expats navigate German bureaucracy. Upload your notice, answer a few questions, get a professional objection letter.",
-        "cta": "Start for free"
+        "headline": "Avviso tedesco? Fai ricorso in pochi minuti — nella tua lingua.",
+        "sub": "TaxaLex aiuta gli expat a navigare la burocrazia tedesca. Carica l'avviso, rispondi a qualche domanda, ottieni una lettera di opposizione professionale.",
+        "cta": "Inizia gratis"
       },
       "advisor": {
-        "headline": "More clients. Less effort.",
-        "sub": "TaxaLex supports tax advisors and lawyers in quickly drafting objection letters for their clients.",
-        "cta": "Request advisor demo"
+        "headline": "Più clienti. Meno lavoro.",
+        "sub": "TaxaLex supporta consulenti fiscali e avvocati nella redazione rapida di lettere di opposizione per i propri clienti.",
+        "cta": "Richiedi la demo per consulenti"
       }
     },
     "tabs": {
-      "individual": "Individual",
-      "selfemployed": "Self-employed",
+      "individual": "Privato",
+      "selfemployed": "Lavoratore autonomo",
       "expat": "Expat",
-      "advisor": "Tax advisor"
+      "advisor": "Consulente fiscale"
     },
-    "badge": "AI-powered · GDPR-compliant · EU servers",
-    "disclaimer": "AI-generated drafts. Not legal advice."
+    "badge": "Basato su IA · Conforme al GDPR · Server UE",
+    "disclaimer": "Bozze generate dall'IA. Non costituisce consulenza legale."
   },
   "howItWorks": {
-    "title": "How it works",
-    "subtitle": "Three steps to your finished objection letter",
+    "title": "Come funziona",
+    "subtitle": "Tre passi verso la tua lettera di opposizione pronta",
     "steps": {
       "upload": {
         "number": "1",
-        "title": "Upload your notice",
-        "description": "Upload your notice as PDF, photo, or DOCX. Our OCR automatically detects all relevant data.",
-        "detail": "Supported formats: PDF, JPG, PNG, DOCX, TXT (max. 10 MB)"
+        "title": "Carica l'avviso",
+        "description": "Carica l'avviso come PDF, foto o DOCX. Il nostro sistema OCR rileva automaticamente tutti i dati rilevanti.",
+        "detail": "Formati supportati: PDF, JPG, PNG, DOCX, TXT (max. 10 MB)"
       },
       "analyze": {
         "number": "2",
-        "title": "AI analysis",
-        "description": "Five specialised AI agents review your notice: drafting, error-checking, fact-checking, counter-perspective, and consolidation.",
-        "detail": "Claude · Gemini · Perplexity – all models work in parallel"
+        "title": "Analisi IA",
+        "description": "Cinque agenti IA specializzati esaminano l'avviso: redazione, verifica degli errori, fact-checking, prospettiva contraria e consolidamento.",
+        "detail": "Claude · Gemini · Perplexity – tutti i modelli lavorano in parallelo"
       },
       "download": {
         "number": "3",
-        "title": "Download & submit",
-        "description": "Download your finished objection letter as DOCX or TXT and submit it directly to the relevant authority.",
-        "detail": "Note: AI-generated draft, not legal advice. Review before submission."
+        "title": "Scarica e invia",
+        "description": "Scarica la lettera di opposizione finita in formato DOCX o TXT e inviala direttamente all'autorità competente.",
+        "detail": "Nota: bozza generata dall'IA, non consulenza legale. Verifica prima dell'invio."
       }
     },
-    "sectionHeading": "From notice to objection — in 3 steps"
+    "sectionHeading": "Dall'avviso all'opposizione — in 3 passi"
   },
   "useCases": {
-    "title": "Which notice do you want to appeal?",
-    "subtitle": "Select the type of administrative decision",
-    "tax": "Tax assessment",
+    "title": "Contro quale avviso vuoi fare ricorso?",
+    "subtitle": "Seleziona il tipo di decisione amministrativa",
+    "tax": "Accertamento fiscale",
     "jobcenter": "Jobcenter / Bürgergeld",
-    "rente": "Pension notice",
-    "bussgeld": "Fine / penalty notice",
-    "bussgeldd": "Fine / penalty notice",
-    "krankenversicherung": "Health insurance rejection",
-    "kuendigung": "Employment termination",
-    "miete": "Rent increase / deposit",
-    "grundsteuer": "Property tax (Grundsteuer)",
-    "sectionTitle": "8 notice types – all covered",
-    "sectionSubtitle": "From tax assessments to fines: TaxaLex knows the relevant legal basis for all common administrative notices.",
-    "appeal": "Appeal this notice",
-    "deadline": "Deadline",
-    "days": "days",
-    "successRate": "Success rate",
-    "legalBasis": "Legal basis",
-    "expandDetails": "Show details",
-    "collapseDetails": "Hide details",
-    "sectionLabel": "Supported notice types"
+    "rente": "Avviso pensionistico",
+    "bussgeld": "Multa / sanzione amministrativa",
+    "bussgeldd": "Multa / sanzione amministrativa",
+    "krankenversicherung": "Rifiuto assicurazione sanitaria",
+    "kuendigung": "Licenziamento",
+    "miete": "Aumento affitto / deposito cauzionale",
+    "grundsteuer": "Imposta fondiaria (Grundsteuer)",
+    "sectionTitle": "8 tipi di avviso — tutti coperti",
+    "sectionSubtitle": "Dagli accertamenti fiscali alle sanzioni: TaxaLex conosce la base giuridica rilevante per tutti i più comuni avvisi amministrativi.",
+    "appeal": "Fai ricorso contro questo avviso",
+    "deadline": "Scadenza",
+    "days": "giorni",
+    "successRate": "Tasso di successo",
+    "legalBasis": "Base giuridica",
+    "expandDetails": "Mostra dettagli",
+    "collapseDetails": "Nascondi dettagli",
+    "sectionLabel": "Tipi di avviso supportati"
   },
   "stats": {
-    "title": "Numbers that matter",
-    "subtitle": "Verified statistics from official sources",
-    "source": "Source",
+    "title": "I numeri che contano",
+    "subtitle": "Statistiche verificate da fonti ufficiali",
+    "source": "Fonte",
     "items": {
       "objections": {
-        "value": "3.3M",
-        "label": "Tax objections filed per year in Germany"
+        "value": "3,3 Mio.",
+        "label": "Ricorsi fiscali presentati ogni anno in Germania"
       },
       "successRate": {
-        "value": "67 %",
-        "label": "Partial or full success rate"
+        "value": "67 %",
+        "label": "Tasso di successo parziale o totale"
       },
       "deadline": {
-        "value": "30 days",
-        "label": "Legal deadline (§ 355 AO)"
+        "value": "30 giorni",
+        "label": "Termine legale (§ 355 AO)"
       },
       "speed": {
-        "value": "< 5 min",
-        "label": "Average generation time"
+        "value": "< 5 min",
+        "label": "Tempo medio di generazione"
       }
     },
-    "sectionLabel": "By the numbers",
-    "sectionHeading": "Facts, not promises",
-    "sourceInternal": "TaxaLex internal measurement"
+    "sectionLabel": "I numeri",
+    "sectionHeading": "Fatti, non promesse",
+    "sourceInternal": "Misurazione interna TaxaLex"
   },
   "pricing": {
-    "title": "Transparent & fair",
-    "subtitle": "Choose the plan that fits your needs",
+    "title": "Trasparente & equo",
+    "subtitle": "Scegli il piano adatto alle tue esigenze",
     "tabs": {
-      "individual": "Individual",
-      "selfemployed": "Self-employed",
-      "advisor": "Tax advisor",
-      "lawyer": "Lawyer"
+      "individual": "Privato",
+      "selfemployed": "Lavoratore autonomo",
+      "advisor": "Consulente fiscale",
+      "lawyer": "Avvocato"
     },
-    "popular": "Popular",
-    "currentPlan": "Your current plan",
-    "perMonth": "/ month",
-    "perCase": "/ objection",
-    "perPack": "/ 5 objections",
-    "included": "Included",
-    "notIncluded": "Not included",
-    "upgrade": "Upgrade now",
-    "contact": "Contact us",
-    "choosePlan": "Choose plan",
-    "annualDiscount": "Pay annually – 2 months free",
-    "monthly": "Monthly",
-    "annual": "Annual",
-    "vatNote": "All prices excl. VAT.",
+    "popular": "Popolare",
+    "currentPlan": "Il tuo piano attuale",
+    "perMonth": "/ mese",
+    "perCase": "/ opposizione",
+    "perPack": "/ 5 opposizioni",
+    "included": "Incluso",
+    "notIncluded": "Non incluso",
+    "upgrade": "Aggiorna ora",
+    "contact": "Contattaci",
+    "choosePlan": "Scegli piano",
+    "annualDiscount": "Paga annualmente – 2 mesi gratis",
+    "monthly": "Mensile",
+    "annual": "Annuale",
+    "vatNote": "Tutti i prezzi IVA esclusa.",
     "freeFeatures": {
-      "title": "Free plan",
-      "description": "1 objection per month"
+      "title": "Piano gratuito",
+      "description": "1 opposizione al mese"
     },
-    "sectionLabel": "Pricing",
-    "sectionHeading": "Simple, transparent pricing",
-    "sectionSub": "Pay per case, or subscribe for unlimited access. No hidden fees.",
-    "viewAll": "View all plans including advisor & lawyer →"
+    "sectionLabel": "Prezzi",
+    "sectionHeading": "Prezzi semplici e trasparenti",
+    "sectionSub": "Paga per caso o abbonati per accesso illimitato. Nessun costo nascosto.",
+    "viewAll": "Vedi tutti i piani, inclusi consulente & avvocato →"
   },
   "features": {
-    "title": "Why TaxaLex?",
-    "subtitle": "Four differentiating features that make the difference",
+    "title": "Perché TaxaLex?",
+    "subtitle": "Quattro caratteristiche distintive che fanno la differenza",
     "items": {
       "multiAi": {
-        "title": "5 AI agents in parallel",
-        "description": "Claude, Gemini and Perplexity review your objection from different perspectives – for maximum quality."
+        "title": "5 agenti IA in parallelo",
+        "description": "Claude, Gemini e Perplexity esaminano la tua opposizione da prospettive diverse — per la massima qualità."
       },
       "legal": {
-        "title": "Up-to-date legal references",
-        "description": "Perplexity researches current court rulings and administrative guidelines in real time for your specific case."
+        "title": "Riferimenti legali aggiornati",
+        "description": "Perplexity ricerca in tempo reale sentenze recenti e linee guida amministrative specifiche per il tuo caso."
       },
       "multilingual": {
-        "title": "Multilingual",
-        "description": "Interface in 7 languages. The objection letter is always drafted in German – as required by authorities."
+        "title": "Multilingue",
+        "description": "Interfaccia in 7 lingue. La lettera di opposizione viene sempre redatta in tedesco — come richiesto dalle autorità."
       },
       "privacy": {
         "title": "GDPR & Privacy",
-        "description": "EU servers, encrypted transmission, no permanent storage of your documents without consent."
+        "description": "Server UE, trasmissione crittografata, nessuna conservazione permanente dei tuoi documenti senza consenso."
       }
     },
-    "sectionHeading": "Built for legal precision"
+    "sectionHeading": "Costruito per la precisione legale"
   },
   "faq": {
-    "title": "Frequently asked questions",
-    "subtitle": "Everything you want to know about TaxaLex",
+    "title": "Domande frequenti",
+    "subtitle": "Tutto quello che vuoi sapere su TaxaLex",
     "categories": {
-      "all": "All",
-      "general": "General",
-      "legal": "Legal",
-      "pricing": "Pricing",
-      "technical": "Technical",
-      "advisor": "For advisors"
+      "all": "Tutte",
+      "general": "Generale",
+      "legal": "Legale",
+      "pricing": "Prezzi",
+      "technical": "Tecnico",
+      "advisor": "Per i consulenti"
     }
   },
   "trust": {
-    "title": "Security & Privacy",
-    "gdpr": "GDPR-compliant",
-    "euServers": "EU servers",
-    "encrypted": "Encrypted",
-    "rdgNote": "Not legal advice",
-    "disclaimer": "TaxaLex creates AI-generated drafts for objection letters. This does not constitute legal advice within the meaning of the German Legal Services Act (RDG). Before submission, you should review the draft and consult a tax advisor or lawyer for complex matters.",
+    "title": "Sicurezza & Privacy",
+    "gdpr": "Conforme al GDPR",
+    "euServers": "Server UE",
+    "encrypted": "Crittografato",
+    "rdgNote": "Non costituisce consulenza legale",
+    "disclaimer": "TaxaLex crea bozze generate dall'IA per lettere di opposizione. Ciò non costituisce consulenza legale ai sensi della legge tedesca sui servizi legali (RDG). Prima della presentazione, è opportuno verificare la bozza e, per questioni complesse, consultare un consulente fiscale o un avvocato.",
     "badges": {
-      "dsgvo": "GDPR-compliant",
-      "eu": "EU servers (Frankfurt)",
-      "ssl": "SSL-encrypted",
-      "rdg": "Not legal advice (RDG)"
+      "dsgvo": "Conforme al GDPR",
+      "eu": "Server UE (Francoforte)",
+      "ssl": "Crittografia SSL",
+      "rdg": "Non consulenza legale (RDG)"
     },
-    "legalHeading": "Legal notice",
-    "gdprDetail": "Data in the EU",
-    "euServersDetail": "Hetzner, Germany",
+    "legalHeading": "Note legali",
+    "gdprDetail": "Dati nell'UE",
+    "euServersDetail": "Hetzner, Germania",
     "encryptedDetail": "TLS 1.3 + AES-256",
-    "rdgDetail": "AI-generated draft"
+    "rdgDetail": "Bozza generata dall'IA"
   },
   "footer": {
-    "tagline": "AI-generated drafts. Not legal advice.",
-    "allRightsReserved": "All rights reserved.",
+    "tagline": "Bozze generate dall'IA. Non costituisce consulenza legale.",
+    "allRightsReserved": "Tutti i diritti riservati.",
     "columns": {
-      "product": "Product",
-      "company": "Company",
-      "support": "Support",
-      "legal": "Legal"
+      "product": "Prodotto",
+      "company": "Azienda",
+      "support": "Assistenza",
+      "legal": "Legale"
     }
   },
   "auth": {
@@ -280,14 +280,14 @@
         "advisor": "Consulente fiscale",
         "lawyer": "Avvocato"
       },
-      "errorInvalid": "Invalid email or password.",
-      "successRegistered": "Account created. Please sign in.",
-      "successVerified": "Email confirmed. You can now sign in.",
-      "errorInvalidToken": "The confirmation link is invalid or expired. Please request a new one.",
-      "showPassword": "Show password",
-      "hidePassword": "Hide password",
-      "withGoogle": "Sign in with Google",
-      "demoAvailable": "Demo accounts (5 available)"
+      "errorInvalid": "E-mail o password non validi.",
+      "successRegistered": "Account creato. Accedi ora.",
+      "successVerified": "E-mail confermata. Puoi accedere.",
+      "errorInvalidToken": "Il link di conferma non è valido o è scaduto. Richiedine uno nuovo.",
+      "showPassword": "Mostra password",
+      "hidePassword": "Nascondi password",
+      "withGoogle": "Accedi con Google",
+      "demoAvailable": "Account demo (5 disponibili)"
     },
     "register": {
       "title": "Crea account",
@@ -309,66 +309,66 @@
         "strong": "Forte"
       },
       "types": {
-        "individual": "Individual",
-        "selfemployed": "Libero professionista",
+        "individual": "Privato",
+        "selfemployed": "Lavoratore autonomo",
         "advisor": "Consulente fiscale",
         "lawyer": "Avvocato",
-        "expert": "Expert"
+        "expert": "Esperto"
       },
       "benefits": {
         "individual": [
-          "5 AI agents analyse your notice and draft a legally grounded objection",
-          "8 notice types covered: tax, Jobcenter, pension, fines, rent and more",
-          "Finished letter ready to send — download as DOCX or TXT in minutes"
+          "5 agenti IA analizzano il tuo avviso e redigono un'opposizione giuridicamente fondata",
+          "8 tipi di avviso coperti: fiscale, Jobcenter, pensione, sanzioni, affitto e altro",
+          "Lettera pronta all'invio — scarica in formato DOCX o TXT in pochi minuti"
         ],
         "selfemployed": [
-          "Appeal tax assessments, VAT notices, and trade office decisions",
-          "5 AI agents draft your objection — no legal knowledge required",
-          "Finished letter in minutes — download and send directly"
+          "Fai ricorso contro accertamenti fiscali, avvisi IVA e decisioni degli uffici del commercio",
+          "5 agenti IA redigono la tua opposizione — nessuna conoscenza legale richiesta",
+          "Lettera pronta in pochi minuti — scarica e invia direttamente"
         ],
         "advisor": [
-          "Review AI-prepared client drafts and accept or decline with one click",
-          "Annotate specific sections and request clarifications — no email back-and-forth",
-          "Full case packet per client: extracted facts, AI analysis, and viability score"
+          "Rivedi le bozze preparate dall'IA per i clienti e accetta o rifiuta con un clic",
+          "Annota sezioni specifiche e richiedi chiarimenti — nessuna corrispondenza via e-mail",
+          "Fascicolo completo per cliente: fatti estratti, analisi IA e valutazione di fattibilità"
         ],
         "lawyer": [
-          "Review objections across all legal areas: tax, employment, rent, social law",
-          "Annotate draft sections and resolve client questions in one threaded view",
-          "Structured handoff with extracted facts and AI viability assessment per case"
+          "Esamina opposizioni in tutte le aree legali: diritto fiscale, lavoro, affitti, diritto sociale",
+          "Annota sezioni di bozze e risolvi le domande dei clienti in un'unica vista strutturata",
+          "Consegna strutturata con fatti estratti e valutazione di fattibilità IA per ogni caso"
         ],
         "expert": [
-          "Review AI-prepared client drafts, annotate sections, and approve with one click",
-          "Broadcast assignment: new case in your area — first to accept gets it",
-          "Structured handoff packet with extracted facts, AI analysis, and viability score"
+          "Rivedi le bozze preparate dall'IA per i clienti, annota sezioni e approva con un clic",
+          "Assegnazione broadcast: nuovo caso nella tua area — il primo ad accettare se ne occupa",
+          "Fascicolo di consegna strutturato con fatti estratti, analisi IA e valutazione di fattibilità"
         ]
       },
-      "iAm": "I am…",
+      "iAm": "Sono…",
       "sublabels": {
-        "individual": "Appeal notices",
-        "advisor": "Manage clients",
-        "lawyer": "Represent clients",
-        "expert": "Manage clients"
+        "individual": "Fai ricorso contro avvisi",
+        "advisor": "Gestisci clienti",
+        "lawyer": "Rappresenta clienti",
+        "expert": "Gestisci clienti"
       },
-      "registerFree": "Register for free",
-      "passwordStrengthLabel": "Password strength:",
-      "passwordMinLength": "Min. {n} characters",
-      "errorFailed": "Registration failed.",
-      "practiceAreasLabel": "My practice areas",
+      "registerFree": "Registrati gratuitamente",
+      "passwordStrengthLabel": "Sicurezza password:",
+      "passwordMinLength": "Min. {n} caratteri",
+      "errorFailed": "Registrazione fallita.",
+      "practiceAreasLabel": "Le mie aree di pratica",
       "practiceAreas": {
-        "tax": "Tax law",
-        "legal": "General law"
+        "tax": "Diritto fiscale",
+        "legal": "Diritto generale"
       },
-      "practiceAreasMin": "Please select at least one practice area.",
-      "practiceAreasSelfCert": "By selecting, you confirm you are licensed to practise in the chosen areas."
+      "practiceAreasMin": "Seleziona almeno un'area di pratica.",
+      "practiceAreasSelfCert": "Selezionando, confermi di essere abilitato a esercitare nelle aree scelte."
     },
     "layout": {
-      "backToHome": "Back to home",
-      "trusted": "Trusted by German taxpayers",
-      "headline": "Respond to German official notices — structured and clearly reasoned.",
-      "description": "5 specialized AI agents draft, cross-check, and improve your objection letter — in under 5 minutes.",
-      "trustDraft": "Draft ready in under 5 minutes",
-      "trustDemo": "Interactive demo — no registration required",
-      "trustGdpr": "GDPR-compliant · EU servers · Encrypted",
+      "backToHome": "Torna alla home",
+      "trusted": "Scelto dai contribuenti tedeschi",
+      "headline": "Rispondi agli avvisi ufficiali tedeschi — in modo strutturato e argomentato.",
+      "description": "5 agenti IA specializzati redigono, verificano e migliorano la tua lettera di opposizione — in meno di 5 minuti.",
+      "trustDraft": "Bozza pronta in meno di 5 minuti",
+      "trustDemo": "Demo interattiva — nessuna registrazione richiesta",
+      "trustGdpr": "Conforme al GDPR · Server UE · Crittografato",
       "privacy": "Privacy"
     }
   },
@@ -479,7 +479,7 @@
     "settingsTitle": "Account & Impostazioni",
     "emailVerified": "E-mail confermata",
     "emailNotVerified": "E-mail non confermata",
-    "emailNotVerifiedHint": "Conferma il tuo indirizzo e-mail. Controlla la tua casella di posta.",
+    "emailNotVerifiedHint": "Conferma il tuo indirizzo e-mail. Controlla la tua casella di posta per il link di conferma.",
     "accountType": "Tipo di account",
     "password": "Password",
     "twoFactor": "Autenticazione a due fattori (2FA)",
@@ -500,7 +500,121 @@
     "statCredits": "Crediti",
     "statPlan": "Piano attuale",
     "planFree": "Gratuito",
-    "planPro": "Pro"
+    "planPro": "Pro",
+    "billing": "Fatturazione"
+  },
+  "advisor": {
+    "dashboard": {
+      "title": "Dashboard consulente",
+      "clients": "Clienti",
+      "activeAppeals": "Ricorsi attivi",
+      "submittedAppeals": "Ricorsi inviati",
+      "recentActivity": "Attività recente",
+      "quickActions": "Accesso rapido",
+      "addClient": "Aggiungi cliente",
+      "newAppeal": "Nuovo ricorso"
+    },
+    "clients": {
+      "title": "Clienti",
+      "subtitle": "Gestisci i tuoi clienti",
+      "search": "Cerca clienti...",
+      "add": "Aggiungi cliente",
+      "name": "Nome",
+      "email": "E-mail",
+      "cases": "Casi",
+      "lastActive": "Ultima attività",
+      "actions": "Azioni",
+      "noClients": "Nessun cliente",
+      "modal": {
+        "title": "Aggiungi cliente",
+        "name": "Nome del cliente",
+        "email": "Indirizzo e-mail",
+        "submit": "Aggiungi"
+      }
+    },
+    "appeals": {
+      "title": "Tutti i ricorsi",
+      "subtitle": "Ricorsi di tutti i tuoi clienti",
+      "client": "Cliente",
+      "type": "Tipo",
+      "status": "Stato",
+      "createdAt": "Creato il"
+    },
+    "billing": {
+      "title": "Fatturazione",
+      "plan": "Il tuo piano consulente",
+      "usage": "Clienti & ricorsi"
+    },
+    "handoff": {
+      "title": "Richiedi revisione professionale",
+      "selectAdvisor": "Seleziona consulente",
+      "scope": {
+        "label": "Ambito dell'incarico",
+        "reviewOnly": "Solo revisione — invierò io stesso",
+        "fullRepresentation": "Rappresentanza completa"
+      },
+      "clientNotes": "Note per il consulente (facoltativo)",
+      "submit": "Richiedi revisione",
+      "submitted": "Richiesta inviata",
+      "broadcastInfo": "Tutti gli esperti disponibili nella tua area verranno notificati. Il primo ad accettare gestirà il tuo caso.",
+      "withdrawButton": "Ritira richiesta",
+      "withdrawReason": "Motivo del ritiro",
+      "withdrawConfirm": "Sei sicuro di voler ritirare questa richiesta?",
+      "expertArea": "Area di pratica",
+      "tax": "Diritto fiscale",
+      "legal": "Diritto generale",
+      "expertsNotified": "{count} esperto/i notificato/i",
+      "awaitingAcceptance": "In attesa che un esperto accetti..."
+    },
+    "assignment": {
+      "pending": "Decisione richiesta",
+      "accepted": "In revisione",
+      "declined": "Rifiutato",
+      "changesRequested": "Domande in sospeso",
+      "approved": "Approvato",
+      "finalized": "Finalizzato",
+      "statuses": {
+        "SUPERSEDED": "Preso in carico da un altro esperto",
+        "WITHDRAWN": "Ritirato dal cliente",
+        "EXPIRED": "Scaduto (72h senza risposta)"
+      }
+    },
+    "packet": {
+      "brief": "Riepilogo del caso",
+      "facts": "Fatti",
+      "analysis": "Analisi IA",
+      "draft": "Bozza del ricorso",
+      "clientContext": "Informazioni sul cliente",
+      "coreArgument": "Argomento principale",
+      "evidenceGaps": "Lacune probatorie",
+      "counterarguments": "Controargomentazioni"
+    },
+    "viability": {
+      "high": "Alta probabilità di successo",
+      "medium": "Media probabilità di successo",
+      "low": "Bassa probabilità di successo"
+    },
+    "actions": {
+      "accept": "Accetta il caso",
+      "decline": "Rifiuta",
+      "finalize": "Approva e finalizza",
+      "addAnnotation": "Fai una domanda",
+      "resolveAnnotation": "Segna come risolto",
+      "replyToAnnotation": "Rispondi",
+      "submitReply": "Invia risposta"
+    },
+    "annotation": {
+      "aiPreFill": "Suggerimento IA dai tuoi documenti:",
+      "open": "Aperto",
+      "answered": "Risposto",
+      "resolved": "Risolto"
+    },
+    "decline": {
+      "title": "Rifiuta il caso",
+      "reason": "Motivo del rifiuto",
+      "reasonPlaceholder": "Inserisci un motivo...",
+      "confirm": "Conferma rifiuto"
+    }
   },
   "admin": {
     "title": "Pannello admin",
@@ -546,12 +660,12 @@
       "grantError": "Assegnazione fallita",
       "changeRole": "Cambia ruolo:",
       "creditsFor": "Crediti per",
-      "subscription": "Subscription",
-      "noSubscription": "No active subscription",
-      "subscriptionUntil": "until",
-      "subscriptionCancels": "cancels at period end",
-      "noCases": "No cases yet.",
-      "ledger": "Payments / Credits"
+      "subscription": "Abbonamento",
+      "noSubscription": "Nessun abbonamento attivo",
+      "subscriptionUntil": "fino al",
+      "subscriptionCancels": "annullato a fine periodo",
+      "noCases": "Nessun caso.",
+      "ledger": "Pagamenti / Crediti"
     },
     "cases": {
       "filterAll": "Tutti",
@@ -605,17 +719,17 @@
       "notConfigured": "Non configurato",
       "services": {
         "anthropic": "Anthropic (Claude)",
-        "anthropicNote": "Required — app will not start without this key",
+        "anthropicNote": "Obbligatorio — l'app non si avvia senza questa chiave",
         "google": "Google AI (Gemini)",
-        "googleNote": "Optional — for Gemini agents",
+        "googleNote": "Facoltativo — per gli agenti Gemini",
         "perplexity": "Perplexity (Sonar)",
-        "perplexityNote": "Optional — for fact-check agent",
+        "perplexityNote": "Facoltativo — per l'agente di fact-checking",
         "stripe": "Stripe",
-        "stripeNote": "Optional — for payments",
-        "brevo": "Brevo (Email)",
-        "brevoNote": "Optional — emails suppressed without key",
-        "s3": "S3 (File storage)",
-        "s3Note": "Optional — for document uploads"
+        "stripeNote": "Facoltativo — per i pagamenti",
+        "brevo": "Brevo (E-mail)",
+        "brevoNote": "Facoltativo — le e-mail vengono soppresse senza chiave",
+        "s3": "S3 (Archiviazione file)",
+        "s3Note": "Facoltativo — per il caricamento di documenti"
       }
     },
     "content": {
@@ -626,118 +740,74 @@
       "edit": "Modifica (in arrivo)"
     }
   },
-  "advisor": {
-    "dashboard": {
-      "title": "Dashboard consulente",
-      "clients": "Clienti",
-      "activeAppeals": "Ricorsi attivi",
-      "submittedAppeals": "Ricorsi inviati",
-      "recentActivity": "Attività recente",
-      "quickActions": "Accesso rapido",
-      "addClient": "Aggiungi cliente",
-      "newAppeal": "Nuovo ricorso"
+  "cookies": {
+    "banner": {
+      "title": "Impostazioni cookie",
+      "description": "Utilizziamo i cookie per l'analisi e una migliore esperienza utente. Puoi modificare le tue preferenze in qualsiasi momento.",
+      "acceptAll": "Accetta tutti",
+      "acceptNecessary": "Solo necessari",
+      "manage": "Impostazioni",
+      "learnMore": "Scopri di più"
     },
-    "clients": {
-      "title": "Clienti",
-      "subtitle": "Gestisci i tuoi clienti",
-      "search": "Cerca clienti...",
-      "add": "Aggiungi cliente",
-      "name": "Nome",
-      "email": "E-mail",
-      "cases": "Casi",
-      "lastActive": "Ultima attività",
-      "actions": "Azioni",
-      "noClients": "Nessun cliente",
-      "modal": {
-        "title": "Aggiungi cliente",
-        "name": "Nome del cliente",
-        "email": "Indirizzo e-mail",
-        "submit": "Aggiungi"
-      }
-    },
-    "appeals": {
-      "title": "Tutti i ricorsi",
-      "subtitle": "Ricorsi di tutti i tuoi clienti",
-      "client": "Cliente",
-      "type": "Tipo",
-      "status": "Stato",
-      "createdAt": "Creato il"
-    },
-    "billing": {
-      "title": "Fatturazione",
-      "plan": "Il tuo piano consulente",
-      "usage": "Clienti & ricorsi"
-    },
-    "handoff": {
-      "title": "Request Professional Review",
-      "selectAdvisor": "Select Advisor",
-      "scope": {
-        "label": "Scope of engagement",
-        "reviewOnly": "Review only",
-        "fullRepresentation": "Full representation"
+    "types": {
+      "necessary": {
+        "title": "Cookie necessari",
+        "description": "Richiesti per il funzionamento del sito. Non possono essere disabilitati."
       },
-      "clientNotes": "Notes for the advisor (optional)",
-      "submit": "Request review",
-      "submitted": "Request sent",
-      "broadcastInfo": "All available experts in your area will be notified. The first to accept handles your case.",
-      "withdrawButton": "Withdraw request",
-      "withdrawReason": "Reason for withdrawal",
-      "withdrawConfirm": "Really withdraw this request?",
-      "expertArea": "Practice area",
-      "tax": "Tax law",
-      "legal": "General law",
-      "expertsNotified": "{count} expert(s) notified",
-      "awaitingAcceptance": "Waiting for an expert to accept..."
+      "analytics": {
+        "title": "Cookie analitici",
+        "description": "Google Analytics e PostHog – ci aiutano a migliorare il sito."
+      },
+      "marketing": {
+        "title": "Cookie di marketing",
+        "description": "Pubblicità personalizzata e retargeting."
+      }
+    }
+  },
+  "wizard": {
+    "steps": {
+      "upload": "Carica",
+      "questions": "Domande",
+      "generating": "Analisi IA",
+      "result": "Risultato"
     },
-    "assignment": {
-      "pending": "Decision required",
-      "accepted": "Under review",
-      "declined": "Declined",
-      "changesRequested": "Questions pending",
-      "approved": "Approved",
-      "finalized": "Finalized",
-      "statuses": {
-        "SUPERSEDED": "Taken by another expert",
-        "WITHDRAWN": "Withdrawn by client",
-        "EXPIRED": "Expired (72h without response)"
+    "upload": {
+      "title": "Carica l'avviso",
+      "subtitle": "Carica la tua decisione amministrativa e i documenti di supporto",
+      "dropzone": "Seleziona file",
+      "dropzoneHint": "PDF, DOCX, TXT o immagini",
+      "analyze": "Analizza documenti"
+    },
+    "questions": {
+      "title": "Domande di approfondimento",
+      "subtitle": "Rispondi a queste domande per ottimizzare la tua lettera di opposizione",
+      "detectedData": "Dati rilevati",
+      "finanzamt": "Ufficio fiscale",
+      "nachzahlung": "Importo dovuto",
+      "generate": "Genera lettera di opposizione"
+    },
+    "generating": {
+      "title": "Analisi multi-IA in corso...",
+      "agents": {
+        "drafter": "Redazione lettera... (Claude)",
+        "reviewer": "Verifica degli errori... (Gemini)",
+        "factchecker": "Verifica delle citazioni legali... (Perplexity)",
+        "adversary": "Verifica dalla prospettiva dell'autorità... (Claude)",
+        "consolidator": "Consolidamento versione finale... (Claude)"
       }
     },
-    "packet": {
-      "brief": "Case summary",
-      "facts": "Facts",
-      "analysis": "AI analysis",
-      "draft": "Appeal draft",
-      "clientContext": "Client information",
-      "coreArgument": "Core argument",
-      "evidenceGaps": "Evidence gaps",
-      "counterarguments": "Counterarguments"
-    },
-    "viability": {
-      "high": "High success probability",
-      "medium": "Medium success probability",
-      "low": "Low success probability"
-    },
-    "actions": {
-      "accept": "Accept case",
-      "decline": "Decline",
-      "finalize": "Approve and finalize",
-      "addAnnotation": "Ask question",
-      "resolveAnnotation": "Mark as resolved",
-      "replyToAnnotation": "Reply",
-      "submitReply": "Send reply"
-    },
-    "annotation": {
-      "aiPreFill": "AI suggestion from your documents:",
-      "open": "Open",
-      "answered": "Answered",
-      "resolved": "Resolved"
-    },
-    "decline": {
-      "title": "Decline case",
-      "reason": "Reason for declining",
-      "reasonPlaceholder": "Please provide a reason...",
-      "confirm": "Confirm decline"
+    "result": {
+      "title": "Lettera di opposizione pronta",
+      "subtitle": "Revisionata da {count} agenti IA",
+      "agentLog": "Log agenti IA",
+      "outputLanguageWarning": "Questo documento è stato generato in {language}. La versione in tedesco è richiesta per la presentazione alle autorità tedesche.",
+      "downloadTxt": "Scarica come TXT"
     }
+  },
+  "outputLanguage": {
+    "label": "Lingua di output",
+    "hint": "La lettera di opposizione viene generata in tedesco per impostazione predefinita (richiesto per le autorità tedesche).",
+    "nonGermanWarning": "Solo per revisione — la lettera deve essere in tedesco per la presentazione ufficiale."
   },
   "errors": {
     "noFiles": "Carica almeno un file",
@@ -748,105 +818,36 @@
     "notFound": "Pagina non trovata",
     "serverError": "Errore del server. Riprova più tardi."
   },
-  "cookies": {
-    "banner": {
-      "title": "Impostazioni cookie",
-      "description": "Utilizziamo i cookie per l'analisi e una migliore esperienza utente.",
-      "acceptAll": "Accetta tutti",
-      "acceptNecessary": "Solo necessari",
-      "manage": "Impostazioni",
-      "learnMore": "Scopri di più"
-    },
-    "types": {
-      "necessary": {
-        "title": "Cookie necessari",
-        "description": "Richiesti per il funzionamento del sito."
-      },
-      "analytics": {
-        "title": "Cookie analitici",
-        "description": "Google Analytics e PostHog."
-      },
-      "marketing": {
-        "title": "Cookie di marketing",
-        "description": "Pubblicità personalizzata."
-      }
-    }
-  },
-  "wizard": {
-    "steps": {
-      "upload": "Upload",
-      "questions": "Questions",
-      "generating": "AI Analysis",
-      "result": "Result"
-    },
-    "upload": {
-      "title": "Upload your notice",
-      "subtitle": "Upload your administrative decision and any supporting documents",
-      "dropzone": "Select files",
-      "dropzoneHint": "PDF, DOCX, TXT or images",
-      "analyze": "Analyse documents"
-    },
-    "questions": {
-      "title": "Follow-up questions",
-      "subtitle": "Please answer these questions to optimise your objection letter",
-      "detectedData": "Detected data",
-      "finanzamt": "Tax office",
-      "nachzahlung": "Amount due",
-      "generate": "Generate objection letter"
-    },
-    "generating": {
-      "title": "Multi-AI analysis running...",
-      "agents": {
-        "drafter": "Drafting letter... (Claude)",
-        "reviewer": "Reviewing for errors... (Gemini)",
-        "factchecker": "Fact-checking legal citations... (Perplexity)",
-        "adversary": "Authority perspective check... (Claude)",
-        "consolidator": "Consolidating final version... (Claude)"
-      }
-    },
-    "result": {
-      "title": "Objection letter ready",
-      "subtitle": "Reviewed by {count} AI agents",
-      "agentLog": "AI Agent Log",
-      "outputLanguageWarning": "This document was generated in {language}. The German version is required for submission to German authorities.",
-      "downloadTxt": "Download as TXT"
-    }
-  },
-  "outputLanguage": {
-    "label": "Lingua di output",
-    "hint": "Il ricorso viene generato in tedesco per impostazione predefinita (richiesto per le autorità tedesche).",
-    "nonGermanWarning": "Solo per revisione — la lettera deve essere in tedesco per la presentazione ufficiale."
-  },
   "chatbot": {
-    "sectionLabel": "Why not just use an AI chatbot?",
-    "sectionHeading": "Quality comes from process — not a single prompt.",
-    "sectionSub": "A general AI assistant can read your notice — but AI systems are known to hallucinate legal sources and miss domain-specific questions. TaxaLex uses five specialized agents that check each other's work.",
-    "genericTitle": "Generic AI assistant",
-    "genericSub": "One prompt → one unverified draft",
-    "generic1": "Generates one draft without any automatic cross-checking or self-review",
-    "generic2": "Does not know which domain-specific legal questions to ask — you need to prompt them",
-    "generic3": "Can hallucinate legal citations and case references — errors go undetected without verification",
-    "generic4": "No perspective test: \"How would the authority counter this argument?\"",
-    "generic5": "No automatic deadline calculation from the document",
-    "generic6": "Output quality and completeness depend heavily on how the prompt is written",
-    "taxalexLabel": "✦ 5-agent pipeline",
-    "taxalexSub": "Automated expert cross-examination",
-    "agentDrafter": "Creates the initial objection using legal domain knowledge (§ AO, § SGG, § BGB, § KSchG)",
-    "agentReviewer": "Checks legal correctness, deadline compliance, and formal requirements",
-    "agentFactChecker": "Verifies cited legal sources and rulings via live search — flags inaccuracies before they reach the final draft",
-    "agentAdversary": "Reviews the draft from the authority's perspective — to identify and address weak points",
-    "agentConsolidator": "Combines all reviews into one structured, clearly reasoned final letter",
-    "ctaText": "See how it works — try the interactive demo, no registration required.",
-    "ctaButton": "Try the demo"
+    "sectionLabel": "Perché non usare semplicemente un chatbot IA?",
+    "sectionHeading": "La qualità viene dal processo — non da un singolo prompt.",
+    "sectionSub": "Un assistente IA generico può leggere il tuo avviso — ma i sistemi IA sono noti per inventare fonti legali e tralasciare domande specifiche del settore. TaxaLex usa cinque agenti specializzati che verificano il lavoro degli altri.",
+    "genericTitle": "Assistente IA generico",
+    "genericSub": "Un prompt → una bozza non verificata",
+    "generic1": "Genera una sola bozza senza alcuna verifica incrociata automatica o auto-revisione",
+    "generic2": "Non sa quali domande legali specifiche del settore porre — devi guidarlo tu",
+    "generic3": "Può inventare citazioni legali e riferimenti giurisprudenziali — gli errori passano inosservati senza verifica",
+    "generic4": "Nessun test di prospettiva: \"Come controbatterebbe l'autorità questo argomento?\"",
+    "generic5": "Nessun calcolo automatico delle scadenze dal documento",
+    "generic6": "La qualità e la completezza dell'output dipendono fortemente da come è scritto il prompt",
+    "taxalexLabel": "✦ Pipeline a 5 agenti",
+    "taxalexSub": "Verifica incrociata automatizzata da esperti",
+    "agentDrafter": "Crea l'opposizione iniziale utilizzando la conoscenza giuridica del settore (§ AO, § SGG, § BGB, § KSchG)",
+    "agentReviewer": "Verifica la correttezza legale, il rispetto delle scadenze e i requisiti formali",
+    "agentFactChecker": "Verifica le fonti legali e le sentenze citate tramite ricerca in tempo reale — segnala le imprecisioni prima che raggiungano la bozza finale",
+    "agentAdversary": "Esamina la bozza dalla prospettiva dell'autorità — per identificare e affrontare i punti deboli",
+    "agentConsolidator": "Combina tutte le revisioni in una lettera finale strutturata e chiaramente argomentata",
+    "ctaText": "Scopri come funziona — prova la demo interattiva, nessuna registrazione richiesta.",
+    "ctaButton": "Prova la demo"
   },
   "templates": {
-    "sectionLabel": "Free templates",
-    "sectionHeading": "16 ready-to-use legal templates",
-    "description": "Download blank templates for the most common objections in Germany — tax, Jobcenter, rent, employment and more. Or fill them online with AI in minutes.",
-    "cta": "Browse all templates",
-    "name1": "Tax Assessment",
-    "name2": "Jobcenter Rejection",
-    "name3": "Rent Increase",
-    "name4": "Dismissal Notice"
+    "sectionLabel": "Modelli gratuiti",
+    "sectionHeading": "16 modelli legali pronti all'uso",
+    "description": "Scarica modelli vuoti per le opposizioni più comuni in Germania — fiscale, Jobcenter, affitto, lavoro e altro. Oppure compilali online con l'IA in pochi minuti.",
+    "cta": "Sfoglia tutti i modelli",
+    "name1": "Accertamento fiscale",
+    "name2": "Rifiuto Jobcenter",
+    "name3": "Aumento di affitto",
+    "name4": "Avviso di licenziamento"
   }
 }

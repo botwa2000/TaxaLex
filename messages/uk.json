@@ -1,45 +1,59 @@
 {
   "common": {
     "appName": "TaxaLex",
-    "tagline": "Your AI-powered objection letter generator",
-    "loading": "Loading...",
-    "error": "Error",
-    "back": "Back",
-    "next": "Next",
-    "save": "Save",
-    "cancel": "Cancel",
-    "close": "Close",
-    "confirm": "Confirm",
-    "delete": "Delete",
-    "edit": "Edit",
-    "download": "Download",
-    "copy": "Copy",
-    "copied": "Copied",
-    "required": "Required",
-    "optional": "Optional",
-    "or": "or",
-    "and": "and",
-    "yes": "Yes",
-    "no": "No",
-    "learnMore": "Learn more",
-    "getStarted": "Get started free",
-    "tryFree": "Try for free",
-    "viewAll": "View all"
+    "tagline": "Ваш генератор листів-заперечень на основі AI",
+    "loading": "Завантаження...",
+    "error": "Помилка",
+    "back": "Назад",
+    "next": "Далі",
+    "save": "Зберегти",
+    "cancel": "Скасувати",
+    "close": "Закрити",
+    "confirm": "Підтвердити",
+    "delete": "Видалити",
+    "edit": "Редагувати",
+    "download": "Завантажити",
+    "copy": "Копіювати",
+    "copied": "Скопійовано",
+    "required": "Обов'язково",
+    "optional": "Необов'язково",
+    "or": "або",
+    "and": "і",
+    "yes": "Так",
+    "no": "Ні",
+    "learnMore": "Дізнатися більше",
+    "getStarted": "Розпочати безкоштовно",
+    "tryFree": "Спробувати безкоштовно",
+    "viewAll": "Переглянути всі"
   },
   "nav": {
-    "home": "Home",
-    "howItWorks": "How it works",
-    "useCasesNav": "Use cases",
-    "pricing": "Pricing",
-    "forAdvisors": "For tax advisors",
-    "forExpats": "For expats",
-    "blog": "Blog",
-    "login": "Sign in",
-    "register": "Create account",
-    "dashboard": "Dashboard",
-    "newCase": "New request",
-    "openMenu": "Open menu",
-    "closeMenu": "Close menu",
+    "home": "Головна",
+    "howItWorks": "Як це працює",
+    "useCasesNav": "Випадки",
+    "pricing": "Ціни",
+    "forAdvisors": "Для радників",
+    "forExpats": "Для експатів",
+    "blog": "Блог",
+    "login": "Увійти",
+    "register": "Створити акаунт",
+    "dashboard": "Панель керування",
+    "newCase": "Новий запит",
+    "openMenu": "Відкрити меню",
+    "closeMenu": "Закрити меню",
+    "cases": "Мої справи",
+    "account": "Профіль і налаштування",
+    "billing": "Оплата",
+    "logout": "Вийти",
+    "notifications": "Сповіщення",
+    "advisorDashboard": "Панель радника",
+    "advisorClients": "Клієнти",
+    "advisorAppeals": "Всі оскарження",
+    "advisorBilling": "Оплата радника",
+    "adminPanel": "Панель адміністратора",
+    "sectionOverview": "Огляд",
+    "sectionAccount": "Акаунт",
+    "sectionAdvisor": "Радник",
+    "sectionAdmin": "Адміністрування",
     "templates": "Шаблони",
     "allUseCases": "→ Всі випадки",
     "startFree": "Почати безкоштовно",
@@ -49,678 +63,791 @@
   "hero": {
     "groups": {
       "individual": {
-        "headline": "Received a German notice? Appeal it in minutes.",
-        "sub": "TaxaLex analyses your administrative decision with 5 AI agents and drafts a legally grounded objection letter – no lawyer needed.",
-        "cta": "Get started for free"
+        "headline": "Отримали німецьке повідомлення? Оскаржте його за хвилини.",
+        "sub": "TaxaLex аналізує ваше адміністративне рішення за допомогою 5 AI-агентів і складає юридично обґрунтований лист-заперечення — без юриста.",
+        "cta": "Розпочати безкоштовно"
       },
       "selfemployed": {
-        "headline": "Tax bill? Appeal it – without a lawyer.",
-        "sub": "For freelancers and self-employed: AI-powered objection letters against tax assessments in under 5 minutes.",
-        "cta": "Appeal now"
+        "headline": "Податкова вимога? Оскаржте її — без юриста.",
+        "sub": "Для фрілансерів і самозайнятих: листи-заперечення на податкові рішення на основі AI — менш ніж за 5 хвилин.",
+        "cta": "Оскаржити зараз"
       },
       "expat": {
-        "headline": "German notice? Appeal it in minutes – in your language.",
-        "sub": "TaxaLex helps expats navigate German bureaucracy. Upload your notice, answer a few questions, get a professional objection letter.",
-        "cta": "Start for free"
+        "headline": "Німецьке повідомлення? Оскаржте за хвилини — своєю мовою.",
+        "sub": "TaxaLex допомагає експатам орієнтуватися в німецькій бюрократії. Завантажте повідомлення, дайте відповіді на кілька запитань — отримайте професійний лист-заперечення.",
+        "cta": "Розпочати безкоштовно"
       },
       "advisor": {
-        "headline": "More clients. Less effort.",
-        "sub": "TaxaLex supports tax advisors and lawyers in quickly drafting objection letters for their clients.",
-        "cta": "Request advisor demo"
+        "headline": "Більше клієнтів. Менше зусиль.",
+        "sub": "TaxaLex підтримує податкових радників і юристів у швидкому складанні листів-заперечень для їхніх клієнтів.",
+        "cta": "Замовити демо для радників"
       }
     },
     "tabs": {
-      "individual": "Individual",
-      "selfemployed": "Self-employed",
-      "expat": "Expat",
-      "advisor": "Tax advisor"
+      "individual": "Фізична особа",
+      "selfemployed": "Самозайнятий",
+      "expat": "Експат",
+      "advisor": "Податковий радник"
     },
-    "badge": "AI-powered · GDPR-compliant · EU servers",
-    "disclaimer": "AI-generated drafts. Not legal advice."
+    "badge": "На основі AI · Відповідає GDPR · Сервери в ЄС",
+    "disclaimer": "Чернетки згенеровані AI. Не є юридичною консультацією."
   },
   "howItWorks": {
-    "title": "How it works",
-    "subtitle": "Three steps to your finished objection letter",
+    "title": "Як це працює",
+    "subtitle": "Три кроки до готового листа-заперечення",
     "steps": {
       "upload": {
         "number": "1",
-        "title": "Upload your notice",
-        "description": "Upload your notice as PDF, photo, or DOCX. Our OCR automatically detects all relevant data.",
-        "detail": "Supported formats: PDF, JPG, PNG, DOCX, TXT (max. 10 MB)"
+        "title": "Завантажте повідомлення",
+        "description": "Завантажте ваше повідомлення у форматі PDF, фото або DOCX. Наш OCR автоматично визначить усі відповідні дані.",
+        "detail": "Підтримувані формати: PDF, JPG, PNG, DOCX, TXT (макс. 10 МБ)"
       },
       "analyze": {
         "number": "2",
-        "title": "AI analysis",
-        "description": "Five specialised AI agents review your notice: drafting, error-checking, fact-checking, counter-perspective, and consolidation.",
-        "detail": "Claude · Gemini · Perplexity – all models work in parallel"
+        "title": "Аналіз AI",
+        "description": "П'ять спеціалізованих AI-агентів перевіряють ваше повідомлення: складання, перевірка помилок, перевірка фактів, контрпозиція та консолідація.",
+        "detail": "Claude · Gemini · Perplexity — усі моделі працюють паралельно"
       },
       "download": {
         "number": "3",
-        "title": "Download & submit",
-        "description": "Download your finished objection letter as DOCX or TXT and submit it directly to the relevant authority.",
-        "detail": "Note: AI-generated draft, not legal advice. Review before submission."
+        "title": "Завантажити й надіслати",
+        "description": "Завантажте готовий лист-заперечення у форматі DOCX або TXT і надішліть його безпосередньо до відповідного органу.",
+        "detail": "Примітка: чернетка від AI, не юридична консультація. Перевірте перед надсиланням."
       }
     },
-    "sectionHeading": "From notice to objection — in 3 steps"
+    "sectionHeading": "Від повідомлення до заперечення — за 3 кроки"
   },
   "useCases": {
-    "title": "Which notice do you want to appeal?",
-    "subtitle": "Select the type of administrative decision",
-    "tax": "Tax assessment",
+    "title": "Яке повідомлення ви хочете оскаржити?",
+    "subtitle": "Оберіть тип адміністративного рішення",
+    "tax": "Податкове рішення",
     "jobcenter": "Jobcenter / Bürgergeld",
-    "rente": "Pension notice",
-    "bussgeld": "Fine / penalty notice",
-    "bussgeldd": "Fine / penalty notice",
-    "krankenversicherung": "Health insurance rejection",
-    "kuendigung": "Employment termination",
-    "miete": "Rent increase / deposit",
-    "grundsteuer": "Property tax (Grundsteuer)",
-    "sectionTitle": "8 notice types – all covered",
-    "sectionSubtitle": "From tax assessments to fines: TaxaLex knows the relevant legal basis for all common administrative notices.",
-    "appeal": "Appeal this notice",
-    "deadline": "Deadline",
-    "days": "days",
-    "successRate": "Success rate",
-    "legalBasis": "Legal basis",
-    "expandDetails": "Show details",
-    "collapseDetails": "Hide details",
-    "sectionLabel": "Supported notice types"
+    "rente": "Пенсійне повідомлення",
+    "bussgeld": "Штраф / адміністративне стягнення",
+    "bussgeldd": "Штраф / адміністративне стягнення",
+    "krankenversicherung": "Відмова медичного страхування",
+    "kuendigung": "Розірвання трудового договору",
+    "miete": "Підвищення орендної плати / застава",
+    "grundsteuer": "Земельний податок (Grundsteuer)",
+    "sectionTitle": "8 типів повідомлень — усі охоплені",
+    "sectionSubtitle": "Від податкових рішень до штрафів: TaxaLex знає відповідну правову базу для всіх поширених адміністративних повідомлень.",
+    "appeal": "Оскаржити це повідомлення",
+    "deadline": "Строк",
+    "days": "днів",
+    "successRate": "Відсоток успіху",
+    "legalBasis": "Правова база",
+    "expandDetails": "Показати деталі",
+    "collapseDetails": "Приховати деталі",
+    "sectionLabel": "Підтримувані типи повідомлень"
   },
   "stats": {
-    "title": "Numbers that matter",
-    "subtitle": "Verified statistics from official sources",
-    "source": "Source",
+    "title": "Цифри, які мають значення",
+    "subtitle": "Підтверджена статистика з офіційних джерел",
+    "source": "Джерело",
     "items": {
       "objections": {
-        "value": "3.3M",
-        "label": "Tax objections filed per year in Germany"
+        "value": "3,3 млн",
+        "label": "Податкових заперечень подається щороку в Німеччині"
       },
       "successRate": {
-        "value": "67 %",
-        "label": "Partial or full success rate"
+        "value": "67 %",
+        "label": "Частковий або повний успіх"
       },
       "deadline": {
-        "value": "30 days",
-        "label": "Legal deadline (§ 355 AO)"
+        "value": "30 днів",
+        "label": "Законний строк (§ 355 AO)"
       },
       "speed": {
-        "value": "< 5 min",
-        "label": "Average generation time"
+        "value": "< 5 хв",
+        "label": "Середній час генерації"
       }
     },
-    "sectionLabel": "By the numbers",
-    "sectionHeading": "Facts, not promises",
-    "sourceInternal": "TaxaLex internal measurement"
+    "sectionLabel": "У цифрах",
+    "sectionHeading": "Факти, а не обіцянки",
+    "sourceInternal": "Внутрішні виміри TaxaLex"
   },
   "pricing": {
-    "title": "Transparent & fair",
-    "subtitle": "Choose the plan that fits your needs",
+    "title": "Прозоро й чесно",
+    "subtitle": "Оберіть тарифний план, що відповідає вашим потребам",
     "tabs": {
-      "individual": "Individual",
-      "selfemployed": "Self-employed",
-      "advisor": "Tax advisor",
-      "lawyer": "Lawyer"
+      "individual": "Фізична особа",
+      "selfemployed": "Самозайнятий",
+      "advisor": "Податковий радник",
+      "lawyer": "Юрист"
     },
-    "popular": "Popular",
-    "currentPlan": "Your current plan",
-    "perMonth": "/ month",
-    "perCase": "/ objection",
-    "perPack": "/ 5 objections",
-    "included": "Included",
-    "notIncluded": "Not included",
-    "upgrade": "Upgrade now",
-    "contact": "Contact us",
-    "choosePlan": "Choose plan",
-    "annualDiscount": "Pay annually – 2 months free",
-    "monthly": "Monthly",
-    "annual": "Annual",
-    "vatNote": "All prices excl. VAT.",
+    "popular": "Популярний",
+    "currentPlan": "Ваш поточний план",
+    "perMonth": "/ місяць",
+    "perCase": "/ заперечення",
+    "perPack": "/ 5 заперечень",
+    "included": "Включено",
+    "notIncluded": "Не включено",
+    "upgrade": "Оновити зараз",
+    "contact": "Зв'язатися з нами",
+    "choosePlan": "Обрати план",
+    "annualDiscount": "Платіть щорічно — 2 місяці безкоштовно",
+    "monthly": "Щомісяця",
+    "annual": "Щорічно",
+    "vatNote": "Усі ціни без ПДВ.",
     "freeFeatures": {
-      "title": "Free plan",
-      "description": "1 objection per month"
+      "title": "Безкоштовний план",
+      "description": "1 заперечення на місяць"
     },
-    "sectionLabel": "Pricing",
-    "sectionHeading": "Simple, transparent pricing",
-    "sectionSub": "Pay per case, or subscribe for unlimited access. No hidden fees.",
-    "viewAll": "View all plans including advisor & lawyer →"
+    "sectionLabel": "Ціни",
+    "sectionHeading": "Прості й прозорі ціни",
+    "sectionSub": "Платіть за справу або підпишіться на необмежений доступ. Без прихованих платежів.",
+    "viewAll": "Переглянути всі плани, включаючи для радників і юристів →"
   },
   "features": {
-    "title": "Why TaxaLex?",
-    "subtitle": "Four differentiating features that make the difference",
+    "title": "Чому TaxaLex?",
+    "subtitle": "Чотири відмінні функції, які мають значення",
     "items": {
       "multiAi": {
-        "title": "5 AI agents in parallel",
-        "description": "Claude, Gemini and Perplexity review your objection from different perspectives – for maximum quality."
+        "title": "5 AI-агентів паралельно",
+        "description": "Claude, Gemini та Perplexity перевіряють ваше заперечення з різних точок зору — для максимальної якості."
       },
       "legal": {
-        "title": "Up-to-date legal references",
-        "description": "Perplexity researches current court rulings and administrative guidelines in real time for your specific case."
+        "title": "Актуальні правові посилання",
+        "description": "Perplexity досліджує поточні судові рішення та адміністративні настанови в режимі реального часу для вашої конкретної справи."
       },
       "multilingual": {
-        "title": "Multilingual",
-        "description": "Interface in 7 languages. The objection letter is always drafted in German – as required by authorities."
+        "title": "Багатомовність",
+        "description": "Інтерфейс у 7 мовах. Лист-заперечення завжди складається німецькою — як вимагають органи влади."
       },
       "privacy": {
-        "title": "GDPR & Privacy",
-        "description": "EU servers, encrypted transmission, no permanent storage of your documents without consent."
+        "title": "GDPR і конфіденційність",
+        "description": "Сервери в ЄС, зашифрована передача даних, без постійного зберігання ваших документів без згоди."
       }
     },
-    "sectionHeading": "Built for legal precision"
+    "sectionHeading": "Створено для юридичної точності"
   },
   "faq": {
-    "title": "Frequently asked questions",
-    "subtitle": "Everything you want to know about TaxaLex",
+    "title": "Поширені запитання",
+    "subtitle": "Все, що ви хочете знати про TaxaLex",
     "categories": {
-      "all": "All",
-      "general": "General",
-      "legal": "Legal",
-      "pricing": "Pricing",
-      "technical": "Technical",
-      "advisor": "For advisors"
+      "all": "Всі",
+      "general": "Загальні",
+      "legal": "Юридичні",
+      "pricing": "Ціни",
+      "technical": "Технічні",
+      "advisor": "Для радників"
     }
   },
   "trust": {
-    "title": "Security & Privacy",
-    "gdpr": "GDPR-compliant",
-    "euServers": "EU servers",
-    "encrypted": "Encrypted",
-    "rdgNote": "Not legal advice",
-    "disclaimer": "TaxaLex creates AI-generated drafts for objection letters. This does not constitute legal advice within the meaning of the German Legal Services Act (RDG). Before submission, you should review the draft and consult a tax advisor or lawyer for complex matters.",
+    "title": "Безпека й конфіденційність",
+    "gdpr": "Відповідає GDPR",
+    "euServers": "Сервери в ЄС",
+    "encrypted": "Зашифровано",
+    "rdgNote": "Не є юридичною консультацією",
+    "disclaimer": "TaxaLex створює чернетки листів-заперечень на основі AI. Це не є юридичною консультацією в розумінні німецького Закону про юридичні послуги (RDG). Перед надсиланням вам слід перевірити чернетку та проконсультуватися з податковим радником або юристом у складних випадках.",
     "badges": {
-      "dsgvo": "GDPR-compliant",
-      "eu": "EU servers (Frankfurt)",
-      "ssl": "SSL-encrypted",
-      "rdg": "Not legal advice (RDG)"
+      "dsgvo": "Відповідає GDPR",
+      "eu": "Сервери в ЄС (Франкфурт)",
+      "ssl": "SSL-шифрування",
+      "rdg": "Не є юридичною консультацією (RDG)"
     },
-    "legalHeading": "Legal notice",
-    "gdprDetail": "Data in the EU",
-    "euServersDetail": "Hetzner, Germany",
+    "legalHeading": "Правова примітка",
+    "gdprDetail": "Дані в ЄС",
+    "euServersDetail": "Hetzner, Німеччина",
     "encryptedDetail": "TLS 1.3 + AES-256",
-    "rdgDetail": "AI-generated draft"
+    "rdgDetail": "Чернетка від AI"
   },
   "footer": {
-    "tagline": "AI-generated drafts. Not legal advice.",
-    "allRightsReserved": "All rights reserved.",
+    "tagline": "Чернетки від AI. Не є юридичною консультацією.",
+    "allRightsReserved": "Всі права захищено.",
     "columns": {
-      "product": "Product",
-      "company": "Company",
-      "support": "Support",
-      "legal": "Legal"
+      "product": "Продукт",
+      "company": "Компанія",
+      "support": "Підтримка",
+      "legal": "Правова інформація"
     }
   },
   "auth": {
     "login": {
-      "title": "Welcome back",
-      "subtitle": "Sign in to your account",
-      "email": "Email address",
-      "password": "Password",
-      "forgotPassword": "Forgot password?",
-      "submit": "Sign in",
-      "noAccount": "Don't have an account?",
-      "register": "Register now",
-      "orContinueWith": "Or continue with",
-      "demoAccounts": "Demo accounts",
-      "demoHint": "Click an account to auto-fill the fields.",
+      "title": "З поверненням",
+      "subtitle": "Увійдіть до свого акаунту",
+      "email": "Електронна пошта",
+      "password": "Пароль",
+      "forgotPassword": "Забули пароль?",
+      "submit": "Увійти",
+      "noAccount": "Ще немає акаунту?",
+      "register": "Зареєструватися",
+      "orContinueWith": "Або продовжити з",
+      "demoAccounts": "Демо-акаунти",
+      "demoHint": "Натисніть на акаунт, щоб автоматично заповнити поля.",
       "types": {
-        "individual": "Individual",
-        "advisor": "Tax advisor",
-        "lawyer": "Lawyer"
+        "individual": "Фізична особа",
+        "advisor": "Податковий радник",
+        "lawyer": "Юрист"
       },
-      "errorInvalid": "Invalid email or password.",
-      "successRegistered": "Account created. Please sign in.",
-      "successVerified": "Email confirmed. You can now sign in.",
-      "errorInvalidToken": "The confirmation link is invalid or expired. Please request a new one.",
-      "showPassword": "Show password",
-      "hidePassword": "Hide password",
-      "withGoogle": "Sign in with Google",
-      "demoAvailable": "Demo accounts (5 available)"
+      "errorInvalid": "Невірна електронна пошта або пароль.",
+      "successRegistered": "Акаунт створено. Будь ласка, увійдіть.",
+      "successVerified": "Електронну пошту підтверджено. Тепер ви можете увійти.",
+      "errorInvalidToken": "Посилання для підтвердження недійсне або застаріло. Будь ласка, запросіть нове.",
+      "showPassword": "Показати пароль",
+      "hidePassword": "Приховати пароль",
+      "withGoogle": "Увійти через Google",
+      "demoAvailable": "Демо-акаунти (доступно 5)"
     },
     "register": {
-      "title": "Create account",
-      "subtitle": "Get started free with TaxaLex",
-      "name": "Full name",
-      "email": "Email address",
-      "password": "Password",
-      "confirmPassword": "Confirm password",
-      "agreeToTerms": "I agree to the {terms} and {privacy}.",
-      "terms": "Terms of Service",
-      "privacy": "Privacy Policy",
-      "submit": "Create account",
-      "hasAccount": "Already have an account?",
-      "login": "Sign in",
+      "title": "Створити акаунт",
+      "subtitle": "Розпочніть безкоштовно з TaxaLex",
+      "name": "Повне ім'я",
+      "email": "Електронна пошта",
+      "password": "Пароль",
+      "confirmPassword": "Підтвердити пароль",
+      "agreeToTerms": "Я погоджуюся з {terms} та {privacy}.",
+      "terms": "Умовами використання",
+      "privacy": "Політикою конфіденційності",
+      "submit": "Створити акаунт",
+      "hasAccount": "Вже є акаунт?",
+      "login": "Увійти",
       "passwordStrength": {
-        "weak": "Weak",
-        "fair": "Fair",
-        "good": "Good",
-        "strong": "Strong"
+        "weak": "Слабкий",
+        "fair": "Задовільний",
+        "good": "Хороший",
+        "strong": "Надійний"
       },
       "types": {
-        "individual": "Individual",
-        "selfemployed": "Self-employed",
-        "advisor": "Tax advisor",
-        "lawyer": "Lawyer",
-        "expert": "Expert"
+        "individual": "Фізична особа",
+        "selfemployed": "Самозайнятий",
+        "advisor": "Податковий радник",
+        "lawyer": "Юрист",
+        "expert": "Експерт"
       },
       "benefits": {
         "individual": [
-          "5 AI agents analyse your notice and draft a legally grounded objection",
-          "8 notice types covered: tax, Jobcenter, pension, fines, rent and more",
-          "Finished letter ready to send — download as DOCX or TXT in minutes"
+          "5 AI-агентів аналізують ваше повідомлення і складають юридично обґрунтоване заперечення",
+          "8 типів повідомлень: податки, Jobcenter, пенсія, штрафи, оренда та інше",
+          "Готовий лист для надсилання — завантажте у форматі DOCX або TXT за хвилини"
         ],
         "selfemployed": [
-          "Appeal tax assessments, VAT notices, and trade office decisions",
-          "5 AI agents draft your objection — no legal knowledge required",
-          "Finished letter in minutes — download and send directly"
+          "Оскаржуйте податкові рішення, повідомлення про ПДВ і рішення торговельних органів",
+          "5 AI-агентів складають ваше заперечення — без юридичних знань",
+          "Готовий лист за хвилини — завантажте й надішліть безпосередньо"
         ],
         "advisor": [
-          "Review AI-prepared client drafts and accept or decline with one click",
-          "Annotate specific sections and request clarifications — no email back-and-forth",
-          "Full case packet per client: extracted facts, AI analysis, and viability score"
+          "Перевіряйте чернетки клієнтів, підготовлені AI, і приймайте або відхиляйте одним кліком",
+          "Додавайте коментарі до конкретних розділів і запитуйте уточнення — без зайвого листування",
+          "Повний пакет справи для кожного клієнта: витягнуті факти, аналіз AI та оцінка перспективності"
         ],
         "lawyer": [
-          "Review objections across all legal areas: tax, employment, rent, social law",
-          "Annotate draft sections and resolve client questions in one threaded view",
-          "Structured handoff with extracted facts and AI viability assessment per case"
+          "Перевіряйте заперечення в усіх правових сферах: податки, трудове право, оренда, соціальне право",
+          "Коментуйте розділи чернеток і вирішуйте питання клієнтів в одному потоці",
+          "Структурована передача справи з витягнутими фактами та оцінкою перспективності від AI"
         ],
         "expert": [
-          "Review AI-prepared client drafts, annotate sections, and approve with one click",
-          "Broadcast assignment: new case in your area — first to accept gets it",
-          "Structured handoff packet with extracted facts, AI analysis, and viability score"
+          "Перевіряйте чернетки клієнтів, підготовлені AI, коментуйте розділи і схвалюйте одним кліком",
+          "Широке сповіщення: нова справа у вашій сфері — перший, хто прийме, отримає її",
+          "Структурований пакет передачі з витягнутими фактами, аналізом AI та оцінкою перспективності"
         ]
       },
-      "iAm": "I am…",
+      "iAm": "Я є…",
       "sublabels": {
-        "individual": "Appeal notices",
-        "advisor": "Manage clients",
-        "lawyer": "Represent clients",
-        "expert": "Manage clients"
+        "individual": "Оскаржувати повідомлення",
+        "advisor": "Управляти клієнтами",
+        "lawyer": "Представляти клієнтів",
+        "expert": "Управляти клієнтами"
       },
-      "registerFree": "Register for free",
-      "passwordStrengthLabel": "Password strength:",
-      "passwordMinLength": "Min. {n} characters",
-      "errorFailed": "Registration failed.",
-      "practiceAreasLabel": "My practice areas",
+      "registerFree": "Зареєструватися безкоштовно",
+      "passwordStrengthLabel": "Надійність пароля:",
+      "passwordMinLength": "Мін. {n} символів",
+      "errorFailed": "Реєстрація не вдалася.",
+      "practiceAreasLabel": "Мої сфери практики",
       "practiceAreas": {
-        "tax": "Tax law",
-        "legal": "General law"
+        "tax": "Податкове право",
+        "legal": "Загальне право"
       },
-      "practiceAreasMin": "Please select at least one practice area.",
-      "practiceAreasSelfCert": "By selecting, you confirm you are licensed to practise in the chosen areas."
+      "practiceAreasMin": "Будь ласка, оберіть принаймні одну сферу практики.",
+      "practiceAreasSelfCert": "Обираючи, ви підтверджуєте, що маєте ліцензію на практику в обраних сферах."
     },
     "layout": {
-      "backToHome": "Back to home",
-      "trusted": "Trusted by German taxpayers",
-      "headline": "Respond to German official notices — structured and clearly reasoned.",
-      "description": "5 specialized AI agents draft, cross-check, and improve your objection letter — in under 5 minutes.",
-      "trustDraft": "Draft ready in under 5 minutes",
-      "trustDemo": "Interactive demo — no registration required",
-      "trustGdpr": "GDPR-compliant · EU servers · Encrypted",
-      "privacy": "Privacy"
+      "backToHome": "На головну",
+      "trusted": "Довіряють платники податків Німеччини",
+      "headline": "Відповідайте на офіційні повідомлення Німеччини — структуровано й чітко обґрунтовано.",
+      "description": "5 спеціалізованих AI-агентів складають, перехресно перевіряють і вдосконалюють ваш лист-заперечення — менш ніж за 5 хвилин.",
+      "trustDraft": "Чернетка готова менш ніж за 5 хвилин",
+      "trustDemo": "Інтерактивне демо — реєстрація не потрібна",
+      "trustGdpr": "Відповідає GDPR · Сервери в ЄС · Зашифровано",
+      "privacy": "Конфіденційність"
     }
   },
   "dashboard": {
-    "title": "Dashboard",
-    "welcome": "Welcome back, {name}",
-    "welcomeAdvisor": "Advisor dashboard – {name}",
-    "welcomeAdmin": "Admin panel – {name}",
+    "title": "Панель керування",
+    "welcome": "З поверненням, {name}",
+    "welcomeAdvisor": "Панель радника — {name}",
+    "welcomeAdmin": "Панель адміністратора — {name}",
     "stats": {
-      "totalCases": "Total objections",
-      "activeCases": "Active cases",
-      "submittedCases": "Submitted",
-      "successRate": "Success rate"
+      "totalCases": "Всього заперечень",
+      "activeCases": "Активні справи",
+      "submittedCases": "Подано",
+      "successRate": "Відсоток успіху"
     },
-    "recentCases": "Recent cases",
-    "noCases": "No cases yet",
-    "noCasesHint": "Start your first objection",
-    "newCase": "New request",
-    "viewAll": "All cases",
+    "recentCases": "Нещодавні справи",
+    "noCases": "Справ ще немає",
+    "noCasesHint": "Розпочніть своє перше заперечення",
+    "newCase": "Новий запит",
+    "viewAll": "Всі справи",
     "status": {
-      "CREATED": "Created",
-      "QUESTIONS": "Questions",
-      "GENERATING": "Generating",
-      "DRAFT_READY": "Draft ready",
-      "SUBMITTED": "Submitted",
-      "AWAITING_RESPONSE": "Pending",
-      "CLOSED_SUCCESS": "Successful",
-      "CLOSED_REJECTED": "Rejected"
+      "CREATED": "Створено",
+      "QUESTIONS": "Запитання",
+      "GENERATING": "Генерація",
+      "DRAFT_READY": "Чернетка готова",
+      "SUBMITTED": "Подано",
+      "AWAITING_RESPONSE": "Очікує відповіді",
+      "CLOSED_SUCCESS": "Успішно",
+      "CLOSED_REJECTED": "Відхилено"
     },
     "quickActions": {
-      "title": "Quick actions",
-      "newCase": "New objection",
-      "viewCases": "My cases",
-      "billing": "Billing",
-      "account": "Settings"
+      "title": "Швидкі дії",
+      "newCase": "Нове заперечення",
+      "viewCases": "Мої справи",
+      "billing": "Оплата",
+      "account": "Налаштування"
     }
   },
   "billing": {
-    "title": "Billing",
-    "subtitle": "Your current plan and usage overview",
-    "currentPlan": "Current plan",
-    "usage": "Usage this month",
-    "invoices": "Invoices",
-    "noInvoices": "No invoices yet",
-    "upgrade": "Upgrade plan",
-    "cancel": "Cancel subscription",
-    "renewsOn": "Renews on {date}",
-    "casesUsed": "{used} of {total} objections used",
-    "unlimited": "Unlimited"
+    "title": "Оплата",
+    "subtitle": "Ваш поточний план і огляд використання",
+    "currentPlan": "Поточний план",
+    "usage": "Використання цього місяця",
+    "invoices": "Рахунки-фактури",
+    "noInvoices": "Рахунків-фактур ще немає",
+    "upgrade": "Оновити план",
+    "cancel": "Скасувати підписку",
+    "renewsOn": "Поновлюється {date}",
+    "casesUsed": "{used} із {total} заперечень використано",
+    "unlimited": "Необмежено"
   },
   "cases": {
-    "title": "My cases",
-    "subtitle": "All your objection and appeal cases",
+    "title": "Мої справи",
+    "subtitle": "Всі ваші заперечення та оскарження",
     "filter": {
-      "all": "All",
-      "active": "Active",
-      "submitted": "Submitted",
-      "closed": "Closed"
+      "all": "Всі",
+      "active": "Активні",
+      "submitted": "Подані",
+      "closed": "Закриті"
     },
-    "empty": "No cases found",
-    "emptyHint": "Start your first objection",
-    "newCase": "New request",
-    "caseId": "Case ID",
-    "createdAt": "Created",
-    "status": "Status",
-    "type": "Type",
-    "actions": "Actions",
-    "viewCase": "View case",
-    "downloadDraft": "Download draft"
+    "empty": "Справ не знайдено",
+    "emptyHint": "Розпочніть своє перше заперечення",
+    "newCase": "Новий запит",
+    "caseId": "ID справи",
+    "createdAt": "Створено",
+    "status": "Статус",
+    "type": "Тип",
+    "actions": "Дії",
+    "viewCase": "Переглянути справу",
+    "downloadDraft": "Завантажити чернетку"
   },
   "account": {
-    "title": "Profile & settings",
+    "title": "Профіль і налаштування",
     "sections": {
-      "profile": "Profile",
-      "security": "Security",
-      "notifications": "Notifications",
-      "language": "Language & region",
-      "danger": "Delete account"
+      "profile": "Профіль",
+      "security": "Безпека",
+      "notifications": "Сповіщення",
+      "language": "Мова й регіон",
+      "appearance": "Вигляд",
+      "danger": "Видалити акаунт"
     },
-    "name": "Name",
-    "email": "Email",
-    "role": "Role",
-    "language": "Preferred language",
-    "outputLanguage": "Output language for objections",
-    "saveChanges": "Save changes",
-    "changePassword": "Change password",
-    "currentPassword": "Current password",
-    "newPassword": "New password",
-    "confirmPassword": "Confirm password",
-    "deleteAccount": "Delete account",
-    "deleteWarning": "This action cannot be undone. All your data will be deleted.",
+    "name": "Ім'я",
+    "email": "Електронна пошта",
+    "role": "Роль",
+    "language": "Бажана мова",
+    "outputLanguage": "Мова виведення для заперечень",
+    "saveChanges": "Зберегти зміни",
+    "changePassword": "Змінити пароль",
+    "currentPassword": "Поточний пароль",
+    "newPassword": "Новий пароль",
+    "confirmPassword": "Підтвердити пароль",
+    "deleteAccount": "Видалити акаунт",
+    "deleteWarning": "Цю дію неможливо скасувати. Всі ваші дані будуть видалені.",
     "notifications": {
-      "email": "Email notifications",
-      "caseUpdates": "Case updates",
-      "newsletter": "Newsletter & product updates"
-    }
+      "email": "Сповіщення електронною поштою",
+      "caseUpdates": "Оновлення справ",
+      "newsletter": "Новини та оновлення продукту"
+    },
+    "memberSince": "Учасник з",
+    "logout": "Вийти",
+    "startNewCase": "Розпочати нове заперечення",
+    "templatesTitle": "Шаблони й зразки",
+    "templatesDesc": "Безкоштовні шаблони для завантаження й налаштування",
+    "templatesViewAll": "Переглянути всі",
+    "templatesFree": "Безкоштовно",
+    "templatesUseAI": "Краще скористайтеся AI — створіть своє заперечення за 5 хвилин",
+    "plansTitle": "Плани й ціни",
+    "plansViewAll": "Переглянути деталі",
+    "settingsTitle": "Акаунт і налаштування",
+    "emailVerified": "Електронну пошту підтверджено",
+    "emailNotVerified": "Електронну пошту не підтверджено",
+    "emailNotVerifiedHint": "Будь ласка, підтвердіть свою електронну пошту. Перевірте вхідні на наявність листа з підтвердженням.",
+    "accountType": "Тип акаунту",
+    "password": "Пароль",
+    "twoFactor": "Двофакторна автентифікація (2FA)",
+    "twoFactorNotEnabled": "Не увімкнено",
+    "theme": {
+      "label": "Вигляд",
+      "light": "Світла",
+      "dark": "Темна",
+      "system": "Системна"
+    },
+    "billingManage": "Управляти платежами й планом",
+    "billingManageDesc": "Рахунки-фактури, оновлення, придбання кредитів",
+    "gdprTitle": "Конфіденційність (GDPR)",
+    "gdprNote": "Експорт даних незабаром. Видалення акаунту відбувається миттєво й незворотно.",
+    "exportData": "Експортувати дані",
+    "languageLabel": "Мова",
+    "statCases": "Всього справ",
+    "statCredits": "Кредити",
+    "statPlan": "Поточний план",
+    "planFree": "Безкоштовний",
+    "planPro": "Pro",
+    "billing": "Оплата"
   },
   "advisor": {
     "dashboard": {
-      "title": "Advisor dashboard",
-      "clients": "Clients",
-      "activeAppeals": "Active objections",
-      "submittedAppeals": "Submitted objections",
-      "recentActivity": "Recent activity",
-      "quickActions": "Quick actions",
-      "addClient": "Add client",
-      "newAppeal": "New objection"
+      "title": "Панель радника",
+      "clients": "Клієнти",
+      "activeAppeals": "Активні заперечення",
+      "submittedAppeals": "Подані заперечення",
+      "recentActivity": "Остання активність",
+      "quickActions": "Швидкі дії",
+      "addClient": "Додати клієнта",
+      "newAppeal": "Нове заперечення"
     },
     "clients": {
-      "title": "Clients",
-      "subtitle": "Manage your clients",
-      "search": "Search clients...",
-      "add": "Add client",
-      "name": "Name",
-      "email": "Email",
-      "cases": "Cases",
-      "lastActive": "Last active",
-      "actions": "Actions",
-      "noClients": "No clients yet",
+      "title": "Клієнти",
+      "subtitle": "Управляйте своїми клієнтами",
+      "search": "Пошук клієнтів...",
+      "add": "Додати клієнта",
+      "name": "Ім'я",
+      "email": "Електронна пошта",
+      "cases": "Справи",
+      "lastActive": "Остання активність",
+      "actions": "Дії",
+      "noClients": "Клієнтів ще немає",
       "modal": {
-        "title": "Add client",
-        "name": "Client name",
-        "email": "Email address",
-        "submit": "Add"
+        "title": "Додати клієнта",
+        "name": "Ім'я клієнта",
+        "email": "Електронна пошта",
+        "submit": "Додати"
       }
     },
     "appeals": {
-      "title": "All objections",
-      "subtitle": "Objections across all your clients",
-      "client": "Client",
-      "type": "Type",
-      "status": "Status",
-      "createdAt": "Created"
+      "title": "Всі заперечення",
+      "subtitle": "Заперечення по всіх ваших клієнтах",
+      "client": "Клієнт",
+      "type": "Тип",
+      "status": "Статус",
+      "createdAt": "Створено"
     },
     "billing": {
-      "title": "Billing",
-      "plan": "Your advisor plan",
-      "usage": "Clients & objections"
+      "title": "Оплата",
+      "plan": "Ваш план радника",
+      "usage": "Клієнти й заперечення"
     },
     "handoff": {
-      "title": "Request Professional Review",
-      "selectAdvisor": "Select Advisor",
+      "title": "Запросити професійну перевірку",
+      "selectAdvisor": "Обрати радника",
       "scope": {
-        "label": "Scope of engagement",
-        "reviewOnly": "Review only",
-        "fullRepresentation": "Full representation"
+        "label": "Обсяг послуг",
+        "reviewOnly": "Лише перевірка — я надішлю сам",
+        "fullRepresentation": "Повне представництво"
       },
-      "clientNotes": "Notes for the advisor (optional)",
-      "submit": "Request review",
-      "submitted": "Request sent",
-      "broadcastInfo": "All available experts in your area will be notified. The first to accept handles your case.",
-      "withdrawButton": "Withdraw request",
-      "withdrawReason": "Reason for withdrawal",
-      "withdrawConfirm": "Really withdraw this request?",
-      "expertArea": "Practice area",
-      "tax": "Tax law",
-      "legal": "General law",
-      "expertsNotified": "{count} expert(s) notified",
-      "awaitingAcceptance": "Waiting for an expert to accept..."
+      "clientNotes": "Нотатки для радника (необов'язково)",
+      "submit": "Запросити перевірку",
+      "submitted": "Запит надіслано",
+      "broadcastInfo": "Буде повідомлено всіх доступних експертів у вашій сфері. Перший, хто прийме, займеться вашою справою.",
+      "withdrawButton": "Відкликати запит",
+      "withdrawReason": "Причина відкликання",
+      "withdrawConfirm": "Справді відкликати цей запит?",
+      "expertArea": "Сфера практики",
+      "tax": "Податкове право",
+      "legal": "Загальне право",
+      "expertsNotified": "Повідомлено {count} експерт(ів)",
+      "awaitingAcceptance": "Очікування прийняття справи експертом..."
     },
     "assignment": {
-      "pending": "Decision required",
-      "accepted": "Under review",
-      "declined": "Declined",
-      "changesRequested": "Questions pending",
-      "approved": "Approved",
-      "finalized": "Finalized",
+      "pending": "Потрібне рішення",
+      "accepted": "На розгляді",
+      "declined": "Відхилено",
+      "changesRequested": "Є запитання",
+      "approved": "Схвалено",
+      "finalized": "Завершено",
       "statuses": {
-        "SUPERSEDED": "Taken by another expert",
-        "WITHDRAWN": "Withdrawn by client",
-        "EXPIRED": "Expired (72h without response)"
+        "SUPERSEDED": "Прийнято іншим експертом",
+        "WITHDRAWN": "Відкликано клієнтом",
+        "EXPIRED": "Термін дії закінчився (72 год без відповіді)"
       }
     },
     "packet": {
-      "brief": "Case summary",
-      "facts": "Facts",
-      "analysis": "AI analysis",
-      "draft": "Appeal draft",
-      "clientContext": "Client information",
-      "coreArgument": "Core argument",
-      "evidenceGaps": "Evidence gaps",
-      "counterarguments": "Counterarguments"
+      "brief": "Стислий опис справи",
+      "facts": "Факти",
+      "analysis": "Аналіз AI",
+      "draft": "Чернетка заперечення",
+      "clientContext": "Інформація про клієнта",
+      "coreArgument": "Основний аргумент",
+      "evidenceGaps": "Прогалини в доказах",
+      "counterarguments": "Контраргументи"
     },
     "viability": {
-      "high": "High success probability",
-      "medium": "Medium success probability",
-      "low": "Low success probability"
+      "high": "Висока ймовірність успіху",
+      "medium": "Середня ймовірність успіху",
+      "low": "Низька ймовірність успіху"
     },
     "actions": {
-      "accept": "Accept case",
-      "decline": "Decline",
-      "finalize": "Approve and finalize",
-      "addAnnotation": "Ask question",
-      "resolveAnnotation": "Mark as resolved",
-      "replyToAnnotation": "Reply",
-      "submitReply": "Send reply"
+      "accept": "Прийняти справу",
+      "decline": "Відхилити",
+      "finalize": "Схвалити та завершити",
+      "addAnnotation": "Задати питання",
+      "resolveAnnotation": "Позначити як вирішене",
+      "replyToAnnotation": "Відповісти",
+      "submitReply": "Надіслати відповідь"
     },
     "annotation": {
-      "aiPreFill": "AI suggestion from your documents:",
-      "open": "Open",
-      "answered": "Answered",
-      "resolved": "Resolved"
+      "aiPreFill": "Пропозиція AI на основі ваших документів:",
+      "open": "Відкрито",
+      "answered": "Відповідь надано",
+      "resolved": "Вирішено"
     },
     "decline": {
-      "title": "Decline case",
-      "reason": "Reason for declining",
-      "reasonPlaceholder": "Please provide a reason...",
-      "confirm": "Confirm decline"
+      "title": "Відхилити справу",
+      "reason": "Причина відхилення",
+      "reasonPlaceholder": "Будь ласка, вкажіть причину...",
+      "confirm": "Підтвердити відхилення"
     }
   },
   "admin": {
-    "title": "Admin panel",
-    "subtitle": "System overview and user management",
+    "title": "Панель адміністратора",
+    "subtitle": "Огляд системи та управління користувачами",
     "tabs": {
-      "overview": "Overview",
-      "users": "Users",
-      "content": "Content"
+      "overview": "Огляд",
+      "users": "Користувачі",
+      "cases": "Справи",
+      "pricing": "Ціни",
+      "emails": "Листи",
+      "system": "Система",
+      "content": "Контент"
     },
     "stats": {
-      "totalUsers": "Total users",
-      "totalCases": "Total cases",
-      "openCases": "Open cases",
-      "submittedCases": "Submitted"
+      "totalUsers": "Всього користувачів",
+      "totalCases": "Всього справ",
+      "openCases": "Відкриті справи",
+      "submittedCases": "Подано"
+    },
+    "overview": {
+      "totalUsers": "Всього користувачів",
+      "verifiedSuffix": "підтверджені",
+      "new7d": "Нові (7 днів)",
+      "ofTotalPct": "% від загальної кількості",
+      "activated": "Активовані",
+      "activationPct": "% відсоток активації",
+      "activeSubscriptions": "Активні підписки",
+      "conversionPct": "% конверсія",
+      "totalCases": "Всього справ",
+      "thisWeek": "цього тижня",
+      "closedSuccess": "Успішно закриті",
+      "stillOpen": "ще відкриті",
+      "recentUsers": "Нещодавні реєстрації",
+      "recentCases": "Нещодавні справи"
     },
     "users": {
-      "title": "Users",
-      "since": "Since",
-      "subscription": "Subscription",
-      "noSubscription": "No active subscription",
-      "subscriptionUntil": "until",
-      "subscriptionCancels": "cancels at period end",
-      "noCases": "No cases yet.",
-      "ledger": "Payments / Credits"
+      "title": "Користувачі",
+      "since": "З",
+      "caseSuffix": "справа",
+      "casesSuffix": "справ",
+      "grantCredits": "Надати",
+      "grantLoading": "Збереження…",
+      "grantError": "Не вдалося надати кредити",
+      "changeRole": "Змінити роль:",
+      "creditsFor": "Кредити для",
+      "subscription": "Підписка",
+      "noSubscription": "Немає активної підписки",
+      "subscriptionUntil": "до",
+      "subscriptionCancels": "скасовується в кінці періоду",
+      "noCases": "Справ ще немає.",
+      "ledger": "Платежі / Кредити"
     },
-    "content": {
-      "title": "Database content",
-      "useCases": "Use cases",
-      "faqs": "FAQs",
-      "pricingPlans": "Pricing plans",
-      "edit": "Edit (coming soon)"
+    "cases": {
+      "filterAll": "Всі",
+      "filterOpen": "Відкриті",
+      "filterSubmitted": "Подані",
+      "filterClosed": "Закриті",
+      "noneFound": "Справ у цій категорії немає.",
+      "deadline": "Строк"
+    },
+    "pricing": {
+      "loading": "Завантаження тарифних планів…",
+      "noPlansHint": "Тарифних планів у базі даних немає.",
+      "recommended": "Рекомендовано",
+      "inactive": "Неактивний",
+      "group": "Група",
+      "once": "Одноразово",
+      "monthly": "Щомісяця",
+      "annual": "Щорічно",
+      "active": "Активний",
+      "standard": "Стандартний",
+      "features": "Функції"
+    },
+    "emails": {
+      "devWarning": "Активний режим розробки — усі вихідні листи матимуть префікс DEV - у темі.",
+      "trigger": "Тригер",
+      "subject": "Тема",
+      "variables": "Змінні",
+      "ttl": "Дійсно протягом",
+      "templates": {
+        "verification": "Код підтвердження",
+        "verificationTrigger": "Користувач реєструється",
+        "verificationSubject": "Ваш код підтвердження — TaxaLex",
+        "welcome": "Привітальний лист",
+        "welcomeTrigger": "Електронну пошту підтверджено",
+        "welcomeSubject": "Ласкаво просимо до TaxaLex — {name}",
+        "passwordReset": "Скидання пароля",
+        "passwordResetTrigger": "Забули пароль",
+        "passwordResetSubject": "Скиньте свій пароль — TaxaLex"
+      }
     },
     "system": {
+      "title": "Стан системи",
+      "environment": "Середовище",
+      "dev": "Розробка",
+      "prod": "Виробництво",
+      "database": "База даних",
+      "ai": "AI (Anthropic)",
+      "stripe": "Платежі (Stripe)",
+      "emailService": "Листи (Brevo)",
+      "ok": "OK",
+      "notConfigured": "Не налаштовано",
       "services": {
         "anthropic": "Anthropic (Claude)",
-        "anthropicNote": "Required — app will not start without this key",
+        "anthropicNote": "Обов'язково — застосунок не запуститься без цього ключа",
         "google": "Google AI (Gemini)",
-        "googleNote": "Optional — for Gemini agents",
+        "googleNote": "Необов'язково — для агентів Gemini",
         "perplexity": "Perplexity (Sonar)",
-        "perplexityNote": "Optional — for fact-check agent",
+        "perplexityNote": "Необов'язково — для агента перевірки фактів",
         "stripe": "Stripe",
-        "stripeNote": "Optional — for payments",
+        "stripeNote": "Необов'язково — для платежів",
         "brevo": "Brevo (Email)",
-        "brevoNote": "Optional — emails suppressed without key",
-        "s3": "S3 (File storage)",
-        "s3Note": "Optional — for document uploads"
+        "brevoNote": "Необов'язково — листи вимикаються без ключа",
+        "s3": "S3 (Сховище файлів)",
+        "s3Note": "Необов'язково — для завантаження документів"
       }
+    },
+    "content": {
+      "title": "Вміст бази даних",
+      "useCases": "Випадки",
+      "faqs": "FAQ",
+      "pricingPlans": "Тарифні плани",
+      "edit": "Редагувати (незабаром)"
     }
   },
   "cookies": {
     "banner": {
-      "title": "Cookie settings",
-      "description": "We use cookies for analytics and a better user experience. You can change your preferences at any time.",
-      "acceptAll": "Accept all",
-      "acceptNecessary": "Necessary only",
-      "manage": "Settings",
-      "learnMore": "Learn more"
+      "title": "Налаштування файлів cookie",
+      "description": "Ми використовуємо файли cookie для аналітики та покращення досвіду користувача. Ви можете змінити свої налаштування в будь-який час.",
+      "acceptAll": "Прийняти всі",
+      "acceptNecessary": "Лише необхідні",
+      "manage": "Налаштування",
+      "learnMore": "Дізнатися більше"
     },
     "types": {
       "necessary": {
-        "title": "Necessary cookies",
-        "description": "Required for the website to function. Cannot be disabled."
+        "title": "Необхідні файли cookie",
+        "description": "Потрібні для роботи сайту. Не можуть бути вимкнені."
       },
       "analytics": {
-        "title": "Analytics cookies",
-        "description": "Google Analytics and PostHog – help us improve the website."
+        "title": "Аналітичні файли cookie",
+        "description": "Google Analytics та PostHog — допомагають нам покращувати сайт."
       },
       "marketing": {
-        "title": "Marketing cookies",
-        "description": "Personalised advertising and retargeting."
+        "title": "Маркетингові файли cookie",
+        "description": "Персоналізована реклама та ретаргетинг."
       }
     }
   },
   "wizard": {
     "steps": {
-      "upload": "Upload",
-      "questions": "Questions",
-      "generating": "AI Analysis",
-      "result": "Result"
+      "upload": "Завантаження",
+      "questions": "Запитання",
+      "generating": "Аналіз AI",
+      "result": "Результат"
     },
     "upload": {
-      "title": "Upload your notice",
-      "subtitle": "Upload your administrative decision and any supporting documents",
-      "dropzone": "Select files",
-      "dropzoneHint": "PDF, DOCX, TXT or images",
-      "analyze": "Analyse documents"
+      "title": "Завантажте своє повідомлення",
+      "subtitle": "Завантажте ваше адміністративне рішення та будь-які підтвердні документи",
+      "dropzone": "Обрати файли",
+      "dropzoneHint": "PDF, DOCX, TXT або зображення",
+      "analyze": "Аналізувати документи"
     },
     "questions": {
-      "title": "Follow-up questions",
-      "subtitle": "Please answer these questions to optimise your objection letter",
-      "detectedData": "Detected data",
-      "finanzamt": "Tax office",
-      "nachzahlung": "Amount due",
-      "generate": "Generate objection letter"
+      "title": "Додаткові запитання",
+      "subtitle": "Будь ласка, дайте відповідь на ці запитання для оптимізації вашого листа-заперечення",
+      "detectedData": "Виявлені дані",
+      "finanzamt": "Податкова інспекція",
+      "nachzahlung": "Сума до сплати",
+      "generate": "Згенерувати лист-заперечення"
     },
     "generating": {
-      "title": "Multi-AI analysis running...",
+      "title": "Виконується мультиагентний аналіз AI...",
       "agents": {
-        "drafter": "Drafting letter... (Claude)",
-        "reviewer": "Reviewing for errors... (Gemini)",
-        "factchecker": "Fact-checking legal citations... (Perplexity)",
-        "adversary": "Authority perspective check... (Claude)",
-        "consolidator": "Consolidating final version... (Claude)"
+        "drafter": "Складання листа... (Claude)",
+        "reviewer": "Перевірка на помилки... (Gemini)",
+        "factchecker": "Перевірка юридичних посилань... (Perplexity)",
+        "adversary": "Перевірка позиції органу влади... (Claude)",
+        "consolidator": "Консолідація фінальної версії... (Claude)"
       }
     },
     "result": {
-      "title": "Objection letter ready",
-      "subtitle": "Reviewed by {count} AI agents",
-      "agentLog": "AI Agent Log",
-      "outputLanguageWarning": "This document was generated in {language}. The German version is required for submission to German authorities.",
-      "downloadTxt": "Download as TXT"
+      "title": "Лист-заперечення готовий",
+      "subtitle": "Перевірено {count} AI-агентами",
+      "agentLog": "Журнал AI-агентів",
+      "outputLanguageWarning": "Цей документ згенеровано мовою: {language}. Для подання до німецьких органів влади потрібна німецька версія.",
+      "downloadTxt": "Завантажити як TXT"
     }
   },
   "outputLanguage": {
-    "label": "Output language",
-    "hint": "The objection letter is generated in German by default (required for German authorities).",
-    "nonGermanWarning": "For review only — the letter must be in German for official submission."
+    "label": "Мова виведення",
+    "hint": "Лист-заперечення за замовчуванням генерується німецькою (обов'язково для органів влади Німеччини).",
+    "nonGermanWarning": "Лише для ознайомлення — для офіційного подання лист має бути написаний німецькою."
   },
   "errors": {
-    "noFiles": "Please upload at least one file",
-    "analyzeFailed": "Analysis failed. Please try again.",
-    "generateFailed": "Generation failed. Please try again.",
-    "missingDescheid": "Notice data is missing",
-    "unauthorized": "Unauthorised",
-    "notFound": "Page not found",
-    "serverError": "Server error. Please try again later."
+    "noFiles": "Будь ласка, завантажте принаймні один файл",
+    "analyzeFailed": "Аналіз не вдався. Будь ласка, спробуйте ще раз.",
+    "generateFailed": "Генерація не вдалася. Будь ласка, спробуйте ще раз.",
+    "missingDescheid": "Дані повідомлення відсутні",
+    "unauthorized": "Не авторизовано",
+    "notFound": "Сторінку не знайдено",
+    "serverError": "Помилка сервера. Будь ласка, спробуйте пізніше."
   },
   "chatbot": {
-    "sectionLabel": "Why not just use an AI chatbot?",
-    "sectionHeading": "Quality comes from process — not a single prompt.",
-    "sectionSub": "A general AI assistant can read your notice — but AI systems are known to hallucinate legal sources and miss domain-specific questions. TaxaLex uses five specialized agents that check each other's work.",
-    "genericTitle": "Generic AI assistant",
-    "genericSub": "One prompt → one unverified draft",
-    "generic1": "Generates one draft without any automatic cross-checking or self-review",
-    "generic2": "Does not know which domain-specific legal questions to ask — you need to prompt them",
-    "generic3": "Can hallucinate legal citations and case references — errors go undetected without verification",
-    "generic4": "No perspective test: \"How would the authority counter this argument?\"",
-    "generic5": "No automatic deadline calculation from the document",
-    "generic6": "Output quality and completeness depend heavily on how the prompt is written",
-    "taxalexLabel": "✦ 5-agent pipeline",
-    "taxalexSub": "Automated expert cross-examination",
-    "agentDrafter": "Creates the initial objection using legal domain knowledge (§ AO, § SGG, § BGB, § KSchG)",
-    "agentReviewer": "Checks legal correctness, deadline compliance, and formal requirements",
-    "agentFactChecker": "Verifies cited legal sources and rulings via live search — flags inaccuracies before they reach the final draft",
-    "agentAdversary": "Reviews the draft from the authority's perspective — to identify and address weak points",
-    "agentConsolidator": "Combines all reviews into one structured, clearly reasoned final letter",
-    "ctaText": "See how it works — try the interactive demo, no registration required.",
-    "ctaButton": "Try the demo"
+    "sectionLabel": "Чому б просто не скористатися AI-чатботом?",
+    "sectionHeading": "Якість визначається процесом — а не одним промптом.",
+    "sectionSub": "Загальний AI-асистент може прочитати ваше повідомлення — але AI-системи схильні до галюцинацій щодо юридичних джерел і можуть пропустити специфічні питання. TaxaLex використовує п'ять спеціалізованих агентів, які перевіряють роботу один одного.",
+    "genericTitle": "Звичайний AI-асистент",
+    "genericSub": "Один промпт → одна неперевірена чернетка",
+    "generic1": "Генерує одну чернетку без будь-якої автоматичної перехресної перевірки або самоконтролю",
+    "generic2": "Не знає, які специфічні юридичні питання слід поставити — вам потрібно самому їх формулювати",
+    "generic3": "Може вигадувати юридичні посилання і судові рішення — помилки залишаються непоміченими без перевірки",
+    "generic4": "Відсутня перевірка позиції: «Як орган влади міг би заперечити цей аргумент?»",
+    "generic5": "Відсутній автоматичний розрахунок строку на основі документа",
+    "generic6": "Якість і повнота результату значною мірою залежать від того, як написано промпт",
+    "taxalexLabel": "✦ Конвеєр із 5 агентів",
+    "taxalexSub": "Автоматизована експертна перехресна перевірка",
+    "agentDrafter": "Створює початкове заперечення з використанням юридичних знань у сфері (§ AO, § SGG, § BGB, § KSchG)",
+    "agentReviewer": "Перевіряє юридичну правильність, дотримання строків і формальні вимоги",
+    "agentFactChecker": "Перевіряє зазначені юридичні джерела і рішення через живий пошук — позначає неточності до того, як вони потраплять у фінальну чернетку",
+    "agentAdversary": "Розглядає чернетку з позиції органу влади — щоб виявити й усунути слабкі місця",
+    "agentConsolidator": "Об'єднує всі перевірки в один структурований, чітко обґрунтований фінальний лист",
+    "ctaText": "Подивіться, як це працює — спробуйте інтерактивне демо, реєстрація не потрібна.",
+    "ctaButton": "Спробувати демо"
   },
   "templates": {
-    "sectionLabel": "Free templates",
-    "sectionHeading": "16 ready-to-use legal templates",
-    "description": "Download blank templates for the most common objections in Germany — tax, Jobcenter, rent, employment and more. Or fill them online with AI in minutes.",
-    "cta": "Browse all templates",
-    "name1": "Tax Assessment",
-    "name2": "Jobcenter Rejection",
-    "name3": "Rent Increase",
-    "name4": "Dismissal Notice"
+    "sectionLabel": "Безкоштовні шаблони",
+    "sectionHeading": "16 готових до використання юридичних шаблонів",
+    "description": "Завантажте чисті шаблони для найпоширеніших заперечень у Німеччині — податки, Jobcenter, оренда, трудові відносини та інше. Або заповніть їх онлайн за допомогою AI за хвилини.",
+    "cta": "Переглянути всі шаблони",
+    "name1": "Податкове рішення",
+    "name2": "Відмова Jobcenter",
+    "name3": "Підвищення орендної плати",
+    "name4": "Повідомлення про звільнення"
   }
 }

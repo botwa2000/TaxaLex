@@ -57,209 +57,209 @@
     "templates": "Шаблоны",
     "allUseCases": "→ Все случаи",
     "startFree": "Начать бесплатно",
-    "advisorDemo": "Демо советника",
+    "advisorDemo": "Демо для консультантов",
     "newAppeal": "Новое обжалование"
   },
   "hero": {
     "groups": {
       "individual": {
-        "headline": "Received a German notice? Appeal it in minutes.",
-        "sub": "TaxaLex analyses your administrative decision with 5 AI agents and drafts a legally grounded objection letter – no lawyer needed.",
-        "cta": "Get started for free"
+        "headline": "Получили уведомление из Германии? Обжалуйте его за несколько минут.",
+        "sub": "TaxaLex анализирует ваше административное решение с помощью 5 ИИ-агентов и составляет юридически обоснованное возражение — без адвоката.",
+        "cta": "Начать бесплатно"
       },
       "selfemployed": {
-        "headline": "Tax bill? Appeal it – without a lawyer.",
-        "sub": "For freelancers and self-employed: AI-powered objection letters against tax assessments in under 5 minutes.",
-        "cta": "Appeal now"
+        "headline": "Налоговое требование? Обжалуйте его — без адвоката.",
+        "sub": "Для фрилансеров и самозанятых: возражения на налоговые уведомления с помощью ИИ — менее чем за 5 минут.",
+        "cta": "Подать возражение"
       },
       "expat": {
-        "headline": "German notice? Appeal it in minutes – in your language.",
-        "sub": "TaxaLex helps expats navigate German bureaucracy. Upload your notice, answer a few questions, get a professional objection letter.",
-        "cta": "Start for free"
+        "headline": "Немецкое уведомление? Обжалуйте на своём языке — за несколько минут.",
+        "sub": "TaxaLex помогает экспатам разобраться с немецкой бюрократией. Загрузите уведомление, ответьте на несколько вопросов — и получите профессиональное возражение.",
+        "cta": "Начать бесплатно"
       },
       "advisor": {
-        "headline": "More clients. Less effort.",
-        "sub": "TaxaLex supports tax advisors and lawyers in quickly drafting objection letters for their clients.",
-        "cta": "Request advisor demo"
+        "headline": "Больше клиентов. Меньше усилий.",
+        "sub": "TaxaLex помогает налоговым консультантам и адвокатам быстро составлять возражения для клиентов.",
+        "cta": "Запросить демо для консультантов"
       }
     },
     "tabs": {
-      "individual": "Individual",
-      "selfemployed": "Self-employed",
-      "expat": "Expat",
-      "advisor": "Tax advisor"
+      "individual": "Физическое лицо",
+      "selfemployed": "Самозанятый",
+      "expat": "Экспат",
+      "advisor": "Налоговый консультант"
     },
-    "badge": "AI-powered · GDPR-compliant · EU servers",
-    "disclaimer": "AI-generated drafts. Not legal advice."
+    "badge": "На базе ИИ · Соответствует GDPR · Серверы в ЕС",
+    "disclaimer": "Черновики генерируются ИИ. Не является юридической консультацией."
   },
   "howItWorks": {
-    "title": "How it works",
-    "subtitle": "Three steps to your finished objection letter",
+    "title": "Как это работает",
+    "subtitle": "Три шага до готового возражения",
     "steps": {
       "upload": {
         "number": "1",
-        "title": "Upload your notice",
-        "description": "Upload your notice as PDF, photo, or DOCX. Our OCR automatically detects all relevant data.",
-        "detail": "Supported formats: PDF, JPG, PNG, DOCX, TXT (max. 10 MB)"
+        "title": "Загрузите уведомление",
+        "description": "Загрузите уведомление в формате PDF, фото или DOCX. Наш OCR автоматически распознаёт все необходимые данные.",
+        "detail": "Поддерживаемые форматы: PDF, JPG, PNG, DOCX, TXT (макс. 10 МБ)"
       },
       "analyze": {
         "number": "2",
-        "title": "AI analysis",
-        "description": "Five specialised AI agents review your notice: drafting, error-checking, fact-checking, counter-perspective, and consolidation.",
-        "detail": "Claude · Gemini · Perplexity – all models work in parallel"
+        "title": "Анализ ИИ",
+        "description": "Пять специализированных ИИ-агентов проверяют ваше уведомление: составление, проверка ошибок, проверка фактов, анализ контраргументов и консолидация.",
+        "detail": "Claude · Gemini · Perplexity — все модели работают параллельно"
       },
       "download": {
         "number": "3",
-        "title": "Download & submit",
-        "description": "Download your finished objection letter as DOCX or TXT and submit it directly to the relevant authority.",
-        "detail": "Note: AI-generated draft, not legal advice. Review before submission."
+        "title": "Скачать и подать",
+        "description": "Скачайте готовое возражение в формате DOCX или TXT и подайте его непосредственно в соответствующий орган.",
+        "detail": "Примечание: черновик создан ИИ, не является юридической консультацией. Проверьте перед подачей."
       }
     },
-    "sectionHeading": "From notice to objection — in 3 steps"
+    "sectionHeading": "От уведомления до возражения — за 3 шага"
   },
   "useCases": {
-    "title": "Which notice do you want to appeal?",
-    "subtitle": "Select the type of administrative decision",
-    "tax": "Tax assessment",
+    "title": "Какое уведомление вы хотите обжаловать?",
+    "subtitle": "Выберите тип административного решения",
+    "tax": "Налоговое уведомление",
     "jobcenter": "Jobcenter / Bürgergeld",
-    "rente": "Pension notice",
-    "bussgeld": "Fine / penalty notice",
-    "bussgeldd": "Fine / penalty notice",
-    "krankenversicherung": "Health insurance rejection",
-    "kuendigung": "Employment termination",
-    "miete": "Rent increase / deposit",
-    "grundsteuer": "Property tax (Grundsteuer)",
-    "sectionTitle": "8 notice types – all covered",
-    "sectionSubtitle": "From tax assessments to fines: TaxaLex knows the relevant legal basis for all common administrative notices.",
-    "appeal": "Appeal this notice",
-    "deadline": "Deadline",
-    "days": "days",
-    "successRate": "Success rate",
-    "legalBasis": "Legal basis",
-    "expandDetails": "Show details",
-    "collapseDetails": "Hide details",
-    "sectionLabel": "Supported notice types"
+    "rente": "Пенсионное уведомление",
+    "bussgeld": "Штраф / административное взыскание",
+    "bussgeldd": "Штраф / административное взыскание",
+    "krankenversicherung": "Отказ в медицинском страховании",
+    "kuendigung": "Увольнение",
+    "miete": "Повышение аренды / залог",
+    "grundsteuer": "Налог на недвижимость (Grundsteuer)",
+    "sectionTitle": "8 типов уведомлений — все охвачены",
+    "sectionSubtitle": "От налоговых уведомлений до штрафов: TaxaLex знает правовую базу для всех распространённых административных решений.",
+    "appeal": "Обжаловать это уведомление",
+    "deadline": "Срок подачи",
+    "days": "дней",
+    "successRate": "Процент успеха",
+    "legalBasis": "Правовая основа",
+    "expandDetails": "Показать подробности",
+    "collapseDetails": "Скрыть подробности",
+    "sectionLabel": "Поддерживаемые типы уведомлений"
   },
   "stats": {
-    "title": "Numbers that matter",
-    "subtitle": "Verified statistics from official sources",
-    "source": "Source",
+    "title": "Цифры, которые важны",
+    "subtitle": "Подтверждённая статистика из официальных источников",
+    "source": "Источник",
     "items": {
       "objections": {
-        "value": "3.3M",
-        "label": "Tax objections filed per year in Germany"
+        "value": "3,3 млн",
+        "label": "Налоговых возражений подаётся в год в Германии"
       },
       "successRate": {
-        "value": "67 %",
-        "label": "Partial or full success rate"
+        "value": "67 %",
+        "label": "Частичный или полный успех"
       },
       "deadline": {
-        "value": "30 days",
-        "label": "Legal deadline (§ 355 AO)"
+        "value": "30 дней",
+        "label": "Законный срок подачи (§ 355 AO)"
       },
       "speed": {
-        "value": "< 5 min",
-        "label": "Average generation time"
+        "value": "< 5 мин",
+        "label": "Среднее время генерации"
       }
     },
-    "sectionLabel": "By the numbers",
-    "sectionHeading": "Facts, not promises",
-    "sourceInternal": "TaxaLex internal measurement"
+    "sectionLabel": "В цифрах",
+    "sectionHeading": "Факты, а не обещания",
+    "sourceInternal": "Внутренние измерения TaxaLex"
   },
   "pricing": {
-    "title": "Transparent & fair",
-    "subtitle": "Choose the plan that fits your needs",
+    "title": "Прозрачно и честно",
+    "subtitle": "Выберите подходящий тариф",
     "tabs": {
-      "individual": "Individual",
-      "selfemployed": "Self-employed",
-      "advisor": "Tax advisor",
-      "lawyer": "Lawyer"
+      "individual": "Физическое лицо",
+      "selfemployed": "Самозанятый",
+      "advisor": "Налоговый консультант",
+      "lawyer": "Адвокат"
     },
-    "popular": "Popular",
-    "currentPlan": "Your current plan",
-    "perMonth": "/ month",
-    "perCase": "/ objection",
-    "perPack": "/ 5 objections",
-    "included": "Included",
-    "notIncluded": "Not included",
-    "upgrade": "Upgrade now",
-    "contact": "Contact us",
-    "choosePlan": "Choose plan",
-    "annualDiscount": "Pay annually – 2 months free",
-    "monthly": "Monthly",
-    "annual": "Annual",
-    "vatNote": "All prices excl. VAT.",
+    "popular": "Популярный",
+    "currentPlan": "Ваш текущий тариф",
+    "perMonth": "/ месяц",
+    "perCase": "/ возражение",
+    "perPack": "/ 5 возражений",
+    "included": "Включено",
+    "notIncluded": "Не включено",
+    "upgrade": "Улучшить тариф",
+    "contact": "Связаться с нами",
+    "choosePlan": "Выбрать тариф",
+    "annualDiscount": "Оплата ежегодно — 2 месяца бесплатно",
+    "monthly": "Ежемесячно",
+    "annual": "Ежегодно",
+    "vatNote": "Все цены без НДС.",
     "freeFeatures": {
-      "title": "Free plan",
-      "description": "1 objection per month"
+      "title": "Бесплатный тариф",
+      "description": "1 возражение в месяц"
     },
-    "sectionLabel": "Pricing",
-    "sectionHeading": "Simple, transparent pricing",
-    "sectionSub": "Pay per case, or subscribe for unlimited access. No hidden fees.",
-    "viewAll": "View all plans including advisor & lawyer →"
+    "sectionLabel": "Тарифы",
+    "sectionHeading": "Простые и прозрачные цены",
+    "sectionSub": "Платите за дело или подпишитесь на неограниченный доступ. Никаких скрытых платежей.",
+    "viewAll": "Посмотреть все тарифы, включая консультантов и адвокатов →"
   },
   "features": {
-    "title": "Why TaxaLex?",
-    "subtitle": "Four differentiating features that make the difference",
+    "title": "Почему TaxaLex?",
+    "subtitle": "Четыре отличительные особенности, которые имеют значение",
     "items": {
       "multiAi": {
-        "title": "5 AI agents in parallel",
-        "description": "Claude, Gemini and Perplexity review your objection from different perspectives – for maximum quality."
+        "title": "5 ИИ-агентов параллельно",
+        "description": "Claude, Gemini и Perplexity проверяют ваше возражение с разных точек зрения — для максимального качества."
       },
       "legal": {
-        "title": "Up-to-date legal references",
-        "description": "Perplexity researches current court rulings and administrative guidelines in real time for your specific case."
+        "title": "Актуальные правовые ссылки",
+        "description": "Perplexity в режиме реального времени ищет свежие судебные решения и административные рекомендации для вашего конкретного дела."
       },
       "multilingual": {
-        "title": "Multilingual",
-        "description": "Interface in 7 languages. The objection letter is always drafted in German – as required by authorities."
+        "title": "Многоязычность",
+        "description": "Интерфейс на 7 языках. Возражение всегда составляется на немецком — как того требуют немецкие органы власти."
       },
       "privacy": {
-        "title": "GDPR & Privacy",
-        "description": "EU servers, encrypted transmission, no permanent storage of your documents without consent."
+        "title": "GDPR и конфиденциальность",
+        "description": "Серверы в ЕС, зашифрованная передача данных, без постоянного хранения ваших документов без согласия."
       }
     },
-    "sectionHeading": "Built for legal precision"
+    "sectionHeading": "Создано для правовой точности"
   },
   "faq": {
-    "title": "Frequently asked questions",
-    "subtitle": "Everything you want to know about TaxaLex",
+    "title": "Часто задаваемые вопросы",
+    "subtitle": "Всё, что вы хотите знать о TaxaLex",
     "categories": {
-      "all": "All",
-      "general": "General",
-      "legal": "Legal",
-      "pricing": "Pricing",
-      "technical": "Technical",
-      "advisor": "For advisors"
+      "all": "Все",
+      "general": "Общие",
+      "legal": "Правовые",
+      "pricing": "Тарифы",
+      "technical": "Технические",
+      "advisor": "Для консультантов"
     }
   },
   "trust": {
-    "title": "Security & Privacy",
-    "gdpr": "GDPR-compliant",
-    "euServers": "EU servers",
-    "encrypted": "Encrypted",
-    "rdgNote": "Not legal advice",
-    "disclaimer": "TaxaLex creates AI-generated drafts for objection letters. This does not constitute legal advice within the meaning of the German Legal Services Act (RDG). Before submission, you should review the draft and consult a tax advisor or lawyer for complex matters.",
+    "title": "Безопасность и конфиденциальность",
+    "gdpr": "Соответствует GDPR",
+    "euServers": "Серверы в ЕС",
+    "encrypted": "Зашифровано",
+    "rdgNote": "Не является юридической консультацией",
+    "disclaimer": "TaxaLex создаёт черновики возражений с помощью ИИ. Это не является юридической консультацией в понимании немецкого Закона об оказании юридических услуг (RDG). Перед подачей проверьте черновик и при необходимости проконсультируйтесь с налоговым консультантом или адвокатом.",
     "badges": {
-      "dsgvo": "GDPR-compliant",
-      "eu": "EU servers (Frankfurt)",
-      "ssl": "SSL-encrypted",
-      "rdg": "Not legal advice (RDG)"
+      "dsgvo": "Соответствует GDPR",
+      "eu": "Серверы в ЕС (Франкфурт)",
+      "ssl": "SSL-шифрование",
+      "rdg": "Не является юридической консультацией (RDG)"
     },
-    "legalHeading": "Legal notice",
-    "gdprDetail": "Data in the EU",
-    "euServersDetail": "Hetzner, Germany",
+    "legalHeading": "Правовая оговорка",
+    "gdprDetail": "Данные в ЕС",
+    "euServersDetail": "Hetzner, Германия",
     "encryptedDetail": "TLS 1.3 + AES-256",
-    "rdgDetail": "AI-generated draft"
+    "rdgDetail": "Черновик создан ИИ"
   },
   "footer": {
-    "tagline": "AI-generated drafts. Not legal advice.",
-    "allRightsReserved": "All rights reserved.",
+    "tagline": "Черновики генерируются ИИ. Не является юридической консультацией.",
+    "allRightsReserved": "Все права защищены.",
     "columns": {
-      "product": "Product",
-      "company": "Company",
-      "support": "Support",
-      "legal": "Legal"
+      "product": "Продукт",
+      "company": "Компания",
+      "support": "Поддержка",
+      "legal": "Правовая информация"
     }
   },
   "auth": {
@@ -272,26 +272,26 @@
       "submit": "Войти",
       "noAccount": "Нет аккаунта?",
       "register": "Зарегистрироваться",
-      "orContinueWith": "Или продолжить с",
+      "orContinueWith": "Или продолжить с помощью",
       "demoAccounts": "Демо-аккаунты",
-      "demoHint": "Нажмите на аккаунт для автозаполнения полей.",
+      "demoHint": "Нажмите на аккаунт, чтобы автоматически заполнить поля.",
       "types": {
         "individual": "Физическое лицо",
         "advisor": "Налоговый консультант",
         "lawyer": "Адвокат"
       },
-      "errorInvalid": "Invalid email or password.",
-      "successRegistered": "Account created. Please sign in.",
-      "successVerified": "Email confirmed. You can now sign in.",
-      "errorInvalidToken": "The confirmation link is invalid or expired. Please request a new one.",
-      "showPassword": "Show password",
-      "hidePassword": "Hide password",
-      "withGoogle": "Sign in with Google",
-      "demoAvailable": "Demo accounts (5 available)"
+      "errorInvalid": "Неверный адрес электронной почты или пароль.",
+      "successRegistered": "Аккаунт создан. Пожалуйста, войдите.",
+      "successVerified": "Email подтверждён. Теперь вы можете войти.",
+      "errorInvalidToken": "Ссылка для подтверждения недействительна или истекла. Запросите новую.",
+      "showPassword": "Показать пароль",
+      "hidePassword": "Скрыть пароль",
+      "withGoogle": "Войти через Google",
+      "demoAvailable": "Демо-аккаунты (5 доступно)"
     },
     "register": {
       "title": "Создать аккаунт",
-      "subtitle": "Начните бесплатно с TaxaLex",
+      "subtitle": "Начните работу с TaxaLex бесплатно",
       "name": "Полное имя",
       "email": "Адрес электронной почты",
       "password": "Пароль",
@@ -304,103 +304,103 @@
       "login": "Войти",
       "passwordStrength": {
         "weak": "Слабый",
-        "fair": "Приемлемый",
+        "fair": "Средний",
         "good": "Хороший",
         "strong": "Надёжный"
       },
       "types": {
-        "individual": "Individual",
+        "individual": "Физическое лицо",
         "selfemployed": "Самозанятый",
         "advisor": "Налоговый консультант",
         "lawyer": "Адвокат",
-        "expert": "Expert"
+        "expert": "Эксперт"
       },
       "benefits": {
         "individual": [
-          "5 AI agents analyse your notice and draft a legally grounded objection",
-          "8 notice types covered: tax, Jobcenter, pension, fines, rent and more",
-          "Finished letter ready to send — download as DOCX or TXT in minutes"
+          "5 ИИ-агентов анализируют уведомление и составляют юридически обоснованное возражение",
+          "8 типов уведомлений: налоги, Jobcenter, пенсия, штрафы, аренда и другие",
+          "Готовое письмо для отправки — скачайте в DOCX или TXT за несколько минут"
         ],
         "selfemployed": [
-          "Appeal tax assessments, VAT notices, and trade office decisions",
-          "5 AI agents draft your objection — no legal knowledge required",
-          "Finished letter in minutes — download and send directly"
+          "Обжалуйте налоговые уведомления, уведомления по НДС и решения торговых органов",
+          "5 ИИ-агентов составят ваше возражение — без юридических знаний",
+          "Готовое письмо за несколько минут — скачайте и отправьте напрямую"
         ],
         "advisor": [
-          "Review AI-prepared client drafts and accept or decline with one click",
-          "Annotate specific sections and request clarifications — no email back-and-forth",
-          "Full case packet per client: extracted facts, AI analysis, and viability score"
+          "Проверяйте подготовленные ИИ черновики клиентов и принимайте или отклоняйте их одним кликом",
+          "Аннотируйте конкретные разделы и запрашивайте уточнения — без переписки по email",
+          "Полный пакет материалов по делу клиента: извлечённые факты, анализ ИИ и оценка перспектив"
         ],
         "lawyer": [
-          "Review objections across all legal areas: tax, employment, rent, social law",
-          "Annotate draft sections and resolve client questions in one threaded view",
-          "Structured handoff with extracted facts and AI viability assessment per case"
+          "Проверяйте возражения во всех правовых областях: налоги, трудовое право, аренда, социальное право",
+          "Аннотируйте разделы черновика и решайте вопросы клиентов в едином представлении",
+          "Структурированный пакет передачи с извлечёнными фактами и оценкой перспектив ИИ"
         ],
         "expert": [
-          "Review AI-prepared client drafts, annotate sections, and approve with one click",
-          "Broadcast assignment: new case in your area — first to accept gets it",
-          "Structured handoff packet with extracted facts, AI analysis, and viability score"
+          "Проверяйте подготовленные ИИ черновики клиентов, аннотируйте разделы и утверждайте одним кликом",
+          "Широковещательное назначение: новое дело в вашей области — первый принявший ведёт его",
+          "Структурированный пакет передачи с извлечёнными фактами, анализом ИИ и оценкой перспектив"
         ]
       },
-      "iAm": "I am…",
+      "iAm": "Я являюсь…",
       "sublabels": {
-        "individual": "Appeal notices",
-        "advisor": "Manage clients",
-        "lawyer": "Represent clients",
-        "expert": "Manage clients"
+        "individual": "Обжаловать уведомления",
+        "advisor": "Управлять клиентами",
+        "lawyer": "Представлять клиентов",
+        "expert": "Управлять клиентами"
       },
-      "registerFree": "Register for free",
-      "passwordStrengthLabel": "Password strength:",
-      "passwordMinLength": "Min. {n} characters",
-      "errorFailed": "Registration failed.",
-      "practiceAreasLabel": "My practice areas",
+      "registerFree": "Зарегистрироваться бесплатно",
+      "passwordStrengthLabel": "Надёжность пароля:",
+      "passwordMinLength": "Мин. {n} символов",
+      "errorFailed": "Ошибка регистрации.",
+      "practiceAreasLabel": "Мои области практики",
       "practiceAreas": {
-        "tax": "Tax law",
-        "legal": "General law"
+        "tax": "Налоговое право",
+        "legal": "Общее право"
       },
-      "practiceAreasMin": "Please select at least one practice area.",
-      "practiceAreasSelfCert": "By selecting, you confirm you are licensed to practise in the chosen areas."
+      "practiceAreasMin": "Выберите хотя бы одну область практики.",
+      "practiceAreasSelfCert": "Выбирая, вы подтверждаете, что имеете лицензию на практику в выбранных областях."
     },
     "layout": {
-      "backToHome": "Back to home",
-      "trusted": "Trusted by German taxpayers",
-      "headline": "Respond to German official notices — structured and clearly reasoned.",
-      "description": "5 specialized AI agents draft, cross-check, and improve your objection letter — in under 5 minutes.",
-      "trustDraft": "Draft ready in under 5 minutes",
-      "trustDemo": "Interactive demo — no registration required",
-      "trustGdpr": "GDPR-compliant · EU servers · Encrypted",
-      "privacy": "Privacy"
+      "backToHome": "На главную",
+      "trusted": "Пользуются доверием немецких налогоплательщиков",
+      "headline": "Отвечайте на официальные немецкие уведомления — структурированно и обоснованно.",
+      "description": "5 специализированных ИИ-агентов составляют, перепроверяют и улучшают ваше возражение — менее чем за 5 минут.",
+      "trustDraft": "Черновик готов менее чем за 5 минут",
+      "trustDemo": "Интерактивное демо — регистрация не требуется",
+      "trustGdpr": "Соответствует GDPR · Серверы в ЕС · Шифрование",
+      "privacy": "Конфиденциальность"
     }
   },
   "dashboard": {
     "title": "Панель управления",
     "welcome": "С возвращением, {name}",
-    "welcomeAdvisor": "Панель консультанта – {name}",
-    "welcomeAdmin": "Панель администратора – {name}",
+    "welcomeAdvisor": "Панель консультанта — {name}",
+    "welcomeAdmin": "Панель администратора — {name}",
     "stats": {
-      "totalCases": "Всего жалоб",
+      "totalCases": "Всего возражений",
       "activeCases": "Активные дела",
-      "submittedCases": "Поданы",
+      "submittedCases": "Поданные",
       "successRate": "Процент успеха"
     },
     "recentCases": "Последние дела",
-    "noCases": "Дел нет",
-    "noCasesHint": "Начните своё первое обжалование",
+    "noCases": "Дел пока нет",
+    "noCasesHint": "Начните первое возражение",
     "newCase": "Новая заявка",
     "viewAll": "Все дела",
     "status": {
       "CREATED": "Создано",
       "QUESTIONS": "Вопросы",
-      "GENERATING": "Формируется",
+      "GENERATING": "Генерация",
       "DRAFT_READY": "Черновик готов",
       "SUBMITTED": "Подано",
       "AWAITING_RESPONSE": "Ожидание ответа",
-      "CLOSED_SUCCESS": "Успешно",
+      "CLOSED_SUCCESS": "Успешно закрыто",
       "CLOSED_REJECTED": "Отклонено"
     },
     "quickActions": {
-      "title": "Быстрый доступ",
-      "newCase": "Новое обжалование",
+      "title": "Быстрые действия",
+      "newCase": "Новое возражение",
       "viewCases": "Мои дела",
       "billing": "Оплата",
       "account": "Настройки"
@@ -412,26 +412,26 @@
     "currentPlan": "Текущий тариф",
     "usage": "Использование в этом месяце",
     "invoices": "Счета",
-    "noInvoices": "Счетов нет",
-    "upgrade": "Повысить тариф",
+    "noInvoices": "Счетов пока нет",
+    "upgrade": "Улучшить тариф",
     "cancel": "Отменить подписку",
-    "renewsOn": "Продление {date}",
-    "casesUsed": "Использовано {used} из {total} жалоб",
+    "renewsOn": "Продлевается {date}",
+    "casesUsed": "Использовано {used} из {total} возражений",
     "unlimited": "Неограниченно"
   },
   "cases": {
     "title": "Мои дела",
-    "subtitle": "Все ваши жалобы и обжалования",
+    "subtitle": "Все ваши дела по возражениям и обжалованиям",
     "filter": {
       "all": "Все",
       "active": "Активные",
-      "submitted": "Поданы",
+      "submitted": "Поданные",
       "closed": "Закрытые"
     },
-    "empty": "Дел не найдено",
-    "emptyHint": "Начните своё первое обжалование",
+    "empty": "Дела не найдены",
+    "emptyHint": "Начните первое возражение",
     "newCase": "Новая заявка",
-    "caseId": "Номер дела",
+    "caseId": "Идентификатор дела",
     "createdAt": "Создано",
     "status": "Статус",
     "type": "Тип",
@@ -446,70 +446,184 @@
       "security": "Безопасность",
       "notifications": "Уведомления",
       "language": "Язык и регион",
-      "appearance": "Внешний вид",
+      "appearance": "Оформление",
       "danger": "Удалить аккаунт"
     },
     "name": "Имя",
-    "email": "Электронная почта",
+    "email": "Email",
     "role": "Роль",
-    "language": "Предпочтительный язык",
-    "outputLanguage": "Язык вывода для жалоб",
+    "language": "Предпочитаемый язык",
+    "outputLanguage": "Язык создаваемых возражений",
     "saveChanges": "Сохранить изменения",
     "changePassword": "Изменить пароль",
     "currentPassword": "Текущий пароль",
     "newPassword": "Новый пароль",
     "confirmPassword": "Подтвердите пароль",
     "deleteAccount": "Удалить аккаунт",
-    "deleteWarning": "Это действие нельзя отменить. Все ваши данные будут удалены.",
+    "deleteWarning": "Это действие необратимо. Все ваши данные будут удалены.",
     "notifications": {
-      "email": "Уведомления по email",
-      "caseUpdates": "Обновления дел",
-      "newsletter": "Рассылка и новости продукта"
+      "email": "Email-уведомления",
+      "caseUpdates": "Обновления по делам",
+      "newsletter": "Новости и обновления продукта"
     },
     "memberSince": "Участник с",
     "logout": "Выйти",
-    "startNewCase": "Начать новое обжалование",
+    "startNewCase": "Начать новое возражение",
     "templatesTitle": "Шаблоны и образцы",
     "templatesDesc": "Бесплатные шаблоны для скачивания и редактирования",
     "templatesViewAll": "Показать все",
     "templatesFree": "Бесплатно",
-    "templatesUseAI": "Лучше использовать ИИ — создайте жалобу за 5 минут",
+    "templatesUseAI": "Предпочтите ИИ — создайте возражение за 5 минут",
     "plansTitle": "Тарифы и цены",
-    "plansViewAll": "Все подробности",
+    "plansViewAll": "Подробнее",
     "settingsTitle": "Аккаунт и настройки",
     "emailVerified": "Email подтверждён",
-    "emailNotVerified": "Email не подтверждён",
-    "emailNotVerifiedHint": "Пожалуйста, подтвердите свой email. Проверьте входящие.",
+    "emailNotVerified": "Адрес электронной почты не подтверждён",
+    "emailNotVerifiedHint": "Пожалуйста, подтвердите адрес электронной почты. Проверьте входящие письма на наличие ссылки для подтверждения.",
     "accountType": "Тип аккаунта",
     "password": "Пароль",
     "twoFactor": "Двухфакторная аутентификация (2FA)",
-    "twoFactorNotEnabled": "Не активировано",
+    "twoFactorNotEnabled": "Не включена",
     "theme": {
-      "label": "Внешний вид",
+      "label": "Оформление",
       "light": "Светлая",
       "dark": "Тёмная",
       "system": "Системная"
     },
     "billingManage": "Управление платежами и тарифом",
-    "billingManageDesc": "Счета, повышение тарифа, покупка пакетов",
-    "gdprTitle": "Защита данных (GDPR)",
-    "gdprNote": "Экспорт данных скоро. Удаление аккаунта происходит немедленно и необратимо.",
+    "billingManageDesc": "Счета, улучшение тарифа, покупка кредитов",
+    "gdprTitle": "Конфиденциальность (GDPR)",
+    "gdprNote": "Экспорт данных скоро будет доступен. Удаление аккаунта выполняется немедленно и необратимо.",
     "exportData": "Экспортировать данные",
     "languageLabel": "Язык",
     "statCases": "Всего дел",
     "statCredits": "Кредиты",
     "statPlan": "Текущий тариф",
     "planFree": "Бесплатный",
-    "planPro": "Pro"
+    "planPro": "Pro",
+    "billing": "Оплата"
+  },
+  "advisor": {
+    "dashboard": {
+      "title": "Панель консультанта",
+      "clients": "Клиенты",
+      "activeAppeals": "Активные возражения",
+      "submittedAppeals": "Поданные возражения",
+      "recentActivity": "Последняя активность",
+      "quickActions": "Быстрые действия",
+      "addClient": "Добавить клиента",
+      "newAppeal": "Новое возражение"
+    },
+    "clients": {
+      "title": "Клиенты",
+      "subtitle": "Управление вашими клиентами",
+      "search": "Поиск клиентов...",
+      "add": "Добавить клиента",
+      "name": "Имя",
+      "email": "Email",
+      "cases": "Дела",
+      "lastActive": "Последняя активность",
+      "actions": "Действия",
+      "noClients": "Клиентов пока нет",
+      "modal": {
+        "title": "Добавить клиента",
+        "name": "Имя клиента",
+        "email": "Адрес электронной почты",
+        "submit": "Добавить"
+      }
+    },
+    "appeals": {
+      "title": "Все возражения",
+      "subtitle": "Возражения по всем вашим клиентам",
+      "client": "Клиент",
+      "type": "Тип",
+      "status": "Статус",
+      "createdAt": "Создано"
+    },
+    "billing": {
+      "title": "Оплата",
+      "plan": "Ваш тариф консультанта",
+      "usage": "Клиенты и возражения"
+    },
+    "handoff": {
+      "title": "Запросить профессиональную проверку",
+      "selectAdvisor": "Выбрать консультанта",
+      "scope": {
+        "label": "Объём услуги",
+        "reviewOnly": "Только проверка — я подам сам",
+        "fullRepresentation": "Полное представление интересов"
+      },
+      "clientNotes": "Примечания для консультанта (необязательно)",
+      "submit": "Запросить проверку",
+      "submitted": "Запрос отправлен",
+      "broadcastInfo": "Все доступные эксперты в вашей области получат уведомление. Первый принявший ведёт ваше дело.",
+      "withdrawButton": "Отозвать запрос",
+      "withdrawReason": "Причина отзыва",
+      "withdrawConfirm": "Действительно отозвать этот запрос?",
+      "expertArea": "Область практики",
+      "tax": "Налоговое право",
+      "legal": "Общее право",
+      "expertsNotified": "Уведомлено экспертов: {count}",
+      "awaitingAcceptance": "Ожидание принятия экспертом..."
+    },
+    "assignment": {
+      "pending": "Требуется решение",
+      "accepted": "На рассмотрении",
+      "declined": "Отклонено",
+      "changesRequested": "Ожидаются ответы на вопросы",
+      "approved": "Одобрено",
+      "finalized": "Завершено",
+      "statuses": {
+        "SUPERSEDED": "Принято другим экспертом",
+        "WITHDRAWN": "Отозвано клиентом",
+        "EXPIRED": "Истекло (72 ч без ответа)"
+      }
+    },
+    "packet": {
+      "brief": "Краткое изложение дела",
+      "facts": "Факты",
+      "analysis": "Анализ ИИ",
+      "draft": "Черновик возражения",
+      "clientContext": "Информация о клиенте",
+      "coreArgument": "Основной аргумент",
+      "evidenceGaps": "Пробелы в доказательной базе",
+      "counterarguments": "Контраргументы"
+    },
+    "viability": {
+      "high": "Высокие шансы на успех",
+      "medium": "Средние шансы на успех",
+      "low": "Низкие шансы на успех"
+    },
+    "actions": {
+      "accept": "Принять дело",
+      "decline": "Отклонить",
+      "finalize": "Одобрить и завершить",
+      "addAnnotation": "Задать вопрос",
+      "resolveAnnotation": "Отметить как решённое",
+      "replyToAnnotation": "Ответить",
+      "submitReply": "Отправить ответ"
+    },
+    "annotation": {
+      "aiPreFill": "Предложение ИИ на основе ваших документов:",
+      "open": "Открыто",
+      "answered": "Отвечено",
+      "resolved": "Решено"
+    },
+    "decline": {
+      "title": "Отклонить дело",
+      "reason": "Причина отклонения",
+      "reasonPlaceholder": "Укажите причину...",
+      "confirm": "Подтвердить отклонение"
+    }
   },
   "admin": {
     "title": "Панель администратора",
-    "subtitle": "Обзор системы и управление пользователями",
+    "subtitle": "Общий обзор системы и управление пользователями",
     "tabs": {
       "overview": "Обзор",
       "users": "Пользователи",
       "cases": "Дела",
-      "pricing": "Цены",
+      "pricing": "Тарифы",
       "emails": "Письма",
       "system": "Система",
       "content": "Контент"
@@ -518,22 +632,22 @@
       "totalUsers": "Всего пользователей",
       "totalCases": "Всего дел",
       "openCases": "Открытые дела",
-      "submittedCases": "Поданы"
+      "submittedCases": "Поданные"
     },
     "overview": {
       "totalUsers": "Всего пользователей",
-      "verifiedSuffix": "подтверждено",
-      "new7d": "Новые (7 дней)",
-      "ofTotalPct": "% от общего",
-      "activated": "Активировано",
-      "activationPct": "% процент активации",
+      "verifiedSuffix": "подтверждённых",
+      "new7d": "Новых (7 дней)",
+      "ofTotalPct": "% от общего числа",
+      "activated": "Активированных",
+      "activationPct": "% уровень активации",
       "activeSubscriptions": "Активные подписки",
       "conversionPct": "% конверсия",
       "totalCases": "Всего дел",
-      "thisWeek": "на этой неделе",
-      "closedSuccess": "Успешно закрыто",
-      "stillOpen": "ещё открыто",
-      "recentUsers": "Новые пользователи",
+      "thisWeek": "за эту неделю",
+      "closedSuccess": "Успешно закрытых",
+      "stillOpen": "всё ещё открытых",
+      "recentUsers": "Последние регистрации",
       "recentCases": "Последние дела"
     },
     "users": {
@@ -541,45 +655,45 @@
       "since": "С",
       "caseSuffix": "дело",
       "casesSuffix": "дел",
-      "grantCredits": "Начислить кредиты",
-      "grantLoading": "Начисляется…",
-      "grantError": "Ошибка начисления",
+      "grantCredits": "Начислить",
+      "grantLoading": "Сохранение…",
+      "grantError": "Не удалось начислить кредиты",
       "changeRole": "Изменить роль:",
       "creditsFor": "Кредиты для",
-      "subscription": "Subscription",
-      "noSubscription": "No active subscription",
-      "subscriptionUntil": "until",
-      "subscriptionCancels": "cancels at period end",
-      "noCases": "No cases yet.",
-      "ledger": "Payments / Credits"
+      "subscription": "Подписка",
+      "noSubscription": "Нет активной подписки",
+      "subscriptionUntil": "до",
+      "subscriptionCancels": "отменяется в конце периода",
+      "noCases": "Дел пока нет.",
+      "ledger": "Платежи / Кредиты"
     },
     "cases": {
       "filterAll": "Все",
       "filterOpen": "Открытые",
-      "filterSubmitted": "Поданы",
+      "filterSubmitted": "Поданные",
       "filterClosed": "Закрытые",
-      "noneFound": "В этой категории нет дел.",
+      "noneFound": "В этой категории дел нет.",
       "deadline": "Срок"
     },
     "pricing": {
-      "loading": "Загрузка тарифов…",
-      "noPlansHint": "В базе данных нет тарифов.",
-      "recommended": "Рекомендуется",
-      "inactive": "Неактивен",
+      "loading": "Загрузка тарифных планов…",
+      "noPlansHint": "В базе данных нет тарифных планов.",
+      "recommended": "Рекомендуемый",
+      "inactive": "Неактивный",
       "group": "Группа",
       "once": "Единоразово",
       "monthly": "Ежемесячно",
       "annual": "Ежегодно",
-      "active": "Активен",
+      "active": "Активный",
       "standard": "Стандарт",
-      "features": "Функции"
+      "features": "Возможности"
     },
     "emails": {
-      "devWarning": "Режим разработки — все исходящие письма получают префикс DEV - в теме.",
+      "devWarning": "Активен режим разработки — все исходящие письма будут иметь префикс DEV - в теме письма.",
       "trigger": "Триггер",
       "subject": "Тема",
       "variables": "Переменные",
-      "ttl": "Срок действия",
+      "ttl": "Действительно",
       "templates": {
         "verification": "Код подтверждения",
         "verificationTrigger": "Пользователь регистрируется",
@@ -588,13 +702,13 @@
         "welcomeTrigger": "Email подтверждён",
         "welcomeSubject": "Добро пожаловать в TaxaLex — {name}",
         "passwordReset": "Сброс пароля",
-        "passwordResetTrigger": "Забыт пароль",
+        "passwordResetTrigger": "Забытый пароль",
         "passwordResetSubject": "Сброс пароля — TaxaLex"
       }
     },
     "system": {
       "title": "Состояние системы",
-      "environment": "Окружение",
+      "environment": "Среда",
       "dev": "Разработка",
       "prod": "Продакшн",
       "database": "База данных",
@@ -605,153 +719,31 @@
       "notConfigured": "Не настроено",
       "services": {
         "anthropic": "Anthropic (Claude)",
-        "anthropicNote": "Required — app will not start without this key",
+        "anthropicNote": "Обязательно — без этого ключа приложение не запустится",
         "google": "Google AI (Gemini)",
-        "googleNote": "Optional — for Gemini agents",
+        "googleNote": "Необязательно — для агентов Gemini",
         "perplexity": "Perplexity (Sonar)",
-        "perplexityNote": "Optional — for fact-check agent",
+        "perplexityNote": "Необязательно — для агента проверки фактов",
         "stripe": "Stripe",
-        "stripeNote": "Optional — for payments",
+        "stripeNote": "Необязательно — для платежей",
         "brevo": "Brevo (Email)",
-        "brevoNote": "Optional — emails suppressed without key",
-        "s3": "S3 (File storage)",
-        "s3Note": "Optional — for document uploads"
+        "brevoNote": "Необязательно — без ключа письма не отправляются",
+        "s3": "S3 (Хранилище файлов)",
+        "s3Note": "Необязательно — для загрузки документов"
       }
     },
     "content": {
-      "title": "Содержимое базы данных",
-      "useCases": "Примеры использования",
-      "faqs": "Часто задаваемые вопросы",
+      "title": "Контент базы данных",
+      "useCases": "Случаи использования",
+      "faqs": "FAQ",
       "pricingPlans": "Тарифные планы",
       "edit": "Редактировать (скоро)"
     }
   },
-  "advisor": {
-    "dashboard": {
-      "title": "Панель консультанта",
-      "clients": "Клиенты",
-      "activeAppeals": "Активные жалобы",
-      "submittedAppeals": "Поданные жалобы",
-      "recentActivity": "Последняя активность",
-      "quickActions": "Быстрый доступ",
-      "addClient": "Добавить клиента",
-      "newAppeal": "Новое обжалование"
-    },
-    "clients": {
-      "title": "Клиенты",
-      "subtitle": "Управляйте своими клиентами",
-      "search": "Поиск клиентов...",
-      "add": "Добавить клиента",
-      "name": "Имя",
-      "email": "Email",
-      "cases": "Дела",
-      "lastActive": "Последняя активность",
-      "actions": "Действия",
-      "noClients": "Клиентов нет",
-      "modal": {
-        "title": "Добавить клиента",
-        "name": "Имя клиента",
-        "email": "Адрес электронной почты",
-        "submit": "Добавить"
-      }
-    },
-    "appeals": {
-      "title": "Все жалобы",
-      "subtitle": "Жалобы всех ваших клиентов",
-      "client": "Клиент",
-      "type": "Тип",
-      "status": "Статус",
-      "createdAt": "Создано"
-    },
-    "billing": {
-      "title": "Оплата",
-      "plan": "Ваш тариф консультанта",
-      "usage": "Клиенты и жалобы"
-    },
-    "handoff": {
-      "title": "Request Professional Review",
-      "selectAdvisor": "Select Advisor",
-      "scope": {
-        "label": "Scope of engagement",
-        "reviewOnly": "Review only",
-        "fullRepresentation": "Full representation"
-      },
-      "clientNotes": "Notes for the advisor (optional)",
-      "submit": "Request review",
-      "submitted": "Request sent",
-      "broadcastInfo": "All available experts in your area will be notified. The first to accept handles your case.",
-      "withdrawButton": "Withdraw request",
-      "withdrawReason": "Reason for withdrawal",
-      "withdrawConfirm": "Really withdraw this request?",
-      "expertArea": "Practice area",
-      "tax": "Tax law",
-      "legal": "General law",
-      "expertsNotified": "{count} expert(s) notified",
-      "awaitingAcceptance": "Waiting for an expert to accept..."
-    },
-    "assignment": {
-      "pending": "Decision required",
-      "accepted": "Under review",
-      "declined": "Declined",
-      "changesRequested": "Questions pending",
-      "approved": "Approved",
-      "finalized": "Finalized",
-      "statuses": {
-        "SUPERSEDED": "Taken by another expert",
-        "WITHDRAWN": "Withdrawn by client",
-        "EXPIRED": "Expired (72h without response)"
-      }
-    },
-    "packet": {
-      "brief": "Case summary",
-      "facts": "Facts",
-      "analysis": "AI analysis",
-      "draft": "Appeal draft",
-      "clientContext": "Client information",
-      "coreArgument": "Core argument",
-      "evidenceGaps": "Evidence gaps",
-      "counterarguments": "Counterarguments"
-    },
-    "viability": {
-      "high": "High success probability",
-      "medium": "Medium success probability",
-      "low": "Low success probability"
-    },
-    "actions": {
-      "accept": "Accept case",
-      "decline": "Decline",
-      "finalize": "Approve and finalize",
-      "addAnnotation": "Ask question",
-      "resolveAnnotation": "Mark as resolved",
-      "replyToAnnotation": "Reply",
-      "submitReply": "Send reply"
-    },
-    "annotation": {
-      "aiPreFill": "AI suggestion from your documents:",
-      "open": "Open",
-      "answered": "Answered",
-      "resolved": "Resolved"
-    },
-    "decline": {
-      "title": "Decline case",
-      "reason": "Reason for declining",
-      "reasonPlaceholder": "Please provide a reason...",
-      "confirm": "Confirm decline"
-    }
-  },
-  "errors": {
-    "noFiles": "Пожалуйста, загрузите хотя бы один файл",
-    "analyzeFailed": "Анализ не удался. Пожалуйста, попробуйте снова.",
-    "generateFailed": "Генерация не удалась. Пожалуйста, попробуйте снова.",
-    "missingDescheid": "Данные уведомления отсутствуют",
-    "unauthorized": "Нет доступа",
-    "notFound": "Страница не найдена",
-    "serverError": "Ошибка сервера. Пожалуйста, попробуйте позже."
-  },
   "cookies": {
     "banner": {
-      "title": "Настройки файлов cookie",
-      "description": "Мы используем файлы cookie для аналитики и улучшения работы сайта.",
+      "title": "Настройки cookie",
+      "description": "Мы используем cookie для аналитики и улучшения пользовательского опыта. Вы можете изменить свои предпочтения в любое время.",
       "acceptAll": "Принять все",
       "acceptNecessary": "Только необходимые",
       "manage": "Настройки",
@@ -760,93 +752,102 @@
     "types": {
       "necessary": {
         "title": "Необходимые cookie",
-        "description": "Требуются для работы сайта."
+        "description": "Требуются для работы сайта. Не могут быть отключены."
       },
       "analytics": {
         "title": "Аналитические cookie",
-        "description": "Google Analytics и PostHog."
+        "description": "Google Analytics и PostHog — помогают нам улучшать сайт."
       },
       "marketing": {
         "title": "Маркетинговые cookie",
-        "description": "Персонализированная реклама."
+        "description": "Персонализированная реклама и ретаргетинг."
       }
     }
   },
   "wizard": {
     "steps": {
-      "upload": "Upload",
-      "questions": "Questions",
-      "generating": "AI Analysis",
-      "result": "Result"
+      "upload": "Загрузка",
+      "questions": "Вопросы",
+      "generating": "Анализ ИИ",
+      "result": "Результат"
     },
     "upload": {
-      "title": "Upload your notice",
-      "subtitle": "Upload your administrative decision and any supporting documents",
-      "dropzone": "Select files",
-      "dropzoneHint": "PDF, DOCX, TXT or images",
-      "analyze": "Analyse documents"
+      "title": "Загрузите уведомление",
+      "subtitle": "Загрузите административное решение и сопутствующие документы",
+      "dropzone": "Выбрать файлы",
+      "dropzoneHint": "PDF, DOCX, TXT или изображения",
+      "analyze": "Проанализировать документы"
     },
     "questions": {
-      "title": "Follow-up questions",
-      "subtitle": "Please answer these questions to optimise your objection letter",
-      "detectedData": "Detected data",
-      "finanzamt": "Tax office",
-      "nachzahlung": "Amount due",
-      "generate": "Generate objection letter"
+      "title": "Дополнительные вопросы",
+      "subtitle": "Ответьте на эти вопросы, чтобы оптимизировать ваше возражение",
+      "detectedData": "Обнаруженные данные",
+      "finanzamt": "Налоговая инспекция (Finanzamt)",
+      "nachzahlung": "Сумма к доплате",
+      "generate": "Сгенерировать возражение"
     },
     "generating": {
-      "title": "Multi-AI analysis running...",
+      "title": "Выполняется мультиИИ-анализ...",
       "agents": {
-        "drafter": "Drafting letter... (Claude)",
-        "reviewer": "Reviewing for errors... (Gemini)",
-        "factchecker": "Fact-checking legal citations... (Perplexity)",
-        "adversary": "Authority perspective check... (Claude)",
-        "consolidator": "Consolidating final version... (Claude)"
+        "drafter": "Составление письма... (Claude)",
+        "reviewer": "Проверка на ошибки... (Gemini)",
+        "factchecker": "Проверка правовых ссылок... (Perplexity)",
+        "adversary": "Анализ с позиции органа власти... (Claude)",
+        "consolidator": "Консолидация финальной версии... (Claude)"
       }
     },
     "result": {
-      "title": "Objection letter ready",
-      "subtitle": "Reviewed by {count} AI agents",
-      "agentLog": "AI Agent Log",
-      "outputLanguageWarning": "This document was generated in {language}. The German version is required for submission to German authorities.",
-      "downloadTxt": "Download as TXT"
+      "title": "Возражение готово",
+      "subtitle": "Проверено {count} ИИ-агентами",
+      "agentLog": "Журнал ИИ-агентов",
+      "outputLanguageWarning": "Этот документ создан на языке: {language}. Для подачи в немецкие органы власти необходима немецкая версия.",
+      "downloadTxt": "Скачать как TXT"
     }
   },
   "outputLanguage": {
     "label": "Язык вывода",
-    "hint": "Жалоба создаётся на немецком языке по умолчанию (требуется для немецких органов власти).",
-    "nonGermanWarning": "Только для ознакомления — для официальной подачи письмо должно быть на немецком."
+    "hint": "Возражение по умолчанию создаётся на немецком языке — это обязательное требование немецких органов власти.",
+    "nonGermanWarning": "Только для ознакомления — для официальной подачи письмо должно быть на немецком языке."
+  },
+  "errors": {
+    "noFiles": "Пожалуйста, загрузите хотя бы один файл",
+    "analyzeFailed": "Анализ не выполнен. Пожалуйста, попробуйте снова.",
+    "generateFailed": "Генерация не выполнена. Пожалуйста, попробуйте снова.",
+    "missingDescheid": "Данные уведомления отсутствуют",
+    "unauthorized": "Нет доступа",
+    "notFound": "Страница не найдена",
+    "serverError": "Ошибка сервера. Пожалуйста, попробуйте позже."
   },
   "chatbot": {
-    "sectionLabel": "Why not just use an AI chatbot?",
-    "sectionHeading": "Quality comes from process — not a single prompt.",
-    "sectionSub": "A general AI assistant can read your notice — but AI systems are known to hallucinate legal sources and miss domain-specific questions. TaxaLex uses five specialized agents that check each other's work.",
-    "genericTitle": "Generic AI assistant",
-    "genericSub": "One prompt → one unverified draft",
-    "generic1": "Generates one draft without any automatic cross-checking or self-review",
-    "generic2": "Does not know which domain-specific legal questions to ask — you need to prompt them",
-    "generic3": "Can hallucinate legal citations and case references — errors go undetected without verification",
-    "generic4": "No perspective test: \"How would the authority counter this argument?\"",
-    "generic5": "No automatic deadline calculation from the document",
-    "generic6": "Output quality and completeness depend heavily on how the prompt is written",
-    "taxalexLabel": "✦ 5-agent pipeline",
-    "taxalexSub": "Automated expert cross-examination",
-    "agentDrafter": "Creates the initial objection using legal domain knowledge (§ AO, § SGG, § BGB, § KSchG)",
-    "agentReviewer": "Checks legal correctness, deadline compliance, and formal requirements",
-    "agentFactChecker": "Verifies cited legal sources and rulings via live search — flags inaccuracies before they reach the final draft",
-    "agentAdversary": "Reviews the draft from the authority's perspective — to identify and address weak points",
-    "agentConsolidator": "Combines all reviews into one structured, clearly reasoned final letter",
-    "ctaText": "See how it works — try the interactive demo, no registration required.",
-    "ctaButton": "Try the demo"
+    "sectionLabel": "Зачем не просто использовать ИИ-чат?",
+    "sectionHeading": "Качество определяется процессом, а не одним запросом.",
+    "sectionSub": "Обычный ИИ-ассистент прочитает ваше уведомление — но известно, что ИИ-системы могут выдумывать правовые источники и упускать специфические вопросы. TaxaLex использует пять специализированных агентов, которые взаимно проверяют работу друг друга.",
+    "genericTitle": "Обычный ИИ-ассистент",
+    "genericSub": "Один запрос → один непроверенный черновик",
+    "generic1": "Создаёт один черновик без автоматической перекрёстной проверки или самопроверки",
+    "generic2": "Не знает, какие специфические правовые вопросы задавать — вам нужно формулировать их самостоятельно",
+    "generic3": "Может выдумывать правовые ссылки и судебные прецеденты — ошибки остаются незамеченными без проверки",
+    "generic4": "Нет проверки точки зрения: «Как орган власти будет возражать на этот аргумент?»",
+    "generic5": "Нет автоматического расчёта срока подачи из документа",
+    "generic6": "Качество и полнота вывода сильно зависят от формулировки запроса",
+    "taxalexLabel": "✦ Конвейер из 5 агентов",
+    "taxalexSub": "Автоматизированная экспертная перекрёстная проверка",
+    "agentDrafter": "Создаёт первичное возражение на основе правовых знаний (§ AO, § SGG, § BGB, § KSchG)",
+    "agentReviewer": "Проверяет правовую корректность, соблюдение сроков и формальные требования",
+    "agentFactChecker": "Верифицирует правовые источники и судебные решения через живой поиск — выявляет неточности до попадания в финальный черновик",
+    "agentAdversary": "Проверяет черновик с позиции органа власти — чтобы выявить и устранить слабые места",
+    "agentConsolidator": "Объединяет все проверки в одно структурированное, чётко обоснованное финальное письмо",
+    "ctaText": "Посмотрите, как это работает — попробуйте интерактивное демо, регистрация не требуется.",
+    "ctaButton": "Попробовать демо"
   },
   "templates": {
-    "sectionLabel": "Free templates",
-    "sectionHeading": "16 ready-to-use legal templates",
-    "description": "Download blank templates for the most common objections in Germany — tax, Jobcenter, rent, employment and more. Or fill them online with AI in minutes.",
-    "cta": "Browse all templates",
-    "name1": "Tax Assessment",
-    "name2": "Jobcenter Rejection",
-    "name3": "Rent Increase",
-    "name4": "Dismissal Notice"
+    "sectionLabel": "Бесплатные шаблоны",
+    "sectionHeading": "16 готовых к использованию правовых шаблонов",
+    "description": "Скачайте пустые шаблоны для самых распространённых возражений в Германии — налоги, Jobcenter, аренда, трудовое право и другие. Или заполните их онлайн с помощью ИИ за несколько минут.",
+    "cta": "Посмотреть все шаблоны",
+    "name1": "Налоговое уведомление",
+    "name2": "Отказ Jobcenter",
+    "name3": "Повышение аренды",
+    "name4": "Уведомление об увольнении"
   }
 }

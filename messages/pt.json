@@ -1,7 +1,7 @@
 {
   "common": {
     "appName": "TaxaLex",
-    "tagline": "O seu assistente IA para recorrer de decisões administrativas",
+    "tagline": "O seu assistente de IA para recursos e reclamações administrativas",
     "loading": "A carregar...",
     "error": "Erro",
     "back": "Voltar",
@@ -33,17 +33,17 @@
     "pricing": "Preços",
     "forAdvisors": "Para consultores fiscais",
     "forExpats": "Para expatriados",
-    "blog": "Blog",
-    "login": "Entrar",
+    "blog": "Blogue",
+    "login": "Iniciar sessão",
     "register": "Criar conta",
     "dashboard": "Painel",
     "newCase": "Nova solicitação",
     "openMenu": "Abrir menu",
     "closeMenu": "Fechar menu",
     "cases": "Os meus casos",
-    "account": "Perfil & Definições",
+    "account": "Perfil e definições",
     "billing": "Faturação",
-    "logout": "Sair",
+    "logout": "Terminar sessão",
     "notifications": "Notificações",
     "advisorDashboard": "Painel do consultor",
     "advisorClients": "Clientes",
@@ -55,211 +55,211 @@
     "sectionAdvisor": "Consultor",
     "sectionAdmin": "Administração",
     "templates": "Modelos",
-    "allUseCases": "→ Todos os casos",
+    "allUseCases": "→ Todos os casos de uso",
     "startFree": "Começar grátis",
-    "advisorDemo": "Demo consultor",
+    "advisorDemo": "Demo para consultores",
     "newAppeal": "Novo recurso"
   },
   "hero": {
     "groups": {
       "individual": {
-        "headline": "Received a German notice? Appeal it in minutes.",
-        "sub": "TaxaLex analyses your administrative decision with 5 AI agents and drafts a legally grounded objection letter – no lawyer needed.",
-        "cta": "Get started for free"
+        "headline": "Recebeu uma notificação alemã? Recorra em minutos.",
+        "sub": "O TaxaLex analisa a sua decisão administrativa com 5 agentes de IA e redige uma carta de recurso juridicamente fundamentada — sem precisar de advogado.",
+        "cta": "Começar grátis"
       },
       "selfemployed": {
-        "headline": "Tax bill? Appeal it – without a lawyer.",
-        "sub": "For freelancers and self-employed: AI-powered objection letters against tax assessments in under 5 minutes.",
-        "cta": "Appeal now"
+        "headline": "Aviso fiscal? Recorra — sem advogado.",
+        "sub": "Para freelancers e trabalhadores independentes: cartas de recurso com IA contra liquidações fiscais em menos de 5 minutos.",
+        "cta": "Recorrer agora"
       },
       "expat": {
-        "headline": "German notice? Appeal it in minutes – in your language.",
-        "sub": "TaxaLex helps expats navigate German bureaucracy. Upload your notice, answer a few questions, get a professional objection letter.",
-        "cta": "Start for free"
+        "headline": "Notificação alemã? Recorra em minutos — no seu idioma.",
+        "sub": "O TaxaLex ajuda expatriados a navegar na burocracia alemã. Carregue a sua notificação, responda a algumas perguntas e obtenha uma carta de recurso profissional.",
+        "cta": "Começar grátis"
       },
       "advisor": {
-        "headline": "More clients. Less effort.",
-        "sub": "TaxaLex supports tax advisors and lawyers in quickly drafting objection letters for their clients.",
-        "cta": "Request advisor demo"
+        "headline": "Mais clientes. Menos esforço.",
+        "sub": "O TaxaLex apoia consultores fiscais e advogados na redação rápida de cartas de recurso para os seus clientes.",
+        "cta": "Solicitar demo para consultores"
       }
     },
     "tabs": {
-      "individual": "Individual",
-      "selfemployed": "Self-employed",
-      "expat": "Expat",
-      "advisor": "Tax advisor"
+      "individual": "Particular",
+      "selfemployed": "Trabalhador independente",
+      "expat": "Expatriado",
+      "advisor": "Consultor fiscal"
     },
-    "badge": "AI-powered · GDPR-compliant · EU servers",
-    "disclaimer": "AI-generated drafts. Not legal advice."
+    "badge": "Com IA · Conforme RGPD · Servidores na UE",
+    "disclaimer": "Rascunhos gerados por IA. Não constitui aconselhamento jurídico."
   },
   "howItWorks": {
-    "title": "How it works",
-    "subtitle": "Three steps to your finished objection letter",
+    "title": "Como funciona",
+    "subtitle": "Três passos até à sua carta de recurso finalizada",
     "steps": {
       "upload": {
         "number": "1",
-        "title": "Upload your notice",
-        "description": "Upload your notice as PDF, photo, or DOCX. Our OCR automatically detects all relevant data.",
-        "detail": "Supported formats: PDF, JPG, PNG, DOCX, TXT (max. 10 MB)"
+        "title": "Carregue a sua notificação",
+        "description": "Carregue a sua notificação em PDF, fotografia ou DOCX. O nosso OCR deteta automaticamente todos os dados relevantes.",
+        "detail": "Formatos suportados: PDF, JPG, PNG, DOCX, TXT (máx. 10 MB)"
       },
       "analyze": {
         "number": "2",
-        "title": "AI analysis",
-        "description": "Five specialised AI agents review your notice: drafting, error-checking, fact-checking, counter-perspective, and consolidation.",
-        "detail": "Claude · Gemini · Perplexity – all models work in parallel"
+        "title": "Análise por IA",
+        "description": "Cinco agentes de IA especializados analisam a sua notificação: redação, verificação de erros, verificação de factos, perspetiva contrária e consolidação.",
+        "detail": "Claude · Gemini · Perplexity — todos os modelos trabalham em paralelo"
       },
       "download": {
         "number": "3",
-        "title": "Download & submit",
-        "description": "Download your finished objection letter as DOCX or TXT and submit it directly to the relevant authority.",
-        "detail": "Note: AI-generated draft, not legal advice. Review before submission."
+        "title": "Descarregar e submeter",
+        "description": "Descarregue a sua carta de recurso finalizada em DOCX ou TXT e submeta-a diretamente à entidade competente.",
+        "detail": "Nota: rascunho gerado por IA, não constitui aconselhamento jurídico. Reveja antes de submeter."
       }
     },
-    "sectionHeading": "From notice to objection — in 3 steps"
+    "sectionHeading": "Da notificação ao recurso — em 3 passos"
   },
   "useCases": {
-    "title": "Which notice do you want to appeal?",
-    "subtitle": "Select the type of administrative decision",
-    "tax": "Tax assessment",
+    "title": "Que notificação quer contestar?",
+    "subtitle": "Selecione o tipo de decisão administrativa",
+    "tax": "Liquidação fiscal",
     "jobcenter": "Jobcenter / Bürgergeld",
-    "rente": "Pension notice",
-    "bussgeld": "Fine / penalty notice",
-    "bussgeldd": "Fine / penalty notice",
-    "krankenversicherung": "Health insurance rejection",
-    "kuendigung": "Employment termination",
-    "miete": "Rent increase / deposit",
-    "grundsteuer": "Property tax (Grundsteuer)",
-    "sectionTitle": "8 notice types – all covered",
-    "sectionSubtitle": "From tax assessments to fines: TaxaLex knows the relevant legal basis for all common administrative notices.",
-    "appeal": "Appeal this notice",
-    "deadline": "Deadline",
-    "days": "days",
-    "successRate": "Success rate",
-    "legalBasis": "Legal basis",
-    "expandDetails": "Show details",
-    "collapseDetails": "Hide details",
-    "sectionLabel": "Supported notice types"
+    "rente": "Notificação de pensão",
+    "bussgeld": "Coima / auto de contraordenação",
+    "bussgeldd": "Coima / auto de contraordenação",
+    "krankenversicherung": "Recusa de seguro de saúde",
+    "kuendigung": "Rescisão de contrato de trabalho",
+    "miete": "Aumento de renda / caução",
+    "grundsteuer": "Imposto sobre imóveis (Grundsteuer)",
+    "sectionTitle": "8 tipos de notificação — todos cobertos",
+    "sectionSubtitle": "De liquidações fiscais a coimas: o TaxaLex conhece a base legal relevante para todas as notificações administrativas comuns.",
+    "appeal": "Contestar esta notificação",
+    "deadline": "Prazo",
+    "days": "dias",
+    "successRate": "Taxa de sucesso",
+    "legalBasis": "Base legal",
+    "expandDetails": "Mostrar detalhes",
+    "collapseDetails": "Ocultar detalhes",
+    "sectionLabel": "Tipos de notificação suportados"
   },
   "stats": {
-    "title": "Numbers that matter",
-    "subtitle": "Verified statistics from official sources",
-    "source": "Source",
+    "title": "Números que importam",
+    "subtitle": "Estatísticas verificadas de fontes oficiais",
+    "source": "Fonte",
     "items": {
       "objections": {
-        "value": "3.3M",
-        "label": "Tax objections filed per year in Germany"
+        "value": "3,3 milhões",
+        "label": "Recursos fiscais apresentados por ano na Alemanha"
       },
       "successRate": {
-        "value": "67 %",
-        "label": "Partial or full success rate"
+        "value": "67 %",
+        "label": "Taxa de sucesso parcial ou total"
       },
       "deadline": {
-        "value": "30 days",
-        "label": "Legal deadline (§ 355 AO)"
+        "value": "30 dias",
+        "label": "Prazo legal (§ 355 AO)"
       },
       "speed": {
-        "value": "< 5 min",
-        "label": "Average generation time"
+        "value": "< 5 min",
+        "label": "Tempo médio de geração"
       }
     },
-    "sectionLabel": "By the numbers",
-    "sectionHeading": "Facts, not promises",
-    "sourceInternal": "TaxaLex internal measurement"
+    "sectionLabel": "Em números",
+    "sectionHeading": "Factos, não promessas",
+    "sourceInternal": "Medição interna TaxaLex"
   },
   "pricing": {
-    "title": "Transparent & fair",
-    "subtitle": "Choose the plan that fits your needs",
+    "title": "Transparente e justo",
+    "subtitle": "Escolha o plano que melhor se adapta às suas necessidades",
     "tabs": {
-      "individual": "Individual",
-      "selfemployed": "Self-employed",
-      "advisor": "Tax advisor",
-      "lawyer": "Lawyer"
+      "individual": "Particular",
+      "selfemployed": "Trabalhador independente",
+      "advisor": "Consultor fiscal",
+      "lawyer": "Advogado"
     },
     "popular": "Popular",
-    "currentPlan": "Your current plan",
-    "perMonth": "/ month",
-    "perCase": "/ objection",
-    "perPack": "/ 5 objections",
-    "included": "Included",
-    "notIncluded": "Not included",
-    "upgrade": "Upgrade now",
-    "contact": "Contact us",
-    "choosePlan": "Choose plan",
-    "annualDiscount": "Pay annually – 2 months free",
-    "monthly": "Monthly",
-    "annual": "Annual",
-    "vatNote": "All prices excl. VAT.",
+    "currentPlan": "O seu plano atual",
+    "perMonth": "/ mês",
+    "perCase": "/ recurso",
+    "perPack": "/ 5 recursos",
+    "included": "Incluído",
+    "notIncluded": "Não incluído",
+    "upgrade": "Atualizar agora",
+    "contact": "Contactar-nos",
+    "choosePlan": "Escolher plano",
+    "annualDiscount": "Pague anualmente — 2 meses grátis",
+    "monthly": "Mensal",
+    "annual": "Anual",
+    "vatNote": "Todos os preços excluem IVA.",
     "freeFeatures": {
-      "title": "Free plan",
-      "description": "1 objection per month"
+      "title": "Plano gratuito",
+      "description": "1 recurso por mês"
     },
-    "sectionLabel": "Pricing",
-    "sectionHeading": "Simple, transparent pricing",
-    "sectionSub": "Pay per case, or subscribe for unlimited access. No hidden fees.",
-    "viewAll": "View all plans including advisor & lawyer →"
+    "sectionLabel": "Preços",
+    "sectionHeading": "Preços simples e transparentes",
+    "sectionSub": "Pague por caso ou subscreva para acesso ilimitado. Sem taxas ocultas.",
+    "viewAll": "Ver todos os planos, incluindo consultor e advogado →"
   },
   "features": {
-    "title": "Why TaxaLex?",
-    "subtitle": "Four differentiating features that make the difference",
+    "title": "Porquê o TaxaLex?",
+    "subtitle": "Quatro funcionalidades diferenciadoras que fazem a diferença",
     "items": {
       "multiAi": {
-        "title": "5 AI agents in parallel",
-        "description": "Claude, Gemini and Perplexity review your objection from different perspectives – for maximum quality."
+        "title": "5 agentes de IA em paralelo",
+        "description": "Claude, Gemini e Perplexity analisam o seu recurso de diferentes perspetivas — para a máxima qualidade."
       },
       "legal": {
-        "title": "Up-to-date legal references",
-        "description": "Perplexity researches current court rulings and administrative guidelines in real time for your specific case."
+        "title": "Referências legais atualizadas",
+        "description": "O Perplexity pesquisa em tempo real decisões judiciais e orientações administrativas atuais para o seu caso específico."
       },
       "multilingual": {
-        "title": "Multilingual",
-        "description": "Interface in 7 languages. The objection letter is always drafted in German – as required by authorities."
+        "title": "Multilingue",
+        "description": "Interface em 7 idiomas. A carta de recurso é sempre redigida em alemão — conforme exigido pelas autoridades alemãs."
       },
       "privacy": {
-        "title": "GDPR & Privacy",
-        "description": "EU servers, encrypted transmission, no permanent storage of your documents without consent."
+        "title": "RGPD e privacidade",
+        "description": "Servidores na UE, transmissão encriptada, sem armazenamento permanente dos seus documentos sem consentimento."
       }
     },
-    "sectionHeading": "Built for legal precision"
+    "sectionHeading": "Desenvolvido para precisão jurídica"
   },
   "faq": {
-    "title": "Frequently asked questions",
-    "subtitle": "Everything you want to know about TaxaLex",
+    "title": "Perguntas frequentes",
+    "subtitle": "Tudo o que precisa de saber sobre o TaxaLex",
     "categories": {
-      "all": "All",
-      "general": "General",
-      "legal": "Legal",
-      "pricing": "Pricing",
-      "technical": "Technical",
-      "advisor": "For advisors"
+      "all": "Todas",
+      "general": "Geral",
+      "legal": "Jurídico",
+      "pricing": "Preços",
+      "technical": "Técnico",
+      "advisor": "Para consultores"
     }
   },
   "trust": {
-    "title": "Security & Privacy",
-    "gdpr": "GDPR-compliant",
-    "euServers": "EU servers",
-    "encrypted": "Encrypted",
-    "rdgNote": "Not legal advice",
-    "disclaimer": "TaxaLex creates AI-generated drafts for objection letters. This does not constitute legal advice within the meaning of the German Legal Services Act (RDG). Before submission, you should review the draft and consult a tax advisor or lawyer for complex matters.",
+    "title": "Segurança e privacidade",
+    "gdpr": "Conforme RGPD",
+    "euServers": "Servidores na UE",
+    "encrypted": "Encriptado",
+    "rdgNote": "Não é aconselhamento jurídico",
+    "disclaimer": "O TaxaLex cria rascunhos gerados por IA para cartas de recurso. Tal não constitui aconselhamento jurídico na aceção da Lei Alemã de Serviços Jurídicos (RDG). Antes de submeter, deve rever o rascunho e consultar um consultor fiscal ou advogado para situações complexas.",
     "badges": {
-      "dsgvo": "GDPR-compliant",
-      "eu": "EU servers (Frankfurt)",
-      "ssl": "SSL-encrypted",
-      "rdg": "Not legal advice (RDG)"
+      "dsgvo": "Conforme RGPD",
+      "eu": "Servidores na UE (Frankfurt)",
+      "ssl": "Encriptado por SSL",
+      "rdg": "Não é aconselhamento jurídico (RDG)"
     },
-    "legalHeading": "Legal notice",
-    "gdprDetail": "Data in the EU",
-    "euServersDetail": "Hetzner, Germany",
+    "legalHeading": "Aviso legal",
+    "gdprDetail": "Dados na UE",
+    "euServersDetail": "Hetzner, Alemanha",
     "encryptedDetail": "TLS 1.3 + AES-256",
-    "rdgDetail": "AI-generated draft"
+    "rdgDetail": "Rascunho gerado por IA"
   },
   "footer": {
-    "tagline": "AI-generated drafts. Not legal advice.",
-    "allRightsReserved": "All rights reserved.",
+    "tagline": "Rascunhos gerados por IA. Não constitui aconselhamento jurídico.",
+    "allRightsReserved": "Todos os direitos reservados.",
     "columns": {
-      "product": "Product",
-      "company": "Company",
-      "support": "Support",
-      "legal": "Legal"
+      "product": "Produto",
+      "company": "Empresa",
+      "support": "Suporte",
+      "legal": "Jurídico"
     }
   },
   "auth": {
@@ -269,7 +269,7 @@
       "email": "Endereço de e-mail",
       "password": "Palavra-passe",
       "forgotPassword": "Esqueceu a palavra-passe?",
-      "submit": "Entrar",
+      "submit": "Iniciar sessão",
       "noAccount": "Não tem conta?",
       "register": "Registar agora",
       "orContinueWith": "Ou continuar com",
@@ -280,96 +280,96 @@
         "advisor": "Consultor fiscal",
         "lawyer": "Advogado"
       },
-      "errorInvalid": "Invalid email or password.",
-      "successRegistered": "Account created. Please sign in.",
-      "successVerified": "Email confirmed. You can now sign in.",
-      "errorInvalidToken": "The confirmation link is invalid or expired. Please request a new one.",
-      "showPassword": "Show password",
-      "hidePassword": "Hide password",
-      "withGoogle": "Sign in with Google",
-      "demoAvailable": "Demo accounts (5 available)"
+      "errorInvalid": "E-mail ou palavra-passe inválidos.",
+      "successRegistered": "Conta criada. Por favor inicie sessão.",
+      "successVerified": "E-mail confirmado. Pode agora iniciar sessão.",
+      "errorInvalidToken": "O link de confirmação é inválido ou expirou. Por favor solicite um novo.",
+      "showPassword": "Mostrar palavra-passe",
+      "hidePassword": "Ocultar palavra-passe",
+      "withGoogle": "Iniciar sessão com o Google",
+      "demoAvailable": "Contas de demonstração (5 disponíveis)"
     },
     "register": {
       "title": "Criar conta",
-      "subtitle": "Comece gratuitamente com TaxaLex",
+      "subtitle": "Comece gratuitamente com o TaxaLex",
       "name": "Nome completo",
       "email": "Endereço de e-mail",
       "password": "Palavra-passe",
       "confirmPassword": "Confirmar palavra-passe",
       "agreeToTerms": "Aceito os {terms} e a {privacy}.",
-      "terms": "Termos de uso",
-      "privacy": "Política de privacidade",
+      "terms": "Termos de Serviço",
+      "privacy": "Política de Privacidade",
       "submit": "Criar conta",
       "hasAccount": "Já tem conta?",
-      "login": "Entrar",
+      "login": "Iniciar sessão",
       "passwordStrength": {
         "weak": "Fraca",
-        "fair": "Aceitável",
+        "fair": "Razoável",
         "good": "Boa",
         "strong": "Forte"
       },
       "types": {
-        "individual": "Individual",
+        "individual": "Particular",
         "selfemployed": "Trabalhador independente",
         "advisor": "Consultor fiscal",
         "lawyer": "Advogado",
-        "expert": "Expert"
+        "expert": "Especialista"
       },
       "benefits": {
         "individual": [
-          "5 AI agents analyse your notice and draft a legally grounded objection",
-          "8 notice types covered: tax, Jobcenter, pension, fines, rent and more",
-          "Finished letter ready to send — download as DOCX or TXT in minutes"
+          "5 agentes de IA analisam a sua notificação e redigem um recurso juridicamente fundamentado",
+          "8 tipos de notificação cobertos: fiscal, Jobcenter, pensão, coimas, renda e mais",
+          "Carta pronta a enviar — descarregue em DOCX ou TXT em minutos"
         ],
         "selfemployed": [
-          "Appeal tax assessments, VAT notices, and trade office decisions",
-          "5 AI agents draft your objection — no legal knowledge required",
-          "Finished letter in minutes — download and send directly"
+          "Conteste liquidações fiscais, notificações de IVA e decisões de entidades reguladoras",
+          "5 agentes de IA redigem o seu recurso — sem necessidade de conhecimentos jurídicos",
+          "Carta pronta em minutos — descarregue e envie diretamente"
         ],
         "advisor": [
-          "Review AI-prepared client drafts and accept or decline with one click",
-          "Annotate specific sections and request clarifications — no email back-and-forth",
-          "Full case packet per client: extracted facts, AI analysis, and viability score"
+          "Reveja rascunhos preparados por IA para clientes e aceite ou recuse com um clique",
+          "Anote secções específicas e solicite esclarecimentos — sem troca de e-mails",
+          "Dossiê completo por cliente: factos extraídos, análise de IA e pontuação de viabilidade"
         ],
         "lawyer": [
-          "Review objections across all legal areas: tax, employment, rent, social law",
-          "Annotate draft sections and resolve client questions in one threaded view",
-          "Structured handoff with extracted facts and AI viability assessment per case"
+          "Reveja recursos em todas as áreas jurídicas: fiscal, laboral, arrendamento, direito social",
+          "Anote secções do rascunho e resolva questões dos clientes numa única vista consolidada",
+          "Entrega estruturada com factos extraídos e avaliação de viabilidade por IA por caso"
         ],
         "expert": [
-          "Review AI-prepared client drafts, annotate sections, and approve with one click",
-          "Broadcast assignment: new case in your area — first to accept gets it",
-          "Structured handoff packet with extracted facts, AI analysis, and viability score"
+          "Reveja rascunhos preparados por IA para clientes, anote secções e aprove com um clique",
+          "Atribuição por difusão: novo caso na sua área — o primeiro a aceitar fica com ele",
+          "Dossiê de entrega estruturado com factos extraídos, análise de IA e pontuação de viabilidade"
         ]
       },
-      "iAm": "I am…",
+      "iAm": "Sou…",
       "sublabels": {
-        "individual": "Appeal notices",
-        "advisor": "Manage clients",
-        "lawyer": "Represent clients",
-        "expert": "Manage clients"
+        "individual": "Contestar notificações",
+        "advisor": "Gerir clientes",
+        "lawyer": "Representar clientes",
+        "expert": "Gerir clientes"
       },
-      "registerFree": "Register for free",
-      "passwordStrengthLabel": "Password strength:",
-      "passwordMinLength": "Min. {n} characters",
-      "errorFailed": "Registration failed.",
-      "practiceAreasLabel": "My practice areas",
+      "registerFree": "Registar gratuitamente",
+      "passwordStrengthLabel": "Segurança da palavra-passe:",
+      "passwordMinLength": "Mín. {n} caracteres",
+      "errorFailed": "Registo falhou.",
+      "practiceAreasLabel": "As minhas áreas de prática",
       "practiceAreas": {
-        "tax": "Tax law",
-        "legal": "General law"
+        "tax": "Direito fiscal",
+        "legal": "Direito geral"
       },
-      "practiceAreasMin": "Please select at least one practice area.",
-      "practiceAreasSelfCert": "By selecting, you confirm you are licensed to practise in the chosen areas."
+      "practiceAreasMin": "Selecione pelo menos uma área de prática.",
+      "practiceAreasSelfCert": "Ao selecionar, confirma que está habilitado a exercer nas áreas escolhidas."
     },
     "layout": {
-      "backToHome": "Back to home",
-      "trusted": "Trusted by German taxpayers",
-      "headline": "Respond to German official notices — structured and clearly reasoned.",
-      "description": "5 specialized AI agents draft, cross-check, and improve your objection letter — in under 5 minutes.",
-      "trustDraft": "Draft ready in under 5 minutes",
-      "trustDemo": "Interactive demo — no registration required",
-      "trustGdpr": "GDPR-compliant · EU servers · Encrypted",
-      "privacy": "Privacy"
+      "backToHome": "Voltar ao início",
+      "trusted": "Utilizado por contribuintes na Alemanha",
+      "headline": "Responda a notificações oficiais alemãs — de forma estruturada e bem fundamentada.",
+      "description": "5 agentes de IA especializados redigem, verificam e melhoram a sua carta de recurso — em menos de 5 minutos.",
+      "trustDraft": "Rascunho pronto em menos de 5 minutos",
+      "trustDemo": "Demo interativa — sem registo necessário",
+      "trustGdpr": "Conforme RGPD · Servidores na UE · Encriptado",
+      "privacy": "Privacidade"
     }
   },
   "dashboard": {
@@ -440,12 +440,12 @@
     "downloadDraft": "Descarregar rascunho"
   },
   "account": {
-    "title": "Perfil & Definições",
+    "title": "Perfil e definições",
     "sections": {
       "profile": "Perfil",
       "security": "Segurança",
       "notifications": "Notificações",
-      "language": "Idioma & Região",
+      "language": "Idioma e região",
       "appearance": "Aparência",
       "danger": "Eliminar conta"
     },
@@ -464,22 +464,22 @@
     "notifications": {
       "email": "Notificações por e-mail",
       "caseUpdates": "Atualizações de casos",
-      "newsletter": "Newsletter & novidades do produto"
+      "newsletter": "Novidades e atualizações do produto"
     },
     "memberSince": "Membro desde",
-    "logout": "Sair",
+    "logout": "Terminar sessão",
     "startNewCase": "Iniciar um novo recurso",
-    "templatesTitle": "Modelos & Exemplos",
+    "templatesTitle": "Modelos e exemplos",
     "templatesDesc": "Modelos gratuitos para descarregar e personalizar",
     "templatesViewAll": "Ver tudo",
     "templatesFree": "Grátis",
-    "templatesUseAI": "Prefira a IA – crie um recurso em 5 minutos",
-    "plansTitle": "Planos & Preços",
-    "plansViewAll": "Todos os detalhes",
-    "settingsTitle": "Conta & Definições",
-    "emailVerified": "E-mail confirmado",
-    "emailNotVerified": "E-mail não confirmado",
-    "emailNotVerifiedHint": "Por favor confirme o seu endereço de e-mail. Verifique a sua caixa de entrada.",
+    "templatesUseAI": "Prefira a IA — crie o seu recurso em 5 minutos",
+    "plansTitle": "Planos e preços",
+    "plansViewAll": "Ver detalhes",
+    "settingsTitle": "Conta e definições",
+    "emailVerified": "E-mail verificado",
+    "emailNotVerified": "Endereço de e-mail não verificado",
+    "emailNotVerifiedHint": "Por favor verifique o seu endereço de e-mail. Consulte a sua caixa de entrada para o link de confirmação.",
     "accountType": "Tipo de conta",
     "password": "Palavra-passe",
     "twoFactor": "Autenticação de dois fatores (2FA)",
@@ -490,141 +490,18 @@
       "dark": "Escuro",
       "system": "Sistema"
     },
-    "billingManage": "Gerir pagamentos & plano",
-    "billingManageDesc": "Faturas, atualização, compra de pacotes",
+    "billingManage": "Gerir pagamentos e plano",
+    "billingManageDesc": "Faturas, atualização, compra de créditos",
     "gdprTitle": "Privacidade (RGPD)",
-    "gdprNote": "Exportação de dados em breve. A eliminação da conta é imediata e irreversível.",
+    "gdprNote": "Exportação de dados disponível em breve. A eliminação da conta é imediata e irreversível.",
     "exportData": "Exportar dados",
     "languageLabel": "Idioma",
     "statCases": "Casos totais",
     "statCredits": "Créditos",
     "statPlan": "Plano atual",
     "planFree": "Grátis",
-    "planPro": "Pro"
-  },
-  "admin": {
-    "title": "Painel de administração",
-    "subtitle": "Visão geral do sistema e gestão de utilizadores",
-    "tabs": {
-      "overview": "Visão geral",
-      "users": "Utilizadores",
-      "cases": "Casos",
-      "pricing": "Preços",
-      "emails": "E-mails",
-      "system": "Sistema",
-      "content": "Conteúdo"
-    },
-    "stats": {
-      "totalUsers": "Utilizadores totais",
-      "totalCases": "Casos totais",
-      "openCases": "Casos abertos",
-      "submittedCases": "Submetidos"
-    },
-    "overview": {
-      "totalUsers": "Utilizadores totais",
-      "verifiedSuffix": "verificados",
-      "new7d": "Novos (7 dias)",
-      "ofTotalPct": "% do total",
-      "activated": "Ativados",
-      "activationPct": "% taxa de ativação",
-      "activeSubscriptions": "Subscrições ativas",
-      "conversionPct": "% conversão",
-      "totalCases": "Casos totais",
-      "thisWeek": "esta semana",
-      "closedSuccess": "Fechados com sucesso",
-      "stillOpen": "ainda abertos",
-      "recentUsers": "Novos utilizadores",
-      "recentCases": "Casos recentes"
-    },
-    "users": {
-      "title": "Utilizadores",
-      "since": "Desde",
-      "caseSuffix": "caso",
-      "casesSuffix": "casos",
-      "grantCredits": "Atribuir créditos",
-      "grantLoading": "A atribuir…",
-      "grantError": "Erro ao atribuir",
-      "changeRole": "Alterar função:",
-      "creditsFor": "Créditos para",
-      "subscription": "Subscription",
-      "noSubscription": "No active subscription",
-      "subscriptionUntil": "until",
-      "subscriptionCancels": "cancels at period end",
-      "noCases": "No cases yet.",
-      "ledger": "Payments / Credits"
-    },
-    "cases": {
-      "filterAll": "Todos",
-      "filterOpen": "Abertos",
-      "filterSubmitted": "Submetidos",
-      "filterClosed": "Fechados",
-      "noneFound": "Nenhum caso nesta categoria.",
-      "deadline": "Prazo"
-    },
-    "pricing": {
-      "loading": "A carregar planos de preços…",
-      "noPlansHint": "Nenhum plano de preços na base de dados.",
-      "recommended": "Recomendado",
-      "inactive": "Inativo",
-      "group": "Grupo",
-      "once": "Único",
-      "monthly": "Mensal",
-      "annual": "Anual",
-      "active": "Ativo",
-      "standard": "Standard",
-      "features": "Funcionalidades"
-    },
-    "emails": {
-      "devWarning": "Modo dev ativo — todos os e-mails enviados recebem o prefixo DEV - no assunto.",
-      "trigger": "Gatilho",
-      "subject": "Assunto",
-      "variables": "Variáveis",
-      "ttl": "Validade",
-      "templates": {
-        "verification": "Código de verificação",
-        "verificationTrigger": "O utilizador regista-se",
-        "verificationSubject": "O seu código de verificação — TaxaLex",
-        "welcome": "E-mail de boas-vindas",
-        "welcomeTrigger": "E-mail verificado",
-        "welcomeSubject": "Bem-vindo ao TaxaLex — {name}",
-        "passwordReset": "Redefinição de palavra-passe",
-        "passwordResetTrigger": "Palavra-passe esquecida",
-        "passwordResetSubject": "Redefinir a sua palavra-passe — TaxaLex"
-      }
-    },
-    "system": {
-      "title": "Estado do sistema",
-      "environment": "Ambiente",
-      "dev": "Desenvolvimento",
-      "prod": "Produção",
-      "database": "Base de dados",
-      "ai": "IA (Anthropic)",
-      "stripe": "Pagamentos (Stripe)",
-      "emailService": "E-mails (Brevo)",
-      "ok": "OK",
-      "notConfigured": "Não configurado",
-      "services": {
-        "anthropic": "Anthropic (Claude)",
-        "anthropicNote": "Required — app will not start without this key",
-        "google": "Google AI (Gemini)",
-        "googleNote": "Optional — for Gemini agents",
-        "perplexity": "Perplexity (Sonar)",
-        "perplexityNote": "Optional — for fact-check agent",
-        "stripe": "Stripe",
-        "stripeNote": "Optional — for payments",
-        "brevo": "Brevo (Email)",
-        "brevoNote": "Optional — emails suppressed without key",
-        "s3": "S3 (File storage)",
-        "s3Note": "Optional — for document uploads"
-      }
-    },
-    "content": {
-      "title": "Conteúdo da base de dados",
-      "useCases": "Casos de uso",
-      "faqs": "Perguntas frequentes",
-      "pricingPlans": "Planos de preços",
-      "edit": "Editar (em breve)"
-    }
+    "planPro": "Pro",
+    "billing": "Faturação"
   },
   "advisor": {
     "dashboard": {
@@ -666,92 +543,207 @@
     "billing": {
       "title": "Faturação",
       "plan": "O seu plano de consultor",
-      "usage": "Clientes & recursos"
+      "usage": "Clientes e recursos"
     },
     "handoff": {
-      "title": "Request Professional Review",
-      "selectAdvisor": "Select Advisor",
+      "title": "Solicitar revisão profissional",
+      "selectAdvisor": "Selecionar consultor",
       "scope": {
-        "label": "Scope of engagement",
-        "reviewOnly": "Review only",
-        "fullRepresentation": "Full representation"
+        "label": "Âmbito do serviço",
+        "reviewOnly": "Apenas revisão — submeterei eu próprio",
+        "fullRepresentation": "Representação completa"
       },
-      "clientNotes": "Notes for the advisor (optional)",
-      "submit": "Request review",
-      "submitted": "Request sent",
-      "broadcastInfo": "All available experts in your area will be notified. The first to accept handles your case.",
-      "withdrawButton": "Withdraw request",
-      "withdrawReason": "Reason for withdrawal",
-      "withdrawConfirm": "Really withdraw this request?",
-      "expertArea": "Practice area",
-      "tax": "Tax law",
-      "legal": "General law",
-      "expertsNotified": "{count} expert(s) notified",
-      "awaitingAcceptance": "Waiting for an expert to accept..."
+      "clientNotes": "Notas para o consultor (opcional)",
+      "submit": "Solicitar revisão",
+      "submitted": "Pedido enviado",
+      "broadcastInfo": "Todos os especialistas disponíveis na sua área serão notificados. O primeiro a aceitar trata do seu caso.",
+      "withdrawButton": "Retirar pedido",
+      "withdrawReason": "Motivo da retirada",
+      "withdrawConfirm": "Tem a certeza que quer retirar este pedido?",
+      "expertArea": "Área de prática",
+      "tax": "Direito fiscal",
+      "legal": "Direito geral",
+      "expertsNotified": "{count} especialista(s) notificado(s)",
+      "awaitingAcceptance": "À espera que um especialista aceite..."
     },
     "assignment": {
-      "pending": "Decision required",
-      "accepted": "Under review",
-      "declined": "Declined",
-      "changesRequested": "Questions pending",
-      "approved": "Approved",
-      "finalized": "Finalized",
+      "pending": "Decisão necessária",
+      "accepted": "Em análise",
+      "declined": "Recusado",
+      "changesRequested": "Questões pendentes",
+      "approved": "Aprovado",
+      "finalized": "Finalizado",
       "statuses": {
-        "SUPERSEDED": "Taken by another expert",
-        "WITHDRAWN": "Withdrawn by client",
-        "EXPIRED": "Expired (72h without response)"
+        "SUPERSEDED": "Aceite por outro especialista",
+        "WITHDRAWN": "Retirado pelo cliente",
+        "EXPIRED": "Expirado (72h sem resposta)"
       }
     },
     "packet": {
-      "brief": "Case summary",
-      "facts": "Facts",
-      "analysis": "AI analysis",
-      "draft": "Appeal draft",
-      "clientContext": "Client information",
-      "coreArgument": "Core argument",
-      "evidenceGaps": "Evidence gaps",
-      "counterarguments": "Counterarguments"
+      "brief": "Resumo do caso",
+      "facts": "Factos",
+      "analysis": "Análise de IA",
+      "draft": "Rascunho do recurso",
+      "clientContext": "Informação do cliente",
+      "coreArgument": "Argumento principal",
+      "evidenceGaps": "Lacunas de prova",
+      "counterarguments": "Contra-argumentos"
     },
     "viability": {
-      "high": "High success probability",
-      "medium": "Medium success probability",
-      "low": "Low success probability"
+      "high": "Probabilidade de sucesso elevada",
+      "medium": "Probabilidade de sucesso média",
+      "low": "Probabilidade de sucesso baixa"
     },
     "actions": {
-      "accept": "Accept case",
-      "decline": "Decline",
-      "finalize": "Approve and finalize",
-      "addAnnotation": "Ask question",
-      "resolveAnnotation": "Mark as resolved",
-      "replyToAnnotation": "Reply",
-      "submitReply": "Send reply"
+      "accept": "Aceitar caso",
+      "decline": "Recusar",
+      "finalize": "Aprovar e finalizar",
+      "addAnnotation": "Colocar questão",
+      "resolveAnnotation": "Marcar como resolvido",
+      "replyToAnnotation": "Responder",
+      "submitReply": "Enviar resposta"
     },
     "annotation": {
-      "aiPreFill": "AI suggestion from your documents:",
-      "open": "Open",
-      "answered": "Answered",
-      "resolved": "Resolved"
+      "aiPreFill": "Sugestão de IA com base nos seus documentos:",
+      "open": "Aberto",
+      "answered": "Respondido",
+      "resolved": "Resolvido"
     },
     "decline": {
-      "title": "Decline case",
-      "reason": "Reason for declining",
-      "reasonPlaceholder": "Please provide a reason...",
-      "confirm": "Confirm decline"
+      "title": "Recusar caso",
+      "reason": "Motivo da recusa",
+      "reasonPlaceholder": "Por favor indique um motivo...",
+      "confirm": "Confirmar recusa"
     }
   },
-  "errors": {
-    "noFiles": "Por favor carregue pelo menos um ficheiro",
-    "analyzeFailed": "Análise falhada. Por favor tente novamente.",
-    "generateFailed": "Geração falhada. Por favor tente novamente.",
-    "missingDescheid": "Dados do aviso em falta",
-    "unauthorized": "Sem autorização",
-    "notFound": "Página não encontrada",
-    "serverError": "Erro do servidor. Por favor tente mais tarde."
+  "admin": {
+    "title": "Painel de administração",
+    "subtitle": "Visão geral do sistema e gestão de utilizadores",
+    "tabs": {
+      "overview": "Visão geral",
+      "users": "Utilizadores",
+      "cases": "Casos",
+      "pricing": "Preços",
+      "emails": "E-mails",
+      "system": "Sistema",
+      "content": "Conteúdo"
+    },
+    "stats": {
+      "totalUsers": "Utilizadores totais",
+      "totalCases": "Casos totais",
+      "openCases": "Casos abertos",
+      "submittedCases": "Submetidos"
+    },
+    "overview": {
+      "totalUsers": "Utilizadores totais",
+      "verifiedSuffix": "verificados",
+      "new7d": "Novos (7 dias)",
+      "ofTotalPct": "% do total",
+      "activated": "Ativados",
+      "activationPct": "% taxa de ativação",
+      "activeSubscriptions": "Subscrições ativas",
+      "conversionPct": "% conversão",
+      "totalCases": "Casos totais",
+      "thisWeek": "esta semana",
+      "closedSuccess": "Fechados com sucesso",
+      "stillOpen": "ainda abertos",
+      "recentUsers": "Novos utilizadores",
+      "recentCases": "Casos recentes"
+    },
+    "users": {
+      "title": "Utilizadores",
+      "since": "Desde",
+      "caseSuffix": "caso",
+      "casesSuffix": "casos",
+      "grantCredits": "Atribuir",
+      "grantLoading": "A guardar…",
+      "grantError": "Erro ao atribuir créditos",
+      "changeRole": "Alterar função:",
+      "creditsFor": "Créditos para",
+      "subscription": "Subscrição",
+      "noSubscription": "Sem subscrição ativa",
+      "subscriptionUntil": "até",
+      "subscriptionCancels": "cancela no fim do período",
+      "noCases": "Sem casos.",
+      "ledger": "Pagamentos / Créditos"
+    },
+    "cases": {
+      "filterAll": "Todos",
+      "filterOpen": "Abertos",
+      "filterSubmitted": "Submetidos",
+      "filterClosed": "Fechados",
+      "noneFound": "Nenhum caso nesta categoria.",
+      "deadline": "Prazo"
+    },
+    "pricing": {
+      "loading": "A carregar planos de preços…",
+      "noPlansHint": "Nenhum plano de preços na base de dados.",
+      "recommended": "Recomendado",
+      "inactive": "Inativo",
+      "group": "Grupo",
+      "once": "Único",
+      "monthly": "Mensal",
+      "annual": "Anual",
+      "active": "Ativo",
+      "standard": "Standard",
+      "features": "Funcionalidades"
+    },
+    "emails": {
+      "devWarning": "Modo de desenvolvimento ativo — todos os e-mails enviados terão o prefixo DEV - no assunto.",
+      "trigger": "Gatilho",
+      "subject": "Assunto",
+      "variables": "Variáveis",
+      "ttl": "Validade",
+      "templates": {
+        "verification": "Código de verificação",
+        "verificationTrigger": "O utilizador regista-se",
+        "verificationSubject": "O seu código de verificação — TaxaLex",
+        "welcome": "E-mail de boas-vindas",
+        "welcomeTrigger": "E-mail verificado",
+        "welcomeSubject": "Bem-vindo ao TaxaLex — {name}",
+        "passwordReset": "Redefinição de palavra-passe",
+        "passwordResetTrigger": "Palavra-passe esquecida",
+        "passwordResetSubject": "Redefina a sua palavra-passe — TaxaLex"
+      }
+    },
+    "system": {
+      "title": "Estado do sistema",
+      "environment": "Ambiente",
+      "dev": "Desenvolvimento",
+      "prod": "Produção",
+      "database": "Base de dados",
+      "ai": "IA (Anthropic)",
+      "stripe": "Pagamentos (Stripe)",
+      "emailService": "E-mails (Brevo)",
+      "ok": "OK",
+      "notConfigured": "Não configurado",
+      "services": {
+        "anthropic": "Anthropic (Claude)",
+        "anthropicNote": "Obrigatório — a aplicação não arranca sem esta chave",
+        "google": "Google AI (Gemini)",
+        "googleNote": "Opcional — para agentes Gemini",
+        "perplexity": "Perplexity (Sonar)",
+        "perplexityNote": "Opcional — para o agente de verificação de factos",
+        "stripe": "Stripe",
+        "stripeNote": "Opcional — para pagamentos",
+        "brevo": "Brevo (E-mail)",
+        "brevoNote": "Opcional — e-mails suprimidos sem chave",
+        "s3": "S3 (Armazenamento de ficheiros)",
+        "s3Note": "Opcional — para carregamento de documentos"
+      }
+    },
+    "content": {
+      "title": "Conteúdo da base de dados",
+      "useCases": "Casos de uso",
+      "faqs": "Perguntas frequentes",
+      "pricingPlans": "Planos de preços",
+      "edit": "Editar (em breve)"
+    }
   },
   "cookies": {
     "banner": {
       "title": "Definições de cookies",
-      "description": "Utilizamos cookies para análise e uma melhor experiência do utilizador.",
+      "description": "Utilizamos cookies para análise e uma melhor experiência do utilizador. Pode alterar as suas preferências a qualquer momento.",
       "acceptAll": "Aceitar todos",
       "acceptNecessary": "Apenas necessários",
       "manage": "Definições",
@@ -760,56 +752,56 @@
     "types": {
       "necessary": {
         "title": "Cookies necessários",
-        "description": "Necessários para o funcionamento do site."
+        "description": "Necessários para o funcionamento do site. Não podem ser desativados."
       },
       "analytics": {
         "title": "Cookies analíticos",
-        "description": "Google Analytics e PostHog."
+        "description": "Google Analytics e PostHog — ajudam-nos a melhorar o site."
       },
       "marketing": {
         "title": "Cookies de marketing",
-        "description": "Publicidade personalizada."
+        "description": "Publicidade personalizada e retargeting."
       }
     }
   },
   "wizard": {
     "steps": {
-      "upload": "Upload",
-      "questions": "Questions",
-      "generating": "AI Analysis",
-      "result": "Result"
+      "upload": "Carregar",
+      "questions": "Perguntas",
+      "generating": "Análise de IA",
+      "result": "Resultado"
     },
     "upload": {
-      "title": "Upload your notice",
-      "subtitle": "Upload your administrative decision and any supporting documents",
-      "dropzone": "Select files",
-      "dropzoneHint": "PDF, DOCX, TXT or images",
-      "analyze": "Analyse documents"
+      "title": "Carregue a sua notificação",
+      "subtitle": "Carregue a sua decisão administrativa e quaisquer documentos de suporte",
+      "dropzone": "Selecionar ficheiros",
+      "dropzoneHint": "PDF, DOCX, TXT ou imagens",
+      "analyze": "Analisar documentos"
     },
     "questions": {
-      "title": "Follow-up questions",
-      "subtitle": "Please answer these questions to optimise your objection letter",
-      "detectedData": "Detected data",
-      "finanzamt": "Tax office",
-      "nachzahlung": "Amount due",
-      "generate": "Generate objection letter"
+      "title": "Perguntas adicionais",
+      "subtitle": "Por favor responda a estas perguntas para otimizar a sua carta de recurso",
+      "detectedData": "Dados detetados",
+      "finanzamt": "Repartição de finanças",
+      "nachzahlung": "Montante em dívida",
+      "generate": "Gerar carta de recurso"
     },
     "generating": {
-      "title": "Multi-AI analysis running...",
+      "title": "Análise multi-IA em curso...",
       "agents": {
-        "drafter": "Drafting letter... (Claude)",
-        "reviewer": "Reviewing for errors... (Gemini)",
-        "factchecker": "Fact-checking legal citations... (Perplexity)",
-        "adversary": "Authority perspective check... (Claude)",
-        "consolidator": "Consolidating final version... (Claude)"
+        "drafter": "A redigir a carta... (Claude)",
+        "reviewer": "A rever erros... (Gemini)",
+        "factchecker": "A verificar citações legais... (Perplexity)",
+        "adversary": "A verificar perspetiva da autoridade... (Claude)",
+        "consolidator": "A consolidar versão final... (Claude)"
       }
     },
     "result": {
-      "title": "Objection letter ready",
-      "subtitle": "Reviewed by {count} AI agents",
-      "agentLog": "AI Agent Log",
-      "outputLanguageWarning": "This document was generated in {language}. The German version is required for submission to German authorities.",
-      "downloadTxt": "Download as TXT"
+      "title": "Carta de recurso pronta",
+      "subtitle": "Revista por {count} agentes de IA",
+      "agentLog": "Registo de agentes de IA",
+      "outputLanguageWarning": "Este documento foi gerado em {language}. A versão em alemão é obrigatória para submissão às autoridades alemãs.",
+      "downloadTxt": "Descarregar como TXT"
     }
   },
   "outputLanguage": {
@@ -817,36 +809,45 @@
     "hint": "O recurso é gerado em alemão por defeito (obrigatório para as autoridades alemãs).",
     "nonGermanWarning": "Apenas para revisão — a carta deve estar em alemão para submissão oficial."
   },
+  "errors": {
+    "noFiles": "Por favor carregue pelo menos um ficheiro",
+    "analyzeFailed": "Análise falhou. Por favor tente novamente.",
+    "generateFailed": "Geração falhou. Por favor tente novamente.",
+    "missingDescheid": "Dados da notificação em falta",
+    "unauthorized": "Não autorizado",
+    "notFound": "Página não encontrada",
+    "serverError": "Erro do servidor. Por favor tente mais tarde."
+  },
   "chatbot": {
-    "sectionLabel": "Why not just use an AI chatbot?",
-    "sectionHeading": "Quality comes from process — not a single prompt.",
-    "sectionSub": "A general AI assistant can read your notice — but AI systems are known to hallucinate legal sources and miss domain-specific questions. TaxaLex uses five specialized agents that check each other's work.",
-    "genericTitle": "Generic AI assistant",
-    "genericSub": "One prompt → one unverified draft",
-    "generic1": "Generates one draft without any automatic cross-checking or self-review",
-    "generic2": "Does not know which domain-specific legal questions to ask — you need to prompt them",
-    "generic3": "Can hallucinate legal citations and case references — errors go undetected without verification",
-    "generic4": "No perspective test: \"How would the authority counter this argument?\"",
-    "generic5": "No automatic deadline calculation from the document",
-    "generic6": "Output quality and completeness depend heavily on how the prompt is written",
-    "taxalexLabel": "✦ 5-agent pipeline",
-    "taxalexSub": "Automated expert cross-examination",
-    "agentDrafter": "Creates the initial objection using legal domain knowledge (§ AO, § SGG, § BGB, § KSchG)",
-    "agentReviewer": "Checks legal correctness, deadline compliance, and formal requirements",
-    "agentFactChecker": "Verifies cited legal sources and rulings via live search — flags inaccuracies before they reach the final draft",
-    "agentAdversary": "Reviews the draft from the authority's perspective — to identify and address weak points",
-    "agentConsolidator": "Combines all reviews into one structured, clearly reasoned final letter",
-    "ctaText": "See how it works — try the interactive demo, no registration required.",
-    "ctaButton": "Try the demo"
+    "sectionLabel": "Porque não usar simplesmente um chatbot de IA?",
+    "sectionHeading": "A qualidade vem do processo — não de um único pedido.",
+    "sectionSub": "Um assistente de IA genérico pode ler a sua notificação — mas os sistemas de IA são conhecidos por inventar fontes legais e ignorar questões específicas do domínio. O TaxaLex utiliza cinco agentes especializados que verificam o trabalho uns dos outros.",
+    "genericTitle": "Assistente de IA genérico",
+    "genericSub": "Um pedido → um rascunho não verificado",
+    "generic1": "Gera um único rascunho sem qualquer verificação cruzada automática ou autoavaliação",
+    "generic2": "Não sabe quais as questões jurídicas específicas do domínio a colocar — tem de as indicar",
+    "generic3": "Pode inventar citações legais e referências de processos — os erros passam despercebidos sem verificação",
+    "generic4": "Sem teste de perspetiva: \"Como é que a autoridade contrariaria este argumento?\"",
+    "generic5": "Sem cálculo automático de prazos a partir do documento",
+    "generic6": "A qualidade e completude do resultado dependem muito da forma como o pedido é formulado",
+    "taxalexLabel": "✦ Pipeline de 5 agentes",
+    "taxalexSub": "Exame cruzado automatizado por especialistas",
+    "agentDrafter": "Cria o recurso inicial com base no conhecimento jurídico do domínio (§ AO, § SGG, § BGB, § KSchG)",
+    "agentReviewer": "Verifica a correção jurídica, o cumprimento de prazos e os requisitos formais",
+    "agentFactChecker": "Verifica fontes legais e decisões citadas através de pesquisa em tempo real — assinala imprecisões antes de chegarem ao rascunho final",
+    "agentAdversary": "Analisa o rascunho da perspetiva da autoridade — para identificar e tratar pontos fracos",
+    "agentConsolidator": "Combina todas as revisões numa carta final estruturada e claramente fundamentada",
+    "ctaText": "Veja como funciona — experimente a demo interativa, sem registo necessário.",
+    "ctaButton": "Experimentar a demo"
   },
   "templates": {
-    "sectionLabel": "Free templates",
-    "sectionHeading": "16 ready-to-use legal templates",
-    "description": "Download blank templates for the most common objections in Germany — tax, Jobcenter, rent, employment and more. Or fill them online with AI in minutes.",
-    "cta": "Browse all templates",
-    "name1": "Tax Assessment",
-    "name2": "Jobcenter Rejection",
-    "name3": "Rent Increase",
-    "name4": "Dismissal Notice"
+    "sectionLabel": "Modelos gratuitos",
+    "sectionHeading": "16 modelos jurídicos prontos a usar",
+    "description": "Descarregue modelos em branco para os recursos mais comuns na Alemanha — fiscal, Jobcenter, arrendamento, laboral e mais. Ou preencha-os online com IA em minutos.",
+    "cta": "Ver todos os modelos",
+    "name1": "Liquidação fiscal",
+    "name2": "Recusa do Jobcenter",
+    "name3": "Aumento de renda",
+    "name4": "Aviso de despedimento"
   }
 }

@@ -63,203 +63,203 @@
   "hero": {
     "groups": {
       "individual": {
-        "headline": "Received a German notice? Appeal it in minutes.",
-        "sub": "TaxaLex analyses your administrative decision with 5 AI agents and drafts a legally grounded objection letter – no lawyer needed.",
-        "cta": "Get started for free"
+        "headline": "تلقّيت إشعاراً ألمانياً؟ اعترض عليه في دقائق.",
+        "sub": "يحلّل TaxaLex قرارك الإداري بواسطة 5 وكلاء ذكاء اصطناعي ويصيغ خطاب اعتراض مدعوماً قانونياً — دون الحاجة إلى محامٍ.",
+        "cta": "ابدأ مجاناً"
       },
       "selfemployed": {
-        "headline": "Tax bill? Appeal it – without a lawyer.",
-        "sub": "For freelancers and self-employed: AI-powered objection letters against tax assessments in under 5 minutes.",
-        "cta": "Appeal now"
+        "headline": "فاتورة ضريبية؟ اعترض عليها — دون محامٍ.",
+        "sub": "للعاملين لحسابهم الخاص والمستقلين: خطابات اعتراض مدعومة بالذكاء الاصطناعي ضد تقديرات الضريبة في أقل من 5 دقائق.",
+        "cta": "اعترض الآن"
       },
       "expat": {
-        "headline": "German notice? Appeal it in minutes – in your language.",
-        "sub": "TaxaLex helps expats navigate German bureaucracy. Upload your notice, answer a few questions, get a professional objection letter.",
-        "cta": "Start for free"
+        "headline": "إشعار ألماني؟ اعترض عليه في دقائق — بلغتك.",
+        "sub": "يساعد TaxaLex المغتربين على التعامل مع البيروقراطية الألمانية. ارفع إشعارك، أجب على بعض الأسئلة، واحصل على خطاب اعتراض احترافي.",
+        "cta": "ابدأ مجاناً"
       },
       "advisor": {
-        "headline": "More clients. Less effort.",
-        "sub": "TaxaLex supports tax advisors and lawyers in quickly drafting objection letters for their clients.",
-        "cta": "Request advisor demo"
+        "headline": "مزيد من العملاء. أقل جهد.",
+        "sub": "يدعم TaxaLex المستشارين الضريبيين والمحامين في صياغة خطابات الاعتراض لعملائهم بسرعة.",
+        "cta": "طلب عرض تجريبي للمستشار"
       }
     },
     "tabs": {
-      "individual": "Individual",
-      "selfemployed": "Self-employed",
-      "expat": "Expat",
-      "advisor": "Tax advisor"
+      "individual": "فرد",
+      "selfemployed": "عامل مستقل",
+      "expat": "مغترب",
+      "advisor": "مستشار ضريبي"
     },
-    "badge": "AI-powered · GDPR-compliant · EU servers",
-    "disclaimer": "AI-generated drafts. Not legal advice."
+    "badge": "مدعوم بالذكاء الاصطناعي · متوافق مع اللائحة العامة لحماية البيانات (GDPR) · خوادم أوروبية",
+    "disclaimer": "مسودات مُنشأة بالذكاء الاصطناعي. ليست استشارة قانونية."
   },
   "howItWorks": {
-    "title": "How it works",
-    "subtitle": "Three steps to your finished objection letter",
+    "title": "كيف يعمل",
+    "subtitle": "ثلاث خطوات للحصول على خطاب اعتراض جاهز",
     "steps": {
       "upload": {
         "number": "1",
-        "title": "Upload your notice",
-        "description": "Upload your notice as PDF, photo, or DOCX. Our OCR automatically detects all relevant data.",
-        "detail": "Supported formats: PDF, JPG, PNG, DOCX, TXT (max. 10 MB)"
+        "title": "رفع الإشعار",
+        "description": "ارفع إشعارك بصيغة PDF أو صورة أو DOCX. يكتشف OCR جميع البيانات ذات الصلة تلقائياً.",
+        "detail": "الصيغ المدعومة: PDF، JPG، PNG، DOCX، TXT (بحد أقصى 10 ميغابايت)"
       },
       "analyze": {
         "number": "2",
-        "title": "AI analysis",
-        "description": "Five specialised AI agents review your notice: drafting, error-checking, fact-checking, counter-perspective, and consolidation.",
-        "detail": "Claude · Gemini · Perplexity – all models work in parallel"
+        "title": "تحليل الذكاء الاصطناعي",
+        "description": "يراجع خمسة وكلاء ذكاء اصطناعي متخصصون إشعارك: الصياغة والتدقيق في الأخطاء والتحقق من الوقائع وفحص المنظور المضاد والتوحيد النهائي.",
+        "detail": "Claude · Gemini · Perplexity — جميع النماذج تعمل بالتوازي"
       },
       "download": {
         "number": "3",
-        "title": "Download & submit",
-        "description": "Download your finished objection letter as DOCX or TXT and submit it directly to the relevant authority.",
-        "detail": "Note: AI-generated draft, not legal advice. Review before submission."
+        "title": "تنزيل وتقديم",
+        "description": "نزّل خطاب الاعتراض الجاهز بصيغة DOCX أو TXT وقدّمه مباشرةً إلى الجهة المعنية.",
+        "detail": "ملاحظة: مسودة مُنشأة بالذكاء الاصطناعي، ليست استشارة قانونية. راجعها قبل التقديم."
       }
     },
-    "sectionHeading": "From notice to objection — in 3 steps"
+    "sectionHeading": "من الإشعار إلى الاعتراض — في 3 خطوات"
   },
   "useCases": {
-    "title": "Which notice do you want to appeal?",
-    "subtitle": "Select the type of administrative decision",
-    "tax": "Tax assessment",
+    "title": "أيّ إشعار تريد الاعتراض عليه؟",
+    "subtitle": "اختر نوع القرار الإداري",
+    "tax": "تقدير الضريبة",
     "jobcenter": "Jobcenter / Bürgergeld",
-    "rente": "Pension notice",
-    "bussgeld": "Fine / penalty notice",
-    "bussgeldd": "Fine / penalty notice",
-    "krankenversicherung": "Health insurance rejection",
-    "kuendigung": "Employment termination",
-    "miete": "Rent increase / deposit",
-    "grundsteuer": "Property tax (Grundsteuer)",
-    "sectionTitle": "8 notice types – all covered",
-    "sectionSubtitle": "From tax assessments to fines: TaxaLex knows the relevant legal basis for all common administrative notices.",
-    "appeal": "Appeal this notice",
-    "deadline": "Deadline",
-    "days": "days",
-    "successRate": "Success rate",
-    "legalBasis": "Legal basis",
-    "expandDetails": "Show details",
-    "collapseDetails": "Hide details",
-    "sectionLabel": "Supported notice types"
+    "rente": "إشعار المعاش",
+    "bussgeld": "إشعار الغرامة / العقوبة",
+    "bussgeldd": "إشعار الغرامة / العقوبة",
+    "krankenversicherung": "رفض التأمين الصحي",
+    "kuendigung": "إنهاء عقد العمل",
+    "miete": "زيادة الإيجار / الوديعة",
+    "grundsteuer": "ضريبة العقارات (Grundsteuer)",
+    "sectionTitle": "8 أنواع من الإشعارات — جميعها مشمولة",
+    "sectionSubtitle": "من تقديرات الضريبة إلى الغرامات: يعرف TaxaLex الأساس القانوني لجميع الإشعارات الإدارية الشائعة.",
+    "appeal": "الاعتراض على هذا الإشعار",
+    "deadline": "الموعد النهائي",
+    "days": "أيام",
+    "successRate": "معدل النجاح",
+    "legalBasis": "الأساس القانوني",
+    "expandDetails": "إظهار التفاصيل",
+    "collapseDetails": "إخفاء التفاصيل",
+    "sectionLabel": "أنواع الإشعارات المدعومة"
   },
   "stats": {
-    "title": "Numbers that matter",
-    "subtitle": "Verified statistics from official sources",
-    "source": "Source",
+    "title": "أرقام ذات دلالة",
+    "subtitle": "إحصاءات موثّقة من مصادر رسمية",
+    "source": "المصدر",
     "items": {
       "objections": {
-        "value": "3.3M",
-        "label": "Tax objections filed per year in Germany"
+        "value": "3.3 مليون",
+        "label": "اعتراض ضريبي مُقدَّم سنوياً في ألمانيا"
       },
       "successRate": {
-        "value": "67 %",
-        "label": "Partial or full success rate"
+        "value": "67 %",
+        "label": "معدل النجاح الجزئي أو الكامل"
       },
       "deadline": {
-        "value": "30 days",
-        "label": "Legal deadline (§ 355 AO)"
+        "value": "30 يوماً",
+        "label": "الأجل القانوني (§ 355 AO)"
       },
       "speed": {
-        "value": "< 5 min",
-        "label": "Average generation time"
+        "value": "< 5 دقائق",
+        "label": "متوسط وقت الإنشاء"
       }
     },
-    "sectionLabel": "By the numbers",
-    "sectionHeading": "Facts, not promises",
-    "sourceInternal": "TaxaLex internal measurement"
+    "sectionLabel": "بالأرقام",
+    "sectionHeading": "حقائق لا وعود",
+    "sourceInternal": "قياس داخلي لـ TaxaLex"
   },
   "pricing": {
-    "title": "Transparent & fair",
-    "subtitle": "Choose the plan that fits your needs",
+    "title": "شفاف وعادل",
+    "subtitle": "اختر الخطة التي تناسب احتياجاتك",
     "tabs": {
-      "individual": "Individual",
-      "selfemployed": "Self-employed",
-      "advisor": "Tax advisor",
-      "lawyer": "Lawyer"
+      "individual": "فرد",
+      "selfemployed": "عامل مستقل",
+      "advisor": "مستشار ضريبي",
+      "lawyer": "محامٍ"
     },
-    "popular": "Popular",
-    "currentPlan": "Your current plan",
-    "perMonth": "/ month",
-    "perCase": "/ objection",
-    "perPack": "/ 5 objections",
-    "included": "Included",
-    "notIncluded": "Not included",
-    "upgrade": "Upgrade now",
-    "contact": "Contact us",
-    "choosePlan": "Choose plan",
-    "annualDiscount": "Pay annually – 2 months free",
-    "monthly": "Monthly",
-    "annual": "Annual",
-    "vatNote": "All prices excl. VAT.",
+    "popular": "الأكثر شيوعاً",
+    "currentPlan": "خطتك الحالية",
+    "perMonth": "/ شهر",
+    "perCase": "/ اعتراض",
+    "perPack": "/ 5 اعتراضات",
+    "included": "مشمول",
+    "notIncluded": "غير مشمول",
+    "upgrade": "ترقية الآن",
+    "contact": "تواصل معنا",
+    "choosePlan": "اختيار الخطة",
+    "annualDiscount": "ادفع سنوياً — شهران مجاناً",
+    "monthly": "شهري",
+    "annual": "سنوي",
+    "vatNote": "جميع الأسعار لا تشمل ضريبة القيمة المضافة.",
     "freeFeatures": {
-      "title": "Free plan",
-      "description": "1 objection per month"
+      "title": "الخطة المجانية",
+      "description": "اعتراض واحد شهرياً"
     },
-    "sectionLabel": "Pricing",
-    "sectionHeading": "Simple, transparent pricing",
-    "sectionSub": "Pay per case, or subscribe for unlimited access. No hidden fees.",
-    "viewAll": "View all plans including advisor & lawyer →"
+    "sectionLabel": "الأسعار",
+    "sectionHeading": "أسعار بسيطة وشفافة",
+    "sectionSub": "ادفع لكل قضية، أو اشترك للوصول غير المحدود. لا رسوم خفية.",
+    "viewAll": "عرض جميع الخطط بما فيها خطط المستشار والمحامي →"
   },
   "features": {
-    "title": "Why TaxaLex?",
-    "subtitle": "Four differentiating features that make the difference",
+    "title": "لماذا TaxaLex؟",
+    "subtitle": "أربع ميزات تجعل الفارق",
     "items": {
       "multiAi": {
-        "title": "5 AI agents in parallel",
-        "description": "Claude, Gemini and Perplexity review your objection from different perspectives – for maximum quality."
+        "title": "5 وكلاء ذكاء اصطناعي بالتوازي",
+        "description": "يراجع Claude وGemini وPerplexity اعتراضك من زوايا مختلفة — لضمان أعلى جودة."
       },
       "legal": {
-        "title": "Up-to-date legal references",
-        "description": "Perplexity researches current court rulings and administrative guidelines in real time for your specific case."
+        "title": "مراجع قانونية محدّثة",
+        "description": "يبحث Perplexity في الوقت الفعلي عن أحدث أحكام المحاكم والتوجيهات الإدارية لقضيتك تحديداً."
       },
       "multilingual": {
-        "title": "Multilingual",
-        "description": "Interface in 7 languages. The objection letter is always drafted in German – as required by authorities."
+        "title": "متعدد اللغات",
+        "description": "الواجهة بـ 7 لغات. يُصاغ خطاب الاعتراض دائماً باللغة الألمانية — كما تشترط السلطات الألمانية."
       },
       "privacy": {
-        "title": "GDPR & Privacy",
-        "description": "EU servers, encrypted transmission, no permanent storage of your documents without consent."
+        "title": "اللائحة العامة لحماية البيانات (GDPR) والخصوصية",
+        "description": "خوادم أوروبية، إرسال مشفّر، لا تخزين دائم لوثائقك دون موافقتك."
       }
     },
-    "sectionHeading": "Built for legal precision"
+    "sectionHeading": "مبني على الدقة القانونية"
   },
   "faq": {
-    "title": "Frequently asked questions",
-    "subtitle": "Everything you want to know about TaxaLex",
+    "title": "الأسئلة الشائعة",
+    "subtitle": "كل ما تريد معرفته عن TaxaLex",
     "categories": {
-      "all": "All",
-      "general": "General",
-      "legal": "Legal",
-      "pricing": "Pricing",
-      "technical": "Technical",
-      "advisor": "For advisors"
+      "all": "الكل",
+      "general": "عام",
+      "legal": "قانوني",
+      "pricing": "الأسعار",
+      "technical": "تقني",
+      "advisor": "للمستشارين"
     }
   },
   "trust": {
-    "title": "Security & Privacy",
-    "gdpr": "GDPR-compliant",
-    "euServers": "EU servers",
-    "encrypted": "Encrypted",
-    "rdgNote": "Not legal advice",
-    "disclaimer": "TaxaLex creates AI-generated drafts for objection letters. This does not constitute legal advice within the meaning of the German Legal Services Act (RDG). Before submission, you should review the draft and consult a tax advisor or lawyer for complex matters.",
+    "title": "الأمان والخصوصية",
+    "gdpr": "متوافق مع اللائحة العامة لحماية البيانات (GDPR)",
+    "euServers": "خوادم أوروبية",
+    "encrypted": "مشفَّر",
+    "rdgNote": "ليست استشارة قانونية",
+    "disclaimer": "ينشئ TaxaLex مسودات خطابات اعتراض بالذكاء الاصطناعي. لا يُعدّ ذلك استشارة قانونية بالمعنى المقصود في قانون الخدمات القانونية الألماني (RDG). قبل التقديم، يجب مراجعة المسودة واستشارة مستشار ضريبي أو محامٍ في القضايا المعقدة.",
     "badges": {
-      "dsgvo": "GDPR-compliant",
-      "eu": "EU servers (Frankfurt)",
-      "ssl": "SSL-encrypted",
-      "rdg": "Not legal advice (RDG)"
+      "dsgvo": "متوافق مع اللائحة العامة لحماية البيانات (GDPR)",
+      "eu": "خوادم أوروبية (فرانكفورت)",
+      "ssl": "مشفَّر بـ SSL",
+      "rdg": "ليست استشارة قانونية (RDG)"
     },
-    "legalHeading": "Legal notice",
-    "gdprDetail": "Data in the EU",
-    "euServersDetail": "Hetzner, Germany",
+    "legalHeading": "إشعار قانوني",
+    "gdprDetail": "البيانات داخل الاتحاد الأوروبي",
+    "euServersDetail": "Hetzner، ألمانيا",
     "encryptedDetail": "TLS 1.3 + AES-256",
-    "rdgDetail": "AI-generated draft"
+    "rdgDetail": "مسودة مُنشأة بالذكاء الاصطناعي"
   },
   "footer": {
-    "tagline": "AI-generated drafts. Not legal advice.",
-    "allRightsReserved": "All rights reserved.",
+    "tagline": "مسودات مُنشأة بالذكاء الاصطناعي. ليست استشارة قانونية.",
+    "allRightsReserved": "جميع الحقوق محفوظة.",
     "columns": {
-      "product": "Product",
-      "company": "Company",
-      "support": "Support",
-      "legal": "Legal"
+      "product": "المنتج",
+      "company": "الشركة",
+      "support": "الدعم",
+      "legal": "القانونية"
     }
   },
   "auth": {
@@ -280,14 +280,14 @@
         "advisor": "مستشار ضريبي",
         "lawyer": "محامٍ"
       },
-      "errorInvalid": "Invalid email or password.",
-      "successRegistered": "Account created. Please sign in.",
-      "successVerified": "Email confirmed. You can now sign in.",
-      "errorInvalidToken": "The confirmation link is invalid or expired. Please request a new one.",
-      "showPassword": "Show password",
-      "hidePassword": "Hide password",
-      "withGoogle": "Sign in with Google",
-      "demoAvailable": "Demo accounts (5 available)"
+      "errorInvalid": "البريد الإلكتروني أو كلمة المرور غير صحيحة.",
+      "successRegistered": "تم إنشاء الحساب. يرجى تسجيل الدخول.",
+      "successVerified": "تم تأكيد البريد الإلكتروني. يمكنك الآن تسجيل الدخول.",
+      "errorInvalidToken": "رابط التأكيد غير صالح أو منتهي الصلاحية. يرجى طلب رابط جديد.",
+      "showPassword": "إظهار كلمة المرور",
+      "hidePassword": "إخفاء كلمة المرور",
+      "withGoogle": "تسجيل الدخول بواسطة Google",
+      "demoAvailable": "حسابات تجريبية (5 متاحة)"
     },
     "register": {
       "title": "إنشاء حساب",
@@ -309,67 +309,67 @@
         "strong": "قوية"
       },
       "types": {
-        "individual": "Individual",
+        "individual": "فرد",
         "selfemployed": "عامل مستقل",
         "advisor": "مستشار ضريبي",
         "lawyer": "محامٍ",
-        "expert": "Expert"
+        "expert": "خبير"
       },
       "benefits": {
         "individual": [
-          "5 AI agents analyse your notice and draft a legally grounded objection",
-          "8 notice types covered: tax, Jobcenter, pension, fines, rent and more",
-          "Finished letter ready to send — download as DOCX or TXT in minutes"
+          "5 وكلاء ذكاء اصطناعي يحللون إشعارك ويصيغون اعتراضاً مدعوماً قانونياً",
+          "8 أنواع من الإشعارات مشمولة: ضريبة، Jobcenter، معاش، غرامات، إيجار والمزيد",
+          "خطاب جاهز للإرسال — نزّله بصيغة DOCX أو TXT في دقائق"
         ],
         "selfemployed": [
-          "Appeal tax assessments, VAT notices, and trade office decisions",
-          "5 AI agents draft your objection — no legal knowledge required",
-          "Finished letter in minutes — download and send directly"
+          "اعترض على تقديرات الضريبة وإشعارات ضريبة القيمة المضافة وقرارات مكاتب التجارة",
+          "5 وكلاء ذكاء اصطناعي يصيغون اعتراضك — لا خبرة قانونية مطلوبة",
+          "خطاب جاهز في دقائق — نزّله وأرسله مباشرةً"
         ],
         "advisor": [
-          "Review AI-prepared client drafts and accept or decline with one click",
-          "Annotate specific sections and request clarifications — no email back-and-forth",
-          "Full case packet per client: extracted facts, AI analysis, and viability score"
+          "راجع المسودات المُعدَّة بالذكاء الاصطناعي لعملائك واقبلها أو ارفضها بنقرة واحدة",
+          "علّق على أقسام بعينها واطلب توضيحات — دون تبادل رسائل بريد إلكتروني",
+          "ملف قضية متكامل لكل عميل: حقائق مستخرجة وتحليل ذكاء اصطناعي ودرجة قابلية النجاح"
         ],
         "lawyer": [
-          "Review objections across all legal areas: tax, employment, rent, social law",
-          "Annotate draft sections and resolve client questions in one threaded view",
-          "Structured handoff with extracted facts and AI viability assessment per case"
+          "راجع الاعتراضات عبر جميع المجالات القانونية: ضريبة، عمل، إيجار، قانون اجتماعي",
+          "علّق على أقسام المسودة وحلّ استفسارات العملاء في عرض موحّد",
+          "تسليم منظّم مع حقائق مستخرجة وتقييم ذكاء اصطناعي لقابلية النجاح لكل قضية"
         ],
         "expert": [
-          "Review AI-prepared client drafts, annotate sections, and approve with one click",
-          "Broadcast assignment: new case in your area — first to accept gets it",
-          "Structured handoff packet with extracted facts, AI analysis, and viability score"
+          "راجع المسودات المُعدَّة بالذكاء الاصطناعي، علّق على الأقسام، واعتمدها بنقرة واحدة",
+          "إسناد بث: قضية جديدة في مجال اختصاصك — أول من يقبلها يتولاها",
+          "ملف تسليم منظّم مع حقائق مستخرجة وتحليل ذكاء اصطناعي ودرجة قابلية النجاح"
         ]
       },
-      "iAm": "I am…",
+      "iAm": "أنا...",
       "sublabels": {
-        "individual": "Appeal notices",
-        "advisor": "Manage clients",
-        "lawyer": "Represent clients",
-        "expert": "Manage clients"
+        "individual": "الاعتراض على الإشعارات",
+        "advisor": "إدارة العملاء",
+        "lawyer": "تمثيل العملاء",
+        "expert": "إدارة العملاء"
       },
-      "registerFree": "Register for free",
-      "passwordStrengthLabel": "Password strength:",
-      "passwordMinLength": "Min. {n} characters",
-      "errorFailed": "Registration failed.",
-      "practiceAreasLabel": "My practice areas",
+      "registerFree": "سجّل مجاناً",
+      "passwordStrengthLabel": "قوة كلمة المرور:",
+      "passwordMinLength": "الحد الأدنى {n} أحرف",
+      "errorFailed": "فشل التسجيل.",
+      "practiceAreasLabel": "مجالات ممارستي",
       "practiceAreas": {
-        "tax": "Tax law",
-        "legal": "General law"
+        "tax": "القانون الضريبي",
+        "legal": "القانون العام"
       },
-      "practiceAreasMin": "Please select at least one practice area.",
-      "practiceAreasSelfCert": "By selecting, you confirm you are licensed to practise in the chosen areas."
+      "practiceAreasMin": "يرجى اختيار مجال ممارسة واحد على الأقل.",
+      "practiceAreasSelfCert": "باختيارك، تؤكد أنك مرخَّص للممارسة في المجالات المختارة."
     },
     "layout": {
-      "backToHome": "Back to home",
-      "trusted": "Trusted by German taxpayers",
-      "headline": "Respond to German official notices — structured and clearly reasoned.",
-      "description": "5 specialized AI agents draft, cross-check, and improve your objection letter — in under 5 minutes.",
-      "trustDraft": "Draft ready in under 5 minutes",
-      "trustDemo": "Interactive demo — no registration required",
-      "trustGdpr": "GDPR-compliant · EU servers · Encrypted",
-      "privacy": "Privacy"
+      "backToHome": "العودة إلى الرئيسية",
+      "trusted": "موثوق به من دافعي الضرائب الألمان",
+      "headline": "استجب للإشعارات الرسمية الألمانية — بصورة منظّمة ومدللة بالحجج.",
+      "description": "5 وكلاء ذكاء اصطناعي متخصصون يصيغون اعتراضك ويتحقق بعضهم من عمل الآخر ويحسّنونه — في أقل من 5 دقائق.",
+      "trustDraft": "المسودة جاهزة في أقل من 5 دقائق",
+      "trustDemo": "عرض تجريبي تفاعلي — لا يلزم تسجيل",
+      "trustGdpr": "متوافق مع اللائحة العامة لحماية البيانات (GDPR) · خوادم أوروبية · مشفَّر",
+      "privacy": "الخصوصية"
     }
   },
   "dashboard": {
@@ -473,13 +473,13 @@
     "templatesDesc": "نماذج مجانية للتنزيل والتخصيص",
     "templatesViewAll": "عرض الكل",
     "templatesFree": "مجاني",
-    "templatesUseAI": "يفضل استخدام الذكاء الاصطناعي – أنشئ طعناً في 5 دقائق",
+    "templatesUseAI": "يفضل استخدام الذكاء الاصطناعي — أنشئ طعناً في 5 دقائق",
     "plansTitle": "الخطط والأسعار",
     "plansViewAll": "جميع التفاصيل",
     "settingsTitle": "الحساب والإعدادات",
     "emailVerified": "تم تأكيد البريد الإلكتروني",
     "emailNotVerified": "البريد الإلكتروني غير مؤكد",
-    "emailNotVerifiedHint": "يرجى تأكيد عنوان بريدك الإلكتروني. تحقق من صندوق الوارد.",
+    "emailNotVerifiedHint": "يرجى تأكيد عنوان بريدك الإلكتروني. تحقق من صندوق الوارد للحصول على رابط التأكيد.",
     "accountType": "نوع الحساب",
     "password": "كلمة المرور",
     "twoFactor": "المصادقة الثنائية (2FA)",
@@ -492,7 +492,7 @@
     },
     "billingManage": "إدارة المدفوعات والخطة",
     "billingManageDesc": "الفواتير، الترقية، شراء الحزم",
-    "gdprTitle": "حماية البيانات (GDPR)",
+    "gdprTitle": "حماية البيانات — اللائحة العامة لحماية البيانات (GDPR)",
     "gdprNote": "تصدير البيانات قريباً. حذف الحساب فوري ولا يمكن التراجع عنه.",
     "exportData": "تصدير البيانات",
     "languageLabel": "اللغة",
@@ -500,7 +500,121 @@
     "statCredits": "الرصيد",
     "statPlan": "الخطة الحالية",
     "planFree": "مجاني",
-    "planPro": "Pro"
+    "planPro": "Pro",
+    "billing": "الفواتير"
+  },
+  "advisor": {
+    "dashboard": {
+      "title": "لوحة المستشار",
+      "clients": "العملاء",
+      "activeAppeals": "الطعون النشطة",
+      "submittedAppeals": "الطعون المُقدَّمة",
+      "recentActivity": "النشاط الأخير",
+      "quickActions": "وصول سريع",
+      "addClient": "إضافة عميل",
+      "newAppeal": "طعن جديد"
+    },
+    "clients": {
+      "title": "العملاء",
+      "subtitle": "إدارة عملائك",
+      "search": "البحث عن عملاء...",
+      "add": "إضافة عميل",
+      "name": "الاسم",
+      "email": "البريد الإلكتروني",
+      "cases": "القضايا",
+      "lastActive": "آخر نشاط",
+      "actions": "الإجراءات",
+      "noClients": "لا يوجد عملاء",
+      "modal": {
+        "title": "إضافة عميل",
+        "name": "اسم العميل",
+        "email": "عنوان البريد الإلكتروني",
+        "submit": "إضافة"
+      }
+    },
+    "appeals": {
+      "title": "جميع الطعون",
+      "subtitle": "طعون جميع عملائك",
+      "client": "العميل",
+      "type": "النوع",
+      "status": "الحالة",
+      "createdAt": "تاريخ الإنشاء"
+    },
+    "billing": {
+      "title": "الفواتير",
+      "plan": "خطة المستشار الخاصة بك",
+      "usage": "العملاء والطعون"
+    },
+    "handoff": {
+      "title": "طلب مراجعة متخصصة",
+      "selectAdvisor": "اختيار المستشار",
+      "scope": {
+        "label": "نطاق التكليف",
+        "reviewOnly": "مراجعة فقط — سأقدّمه بنفسي",
+        "fullRepresentation": "التمثيل الكامل"
+      },
+      "clientNotes": "ملاحظات للمستشار (اختياري)",
+      "submit": "طلب المراجعة",
+      "submitted": "تم إرسال الطلب",
+      "broadcastInfo": "سيتم إخطار جميع الخبراء المتاحين في مجالك. أول من يقبل يتولى قضيتك.",
+      "withdrawButton": "سحب الطلب",
+      "withdrawReason": "سبب السحب",
+      "withdrawConfirm": "هل تريد فعلاً سحب هذا الطلب؟",
+      "expertArea": "مجال الممارسة",
+      "tax": "القانون الضريبي",
+      "legal": "القانون العام",
+      "expertsNotified": "تم إخطار {count} خبير(خبراء)",
+      "awaitingAcceptance": "في انتظار قبول أحد الخبراء..."
+    },
+    "assignment": {
+      "pending": "يستلزم قراراً",
+      "accepted": "قيد المراجعة",
+      "declined": "مرفوض",
+      "changesRequested": "أسئلة معلّقة",
+      "approved": "معتمد",
+      "finalized": "مكتمل",
+      "statuses": {
+        "SUPERSEDED": "تولّاه خبير آخر",
+        "WITHDRAWN": "سحبه العميل",
+        "EXPIRED": "انتهت صلاحيته (72 ساعة دون رد)"
+      }
+    },
+    "packet": {
+      "brief": "ملخص القضية",
+      "facts": "الحقائق",
+      "analysis": "تحليل الذكاء الاصطناعي",
+      "draft": "مسودة الاعتراض",
+      "clientContext": "معلومات العميل",
+      "coreArgument": "الحجة الجوهرية",
+      "evidenceGaps": "ثغرات الأدلة",
+      "counterarguments": "الحجج المضادة"
+    },
+    "viability": {
+      "high": "احتمالية نجاح عالية",
+      "medium": "احتمالية نجاح متوسطة",
+      "low": "احتمالية نجاح منخفضة"
+    },
+    "actions": {
+      "accept": "قبول القضية",
+      "decline": "رفض",
+      "finalize": "اعتماد وإنهاء",
+      "addAnnotation": "طرح سؤال",
+      "resolveAnnotation": "تحديد كمحلول",
+      "replyToAnnotation": "الرد",
+      "submitReply": "إرسال الرد"
+    },
+    "annotation": {
+      "aiPreFill": "اقتراح الذكاء الاصطناعي من وثائقك:",
+      "open": "مفتوح",
+      "answered": "تمت الإجابة",
+      "resolved": "محلول"
+    },
+    "decline": {
+      "title": "رفض القضية",
+      "reason": "سبب الرفض",
+      "reasonPlaceholder": "يرجى تقديم سبب...",
+      "confirm": "تأكيد الرفض"
+    }
   },
   "admin": {
     "title": "لوحة الإدارة",
@@ -546,12 +660,12 @@
       "grantError": "فشل منح الرصيد",
       "changeRole": "تغيير الدور:",
       "creditsFor": "رصيد لـ",
-      "subscription": "Subscription",
-      "noSubscription": "No active subscription",
-      "subscriptionUntil": "until",
-      "subscriptionCancels": "cancels at period end",
-      "noCases": "No cases yet.",
-      "ledger": "Payments / Credits"
+      "subscription": "الاشتراك",
+      "noSubscription": "لا يوجد اشتراك نشط",
+      "subscriptionUntil": "حتى",
+      "subscriptionCancels": "ينتهي عند نهاية الفترة",
+      "noCases": "لا توجد قضايا.",
+      "ledger": "المدفوعات / الرصيد"
     },
     "cases": {
       "filterAll": "الكل",
@@ -605,17 +719,17 @@
       "notConfigured": "غير مكوَّن",
       "services": {
         "anthropic": "Anthropic (Claude)",
-        "anthropicNote": "Required — app will not start without this key",
+        "anthropicNote": "مطلوب — لن يعمل التطبيق بدون هذا المفتاح",
         "google": "Google AI (Gemini)",
-        "googleNote": "Optional — for Gemini agents",
+        "googleNote": "اختياري — لوكلاء Gemini",
         "perplexity": "Perplexity (Sonar)",
-        "perplexityNote": "Optional — for fact-check agent",
+        "perplexityNote": "اختياري — لوكيل التحقق من الوقائع",
         "stripe": "Stripe",
-        "stripeNote": "Optional — for payments",
-        "brevo": "Brevo (Email)",
-        "brevoNote": "Optional — emails suppressed without key",
-        "s3": "S3 (File storage)",
-        "s3Note": "Optional — for document uploads"
+        "stripeNote": "اختياري — للمدفوعات",
+        "brevo": "Brevo (البريد الإلكتروني)",
+        "brevoNote": "اختياري — تُعطَّل رسائل البريد الإلكتروني بدون المفتاح",
+        "s3": "S3 (تخزين الملفات)",
+        "s3Note": "اختياري — لرفع المستندات"
       }
     },
     "content": {
@@ -626,118 +740,74 @@
       "edit": "تعديل (قريباً)"
     }
   },
-  "advisor": {
-    "dashboard": {
-      "title": "لوحة المستشار",
-      "clients": "العملاء",
-      "activeAppeals": "الطعون النشطة",
-      "submittedAppeals": "الطعون المُقدَّمة",
-      "recentActivity": "النشاط الأخير",
-      "quickActions": "وصول سريع",
-      "addClient": "إضافة عميل",
-      "newAppeal": "طعن جديد"
+  "cookies": {
+    "banner": {
+      "title": "إعدادات ملفات تعريف الارتباط",
+      "description": "نستخدم ملفات تعريف الارتباط للتحليل وتحسين تجربة المستخدم. يمكنك تغيير تفضيلاتك في أي وقت.",
+      "acceptAll": "قبول الكل",
+      "acceptNecessary": "الضرورية فقط",
+      "manage": "الإعدادات",
+      "learnMore": "معرفة المزيد"
     },
-    "clients": {
-      "title": "العملاء",
-      "subtitle": "إدارة عملائك",
-      "search": "البحث عن عملاء...",
-      "add": "إضافة عميل",
-      "name": "الاسم",
-      "email": "البريد الإلكتروني",
-      "cases": "القضايا",
-      "lastActive": "آخر نشاط",
-      "actions": "الإجراءات",
-      "noClients": "لا يوجد عملاء",
-      "modal": {
-        "title": "إضافة عميل",
-        "name": "اسم العميل",
-        "email": "عنوان البريد الإلكتروني",
-        "submit": "إضافة"
-      }
-    },
-    "appeals": {
-      "title": "جميع الطعون",
-      "subtitle": "طعون جميع عملائك",
-      "client": "العميل",
-      "type": "النوع",
-      "status": "الحالة",
-      "createdAt": "تاريخ الإنشاء"
-    },
-    "billing": {
-      "title": "الفواتير",
-      "plan": "خطة المستشار الخاصة بك",
-      "usage": "العملاء والطعون"
-    },
-    "handoff": {
-      "title": "Request Professional Review",
-      "selectAdvisor": "Select Advisor",
-      "scope": {
-        "label": "Scope of engagement",
-        "reviewOnly": "Review only",
-        "fullRepresentation": "Full representation"
+    "types": {
+      "necessary": {
+        "title": "ملفات تعريف الارتباط الضرورية",
+        "description": "مطلوبة لتشغيل الموقع. لا يمكن تعطيلها."
       },
-      "clientNotes": "Notes for the advisor (optional)",
-      "submit": "Request review",
-      "submitted": "Request sent",
-      "broadcastInfo": "All available experts in your area will be notified. The first to accept handles your case.",
-      "withdrawButton": "Withdraw request",
-      "withdrawReason": "Reason for withdrawal",
-      "withdrawConfirm": "Really withdraw this request?",
-      "expertArea": "Practice area",
-      "tax": "Tax law",
-      "legal": "General law",
-      "expertsNotified": "{count} expert(s) notified",
-      "awaitingAcceptance": "Waiting for an expert to accept..."
+      "analytics": {
+        "title": "ملفات تعريف الارتباط التحليلية",
+        "description": "Google Analytics وPostHog — تساعدنا على تحسين الموقع."
+      },
+      "marketing": {
+        "title": "ملفات تعريف الارتباط التسويقية",
+        "description": "إعلانات مخصصة وإعادة استهداف."
+      }
+    }
+  },
+  "wizard": {
+    "steps": {
+      "upload": "الرفع",
+      "questions": "الأسئلة",
+      "generating": "تحليل الذكاء الاصطناعي",
+      "result": "النتيجة"
     },
-    "assignment": {
-      "pending": "Decision required",
-      "accepted": "Under review",
-      "declined": "Declined",
-      "changesRequested": "Questions pending",
-      "approved": "Approved",
-      "finalized": "Finalized",
-      "statuses": {
-        "SUPERSEDED": "Taken by another expert",
-        "WITHDRAWN": "Withdrawn by client",
-        "EXPIRED": "Expired (72h without response)"
+    "upload": {
+      "title": "ارفع إشعارك",
+      "subtitle": "ارفع قرارك الإداري وأي مستندات داعمة",
+      "dropzone": "اختيار الملفات",
+      "dropzoneHint": "PDF، DOCX، TXT أو صور",
+      "analyze": "تحليل المستندات"
+    },
+    "questions": {
+      "title": "أسئلة متابعة",
+      "subtitle": "يرجى الإجابة على هذه الأسئلة لتحسين خطاب اعتراضك",
+      "detectedData": "البيانات المكتشفة",
+      "finanzamt": "مكتب الضرائب (Finanzamt)",
+      "nachzahlung": "المبلغ المستحق",
+      "generate": "إنشاء خطاب الاعتراض"
+    },
+    "generating": {
+      "title": "تحليل الذكاء الاصطناعي المتعدد جارٍ...",
+      "agents": {
+        "drafter": "صياغة الخطاب... (Claude)",
+        "reviewer": "مراجعة الأخطاء... (Gemini)",
+        "factchecker": "التحقق من المراجع القانونية... (Perplexity)",
+        "adversary": "فحص منظور السلطة... (Claude)",
+        "consolidator": "توحيد النسخة النهائية... (Claude)"
       }
     },
-    "packet": {
-      "brief": "Case summary",
-      "facts": "Facts",
-      "analysis": "AI analysis",
-      "draft": "Appeal draft",
-      "clientContext": "Client information",
-      "coreArgument": "Core argument",
-      "evidenceGaps": "Evidence gaps",
-      "counterarguments": "Counterarguments"
-    },
-    "viability": {
-      "high": "High success probability",
-      "medium": "Medium success probability",
-      "low": "Low success probability"
-    },
-    "actions": {
-      "accept": "Accept case",
-      "decline": "Decline",
-      "finalize": "Approve and finalize",
-      "addAnnotation": "Ask question",
-      "resolveAnnotation": "Mark as resolved",
-      "replyToAnnotation": "Reply",
-      "submitReply": "Send reply"
-    },
-    "annotation": {
-      "aiPreFill": "AI suggestion from your documents:",
-      "open": "Open",
-      "answered": "Answered",
-      "resolved": "Resolved"
-    },
-    "decline": {
-      "title": "Decline case",
-      "reason": "Reason for declining",
-      "reasonPlaceholder": "Please provide a reason...",
-      "confirm": "Confirm decline"
+    "result": {
+      "title": "خطاب الاعتراض جاهز",
+      "subtitle": "تمت مراجعته من قِبَل {count} وكلاء ذكاء اصطناعي",
+      "agentLog": "سجل وكلاء الذكاء الاصطناعي",
+      "outputLanguageWarning": "تم إنشاء هذا المستند بـ {language}. النسخة الألمانية مطلوبة للتقديم إلى السلطات الألمانية.",
+      "downloadTxt": "تنزيل بصيغة TXT"
     }
+  },
+  "outputLanguage": {
+    "label": "لغة الإخراج",
+    "hint": "يُنشأ خطاب الاعتراض باللغة الألمانية افتراضياً (مطلوب للسلطات الألمانية).",
+    "nonGermanWarning": "للمراجعة فقط — يجب أن تكون الرسالة باللغة الألمانية للتقديم الرسمي."
   },
   "errors": {
     "noFiles": "يرجى تحميل ملف واحد على الأقل",
@@ -748,105 +818,36 @@
     "notFound": "الصفحة غير موجودة",
     "serverError": "خطأ في الخادم. يرجى المحاولة لاحقاً."
   },
-  "cookies": {
-    "banner": {
-      "title": "إعدادات ملفات تعريف الارتباط",
-      "description": "نستخدم ملفات تعريف الارتباط للتحليل وتحسين تجربة المستخدم.",
-      "acceptAll": "قبول الكل",
-      "acceptNecessary": "الضرورية فقط",
-      "manage": "الإعدادات",
-      "learnMore": "معرفة المزيد"
-    },
-    "types": {
-      "necessary": {
-        "title": "ملفات تعريف الارتباط الضرورية",
-        "description": "مطلوبة لتشغيل الموقع."
-      },
-      "analytics": {
-        "title": "ملفات تعريف الارتباط التحليلية",
-        "description": "Google Analytics وPostHog."
-      },
-      "marketing": {
-        "title": "ملفات تعريف الارتباط التسويقية",
-        "description": "إعلانات مخصصة."
-      }
-    }
-  },
-  "wizard": {
-    "steps": {
-      "upload": "Upload",
-      "questions": "Questions",
-      "generating": "AI Analysis",
-      "result": "Result"
-    },
-    "upload": {
-      "title": "Upload your notice",
-      "subtitle": "Upload your administrative decision and any supporting documents",
-      "dropzone": "Select files",
-      "dropzoneHint": "PDF, DOCX, TXT or images",
-      "analyze": "Analyse documents"
-    },
-    "questions": {
-      "title": "Follow-up questions",
-      "subtitle": "Please answer these questions to optimise your objection letter",
-      "detectedData": "Detected data",
-      "finanzamt": "Tax office",
-      "nachzahlung": "Amount due",
-      "generate": "Generate objection letter"
-    },
-    "generating": {
-      "title": "Multi-AI analysis running...",
-      "agents": {
-        "drafter": "Drafting letter... (Claude)",
-        "reviewer": "Reviewing for errors... (Gemini)",
-        "factchecker": "Fact-checking legal citations... (Perplexity)",
-        "adversary": "Authority perspective check... (Claude)",
-        "consolidator": "Consolidating final version... (Claude)"
-      }
-    },
-    "result": {
-      "title": "Objection letter ready",
-      "subtitle": "Reviewed by {count} AI agents",
-      "agentLog": "AI Agent Log",
-      "outputLanguageWarning": "This document was generated in {language}. The German version is required for submission to German authorities.",
-      "downloadTxt": "Download as TXT"
-    }
-  },
-  "outputLanguage": {
-    "label": "لغة الإخراج",
-    "hint": "يُنشأ الطعن باللغة الألمانية افتراضياً (مطلوب للسلطات الألمانية).",
-    "nonGermanWarning": "للمراجعة فقط — يجب أن تكون الرسالة بالألمانية للتقديم الرسمي."
-  },
   "chatbot": {
-    "sectionLabel": "Why not just use an AI chatbot?",
-    "sectionHeading": "Quality comes from process — not a single prompt.",
-    "sectionSub": "A general AI assistant can read your notice — but AI systems are known to hallucinate legal sources and miss domain-specific questions. TaxaLex uses five specialized agents that check each other's work.",
-    "genericTitle": "Generic AI assistant",
-    "genericSub": "One prompt → one unverified draft",
-    "generic1": "Generates one draft without any automatic cross-checking or self-review",
-    "generic2": "Does not know which domain-specific legal questions to ask — you need to prompt them",
-    "generic3": "Can hallucinate legal citations and case references — errors go undetected without verification",
-    "generic4": "No perspective test: \"How would the authority counter this argument?\"",
-    "generic5": "No automatic deadline calculation from the document",
-    "generic6": "Output quality and completeness depend heavily on how the prompt is written",
-    "taxalexLabel": "✦ 5-agent pipeline",
-    "taxalexSub": "Automated expert cross-examination",
-    "agentDrafter": "Creates the initial objection using legal domain knowledge (§ AO, § SGG, § BGB, § KSchG)",
-    "agentReviewer": "Checks legal correctness, deadline compliance, and formal requirements",
-    "agentFactChecker": "Verifies cited legal sources and rulings via live search — flags inaccuracies before they reach the final draft",
-    "agentAdversary": "Reviews the draft from the authority's perspective — to identify and address weak points",
-    "agentConsolidator": "Combines all reviews into one structured, clearly reasoned final letter",
-    "ctaText": "See how it works — try the interactive demo, no registration required.",
-    "ctaButton": "Try the demo"
+    "sectionLabel": "لماذا لا تستخدم روبوت ذكاء اصطناعي عادياً؟",
+    "sectionHeading": "الجودة تأتي من المنهج — لا من طلب واحد.",
+    "sectionSub": "يمكن لمساعد الذكاء الاصطناعي العام قراءة إشعارك — غير أن أنظمة الذكاء الاصطناعي معروفة بانتزاع مصادر قانونية وهمية وإغفال أسئلة متخصصة. يستخدم TaxaLex خمسة وكلاء متخصصين يتحقق كل منهم من عمل الآخر.",
+    "genericTitle": "مساعد ذكاء اصطناعي عام",
+    "genericSub": "طلب واحد ← مسودة واحدة غير مُتحقَّق منها",
+    "generic1": "يُنشئ مسودة واحدة دون أي تدقيق متبادل تلقائي أو مراجعة ذاتية",
+    "generic2": "لا يعرف الأسئلة القانونية المتخصصة التي ينبغي طرحها — أنت من يجب توجيهه إليها",
+    "generic3": "قد يخترع مراجع ومصادر قانونية وهمية — وتمر الأخطاء دون رصد في غياب التحقق",
+    "generic4": "لا يُجري اختبار المنظور: «كيف ستردّ السلطة على هذه الحجة؟»",
+    "generic5": "لا يحسب المواعيد النهائية تلقائياً من المستند",
+    "generic6": "تعتمد جودة النتيجة واكتمالها اعتماداً كبيراً على طريقة صياغة الطلب",
+    "taxalexLabel": "✦ خط أنابيب من 5 وكلاء",
+    "taxalexSub": "تدقيق متقاطع آلي من قِبَل خبراء متخصصين",
+    "agentDrafter": "يُنشئ الاعتراض الأولي مستعيناً بالمعرفة القانونية المتخصصة (§ AO، § SGG، § BGB، § KSchG)",
+    "agentReviewer": "يتحقق من الصحة القانونية والامتثال للمواعيد النهائية والمتطلبات الشكلية",
+    "agentFactChecker": "يُوثِّق المراجع والأحكام القانونية المستشهد بها عبر بحث مباشر — ويُعلِّم عليها قبل وصولها إلى المسودة النهائية",
+    "agentAdversary": "يراجع المسودة من منظور السلطة — للكشف عن نقاط الضعف ومعالجتها",
+    "agentConsolidator": "يجمع جميع المراجعات في خطاب نهائي منظّم ومُحكَم الحجج",
+    "ctaText": "اطّلع على طريقة عمله — جرّب العرض التجريبي التفاعلي، لا يلزم تسجيل.",
+    "ctaButton": "جرّب العرض التجريبي"
   },
   "templates": {
-    "sectionLabel": "Free templates",
-    "sectionHeading": "16 ready-to-use legal templates",
-    "description": "Download blank templates for the most common objections in Germany — tax, Jobcenter, rent, employment and more. Or fill them online with AI in minutes.",
-    "cta": "Browse all templates",
-    "name1": "Tax Assessment",
-    "name2": "Jobcenter Rejection",
-    "name3": "Rent Increase",
-    "name4": "Dismissal Notice"
+    "sectionLabel": "نماذج مجانية",
+    "sectionHeading": "16 نموذجاً قانونياً جاهزاً للاستخدام",
+    "description": "نزّل نماذج فارغة لأكثر الاعتراضات شيوعاً في ألمانيا — ضريبة، Jobcenter، إيجار، عمل والمزيد. أو اعبأها عبر الإنترنت بالذكاء الاصطناعي في دقائق.",
+    "cta": "تصفّح جميع النماذج",
+    "name1": "تقدير الضريبة",
+    "name2": "رفض Jobcenter",
+    "name3": "زيادة الإيجار",
+    "name4": "إشعار الفصل"
   }
 }

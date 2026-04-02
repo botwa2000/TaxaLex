@@ -1,7 +1,7 @@
 {
   "common": {
     "appName": "TaxaLex",
-    "tagline": "İdari kararlara itiraz için yapay zeka asistanınız",
+    "tagline": "Yapay zeka destekli itiraz mektubu oluşturucunuz",
     "loading": "Yükleniyor...",
     "error": "Hata",
     "back": "Geri",
@@ -63,203 +63,203 @@
   "hero": {
     "groups": {
       "individual": {
-        "headline": "Received a German notice? Appeal it in minutes.",
-        "sub": "TaxaLex analyses your administrative decision with 5 AI agents and drafts a legally grounded objection letter – no lawyer needed.",
-        "cta": "Get started for free"
+        "headline": "Alman idari kararı mı aldınız? Dakikalar içinde itiraz edin.",
+        "sub": "TaxaLex, idari kararınızı 5 yapay zeka ajanıyla analiz eder ve hukuki gerekçeli bir itiraz mektubu taslağı hazırlar — avukata gerek yok.",
+        "cta": "Ücretsiz başla"
       },
       "selfemployed": {
-        "headline": "Tax bill? Appeal it – without a lawyer.",
-        "sub": "For freelancers and self-employed: AI-powered objection letters against tax assessments in under 5 minutes.",
-        "cta": "Appeal now"
+        "headline": "Vergi tarhiyatı mı? Avukatsız itiraz edin.",
+        "sub": "Serbest meslek sahipleri için: 5 dakikadan kısa sürede yapay zeka destekli itiraz mektupları.",
+        "cta": "Şimdi itiraz et"
       },
       "expat": {
-        "headline": "German notice? Appeal it in minutes – in your language.",
-        "sub": "TaxaLex helps expats navigate German bureaucracy. Upload your notice, answer a few questions, get a professional objection letter.",
-        "cta": "Start for free"
+        "headline": "Alman idari kararı mı? Kendi dilinizde dakikalar içinde itiraz edin.",
+        "sub": "TaxaLex, expatlara Alman bürokrasisinde yol gösterir. Kararı yükleyin, birkaç soruyu yanıtlayın, profesyonel itiraz mektubunuzu alın.",
+        "cta": "Ücretsiz başla"
       },
       "advisor": {
-        "headline": "More clients. Less effort.",
-        "sub": "TaxaLex supports tax advisors and lawyers in quickly drafting objection letters for their clients.",
-        "cta": "Request advisor demo"
+        "headline": "Daha fazla müşteri. Daha az emek.",
+        "sub": "TaxaLex, vergi danışmanlarının ve avukatların müşterileri için itiraz mektuplarını hızla hazırlamasını destekler.",
+        "cta": "Danışman demo talep et"
       }
     },
     "tabs": {
-      "individual": "Individual",
-      "selfemployed": "Self-employed",
+      "individual": "Bireysel",
+      "selfemployed": "Serbest çalışan",
       "expat": "Expat",
-      "advisor": "Tax advisor"
+      "advisor": "Vergi danışmanı"
     },
-    "badge": "AI-powered · GDPR-compliant · EU servers",
-    "disclaimer": "AI-generated drafts. Not legal advice."
+    "badge": "Yapay zeka destekli · GDPR uyumlu · AB sunucuları",
+    "disclaimer": "Yapay zeka tarafından oluşturulan taslak. Hukuki danışmanlık değildir."
   },
   "howItWorks": {
-    "title": "How it works",
-    "subtitle": "Three steps to your finished objection letter",
+    "title": "Nasıl çalışır",
+    "subtitle": "Bitmiş itiraz mektubunuza üç adımda ulaşın",
     "steps": {
       "upload": {
         "number": "1",
-        "title": "Upload your notice",
-        "description": "Upload your notice as PDF, photo, or DOCX. Our OCR automatically detects all relevant data.",
-        "detail": "Supported formats: PDF, JPG, PNG, DOCX, TXT (max. 10 MB)"
+        "title": "Kararı yükleyin",
+        "description": "Kararı PDF, fotoğraf veya DOCX olarak yükleyin. OCR sistemimiz tüm ilgili verileri otomatik olarak algılar.",
+        "detail": "Desteklenen biçimler: PDF, JPG, PNG, DOCX, TXT (maks. 10 MB)"
       },
       "analyze": {
         "number": "2",
-        "title": "AI analysis",
-        "description": "Five specialised AI agents review your notice: drafting, error-checking, fact-checking, counter-perspective, and consolidation.",
-        "detail": "Claude · Gemini · Perplexity – all models work in parallel"
+        "title": "Yapay zeka analizi",
+        "description": "Beş uzman yapay zeka ajanı kararınızı inceler: taslak hazırlama, hata denetimi, gerçek doğrulama, karşı perspektif ve birleştirme.",
+        "detail": "Claude · Gemini · Perplexity – tüm modeller paralel çalışır"
       },
       "download": {
         "number": "3",
-        "title": "Download & submit",
-        "description": "Download your finished objection letter as DOCX or TXT and submit it directly to the relevant authority.",
-        "detail": "Note: AI-generated draft, not legal advice. Review before submission."
+        "title": "İndir ve gönder",
+        "description": "Tamamlanmış itiraz mektubunuzu DOCX veya TXT olarak indirin ve doğrudan ilgili kuruma gönderin.",
+        "detail": "Not: Yapay zeka tarafından oluşturulan taslak, hukuki danışmanlık değildir. Göndermeden önce inceleyin."
       }
     },
-    "sectionHeading": "From notice to objection — in 3 steps"
+    "sectionHeading": "Karardan itiraza — 3 adımda"
   },
   "useCases": {
-    "title": "Which notice do you want to appeal?",
-    "subtitle": "Select the type of administrative decision",
-    "tax": "Tax assessment",
+    "title": "Hangi karara itiraz etmek istiyorsunuz?",
+    "subtitle": "İdari karar türünü seçin",
+    "tax": "Vergi tarhiyatı",
     "jobcenter": "Jobcenter / Bürgergeld",
-    "rente": "Pension notice",
-    "bussgeld": "Fine / penalty notice",
-    "bussgeldd": "Fine / penalty notice",
-    "krankenversicherung": "Health insurance rejection",
-    "kuendigung": "Employment termination",
-    "miete": "Rent increase / deposit",
-    "grundsteuer": "Property tax (Grundsteuer)",
-    "sectionTitle": "8 notice types – all covered",
-    "sectionSubtitle": "From tax assessments to fines: TaxaLex knows the relevant legal basis for all common administrative notices.",
-    "appeal": "Appeal this notice",
-    "deadline": "Deadline",
-    "days": "days",
-    "successRate": "Success rate",
-    "legalBasis": "Legal basis",
-    "expandDetails": "Show details",
-    "collapseDetails": "Hide details",
-    "sectionLabel": "Supported notice types"
+    "rente": "Emeklilik kararı",
+    "bussgeld": "Para cezası / idari yaptırım",
+    "bussgeldd": "Para cezası / idari yaptırım",
+    "krankenversicherung": "Sağlık sigortası reddi",
+    "kuendigung": "İş akdi feshi",
+    "miete": "Kira artışı / depozito",
+    "grundsteuer": "Emlak vergisi (Grundsteuer)",
+    "sectionTitle": "8 karar türü – tümü kapsanıyor",
+    "sectionSubtitle": "Vergi tarhiyatlarından para cezalarına: TaxaLex, yaygın tüm idari kararlar için ilgili hukuki dayanağı bilir.",
+    "appeal": "Bu karara itiraz et",
+    "deadline": "Son başvuru tarihi",
+    "days": "gün",
+    "successRate": "Başarı oranı",
+    "legalBasis": "Hukuki dayanak",
+    "expandDetails": "Ayrıntıları göster",
+    "collapseDetails": "Ayrıntıları gizle",
+    "sectionLabel": "Desteklenen karar türleri"
   },
   "stats": {
-    "title": "Numbers that matter",
-    "subtitle": "Verified statistics from official sources",
-    "source": "Source",
+    "title": "Önemli rakamlar",
+    "subtitle": "Resmi kaynaklardan doğrulanmış istatistikler",
+    "source": "Kaynak",
     "items": {
       "objections": {
-        "value": "3.3M",
-        "label": "Tax objections filed per year in Germany"
+        "value": "3,3 Milyon",
+        "label": "Almanya'da yılda yapılan vergi itirazı"
       },
       "successRate": {
-        "value": "67 %",
-        "label": "Partial or full success rate"
+        "value": "67 %",
+        "label": "Kısmi veya tam başarı oranı"
       },
       "deadline": {
-        "value": "30 days",
-        "label": "Legal deadline (§ 355 AO)"
+        "value": "30 gün",
+        "label": "Yasal süre (§ 355 AO)"
       },
       "speed": {
-        "value": "< 5 min",
-        "label": "Average generation time"
+        "value": "< 5 dak.",
+        "label": "Ortalama oluşturma süresi"
       }
     },
-    "sectionLabel": "By the numbers",
-    "sectionHeading": "Facts, not promises",
-    "sourceInternal": "TaxaLex internal measurement"
+    "sectionLabel": "Rakamlarla",
+    "sectionHeading": "Vaatler değil, gerçekler",
+    "sourceInternal": "TaxaLex iç ölçümü"
   },
   "pricing": {
-    "title": "Transparent & fair",
-    "subtitle": "Choose the plan that fits your needs",
+    "title": "Şeffaf ve adil",
+    "subtitle": "İhtiyaçlarınıza uygun planı seçin",
     "tabs": {
-      "individual": "Individual",
-      "selfemployed": "Self-employed",
-      "advisor": "Tax advisor",
-      "lawyer": "Lawyer"
+      "individual": "Bireysel",
+      "selfemployed": "Serbest çalışan",
+      "advisor": "Vergi danışmanı",
+      "lawyer": "Avukat"
     },
-    "popular": "Popular",
-    "currentPlan": "Your current plan",
-    "perMonth": "/ month",
-    "perCase": "/ objection",
-    "perPack": "/ 5 objections",
-    "included": "Included",
-    "notIncluded": "Not included",
-    "upgrade": "Upgrade now",
-    "contact": "Contact us",
-    "choosePlan": "Choose plan",
-    "annualDiscount": "Pay annually – 2 months free",
-    "monthly": "Monthly",
-    "annual": "Annual",
-    "vatNote": "All prices excl. VAT.",
+    "popular": "Popüler",
+    "currentPlan": "Mevcut planınız",
+    "perMonth": "/ ay",
+    "perCase": "/ itiraz",
+    "perPack": "/ 5 itiraz",
+    "included": "Dahil",
+    "notIncluded": "Dahil değil",
+    "upgrade": "Şimdi yükselt",
+    "contact": "Bize ulaşın",
+    "choosePlan": "Plan seç",
+    "annualDiscount": "Yıllık ödeyin – 2 ay ücretsiz",
+    "monthly": "Aylık",
+    "annual": "Yıllık",
+    "vatNote": "Tüm fiyatlar KDV hariçtir.",
     "freeFeatures": {
-      "title": "Free plan",
-      "description": "1 objection per month"
+      "title": "Ücretsiz plan",
+      "description": "Ayda 1 itiraz"
     },
-    "sectionLabel": "Pricing",
-    "sectionHeading": "Simple, transparent pricing",
-    "sectionSub": "Pay per case, or subscribe for unlimited access. No hidden fees.",
-    "viewAll": "View all plans including advisor & lawyer →"
+    "sectionLabel": "Fiyatlandırma",
+    "sectionHeading": "Basit, şeffaf fiyatlandırma",
+    "sectionSub": "Davaya göre ödeyin ya da sınırsız erişim için abone olun. Gizli ücret yok.",
+    "viewAll": "Danışman ve avukat planları dahil tüm planları görün →"
   },
   "features": {
-    "title": "Why TaxaLex?",
-    "subtitle": "Four differentiating features that make the difference",
+    "title": "Neden TaxaLex?",
+    "subtitle": "Fark yaratan dört temel özellik",
     "items": {
       "multiAi": {
-        "title": "5 AI agents in parallel",
-        "description": "Claude, Gemini and Perplexity review your objection from different perspectives – for maximum quality."
+        "title": "Paralel 5 yapay zeka ajanı",
+        "description": "Claude, Gemini ve Perplexity, itirazınızı farklı perspektiflerden inceler — maksimum kalite için."
       },
       "legal": {
-        "title": "Up-to-date legal references",
-        "description": "Perplexity researches current court rulings and administrative guidelines in real time for your specific case."
+        "title": "Güncel hukuki referanslar",
+        "description": "Perplexity, davanıza özel güncel mahkeme kararlarını ve idari yönergeleri gerçek zamanlı olarak araştırır."
       },
       "multilingual": {
-        "title": "Multilingual",
-        "description": "Interface in 7 languages. The objection letter is always drafted in German – as required by authorities."
+        "title": "Çok dilli",
+        "description": "Arayüz 7 dilde mevcuttur. İtiraz mektubu, makamların zorunlu kıldığı şekilde her zaman Almanca hazırlanır."
       },
       "privacy": {
-        "title": "GDPR & Privacy",
-        "description": "EU servers, encrypted transmission, no permanent storage of your documents without consent."
+        "title": "GDPR ve Gizlilik",
+        "description": "AB sunucuları, şifreli iletim, onay olmaksızın belgelerinizin kalıcı olarak saklanmaması."
       }
     },
-    "sectionHeading": "Built for legal precision"
+    "sectionHeading": "Hukuki hassasiyet için tasarlandı"
   },
   "faq": {
-    "title": "Frequently asked questions",
-    "subtitle": "Everything you want to know about TaxaLex",
+    "title": "Sık sorulan sorular",
+    "subtitle": "TaxaLex hakkında merak ettiğiniz her şey",
     "categories": {
-      "all": "All",
-      "general": "General",
-      "legal": "Legal",
-      "pricing": "Pricing",
-      "technical": "Technical",
-      "advisor": "For advisors"
+      "all": "Tümü",
+      "general": "Genel",
+      "legal": "Hukuki",
+      "pricing": "Fiyatlandırma",
+      "technical": "Teknik",
+      "advisor": "Danışmanlar için"
     }
   },
   "trust": {
-    "title": "Security & Privacy",
-    "gdpr": "GDPR-compliant",
-    "euServers": "EU servers",
-    "encrypted": "Encrypted",
-    "rdgNote": "Not legal advice",
-    "disclaimer": "TaxaLex creates AI-generated drafts for objection letters. This does not constitute legal advice within the meaning of the German Legal Services Act (RDG). Before submission, you should review the draft and consult a tax advisor or lawyer for complex matters.",
+    "title": "Güvenlik ve Gizlilik",
+    "gdpr": "GDPR uyumlu",
+    "euServers": "AB sunucuları",
+    "encrypted": "Şifreli",
+    "rdgNote": "Hukuki danışmanlık değildir",
+    "disclaimer": "TaxaLex, itiraz mektupları için yapay zeka tarafından oluşturulan taslaklar hazırlar. Bu, Alman Hukuki Hizmetler Kanunu (RDG) kapsamında hukuki danışmanlık teşkil etmez. Göndermeden önce taslağı incelemeniz ve karmaşık konular için bir vergi danışmanı veya avukata başvurmanız önerilir.",
     "badges": {
-      "dsgvo": "GDPR-compliant",
-      "eu": "EU servers (Frankfurt)",
-      "ssl": "SSL-encrypted",
-      "rdg": "Not legal advice (RDG)"
+      "dsgvo": "GDPR uyumlu",
+      "eu": "AB sunucuları (Frankfurt)",
+      "ssl": "SSL şifreli",
+      "rdg": "Hukuki danışmanlık değildir (RDG)"
     },
-    "legalHeading": "Legal notice",
-    "gdprDetail": "Data in the EU",
-    "euServersDetail": "Hetzner, Germany",
+    "legalHeading": "Hukuki uyarı",
+    "gdprDetail": "Veriler AB'de",
+    "euServersDetail": "Hetzner, Almanya",
     "encryptedDetail": "TLS 1.3 + AES-256",
-    "rdgDetail": "AI-generated draft"
+    "rdgDetail": "Yapay zeka tarafından oluşturulan taslak"
   },
   "footer": {
-    "tagline": "AI-generated drafts. Not legal advice.",
-    "allRightsReserved": "All rights reserved.",
+    "tagline": "Yapay zeka tarafından oluşturulan taslak. Hukuki danışmanlık değildir.",
+    "allRightsReserved": "Tüm hakları saklıdır.",
     "columns": {
-      "product": "Product",
-      "company": "Company",
-      "support": "Support",
-      "legal": "Legal"
+      "product": "Ürün",
+      "company": "Şirket",
+      "support": "Destek",
+      "legal": "Hukuki"
     }
   },
   "auth": {
@@ -280,14 +280,14 @@
         "advisor": "Vergi danışmanı",
         "lawyer": "Avukat"
       },
-      "errorInvalid": "Invalid email or password.",
-      "successRegistered": "Account created. Please sign in.",
-      "successVerified": "Email confirmed. You can now sign in.",
-      "errorInvalidToken": "The confirmation link is invalid or expired. Please request a new one.",
-      "showPassword": "Show password",
-      "hidePassword": "Hide password",
-      "withGoogle": "Sign in with Google",
-      "demoAvailable": "Demo accounts (5 available)"
+      "errorInvalid": "Geçersiz e-posta veya şifre.",
+      "successRegistered": "Hesap oluşturuldu. Lütfen giriş yapın.",
+      "successVerified": "E-posta onaylandı. Artık giriş yapabilirsiniz.",
+      "errorInvalidToken": "Onay bağlantısı geçersiz veya süresi dolmuş. Lütfen yenisini talep edin.",
+      "showPassword": "Şifreyi göster",
+      "hidePassword": "Şifreyi gizle",
+      "withGoogle": "Google ile giriş yap",
+      "demoAvailable": "Demo hesapları (5 mevcut)"
     },
     "register": {
       "title": "Hesap oluştur",
@@ -297,8 +297,8 @@
       "password": "Şifre",
       "confirmPassword": "Şifreyi onayla",
       "agreeToTerms": "{terms} ve {privacy} kabul ediyorum.",
-      "terms": "Kullanım koşulları",
-      "privacy": "Gizlilik politikası",
+      "terms": "Kullanım Koşulları",
+      "privacy": "Gizlilik Politikası",
       "submit": "Hesap oluştur",
       "hasAccount": "Zaten hesabınız var mı?",
       "login": "Giriş yap",
@@ -309,67 +309,67 @@
         "strong": "Güçlü"
       },
       "types": {
-        "individual": "Individual",
+        "individual": "Bireysel",
         "selfemployed": "Serbest çalışan",
         "advisor": "Vergi danışmanı",
         "lawyer": "Avukat",
-        "expert": "Expert"
+        "expert": "Uzman"
       },
       "benefits": {
         "individual": [
-          "5 AI agents analyse your notice and draft a legally grounded objection",
-          "8 notice types covered: tax, Jobcenter, pension, fines, rent and more",
-          "Finished letter ready to send — download as DOCX or TXT in minutes"
+          "5 yapay zeka ajanı kararınızı analiz eder ve hukuki gerekçeli bir itiraz hazırlar",
+          "8 karar türü kapsanıyor: vergi, Jobcenter, emeklilik, para cezası, kira ve daha fazlası",
+          "Gönderilebilir mektup hazır — dakikalar içinde DOCX veya TXT olarak indirin"
         ],
         "selfemployed": [
-          "Appeal tax assessments, VAT notices, and trade office decisions",
-          "5 AI agents draft your objection — no legal knowledge required",
-          "Finished letter in minutes — download and send directly"
+          "Vergi tarhiyatlarına, KDV kararlarına ve ticaret sicili kararlarına itiraz edin",
+          "5 yapay zeka ajanı itirazınızı hazırlar — hukuki bilgi gerekmez",
+          "Dakikalar içinde hazır mektup — indirin ve doğrudan gönderin"
         ],
         "advisor": [
-          "Review AI-prepared client drafts and accept or decline with one click",
-          "Annotate specific sections and request clarifications — no email back-and-forth",
-          "Full case packet per client: extracted facts, AI analysis, and viability score"
+          "Yapay zeka tarafından hazırlanmış müşteri taslakları inceleyin, tek tıkla kabul edin veya reddedin",
+          "Belirli bölümlere not ekleyin ve açıklama talep edin — e-posta gidip gelmesi yok",
+          "Her müşteri için tam dava paketi: çıkarılan olgular, yapay zeka analizi ve uygulanabilirlik puanı"
         ],
         "lawyer": [
-          "Review objections across all legal areas: tax, employment, rent, social law",
-          "Annotate draft sections and resolve client questions in one threaded view",
-          "Structured handoff with extracted facts and AI viability assessment per case"
+          "Tüm hukuki alanlardaki itirazları inceleyin: vergi, iş hukuku, kira, sosyal hukuk",
+          "Taslak bölümlerine not ekleyin ve müşteri sorularını tek bir görünümde çözün",
+          "Çıkarılan olgular ve yapay zeka uygulanabilirlik değerlendirmesiyle yapılandırılmış devir paketi"
         ],
         "expert": [
-          "Review AI-prepared client drafts, annotate sections, and approve with one click",
-          "Broadcast assignment: new case in your area — first to accept gets it",
-          "Structured handoff packet with extracted facts, AI analysis, and viability score"
+          "Yapay zeka tarafından hazırlanmış müşteri taslakları inceleyin, bölümlere not ekleyin, tek tıkla onaylayın",
+          "Yayın ataması: alanınızda yeni dava — ilk kabul eden üstlenir",
+          "Çıkarılan olgular, yapay zeka analizi ve uygulanabilirlik puanıyla yapılandırılmış devir paketi"
         ]
       },
-      "iAm": "I am…",
+      "iAm": "Ben…",
       "sublabels": {
-        "individual": "Appeal notices",
-        "advisor": "Manage clients",
-        "lawyer": "Represent clients",
-        "expert": "Manage clients"
+        "individual": "Kararlara itiraz et",
+        "advisor": "Müşterileri yönet",
+        "lawyer": "Müvekkilleri temsil et",
+        "expert": "Müşterileri yönet"
       },
-      "registerFree": "Register for free",
-      "passwordStrengthLabel": "Password strength:",
-      "passwordMinLength": "Min. {n} characters",
-      "errorFailed": "Registration failed.",
-      "practiceAreasLabel": "My practice areas",
+      "registerFree": "Ücretsiz kayıt ol",
+      "passwordStrengthLabel": "Şifre güvenliği:",
+      "passwordMinLength": "En az {n} karakter",
+      "errorFailed": "Kayıt başarısız oldu.",
+      "practiceAreasLabel": "Uzmanlık alanlarım",
       "practiceAreas": {
-        "tax": "Tax law",
-        "legal": "General law"
+        "tax": "Vergi hukuku",
+        "legal": "Genel hukuk"
       },
-      "practiceAreasMin": "Please select at least one practice area.",
-      "practiceAreasSelfCert": "By selecting, you confirm you are licensed to practise in the chosen areas."
+      "practiceAreasMin": "Lütfen en az bir uzmanlık alanı seçin.",
+      "practiceAreasSelfCert": "Seçim yaparak, seçilen alanlarda lisanslı olduğunuzu onaylıyorsunuz."
     },
     "layout": {
-      "backToHome": "Back to home",
-      "trusted": "Trusted by German taxpayers",
-      "headline": "Respond to German official notices — structured and clearly reasoned.",
-      "description": "5 specialized AI agents draft, cross-check, and improve your objection letter — in under 5 minutes.",
-      "trustDraft": "Draft ready in under 5 minutes",
-      "trustDemo": "Interactive demo — no registration required",
-      "trustGdpr": "GDPR-compliant · EU servers · Encrypted",
-      "privacy": "Privacy"
+      "backToHome": "Ana sayfaya dön",
+      "trusted": "Alman vergi mükelleflerinin tercihi",
+      "headline": "Alman resmi kararlarına yanıt verin — yapılandırılmış ve açık gerekçeli.",
+      "description": "5 uzman yapay zeka ajanı, itiraz mektubunuzu hazırlar, çapraz denetler ve iyileştirir — 5 dakikadan kısa sürede.",
+      "trustDraft": "5 dakikadan kısa sürede hazır taslak",
+      "trustDemo": "İnteraktif demo — kayıt gerekmez",
+      "trustGdpr": "GDPR uyumlu · AB sunucuları · Şifreli",
+      "privacy": "Gizlilik"
     }
   },
   "dashboard": {
@@ -473,13 +473,13 @@
     "templatesDesc": "İndirip özelleştirebileceğiniz ücretsiz şablonlar",
     "templatesViewAll": "Tümünü gör",
     "templatesFree": "Ücretsiz",
-    "templatesUseAI": "Yapay zekayı tercih edin – 5 dakikada itiraz oluşturun",
+    "templatesUseAI": "Yapay zekayı tercih edin — 5 dakikada itiraz oluşturun",
     "plansTitle": "Planlar & Fiyatlar",
     "plansViewAll": "Tüm ayrıntılar",
     "settingsTitle": "Hesap & Ayarlar",
     "emailVerified": "E-posta onaylandı",
     "emailNotVerified": "E-posta onaylanmadı",
-    "emailNotVerifiedHint": "Lütfen e-posta adresinizi onaylayın. Gelen kutunuzu kontrol edin.",
+    "emailNotVerifiedHint": "Lütfen e-posta adresinizi onaylayın. Gelen kutunuzdaki onay bağlantısını kontrol edin.",
     "accountType": "Hesap türü",
     "password": "Şifre",
     "twoFactor": "İki faktörlü doğrulama (2FA)",
@@ -500,7 +500,121 @@
     "statCredits": "Krediler",
     "statPlan": "Mevcut plan",
     "planFree": "Ücretsiz",
-    "planPro": "Pro"
+    "planPro": "Pro",
+    "billing": "Faturalama"
+  },
+  "advisor": {
+    "dashboard": {
+      "title": "Danışman paneli",
+      "clients": "Müşteriler",
+      "activeAppeals": "Aktif itirazlar",
+      "submittedAppeals": "Gönderilen itirazlar",
+      "recentActivity": "Son aktiviteler",
+      "quickActions": "Hızlı erişim",
+      "addClient": "Müşteri ekle",
+      "newAppeal": "Yeni itiraz"
+    },
+    "clients": {
+      "title": "Müşteriler",
+      "subtitle": "Müşterilerinizi yönetin",
+      "search": "Müşteri ara...",
+      "add": "Müşteri ekle",
+      "name": "Ad",
+      "email": "E-posta",
+      "cases": "Davalar",
+      "lastActive": "Son aktivite",
+      "actions": "İşlemler",
+      "noClients": "Müşteri yok",
+      "modal": {
+        "title": "Müşteri ekle",
+        "name": "Müşteri adı",
+        "email": "E-posta adresi",
+        "submit": "Ekle"
+      }
+    },
+    "appeals": {
+      "title": "Tüm itirazlar",
+      "subtitle": "Tüm müşterilerinizin itirazları",
+      "client": "Müşteri",
+      "type": "Tür",
+      "status": "Durum",
+      "createdAt": "Oluşturma tarihi"
+    },
+    "billing": {
+      "title": "Faturalama",
+      "plan": "Danışman planınız",
+      "usage": "Müşteriler & itirazlar"
+    },
+    "handoff": {
+      "title": "Profesyonel İnceleme Talep Et",
+      "selectAdvisor": "Danışman Seç",
+      "scope": {
+        "label": "Görev kapsamı",
+        "reviewOnly": "Yalnızca inceleme — başvuruyu kendim yapacağım",
+        "fullRepresentation": "Tam temsil"
+      },
+      "clientNotes": "Danışman için notlar (isteğe bağlı)",
+      "submit": "İnceleme talep et",
+      "submitted": "Talep gönderildi",
+      "broadcastInfo": "Alanınızdaki tüm uygun uzmanlar bilgilendirilecek. İlk kabul eden davanızı üstlenir.",
+      "withdrawButton": "Talebi geri çek",
+      "withdrawReason": "Geri çekme nedeni",
+      "withdrawConfirm": "Bu talebi gerçekten geri çekmek istiyor musunuz?",
+      "expertArea": "Uzmanlık alanı",
+      "tax": "Vergi hukuku",
+      "legal": "Genel hukuk",
+      "expertsNotified": "{count} uzman bilgilendirildi",
+      "awaitingAcceptance": "Bir uzmanın kabul etmesi bekleniyor..."
+    },
+    "assignment": {
+      "pending": "Karar gerekiyor",
+      "accepted": "İnceleniyor",
+      "declined": "Reddedildi",
+      "changesRequested": "Sorular bekliyor",
+      "approved": "Onaylandı",
+      "finalized": "Sonuçlandırıldı",
+      "statuses": {
+        "SUPERSEDED": "Başka bir uzman tarafından alındı",
+        "WITHDRAWN": "Müşteri tarafından geri çekildi",
+        "EXPIRED": "Süresi doldu (72 saat yanıtsız)"
+      }
+    },
+    "packet": {
+      "brief": "Dava özeti",
+      "facts": "Olgular",
+      "analysis": "Yapay zeka analizi",
+      "draft": "İtiraz taslağı",
+      "clientContext": "Müşteri bilgileri",
+      "coreArgument": "Temel argüman",
+      "evidenceGaps": "Kanıt eksiklikleri",
+      "counterarguments": "Karşı argümanlar"
+    },
+    "viability": {
+      "high": "Yüksek başarı olasılığı",
+      "medium": "Orta başarı olasılığı",
+      "low": "Düşük başarı olasılığı"
+    },
+    "actions": {
+      "accept": "Davayı kabul et",
+      "decline": "Reddet",
+      "finalize": "Onayla ve sonuçlandır",
+      "addAnnotation": "Soru sor",
+      "resolveAnnotation": "Çözüldü olarak işaretle",
+      "replyToAnnotation": "Yanıtla",
+      "submitReply": "Yanıt gönder"
+    },
+    "annotation": {
+      "aiPreFill": "Belgelerinizden yapay zeka önerisi:",
+      "open": "Açık",
+      "answered": "Yanıtlandı",
+      "resolved": "Çözüldü"
+    },
+    "decline": {
+      "title": "Davayı reddet",
+      "reason": "Reddetme nedeni",
+      "reasonPlaceholder": "Lütfen bir neden belirtin...",
+      "confirm": "Reddi onayla"
+    }
   },
   "admin": {
     "title": "Yönetim paneli",
@@ -546,12 +660,12 @@
       "grantError": "Kredi verilemedi",
       "changeRole": "Rolü değiştir:",
       "creditsFor": "Krediler:",
-      "subscription": "Subscription",
-      "noSubscription": "No active subscription",
-      "subscriptionUntil": "until",
-      "subscriptionCancels": "cancels at period end",
-      "noCases": "No cases yet.",
-      "ledger": "Payments / Credits"
+      "subscription": "Abonelik",
+      "noSubscription": "Aktif abonelik yok",
+      "subscriptionUntil": "tarihine kadar",
+      "subscriptionCancels": "dönem sonunda iptal olur",
+      "noCases": "Henüz dava yok.",
+      "ledger": "Ödemeler / Krediler"
     },
     "cases": {
       "filterAll": "Tümü",
@@ -575,7 +689,7 @@
       "features": "Özellikler"
     },
     "emails": {
-      "devWarning": "Dev modu aktif — giden tüm e-postalar konuya DEV - öneki alır.",
+      "devWarning": "Geliştirme modu aktif — giden tüm e-postalar konuya DEV - öneki alır.",
       "trigger": "Tetikleyici",
       "subject": "Konu",
       "variables": "Değişkenler",
@@ -605,17 +719,17 @@
       "notConfigured": "Yapılandırılmadı",
       "services": {
         "anthropic": "Anthropic (Claude)",
-        "anthropicNote": "Required — app will not start without this key",
+        "anthropicNote": "Zorunlu — bu anahtar olmadan uygulama başlamaz",
         "google": "Google AI (Gemini)",
-        "googleNote": "Optional — for Gemini agents",
+        "googleNote": "İsteğe bağlı — Gemini ajanları için",
         "perplexity": "Perplexity (Sonar)",
-        "perplexityNote": "Optional — for fact-check agent",
+        "perplexityNote": "İsteğe bağlı — gerçek doğrulama ajanı için",
         "stripe": "Stripe",
-        "stripeNote": "Optional — for payments",
-        "brevo": "Brevo (Email)",
-        "brevoNote": "Optional — emails suppressed without key",
-        "s3": "S3 (File storage)",
-        "s3Note": "Optional — for document uploads"
+        "stripeNote": "İsteğe bağlı — ödemeler için",
+        "brevo": "Brevo (E-posta)",
+        "brevoNote": "İsteğe bağlı — anahtar olmadan e-postalar gönderilmez",
+        "s3": "S3 (Dosya depolama)",
+        "s3Note": "İsteğe bağlı — belge yüklemeleri için"
       }
     },
     "content": {
@@ -626,118 +740,74 @@
       "edit": "Düzenle (yakında)"
     }
   },
-  "advisor": {
-    "dashboard": {
-      "title": "Danışman paneli",
-      "clients": "Müşteriler",
-      "activeAppeals": "Aktif itirazlar",
-      "submittedAppeals": "Gönderilen itirazlar",
-      "recentActivity": "Son aktiviteler",
-      "quickActions": "Hızlı erişim",
-      "addClient": "Müşteri ekle",
-      "newAppeal": "Yeni itiraz"
+  "cookies": {
+    "banner": {
+      "title": "Çerez ayarları",
+      "description": "Analiz ve daha iyi kullanıcı deneyimi için çerezler kullanıyoruz. Tercihlerinizi istediğiniz zaman değiştirebilirsiniz.",
+      "acceptAll": "Tümünü kabul et",
+      "acceptNecessary": "Yalnızca zorunlular",
+      "manage": "Ayarlar",
+      "learnMore": "Daha fazla bilgi"
     },
-    "clients": {
-      "title": "Müşteriler",
-      "subtitle": "Müşterilerinizi yönetin",
-      "search": "Müşteri ara...",
-      "add": "Müşteri ekle",
-      "name": "Ad",
-      "email": "E-posta",
-      "cases": "Davalar",
-      "lastActive": "Son aktivite",
-      "actions": "İşlemler",
-      "noClients": "Müşteri yok",
-      "modal": {
-        "title": "Müşteri ekle",
-        "name": "Müşteri adı",
-        "email": "E-posta adresi",
-        "submit": "Ekle"
-      }
-    },
-    "appeals": {
-      "title": "Tüm itirazlar",
-      "subtitle": "Tüm müşterilerinizin itirazları",
-      "client": "Müşteri",
-      "type": "Tür",
-      "status": "Durum",
-      "createdAt": "Oluşturma tarihi"
-    },
-    "billing": {
-      "title": "Faturalama",
-      "plan": "Danışman planınız",
-      "usage": "Müşteriler & itirazlar"
-    },
-    "handoff": {
-      "title": "Request Professional Review",
-      "selectAdvisor": "Select Advisor",
-      "scope": {
-        "label": "Scope of engagement",
-        "reviewOnly": "Review only",
-        "fullRepresentation": "Full representation"
+    "types": {
+      "necessary": {
+        "title": "Zorunlu çerezler",
+        "description": "Sitenin çalışması için gereklidir. Devre dışı bırakılamaz."
       },
-      "clientNotes": "Notes for the advisor (optional)",
-      "submit": "Request review",
-      "submitted": "Request sent",
-      "broadcastInfo": "All available experts in your area will be notified. The first to accept handles your case.",
-      "withdrawButton": "Withdraw request",
-      "withdrawReason": "Reason for withdrawal",
-      "withdrawConfirm": "Really withdraw this request?",
-      "expertArea": "Practice area",
-      "tax": "Tax law",
-      "legal": "General law",
-      "expertsNotified": "{count} expert(s) notified",
-      "awaitingAcceptance": "Waiting for an expert to accept..."
+      "analytics": {
+        "title": "Analitik çerezler",
+        "description": "Google Analytics ve PostHog — siteyi geliştirmemize yardımcı olur."
+      },
+      "marketing": {
+        "title": "Pazarlama çerezleri",
+        "description": "Kişiselleştirilmiş reklamlar ve yeniden hedefleme."
+      }
+    }
+  },
+  "wizard": {
+    "steps": {
+      "upload": "Yükleme",
+      "questions": "Sorular",
+      "generating": "Yapay Zeka Analizi",
+      "result": "Sonuç"
     },
-    "assignment": {
-      "pending": "Decision required",
-      "accepted": "Under review",
-      "declined": "Declined",
-      "changesRequested": "Questions pending",
-      "approved": "Approved",
-      "finalized": "Finalized",
-      "statuses": {
-        "SUPERSEDED": "Taken by another expert",
-        "WITHDRAWN": "Withdrawn by client",
-        "EXPIRED": "Expired (72h without response)"
+    "upload": {
+      "title": "Kararı yükleyin",
+      "subtitle": "İdari kararınızı ve varsa destekleyici belgeleri yükleyin",
+      "dropzone": "Dosya seç",
+      "dropzoneHint": "PDF, DOCX, TXT veya görsel",
+      "analyze": "Belgeleri analiz et"
+    },
+    "questions": {
+      "title": "Ek sorular",
+      "subtitle": "İtiraz mektubunuzu optimize etmek için lütfen bu soruları yanıtlayın",
+      "detectedData": "Algılanan veriler",
+      "finanzamt": "Vergi dairesi",
+      "nachzahlung": "Ödenecek tutar",
+      "generate": "İtiraz mektubu oluştur"
+    },
+    "generating": {
+      "title": "Çoklu yapay zeka analizi çalışıyor...",
+      "agents": {
+        "drafter": "Mektup hazırlanıyor... (Claude)",
+        "reviewer": "Hatalar inceleniyor... (Gemini)",
+        "factchecker": "Hukuki kaynaklar doğrulanıyor... (Perplexity)",
+        "adversary": "Kurum perspektifi kontrol ediliyor... (Claude)",
+        "consolidator": "Nihai sürüm birleştiriliyor... (Claude)"
       }
     },
-    "packet": {
-      "brief": "Case summary",
-      "facts": "Facts",
-      "analysis": "AI analysis",
-      "draft": "Appeal draft",
-      "clientContext": "Client information",
-      "coreArgument": "Core argument",
-      "evidenceGaps": "Evidence gaps",
-      "counterarguments": "Counterarguments"
-    },
-    "viability": {
-      "high": "High success probability",
-      "medium": "Medium success probability",
-      "low": "Low success probability"
-    },
-    "actions": {
-      "accept": "Accept case",
-      "decline": "Decline",
-      "finalize": "Approve and finalize",
-      "addAnnotation": "Ask question",
-      "resolveAnnotation": "Mark as resolved",
-      "replyToAnnotation": "Reply",
-      "submitReply": "Send reply"
-    },
-    "annotation": {
-      "aiPreFill": "AI suggestion from your documents:",
-      "open": "Open",
-      "answered": "Answered",
-      "resolved": "Resolved"
-    },
-    "decline": {
-      "title": "Decline case",
-      "reason": "Reason for declining",
-      "reasonPlaceholder": "Please provide a reason...",
-      "confirm": "Confirm decline"
+    "result": {
+      "title": "İtiraz mektubu hazır",
+      "subtitle": "{count} yapay zeka ajanı tarafından incelendi",
+      "agentLog": "Yapay Zeka Ajanı Günlüğü",
+      "outputLanguageWarning": "Bu belge {language} dilinde oluşturuldu. Alman makamlarına başvuru için Almanca sürüm gereklidir.",
+      "downloadTxt": "TXT olarak indir"
     }
+  },
+  "outputLanguage": {
+    "label": "Çıktı dili",
+    "hint": "İtiraz mektubu varsayılan olarak Almanca oluşturulur (Alman makamları için gereklidir).",
+    "nonGermanWarning": "Yalnızca inceleme amaçlıdır — resmi başvuru için mektup Almanca olmalıdır."
   },
   "errors": {
     "noFiles": "Lütfen en az bir dosya yükleyin",
@@ -748,105 +818,36 @@
     "notFound": "Sayfa bulunamadı",
     "serverError": "Sunucu hatası. Lütfen daha sonra tekrar deneyin."
   },
-  "cookies": {
-    "banner": {
-      "title": "Çerez ayarları",
-      "description": "Analiz ve daha iyi kullanıcı deneyimi için çerezler kullanıyoruz.",
-      "acceptAll": "Tümünü kabul et",
-      "acceptNecessary": "Yalnızca zorunlular",
-      "manage": "Ayarlar",
-      "learnMore": "Daha fazla bilgi"
-    },
-    "types": {
-      "necessary": {
-        "title": "Zorunlu çerezler",
-        "description": "Sitenin çalışması için gereklidir."
-      },
-      "analytics": {
-        "title": "Analitik çerezler",
-        "description": "Google Analytics ve PostHog."
-      },
-      "marketing": {
-        "title": "Pazarlama çerezleri",
-        "description": "Kişiselleştirilmiş reklamlar."
-      }
-    }
-  },
-  "wizard": {
-    "steps": {
-      "upload": "Upload",
-      "questions": "Questions",
-      "generating": "AI Analysis",
-      "result": "Result"
-    },
-    "upload": {
-      "title": "Upload your notice",
-      "subtitle": "Upload your administrative decision and any supporting documents",
-      "dropzone": "Select files",
-      "dropzoneHint": "PDF, DOCX, TXT or images",
-      "analyze": "Analyse documents"
-    },
-    "questions": {
-      "title": "Follow-up questions",
-      "subtitle": "Please answer these questions to optimise your objection letter",
-      "detectedData": "Detected data",
-      "finanzamt": "Tax office",
-      "nachzahlung": "Amount due",
-      "generate": "Generate objection letter"
-    },
-    "generating": {
-      "title": "Multi-AI analysis running...",
-      "agents": {
-        "drafter": "Drafting letter... (Claude)",
-        "reviewer": "Reviewing for errors... (Gemini)",
-        "factchecker": "Fact-checking legal citations... (Perplexity)",
-        "adversary": "Authority perspective check... (Claude)",
-        "consolidator": "Consolidating final version... (Claude)"
-      }
-    },
-    "result": {
-      "title": "Objection letter ready",
-      "subtitle": "Reviewed by {count} AI agents",
-      "agentLog": "AI Agent Log",
-      "outputLanguageWarning": "This document was generated in {language}. The German version is required for submission to German authorities.",
-      "downloadTxt": "Download as TXT"
-    }
-  },
-  "outputLanguage": {
-    "label": "Çıktı dili",
-    "hint": "İtiraz varsayılan olarak Almanca oluşturulur (Alman makamları için gereklidir).",
-    "nonGermanWarning": "Yalnızca inceleme amaçlıdır — resmi başvuru için mektup Almanca olmalıdır."
-  },
   "chatbot": {
-    "sectionLabel": "Why not just use an AI chatbot?",
-    "sectionHeading": "Quality comes from process — not a single prompt.",
-    "sectionSub": "A general AI assistant can read your notice — but AI systems are known to hallucinate legal sources and miss domain-specific questions. TaxaLex uses five specialized agents that check each other's work.",
-    "genericTitle": "Generic AI assistant",
-    "genericSub": "One prompt → one unverified draft",
-    "generic1": "Generates one draft without any automatic cross-checking or self-review",
-    "generic2": "Does not know which domain-specific legal questions to ask — you need to prompt them",
-    "generic3": "Can hallucinate legal citations and case references — errors go undetected without verification",
-    "generic4": "No perspective test: \"How would the authority counter this argument?\"",
-    "generic5": "No automatic deadline calculation from the document",
-    "generic6": "Output quality and completeness depend heavily on how the prompt is written",
-    "taxalexLabel": "✦ 5-agent pipeline",
-    "taxalexSub": "Automated expert cross-examination",
-    "agentDrafter": "Creates the initial objection using legal domain knowledge (§ AO, § SGG, § BGB, § KSchG)",
-    "agentReviewer": "Checks legal correctness, deadline compliance, and formal requirements",
-    "agentFactChecker": "Verifies cited legal sources and rulings via live search — flags inaccuracies before they reach the final draft",
-    "agentAdversary": "Reviews the draft from the authority's perspective — to identify and address weak points",
-    "agentConsolidator": "Combines all reviews into one structured, clearly reasoned final letter",
-    "ctaText": "See how it works — try the interactive demo, no registration required.",
-    "ctaButton": "Try the demo"
+    "sectionLabel": "Neden sıradan bir yapay zeka sohbet botu kullanmıyorsunuz?",
+    "sectionHeading": "Kalite, süreçten gelir — tek bir komuttan değil.",
+    "sectionSub": "Genel amaçlı bir yapay zeka asistanı kararınızı okuyabilir — ancak yapay zeka sistemlerinin hukuki kaynakları uydurduğu ve alana özgü soruları gözden kaçırdığı bilinmektedir. TaxaLex, birbirinin çalışmasını denetleyen beş uzman ajan kullanır.",
+    "genericTitle": "Genel yapay zeka asistanı",
+    "genericSub": "Bir komut → doğrulanmamış bir taslak",
+    "generic1": "Otomatik çapraz denetim veya öz-inceleme olmadan tek bir taslak üretir",
+    "generic2": "Hangi alana özgü hukuki soruların sorulması gerektiğini bilmez — bunları siz belirtmek zorunda kalırsınız",
+    "generic3": "Hukuki kaynakları ve dava referanslarını uydurabilir — doğrulama olmadan hatalar fark edilmez",
+    "generic4": "Perspektif testi yok: \"Kurum bu argümana nasıl karşı çıkar?\"",
+    "generic5": "Belgeden otomatik son tarih hesaplaması yok",
+    "generic6": "Çıktı kalitesi ve eksiksizliği büyük ölçüde komutun nasıl yazıldığına bağlıdır",
+    "taxalexLabel": "✦ 5 ajanlı süreç",
+    "taxalexSub": "Otomatik uzman çapraz sorgulaması",
+    "agentDrafter": "Hukuki alan bilgisini kullanarak ilk itirazı oluşturur (§ AO, § SGG, § BGB, § KSchG)",
+    "agentReviewer": "Hukuki doğruluğu, süre uyumunu ve biçimsel gereksinimleri denetler",
+    "agentFactChecker": "Atıfta bulunulan hukuki kaynakları ve kararları canlı arama yoluyla doğrular — hataları nihai taslağa ulaşmadan işaretler",
+    "agentAdversary": "Taslağı kurumun perspektifinden inceler — zayıf noktaları tespit edip giderir",
+    "agentConsolidator": "Tüm incelemeleri tek, yapılandırılmış ve açık gerekçeli nihai mektupta birleştirir",
+    "ctaText": "Nasıl çalıştığını görün — kayıt gerektirmeyen interaktif demoyu deneyin.",
+    "ctaButton": "Demoyu dene"
   },
   "templates": {
-    "sectionLabel": "Free templates",
-    "sectionHeading": "16 ready-to-use legal templates",
-    "description": "Download blank templates for the most common objections in Germany — tax, Jobcenter, rent, employment and more. Or fill them online with AI in minutes.",
-    "cta": "Browse all templates",
-    "name1": "Tax Assessment",
-    "name2": "Jobcenter Rejection",
-    "name3": "Rent Increase",
-    "name4": "Dismissal Notice"
+    "sectionLabel": "Ücretsiz şablonlar",
+    "sectionHeading": "16 kullanıma hazır hukuki şablon",
+    "description": "Almanya'daki en yaygın itirazlar için boş şablonları indirin — vergi, Jobcenter, kira, iş hukuku ve daha fazlası. Ya da dakikalar içinde yapay zeka ile çevrimiçi doldurun.",
+    "cta": "Tüm şablonlara göz at",
+    "name1": "Vergi Tarhiyatı",
+    "name2": "Jobcenter Reddi",
+    "name3": "Kira Artışı",
+    "name4": "İş Akdi Feshi"
   }
 }
