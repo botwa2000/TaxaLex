@@ -32,6 +32,7 @@ services:
       - NEXT_PUBLIC_SITE_URL=https://taxalex.de
       - NEXTAUTH_URL=https://taxalex.de
       - FEATURE_PAYMENTS=true
+      - FEATURE_ADVISOR=true
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true
