@@ -26,6 +26,7 @@ export async function PATCH(
   }
 
   const { id: caseId } = await params
+  const advisorId = session.user.id as string
 
   const body = await req.json()
   const parsed = StatusSchema.safeParse(body)
@@ -33,8 +34,9 @@ export async function PATCH(
     return NextResponse.json({ error: 'Invalid request', details: parsed.error.flatten() }, { status: 400 })
   }
 
-  const assignment = await db.advisorAssignment.findUnique({
-    where: { caseId },
+  // Find this advisor's specific assignment for this case
+  const assignment = await db.advisorAssignment.findFirst({
+    where: { caseId, advisorId },
     include: {
       case: {
         include: {
@@ -45,7 +47,7 @@ export async function PATCH(
     },
   })
 
-  if (!assignment || assignment.advisorId !== session.user.id) {
+  if (!assignment) {
     return NextResponse.json({ error: 'Not found' }, { status: 404 })
   }
 
@@ -54,40 +56,49 @@ export async function PATCH(
   }
 
   if (parsed.data.action === 'accept') {
-    await db.advisorAssignment.update({
-      where: { caseId },
-      data: { status: 'ACCEPTED', acceptedAt: new Date() },
-    })
+    // Accept this assignment and supersede all other PENDING ones for this case atomically
+    await db.$transaction([
+      db.advisorAssignment.update({
+        where: { id: assignment.id },
+        data: { status: 'ACCEPTED', acceptedAt: new Date() },
+      }),
+      db.advisorAssignment.updateMany({
+        where: { caseId, status: 'PENDING', id: { not: assignment.id } },
+        data: { status: 'SUPERSEDED' },
+      }),
+    ])
 
-    logger.info('Advisor accepted case', { caseId, advisorId: session.user.id })
+    logger.info('Advisor accepted case', { caseId, advisorId })
     return NextResponse.json({ status: 'ACCEPTED' })
   }
 
-  // decline
+  // decline — only affects this advisor's assignment
   const { declineReason } = parsed.data
 
-  await db.$transaction([
-    db.advisorAssignment.update({
-      where: { caseId },
-      data: { status: 'DECLINED', declineReason },
-    }),
-    db.case.update({
-      where: { id: caseId },
-      data: { status: 'DRAFT_READY' },
-    }),
-  ])
+  await db.advisorAssignment.update({
+    where: { id: assignment.id },
+    data: { status: 'DECLINED', declineReason },
+  })
 
-  // Notify client (non-blocking)
-  if (assignment.case.user) {
-    sendCaseDeclinedNotification({
-      clientEmail: assignment.case.user.email,
-      clientName: assignment.case.user.name,
-      briefSummary: assignment.case.handoffPacket?.briefSummary ?? caseId,
-      declineReason,
-      caseId,
-    }).catch(err => logger.error('Failed to send decline notification', { err }))
+  // If this was the last non-terminal assignment, reset case to DRAFT_READY
+  const remainingActive = await db.advisorAssignment.count({
+    where: { caseId, status: { in: ['PENDING', 'ACCEPTED', 'CHANGES_REQUESTED'] } },
+  })
+  if (remainingActive === 0) {
+    await db.case.update({ where: { id: caseId }, data: { status: 'DRAFT_READY' } })
+
+    // Notify client that no expert is available
+    if (assignment.case.user) {
+      sendCaseDeclinedNotification({
+        clientEmail: assignment.case.user.email,
+        clientName: assignment.case.user.name,
+        briefSummary: assignment.case.handoffPacket?.briefSummary ?? caseId,
+        declineReason: 'All available experts have declined this case.',
+        caseId,
+      }).catch(err => logger.error('Failed to send decline notification', { err }))
+    }
   }
 
-  logger.info('Advisor declined case', { caseId, advisorId: session.user.id })
+  logger.info('Advisor declined case', { caseId, advisorId })
   return NextResponse.json({ status: 'DECLINED' })
 }

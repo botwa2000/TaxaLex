@@ -26,11 +26,11 @@ type AssignmentRow = {
 export default async function AdvisorDashboardPage() {
   const session = await auth()
   if (!session) redirect('/login')
-  if (!['ADVISOR', 'LAWYER', 'ADMIN'].includes(session.user?.role ?? '')) {
+  if (!['ADVISOR', 'LAWYER', 'EXPERT', 'ADMIN'].includes(session.user?.role ?? '')) {
     redirect('/dashboard')
   }
 
-  const isLawyer = session.user?.role === 'LAWYER'
+  const isLawyer = ['LAWYER', 'EXPERT'].includes(session.user?.role ?? '')
   const advisorId = session.user!.id as string
 
   let assignments: AssignmentRow[] = []
@@ -76,7 +76,7 @@ export default async function AdvisorDashboardPage() {
 
   const pending = assignments.filter(a => a.status === 'PENDING')
   const active = assignments.filter(a => ['ACCEPTED', 'CHANGES_REQUESTED'].includes(a.status))
-  const done = assignments.filter(a => ['APPROVED', 'FINALIZED', 'DECLINED'].includes(a.status))
+  const done = assignments.filter(a => ['APPROVED', 'FINALIZED', 'DECLINED', 'SUPERSEDED', 'WITHDRAWN', 'EXPIRED'].includes(a.status))
 
   return (
     <div>

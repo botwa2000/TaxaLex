@@ -17,15 +17,15 @@ export default async function AdvisorCasePage({
 
   const session = await auth()
   if (!session) redirect('/login')
-  if (!['ADVISOR', 'LAWYER', 'ADMIN'].includes(session.user?.role ?? '')) {
+  if (!['ADVISOR', 'LAWYER', 'EXPERT', 'ADMIN'].includes(session.user?.role ?? '')) {
     redirect('/dashboard')
   }
 
   const { id: caseId } = await params
   const advisorId = session.user!.id as string
 
-  const assignment = await db.advisorAssignment.findUnique({
-    where: { caseId },
+  const assignment = await db.advisorAssignment.findFirst({
+    where: { caseId, advisorId },
     include: {
       advisor: { select: { id: true, name: true, email: true } },
       case: {
@@ -40,7 +40,7 @@ export default async function AdvisorCasePage({
     },
   })
 
-  if (!assignment || assignment.advisorId !== advisorId) notFound()
+  if (!assignment) notFound()
   if (!assignment.case.handoffPacket) notFound()
 
   const packet = assignment.case.handoffPacket

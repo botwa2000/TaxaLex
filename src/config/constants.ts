@@ -71,12 +71,28 @@ export const LEGAL = {
 export const ADVISOR = {
   /** Auto-decline unresponded assignments after this many hours */
   autoDeclineAfterHours: 48,
+  /** Broadcast invitations expire after this many hours if no expert accepts */
+  broadcastExpiryHours: 72,
   /** Max annotations per case */
   maxAnnotationsPerCase: 20,
   /** Max character length per annotation */
   maxAnnotationLength: 2000,
   /** Hours before auto-decline at which reminders are sent */
   notificationReminderHours: [24, 6],
+} as const
+
+/** Maps case useCase slug to the PracticeArea required to handle it */
+export const CASE_PRACTICE_AREA: Record<string, 'TAX' | 'LEGAL'> = {
+  tax: 'TAX',
+  grundsteuer: 'TAX',
+  jobcenter: 'LEGAL',
+  bussgeld: 'LEGAL',
+  bussgeldd: 'LEGAL',
+  krankenversicherung: 'LEGAL',
+  kuendigung: 'LEGAL',
+  miete: 'LEGAL',
+  rente: 'LEGAL',
+  sonstige: 'LEGAL',
 } as const
 
 // ── Supported File Types ──────────────────────────────────────────────────────

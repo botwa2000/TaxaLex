@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { auth } from '@/auth'
 import { db } from '@/lib/db'
-import { sendClientAnnotationNotification, sendAdvisorReplyNotification } from '@/lib/emails/advisorEmails'
+import { sendClientAnnotationNotification } from '@/lib/emails/advisorEmails'
 import { features } from '@/config/features'
 import { logger } from '@/lib/logger'
 import { ADVISOR } from '@/config/constants'
@@ -37,13 +37,15 @@ export async function POST(
     return NextResponse.json({ error: 'Invalid request', details: parsed.error.flatten() }, { status: 400 })
   }
 
-  // Verify case + assignment
+  // Fetch case with the ACCEPTED assignment for this advisor (if any)
   const caseRecord = await db.case.findUnique({
     where: { id: caseId },
     include: {
       user: { select: { id: true, email: true, name: true } },
-      assignment: {
+      assignments: {
+        where: { status: { in: ['ACCEPTED', 'CHANGES_REQUESTED'] } },
         include: { advisor: { select: { id: true, email: true, name: true } } },
+        take: 1,
       },
       handoffPacket: { select: { briefSummary: true } },
       _count: { select: { annotations: true } },
@@ -54,7 +56,8 @@ export async function POST(
     return NextResponse.json({ error: 'Case not found' }, { status: 404 })
   }
 
-  const isAdvisor = caseRecord.assignment?.advisorId === session.user.id
+  const acceptedAssignment = caseRecord.assignments[0] ?? null
+  const isAdvisor = acceptedAssignment?.advisorId === session.user.id
   const isOwner = caseRecord.userId === session.user.id
 
   if (!isAdvisor && !isOwner) {
@@ -62,7 +65,7 @@ export async function POST(
   }
 
   // Advisor can only annotate accepted cases
-  if (isAdvisor && !['ACCEPTED', 'CHANGES_REQUESTED'].includes(caseRecord.assignment?.status ?? '')) {
+  if (isAdvisor && !['ACCEPTED', 'CHANGES_REQUESTED'].includes(acceptedAssignment?.status ?? '')) {
     return NextResponse.json({ error: 'Assignment must be accepted to annotate' }, { status: 400 })
   }
 
@@ -83,9 +86,9 @@ export async function POST(
   })
 
   // Advisor creating annotation → update assignment status + notify client
-  if (isAdvisor && caseRecord.assignment) {
+  if (isAdvisor && acceptedAssignment) {
     await db.advisorAssignment.update({
-      where: { caseId },
+      where: { id: acceptedAssignment.id },
       data: { status: 'CHANGES_REQUESTED' },
     })
 

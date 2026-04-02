@@ -7,12 +7,30 @@ import { compileHandoffPacket } from '@/lib/handoff'
 import { sendHandoffNotification } from '@/lib/emails/advisorEmails'
 import { features } from '@/config/features'
 import { logger } from '@/lib/logger'
+import { ADVISOR, CASE_PRACTICE_AREA } from '@/config/constants'
 
 const HandoffSchema = z.object({
-  advisorId: z.string().min(1),
   scope: z.enum(['REVIEW_ONLY', 'FULL_REPRESENTATION']),
   clientNotes: z.string().max(1000).optional(),
 })
+
+/** Expire PENDING assignments older than broadcastExpiryHours for a case */
+async function expireStalePending(caseId: string): Promise<void> {
+  const threshold = new Date(Date.now() - ADVISOR.broadcastExpiryHours * 60 * 60 * 1000)
+  const expired = await db.advisorAssignment.updateMany({
+    where: { caseId, status: 'PENDING', createdAt: { lt: threshold } },
+    data: { status: 'EXPIRED' },
+  })
+  if (expired.count > 0) {
+    // If all assignments for this case are now terminal, reset case to DRAFT_READY
+    const active = await db.advisorAssignment.count({
+      where: { caseId, status: { in: ['PENDING', 'ACCEPTED', 'CHANGES_REQUESTED'] } },
+    })
+    if (active === 0) {
+      await db.case.update({ where: { id: caseId }, data: { status: 'DRAFT_READY' } })
+    }
+  }
+}
 
 export async function POST(
   req: NextRequest,
@@ -35,12 +53,12 @@ export async function POST(
     return NextResponse.json({ error: 'Invalid request', details: parsed.error.flatten() }, { status: 400 })
   }
 
-  const { advisorId, scope, clientNotes } = parsed.data
+  const { scope, clientNotes } = parsed.data
 
   // Verify case ownership and status
   const caseRecord = await db.case.findUnique({
     where: { id: caseId },
-    select: { id: true, userId: true, status: true, user: { select: { email: true, name: true } } },
+    select: { id: true, userId: true, status: true, useCase: true, user: { select: { email: true, name: true } } },
   })
 
   if (!caseRecord || caseRecord.userId !== session.user.id) {
@@ -51,31 +69,66 @@ export async function POST(
     return NextResponse.json({ error: 'Case must be in DRAFT_READY status to request review' }, { status: 400 })
   }
 
-  // Verify advisor exists and has correct role
-  const advisor = await db.user.findUnique({
-    where: { id: advisorId },
-    select: { id: true, role: true, email: true, name: true },
+  // Expire any stale pending assignments before checking for existing active ones
+  await expireStalePending(caseId)
+
+  // Reject if there is already an active (PENDING or ACCEPTED) assignment
+  const activeAssignment = await db.advisorAssignment.findFirst({
+    where: { caseId, status: { in: ['PENDING', 'ACCEPTED', 'CHANGES_REQUESTED'] } },
   })
-
-  if (!advisor || !['ADVISOR', 'LAWYER'].includes(advisor.role)) {
-    return NextResponse.json({ error: 'Advisor not found' }, { status: 404 })
-  }
-
-  // Check no existing active assignment
-  const existing = await db.advisorAssignment.findUnique({ where: { caseId } })
-  if (existing && !['DECLINED'].includes(existing.status)) {
+  if (activeAssignment) {
     return NextResponse.json({ error: 'Case already has an active assignment' }, { status: 409 })
   }
 
+  // Determine required practice area for this case type
+  const requiredArea = CASE_PRACTICE_AREA[caseRecord.useCase] ?? 'LEGAL'
+
+  // Find all available experts who cover this practice area and are not at capacity
+  const experts = await db.user.findMany({
+    where: {
+      role: { in: ['ADVISOR', 'LAWYER', 'EXPERT'] },
+      isAcceptingCases: true,
+      practiceAreas: { has: requiredArea },
+    },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      maxConcurrentCases: true,
+      _count: {
+        select: {
+          advisorAssignments: {
+            where: { status: { in: ['PENDING', 'ACCEPTED', 'CHANGES_REQUESTED'] } },
+          },
+        },
+      },
+    },
+  })
+
+  const availableExperts = experts.filter(
+    e => e._count.advisorAssignments < e.maxConcurrentCases
+  )
+
+  if (availableExperts.length === 0) {
+    return NextResponse.json(
+      { error: 'No experts available for this case type at this time. Please try again later.' },
+      { status: 503 }
+    )
+  }
+
   try {
-    // Compile handoff packet
+    // Compile handoff packet once
     const packet = await compileHandoffPacket(caseId, scope, clientNotes)
 
-    // Create assignment (upsert to handle re-request after decline)
-    const assignment = await db.advisorAssignment.upsert({
-      where: { caseId },
-      create: { caseId, advisorId, scope, status: 'PENDING' },
-      update: { advisorId, scope, status: 'PENDING', declineReason: null, acceptedAt: null, finalizedAt: null },
+    // Create one assignment per available expert (broadcast)
+    await db.advisorAssignment.createMany({
+      data: availableExperts.map(e => ({
+        caseId,
+        advisorId: e.id,
+        scope,
+        status: 'PENDING' as const,
+      })),
+      skipDuplicates: true,
     })
 
     // Update case status
@@ -84,20 +137,30 @@ export async function POST(
       data: { status: 'ADVISOR_REVIEW' },
     })
 
-    // Send notification email (non-blocking)
-    sendHandoffNotification({
-      advisorEmail: advisor.email,
-      advisorName: advisor.name,
-      briefSummary: packet.briefSummary,
-      amountDisputed: packet.extractedFacts.amountDisputed,
-      deadlineDate: packet.extractedFacts.deadline,
-      viabilityScore: packet.analysisSummary.viabilityScore,
+    // Send notification emails to all experts (non-blocking)
+    for (const expert of availableExperts) {
+      sendHandoffNotification({
+        advisorEmail: expert.email,
+        advisorName: expert.name,
+        briefSummary: packet.briefSummary,
+        amountDisputed: packet.extractedFacts.amountDisputed,
+        deadlineDate: packet.extractedFacts.deadline,
+        viabilityScore: packet.analysisSummary.viabilityScore,
+        caseId,
+      }).catch(err => logger.error('Failed to send handoff notification', { advisorId: expert.id, err }))
+    }
+
+    logger.info('Broadcast handoff created', {
       caseId,
-    }).catch(err => logger.error('Failed to send handoff notification', { err }))
+      practiceArea: requiredArea,
+      expertCount: availableExperts.length,
+    })
 
-    logger.info('Handoff created', { caseId, advisorId, assignmentId: assignment.id })
-
-    return NextResponse.json({ assignmentId: assignment.id, packetId: packet.id })
+    return NextResponse.json({
+      packetId: packet.id,
+      expertCount: availableExperts.length,
+      practiceArea: requiredArea,
+    })
   } catch (error) {
     logger.error('Handoff compilation failed', { caseId, error })
     return NextResponse.json({ error: 'Failed to create handoff' }, { status: 500 })

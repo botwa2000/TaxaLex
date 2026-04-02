@@ -13,6 +13,8 @@ const RegisterSchema = z.object({
   password: z.string().min(AUTH.minPasswordLength, `Mindestens ${AUTH.minPasswordLength} Zeichen`),
   name: z.string().min(2).max(100).optional(),
   locale: z.string().optional(),
+  userType: z.enum(['individual', 'expert']).optional().default('individual'),
+  practiceAreas: z.array(z.enum(['TAX', 'LEGAL'])).optional(),
 })
 
 function generate6DigitCode(): string {
@@ -31,8 +33,15 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    const { email, password, name, locale = 'de' } = parsed.data
+    const { email, password, name, locale = 'de', userType, practiceAreas } = parsed.data
     const normalizedEmail = email.toLowerCase()
+
+    if (userType === 'expert' && (!practiceAreas || practiceAreas.length === 0)) {
+      return NextResponse.json(
+        { error: 'Bitte wählen Sie mindestens einen Fachbereich.' },
+        { status: 400 }
+      )
+    }
 
     const existing = await db.user.findUnique({
       where: { email: normalizedEmail },
@@ -52,6 +61,8 @@ export async function POST(req: NextRequest) {
         passwordHash,
         name: name ?? null,
         locale,
+        role: userType === 'expert' ? 'EXPERT' : 'USER',
+        practiceAreas: userType === 'expert' ? (practiceAreas ?? []) : [],
       },
       select: { id: true, email: true, name: true, locale: true },
     })
@@ -66,7 +77,6 @@ export async function POST(req: NextRequest) {
       },
     })
 
-    // Send verification email only — welcome email is sent after the user verifies
     await Promise.allSettled([
       sendEmail({
         to: user.email,
@@ -75,7 +85,7 @@ export async function POST(req: NextRequest) {
       }),
     ])
 
-    logger.info('User registered', { userId: user.id, locale: user.locale })
+    logger.info('User registered', { userId: user.id, locale: user.locale, role: userType === 'expert' ? 'EXPERT' : 'USER' })
     return NextResponse.json({ success: true }, { status: 201 })
   } catch (error) {
     logger.error('Registration error', { error })

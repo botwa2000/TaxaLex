@@ -292,12 +292,13 @@
         "individual": "Privatperson",
         "selfemployed": "SelbststÃ¤ndig",
         "advisor": "Steuerberater",
-        "lawyer": "Rechtsanwalt"
+        "lawyer": "Rechtsanwalt",
+        "expert": "Fachexperte"
       },
       "benefits": {
         "individual": [
           "5 KI-Agenten analysieren Ihren Bescheid und formulieren einen fundierten Einspruch",
-          "8 Bescheidarten: Steuern, Jobcenter, Rente, Bußgelder, Miete u. v. m.",
+          "8 Bescheidarten: Steuern, Jobcenter, Rente, Bußgelder, Miete u. v. m.",
           "Fertiges Einspruchsschreiben als DOCX oder TXT – versandfertig in Minuten"
         ],
         "selfemployed": [
@@ -314,18 +315,31 @@
           "Einsprüche aus allen Rechtsgebieten prüfen: Steuer, Arbeit, Miete, Sozialrecht",
           "Entwurfsabschnitte kommentieren und Mandantenrückfragen direkt im Thread klären",
           "Strukturierte Übergabe mit extrahierten Fakten und KI-Erfolgseinschätzung"
+        ],
+        "expert": [
+          "KI-aufbereitete Mandanten-Entwürfe prüfen, kommentieren und freigeben",
+          "Broadcast-Zuweisung: Neuer Fall in Ihrem Fachbereich – erster Annehmer erhält den Auftrag",
+          "Strukturiertes Fallpaket mit extrahierten Fakten, KI-Analyse und Viabilität"
         ]
       },
       "iAm": "Ich bin…",
       "sublabels": {
         "individual": "Bescheide anfechten",
         "advisor": "Mandanten betreuen",
-        "lawyer": "Mandanten vertreten"
+        "lawyer": "Mandanten vertreten",
+        "expert": "Mandanten betreuen"
       },
       "registerFree": "Kostenlos registrieren",
       "passwordStrengthLabel": "Passwortstärke:",
       "passwordMinLength": "Min. {n} Zeichen",
-      "errorFailed": "Registrierung fehlgeschlagen."
+      "errorFailed": "Registrierung fehlgeschlagen.",
+      "practiceAreasLabel": "Meine Fachbereiche",
+      "practiceAreas": {
+        "tax": "Steuerrecht",
+        "legal": "Allgemeines Recht"
+      },
+      "practiceAreasMin": "Bitte wählen Sie mindestens einen Fachbereich.",
+      "practiceAreasSelfCert": "Durch Auswahl bestätigen Sie, dass Sie in den gewählten Bereichen lizenziert sind."
     },
     "layout": {
       "backToHome": "Zurück zur Startseite",
@@ -521,7 +535,16 @@
       },
       "clientNotes": "Hinweise für den Berater (optional)",
       "submit": "Prüfung anfragen",
-      "submitted": "Anfrage gesendet"
+      "submitted": "Anfrage gesendet",
+      "broadcastInfo": "Alle verfügbaren Experten in Ihrem Fachbereich werden benachrichtigt. Der Erste, der annimmt, betreut Ihren Fall.",
+      "withdrawButton": "Anfrage zurückziehen",
+      "withdrawReason": "Grund für den Rückzug",
+      "withdrawConfirm": "Anfrage wirklich zurückziehen?",
+      "expertArea": "Fachbereich",
+      "tax": "Steuerrecht",
+      "legal": "Allgemeines Recht",
+      "expertsNotified": "{count} Experte(n) benachrichtigt",
+      "awaitingAcceptance": "Warte auf Annahme durch einen Experten..."
     },
     "assignment": {
       "pending": "Entscheidung erforderlich",
@@ -529,7 +552,12 @@
       "declined": "Abgelehnt",
       "changesRequested": "Rückfragen offen",
       "approved": "Freigegeben",
-      "finalized": "Abgeschlossen"
+      "finalized": "Abgeschlossen",
+      "statuses": {
+        "SUPERSEDED": "Von anderem Experten übernommen",
+        "WITHDRAWN": "Vom Mandanten zurückgezogen",
+        "EXPIRED": "Abgelaufen (72 Std. ohne Reaktion)"
+      }
     },
     "packet": {
       "brief": "Fallzusammenfassung",

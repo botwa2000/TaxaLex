@@ -33,8 +33,8 @@ export async function POST(
     return NextResponse.json({ error: 'Invalid request', details: parsed.error.flatten() }, { status: 400 })
   }
 
-  const assignment = await db.advisorAssignment.findUnique({
-    where: { caseId },
+  const assignment = await db.advisorAssignment.findFirst({
+    where: { caseId, advisorId: session.user.id as string },
     include: {
       case: {
         include: {
@@ -46,7 +46,7 @@ export async function POST(
     },
   })
 
-  if (!assignment || assignment.advisorId !== session.user.id) {
+  if (!assignment) {
     return NextResponse.json({ error: 'Not found' }, { status: 404 })
   }
 
@@ -99,7 +99,7 @@ export async function POST(
 
     // Update assignment and case status
     await tx.advisorAssignment.update({
-      where: { caseId },
+      where: { id: assignment.id },
       data: { status: 'FINALIZED', finalizedAt: new Date() },
     })
 

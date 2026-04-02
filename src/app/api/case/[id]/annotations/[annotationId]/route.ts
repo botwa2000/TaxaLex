@@ -43,8 +43,10 @@ export async function PATCH(
       case: {
         include: {
           user: { select: { id: true, email: true, name: true } },
-          assignment: {
+          assignments: {
+            where: { status: { in: ['ACCEPTED', 'CHANGES_REQUESTED'] } },
             include: { advisor: { select: { id: true, email: true, name: true } } },
+            take: 1,
           },
           handoffPacket: { select: { briefSummary: true } },
         },
@@ -56,7 +58,8 @@ export async function PATCH(
     return NextResponse.json({ error: 'Not found' }, { status: 404 })
   }
 
-  const isAdvisor = annotation.case.assignment?.advisorId === session.user.id
+  const acceptedAssignment = annotation.case.assignments[0] ?? null
+  const isAdvisor = acceptedAssignment?.advisorId === session.user.id
   const isOwner = annotation.case.userId === session.user.id
 
   if (!isAdvisor && !isOwner) {
@@ -78,9 +81,9 @@ export async function PATCH(
     const openCount = await db.caseAnnotation.count({
       where: { caseId, status: { in: ['OPEN', 'ANSWERED'] } },
     })
-    if (openCount === 0 && annotation.case.assignment) {
+    if (openCount === 0 && acceptedAssignment) {
       await db.advisorAssignment.update({
-        where: { caseId },
+        where: { id: acceptedAssignment.id },
         data: { status: 'ACCEPTED' },
       })
     }
@@ -107,7 +110,7 @@ export async function PATCH(
   })
 
   // Notify advisor (non-blocking)
-  const advisor = annotation.case.assignment?.advisor
+  const advisor = acceptedAssignment?.advisor
   if (advisor) {
     sendAdvisorReplyNotification({
       advisorEmail: advisor.email,

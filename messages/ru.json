@@ -289,10 +289,11 @@
         "strong": "Надёжный"
       },
       "types": {
-        "individual": "Физическое лицо",
+        "individual": "Individual",
         "selfemployed": "Самозанятый",
         "advisor": "Налоговый консультант",
-        "lawyer": "Адвокат"
+        "lawyer": "Адвокат",
+        "expert": "Expert"
       },
       "benefits": {
         "individual": [
@@ -314,18 +315,31 @@
           "Review objections across all legal areas: tax, employment, rent, social law",
           "Annotate draft sections and resolve client questions in one threaded view",
           "Structured handoff with extracted facts and AI viability assessment per case"
+        ],
+        "expert": [
+          "Review AI-prepared client drafts, annotate sections, and approve with one click",
+          "Broadcast assignment: new case in your area — first to accept gets it",
+          "Structured handoff packet with extracted facts, AI analysis, and viability score"
         ]
       },
       "iAm": "I am…",
       "sublabels": {
         "individual": "Appeal notices",
         "advisor": "Manage clients",
-        "lawyer": "Represent clients"
+        "lawyer": "Represent clients",
+        "expert": "Manage clients"
       },
       "registerFree": "Register for free",
       "passwordStrengthLabel": "Password strength:",
       "passwordMinLength": "Min. {n} characters",
-      "errorFailed": "Registration failed."
+      "errorFailed": "Registration failed.",
+      "practiceAreasLabel": "My practice areas",
+      "practiceAreas": {
+        "tax": "Tax law",
+        "legal": "General law"
+      },
+      "practiceAreasMin": "Please select at least one practice area.",
+      "practiceAreasSelfCert": "By selecting, you confirm you are licensed to practise in the chosen areas."
     },
     "layout": {
       "backToHome": "Back to home",
@@ -644,7 +658,16 @@
       },
       "clientNotes": "Notes for the advisor (optional)",
       "submit": "Request review",
-      "submitted": "Request sent"
+      "submitted": "Request sent",
+      "broadcastInfo": "All available experts in your area will be notified. The first to accept handles your case.",
+      "withdrawButton": "Withdraw request",
+      "withdrawReason": "Reason for withdrawal",
+      "withdrawConfirm": "Really withdraw this request?",
+      "expertArea": "Practice area",
+      "tax": "Tax law",
+      "legal": "General law",
+      "expertsNotified": "{count} expert(s) notified",
+      "awaitingAcceptance": "Waiting for an expert to accept..."
     },
     "assignment": {
       "pending": "Decision required",
@@ -652,7 +675,12 @@
       "declined": "Declined",
       "changesRequested": "Questions pending",
       "approved": "Approved",
-      "finalized": "Finalized"
+      "finalized": "Finalized",
+      "statuses": {
+        "SUPERSEDED": "Taken by another expert",
+        "WITHDRAWN": "Withdrawn by client",
+        "EXPIRED": "Expired (72h without response)"
+      }
     },
     "packet": {
       "brief": "Case summary",

@@ -50,7 +50,7 @@ export default async function CaseDetailPage({
       where: { id, userId },
       include: features.advisorModule
         ? {
-            assignment: { select: { status: true } },
+            assignments: { select: { status: true } },
             annotations: {
               include: { author: { select: { id: true, name: true } } },
               orderBy: { createdAt: 'asc' },
@@ -61,8 +61,9 @@ export default async function CaseDetailPage({
     if (!raw) notFound()
     caseData = raw as CaseDetail
 
-    if (features.advisorModule && 'assignment' in raw && raw.assignment) {
-      hasActiveAssignment = !['DECLINED'].includes((raw.assignment as { status: string }).status)
+    if (features.advisorModule && 'assignments' in raw && Array.isArray(raw.assignments)) {
+      const activeStatuses = ['PENDING', 'ACCEPTED', 'CHANGES_REQUESTED']
+      hasActiveAssignment = (raw.assignments as { status: string }[]).some(a => activeStatuses.includes(a.status))
     }
     if (features.advisorModule && 'annotations' in raw) {
       annotations = ((raw as { annotations: unknown[] }).annotations as AnnotationData[]) ?? []
@@ -160,7 +161,7 @@ export default async function CaseDetailPage({
           <OverviewTab caseData={caseData} daysLeft={daysLeft} isUrgent={isUrgent} isOverdue={isOverdue} />
           {features.advisorModule && caseData.status === 'DRAFT_READY' && !hasActiveAssignment && (
             <div className="mt-6">
-              <HandoffRequestForm caseId={caseData.id} />
+              <HandoffRequestForm caseId={caseData.id} useCase={caseData.useCase} />
             </div>
           )}
           {features.advisorModule && annotations.length > 0 && (

@@ -19,8 +19,10 @@ export async function GET(
 
   const { id: caseId } = await params
 
-  const assignment = await db.advisorAssignment.findUnique({
-    where: { caseId },
+  const advisorId = session.user.id as string
+
+  const assignment = await db.advisorAssignment.findFirst({
+    where: { caseId, advisorId },
     include: {
       case: {
         include: {
@@ -34,7 +36,7 @@ export async function GET(
     },
   })
 
-  if (!assignment || assignment.advisorId !== session.user.id) {
+  if (!assignment) {
     return NextResponse.json({ error: 'Not found' }, { status: 404 })
   }
 

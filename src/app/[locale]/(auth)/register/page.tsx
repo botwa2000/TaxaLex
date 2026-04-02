@@ -3,10 +3,10 @@
 import { useState } from 'react'
 import { useTranslations, useLocale } from 'next-intl'
 import { Link } from '@/i18n/navigation'
-import { Loader2, CheckCircle2, User, UserCheck, Scale, Eye, EyeOff } from 'lucide-react'
+import { Loader2, CheckCircle2, User, Briefcase, Eye, EyeOff } from 'lucide-react'
 import { AUTH } from '@/config/constants'
 
-type UserType = 'individual' | 'advisor' | 'lawyer'
+type UserType = 'individual' | 'expert'
 
 export default function RegisterPage() {
   const t = useTranslations('auth.register')
@@ -16,11 +16,11 @@ export default function RegisterPage() {
 
   const USER_TYPES: { key: UserType; icon: React.ElementType }[] = [
     { key: 'individual', icon: User },
-    { key: 'advisor', icon: UserCheck },
-    { key: 'lawyer', icon: Scale },
+    { key: 'expert', icon: Briefcase },
   ]
 
   const [userType, setUserType] = useState<UserType>('individual')
+  const [practiceAreas, setPracticeAreas] = useState<('TAX' | 'LEGAL')[]>([])
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -28,15 +28,34 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
 
+  function toggleArea(area: 'TAX' | 'LEGAL') {
+    setPracticeAreas(prev =>
+      prev.includes(area) ? prev.filter(a => a !== area) : [...prev, area]
+    )
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
+
+    if (userType === 'expert' && practiceAreas.length === 0) {
+      setError(t('practiceAreasMin'))
+      return
+    }
+
     setLoading(true)
     setError('')
 
     const res = await fetch('/api/auth/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, email, password, userType, locale }),
+      body: JSON.stringify({
+        name,
+        email,
+        password,
+        userType,
+        practiceAreas: userType === 'expert' ? practiceAreas : undefined,
+        locale,
+      }),
     })
 
     if (!res.ok) {
@@ -84,15 +103,15 @@ export default function RegisterPage() {
         </div>
       )}
 
-      {/* User type selector */}
+      {/* Account type selector */}
       <div className="mb-5">
         <p className="text-xs font-semibold uppercase tracking-wider text-[var(--muted)] mb-2">{t('iAm')}</p>
-        <div className="grid grid-cols-3 gap-2">
+        <div className="grid grid-cols-2 gap-2">
           {USER_TYPES.map(({ key, icon: Icon }) => (
             <button
               key={key}
               type="button"
-              onClick={() => setUserType(key)}
+              onClick={() => { setUserType(key); setPracticeAreas([]) }}
               className={`flex flex-col items-center gap-1.5 px-2 py-3 rounded-lg border text-center transition-colors ${
                 userType === key
                   ? 'border-brand-400 bg-brand-50 text-brand-700 dark:bg-brand-950 dark:border-brand-600 dark:text-brand-300'
@@ -107,7 +126,40 @@ export default function RegisterPage() {
         </div>
       </div>
 
-      {/* Benefits for selected type */}
+      {/* Practice area checkboxes — only for experts */}
+      {userType === 'expert' && (
+        <div className="mb-5">
+          <p className="text-xs font-semibold uppercase tracking-wider text-[var(--muted)] mb-2">
+            {t('practiceAreasLabel')}
+          </p>
+          <div className="grid grid-cols-2 gap-2">
+            {(['TAX', 'LEGAL'] as const).map(area => (
+              <button
+                key={area}
+                type="button"
+                onClick={() => toggleArea(area)}
+                className={`flex items-center gap-2 px-3 py-2.5 rounded-lg border text-left transition-colors ${
+                  practiceAreas.includes(area)
+                    ? 'border-brand-400 bg-brand-50 text-brand-700 dark:bg-brand-950 dark:border-brand-600 dark:text-brand-300'
+                    : 'border-[var(--border)] text-[var(--muted)] hover:text-[var(--foreground)] hover:border-[var(--border-strong)]'
+                }`}
+              >
+                <div className={`w-4 h-4 rounded border-2 flex items-center justify-center shrink-0 transition-colors ${
+                  practiceAreas.includes(area)
+                    ? 'border-brand-500 bg-brand-500'
+                    : 'border-[var(--border)]'
+                }`}>
+                  {practiceAreas.includes(area) && <CheckCircle2 className="w-3 h-3 text-white" />}
+                </div>
+                <span className="text-xs font-semibold">{t(`practiceAreas.${area.toLowerCase()}`)}</span>
+              </button>
+            ))}
+          </div>
+          <p className="text-[10px] text-[var(--muted)] mt-1.5">{t('practiceAreasSelfCert')}</p>
+        </div>
+      )}
+
+      {/* Benefits */}
       <div className="bg-brand-50 dark:bg-brand-950 border border-brand-100 dark:border-brand-900 rounded-xl p-3.5 mb-5 space-y-1.5">
         {Array.isArray(benefits) && benefits.map((b) => (
           <div key={b} className="flex items-center gap-2 text-xs text-brand-800 dark:text-brand-300">

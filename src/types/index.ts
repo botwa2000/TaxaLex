@@ -78,10 +78,15 @@ export interface EinspruchDocument {
 
 export type ViabilityScore = 'HIGH' | 'MEDIUM' | 'LOW'
 
+export type PracticeArea = 'TAX' | 'LEGAL'
+
 export type AdvisorAssignmentStatus =
   | 'PENDING'
   | 'ACCEPTED'
   | 'DECLINED'
+  | 'SUPERSEDED'
+  | 'WITHDRAWN'
+  | 'EXPIRED'
   | 'CHANGES_REQUESTED'
   | 'APPROVED'
   | 'FINALIZED'

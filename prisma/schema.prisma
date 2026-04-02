@@ -14,7 +14,13 @@ enum UserRole {
   PRO
   ADVISOR
   LAWYER
+  EXPERT
   ADMIN
+}
+
+enum PracticeArea {
+  TAX
+  LEGAL
 }
 
 enum CaseStatus {
@@ -72,6 +78,9 @@ enum AdvisorAssignmentStatus {
   PENDING
   ACCEPTED
   DECLINED
+  SUPERSEDED
+  WITHDRAWN
+  EXPIRED
   CHANGES_REQUESTED
   APPROVED
   FINALIZED
@@ -110,6 +119,10 @@ model User {
   theme          String    @default("system")
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
+
+  practiceAreas            PracticeArea[] @default([])
+  isAcceptingCases         Boolean        @default(true)
+  maxConcurrentCases       Int            @default(10)
 
   stripeCustomerId         String?   @unique
   creditBalance            Int       @default(0)
@@ -213,7 +226,7 @@ model Case {
 
   viabilityScore   ViabilityScore?
   viabilitySummary String?
-  assignment       AdvisorAssignment?
+  assignments      AdvisorAssignment[]
   handoffPacket    HandoffPacket?
   annotations      CaseAnnotation[]
 
@@ -264,7 +277,7 @@ model CaseOutput {
 
 model AdvisorAssignment {
   id            String                  @id @default(cuid())
-  caseId        String                  @unique
+  caseId        String
   case          Case                    @relation(fields: [caseId], references: [id], onDelete: Cascade)
   advisorId     String
   advisor       User                    @relation("AdvisorAssignments", fields: [advisorId], references: [id])
@@ -276,6 +289,8 @@ model AdvisorAssignment {
   createdAt     DateTime                @default(now())
   updatedAt     DateTime                @updatedAt
 
+  @@unique([caseId, advisorId])
+  @@index([caseId])
   @@index([advisorId])
   @@index([status])
 }

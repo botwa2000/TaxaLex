@@ -45,7 +45,7 @@ export default auth((req) => {
 
   // Role-based gates (ADVISOR/LAWYER only for /advisor, ADMIN only for /admin)
   const role = (req.auth as { user?: { role?: string } } | null)?.user?.role
-  if (cleanPath.startsWith('/advisor/') && role && !['ADVISOR', 'LAWYER', 'ADMIN'].includes(role)) {
+  if (cleanPath.startsWith('/advisor/') && role && !['ADVISOR', 'LAWYER', 'EXPERT', 'ADMIN'].includes(role)) {
     return NextResponse.redirect(new URL(`/${locale}/dashboard`, req.url))
   }
   if (cleanPath.startsWith('/admin') && role && role !== 'ADMIN') {

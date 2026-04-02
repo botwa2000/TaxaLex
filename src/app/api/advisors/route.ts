@@ -1,10 +1,11 @@
 import 'server-only'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@/auth'
 import { db } from '@/lib/db'
 import { features } from '@/config/features'
+import { ADVISOR, CASE_PRACTICE_AREA } from '@/config/constants'
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   if (!features.advisorModule) {
     return NextResponse.json({ error: 'Not available' }, { status: 403 })
   }
@@ -14,13 +15,27 @@ export async function GET() {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  const advisors = await db.user.findMany({
-    where: { role: { in: ['ADVISOR', 'LAWYER'] } },
+  const { searchParams } = new URL(req.url)
+  const useCase = searchParams.get('useCase') ?? undefined
+
+  // Determine required practice area from case type, if provided
+  const requiredArea = useCase ? (CASE_PRACTICE_AREA[useCase] ?? undefined) : undefined
+
+  const expiryThreshold = new Date(Date.now() - ADVISOR.broadcastExpiryHours * 60 * 60 * 1000)
+
+  const experts = await db.user.findMany({
+    where: {
+      role: { in: ['ADVISOR', 'LAWYER', 'EXPERT'] },
+      isAcceptingCases: true,
+      // If a practice area is required, filter experts who cover it
+      ...(requiredArea ? { practiceAreas: { has: requiredArea } } : {}),
+    },
     select: {
       id: true,
       name: true,
-      email: true,
       role: true,
+      practiceAreas: true,
+      maxConcurrentCases: true,
       _count: {
         select: {
           advisorAssignments: {
@@ -32,13 +47,23 @@ export async function GET() {
     orderBy: { name: 'asc' },
   })
 
+  // Lazy-expire stale PENDING assignments (72h check, non-blocking best-effort)
+  db.advisorAssignment.updateMany({
+    where: {
+      status: 'PENDING',
+      createdAt: { lt: expiryThreshold },
+    },
+    data: { status: 'EXPIRED' },
+  }).catch(() => {/* non-critical */})
+
   return NextResponse.json(
-    advisors.map(a => ({
-      id: a.id,
-      name: a.name,
-      email: a.email,
-      role: a.role,
-      activeAssignments: a._count.advisorAssignments,
+    experts.map(e => ({
+      id: e.id,
+      name: e.name,
+      role: e.role,
+      practiceAreas: e.practiceAreas,
+      activeAssignments: e._count.advisorAssignments,
+      atCapacity: e._count.advisorAssignments >= e.maxConcurrentCases,
     }))
   )
 }

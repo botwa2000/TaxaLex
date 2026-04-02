@@ -25,6 +25,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           'admin@taxalex.de':          { id: 'demo_admin_001',   name: 'Max Mustermann', role: 'ADMIN',   password: 'Admin1234!' },
           'advisor@demo.taxalex.de':   { id: 'demo_advisor_001', name: 'Karin Müller',   role: 'ADVISOR', password: 'Demo1234!' },
           'lawyer@demo.taxalex.de':    { id: 'demo_lawyer_001',  name: 'Dr. Fischer',    role: 'LAWYER',  password: 'Demo1234!' },
+          'expert@demo.taxalex.de':    { id: 'demo_expert_001',  name: 'Maria Bauer',    role: 'EXPERT',  password: 'Demo1234!' },
           'user@demo.taxalex.de':      { id: 'demo_user_001',    name: 'Anna Schmidt',   role: 'USER',    password: 'Demo1234!' },
           'expat@demo.taxalex.de':     { id: 'demo_expat_001',   name: 'James Wilson',   role: 'USER',    password: 'Demo1234!' },
           // Deprecated alias kept for backwards compatibility
