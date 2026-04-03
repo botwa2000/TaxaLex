@@ -614,6 +614,21 @@
       "reason": "Motivo del rechazo",
       "reasonPlaceholder": "Por favor, indica un motivo...",
       "confirm": "Confirmar rechazo"
+    },
+    "expertCta": {
+      "title": "Añadir revisión experta",
+      "subtitle": "Haz que un asesor fiscal o abogado autorizado revise tu carta",
+      "feature1": "Asesor fiscal o abogado especialista autorizado",
+      "feature2": "Aprobación, comentario o pregunta en 48 h",
+      "feature3": "Enlace seguro — el experto no necesita cuenta",
+      "feature4": "Complemento para un solo caso (no es una suscripción)",
+      "perCase": "/ por caso",
+      "subscriberDiscount": "Ahorras {standard} como suscriptor",
+      "checkoutError": "Error en el pago. Por favor, inténtalo de nuevo.",
+      "redirecting": "Redirigiendo...",
+      "cta": "Comprar por {price}",
+      "securityNote": "Pago seguro a través de Stripe. No se comparten datos con terceros.",
+      "cancellationNote": "Reembolso completo en 14 días si no se ha utilizado."
     }
   },
   "admin": {

@@ -614,6 +614,21 @@
       "reason": "Reason for declining",
       "reasonPlaceholder": "Please provide a reason...",
       "confirm": "Confirm decline"
+    },
+    "expertCta": {
+      "title": "Add expert review",
+      "subtitle": "Have your letter checked by a licensed tax advisor or lawyer",
+      "feature1": "Licensed tax advisor or specialist lawyer",
+      "feature2": "Approval, comment, or question within 48 h",
+      "feature3": "Secure link — no account needed for the expert",
+      "feature4": "Single-case add-on (not a subscription)",
+      "perCase": "/ per case",
+      "subscriberDiscount": "You save {standard} as a subscriber",
+      "checkoutError": "Checkout failed. Please try again.",
+      "redirecting": "Redirecting...",
+      "cta": "Buy now for {price}",
+      "securityNote": "Secure payment via Stripe. No data shared with third parties.",
+      "cancellationNote": "Full refund within 14 days if not yet used."
     }
   },
   "admin": {

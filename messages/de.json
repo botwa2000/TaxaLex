@@ -614,6 +614,21 @@
       "reason": "Grund der Ablehnung",
       "reasonPlaceholder": "Bitte geben Sie einen Grund an...",
       "confirm": "Ablehnen bestätigen"
+    },
+    "expertCta": {
+      "title": "Expertenprüfung hinzubuchen",
+      "subtitle": "Von einem zugelassenen Steuerberater oder Anwalt prüfen lassen",
+      "feature1": "Zugelassener Steuerberater oder Fachanwalt",
+      "feature2": "Freigabe, Kommentar oder Rückfrage innerhalb von 48 Std.",
+      "feature3": "Sicherer Link — kein Konto für den Experten nötig",
+      "feature4": "Gilt nur für diesen Fall (kein Abonnement)",
+      "perCase": "/ pro Fall",
+      "subscriberDiscount": "Sie sparen {standard} als Abonnent",
+      "checkoutError": "Fehler beim Weiterleiten. Bitte versuchen Sie es erneut.",
+      "redirecting": "Weiterleitung ...",
+      "cta": "Jetzt für {price} buchen",
+      "securityNote": "Sichere Zahlung via Stripe. Keine Datenweitergabe an Dritte.",
+      "cancellationNote": "Erstattung innerhalb von 14 Tagen, solange noch nicht genutzt."
     }
   },
   "admin": {

@@ -614,6 +614,21 @@
       "reason": "Powód odrzucenia",
       "reasonPlaceholder": "Podaj powód...",
       "confirm": "Potwierdź odrzucenie"
+    },
+    "expertCta": {
+      "title": "Dodaj weryfikację eksperta",
+      "subtitle": "Poproś licencjonowanego doradcę podatkowego lub prawnika o sprawdzenie pisma",
+      "feature1": "Licencjonowany doradca podatkowy lub adwokat specjalista",
+      "feature2": "Zatwierdzenie, komentarz lub pytanie w ciągu 48 h",
+      "feature3": "Bezpieczny link — ekspert nie potrzebuje konta",
+      "feature4": "Dodatek do jednej sprawy (nie subskrypcja)",
+      "perCase": "/ za sprawę",
+      "subscriberDiscount": "Oszczędzasz {standard} jako subskrybent",
+      "checkoutError": "Błąd płatności. Spróbuj ponownie.",
+      "redirecting": "Przekierowywanie...",
+      "cta": "Kup za {price}",
+      "securityNote": "Bezpieczna płatność przez Stripe. Żadne dane nie są udostępniane osobom trzecim.",
+      "cancellationNote": "Pełny zwrot w ciągu 14 dni, jeśli jeszcze nie wykorzystano."
     }
   },
   "admin": {

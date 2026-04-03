@@ -614,6 +614,21 @@
       "reason": "Motivo del rifiuto",
       "reasonPlaceholder": "Inserisci un motivo...",
       "confirm": "Conferma rifiuto"
+    },
+    "expertCta": {
+      "title": "Aggiungi revisione esperta",
+      "subtitle": "Fai controllare la tua lettera da un consulente fiscale o avvocato abilitato",
+      "feature1": "Consulente fiscale o avvocato specializzato abilitato",
+      "feature2": "Approvazione, commento o domanda entro 48 h",
+      "feature3": "Link sicuro — nessun account necessario per l'esperto",
+      "feature4": "Supplemento per singolo caso (non un abbonamento)",
+      "perCase": "/ per caso",
+      "subscriberDiscount": "Risparmi {standard} come abbonato",
+      "checkoutError": "Pagamento fallito. Riprova.",
+      "redirecting": "Reindirizzamento...",
+      "cta": "Acquista per {price}",
+      "securityNote": "Pagamento sicuro tramite Stripe. Nessun dato condiviso con terzi.",
+      "cancellationNote": "Rimborso completo entro 14 giorni se non ancora utilizzato."
     }
   },
   "admin": {

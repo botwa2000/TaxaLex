@@ -614,6 +614,21 @@
       "reason": "Reddetme nedeni",
       "reasonPlaceholder": "Lütfen bir neden belirtin...",
       "confirm": "Reddi onayla"
+    },
+    "expertCta": {
+      "title": "Uzman incelemesi ekle",
+      "subtitle": "Mektubunuzu lisanslı bir vergi danışmanı veya avukat tarafından kontrol ettirin",
+      "feature1": "Lisanslı vergi danışmanı veya uzman avukat",
+      "feature2": "48 saat içinde onay, yorum veya soru",
+      "feature3": "Güvenli bağlantı — uzman için hesap gerekmez",
+      "feature4": "Tek dava eklentisi (abonelik değil)",
+      "perCase": "/ dava başına",
+      "subscriberDiscount": "Abone olarak {standard} tasarruf edersiniz",
+      "checkoutError": "Ödeme başarısız. Lütfen tekrar deneyin.",
+      "redirecting": "Yönlendiriliyor...",
+      "cta": "{price} için satın al",
+      "securityNote": "Stripe üzerinden güvenli ödeme. Üçüncü taraflarla veri paylaşılmaz.",
+      "cancellationNote": "Henüz kullanılmamışsa 14 gün içinde tam iade."
     }
   },
   "admin": {

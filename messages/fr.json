@@ -614,6 +614,21 @@
       "reason": "Raison du refus",
       "reasonPlaceholder": "Veuillez indiquer une raison...",
       "confirm": "Confirmer le refus"
+    },
+    "expertCta": {
+      "title": "Ajouter un examen d'expert",
+      "subtitle": "Faites vérifier votre courrier par un conseiller fiscal ou avocat agréé",
+      "feature1": "Conseiller fiscal ou avocat spécialisé agréé",
+      "feature2": "Approbation, commentaire ou question sous 48 h",
+      "feature3": "Lien sécurisé — aucun compte requis pour l'expert",
+      "feature4": "Complément pour un seul dossier (pas un abonnement)",
+      "perCase": "/ par dossier",
+      "subscriberDiscount": "Vous économisez {standard} en tant qu'abonné",
+      "checkoutError": "Échec du paiement. Veuillez réessayer.",
+      "redirecting": "Redirection...",
+      "cta": "Acheter pour {price}",
+      "securityNote": "Paiement sécurisé via Stripe. Aucune donnée partagée avec des tiers.",
+      "cancellationNote": "Remboursement intégral sous 14 jours si non utilisé."
     }
   },
   "admin": {

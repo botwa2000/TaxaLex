@@ -614,6 +614,21 @@
       "reason": "Motivo da recusa",
       "reasonPlaceholder": "Por favor indique um motivo...",
       "confirm": "Confirmar recusa"
+    },
+    "expertCta": {
+      "title": "Adicionar revisão especializada",
+      "subtitle": "Peça a um consultor fiscal ou advogado licenciado para verificar a sua carta",
+      "feature1": "Consultor fiscal ou advogado especialista licenciado",
+      "feature2": "Aprovação, comentário ou pergunta em 48 h",
+      "feature3": "Link seguro — o especialista não precisa de conta",
+      "feature4": "Complemento para caso único (não é uma subscrição)",
+      "perCase": "/ por caso",
+      "subscriberDiscount": "Poupa {standard} como assinante",
+      "checkoutError": "Falha no pagamento. Por favor, tente novamente.",
+      "redirecting": "A redirecionar...",
+      "cta": "Comprar por {price}",
+      "securityNote": "Pagamento seguro via Stripe. Nenhum dado partilhado com terceiros.",
+      "cancellationNote": "Reembolso total em 14 dias se ainda não utilizado."
     }
   },
   "admin": {
