@@ -235,10 +235,6 @@ function EinspruchPageInner() {
     if (files.length === 0) return // Demo mode: animation only, no API calls
 
     try {
-      // Read files once and cache
-      const docs = await Promise.all(files.map(async (f) => ({ name: f.name, text: await f.text() })))
-      docsRef.current = docs
-
       // Create a case record in DB
       const caseRes = await fetch('/api/cases', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -251,17 +247,24 @@ function EinspruchPageInner() {
         setCaseId(newId)
       }
 
-      // Analyze documents
-      const res = await fetch('/api/analyze', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ caseId: caseIdRef.current, documents: docs }),
-      })
+      // Send files as binary FormData — server handles PDF/image extraction via Claude
+      const formData = new FormData()
+      if (caseIdRef.current) formData.append('caseId', caseIdRef.current)
+      for (const f of files) formData.append('files', f)
+
+      const res = await fetch('/api/analyze', { method: 'POST', body: formData })
       if (res.status === 401) { router.push('/login?callbackUrl=/einspruch'); return }
       if (res.status === 402) { router.push('/billing?reason=credits'); return }
       if (res.ok) {
         const data = await res.json()
         pendingBescheidRef.current  = data.bescheidData      ?? null
         pendingQuestionsRef.current = data.followUpQuestions ?? null
+        // Cache extracted text for the generate step
+        docsRef.current = data.extractedText
+          ? [{ name: 'extracted-content', text: data.extractedText }]
+          : files.length > 0
+            ? await Promise.all(files.map(async (f) => ({ name: f.name, text: await f.text() })))
+            : null
 
         // Fill detection items with real extracted values
         if (data.bescheidData) {
@@ -290,11 +293,13 @@ function EinspruchPageInner() {
     setGenerateError(null)
     setStep('generating')
 
-    // Re-read all files including any added in the questions step
-    const allFiles = [...files, ...additionalFiles]
-    const docs = allFiles.length > 0
-      ? await Promise.all(allFiles.map(async (f) => ({ name: f.name, text: await f.text() })))
-      : (docsRef.current ?? [])
+    // Use extracted text from the analyze step; for additional files added in questions step,
+    // read them as text (best-effort — PDFs added here won't have OCR, but text files work)
+    const baseDocs = docsRef.current ?? []
+    const additionalDocs = additionalFiles.length > 0
+      ? await Promise.all(additionalFiles.map(async (f) => ({ name: f.name, text: await f.text() })))
+      : []
+    const docs = [...baseDocs, ...additionalDocs]
 
     let finalDraft = DEMO_FINAL_DRAFT
     let completedCaseId = caseIdRef.current

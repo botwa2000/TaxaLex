@@ -1,25 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { z } from 'zod'
-import { callAgent } from '@/lib/agents'
+import Anthropic from '@anthropic-ai/sdk'
 import { logger } from '@/lib/logger'
 import { PIPELINE } from '@/config/constants'
 import { getActiveModels } from '@/lib/pipelineMode'
 import { auth } from '@/auth'
 import { rateLimit } from '@/lib/rateLimit'
+import { config } from '@/config/env'
 
-const AnalyzeSchema = z.object({
-  documents: z
-    .array(
-      z.object({
-        name: z.string().min(1).max(255),
-        text: z.string().max(500_000),
-      })
-    )
-    .min(1, 'At least one document is required')
-    .max(PIPELINE.maxDocuments),
-  caseId: z.string().optional(),
-  uiLanguage: z.string().length(2).optional().default('de'),
-})
+// Max upload size enforced here (10 MB total across all files)
+const MAX_TOTAL_BYTES = PIPELINE.maxUploadBytes
+
+// Mime types Claude can read natively
+const PDF_TYPES = ['application/pdf']
+const IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
 
 export async function POST(req: NextRequest) {
   // Rate limit: 30 analyze requests per IP per hour
@@ -49,17 +42,32 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const body = await req.json()
-    const parsed = AnalyzeSchema.safeParse(body)
+    const formData = await req.formData()
+    const caseId = formData.get('caseId') as string | null
+    const uiLanguage = (formData.get('uiLanguage') as string) || 'de'
 
-    if (!parsed.success) {
-      return NextResponse.json(
-        { error: 'Ungültige Anfrage', details: parsed.error.flatten() },
-        { status: 400 }
-      )
+    // Collect all files from FormData
+    const fileEntries: { name: string; type: string; bytes: Buffer }[] = []
+    let totalBytes = 0
+
+    for (const [key, value] of formData.entries()) {
+      if (key === 'files' && value instanceof File) {
+        const buffer = Buffer.from(await value.arrayBuffer())
+        totalBytes += buffer.length
+        if (totalBytes > MAX_TOTAL_BYTES) {
+          return NextResponse.json({ error: 'Dateien zu groß (max. 10 MB)' }, { status: 413 })
+        }
+        fileEntries.push({ name: value.name, type: value.type, bytes: buffer })
+      }
     }
 
-    const { documents, caseId, uiLanguage } = parsed.data
+    if (fileEntries.length === 0) {
+      return NextResponse.json({ error: 'Mindestens ein Dokument erforderlich' }, { status: 400 })
+    }
+
+    if (fileEntries.length > PIPELINE.maxDocuments) {
+      return NextResponse.json({ error: `Maximal ${PIPELINE.maxDocuments} Dokumente` }, { status: 400 })
+    }
 
     // Mark case as analyzing
     if (caseId && !userId.startsWith('demo_')) {
@@ -70,14 +78,38 @@ export async function POST(req: NextRequest) {
       })
     }
 
+    // Build Claude message content blocks — PDFs and images as native document/image blocks, text as text
+    const contentBlocks: Anthropic.Messages.ContentBlockParam[] = []
+
+    for (const file of fileEntries) {
+      const base64 = file.bytes.toString('base64')
+
+      if (PDF_TYPES.includes(file.type)) {
+        contentBlocks.push({
+          type: 'document',
+          source: { type: 'base64', media_type: 'application/pdf', data: base64 },
+        })
+      } else if (IMAGE_TYPES.includes(file.type)) {
+        contentBlocks.push({
+          type: 'image',
+          source: { type: 'base64', media_type: file.type as 'image/jpeg' | 'image/png' | 'image/gif' | 'image/webp', data: base64 },
+        })
+      } else {
+        // Text-based files (txt, docx as text) — decode as UTF-8
+        const text = file.bytes.toString('utf-8')
+        contentBlocks.push({ type: 'text', text: `### ${file.name}\n${text}` })
+      }
+    }
+
     const langInstruction =
       uiLanguage !== 'de'
         ? `\n\nIMPORTANT: Write all questions in the language with code "${uiLanguage}".`
         : ''
 
-    const extractionPrompt = `Analysiere die folgenden Dokumente und extrahiere die Daten im JSON-Format:
-
-${documents.map((d) => `### ${d.name}\n${d.text}`).join('\n\n')}
+    // Add the extraction instruction as a text block
+    contentBlocks.push({
+      type: 'text',
+      text: `Analysiere die obigen Dokumente und extrahiere die Daten im JSON-Format.
 
 Antworte NUR mit einem JSON-Objekt:
 {
@@ -91,20 +123,27 @@ Antworte NUR mit einem JSON-Objekt:
   },
   "followUpQuestions": [
     { "id": "q1", "question": "...", "required": true }
-  ]
-}${langInstruction}`
+  ],
+  "extractedText": "Vollständiger extrahierter Text aus allen Dokumenten — wird für die spätere Einspruchsgenerierung benötigt"
+}${langInstruction}`,
+    })
 
     const { models } = await getActiveModels()
-    const result = await callAgent(
-      {
-        role: 'drafter',
-        provider: 'anthropic',
-        model: models.drafter,
-        systemPrompt:
-          'Du bist ein Steuerexperte. Extrahiere strukturierte Daten aus Steuerdokumenten und stelle gezielte Rückfragen. Antworte nur mit validem JSON.',
-      },
-      extractionPrompt
-    )
+
+    const client = new Anthropic({ apiKey: config.anthropicApiKey })
+    const response = await client.messages.create({
+      model: models.drafter,
+      max_tokens: PIPELINE.maxTokens,
+      system: 'Du bist ein Steuerexperte. Extrahiere strukturierte Daten aus Steuerdokumenten und stelle gezielte Rückfragen. Antworte nur mit validem JSON. Im Feld "extractedText" gib den vollständigen Text aller Dokumente wieder, damit er für die weitere Verarbeitung verwendet werden kann.',
+      messages: [{ role: 'user', content: contentBlocks }],
+    })
+
+    const result = response.content
+      .filter((b) => b.type === 'text')
+      .map((b) => b.text)
+      .join('\n')
+
+    logger.agent('drafter', 'anthropic', models.drafter, 0)
 
     const jsonMatch = result.match(/\{[\s\S]*\}/)
     if (!jsonMatch) {
@@ -117,7 +156,6 @@ Antworte NUR mit einem JSON-Objekt:
     // Save bescheidData to case and move to QUESTIONS status
     if (caseId && !userId.startsWith('demo_')) {
       const { db } = await import('@/lib/db')
-      // Save uploaded document metadata (no file content per GDPR policy)
       await Promise.all([
         db.case.updateMany({
           where: { id: caseId, userId },
@@ -126,15 +164,15 @@ Antworte NUR mit einem JSON-Objekt:
             bescheidData: data.bescheidData ?? {},
           },
         }),
-        ...documents.map((doc) =>
+        ...fileEntries.map((file) =>
           db.document.create({
             data: {
               caseId,
-              name: doc.name,
+              name: file.name,
               type: 'BESCHEID',
               storagePath: 'memory', // not persisted per GDPR — metadata only
-              mimeType: 'application/octet-stream',
-              sizeBytes: doc.text.length,
+              mimeType: file.type || 'application/octet-stream',
+              sizeBytes: file.bytes.length,
             },
           })
         ),
