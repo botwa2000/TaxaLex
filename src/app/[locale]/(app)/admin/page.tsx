@@ -4,6 +4,7 @@ import { db } from '@/lib/db'
 import { Shield } from 'lucide-react'
 import { AdminClient } from './AdminClient'
 import { config } from '@/config/env'
+import { getPipelineMode } from '@/lib/pipelineMode'
 
 export default async function AdminPage() {
   const session = await auth()
@@ -70,15 +71,18 @@ export default async function AdminPage() {
     }),
   ])
 
-  const systemHealth = {
-    anthropic:  !!config.anthropicApiKey,
-    google:     !!config.googleAiApiKey,
-    perplexity: !!config.perplexityApiKey,
-    stripe:     !!config.stripeSecretKey,
-    brevo:      !!config.brevoApiKey,
-    s3:         !!config.s3Endpoint,
-    isDev:      config.isDev,
-  }
+  const [systemHealth, initialPipelineMode] = await Promise.all([
+    Promise.resolve({
+      anthropic:  !!config.anthropicApiKey,
+      google:     !!config.googleAiApiKey,
+      perplexity: !!config.perplexityApiKey,
+      stripe:     !!config.stripeSecretKey,
+      brevo:      !!config.brevoApiKey,
+      s3:         !!config.s3Endpoint,
+      isDev:      config.isDev,
+    }),
+    getPipelineMode(),
+  ])
 
   return (
     <div>
@@ -107,6 +111,7 @@ export default async function AdminPage() {
           closedSuccessCases,
         }}
         systemHealth={systemHealth}
+        initialPipelineMode={initialPipelineMode}
       />
     </div>
   )

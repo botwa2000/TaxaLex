@@ -11,7 +11,8 @@ import type { AgentConfig, AgentOutput, AgentRole, BescheidData } from '@/types'
 import { logger } from '@/lib/logger'
 import { languageNames } from '@/config/i18n'
 import { config } from '@/config/env'
-import { MODELS, PIPELINE } from '@/config/constants'
+import { PIPELINE } from '@/config/constants'
+import { getActiveModels } from '@/lib/pipelineMode'
 
 // --- Provider clients (lazy-initialized) ---
 
@@ -52,62 +53,65 @@ function getGoogleAI(): GoogleGenerativeAI {
 }
 
 // --- Agent configurations ---
+// Models are injected at call time from pipelineMode so dev/prod can be toggled live.
 
-export const AGENTS: Record<AgentRole, AgentConfig> = {
-  drafter: {
-    role: 'drafter',
-    provider: 'anthropic',
-    model: MODELS.drafter,
-    systemPrompt: `Du bist ein erfahrener Steuerrechtler, spezialisiert auf Einspruchsverfahren
+function buildAgents(models: Record<string, string>): Record<AgentRole, AgentConfig> {
+  return {
+    drafter: {
+      role: 'drafter',
+      provider: 'anthropic',
+      model: models.drafter,
+      systemPrompt: `Du bist ein erfahrener Steuerrechtler, spezialisiert auf Einspruchsverfahren
 nach §347 AO. Erstelle ein vollständiges Einspruchsschreiben basierend auf den
 bereitgestellten Unterlagen. Verwende die korrekte BFH-Rechtsprechung und
 Gesetzesgrundlagen. Strukturiere das Schreiben in: Antrag auf AdV, Sachverhalt,
 Begründung (mit Unterpunkten), Rechtsfolge, konkreter Antrag.
 Verwende den Fremdvergleich ("fremder Dritter unter gleichen Umständen") statt
 "ordentlicher Kaufmann". Berücksichtige Verböserungsrisiken nach §367 Abs. 2 AO.`,
-  },
-  reviewer: {
-    role: 'reviewer',
-    provider: 'google',
-    model: MODELS.reviewer,
-    systemPrompt: `Du bist ein Steuerberater, der Einspruchsschreiben auf Fehler prüft.
+    },
+    reviewer: {
+      role: 'reviewer',
+      provider: 'google',
+      model: models.reviewer,
+      systemPrompt: `Du bist ein Steuerberater, der Einspruchsschreiben auf Fehler prüft.
 Prüfe insbesondere: korrekte Rechtsbegriffe (BFH-konform), mathematische Berechnungen,
 Vollständigkeit der Argumentation, korrekte Gesetzeszitate, Konsistenz der
 Krisenzeitpunkt-Argumentation, ob der Verlustvortrags-Bescheid mitangefochten wird.
 Gib eine Liste konkreter Fehler und Verbesserungsvorschläge zurück.`,
-  },
-  factchecker: {
-    role: 'factchecker',
-    provider: 'perplexity',
-    model: MODELS.factchecker,
-    systemPrompt: `Du bist ein Steuerrechts-Experte, der die Richtigkeit von Rechtsgrundlagen
+    },
+    factchecker: {
+      role: 'factchecker',
+      provider: 'perplexity',
+      model: models.factchecker,
+      systemPrompt: `Du bist ein Steuerrechts-Experte, der die Richtigkeit von Rechtsgrundlagen
 in einem deutschen Einspruchsschreiben überprüft. Prüfe mit aktuellen Web-Quellen:
 - Existieren die genannten BFH-Urteile und sind die Aktenzeichen korrekt?
 - Sind die zitierten Paragraphen (AO, EStG, KStG etc.) in der genannten Fassung gültig?
 - Entsprechen die Gesetzeszitate dem aktuellen Stand?
 - Gibt es neuere BFH/FG-Rechtsprechung, die die Argumentation stärkt oder widerlegt?
 Gib konkrete Korrekturen und aktuelle Fundstellen zurück.`,
-  },
-  adversary: {
-    role: 'adversary',
-    provider: 'anthropic',
-    model: MODELS.adversary,
-    systemPrompt: `Du bist ein erfahrener Finanzbeamter/Sachbearbeiter. Analysiere das
+    },
+    adversary: {
+      role: 'adversary',
+      provider: 'anthropic',
+      model: models.adversary,
+      systemPrompt: `Du bist ein erfahrener Finanzbeamter/Sachbearbeiter. Analysiere das
 Einspruchsschreiben aus Sicht des Finanzamts. Identifiziere jede Schwachstelle,
 die das Finanzamt nutzen könnte: fehlende Nachweise, angreifbare Formulierungen,
 Anlaufverluste-Einwand, Going-Concern-Widerspruch, Verböserungsmöglichkeiten.
 Bewerte jede Schwachstelle nach Risiko (hoch/mittel/niedrig).`,
-  },
-  consolidator: {
-    role: 'consolidator',
-    provider: 'anthropic',
-    model: MODELS.consolidator,
-    systemPrompt: `Du bist ein Senior-Steuerberater, der ein finales Einspruchsschreiben
+    },
+    consolidator: {
+      role: 'consolidator',
+      provider: 'anthropic',
+      model: models.consolidator,
+      systemPrompt: `Du bist ein Senior-Steuerberater, der ein finales Einspruchsschreiben
 erstellt. Dir liegen vor: ein Entwurf, ein Review mit Fehlern, eine Faktenchecks
 der Rechtsgrundlagen, und eine Gegneranalyse. Erstelle die finale Version, die alle
 Fehler korrigiert, alle Rechtsgrundlagen verifiziert und alle Schwachstellen präventiv
 adressiert. Das Ergebnis muss juristisch wasserdicht sein. Verwende formelle, präzise Sprache.`,
-  },
+    },
+  }
 }
 
 // --- Core agent call ---
@@ -183,7 +187,9 @@ export async function orchestrate(
   userAnswers: Record<string, string>,
   outputLanguage = 'de',
   uiLanguage = 'de'
-): Promise<{ outputs: AgentOutput[]; finalDraft: string }> {
+): Promise<{ outputs: AgentOutput[]; finalDraft: string; pipelineMode: string }> {
+  const { models, mode: pipelineModeUsed } = await getActiveModels()
+  const AGENTS = buildAgents(models)
   const outputs: AgentOutput[] = []
   const context = buildContext(bescheidData, documents, userAnswers)
 
@@ -263,8 +269,8 @@ ${context}${draftLangInstruction}`
   logger.agent('consolidator', AGENTS.consolidator.provider, AGENTS.consolidator.model, Date.now() - t)
   outputs.push(makeOutput('consolidator', AGENTS.consolidator, finalDraft))
 
-  logger.info('Pipeline complete', { totalAgents: outputs.length })
-  return { outputs, finalDraft }
+  logger.info('Pipeline complete', { totalAgents: outputs.length, pipelineMode: pipelineModeUsed })
+  return { outputs, finalDraft, pipelineMode: pipelineModeUsed }
 }
 
 // --- Helpers ---

@@ -6,7 +6,7 @@ import {
   Users, FolderOpen, Clock, CheckCircle2, Activity, TrendingUp,
   CreditCard, ChevronDown, ChevronRight, Check, X, Plus, UserCog,
   Mail, Tag, ToggleLeft, ToggleRight, Loader2, AlertCircle,
-  UserCheck, UserX, ShieldCheck,
+  UserCheck, UserX, ShieldCheck, Zap, FlaskConical,
 } from 'lucide-react'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -67,7 +67,10 @@ interface PricingPlan {
   features:     { text: string; included: boolean }[]
 }
 
+type PipelineMode = 'dev' | 'prod'
+
 interface Props {
+  initialPipelineMode: PipelineMode
   users: AdminUser[]
   cases: AdminCase[]
   stats: {
@@ -134,7 +137,7 @@ function fmtEuro(v: string | null) { return v ? `${parseFloat(v).toFixed(2)} €
 
 // ── Main component ────────────────────────────────────────────────────────────
 
-export function AdminClient({ users: initialUsers, cases, stats, systemHealth }: Props) {
+export function AdminClient({ users: initialUsers, cases, stats, systemHealth, initialPipelineMode }: Props) {
   const t = useTranslations('admin')
 
   const TABS: { key: AdminTab; label: string; icon: React.ElementType }[] = [
@@ -154,6 +157,25 @@ export function AdminClient({ users: initialUsers, cases, stats, systemHealth }:
   const [expandedUserId, setExpandedUserId]     = useState<string | null>(null)
   const [userDetail, setUserDetail]             = useState<Record<string, UserDetail>>({})
   const [loadingDetail, setLoadingDetail]       = useState<string | null>(null)
+
+  // Pipeline mode
+  const [pipelineMode, setPipelineMode]           = useState<PipelineMode>(initialPipelineMode)
+  const [pipelineSaving, setPipelineSaving]       = useState(false)
+
+  async function togglePipelineMode() {
+    const next: PipelineMode = pipelineMode === 'dev' ? 'prod' : 'dev'
+    setPipelineSaving(true)
+    try {
+      const res = await fetch('/api/admin/settings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pipelineMode: next }),
+      })
+      if (res.ok) setPipelineMode(next)
+    } finally {
+      setPipelineSaving(false)
+    }
+  }
 
   // Grant credits
   const [grantUserId, setGrantUserId]   = useState<string | null>(null)
@@ -776,6 +798,59 @@ export function AdminClient({ users: initialUsers, cases, stats, systemHealth }:
       {/* ── SYSTEM ────────────────────────────────────────────────────────── */}
       {tab === 'system' && (
         <div className="space-y-6">
+
+          {/* Pipeline mode toggle */}
+          <div className="bg-[var(--surface)] rounded-xl border border-[var(--border)]">
+            <div className="px-5 py-4 border-b border-[var(--border)] flex items-center gap-2">
+              <FlaskConical className="w-4 h-4 text-[var(--muted)]" />
+              <h2 className="font-semibold text-sm text-[var(--foreground)]">KI-Pipeline Modus</h2>
+            </div>
+            <div className="px-5 py-4">
+              <div className="flex items-center justify-between gap-6">
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-1">
+                    {pipelineMode === 'dev' ? (
+                      <span className="inline-flex items-center gap-1.5 text-xs font-semibold bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 px-2.5 py-1 rounded-full border border-amber-200 dark:border-amber-800">
+                        <FlaskConical className="w-3 h-3" /> DEV — Günstige Modelle
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center gap-1.5 text-xs font-semibold bg-green-50 dark:bg-green-950/40 text-green-700 dark:text-green-400 px-2.5 py-1 rounded-full border border-green-200 dark:border-green-800">
+                        <Zap className="w-3 h-3" /> PROD — Beste Modelle
+                      </span>
+                    )}
+                  </div>
+                  <div className="mt-2 space-y-1 text-xs text-[var(--muted)]">
+                    {pipelineMode === 'dev' ? (
+                      <>
+                        <p>Drafter / Adversary / Consolidator: <span className="font-mono text-[var(--foreground)]">claude-haiku-4-5</span></p>
+                        <p>Reviewer: <span className="font-mono text-[var(--foreground)]">gemini-1.5-flash</span> (kostenlos)</p>
+                        <p>Factchecker: <span className="font-mono text-[var(--foreground)]">sonar</span></p>
+                      </>
+                    ) : (
+                      <>
+                        <p>Drafter / Adversary / Consolidator: <span className="font-mono text-[var(--foreground)]">claude-sonnet-4-6</span></p>
+                        <p>Reviewer: <span className="font-mono text-[var(--foreground)]">gemini-1.5-pro</span></p>
+                        <p>Factchecker: <span className="font-mono text-[var(--foreground)]">sonar-pro</span></p>
+                      </>
+                    )}
+                  </div>
+                </div>
+                <button
+                  onClick={togglePipelineMode}
+                  disabled={pipelineSaving}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-colors disabled:opacity-60 ${
+                    pipelineMode === 'dev'
+                      ? 'bg-green-600 hover:bg-green-700 text-white'
+                      : 'bg-amber-500 hover:bg-amber-600 text-white'
+                  }`}
+                >
+                  {pipelineSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : pipelineMode === 'dev' ? <Zap className="w-4 h-4" /> : <FlaskConical className="w-4 h-4" />}
+                  {pipelineMode === 'dev' ? 'Auf PROD wechseln' : 'Auf DEV wechseln'}
+                </button>
+              </div>
+            </div>
+          </div>
+
           <div className="bg-[var(--surface)] rounded-xl border border-[var(--border)]">
             <div className="px-5 py-4 border-b border-[var(--border)]">
               <h2 className="font-semibold text-sm text-[var(--foreground)]">{t('system.title')}</h2>

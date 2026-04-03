@@ -5,13 +5,31 @@
 
 // ── AI Models ─────────────────────────────────────────────────────────────────
 
-export const MODELS = {
-  drafter: 'claude-sonnet-4-20250514',
-  reviewer: 'gemini-1.5-pro',
-  factchecker: 'sonar-pro',
-  adversary: 'claude-sonnet-4-20250514',
-  consolidator: 'claude-sonnet-4-20250514',
+/**
+ * DEV tier — cheapest models, used during development and testing.
+ * Gemini Flash is free; Haiku is ~10× cheaper than Sonnet; sonar (not sonar-pro) is cheaper Perplexity.
+ */
+export const MODELS_DEV = {
+  drafter:      'claude-haiku-4-5-20251001',
+  reviewer:     'gemini-1.5-flash',
+  factchecker:  'sonar',
+  adversary:    'claude-haiku-4-5-20251001',
+  consolidator: 'claude-haiku-4-5-20251001',
 } as const
+
+/**
+ * PROD tier — best models for real users.
+ */
+export const MODELS_PROD = {
+  drafter:      'claude-sonnet-4-6',
+  reviewer:     'gemini-1.5-pro',
+  factchecker:  'sonar-pro',
+  adversary:    'claude-sonnet-4-6',
+  consolidator: 'claude-sonnet-4-6',
+} as const
+
+/** Legacy alias — replaced at runtime by pipeline mode. Do not use directly in agents.ts. */
+export const MODELS = MODELS_PROD
 
 // ── AI Pipeline ───────────────────────────────────────────────────────────────
 

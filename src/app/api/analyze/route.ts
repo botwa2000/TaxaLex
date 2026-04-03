@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
-import { callAgent, AGENTS } from '@/lib/agents'
+import { callAgent } from '@/lib/agents'
 import { logger } from '@/lib/logger'
 import { PIPELINE } from '@/config/constants'
+import { getActiveModels } from '@/lib/pipelineMode'
 import { auth } from '@/auth'
 
 const AnalyzeSchema = z.object({
@@ -78,9 +79,12 @@ Antworte NUR mit einem JSON-Objekt:
   ]
 }${langInstruction}`
 
+    const { models } = await getActiveModels()
     const result = await callAgent(
       {
-        ...AGENTS.drafter,
+        role: 'drafter',
+        provider: 'anthropic',
+        model: models.drafter,
         systemPrompt:
           'Du bist ein Steuerexperte. Extrahiere strukturierte Daten aus Steuerdokumenten und stelle gezielte Rückfragen. Antworte nur mit validem JSON.',
       },

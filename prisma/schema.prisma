@@ -513,3 +513,11 @@ model TrustStat {
 
   @@index([locale])
 }
+
+// ── System settings (admin-configurable key-value store) ──────────────────────
+
+model AppSetting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
+}
