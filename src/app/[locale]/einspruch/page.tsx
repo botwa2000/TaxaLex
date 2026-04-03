@@ -162,6 +162,7 @@ function EinspruchPageInner() {
   const [agentOutputData, setAgentOutputData] = useState<AgentOutputData[]>([])
   const [draftPreview, setDraftPreview]   = useState<string>('')
   const [generateError, setGenerateError] = useState<string | null>(null)
+  const [analyzeError, setAnalyzeError]   = useState<string | null>(null)
 
   const [additionalFiles, setAdditionalFiles] = useState<File[]>([])
 
@@ -187,12 +188,17 @@ function EinspruchPageInner() {
   useEffect(() => {
     if (step !== 'analyzing' || detectedCount < DETECTION_LABELS.length) return
     const t = setTimeout(() => {
-      setBescheidData(pendingBescheidRef.current ?? DEMO_BESCHEID_DATA)
-      setQuestions(pendingQuestionsRef.current    ?? DEMO_QUESTIONS)
+      // Only use demo data when no real files were uploaded (demo mode)
+      const isDemo = files.length === 0
+      setBescheidData(pendingBescheidRef.current ?? (isDemo ? DEMO_BESCHEID_DATA : null))
+      setQuestions(pendingQuestionsRef.current    ?? (isDemo ? DEMO_QUESTIONS : []))
+      if (!isDemo && !pendingBescheidRef.current) {
+        setAnalyzeError('Dokumentenanalyse fehlgeschlagen. Bitte versuchen Sie es erneut.')
+      }
       setStep('questions')
     }, 500)
     return () => clearTimeout(t)
-  }, [step, detectedCount])
+  }, [step, detectedCount, files.length])
 
   // ── Handlers ────────────────────────────────────────────────────────────
   function addFiles(incoming: FileList | null) {
@@ -230,6 +236,7 @@ function EinspruchPageInner() {
     setAgentOutputData([])
     setDraftPreview('')
     setGenerateError(null)
+    setAnalyzeError(null)
     setStep('analyzing')
 
     if (files.length === 0) return // Demo mode: animation only, no API calls
@@ -255,34 +262,38 @@ function EinspruchPageInner() {
       const res = await fetch('/api/analyze', { method: 'POST', body: formData })
       if (res.status === 401) { router.push('/login?callbackUrl=/einspruch'); return }
       if (res.status === 402) { router.push('/billing?reason=credits'); return }
-      if (res.ok) {
-        const data = await res.json()
-        pendingBescheidRef.current  = data.bescheidData      ?? null
-        pendingQuestionsRef.current = data.followUpQuestions ?? null
-        // Cache extracted text for the generate step
-        docsRef.current = data.extractedText
-          ? [{ name: 'extracted-content', text: data.extractedText }]
-          : files.length > 0
-            ? await Promise.all(files.map(async (f) => ({ name: f.name, text: await f.text() })))
-            : null
-
-        // Fill detection items with real extracted values
-        if (data.bescheidData) {
-          const bd = data.bescheidData
-          setDetectedValues([
-            bd.steuerart     ?? DETECTION_LABELS[0].demoValue,
-            bd.finanzamt     ?? DETECTION_LABELS[1].demoValue,
-            bd.bescheidDatum ?? DETECTION_LABELS[2].demoValue,
-            bd.steuernummer  ?? DETECTION_LABELS[3].demoValue,
-            bd.nachzahlung != null
-              ? `${Number(bd.nachzahlung).toLocaleString('de-DE', { minimumFractionDigits: 2 })} €`
-              : DETECTION_LABELS[4].demoValue,
-            DETECTION_LABELS[5].demoValue,
-            `${(data.followUpQuestions?.length ?? 0)} Fragen generiert`,
-          ])
-        }
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ error: 'Analyse fehlgeschlagen' }))
+        setAnalyzeError(err.error ?? `Fehler ${res.status}`)
+        return // pendingBescheidRef stays null → transition will show error
       }
-    } catch { /* fall through to demo data */ }
+
+      const data = await res.json()
+      pendingBescheidRef.current  = data.bescheidData      ?? null
+      pendingQuestionsRef.current = data.followUpQuestions ?? null
+      // Cache extracted text for the generate step
+      docsRef.current = data.extractedText
+        ? [{ name: 'extracted-content', text: data.extractedText }]
+        : null
+
+      // Fill detection items with real extracted values
+      if (data.bescheidData) {
+        const bd = data.bescheidData
+        setDetectedValues([
+          bd.steuerart     ?? DETECTION_LABELS[0].demoValue,
+          bd.finanzamt     ?? DETECTION_LABELS[1].demoValue,
+          bd.bescheidDatum ?? DETECTION_LABELS[2].demoValue,
+          bd.steuernummer  ?? DETECTION_LABELS[3].demoValue,
+          bd.nachzahlung != null
+            ? `${Number(bd.nachzahlung).toLocaleString('de-DE', { minimumFractionDigits: 2 })} €`
+            : DETECTION_LABELS[4].demoValue,
+          DETECTION_LABELS[5].demoValue,
+          `${(data.followUpQuestions?.length ?? 0)} Fragen generiert`,
+        ])
+      }
+    } catch (err) {
+      setAnalyzeError('Verbindungsfehler — bitte erneut versuchen')
+    }
   }
 
   async function handleGenerate() {
@@ -396,7 +407,7 @@ function EinspruchPageInner() {
     setAnswers({}); setBescheidData(null); setQuestions([])
     setActiveAgent(0); setDetectedCount(0); setCaseId(null)
     setDetectedValues(DETECTION_LABELS.map(i => i.demoValue))
-    setAgentOutputData([]); setDraftPreview(''); setGenerateError(null)
+    setAgentOutputData([]); setDraftPreview(''); setGenerateError(null); setAnalyzeError(null)
     docsRef.current = null; caseIdRef.current = null
     pendingBescheidRef.current = null; pendingQuestionsRef.current = null
   }
@@ -597,6 +608,17 @@ function EinspruchPageInner() {
         {/* ═══ Step 3 — Fragen ═══ */}
         {step === 'questions' && (
           <div>
+            {analyzeError && (
+              <div className="mb-5 flex items-start gap-3 bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-800 rounded-xl px-4 py-3">
+                <AlertCircle className="w-4 h-4 text-red-600 shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-sm font-medium text-red-800 dark:text-red-300">{analyzeError}</p>
+                  <button onClick={handleReset} className="text-xs text-red-600 dark:text-red-400 hover:underline mt-1">
+                    Zurück zum Upload
+                  </button>
+                </div>
+              </div>
+            )}
             <div className="flex items-start justify-between gap-4 mb-4">
               <div>
                 <h1 className="text-2xl font-bold text-[var(--foreground)] mb-1">Rückfragen</h1>

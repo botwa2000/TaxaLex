@@ -7,6 +7,9 @@ import { auth } from '@/auth'
 import { rateLimit } from '@/lib/rateLimit'
 import { config } from '@/config/env'
 
+// Next.js body parser limit for this route (FormData with files)
+export const maxDuration = 120
+
 // Max upload size enforced here (10 MB total across all files)
 const MAX_TOTAL_BYTES = PIPELINE.maxUploadBytes
 
