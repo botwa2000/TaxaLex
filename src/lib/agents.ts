@@ -307,7 +307,7 @@ Steuernummer: ${bescheid.steuernummer}
 Bescheid-Datum: ${bescheid.bescheidDatum}
 Steuerart: ${bescheid.steuerart}
 Nachzahlung: €${bescheid.nachzahlung}
-Streitiger Betrag: €${bescheid.streitigerBetrag}`)
+Streitiger Betrag: €${bescheid.streitigerBetrag}${bescheid.rawText ? `\nKontext: ${bescheid.rawText}` : ''}`)
 
   if (documents.length > 0) {
     parts.push('## Dokumente')

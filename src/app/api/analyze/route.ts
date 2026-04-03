@@ -124,17 +124,20 @@ Antworte NUR mit einem JSON-Objekt (kein Markdown, kein Kommentar):
   "bescheidData": {
     "finanzamt": "Name des Finanzamts oder der Behörde",
     "steuernummer": "Steuernummer oder Aktenzeichen",
-    "bescheidDatum": "Datum im Format YYYY-MM-DD oder DD.MM.YYYY",
+    "bescheidDatum": "Datum im Format DD.MM.YYYY",
     "steuerart": "Art des Bescheids (z.B. Einkommensteuer 2022)",
     "nachzahlung": 0,
-    "streitigerBetrag": 0
+    "streitigerBetrag": 0,
+    "rawText": "Kurze Zusammenfassung des Dokuments in 2-3 Sätzen (max. 400 Zeichen) — der Hauptgrund für die Nachzahlung oder Ablehnung"
   },
   "followUpQuestions": [
-    { "id": "q1", "question": "...", "required": true }
+    { "id": "q1", "question": "...", "required": true, "type": "text" }
   ]
 }${langInstruction}
 
-Beschränke followUpQuestions auf maximal 5 gezielte Fragen. Extrahiere KEINEN langen Dokumententext.`,
+Beschränke followUpQuestions auf maximal 5 gezielte Fragen.
+Für das Feld "type" in followUpQuestions: Nutze "yesno" für Ja/Nein-Fragen, "amount" für Betrags-/Zahlungsangaben, "text" für alle anderen.
+Für rawText: Nur 2-3 Sätze — kein langer Dokumententext.`,
     })
 
     const { models } = await getActiveModels()
@@ -144,7 +147,7 @@ Beschränke followUpQuestions auf maximal 5 gezielte Fragen. Extrahiere KEINEN l
     const response = await client.messages.create({
       model: models.drafter,
       max_tokens: PIPELINE.maxTokens,
-      system: 'Du bist ein Steuerexperte. Extrahiere strukturierte Kerndaten (finanzamt, steuernummer, datum, steuerart, beträge) aus Steuerdokumenten und stelle bis zu 5 gezielte Rückfragen. Antworte ausschließlich mit validem JSON — kein Markdown, keine Erklärungen, kein langer Dokumententext.',
+      system: 'Du bist ein Steuerexperte. Extrahiere strukturierte Kerndaten aus Steuerdokumenten und stelle bis zu 5 gezielte Rückfragen. Antworte ausschließlich mit validem JSON — kein Markdown, keine Erklärungen. Das Feld rawText enthält nur eine 2-3-Satz-Zusammenfassung, NICHT den vollen Dokumententext.',
       messages: [{ role: 'user', content: contentBlocks }],
     })
 

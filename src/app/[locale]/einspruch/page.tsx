@@ -105,7 +105,7 @@ function EinspruchPageInner() {
   const [files, setFiles]                   = useState<File[]>([])
   const [isDragging, setIsDragging]         = useState(false)
   const [bescheidData, setBescheidData]     = useState<Record<string, unknown> | null>(null)
-  const [questions, setQuestions]           = useState<Array<{ id: string; question: string; required?: boolean }>>([])
+  const [questions, setQuestions]           = useState<Array<{ id: string; question: string; required?: boolean; type?: 'text' | 'yesno' | 'amount' }>>([])
   const [answers, setAnswers]               = useState<Record<string, string>>({})
   const [result, setResult]                 = useState<GenerateResult | null>(null)
   const [activeAgent, setActiveAgent]       = useState(0)
@@ -117,6 +117,8 @@ function EinspruchPageInner() {
   const [analyzeError, setAnalyzeError]     = useState<string | null>(null)
   const [analyzeStep, setAnalyzeStep]       = useState(0) // 0-2 for rotating status messages
   const [additionalFiles, setAdditionalFiles] = useState<File[]>([])
+  const [analyzePreview, setAnalyzePreview] = useState(false) // briefly show detected data on analyzing screen
+  const [hasAccess, setHasAccess]           = useState<boolean | null>(null) // null = loading
 
   const fileInputRef           = useRef<HTMLInputElement>(null)
   const additionalFileInputRef = useRef<HTMLInputElement>(null)
@@ -136,6 +138,14 @@ function EinspruchPageInner() {
   const currentIdx    = STEPS.findIndex((s) => s.id === step)
   const answeredCount = questions.filter((q) => answers[q.id]?.trim()).length
   const fieldLabels   = BESCHEID_FIELD_LABELS[locale] ?? BESCHEID_FIELD_LABELS['en']
+
+  // ── Check user access on mount ────────────────────────────────────────────
+  useEffect(() => {
+    fetch('/api/user/access')
+      .then((r) => r.json())
+      .then((d) => setHasAccess(d.hasAccess ?? false))
+      .catch(() => setHasAccess(true)) // fail open — API will enforce anyway
+  }, [])
 
   // ── Analyzing: rotate status message every 4 seconds ─────────────────────
   useEffect(() => {
@@ -179,6 +189,7 @@ function EinspruchPageInner() {
     setCaseId(null)
     setAdditionalFiles([])
     setAnalyzeStep(0)
+    setAnalyzePreview(false)
     setGenerateError(null)
     setAnalyzeError(null)
     setBescheidData(null)
@@ -227,12 +238,17 @@ function EinspruchPageInner() {
       const data = await res.json()
       bescheidDataRef.current = data.bescheidData ?? null
       questionsRef.current    = data.followUpQuestions ?? null
-      docsRef.current         = data.extractedText
-        ? [{ name: 'extracted-content', text: data.extractedText }]
-        : null
+      docsRef.current         = null // document content goes through bescheidData.rawText
 
       setBescheidData(bescheidDataRef.current)
       setQuestions(questionsRef.current ?? [])
+
+      // Show detected data on the analyzing screen for 1.5s before moving to questions
+      if (bescheidDataRef.current && Object.keys(bescheidDataRef.current).some(k => bescheidDataRef.current![k])) {
+        setAnalyzePreview(true)
+        await new Promise((resolve) => setTimeout(resolve, 1800))
+        setAnalyzePreview(false)
+      }
     } catch {
       setAnalyzeError(t('errors.connection'))
     }
@@ -286,7 +302,7 @@ function EinspruchPageInner() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          caseId: activeCaseId,
+          caseId: activeCaseId ?? undefined,
           bescheidData: bescheidDataRef.current ?? bescheidData ?? {},
           documents: docs,
           userAnswers: answers,
@@ -395,6 +411,7 @@ function EinspruchPageInner() {
     setDraftPreview('')
     setGenerateError(null)
     setAnalyzeError(null)
+    setAnalyzePreview(false)
     docsRef.current          = null
     caseIdRef.current        = null
     bescheidDataRef.current  = null
@@ -511,9 +528,23 @@ function EinspruchPageInner() {
               </div>
             )}
 
+            {hasAccess === false && files.length > 0 && (
+              <div className="mt-5 flex items-start gap-3 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-xl px-4 py-3.5">
+                <AlertCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+                <div className="flex-1">
+                  <p className="text-sm font-medium text-amber-800 dark:text-amber-300">
+                    {locale === 'de' ? 'Kein Guthaben verfügbar.' : 'No credits available.'}
+                  </p>
+                  <a href={`/${locale}/billing`} className="text-xs text-amber-700 dark:text-amber-400 underline hover:no-underline">
+                    {locale === 'de' ? 'Jetzt aufladen →' : 'Top up now →'}
+                  </a>
+                </div>
+              </div>
+            )}
             <button
               onClick={handleAnalyze}
-              className="mt-6 w-full bg-brand-600 text-white py-3.5 rounded-xl font-semibold hover:bg-brand-700 active:bg-brand-800 transition-colors flex items-center justify-center gap-2">
+              disabled={hasAccess === false && files.length > 0}
+              className="mt-6 w-full bg-brand-600 text-white py-3.5 rounded-xl font-semibold hover:bg-brand-700 active:bg-brand-800 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
               {files.length === 0
                 ? <><ScanSearch className="w-4 h-4" />{t('upload.demoButton')}</>
                 : <>{t('upload.analyze')}<ArrowRight className="w-4 h-4" /></>}
@@ -535,16 +566,55 @@ function EinspruchPageInner() {
 
         {/* ═══ Step 2 — Analyzing ═══ */}
         {step === 'analyzing' && (
-          <div className="py-8 flex flex-col items-center text-center">
-            <div className="w-16 h-16 bg-brand-50 dark:bg-brand-950/40 border border-brand-200 dark:border-brand-800 rounded-2xl flex items-center justify-center mb-5">
-              <ScanSearch className="w-8 h-8 text-brand-600 animate-pulse" />
+          <div className="py-8 flex flex-col items-center">
+            <div className={`w-16 h-16 border rounded-2xl flex items-center justify-center mb-5 transition-colors ${analyzePreview ? 'bg-green-50 dark:bg-green-950/40 border-green-200 dark:border-green-800' : 'bg-brand-50 dark:bg-brand-950/40 border-brand-200 dark:border-brand-800'}`}>
+              {analyzePreview
+                ? <CheckCircle2 className="w-8 h-8 text-green-600" />
+                : <ScanSearch className="w-8 h-8 text-brand-600 animate-pulse" />}
             </div>
-            <h1 className="text-2xl font-bold text-[var(--foreground)] mb-2">{t('analyzing.title')}</h1>
-            <p className="text-sm text-[var(--muted)] mb-6 min-h-[1.25rem] transition-all">
-              {files.length > 0 ? analyzeStatusMessages[analyzeStep] : t('analyzing.demoMode')}
+            <h1 className="text-2xl font-bold text-[var(--foreground)] mb-2 text-center">
+              {analyzePreview
+                ? (locale === 'de' ? 'Erkannte Daten' : 'Detected data')
+                : t('analyzing.title')}
+            </h1>
+            <p className="text-sm text-[var(--muted)] mb-6 min-h-[1.25rem] transition-all text-center">
+              {analyzePreview
+                ? (locale === 'de' ? 'Bescheid erfolgreich ausgelesen — weiterleiten…' : 'Notice successfully read — redirecting…')
+                : files.length > 0 ? analyzeStatusMessages[analyzeStep] : t('analyzing.demoMode')}
             </p>
 
-            {files.length > 0 && (
+            {/* Detected data preview — shown briefly after analyze returns */}
+            {analyzePreview && bescheidData && (
+              <div className="w-full max-w-sm bg-[var(--surface)] border border-green-200 dark:border-green-800 rounded-2xl p-4 mb-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-5 h-5 bg-green-100 dark:bg-green-950/40 rounded-md flex items-center justify-center">
+                    <ScanSearch className="w-3 h-3 text-green-600" />
+                  </div>
+                  <p className="text-xs font-semibold text-green-700 dark:text-green-400">
+                    {t('questions.detectedData')}
+                  </p>
+                </div>
+                <div className="space-y-2">
+                  {Object.entries(bescheidData).map(([k, v]) => {
+                    if (!v && v !== 0) return null
+                    if (k === 'rawText') return null
+                    const label = fieldLabels[k] ?? k
+                    const display = typeof v === 'number'
+                      ? v.toLocaleString(locale, { minimumFractionDigits: 2 })
+                      : String(v)
+                    return (
+                      <div key={k} className="flex items-start justify-between gap-3">
+                        <span className="text-xs text-[var(--muted)]">{label}</span>
+                        <span className="text-xs font-semibold text-[var(--foreground)] text-right max-w-[160px] leading-tight">{display}</span>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* Spinner while waiting for analyze API */}
+            {!analyzePreview && files.length > 0 && (
               <div className="w-full max-w-xs mb-6">
                 <div className="flex items-center gap-3 bg-[var(--surface)] border border-[var(--border)] rounded-xl px-4 py-3 mb-4">
                   <FileText className="w-5 h-5 text-brand-500 shrink-0" />
@@ -562,9 +632,11 @@ function EinspruchPageInner() {
               </div>
             )}
 
-            <p className="text-xs text-[var(--muted)]">
-              {files.length > 0 ? t('analyzing.liveMode') : t('analyzing.demoMode')}
-            </p>
+            {!analyzePreview && (
+              <p className="text-xs text-[var(--muted)] text-center">
+                {files.length > 0 ? t('analyzing.liveMode') : t('analyzing.demoMode')}
+              </p>
+            )}
           </div>
         )}
 
@@ -610,41 +682,82 @@ function EinspruchPageInner() {
                 {questions.length === 0 && !analyzeError && (
                   <p className="text-sm text-[var(--muted)] italic py-4">
                     {files.length === 0
-                      ? locale === 'de'
-                        ? 'Demo-Modus: Keine Rückfragen — klicken Sie auf „Einspruch generieren" für einen Beispielentwurf.'
-                        : 'Demo mode: No questions — click "Generate" for a sample draft.'
-                      : locale === 'de'
-                        ? 'Keine Rückfragen erforderlich — Sie können direkt den Einspruch generieren.'
-                        : 'No follow-up questions needed — you can generate the objection directly.'}
+                      ? (locale === 'de' ? 'Demo-Modus: Klicken Sie auf „Einspruch generieren" für einen Beispielentwurf.' : 'Demo mode: Click "Generate" for a sample draft.')
+                      : (locale === 'de' ? 'Keine weiteren Rückfragen — Sie können direkt generieren.' : 'No further questions — you can generate directly.')}
                   </p>
                 )}
-                {questions.map((q, i) => (
-                  <div key={q.id} className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-5">
-                    <div className="flex items-start gap-3">
-                      <span className={`w-6 h-6 rounded-lg text-xs font-bold flex items-center justify-center shrink-0 mt-0.5 transition-colors ${
-                        answers[q.id]?.trim()
-                          ? 'bg-green-100 dark:bg-green-950/40 text-green-600 dark:text-green-400'
-                          : 'bg-brand-100 dark:bg-brand-900/40 text-brand-600 dark:text-brand-400'
-                      }`}>
-                        {answers[q.id]?.trim() ? <CheckCircle2 className="w-3.5 h-3.5" /> : String(i + 1)}
-                      </span>
-                      <div className="flex-1">
-                        <label className="block text-sm font-medium text-[var(--foreground)] mb-2">
-                          {q.question}
-                          {q.required
-                            ? <span className="text-red-500 ml-1.5 text-xs font-normal">{t('questions.required')}</span>
-                            : <span className="text-[var(--muted)] ml-1.5 text-xs font-normal">{t('questions.optional')}</span>}
-                        </label>
-                        <textarea
-                          rows={3}
-                          className="w-full border border-[var(--border)] rounded-xl px-4 py-3 text-sm bg-[var(--background-subtle)] text-[var(--foreground)] focus:bg-[var(--surface)] focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400 transition-colors resize-none placeholder:text-[var(--muted)]"
-                          placeholder={t('questions.optional') + '…'}
-                          value={answers[q.id] ?? ''}
-                          onChange={(e) => setAnswers((a) => ({ ...a, [q.id]: e.target.value }))} />
+                {questions.map((q, i) => {
+                  const qType = q.type ?? 'text'
+                  const answered = !!answers[q.id]?.trim()
+                  return (
+                    <div key={q.id} className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-5">
+                      <div className="flex items-start gap-3">
+                        <span className={`w-6 h-6 rounded-lg text-xs font-bold flex items-center justify-center shrink-0 mt-0.5 transition-colors ${
+                          answered
+                            ? 'bg-green-100 dark:bg-green-950/40 text-green-600 dark:text-green-400'
+                            : 'bg-brand-100 dark:bg-brand-900/40 text-brand-600 dark:text-brand-400'
+                        }`}>
+                          {answered ? <CheckCircle2 className="w-3.5 h-3.5" /> : String(i + 1)}
+                        </span>
+                        <div className="flex-1">
+                          <label className="block text-sm font-medium text-[var(--foreground)] mb-3">
+                            {q.question}
+                            {q.required
+                              ? <span className="text-red-500 ml-1.5 text-xs font-normal">{t('questions.required')}</span>
+                              : <span className="text-[var(--muted)] ml-1.5 text-xs font-normal">{t('questions.optional')}</span>}
+                          </label>
+
+                          {/* Yes/No question → two radio-style buttons */}
+                          {qType === 'yesno' && (
+                            <div className="flex gap-2">
+                              {[
+                                { value: locale === 'de' ? 'Ja' : 'Yes', label: locale === 'de' ? 'Ja' : 'Yes' },
+                                { value: locale === 'de' ? 'Nein' : 'No', label: locale === 'de' ? 'Nein' : 'No' },
+                              ].map(({ value, label }) => (
+                                <button
+                                  key={value}
+                                  type="button"
+                                  onClick={() => setAnswers((a) => ({ ...a, [q.id]: value }))}
+                                  className={`flex-1 py-2.5 rounded-xl text-sm font-semibold border-2 transition-all ${
+                                    answers[q.id] === value
+                                      ? 'bg-brand-600 border-brand-600 text-white'
+                                      : 'bg-[var(--background-subtle)] border-[var(--border)] text-[var(--foreground)] hover:border-brand-300'
+                                  }`}>
+                                  {label}
+                                </button>
+                              ))}
+                            </div>
+                          )}
+
+                          {/* Amount question → number input */}
+                          {qType === 'amount' && (
+                            <div className="relative">
+                              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-[var(--muted)]">€</span>
+                              <input
+                                type="number"
+                                step="0.01"
+                                min="0"
+                                className="w-full pl-8 pr-4 py-3 text-sm border border-[var(--border)] rounded-xl bg-[var(--background-subtle)] text-[var(--foreground)] focus:bg-[var(--surface)] focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400 transition-colors"
+                                placeholder="0,00"
+                                value={answers[q.id] ?? ''}
+                                onChange={(e) => setAnswers((a) => ({ ...a, [q.id]: e.target.value }))} />
+                            </div>
+                          )}
+
+                          {/* Text question → textarea */}
+                          {qType === 'text' && (
+                            <textarea
+                              rows={3}
+                              className="w-full border border-[var(--border)] rounded-xl px-4 py-3 text-sm bg-[var(--background-subtle)] text-[var(--foreground)] focus:bg-[var(--surface)] focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400 transition-colors resize-none placeholder:text-[var(--muted)]"
+                              placeholder={q.required ? '' : t('questions.optional') + '…'}
+                              value={answers[q.id] ?? ''}
+                              onChange={(e) => setAnswers((a) => ({ ...a, [q.id]: e.target.value }))} />
+                          )}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  )
+                })}
               </div>
 
               {/* Detected bescheid data sidebar */}

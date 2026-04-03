@@ -19,7 +19,7 @@ const BescheidDataSchema = z.object({
 }).passthrough() // allow extra fields the AI may return
 
 const GenerateSchema = z.object({
-  caseId: z.string().optional(),
+  caseId: z.string().nullish(),
   bescheidData: BescheidDataSchema,
   documents: z
     .array(
