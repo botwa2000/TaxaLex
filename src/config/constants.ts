@@ -34,7 +34,7 @@ export const MODELS = MODELS_PROD
 // ── AI Pipeline ───────────────────────────────────────────────────────────────
 
 export const PIPELINE = {
-  maxTokens: 4096,
+  maxTokens: 8192,
   /** Hard timeout per agent call in ms */
   agentTimeoutMs: 60_000,
   /** Max file size accepted for upload (bytes) — Anthropic PDF limit is 32 MB */

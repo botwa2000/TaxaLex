@@ -138,7 +138,8 @@
     "legalBasis": "Legal basis",
     "expandDetails": "Show details",
     "collapseDetails": "Hide details",
-    "sectionLabel": "Supported notice types"
+    "sectionLabel": "Supported notice types",
+    "sonstige": "Other notice"
   },
   "stats": {
     "title": "Numbers that matter",
@@ -370,6 +371,16 @@
       "trustDemo": "Interactive demo — no registration required",
       "trustGdpr": "GDPR-compliant · EU servers · Encrypted",
       "privacy": "Privacy"
+    },
+    "verify": {
+      "bannerTitle": "Please confirm your email address.",
+      "bannerHint": "We sent you a confirmation code.",
+      "enterCode": "Enter code",
+      "resend": "Resend",
+      "sent": "New code sent — check your inbox.",
+      "enterNow": "Enter code now →",
+      "close": "Close",
+      "error": "Error sending code."
     }
   },
   "dashboard": {
@@ -381,7 +392,9 @@
       "totalCases": "Total objections",
       "activeCases": "Active cases",
       "submittedCases": "Submitted",
-      "successRate": "Success rate"
+      "successRate": "Success rate",
+      "openCases": "Open cases",
+      "urgentDeadlines": "Urgent deadlines"
     },
     "recentCases": "Recent cases",
     "noCases": "No cases yet",
@@ -389,22 +402,39 @@
     "newCase": "New request",
     "viewAll": "All cases",
     "status": {
-      "CREATED": "Created",
+      "CREATED": "New",
       "QUESTIONS": "Questions",
       "GENERATING": "Generating",
       "DRAFT_READY": "Draft ready",
       "SUBMITTED": "Submitted",
       "AWAITING_RESPONSE": "Pending",
       "CLOSED_SUCCESS": "Successful",
-      "CLOSED_REJECTED": "Rejected"
+      "CLOSED_REJECTED": "Rejected",
+      "UPLOADING": "Uploading",
+      "ANALYZING": "Analyzing",
+      "CLOSED_PARTIAL": "Partially accepted",
+      "REJECTED": "Rejected"
     },
     "quickActions": {
       "title": "Quick actions",
-      "newCase": "New objection",
-      "viewCases": "My cases",
+      "newCase": "New request",
+      "viewCases": "All cases",
       "billing": "Billing",
-      "account": "Settings"
-    }
+      "account": "Settings",
+      "newCaseSubtitle": "Create objection",
+      "viewCasesSubtitle": "View history",
+      "upgradePlan": "Upgrade plan",
+      "upgradePlanSubtitle": "Pro from €9.99/month"
+    },
+    "subtitle": "Your objections and appeals at a glance",
+    "adminSubtitle": "System overview · all users and cases",
+    "openAdminPanel": "Open admin panel",
+    "recentActivity": "Recent activity",
+    "startFirst": "Start first request",
+    "updatedAt": "Updated {date}",
+    "overdueLabel": "⚠ Deadline expired",
+    "daysLeft": "{days}d left",
+    "urgentWarning": "{count, plural, one {# deadline expires} other {# deadlines expire}} in less than 7 days"
   },
   "billing": {
     "title": "Billing",
@@ -421,23 +451,42 @@
   },
   "cases": {
     "title": "My cases",
-    "subtitle": "All your objection and appeal cases",
+    "subtitle": "{count} case{count, plural, one {} other {s}} total",
     "filter": {
-      "all": "All",
-      "active": "Active",
-      "submitted": "Submitted",
-      "closed": "Closed"
+      "all": "All ({count})",
+      "active": "Active ({count})",
+      "submitted": "Submitted ({count})",
+      "closed": "Closed ({count})"
     },
-    "empty": "No cases found",
-    "emptyHint": "Start your first objection",
+    "empty": "No cases yet",
+    "emptyHint": "Start your first request",
     "newCase": "New request",
     "caseId": "Case ID",
     "createdAt": "Created",
-    "status": "Status",
+    "status": {
+      "CREATED": "New",
+      "UPLOADING": "Uploading",
+      "ANALYZING": "Analyzing",
+      "QUESTIONS": "Questions",
+      "GENERATING": "Generating",
+      "DRAFT_READY": "Draft ready",
+      "SUBMITTED": "Submitted",
+      "AWAITING_RESPONSE": "Pending",
+      "CLOSED_SUCCESS": "Successful",
+      "CLOSED_PARTIAL": "Partially accepted",
+      "CLOSED_REJECTED": "Rejected",
+      "REJECTED": "Rejected"
+    },
     "type": "Type",
     "actions": "Actions",
     "viewCase": "View case",
-    "downloadDraft": "Download draft"
+    "downloadDraft": "Download draft",
+    "search": "Search cases…",
+    "noResults": "No cases match this filter",
+    "startFirst": "Start first request",
+    "overdueLabel": "⚠ Deadline expired",
+    "deadlineLabel": "Deadline: {date}",
+    "documents": "{count, plural, one {# document} other {# documents}}"
   },
   "account": {
     "title": "Profile & settings",

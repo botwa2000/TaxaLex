@@ -138,7 +138,8 @@
     "legalBasis": "Rechtsgrundlage",
     "expandDetails": "Details anzeigen",
     "collapseDetails": "Details ausblenden",
-    "sectionLabel": "Unterstützte Bescheidarten"
+    "sectionLabel": "Unterstützte Bescheidarten",
+    "sonstige": "Sonstiger Bescheid"
   },
   "stats": {
     "title": "Zahlen, die zählen",
@@ -370,6 +371,16 @@
       "trustDemo": "Interaktive Demo – ohne Registrierung",
       "trustGdpr": "DSGVO-konform · EU-Server · Verschlüsselt",
       "privacy": "Datenschutz"
+    },
+    "verify": {
+      "bannerTitle": "Bitte bestätige deine E-Mail-Adresse.",
+      "bannerHint": "Wir haben dir einen Bestätigungscode geschickt.",
+      "enterCode": "Code eingeben",
+      "resend": "Erneut senden",
+      "sent": "Neuer Code gesendet — bitte prüfe deinen Posteingang.",
+      "enterNow": "Code jetzt eingeben →",
+      "close": "Schließen",
+      "error": "Fehler beim Senden."
     }
   },
   "dashboard": {
@@ -381,7 +392,9 @@
       "totalCases": "Einsprüche gesamt",
       "activeCases": "Aktive Fälle",
       "submittedCases": "Eingereicht",
-      "successRate": "Erfolgsquote"
+      "successRate": "Erfolgsquote",
+      "openCases": "Offene Fälle",
+      "urgentDeadlines": "Dringende Fristen"
     },
     "recentCases": "Aktuelle Fälle",
     "noCases": "Noch keine Fälle",
@@ -389,22 +402,39 @@
     "newCase": "Neue Anfrage",
     "viewAll": "Alle Fälle",
     "status": {
-      "CREATED": "Erstellt",
+      "CREATED": "Neu",
       "QUESTIONS": "Rückfragen",
-      "GENERATING": "Wird erstellt",
-      "DRAFT_READY": "Entwurf bereit",
+      "GENERATING": "Generierung",
+      "DRAFT_READY": "Entwurf",
       "SUBMITTED": "Eingereicht",
       "AWAITING_RESPONSE": "Ausstehend",
       "CLOSED_SUCCESS": "Erfolgreich",
-      "CLOSED_REJECTED": "Abgelehnt"
+      "CLOSED_REJECTED": "Abgelehnt",
+      "UPLOADING": "Upload",
+      "ANALYZING": "Analyse",
+      "CLOSED_PARTIAL": "Teilweise",
+      "REJECTED": "Abgelehnt"
     },
     "quickActions": {
       "title": "Schnellzugriff",
-      "newCase": "Neuer Einspruch",
-      "viewCases": "Meine Fälle",
+      "newCase": "Neue Anfrage",
+      "viewCases": "Alle Fälle",
       "billing": "Abrechnung",
-      "account": "Einstellungen"
-    }
+      "account": "Einstellungen",
+      "newCaseSubtitle": "Einspruch erstellen",
+      "viewCasesSubtitle": "Verlauf anzeigen",
+      "upgradePlan": "Plan upgraden",
+      "upgradePlanSubtitle": "Pro ab 9,99 €/Monat"
+    },
+    "subtitle": "Ihre Widersprüche und Einsprüche auf einen Blick",
+    "adminSubtitle": "System-Übersicht · alle Nutzer und Fälle",
+    "openAdminPanel": "Admin-Panel öffnen",
+    "recentActivity": "Zuletzt aktiv",
+    "startFirst": "Erste Anfrage starten",
+    "updatedAt": "Aktualisiert {date}",
+    "overdueLabel": "⚠ Frist abgelaufen",
+    "daysLeft": "{days}d Frist",
+    "urgentWarning": "{count, plural, one {# Frist läuft} other {# Fristen laufen}} in weniger als 7 Tagen ab"
   },
   "billing": {
     "title": "Abrechnung",
@@ -421,23 +451,42 @@
   },
   "cases": {
     "title": "Meine Fälle",
-    "subtitle": "Alle Ihre Einsprüche und Widersprüche",
+    "subtitle": "{count, plural, one {# Fall} other {# Fälle}} gesamt",
     "filter": {
-      "all": "Alle",
-      "active": "Aktiv",
-      "submitted": "Eingereicht",
-      "closed": "Abgeschlossen"
+      "all": "Alle ({count})",
+      "active": "Aktiv ({count})",
+      "submitted": "Eingereicht ({count})",
+      "closed": "Abgeschlossen ({count})"
     },
-    "empty": "Keine Fälle gefunden",
-    "emptyHint": "Starten Sie Ihren ersten Einspruch",
+    "empty": "Noch keine Fälle",
+    "emptyHint": "Starten Sie Ihre erste Anfrage",
     "newCase": "Neue Anfrage",
     "caseId": "Fall-ID",
     "createdAt": "Erstellt am",
-    "status": "Status",
+    "status": {
+      "CREATED": "Neu",
+      "UPLOADING": "Upload",
+      "ANALYZING": "Analyse",
+      "QUESTIONS": "Rückfragen",
+      "GENERATING": "Generierung",
+      "DRAFT_READY": "Entwurf bereit",
+      "SUBMITTED": "Eingereicht",
+      "AWAITING_RESPONSE": "Ausstehend",
+      "CLOSED_SUCCESS": "Erfolgreich",
+      "CLOSED_PARTIAL": "Teilweise",
+      "CLOSED_REJECTED": "Abgelehnt",
+      "REJECTED": "Abgelehnt"
+    },
     "type": "Typ",
     "actions": "Aktionen",
     "viewCase": "Fall ansehen",
-    "downloadDraft": "Entwurf herunterladen"
+    "downloadDraft": "Entwurf herunterladen",
+    "search": "Fälle durchsuchen…",
+    "noResults": "Keine Fälle für diese Filter-Auswahl",
+    "startFirst": "Erste Anfrage starten",
+    "overdueLabel": "⚠ Frist abgelaufen",
+    "deadlineLabel": "Frist: {date}",
+    "documents": "{count, plural, one {# Dokument} other {# Dokumente}}"
   },
   "account": {
     "title": "Profil & Einstellungen",

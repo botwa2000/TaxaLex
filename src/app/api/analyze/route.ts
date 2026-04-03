@@ -117,23 +117,24 @@ export async function POST(req: NextRequest) {
 
     contentBlocks.push({
       type: 'text',
-      text: `Analysiere die obigen Dokumente und extrahiere die Daten im JSON-Format.
+      text: `Analysiere die obigen Dokumente und extrahiere die Kerndaten im JSON-Format.
 
-Antworte NUR mit einem JSON-Objekt:
+Antworte NUR mit einem JSON-Objekt (kein Markdown, kein Kommentar):
 {
   "bescheidData": {
-    "finanzamt": "...",
-    "steuernummer": "...",
-    "bescheidDatum": "...",
-    "steuerart": "...",
+    "finanzamt": "Name des Finanzamts oder der Behörde",
+    "steuernummer": "Steuernummer oder Aktenzeichen",
+    "bescheidDatum": "Datum im Format YYYY-MM-DD oder DD.MM.YYYY",
+    "steuerart": "Art des Bescheids (z.B. Einkommensteuer 2022)",
     "nachzahlung": 0,
     "streitigerBetrag": 0
   },
   "followUpQuestions": [
     { "id": "q1", "question": "...", "required": true }
-  ],
-  "extractedText": "Vollständiger extrahierter Text aus allen Dokumenten — wird für die spätere Einspruchsgenerierung benötigt"
-}${langInstruction}`,
+  ]
+}${langInstruction}
+
+Beschränke followUpQuestions auf maximal 5 gezielte Fragen. Extrahiere KEINEN langen Dokumententext.`,
     })
 
     const { models } = await getActiveModels()
@@ -143,7 +144,7 @@ Antworte NUR mit einem JSON-Objekt:
     const response = await client.messages.create({
       model: models.drafter,
       max_tokens: PIPELINE.maxTokens,
-      system: 'Du bist ein Steuerexperte. Extrahiere strukturierte Daten aus Steuerdokumenten und stelle gezielte Rückfragen. Antworte nur mit validem JSON. Im Feld "extractedText" gib den vollständigen Text aller Dokumente wieder, damit er für die weitere Verarbeitung verwendet werden kann.',
+      system: 'Du bist ein Steuerexperte. Extrahiere strukturierte Kerndaten (finanzamt, steuernummer, datum, steuerart, beträge) aus Steuerdokumenten und stelle bis zu 5 gezielte Rückfragen. Antworte ausschließlich mit validem JSON — kein Markdown, keine Erklärungen, kein langer Dokumententext.',
       messages: [{ role: 'user', content: contentBlocks }],
     })
 

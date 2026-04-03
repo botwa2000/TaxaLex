@@ -3,8 +3,10 @@
 import { useState } from 'react'
 import { Link } from '@/i18n/navigation'
 import { Mail, X, CheckCircle2, Loader2 } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 export function VerifyBanner() {
+  const t = useTranslations('auth.verify')
   const [state, setState] = useState<'idle' | 'loading' | 'sent' | 'error'>('idle')
   const [error, setError] = useState('')
   const [dismissed, setDismissed] = useState(false)
@@ -19,7 +21,7 @@ export function VerifyBanner() {
       setState('sent')
     } else {
       const data = await res.json()
-      setError(data.error ?? 'Fehler beim Senden.')
+      setError(data.error ?? t('error'))
       setState('error')
     }
   }
@@ -33,11 +35,11 @@ export function VerifyBanner() {
             <CheckCircle2 className="w-4 h-4 text-green-600 shrink-0 mt-0.5" />
             <div>
               <p className="text-sm text-green-700 dark:text-green-400 font-medium">
-                Neuer Code gesendet — bitte prüfe deinen Posteingang.
+                {t('sent')}
               </p>
               <p className="text-xs text-green-600 dark:text-green-500 mt-0.5">
                 <Link href="/verify-email" className="underline hover:no-underline">
-                  Code jetzt eingeben →
+                  {t('enterNow')}
                 </Link>
               </p>
             </div>
@@ -45,15 +47,15 @@ export function VerifyBanner() {
         ) : (
           <>
             <p className="text-sm text-amber-800 dark:text-amber-300 font-medium">
-              Bitte bestätige deine E-Mail-Adresse.
+              {t('bannerTitle')}
             </p>
             <p className="text-xs text-amber-700 dark:text-amber-400 mt-0.5">
-              Wir haben dir einen Bestätigungscode geschickt.{' '}
+              {t('bannerHint')}{' '}
               <Link
                 href="/verify-email"
                 className="underline font-medium hover:no-underline"
               >
-                Code eingeben
+                {t('enterCode')}
               </Link>
               {' · '}
               <button
@@ -62,7 +64,7 @@ export function VerifyBanner() {
                 className="underline font-medium hover:no-underline disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center gap-1"
               >
                 {state === 'loading' && <Loader2 className="w-3 h-3 animate-spin" />}
-                Erneut senden
+                {t('resend')}
               </button>
             </p>
             {state === 'error' && (
@@ -74,7 +76,7 @@ export function VerifyBanner() {
       <button
         onClick={() => setDismissed(true)}
         className="text-amber-500 hover:text-amber-700 transition-colors shrink-0"
-        aria-label="Schließen"
+        aria-label={t('close')}
       >
         <X className="w-4 h-4" />
       </button>

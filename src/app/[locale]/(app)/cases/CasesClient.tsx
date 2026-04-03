@@ -3,6 +3,7 @@
 import { useState, useMemo } from 'react'
 import { Plus, FolderOpen, ArrowRight, Search } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
+import { useTranslations } from 'next-intl'
 
 type CaseListItem = {
   id: string
@@ -18,7 +19,7 @@ type Filter = 'all' | 'active' | 'submitted' | 'closed'
 
 const ACTIVE_STATUSES = ['CREATED', 'UPLOADING', 'ANALYZING', 'QUESTIONS', 'GENERATING', 'DRAFT_READY']
 const SUBMITTED_STATUSES = ['SUBMITTED', 'AWAITING_RESPONSE']
-const CLOSED_STATUSES = ['CLOSED_SUCCESS', 'CLOSED_PARTIAL', 'REJECTED']
+const CLOSED_STATUSES = ['CLOSED_SUCCESS', 'CLOSED_PARTIAL', 'REJECTED', 'CLOSED_REJECTED']
 
 function matchesFilter(c: CaseListItem, filter: Filter): boolean {
   if (filter === 'all') return true
@@ -28,15 +29,55 @@ function matchesFilter(c: CaseListItem, filter: Filter): boolean {
   return true
 }
 
+const STATUS_COLORS: Record<string, string> = {
+  CREATED: 'bg-gray-100 text-gray-600',
+  UPLOADING: 'bg-blue-50 text-blue-600',
+  ANALYZING: 'bg-purple-50 text-purple-600',
+  QUESTIONS: 'bg-amber-50 text-amber-700',
+  GENERATING: 'bg-purple-50 text-purple-600',
+  DRAFT_READY: 'bg-blue-50 text-blue-700',
+  SUBMITTED: 'bg-green-50 text-green-700',
+  AWAITING_RESPONSE: 'bg-amber-50 text-amber-700',
+  CLOSED_SUCCESS: 'bg-green-50 text-green-700',
+  CLOSED_PARTIAL: 'bg-yellow-50 text-yellow-700',
+  CLOSED_REJECTED: 'bg-red-50 text-red-700',
+  REJECTED: 'bg-red-50 text-red-700',
+}
+
+const STATUS_DOTS: Record<string, string> = {
+  CREATED: 'bg-gray-400', QUESTIONS: 'bg-amber-400', GENERATING: 'bg-purple-500',
+  DRAFT_READY: 'bg-blue-500', SUBMITTED: 'bg-green-500', AWAITING_RESPONSE: 'bg-amber-500',
+  CLOSED_SUCCESS: 'bg-green-500', CLOSED_PARTIAL: 'bg-yellow-500', REJECTED: 'bg-red-500',
+}
+
 interface Props {
   cases: CaseListItem[]
 }
 
 export function CasesClient({ cases }: Props) {
+  const t = useTranslations('cases')
+  const tUC = useTranslations('useCases')
+
   const [filter, setFilter] = useState<Filter>('all')
   const [search, setSearch] = useState('')
 
   const now = new Date()
+
+  // Pre-build label maps once
+  const statusLabels: Record<string, string> = {
+    CREATED: t('status.CREATED'), UPLOADING: t('status.UPLOADING'),
+    ANALYZING: t('status.ANALYZING'), QUESTIONS: t('status.QUESTIONS'),
+    GENERATING: t('status.GENERATING'), DRAFT_READY: t('status.DRAFT_READY'),
+    SUBMITTED: t('status.SUBMITTED'), AWAITING_RESPONSE: t('status.AWAITING_RESPONSE'),
+    CLOSED_SUCCESS: t('status.CLOSED_SUCCESS'), CLOSED_PARTIAL: t('status.CLOSED_PARTIAL'),
+    CLOSED_REJECTED: t('status.CLOSED_REJECTED'), REJECTED: t('status.REJECTED'),
+  }
+  const ucLabels: Record<string, string> = {
+    tax: tUC('tax'), jobcenter: tUC('jobcenter'), rente: tUC('rente'),
+    bussgeld: tUC('bussgeld'), bussgeldd: tUC('bussgeldd'),
+    krankenversicherung: tUC('krankenversicherung'), kuendigung: tUC('kuendigung'),
+    miete: tUC('miete'), grundsteuer: tUC('grundsteuer'), sonstige: tUC('sonstige'),
+  }
 
   const filtered = useMemo(() => {
     const byFilter = cases.filter((c) => matchesFilter(c, filter))
@@ -44,10 +85,12 @@ export function CasesClient({ cases }: Props) {
     const q = search.toLowerCase()
     return byFilter.filter(
       (c) =>
-        useCaseLabel(c.useCase).toLowerCase().includes(q) ||
+        (ucLabels[c.useCase] ?? c.useCase).toLowerCase().includes(q) ||
         c.id.toLowerCase().includes(q) ||
         c.status.toLowerCase().includes(q)
     )
+    // ucLabels is stable — built from translations, not a dependency that changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cases, filter, search])
 
   const counts = {
@@ -58,19 +101,19 @@ export function CasesClient({ cases }: Props) {
   }
 
   const filters: { key: Filter; label: string }[] = [
-    { key: 'all', label: `Alle (${counts.all})` },
-    { key: 'active', label: `Aktiv (${counts.active})` },
-    { key: 'submitted', label: `Eingereicht (${counts.submitted})` },
-    { key: 'closed', label: `Abgeschlossen (${counts.closed})` },
+    { key: 'all', label: t('filter.all', { count: counts.all }) },
+    { key: 'active', label: t('filter.active', { count: counts.active }) },
+    { key: 'submitted', label: t('filter.submitted', { count: counts.submitted }) },
+    { key: 'closed', label: t('filter.closed', { count: counts.closed }) },
   ]
 
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-[var(--foreground)]">Meine Fälle</h1>
+          <h1 className="text-2xl font-bold text-[var(--foreground)]">{t('title')}</h1>
           <p className="text-sm text-[var(--muted)] mt-1">
-            {cases.length} Fall{cases.length !== 1 ? 'fälle' : ''} gesamt
+            {t('subtitle', { count: cases.length })}
           </p>
         </div>
         <Link
@@ -78,7 +121,7 @@ export function CasesClient({ cases }: Props) {
           className="flex items-center gap-1.5 bg-brand-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-brand-700 transition-colors"
         >
           <Plus className="w-4 h-4" />
-          Neue Anfrage
+          {t('newCase')}
         </Link>
       </div>
 
@@ -87,7 +130,7 @@ export function CasesClient({ cases }: Props) {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[var(--muted)]" />
           <input
             type="text"
-            placeholder="Fälle durchsuchen…"
+            placeholder={t('search')}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full pl-8 pr-3 py-2 text-sm border border-[var(--border)] rounded-lg bg-[var(--surface)] text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400"
@@ -115,18 +158,18 @@ export function CasesClient({ cases }: Props) {
           <FolderOpen className="w-12 h-12 mx-auto mb-4 opacity-30" />
           {cases.length === 0 ? (
             <>
-              <p className="font-medium">Noch keine Fälle vorhanden</p>
-              <p className="text-sm mt-1 mb-6">Starten Sie Ihre erste Anfrage</p>
+              <p className="font-medium">{t('empty')}</p>
+              <p className="text-sm mt-1 mb-6">{t('emptyHint')}</p>
               <Link
                 href="/einspruch"
                 className="inline-flex items-center gap-1.5 bg-brand-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-brand-700 transition-colors"
               >
                 <Plus className="w-4 h-4" />
-                Erste Anfrage starten
+                {t('startFirst')}
               </Link>
             </>
           ) : (
-            <p className="font-medium">Keine Fälle für diese Filter-Auswahl</p>
+            <p className="font-medium">{t('noResults')}</p>
           )}
         </div>
       ) : (
@@ -144,12 +187,12 @@ export function CasesClient({ cases }: Props) {
                 href={`/cases/${c.id}`}
                 className="flex items-center gap-4 px-5 py-4 hover:bg-[var(--background-subtle)] transition-colors"
               >
-                <div className={`w-2 h-2 rounded-full shrink-0 ${statusDot(c.status)}`} />
+                <div className={`w-2 h-2 rounded-full shrink-0 ${STATUS_DOTS[c.status] ?? 'bg-gray-300'}`} />
                 <div className="flex-1 min-w-0">
-                  <p className="font-medium text-sm text-[var(--foreground)]">{useCaseLabel(c.useCase)}</p>
+                  <p className="font-medium text-sm text-[var(--foreground)]">{ucLabels[c.useCase] ?? c.useCase}</p>
                   <p className="text-xs text-[var(--muted)] mt-0.5">
-                    #{c.id.slice(-8).toUpperCase()} · {new Date(c.createdAt).toLocaleDateString('de-DE')} ·{' '}
-                    {c._count.documents} Dokument{c._count.documents !== 1 ? 'e' : ''}
+                    #{c.id.slice(-8).toUpperCase()} · {new Date(c.createdAt).toLocaleDateString()} ·{' '}
+                    {t('documents', { count: c._count.documents })}
                   </p>
                 </div>
                 {c.deadline && (
@@ -159,11 +202,13 @@ export function CasesClient({ cases }: Props) {
                     }`}
                   >
                     {isOverdue
-                      ? '⚠ Frist abgelaufen'
-                      : `Frist: ${new Date(c.deadline).toLocaleDateString('de-DE')}`}
+                      ? t('overdueLabel')
+                      : t('deadlineLabel', { date: new Date(c.deadline).toLocaleDateString() })}
                   </p>
                 )}
-                <StatusBadge status={c.status} />
+                <span className={`text-xs font-medium px-2 py-0.5 rounded-full whitespace-nowrap shrink-0 ${STATUS_COLORS[c.status] ?? 'bg-gray-100 text-gray-600'}`}>
+                  {statusLabels[c.status] ?? c.status}
+                </span>
                 <ArrowRight className="w-3.5 h-3.5 text-[var(--muted)] shrink-0" />
               </Link>
             )
@@ -172,42 +217,4 @@ export function CasesClient({ cases }: Props) {
       )}
     </div>
   )
-}
-
-function statusDot(status: string): string {
-  const m: Record<string, string> = {
-    CREATED: 'bg-gray-400', QUESTIONS: 'bg-amber-400', GENERATING: 'bg-purple-500',
-    DRAFT_READY: 'bg-blue-500', SUBMITTED: 'bg-green-500', AWAITING_RESPONSE: 'bg-amber-500',
-    CLOSED_SUCCESS: 'bg-green-500', CLOSED_PARTIAL: 'bg-yellow-500', REJECTED: 'bg-red-500',
-  }
-  return m[status] ?? 'bg-gray-300'
-}
-
-function StatusBadge({ status }: { status: string }) {
-  const m: Record<string, { label: string; className: string }> = {
-    CREATED:           { label: 'Neu',          className: 'bg-gray-100 text-gray-600' },
-    QUESTIONS:         { label: 'Rückfragen',    className: 'bg-amber-50 text-amber-700' },
-    GENERATING:        { label: 'Generierung',   className: 'bg-purple-50 text-purple-600' },
-    DRAFT_READY:       { label: 'Entwurf bereit',className: 'bg-blue-50 text-blue-700' },
-    SUBMITTED:         { label: 'Eingereicht',   className: 'bg-green-50 text-green-700' },
-    AWAITING_RESPONSE: { label: 'Ausstehend',    className: 'bg-amber-50 text-amber-700' },
-    CLOSED_SUCCESS:    { label: 'Erfolgreich',   className: 'bg-green-50 text-green-700' },
-    CLOSED_PARTIAL:    { label: 'Teilweise',     className: 'bg-yellow-50 text-yellow-700' },
-    REJECTED:          { label: 'Abgelehnt',     className: 'bg-red-50 text-red-700' },
-  }
-  const { label, className } = m[status] ?? { label: status, className: 'bg-gray-100 text-gray-600' }
-  return (
-    <span className={`text-xs font-medium px-2 py-0.5 rounded-full whitespace-nowrap shrink-0 ${className}`}>
-      {label}
-    </span>
-  )
-}
-
-function useCaseLabel(useCase: string): string {
-  const l: Record<string, string> = {
-    tax: 'Steuerbescheid', jobcenter: 'Jobcenter / Bürgergeld', rente: 'Rentenbescheid',
-    bussgeld: 'Bußgeldbescheid', bussgeldd: 'Bußgeldbescheid', krankenversicherung: 'Krankenversicherung',
-    kuendigung: 'Kündigung', miete: 'Mieterhöhung / Kaution', grundsteuer: 'Grundsteuerbescheid',
-  }
-  return l[useCase] ?? useCase
 }
