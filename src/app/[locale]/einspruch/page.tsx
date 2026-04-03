@@ -5,7 +5,7 @@ import { useSearchParams, useRouter } from 'next/navigation'
 import {
   Upload, MessageSquare, Brain, FileCheck, Loader2, ArrowLeft, ArrowRight,
   X, CheckCircle2, FileText, Copy, Download, AlertCircle, ScanSearch, Tag,
-  ShieldCheck, Globe, Lock, Sparkles, FolderOpen, Clock,
+  ShieldCheck, Globe, Lock, Sparkles, FolderOpen, Clock, Plus, Paperclip,
 } from 'lucide-react'
 import { Logo } from '@/components/Logo'
 
@@ -163,11 +163,14 @@ function EinspruchPageInner() {
   const [draftPreview, setDraftPreview]   = useState<string>('')
   const [generateError, setGenerateError] = useState<string | null>(null)
 
-  const fileInputRef       = useRef<HTMLInputElement>(null)
-  const pendingBescheidRef = useRef<Record<string, string> | null>(null)
-  const pendingQuestionsRef = useRef<Array<{ id: string; question: string; required?: boolean }> | null>(null)
-  const docsRef            = useRef<{ name: string; text: string }[] | null>(null)
-  const caseIdRef          = useRef<string | null>(null)
+  const [additionalFiles, setAdditionalFiles] = useState<File[]>([])
+
+  const fileInputRef           = useRef<HTMLInputElement>(null)
+  const additionalFileInputRef = useRef<HTMLInputElement>(null)
+  const pendingBescheidRef     = useRef<Record<string, string> | null>(null)
+  const pendingQuestionsRef    = useRef<Array<{ id: string; question: string; required?: boolean }> | null>(null)
+  const docsRef                = useRef<{ name: string; text: string }[] | null>(null)
+  const caseIdRef              = useRef<string | null>(null)
 
   const currentIdx    = STEPS.findIndex((s) => s.id === step)
   const answeredCount = questions.filter((q) => answers[q.id]?.trim()).length
@@ -204,11 +207,24 @@ function EinspruchPageInner() {
     setFiles((prev) => prev.filter((f) => f.name !== name))
   }
 
+  function addAdditionalFiles(incoming: FileList | null) {
+    if (!incoming) return
+    setAdditionalFiles((prev) => {
+      const existing = new Set(prev.map((f) => f.name))
+      return [...prev, ...Array.from(incoming).filter((f) => !existing.has(f.name))]
+    })
+  }
+
+  function removeAdditionalFile(name: string) {
+    setAdditionalFiles((prev) => prev.filter((f) => f.name !== name))
+  }
+
   async function handleAnalyze() {
     pendingBescheidRef.current  = null
     pendingQuestionsRef.current = null
     docsRef.current             = null
     caseIdRef.current           = null
+    setAdditionalFiles([])
     setDetectedCount(0)
     setDetectedValues(DETECTION_LABELS.map(i => i.demoValue))
     setAgentOutputData([])
@@ -274,9 +290,11 @@ function EinspruchPageInner() {
     setGenerateError(null)
     setStep('generating')
 
-    const docs = docsRef.current ?? (files.length > 0
-      ? await Promise.all(files.map(async (f) => ({ name: f.name, text: await f.text() })))
-      : [])
+    // Re-read all files including any added in the questions step
+    const allFiles = [...files, ...additionalFiles]
+    const docs = allFiles.length > 0
+      ? await Promise.all(allFiles.map(async (f) => ({ name: f.name, text: await f.text() })))
+      : (docsRef.current ?? [])
 
     let finalDraft = DEMO_FINAL_DRAFT
     let completedCaseId = caseIdRef.current
@@ -369,7 +387,7 @@ function EinspruchPageInner() {
   }
 
   function handleReset() {
-    setStep('upload'); setFiles([]); setResult(null)
+    setStep('upload'); setFiles([]); setAdditionalFiles([]); setResult(null)
     setAnswers({}); setBescheidData(null); setQuestions([])
     setActiveAgent(0); setDetectedCount(0); setCaseId(null)
     setDetectedValues(DETECTION_LABELS.map(i => i.demoValue))
@@ -647,14 +665,59 @@ function EinspruchPageInner() {
               )}
             </div>
 
-            <div className="flex gap-3 mt-6">
+            {/* Additional documents upload */}
+            <div className="mt-6 border border-dashed border-[var(--border)] rounded-2xl p-4 bg-[var(--background-subtle)]">
+              <div className="flex items-center gap-2 mb-2">
+                <Paperclip className="w-4 h-4 text-[var(--muted)]" />
+                <p className="text-sm font-semibold text-[var(--foreground)]">Weitere Belege hochladen</p>
+                <span className="ml-auto text-xs text-[var(--muted)] bg-[var(--surface)] border border-[var(--border)] px-2 py-0.5 rounded-full">Optional</span>
+              </div>
+              <p className="text-xs text-[var(--muted)] mb-3 leading-relaxed">
+                Belege, Jahresabschlüsse, Arztbriefe oder andere relevante Dokumente stärken Ihren Einspruch — die KI-Agenten berücksichtigen sie automatisch.
+              </p>
+
+              {additionalFiles.length > 0 && (
+                <div className="space-y-1.5 mb-3">
+                  {additionalFiles.map((f) => (
+                    <div key={f.name} className="flex items-center gap-2.5 bg-[var(--surface)] border border-[var(--border)] rounded-xl px-3 py-2">
+                      <FileText className="w-3.5 h-3.5 text-brand-500 shrink-0" />
+                      <span className="text-xs font-medium text-[var(--foreground)] flex-1 truncate">{f.name}</span>
+                      <span className="text-xs text-[var(--muted)]">{(f.size / 1024).toFixed(0)} KB</span>
+                      <button
+                        onClick={() => removeAdditionalFile(f.name)}
+                        className="p-0.5 text-[var(--muted)] hover:text-red-500 transition-colors rounded">
+                        <X className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              <button
+                onClick={() => additionalFileInputRef.current?.click()}
+                className="flex items-center gap-1.5 text-sm text-brand-600 dark:text-brand-400 hover:text-brand-700 dark:hover:text-brand-300 transition-colors font-medium">
+                <Plus className="w-4 h-4" />Dokument hinzufügen
+              </button>
+              <input
+                ref={additionalFileInputRef}
+                type="file"
+                multiple
+                className="hidden"
+                accept=".pdf,.docx,.txt,.jpg,.jpeg,.png,.webp"
+                onChange={(e) => addAdditionalFiles(e.target.files)} />
+            </div>
+
+            <div className="flex gap-3 mt-4">
               <button onClick={() => setStep('upload')}
                 className="flex items-center gap-2 border border-[var(--border)] text-[var(--foreground)] px-5 py-3 rounded-xl text-sm font-medium hover:bg-[var(--background-subtle)] transition-colors">
                 <ArrowLeft className="w-4 h-4" />Zurück
               </button>
               <button onClick={handleGenerate}
                 className="flex-1 bg-brand-600 text-white py-3 rounded-xl font-semibold hover:bg-brand-700 transition-colors flex items-center justify-center gap-2">
-                <Brain className="w-4 h-4" />Einspruch generieren
+                <Brain className="w-4 h-4" />
+                {additionalFiles.length > 0
+                  ? `Einspruch generieren (${files.length + additionalFiles.length} Dokumente)`
+                  : 'Einspruch generieren'}
               </button>
             </div>
           </div>
