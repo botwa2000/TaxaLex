@@ -17,6 +17,8 @@ services:
     secrets:
       - anthropic_api_key_dev
       - openai_api_key_dev
+      - google_ai_api_key_dev
+      - perplexity_api_key_dev
       - nextauth_secret_dev
       - database_url_dev
       - taxalex_brevo_api_key_dev
@@ -68,6 +70,10 @@ secrets:
   anthropic_api_key_dev:
     external: true
   openai_api_key_dev:
+    external: true
+  google_ai_api_key_dev:
+    external: true
+  perplexity_api_key_dev:
     external: true
   nextauth_secret_dev:
     external: true

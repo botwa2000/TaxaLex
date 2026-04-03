@@ -149,10 +149,14 @@ elif [[ "$CMD" == "secrets" ]]; then
     echo "    Created: $name"
   }
 
-  create_or_replace "anthropic_api_key_prod" "${ANTHROPIC_API_KEY_PROD:-}"
-  create_or_replace "anthropic_api_key_dev"  "${ANTHROPIC_API_KEY_DEV:-}"
-  create_or_replace "openai_api_key_prod"    "${OPENAI_API_KEY_PROD:-}"
-  create_or_replace "openai_api_key_dev"     "${OPENAI_API_KEY_DEV:-}"
+  create_or_replace "anthropic_api_key_prod"  "${ANTHROPIC_API_KEY_PROD:-}"
+  create_or_replace "anthropic_api_key_dev"   "${ANTHROPIC_API_KEY_DEV:-}"
+  create_or_replace "openai_api_key_prod"     "${OPENAI_API_KEY_PROD:-}"
+  create_or_replace "openai_api_key_dev"      "${OPENAI_API_KEY_DEV:-}"
+  create_or_replace "google_ai_api_key_prod"  "${GOOGLE_AI_API_KEY_PROD:-}"
+  create_or_replace "google_ai_api_key_dev"   "${GOOGLE_AI_API_KEY_DEV:-}"
+  create_or_replace "perplexity_api_key_prod" "${PERPLEXITY_API_KEY_PROD:-}"
+  create_or_replace "perplexity_api_key_dev"  "${PERPLEXITY_API_KEY_DEV:-}"
   create_or_replace "database_url_prod"      "${DATABASE_URL_PROD:-}"
   create_or_replace "database_url_dev"       "${DATABASE_URL_DEV:-}"
 

@@ -40,10 +40,14 @@ ARG ANTHROPIC_API_KEY=build-placeholder
 ARG NEXTAUTH_SECRET=build-placeholder
 ARG NEXTAUTH_URL=https://taxalex.de
 ARG DATABASE_URL=postgresql://placeholder:placeholder@localhost:5432/taxalex
+ARG GOOGLE_AI_API_KEY=build-placeholder
+ARG PERPLEXITY_API_KEY=build-placeholder
 ENV ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY
 ENV NEXTAUTH_SECRET=$NEXTAUTH_SECRET
 ENV NEXTAUTH_URL=$NEXTAUTH_URL
 ENV DATABASE_URL=$DATABASE_URL
+ENV GOOGLE_AI_API_KEY=$GOOGLE_AI_API_KEY
+ENV PERPLEXITY_API_KEY=$PERPLEXITY_API_KEY
 
 # Generate Prisma client (required before build)
 RUN npx prisma generate
