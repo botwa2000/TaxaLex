@@ -4,10 +4,13 @@
  */
 
 import { PrismaClient } from '@prisma/client'
+import { PrismaPg } from '@prisma/adapter-pg'
 import bcrypt from 'bcryptjs'
 import { USE_CASES, FAQS, PRICING_PLANS, TRUST_STATS } from '../src/lib/contentFallbacks'
 
-const prisma = new PrismaClient()
+// Prisma 7 with engineType "client" requires a driver adapter at construction time
+const adapter = new PrismaPg(process.env.DATABASE_URL!)
+const prisma = new PrismaClient({ adapter })
 
 async function hashPassword(password: string): Promise<string> {
   return bcrypt.hash(password, 12)
