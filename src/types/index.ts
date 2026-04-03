@@ -57,6 +57,7 @@ export interface AgentOutput {
   model: string
   content: string
   timestamp: Date
+  durationMs?: number     // Wall-clock milliseconds for this agent
   issues?: string[]       // Problems identified (for reviewer/adversary)
   confidence?: number     // 0-1 confidence score
 }

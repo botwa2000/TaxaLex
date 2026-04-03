@@ -11,23 +11,24 @@ const AnalyzeSchema = z.object({
     .array(
       z.object({
         name: z.string().min(1).max(255),
-        text: z.string().max(500_000), // ~500KB of text per document
+        text: z.string().max(500_000),
       })
     )
     .min(1, 'At least one document is required')
     .max(PIPELINE.maxDocuments),
+  caseId: z.string().optional(),
   uiLanguage: z.string().length(2).optional().default('de'),
 })
 
 export async function POST(req: NextRequest) {
-  // Auth guard
   const session = await auth()
   if (!session?.user?.id) {
     return NextResponse.json({ error: 'Nicht angemeldet' }, { status: 401 })
   }
 
-  // Payment guard (skip for demo accounts)
   const userId = session.user.id as string
+
+  // Payment guard (skip for demo accounts)
   if (!userId.startsWith('demo_')) {
     const { db } = await import('@/lib/db')
     const user = await db.user.findUnique({
@@ -53,7 +54,16 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    const { documents, uiLanguage } = parsed.data
+    const { documents, caseId, uiLanguage } = parsed.data
+
+    // Mark case as analyzing
+    if (caseId && !userId.startsWith('demo_')) {
+      const { db } = await import('@/lib/db')
+      await db.case.updateMany({
+        where: { id: caseId, userId },
+        data: { status: 'ANALYZING' },
+      })
+    }
 
     const langInstruction =
       uiLanguage !== 'de'
@@ -91,17 +101,41 @@ Antworte NUR mit einem JSON-Objekt:
       extractionPrompt
     )
 
-    // Extract JSON block from model response (models sometimes add prose around it)
     const jsonMatch = result.match(/\{[\s\S]*\}/)
     if (!jsonMatch) {
       logger.error('JSON extraction failed', { resultLength: result.length })
-      return NextResponse.json(
-        { error: 'Datenextraktion fehlgeschlagen' },
-        { status: 500 }
-      )
+      return NextResponse.json({ error: 'Datenextraktion fehlgeschlagen' }, { status: 500 })
     }
 
     const data = JSON.parse(jsonMatch[0])
+
+    // Save bescheidData to case and move to QUESTIONS status
+    if (caseId && !userId.startsWith('demo_')) {
+      const { db } = await import('@/lib/db')
+      // Save uploaded document metadata (no file content per GDPR policy)
+      await Promise.all([
+        db.case.updateMany({
+          where: { id: caseId, userId },
+          data: {
+            status: 'QUESTIONS',
+            bescheidData: data.bescheidData ?? {},
+          },
+        }),
+        ...documents.map((doc) =>
+          db.document.create({
+            data: {
+              caseId,
+              name: doc.name,
+              type: 'BESCHEID',
+              storagePath: 'memory', // not persisted per GDPR — metadata only
+              mimeType: 'application/octet-stream',
+              sizeBytes: doc.text.length,
+            },
+          })
+        ),
+      ])
+    }
+
     return NextResponse.json(data)
   } catch (error) {
     logger.error('Analyze error', { error })

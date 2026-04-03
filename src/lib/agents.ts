@@ -181,73 +181,94 @@ export async function callAgent(
  * 4. Adversary (Claude)      – attacks from Finanzamt perspective
  * 5. Consolidator (Claude)   – produces final bulletproof version
  */
+type ProgressEvent =
+  | { type: 'agent_start'; data: { role: AgentRole } }
+  | { type: 'agent_complete'; data: { role: AgentRole; provider: string; model: string; durationMs: number; summary: string; draftPreview?: string } }
+
 export async function orchestrate(
   bescheidData: BescheidData,
   documents: { name: string; text: string }[],
   userAnswers: Record<string, string>,
   outputLanguage = 'de',
-  uiLanguage = 'de'
+  uiLanguage = 'de',
+  onProgress?: (event: ProgressEvent) => void
 ): Promise<{ outputs: AgentOutput[]; finalDraft: string; pipelineMode: string }> {
   const { models, mode: pipelineModeUsed } = await getActiveModels()
   const AGENTS = buildAgents(models)
   const outputs: AgentOutput[] = []
   const context = buildContext(bescheidData, documents, userAnswers)
 
-  // Human-readable language names for prompt injection
   const outputLangName = languageNames[outputLanguage] ?? outputLanguage
   const uiLangName = languageNames[uiLanguage] ?? uiLanguage
 
-  // Language instruction appended to analysis agents (reviewer, factchecker, adversary)
-  // These are shown to the user in their language, not submitted to authorities.
+  // Analysis agents respond in the user's UI language (not submitted to authorities)
   const analysisLangInstruction = uiLanguage !== 'de'
     ? `\n\nIMPORTANT: Write your entire analysis and feedback in ${uiLangName}.`
     : ''
 
-  // Language instruction for the output document (drafter + consolidator)
-  // German is always legally required for submission; we honour overrides for review/export.
+  // Draft/consolidator produce the final letter — German required for submission
   const draftLangInstruction = outputLanguage !== 'de'
     ? `\n\nIMPORTANT: Write the complete objection letter in ${outputLangName}. Note: this version is for review only — German is required for official submission.`
     : ''
 
+  async function runAgent(
+    role: AgentRole,
+    agentConfig: AgentConfig,
+    prompt: string,
+    opts?: { draftPreview?: boolean }
+  ): Promise<string> {
+    onProgress?.({ type: 'agent_start', data: { role } })
+    const t = Date.now()
+    const content = await callAgent(agentConfig, prompt)
+    const durationMs = Date.now() - t
+    logger.agent(role, agentConfig.provider, agentConfig.model, durationMs)
+    outputs.push(makeOutput(role, agentConfig, content, durationMs))
+    onProgress?.({
+      type: 'agent_complete',
+      data: {
+        role,
+        provider: agentConfig.provider,
+        model: agentConfig.model,
+        durationMs,
+        summary: extractSummary(content),
+        ...(opts?.draftPreview ? { draftPreview: content } : {}),
+      },
+    })
+    return content
+  }
+
   // Step 1: Draft
-  let t = Date.now()
-  const draftContent = await callAgent(
+  const draftContent = await runAgent(
+    'drafter',
     AGENTS.drafter,
-    `Erstelle ein Einspruchsschreiben basierend auf:\n\n${context}${draftLangInstruction}`
+    `Erstelle ein Einspruchsschreiben basierend auf:\n\n${context}${draftLangInstruction}`,
+    { draftPreview: true }
   )
-  logger.agent('drafter', AGENTS.drafter.provider, AGENTS.drafter.model, Date.now() - t)
-  outputs.push(makeOutput('drafter', AGENTS.drafter, draftContent))
 
   // Step 2: Review (Gemini)
-  t = Date.now()
-  const reviewContent = await callAgent(
+  const reviewContent = await runAgent(
+    'reviewer',
     AGENTS.reviewer,
     `Prüfe dieses Einspruchsschreiben auf Fehler:\n\n${draftContent}\n\nOriginaldaten:\n${context}${analysisLangInstruction}`
   )
-  logger.agent('reviewer', AGENTS.reviewer.provider, AGENTS.reviewer.model, Date.now() - t)
-  outputs.push(makeOutput('reviewer', AGENTS.reviewer, reviewContent))
 
   // Step 3: Fact-check (Perplexity)
-  t = Date.now()
-  const factCheckContent = await callAgent(
+  const factCheckContent = await runAgent(
+    'factchecker',
     AGENTS.factchecker,
     `Prüfe die Rechtsgrundlagen in diesem Einspruchsschreiben auf Korrektheit:\n\n${draftContent}${analysisLangInstruction}`
   )
-  logger.agent('factchecker', AGENTS.factchecker.provider, AGENTS.factchecker.model, Date.now() - t)
-  outputs.push(makeOutput('factchecker', AGENTS.factchecker, factCheckContent))
 
   // Step 4: Adversarial
-  t = Date.now()
-  const adversaryContent = await callAgent(
+  const adversaryContent = await runAgent(
+    'adversary',
     AGENTS.adversary,
     `Analysiere aus Finanzamt-Perspektive:\n\n${draftContent}\n\nOriginaldaten:\n${context}${analysisLangInstruction}`
   )
-  logger.agent('adversary', AGENTS.adversary.provider, AGENTS.adversary.model, Date.now() - t)
-  outputs.push(makeOutput('adversary', AGENTS.adversary, adversaryContent))
 
-  // Step 5: Consolidate
-  t = Date.now()
-  const finalDraft = await callAgent(
+  // Step 5: Consolidate — final letter
+  const finalDraft = await runAgent(
+    'consolidator',
     AGENTS.consolidator,
     `Erstelle die finale Version des Einspruchsschreibens.
 
@@ -266,8 +287,6 @@ ${adversaryContent}
 ORIGINALDATEN:
 ${context}${draftLangInstruction}`
   )
-  logger.agent('consolidator', AGENTS.consolidator.provider, AGENTS.consolidator.model, Date.now() - t)
-  outputs.push(makeOutput('consolidator', AGENTS.consolidator, finalDraft))
 
   logger.info('Pipeline complete', { totalAgents: outputs.length, pipelineMode: pipelineModeUsed })
   return { outputs, finalDraft, pipelineMode: pipelineModeUsed }
@@ -310,7 +329,8 @@ Streitiger Betrag: €${bescheid.streitigerBetrag}`)
 function makeOutput(
   role: AgentRole,
   config: AgentConfig,
-  content: string
+  content: string,
+  durationMs: number
 ): AgentOutput {
   return {
     role,
@@ -318,5 +338,15 @@ function makeOutput(
     model: config.model,
     content,
     timestamp: new Date(),
+    durationMs,
   }
+}
+
+function extractSummary(content: string): string {
+  const lines = content
+    .split('\n')
+    .map((l) => l.trim())
+    .filter((l) => l.length > 20 && !l.startsWith('#') && !l.startsWith('---'))
+  const first = lines[0] ?? ''
+  return first.length > 180 ? first.slice(0, 177) + '…' : first
 }

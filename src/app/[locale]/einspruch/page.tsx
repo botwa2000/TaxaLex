@@ -5,7 +5,7 @@ import { useSearchParams, useRouter } from 'next/navigation'
 import {
   Upload, MessageSquare, Brain, FileCheck, Loader2, ArrowLeft, ArrowRight,
   X, CheckCircle2, FileText, Copy, Download, AlertCircle, ScanSearch, Tag,
-  ShieldCheck, Globe, Lock, Sparkles,
+  ShieldCheck, Globe, Lock, Sparkles, FolderOpen, Clock,
 } from 'lucide-react'
 import { Logo } from '@/components/Logo'
 
@@ -20,29 +20,21 @@ const STEPS = [
 ] as const
 
 const AGENTS = [
-  { id: 'drafter',      label: 'Einspruch formulieren',      detail: 'Formuliert einen strukturierten Einspruch basierend auf den erkannten Bescheid-Daten', provider: 'Claude',      color: 'bg-blue-500'   },
-  { id: 'reviewer',     label: 'Fehler- & Stilprüfung',      detail: 'Prüft Formulierungen, Fristkonformität und formale Anforderungen',         provider: 'Gemini',      color: 'bg-purple-500' },
-  { id: 'factchecker',  label: 'Rechts-Faktencheck',         detail: 'Verifiziert zitierte Rechtsquellen und Urteile per Live-Recherche',        provider: 'Perplexity',  color: 'bg-green-500'  },
-  { id: 'adversary',    label: 'Gegenprüfung (Behördensicht)',detail: 'Simuliert die Perspektive des Finanzamts / der Behörde',                  provider: 'Claude',      color: 'bg-red-500'    },
-  { id: 'consolidator', label: 'Finales Schreiben',           detail: 'Kombiniert alle Perspektiven zum optimalen Einspruch',                    provider: 'Claude',      color: 'bg-brand-500'  },
+  { id: 'drafter',      label: 'Einspruch formulieren',       detail: 'Formuliert einen strukturierten Einspruch basierend auf den erkannten Bescheid-Daten', provider: 'Claude',      color: 'bg-blue-500'   },
+  { id: 'reviewer',     label: 'Fehler- & Stilprüfung',       detail: 'Prüft Formulierungen, Fristkonformität und formale Anforderungen',                       provider: 'Gemini',      color: 'bg-purple-500' },
+  { id: 'factchecker',  label: 'Rechts-Faktencheck',          detail: 'Verifiziert zitierte Rechtsquellen und Urteile per Live-Recherche',                       provider: 'Perplexity',  color: 'bg-green-500'  },
+  { id: 'adversary',    label: 'Gegenprüfung (Behördensicht)',detail: 'Simuliert die Perspektive des Finanzamts / der Behörde',                                  provider: 'Claude',      color: 'bg-red-500'    },
+  { id: 'consolidator', label: 'Finales Schreiben',           detail: 'Kombiniert alle Perspektiven zum optimalen Einspruch',                                    provider: 'Claude',      color: 'bg-brand-500'  },
 ] as const
 
-const AGENT_VERDICTS: Record<string, string> = {
-  drafter:     '§§ 9, 33 EStG · BMF-Schreiben 2023',
-  reviewer:    'Keine formalen Fehler',
-  factchecker: 'BFH VI R 32/13 bestätigt',
-  adversary:   '1 Argument gestärkt',
-  consolidator:'§ 361 AO Aussetzung ergänzt',
-}
-
-const DETECTION_ITEMS = [
-  { label: 'Bescheid-Typ erkannt', value: 'Einkommensteuerbescheid 2022',  pill: 'bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-300'     },
-  { label: 'Ausstellende Behörde', value: 'Finanzamt München-Nord',        pill: 'bg-purple-50 text-purple-700 dark:bg-purple-950/40 dark:text-purple-300'},
-  { label: 'Bescheiddatum',        value: '15. März 2024',                 pill: 'bg-gray-50 text-gray-700 dark:bg-gray-800 dark:text-gray-300'          },
-  { label: 'Steuernummer',         value: '143/567/89012',                 pill: 'bg-gray-50 text-gray-700 dark:bg-gray-800 dark:text-gray-300'          },
-  { label: 'Festgesetzte Steuer',  value: '8.742,00 €',                    pill: 'bg-orange-50 text-orange-700 dark:bg-orange-950/40 dark:text-orange-300'},
-  { label: 'Einspruchsfrist',      value: '15. April 2024 · 30 Tage',     pill: 'bg-red-50 text-red-700 dark:bg-red-950/40 dark:text-red-300'           },
-  { label: 'Einspruchsgründe',     value: '3 mögliche Gründe gefunden',   pill: 'bg-green-50 text-green-700 dark:bg-green-950/40 dark:text-green-300'   },
+const DETECTION_LABELS = [
+  { label: 'Bescheid-Typ erkannt',  demoValue: 'Einkommensteuerbescheid 2022',  pill: 'bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-300'     },
+  { label: 'Ausstellende Behörde',  demoValue: 'Finanzamt München-Nord',        pill: 'bg-purple-50 text-purple-700 dark:bg-purple-950/40 dark:text-purple-300'},
+  { label: 'Bescheiddatum',         demoValue: '15. März 2024',                 pill: 'bg-gray-50 text-gray-700 dark:bg-gray-800 dark:text-gray-300'          },
+  { label: 'Steuernummer',          demoValue: '143/567/89012',                 pill: 'bg-gray-50 text-gray-700 dark:bg-gray-800 dark:text-gray-300'          },
+  { label: 'Festgesetzte Steuer',   demoValue: '8.742,00 €',                    pill: 'bg-orange-50 text-orange-700 dark:bg-orange-950/40 dark:text-orange-300'},
+  { label: 'Einspruchsfrist',       demoValue: '15. April 2024 · 30 Tage',     pill: 'bg-red-50 text-red-700 dark:bg-red-950/40 dark:text-red-300'           },
+  { label: 'Einspruchsgründe',      demoValue: '3 mögliche Gründe gefunden',   pill: 'bg-green-50 text-green-700 dark:bg-green-950/40 dark:text-green-300'   },
 ]
 
 const DOC_LINE_WIDTHS = [72, 88, 55, 80, 63, 48, 75, 90, 60, 70]
@@ -62,15 +54,7 @@ const DEMO_QUESTIONS: Array<{ id: string; question: string; required?: boolean }
   { id: 'q3', question: 'Gibt es besondere Umstände (z. B. Krankheit, Umzug, Homeoffice)?', required: false },
 ]
 
-const DEMO_RESULT = {
-  outputs: [
-    { role: 'drafter',      provider: 'Anthropic',  model: 'claude-sonnet-4-6' },
-    { role: 'reviewer',     provider: 'Google',      model: 'gemini-1.5-pro'    },
-    { role: 'factchecker',  provider: 'Perplexity',  model: 'sonar-pro'         },
-    { role: 'adversary',    provider: 'Anthropic',   model: 'claude-sonnet-4-6' },
-    { role: 'consolidator', provider: 'Anthropic',   model: 'claude-sonnet-4-6' },
-  ],
-  finalDraft: `Max Mustermann
+const DEMO_FINAL_DRAFT = `Max Mustermann
 Musterstraße 1
 80331 München
 
@@ -101,23 +85,18 @@ II. BEGRÜNDUNG
 
 Das Finanzamt hat die geltend gemachten Werbungskosten in Höhe von 2.340,00 €
 nicht vollständig anerkannt. Gemäß § 9 Abs. 1 Satz 1 EStG sind Werbungskosten
-alle Aufwendungen zur Erwerbung, Sicherung und Erhaltung der Einnahmen. Die
-Fahrtkosten (§ 9 Abs. 1 Nr. 1 EStG) und Arbeitsmittel (§ 9 Abs. 1 Nr. 6 EStG)
-sind vollständig abzugsfähig. Belege liegen bei.
+alle Aufwendungen zur Erwerbung, Sicherung und Erhaltung der Einnahmen.
 
 2. Homeoffice-Tagespauschale (§ 4 Abs. 5 Nr. 6b EStG)
 
 Für das Jahr 2022 ist die Homeoffice-Pauschale von 5 € je Arbeitstag anzusetzen,
 höchstens 600 € im Veranlagungsjahr. Diese Position wurde im Bescheid nicht
-berücksichtigt. Ich weise auf das Schreiben des BMF vom 15. August 2023 hin,
-das die erweiterte Anwendung der Pauschale bestätigt.
+berücksichtigt.
 
 3. Außergewöhnliche Belastungen (§ 33 EStG)
 
 Die nicht anerkannten Krankheitskosten in Höhe von 890,00 € überschreiten die
-zumutbare Belastung nach § 33 Abs. 3 EStG. Ich verweise auf BFH-Urteil vom
-2. September 2015 (Az. VI R 32/13), wonach die zumutbare Belastung stufen-
-weise zu berechnen ist, was zu einer höheren Absetzbarkeit führt.
+zumutbare Belastung nach § 33 Abs. 3 EStG.
 
 III. ANTRAG
 
@@ -125,18 +104,16 @@ Ich beantrage:
 1. Änderung des Bescheids unter Berücksichtigung der o.g. Positionen
 2. Aussetzung der Vollziehung gem. § 361 AO in Höhe des streitigen Betrags
 
-Die erwartete Steuerminderung beläuft sich auf ca. 820,00 €.
-
-Ich bitte um schriftliche Eingangsbestätigung.
-
 Mit freundlichen Grüßen
 
-Max Mustermann
+Max Mustermann`
 
-Anlagen:
-- Belege Werbungskosten (7 Seiten)
-- Homeoffice-Nachweis des Arbeitgebers
-- Ärztliche Bescheinigungen Krankheitskosten`,
+const DEMO_AGENT_SUMMARIES: Record<string, string> = {
+  drafter:     '§§ 9, 33 EStG · BMF-Schreiben 2023 eingearbeitet',
+  reviewer:    'Keine formalen Fehler — Formulierungen korrekt',
+  factchecker: 'BFH VI R 32/13 verifiziert · aktueller Stand bestätigt',
+  adversary:   '1 Schwachstelle gestärkt — Belege-Nachweis ergänzt',
+  consolidator:'§ 361 AO Aussetzung ergänzt · finales Schreiben optimiert',
 }
 
 const USE_CASE_LABELS: Record<string, string> = {
@@ -150,18 +127,18 @@ const USE_CASE_LABELS: Record<string, string> = {
   grundsteuer:       'Grundsteuerbescheid',
 }
 
-function getPartialDraft(agentIdx: number): string {
-  if (agentIdx <= 0) return ''
-  const lines = DEMO_RESULT.finalDraft.split('\n')
-  const n = lines.length
-  const targets = [
-    Math.floor(n * 0.12),
-    Math.floor(n * 0.22),
-    Math.floor(n * 0.48),
-    Math.floor(n * 0.75),
-    n,
-  ]
-  return lines.slice(0, targets[Math.min(agentIdx - 1, targets.length - 1)]).join('\n')
+interface AgentOutputData {
+  role: string
+  provider: string
+  model: string
+  durationMs: number
+  summary: string
+}
+
+interface GenerateResult {
+  outputs: { role: string; provider: string; model: string }[]
+  finalDraft: string
+  caseId?: string | null
 }
 
 function EinspruchPageInner() {
@@ -170,62 +147,49 @@ function EinspruchPageInner() {
   const type = searchParams.get('type')
   const useCaseLabel = type ? (USE_CASE_LABELS[type] ?? type.replace(/-/g, ' ')) : null
 
-  const [step, setStep]                 = useState<Step>('upload')
-  const [files, setFiles]               = useState<File[]>([])
-  const [isDragging, setIsDragging]     = useState(false)
-  const [bescheidData, setBescheidData] = useState<Record<string, string> | null>(null)
-  const [questions, setQuestions]       = useState<Array<{ id: string; question: string; required?: boolean }>>([])
-  const [answers, setAnswers]           = useState<Record<string, string>>({})
-  const [result, setResult]             = useState<typeof DEMO_RESULT | null>(null)
-  const [activeAgent, setActiveAgent]   = useState(0)
+  const [step, setStep]                   = useState<Step>('upload')
+  const [files, setFiles]                 = useState<File[]>([])
+  const [isDragging, setIsDragging]       = useState(false)
+  const [bescheidData, setBescheidData]   = useState<Record<string, string> | null>(null)
+  const [questions, setQuestions]         = useState<Array<{ id: string; question: string; required?: boolean }>>([])
+  const [answers, setAnswers]             = useState<Record<string, string>>({})
+  const [result, setResult]               = useState<GenerateResult | null>(null)
+  const [activeAgent, setActiveAgent]     = useState(0)
   const [detectedCount, setDetectedCount] = useState(0)
-  const [copied, setCopied]             = useState(false)
+  const [copied, setCopied]               = useState(false)
+  const [caseId, setCaseId]               = useState<string | null>(null)
+  const [detectedValues, setDetectedValues] = useState<string[]>(DETECTION_LABELS.map(i => i.demoValue))
+  const [agentOutputData, setAgentOutputData] = useState<AgentOutputData[]>([])
+  const [draftPreview, setDraftPreview]   = useState<string>('')
+  const [generateError, setGenerateError] = useState<string | null>(null)
 
-  const fileInputRef      = useRef<HTMLInputElement>(null)
-  // Refs hold API results so useEffect transitions can read them without stale closures
-  const pendingBescheidRef  = useRef<Record<string, string> | null>(null)
+  const fileInputRef       = useRef<HTMLInputElement>(null)
+  const pendingBescheidRef = useRef<Record<string, string> | null>(null)
   const pendingQuestionsRef = useRef<Array<{ id: string; question: string; required?: boolean }> | null>(null)
-  const pendingResultRef    = useRef<typeof DEMO_RESULT | null>(null)
+  const docsRef            = useRef<{ name: string; text: string }[] | null>(null)
+  const caseIdRef          = useRef<string | null>(null)
 
   const currentIdx    = STEPS.findIndex((s) => s.id === step)
   const answeredCount = questions.filter((q) => answers[q.id]?.trim()).length
-  const partialDraft  = step === 'generating' ? getPartialDraft(activeAgent) : ''
 
-  // ── Analyzing: tick one item at a time ──────────────────────────────────
+  // ── Analyzing: tick detection items ────────────────────────────────────
   useEffect(() => {
-    if (step !== 'analyzing' || detectedCount >= DETECTION_ITEMS.length) return
+    if (step !== 'analyzing' || detectedCount >= DETECTION_LABELS.length) return
     const ms = detectedCount === 0 ? 600 : 580
     const t = setTimeout(() => setDetectedCount((c) => c + 1), ms)
     return () => clearTimeout(t)
   }, [step, detectedCount])
 
-  // ── Analyzing → questions ────────────────────────────────────────────────
+  // ── Analyzing → questions (after all items revealed) ───────────────────
   useEffect(() => {
-    if (step !== 'analyzing' || detectedCount < DETECTION_ITEMS.length) return
+    if (step !== 'analyzing' || detectedCount < DETECTION_LABELS.length) return
     const t = setTimeout(() => {
-      setBescheidData(pendingBescheidRef.current  ?? DEMO_BESCHEID_DATA)
+      setBescheidData(pendingBescheidRef.current ?? DEMO_BESCHEID_DATA)
       setQuestions(pendingQuestionsRef.current    ?? DEMO_QUESTIONS)
       setStep('questions')
     }, 500)
     return () => clearTimeout(t)
   }, [step, detectedCount])
-
-  // ── Generating: step through agents ─────────────────────────────────────
-  useEffect(() => {
-    if (step !== 'generating' || activeAgent >= AGENTS.length) return
-    const t = setTimeout(() => setActiveAgent((a) => a + 1), 900)
-    return () => clearTimeout(t)
-  }, [step, activeAgent])
-
-  // ── Generating → result ──────────────────────────────────────────────────
-  useEffect(() => {
-    if (step !== 'generating' || activeAgent < AGENTS.length) return
-    const t = setTimeout(() => {
-      setResult(pendingResultRef.current ?? DEMO_RESULT)
-      setStep('result')
-    }, 400)
-    return () => clearTimeout(t)
-  }, [step, activeAgent])
 
   // ── Handlers ────────────────────────────────────────────────────────────
   function addFiles(incoming: FileList | null) {
@@ -243,41 +207,152 @@ function EinspruchPageInner() {
   async function handleAnalyze() {
     pendingBescheidRef.current  = null
     pendingQuestionsRef.current = null
+    docsRef.current             = null
+    caseIdRef.current           = null
     setDetectedCount(0)
+    setDetectedValues(DETECTION_LABELS.map(i => i.demoValue))
+    setAgentOutputData([])
+    setDraftPreview('')
+    setGenerateError(null)
     setStep('analyzing')
-    // Fire API in background — result stored in ref, consumed by transition effect
-    if (files.length > 0) {
-      try {
-        const docs = await Promise.all(files.map(async (f) => ({ name: f.name, text: await f.text() })))
-        const res  = await fetch('/api/analyze', {
-          method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ documents: docs }),
-        })
-        if (res.status === 401) { router.push('/login?callbackUrl=/einspruch'); return }
-        if (res.status === 402) { router.push('/billing?reason=credits');       return }
-        if (res.ok) {
-          const data = await res.json()
-          pendingBescheidRef.current  = data.bescheidData    ?? null
-          pendingQuestionsRef.current = data.followUpQuestions ?? null
+
+    if (files.length === 0) return // Demo mode: animation only, no API calls
+
+    try {
+      // Read files once and cache
+      const docs = await Promise.all(files.map(async (f) => ({ name: f.name, text: await f.text() })))
+      docsRef.current = docs
+
+      // Create a case record in DB
+      const caseRes = await fetch('/api/cases', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ useCase: type ?? 'tax' }),
+      })
+      if (caseRes.status === 401) { router.push('/login?callbackUrl=/einspruch'); return }
+      if (caseRes.ok) {
+        const { caseId: newId } = await caseRes.json()
+        caseIdRef.current = newId
+        setCaseId(newId)
+      }
+
+      // Analyze documents
+      const res = await fetch('/api/analyze', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ caseId: caseIdRef.current, documents: docs }),
+      })
+      if (res.status === 401) { router.push('/login?callbackUrl=/einspruch'); return }
+      if (res.status === 402) { router.push('/billing?reason=credits'); return }
+      if (res.ok) {
+        const data = await res.json()
+        pendingBescheidRef.current  = data.bescheidData      ?? null
+        pendingQuestionsRef.current = data.followUpQuestions ?? null
+
+        // Fill detection items with real extracted values
+        if (data.bescheidData) {
+          const bd = data.bescheidData
+          setDetectedValues([
+            bd.steuerart     ?? DETECTION_LABELS[0].demoValue,
+            bd.finanzamt     ?? DETECTION_LABELS[1].demoValue,
+            bd.bescheidDatum ?? DETECTION_LABELS[2].demoValue,
+            bd.steuernummer  ?? DETECTION_LABELS[3].demoValue,
+            bd.nachzahlung != null
+              ? `${Number(bd.nachzahlung).toLocaleString('de-DE', { minimumFractionDigits: 2 })} €`
+              : DETECTION_LABELS[4].demoValue,
+            DETECTION_LABELS[5].demoValue,
+            `${(data.followUpQuestions?.length ?? 0)} Fragen generiert`,
+          ])
         }
-      } catch { /* fall through to demo data */ }
-    }
+      }
+    } catch { /* fall through to demo data */ }
   }
 
   async function handleGenerate() {
-    pendingResultRef.current = null
+    const accOutputs: AgentOutputData[] = []
+    setAgentOutputData([])
     setActiveAgent(0)
+    setDraftPreview('')
+    setGenerateError(null)
     setStep('generating')
+
+    const docs = docsRef.current ?? (files.length > 0
+      ? await Promise.all(files.map(async (f) => ({ name: f.name, text: await f.text() })))
+      : [])
+
+    let finalDraft = DEMO_FINAL_DRAFT
+    let completedCaseId = caseIdRef.current
+
     try {
-      const docs = await Promise.all(files.map(async (f) => ({ name: f.name, text: await f.text() })))
-      const res  = await fetch('/api/generate', {
+      const res = await fetch('/api/generate', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ bescheidData, documents: docs, userAnswers: answers }),
+        body: JSON.stringify({
+          caseId: caseIdRef.current,
+          bescheidData: pendingBescheidRef.current ?? bescheidData,
+          documents: docs,
+          userAnswers: answers,
+        }),
       })
+
       if (res.status === 401) { router.push('/login?callbackUrl=/einspruch'); return }
-      if (res.status === 402) { router.push('/billing?reason=credits');       return }
-      if (res.ok) pendingResultRef.current = await res.json()
-    } catch { /* fall through to demo data */ }
+      if (res.status === 402) { router.push('/billing?reason=credits'); return }
+
+      if (res.ok && res.body) {
+        const reader = res.body.getReader()
+        const decoder = new TextDecoder()
+        let buffer = ''
+
+        while (true) {
+          const { done, value } = await reader.read()
+          if (done) break
+          buffer += decoder.decode(value, { stream: true })
+
+          const parts = buffer.split('\n\n')
+          buffer = parts.pop() ?? ''
+
+          for (const chunk of parts) {
+            let eventName = 'message', dataStr = ''
+            for (const line of chunk.split('\n')) {
+              if (line.startsWith('event: ')) eventName = line.slice(7).trim()
+              if (line.startsWith('data: '))  dataStr   = line.slice(6)
+            }
+            if (!dataStr) continue
+            let payload: Record<string, unknown>
+            try { payload = JSON.parse(dataStr) } catch { continue }
+
+            if (eventName === 'agent_start') {
+              // agent_start drives the spinner to the next agent; activeAgent shows "running"
+            } else if (eventName === 'agent_complete') {
+              const out: AgentOutputData = {
+                role:      String(payload.role ?? ''),
+                provider:  String(payload.provider ?? ''),
+                model:     String(payload.model ?? ''),
+                durationMs: Number(payload.durationMs ?? 0),
+                summary:   String(payload.summary ?? ''),
+              }
+              accOutputs.push(out)
+              setAgentOutputData([...accOutputs])
+              setActiveAgent(accOutputs.length)
+              if (payload.draftPreview) setDraftPreview(String(payload.draftPreview))
+            } else if (eventName === 'pipeline_complete') {
+              finalDraft = String(payload.finalDraft ?? DEMO_FINAL_DRAFT)
+              if (payload.caseId) {
+                completedCaseId = String(payload.caseId)
+                caseIdRef.current = completedCaseId
+                setCaseId(completedCaseId)
+              }
+            } else if (eventName === 'error') {
+              setGenerateError(String(payload.message ?? 'Unbekannter Fehler'))
+            }
+          }
+        }
+      }
+    } catch { /* fall through to demo final draft */ }
+
+    setResult({
+      outputs: accOutputs.map(o => ({ role: o.role, provider: o.provider, model: o.model })),
+      finalDraft,
+      caseId: completedCaseId,
+    })
+    setStep('result')
   }
 
   function handleDownload() {
@@ -296,7 +371,15 @@ function EinspruchPageInner() {
   function handleReset() {
     setStep('upload'); setFiles([]); setResult(null)
     setAnswers({}); setBescheidData(null); setQuestions([])
-    setActiveAgent(0); setDetectedCount(0)
+    setActiveAgent(0); setDetectedCount(0); setCaseId(null)
+    setDetectedValues(DETECTION_LABELS.map(i => i.demoValue))
+    setAgentOutputData([]); setDraftPreview(''); setGenerateError(null)
+    docsRef.current = null; caseIdRef.current = null
+    pendingBescheidRef.current = null; pendingQuestionsRef.current = null
+  }
+
+  function getAgentSummary(agentId: string): string {
+    return agentOutputData.find(o => o.role === agentId)?.summary ?? DEMO_AGENT_SUMMARIES[agentId] ?? ''
   }
 
   // ── Render ───────────────────────────────────────────────────────────────
@@ -305,7 +388,14 @@ function EinspruchPageInner() {
       <header className="border-b border-[var(--border)] bg-[var(--surface)] sticky top-0 z-10">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
           <Logo size="sm" href="/" />
-          <span className="text-sm text-[var(--muted)]">Einspruch erstellen</span>
+          <div className="flex items-center gap-3">
+            {caseId && step !== 'upload' && (
+              <span className="hidden sm:flex items-center gap-1.5 text-xs text-[var(--muted)] bg-[var(--background-subtle)] border border-[var(--border)] px-2.5 py-1 rounded-full">
+                <FileText className="w-3 h-3" />Fall #{caseId.slice(-8).toUpperCase()}
+              </span>
+            )}
+            <span className="text-sm text-[var(--muted)]">Einspruch erstellen</span>
+          </div>
         </div>
       </header>
 
@@ -420,8 +510,8 @@ function EinspruchPageInner() {
             <div className="text-center mb-8">
               <h1 className="text-2xl font-bold text-[var(--foreground)] mb-1">Dokument wird analysiert</h1>
               <p className="text-sm text-[var(--muted)]">
-                {detectedCount < DETECTION_ITEMS.length
-                  ? `Erkenne: ${DETECTION_ITEMS[detectedCount]?.label ?? ''}…`
+                {detectedCount < DETECTION_LABELS.length
+                  ? `Erkenne: ${DETECTION_LABELS[detectedCount]?.label ?? ''}…`
                   : 'Analyse abgeschlossen — Rückfragen werden vorbereitet…'}
               </p>
             </div>
@@ -444,12 +534,14 @@ function EinspruchPageInner() {
               </div>
 
               <div className="flex-1 space-y-2 min-w-0">
-                {DETECTION_ITEMS.map((item, i) =>
+                {DETECTION_LABELS.map((item, i) =>
                   i < detectedCount ? (
                     <div key={item.label} className="flex items-center gap-3 bg-[var(--surface)] border border-[var(--border)] rounded-xl px-3.5 py-2.5 animate-pop-in">
                       <CheckCircle2 className="w-4 h-4 text-green-500 shrink-0" />
                       <span className="text-sm text-[var(--muted)] flex-1 min-w-0 truncate">{item.label}</span>
-                      <span className={`text-xs font-semibold px-2 py-0.5 rounded-full shrink-0 ${item.pill}`}>{item.value}</span>
+                      <span className={`text-xs font-semibold px-2 py-0.5 rounded-full shrink-0 ${item.pill}`}>
+                        {detectedValues[i] ?? item.demoValue}
+                      </span>
                     </div>
                   ) : (
                     <div key={`p-${item.label}`} className="flex items-center gap-3 bg-[var(--background-subtle)] border border-transparent rounded-xl px-3.5 py-2.5 opacity-40">
@@ -463,15 +555,19 @@ function EinspruchPageInner() {
 
             <div className="mt-8">
               <div className="flex items-center justify-between text-xs text-[var(--muted)] mb-2">
-                <span>{detectedCount} / {DETECTION_ITEMS.length} Merkmale erkannt</span>
-                <span className="font-medium">{Math.round((detectedCount / DETECTION_ITEMS.length) * 100)} %</span>
+                <span>{detectedCount} / {DETECTION_LABELS.length} Merkmale erkannt</span>
+                <span className="font-medium">{Math.round((detectedCount / DETECTION_LABELS.length) * 100)} %</span>
               </div>
               <div className="h-1.5 bg-[var(--border)] rounded-full overflow-hidden">
                 <div className="h-full bg-brand-500 rounded-full transition-all duration-500"
-                  style={{ width: `${(detectedCount / DETECTION_ITEMS.length) * 100}%` }} />
+                  style={{ width: `${(detectedCount / DETECTION_LABELS.length) * 100}%` }} />
               </div>
             </div>
-            <p className="text-center text-xs text-[var(--muted)] mt-5">KI-gestützte Dokumentenanalyse · Daten werden nicht gespeichert</p>
+            <p className="text-center text-xs text-[var(--muted)] mt-5">
+              {files.length > 0
+                ? 'KI-gestützte Dokumentenanalyse · Inhalte werden nach der Verarbeitung nicht gespeichert'
+                : 'Demo-Modus · Kein Dokument hochgeladen'}
+            </p>
           </div>
         )}
 
@@ -534,7 +630,9 @@ function EinspruchPageInner() {
                         <ScanSearch className="w-3.5 h-3.5 text-green-600" />
                       </div>
                       <p className="text-xs font-semibold text-[var(--foreground)]">Erkannter Bescheid</p>
-                      <span className="ml-auto text-[10px] text-green-700 dark:text-green-400 bg-green-50 dark:bg-green-950/40 px-2 py-0.5 rounded-full font-medium">KI-Analyse ✓</span>
+                      <span className="ml-auto text-[10px] text-green-700 dark:text-green-400 bg-green-50 dark:bg-green-950/40 px-2 py-0.5 rounded-full font-medium">
+                        {caseId ? 'Live ✓' : 'Demo'}
+                      </span>
                     </div>
                     <div className="space-y-2.5">
                       {Object.entries(bescheidData).map(([k, v]) => (
@@ -597,6 +695,7 @@ function EinspruchPageInner() {
                 <div className="space-y-2">
                   {AGENTS.map((agent, i) => {
                     const done = i < activeAgent, active = i === activeAgent
+                    const outputData = agentOutputData.find(o => o.role === agent.id)
                     return (
                       <div key={agent.id} className={`flex items-center gap-3 px-4 py-3.5 rounded-xl text-sm transition-all duration-300 ${
                         done   ? 'bg-green-50 dark:bg-green-950/30 border border-green-100 dark:border-green-900'
@@ -612,22 +711,36 @@ function EinspruchPageInner() {
                           <p className={`font-semibold leading-tight ${done ? 'text-green-700 dark:text-green-400' : active ? 'text-[var(--foreground)]' : 'text-[var(--muted)]'}`}>
                             {agent.label}
                           </p>
-                          {(done || active) && (
-                            <p className={`text-xs mt-0.5 ${done ? 'text-green-600/70 dark:text-green-500/70' : 'text-[var(--muted)]'}`}>
-                              {done ? AGENT_VERDICTS[agent.id] : agent.detail}
+                          {done && outputData && (
+                            <p className="text-xs mt-0.5 text-green-600/70 dark:text-green-500/70 truncate">
+                              {outputData.summary || agent.detail}
+                            </p>
+                          )}
+                          {active && (
+                            <p className="text-xs mt-0.5 text-[var(--muted)]">{agent.detail}</p>
+                          )}
+                        </div>
+                        <div className="shrink-0 text-right">
+                          <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${
+                            done   ? 'bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-400'
+                            : active ? 'bg-brand-100 dark:bg-brand-900/40 text-brand-700 dark:text-brand-300'
+                            :          'bg-[var(--border)] text-[var(--muted)]'
+                          }`}>{agent.provider}</span>
+                          {done && outputData && (
+                            <p className="text-[10px] text-[var(--muted)] mt-0.5">
+                              {(outputData.durationMs / 1000).toFixed(1)}s
                             </p>
                           )}
                         </div>
-                        <span className={`text-xs font-medium shrink-0 px-2 py-0.5 rounded-full ${
-                          done   ? 'bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-400'
-                          : active ? 'bg-brand-100 dark:bg-brand-900/40 text-brand-700 dark:text-brand-300'
-                          :          'bg-[var(--border)] text-[var(--muted)]'
-                        }`}>{agent.provider}</span>
                       </div>
                     )
                   })}
                 </div>
-                <p className="text-xs text-[var(--muted)] mt-4 text-center">Durchschnittliche Dauer: 20–40 Sekunden · Bitte nicht schließen</p>
+
+                <div className="flex items-center gap-2 mt-4 text-xs text-[var(--muted)]">
+                  <Clock className="w-3.5 h-3.5 shrink-0" />
+                  <span>Durchschnittliche Dauer: 20–40 Sekunden · Bitte nicht schließen</span>
+                </div>
               </div>
 
               <div className="hidden lg:flex flex-col">
@@ -645,11 +758,12 @@ function EinspruchPageInner() {
                     <div className="w-2.5 h-2.5 rounded-full bg-amber-400/60" />
                     <div className="w-2.5 h-2.5 rounded-full bg-green-400/60" />
                     <span className="ml-2 text-xs text-[var(--muted)]">TaxaLex-Einspruch.txt</span>
+                    {caseId && <span className="ml-auto text-[10px] text-green-600 dark:text-green-400">● Live</span>}
                   </div>
                   <pre className="p-4 text-xs font-mono text-[var(--foreground)] leading-relaxed whitespace-pre-wrap h-72 overflow-y-auto">
-                    {partialDraft
-                      ? <>{partialDraft}{activeAgent < AGENTS.length && <span className="animate-pulse text-brand-500">▌</span>}</>
-                      : <span className="text-[var(--muted)]">Einspruch wird formuliert…</span>}
+                    {draftPreview
+                      ? <>{draftPreview}{activeAgent < AGENTS.length && <span className="animate-pulse text-brand-500">▌</span>}</>
+                      : <span className="text-[var(--muted)] italic">Einspruch wird formuliert…</span>}
                   </pre>
                 </div>
               </div>
@@ -660,6 +774,15 @@ function EinspruchPageInner() {
         {/* ═══ Step 5 — Ergebnis ═══ */}
         {step === 'result' && result && (
           <div>
+            {generateError && (
+              <div className="mb-5 flex items-start gap-3 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-xl px-4 py-3">
+                <AlertCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+                <p className="text-sm text-amber-800 dark:text-amber-300">
+                  Pipeline-Fehler: {generateError} — Demo-Entwurf wird angezeigt.
+                </p>
+              </div>
+            )}
+
             <div className="text-center mb-8">
               <div className="relative inline-flex mb-4">
                 <div className="w-16 h-16 bg-green-100 dark:bg-green-950/40 rounded-2xl flex items-center justify-center">
@@ -682,21 +805,29 @@ function EinspruchPageInner() {
               </div>
             </div>
 
+            {/* Agent summary grid */}
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 mb-6">
-              {AGENTS.map((agent) => (
-                <div key={agent.id} className="bg-[var(--surface)] border border-[var(--border)] rounded-xl p-3">
-                  <div className="flex items-center gap-1.5 mb-2">
-                    <div className={`w-5 h-5 rounded-md ${agent.color} flex items-center justify-center shrink-0`}>
-                      <CheckCircle2 className="w-3 h-3 text-white" />
+              {AGENTS.map((agent) => {
+                const outputData = agentOutputData.find(o => o.role === agent.id)
+                return (
+                  <div key={agent.id} className="bg-[var(--surface)] border border-[var(--border)] rounded-xl p-3">
+                    <div className="flex items-center gap-1.5 mb-2">
+                      <div className={`w-5 h-5 rounded-md ${agent.color} flex items-center justify-center shrink-0`}>
+                        <CheckCircle2 className="w-3 h-3 text-white" />
+                      </div>
+                      <span className="text-[10px] font-semibold text-[var(--muted)]">{agent.provider}</span>
+                      {outputData && (
+                        <span className="ml-auto text-[10px] text-[var(--muted)]">{(outputData.durationMs / 1000).toFixed(1)}s</span>
+                      )}
                     </div>
-                    <span className="text-[10px] font-semibold text-[var(--muted)]">{agent.provider}</span>
+                    <p className="text-xs font-semibold text-[var(--foreground)] leading-tight mb-1">{agent.label}</p>
+                    <p className="text-[10px] text-[var(--muted)] leading-tight line-clamp-2">{getAgentSummary(agent.id)}</p>
                   </div>
-                  <p className="text-xs font-semibold text-[var(--foreground)] leading-tight mb-1">{agent.label}</p>
-                  <p className="text-[10px] text-[var(--muted)] leading-tight">{AGENT_VERDICTS[agent.id]}</p>
-                </div>
-              ))}
+                )
+              })}
             </div>
 
+            {/* Draft preview */}
             <div className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl overflow-hidden mb-5">
               <div className="flex items-center justify-between px-5 py-3 border-b border-[var(--border)] bg-[var(--background-subtle)]">
                 <div className="flex items-center gap-2">
@@ -714,7 +845,8 @@ function EinspruchPageInner() {
               </pre>
             </div>
 
-            <div className="flex gap-3 mb-5">
+            {/* Action buttons */}
+            <div className="flex gap-3 mb-4">
               <button onClick={handleDownload}
                 className="flex-1 flex items-center justify-center gap-2 bg-brand-600 text-white py-3 rounded-xl font-semibold hover:bg-brand-700 transition-colors">
                 <Download className="w-4 h-4" />Herunterladen (.txt)
@@ -725,6 +857,16 @@ function EinspruchPageInner() {
               </button>
             </div>
 
+            {/* Open in Meine Fälle */}
+            {result.caseId && (
+              <button
+                onClick={() => router.push(`/cases/${result.caseId}`)}
+                className="w-full mb-5 flex items-center justify-center gap-2 border border-brand-200 dark:border-brand-800 text-brand-600 dark:text-brand-400 py-3 rounded-xl font-semibold hover:bg-brand-50 dark:hover:bg-brand-950/30 transition-colors">
+                <FolderOpen className="w-4 h-4" />In Meine Fälle öffnen
+              </button>
+            )}
+
+            {/* Next steps */}
             <div className="bg-[var(--background-subtle)] border border-[var(--border)] rounded-2xl p-5 mb-5">
               <p className="text-xs font-semibold uppercase tracking-wider text-[var(--muted)] mb-3">Nächste Schritte</p>
               <div className="space-y-3">

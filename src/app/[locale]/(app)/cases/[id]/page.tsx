@@ -15,6 +15,15 @@ import { features } from '@/config/features'
 import { Link } from '@/i18n/navigation'
 import type { AnnotationData } from '@/types'
 
+function extractOutputSummary(content: string): string {
+  const lines = content
+    .split('\n')
+    .map((l) => l.trim())
+    .filter((l) => l.length > 20 && !l.startsWith('#') && !l.startsWith('---'))
+  const first = lines[0] ?? ''
+  return first.length > 200 ? first.slice(0, 197) + '…' : first
+}
+
 type CaseDetail = {
   id: string
   useCase: string
@@ -74,6 +83,35 @@ export default async function CaseDetailPage({
     if (features.advisorModule && 'annotations' in raw) {
       annotations = ((raw as { annotations: unknown[] }).annotations as AnnotationData[]) ?? []
     }
+
+    // Load documents and AI outputs from DB
+    const [dbDocuments, dbOutputs] = await Promise.all([
+      db.document.findMany({
+        where: { caseId: id },
+        select: { id: true, name: true, type: true, createdAt: true },
+        orderBy: { createdAt: 'asc' },
+      }),
+      db.caseOutput.findMany({
+        where: { caseId: id },
+        select: { id: true, role: true, provider: true, model: true, durationMs: true, content: true, isFinal: true, createdAt: true },
+        orderBy: { createdAt: 'asc' },
+      }),
+    ])
+
+    documents = dbDocuments
+
+    // Map CaseOutputs → agentOutputs format expected by AIAnalysisTab
+    agentOutputs = dbOutputs.map((o) => ({
+      role: o.role,
+      provider: o.provider,
+      model: o.model,
+      durationMs: o.durationMs ?? 0,
+      summary: extractOutputSummary(o.content),
+    }))
+
+    // Final draft is the consolidator output marked as final
+    const finalOutput = dbOutputs.find((o) => o.isFinal) ?? dbOutputs.find((o) => o.role === 'consolidator')
+    finalDraft = finalOutput?.content ?? null
 
     if (features.advisorModule) {
       // Check if user already purchased the expert review add-on for this case
