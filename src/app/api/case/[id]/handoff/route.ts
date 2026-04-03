@@ -69,6 +69,17 @@ export async function POST(
     return NextResponse.json({ error: 'Case must be in DRAFT_READY status to request review' }, { status: 400 })
   }
 
+  // Gate on addon purchase — user must have purchased the expert-review add-on for this case
+  const addonPurchase = await db.addonPurchase.findFirst({
+    where: { userId: session.user.id, caseId, addonType: 'EXPERT_REVIEW', status: 'ACTIVE' },
+  })
+  if (!addonPurchase) {
+    return NextResponse.json(
+      { error: 'Expert review add-on required for this case.', needsAddon: true },
+      { status: 402 }
+    )
+  }
+
   // Expire any stale pending assignments before checking for existing active ones
   await expireStalePending(caseId)
 
@@ -135,6 +146,12 @@ export async function POST(
     await db.case.update({
       where: { id: caseId },
       data: { status: 'ADVISOR_REVIEW' },
+    })
+
+    // Mark addon as used — prevents cancellation from this point on
+    await db.addonPurchase.update({
+      where: { id: addonPurchase.id },
+      data: { status: 'USED', usedAt: new Date() },
     })
 
     // Send notification emails to all experts (non-blocking)

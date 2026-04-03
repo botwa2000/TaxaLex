@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Stripe from 'stripe'
-import { stripe, PLAN_CREDITS } from '@/lib/stripe'
+import { stripe, PLAN_CREDITS, isAddonPlan } from '@/lib/stripe'
 import { db } from '@/lib/db'
 import { logger } from '@/lib/logger'
 import { config } from '@/config/env'
@@ -62,6 +62,24 @@ async function handleEvent(event: Stripe.Event): Promise<void> {
       }
 
       if (session.mode === 'payment') {
+        const stripePaymentIntentId = session.payment_intent as string | undefined ?? undefined
+
+        if (isAddonPlan(planSlug)) {
+          // Add-on purchase — create AddonPurchase record
+          const { caseId } = session.metadata ?? {}
+          await db.addonPurchase.create({
+            data: {
+              userId,
+              caseId:               caseId ?? null,
+              addonType:            'EXPERT_REVIEW',
+              status:               'ACTIVE',
+              amountCents:          session.amount_total ?? 0,
+              planSlug,
+              stripePaymentIntentId: stripePaymentIntentId ?? null,
+            },
+          })
+          logger.info('Addon purchase created', { userId, planSlug, caseId })
+        } else {
         // One-time purchase — add credits immediately
         const creditCount = parseInt(credits ?? '0', 10)
         if (creditCount > 0) {
@@ -72,7 +90,7 @@ async function handleEvent(event: Stripe.Event): Promise<void> {
                 userId,
                 delta:       creditCount,
                 reason,
-                referenceId: session.payment_intent as string | undefined ?? undefined,
+                referenceId: stripePaymentIntentId,
               },
             }),
             db.user.update({
@@ -81,6 +99,7 @@ async function handleEvent(event: Stripe.Event): Promise<void> {
             }),
           ])
           logger.info('Credits granted', { userId, planSlug, creditCount, reason })
+        }
         }
 
       } else if (session.mode === 'subscription' && session.subscription) {

@@ -9,6 +9,7 @@ import {
 } from '@/lib/mockData'
 import { CaseDetailClient } from '@/app/(app)/cases/[id]/CaseDetailClient'
 import { HandoffRequestForm } from '@/components/client/HandoffRequestForm'
+import { ExpertReviewCTA } from '@/components/client/ExpertReviewCTA'
 import { AnnotationReplyCard } from '@/components/client/AnnotationReplyCard'
 import { features } from '@/config/features'
 import { Link } from '@/i18n/navigation'
@@ -33,7 +34,7 @@ export default async function CaseDetailPage({
 }) {
   const session = await auth()
   const userId = session!.user!.id as string
-  const { id } = await params
+  const { id, locale } = await params
   const { tab = 'overview' } = await searchParams
 
   let caseData: CaseDetail | null = null
@@ -42,6 +43,11 @@ export default async function CaseDetailPage({
   let finalDraft: string | null = null
   let annotations: AnnotationData[] = []
   let hasActiveAssignment = false
+  let hasActiveAddon = false
+  let addonPriceCents = 9900     // resolved from DB below; fallback matches seed data
+  let addonPlanSlug: 'expert-review' | 'expert-review-subscriber' = 'expert-review'
+  let isSubscriber = false
+  let standardPriceCents = 9900
 
   try {
     if (userId === DEMO_USER_ID) throw new Error('demo')
@@ -67,6 +73,31 @@ export default async function CaseDetailPage({
     }
     if (features.advisorModule && 'annotations' in raw) {
       annotations = ((raw as { annotations: unknown[] }).annotations as AnnotationData[]) ?? []
+    }
+
+    if (features.advisorModule) {
+      // Check if user already purchased the expert review add-on for this case
+      const addon = await db.addonPurchase.findFirst({
+        where: { userId, caseId: id, addonType: 'EXPERT_REVIEW', status: 'ACTIVE' },
+      })
+      hasActiveAddon = !!addon
+
+      // Resolve pricing from DB so it stays consistent with what Stripe charges
+      const sub = await db.subscription.findUnique({
+        where: { userId },
+        select: { status: true },
+      })
+      isSubscriber = sub?.status === 'ACTIVE' || sub?.status === 'TRIALING'
+      addonPlanSlug = isSubscriber ? 'expert-review-subscriber' : 'expert-review'
+
+      const [stdPlan, subPlan] = await Promise.all([
+        db.pricingPlan.findUnique({ where: { slug: 'expert-review' }, select: { priceOnce: true } }),
+        db.pricingPlan.findUnique({ where: { slug: 'expert-review-subscriber' }, select: { priceOnce: true } }),
+      ])
+      standardPriceCents = stdPlan?.priceOnce ? Math.round(Number(stdPlan.priceOnce) * 100) : 9900
+      addonPriceCents = isSubscriber && subPlan?.priceOnce
+        ? Math.round(Number(subPlan.priceOnce) * 100)
+        : standardPriceCents
     }
   } catch {
     const found = DEMO_CASES.find((c) => c.id === id)
@@ -161,7 +192,18 @@ export default async function CaseDetailPage({
           <OverviewTab caseData={caseData} daysLeft={daysLeft} isUrgent={isUrgent} isOverdue={isOverdue} />
           {features.advisorModule && caseData.status === 'DRAFT_READY' && !hasActiveAssignment && (
             <div className="mt-6">
-              <HandoffRequestForm caseId={caseData.id} useCase={caseData.useCase} />
+              {hasActiveAddon ? (
+                <HandoffRequestForm caseId={caseData.id} useCase={caseData.useCase} />
+              ) : (
+                <ExpertReviewCTA
+                  caseId={caseData.id}
+                  locale={locale}
+                  priceCents={addonPriceCents}
+                  planSlug={addonPlanSlug}
+                  isSubscriber={isSubscriber}
+                  standardPriceCents={standardPriceCents}
+                />
+              )}
             </div>
           )}
           {features.advisorModule && annotations.length > 0 && (

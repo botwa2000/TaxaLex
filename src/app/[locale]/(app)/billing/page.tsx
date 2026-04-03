@@ -1,15 +1,15 @@
 import { auth } from '@/auth'
 import { db } from '@/lib/db'
 import { stripe } from '@/lib/stripe'
-import { PRICING_PLANS } from '@/lib/contentFallbacks'
 import {
   CreditCard, FileText, Package, Calendar, UserCheck,
   Info, CheckCircle2, AlertTriangle, Download, ExternalLink,
-  Zap, Shield,
+  Zap, Shield, XCircle,
 } from 'lucide-react'
-import { CheckoutButton, PortalButton } from './BillingActions'
+import { CheckoutButton, PortalButton, CancelAddonButton, EarlyCancelButton } from './BillingActions'
 import { notFound } from 'next/navigation'
 import { getLocale } from 'next-intl/server'
+import { ADDON } from '@/config/constants'
 
 // ── helpers ───────────────────────────────────────────────────────────────────
 
@@ -35,10 +35,9 @@ type StatusInfo = {
   icon:      typeof CheckCircle2
 }
 
-function getStatusInfo(sub: { status: string; planSlug: string; currentPeriodEnd: Date; cancelAtPeriodEnd: boolean } | null, credits: number): StatusInfo {
+function getStatusInfo(sub: { status: string; planSlug: string; currentPeriodEnd: Date; cancelAtPeriodEnd: boolean } | null, credits: number, planName?: string): StatusInfo {
   if (sub?.status === 'ACTIVE' || sub?.status === 'TRIALING') {
-    const plan = PRICING_PLANS.find((p) => p.slug === sub.planSlug)
-    const name = (plan?.translations as Record<string, { name: string }>)['de']?.name ?? sub.planSlug
+    const name = planName ?? sub.planSlug
     return {
       label:    `${name} — aktiv`,
       sublabel: sub.cancelAtPeriodEnd
@@ -90,6 +89,51 @@ export default async function BillingPage() {
   const creditBalance = user?.creditBalance  ?? 0
   const sub           = user?.subscription   ?? null
 
+  // Fetch individual plans from DB — null means DB error, show error state
+  const plans = await db.pricingPlan.findMany({
+    where: { isActive: true, userGroup: { not: 'addon' } },
+    include: {
+      translations: { where: { locale } },
+      features: { where: { locale }, orderBy: { sortOrder: 'asc' } },
+    },
+    orderBy: { sortOrder: 'asc' },
+  }).catch(() => null)
+
+  // Resolve active subscription plan name from DB for the status banner
+  const subPlanName = sub?.planSlug
+    ? await db.pricingPlan.findUnique({
+        where: { slug: sub.planSlug },
+        select: { translations: { where: { locale: 'de' } } },
+      }).then((p) => p?.translations[0]?.name ?? sub.planSlug).catch(() => sub.planSlug)
+    : undefined
+
+  // Fetch addon purchases for this user (newest first)
+  const addonPurchases = await db.addonPurchase.findMany({
+    where: { userId },
+    orderBy: { purchasedAt: 'desc' },
+    select: {
+      id: true, addonType: true, status: true, amountCents: true,
+      planSlug: true, purchasedAt: true, usedAt: true, cancelledAt: true,
+      case: { select: { id: true, useCase: true } },
+    },
+  }).catch(() => [])
+
+  // Fetch addon plan prices from DB so they stay in sync with Stripe
+  const [stdAddonPlan, subAddonPlan] = await Promise.all([
+    db.pricingPlan.findUnique({
+      where: { slug: 'expert-review' },
+      select: { priceOnce: true, translations: { where: { locale } } },
+    }).catch(() => null),
+    db.pricingPlan.findUnique({
+      where: { slug: 'expert-review-subscriber' },
+      select: { priceOnce: true, translations: { where: { locale } } },
+    }).catch(() => null),
+  ])
+
+  const stdAddonPriceCents = stdAddonPlan?.priceOnce ? Math.round(Number(stdAddonPlan.priceOnce) * 100) : 9900
+  const subAddonPriceCents = subAddonPlan?.priceOnce ? Math.round(Number(subAddonPlan.priceOnce) * 100) : 6900
+  const addonPlanName = stdAddonPlan?.translations[0]?.name ?? 'Profi-Prüfung'
+
   // Fetch paid invoices from Stripe (non-blocking — empty array on error)
   const invoices = user?.stripeCustomerId
     ? await stripe.invoices.list({
@@ -99,7 +143,7 @@ export default async function BillingPage() {
       }).then((r: { data: unknown[] }) => r.data as import('stripe').Stripe.Invoice[]).catch(() => [])
     : []
 
-  const status = getStatusInfo(sub, creditBalance)
+  const status = getStatusInfo(sub, creditBalance, subPlanName)
   const StatusIcon = status.icon
 
   const colorMap = {
@@ -112,6 +156,11 @@ export default async function BillingPage() {
 
   const hasActiveSub   = sub?.status === 'ACTIVE' || sub?.status === 'TRIALING'
   const currentPlanSlug = sub?.planSlug ?? null
+  // 14-day early cancel: only show if within window, not already cancelling
+  const subWithinCancelWindow = hasActiveSub && sub?.createdAt
+    ? (Date.now() - new Date(sub.createdAt).getTime()) / 86400000 <= ADDON.cancellationWindowDays
+    : false
+  const canEarlyCancel = subWithinCancelWindow && !sub?.cancelAtPeriodEnd
 
   return (
     <div className="max-w-3xl">
@@ -134,7 +183,12 @@ export default async function BillingPage() {
               <p className="text-xs text-[var(--muted)] mt-0.5">{status.sublabel}</p>
             </div>
           </div>
-          {hasActiveSub && <PortalButton locale={locale} />}
+          <div className="flex flex-col items-end gap-2">
+            {hasActiveSub && <PortalButton locale={locale} />}
+            {canEarlyCancel && sub && (
+              <EarlyCancelButton periodEndDate={sub.currentPeriodEnd.toISOString()} />
+            )}
+          </div>
         </div>
 
         {/* Credit balance chips */}
@@ -164,86 +218,95 @@ export default async function BillingPage() {
       <h2 className="text-base font-semibold text-[var(--foreground)] mb-4">
         {hasActiveSub ? 'Plan wechseln' : 'Plan auswählen'}
       </h2>
-      <div className="grid md:grid-cols-3 gap-4 mb-8">
-        {PRICING_PLANS.map((plan) => {
-          const Icon        = planIcon(plan.slug)
-          const name        = (plan.translations as Record<string, { name: string; cta: string }>)['de']?.name ?? plan.slug
-          const cta         = (plan.translations as Record<string, { name: string; cta: string }>)['de']?.cta  ?? 'Kaufen'
-          const isCurrent   = currentPlanSlug === plan.slug
-          const features    = plan.features.filter((f) => f.locale === 'de' && f.included).sort((a, b) => a.sortOrder - b.sortOrder)
-          const priceLabel  = plan.priceOnce    != null ? `${plan.priceOnce.toFixed(2).replace('.', ',')} €`    : `${plan.priceMonthly?.toFixed(2).replace('.', ',')} €`
-          const periodLabel = plan.priceOnce    != null ? (plan.slug.includes('pack') ? 'einmalig · 5 Einsprüche' : 'einmalig · 1 Einspruch') : 'pro Monat'
+      {plans === null ? (
+        <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-8 text-center mb-8">
+          <p className="text-sm text-[var(--muted)]">
+            Daten konnten nicht geladen werden. Bitte versuchen Sie es später erneut.
+          </p>
+        </div>
+      ) : (
+        <div className="grid md:grid-cols-3 gap-4 mb-8">
+          {plans.map((plan) => {
+            const Icon        = planIcon(plan.slug)
+            const name        = plan.translations[0]?.name ?? plan.slug
+            const cta         = plan.translations[0]?.cta  ?? 'Kaufen'
+            const isCurrent   = currentPlanSlug === plan.slug
+            const features    = plan.features.filter((f) => f.included)
+            const priceNum    = plan.priceOnce    != null ? Number(plan.priceOnce)    : Number(plan.priceMonthly)
+            const priceLabel  = `${priceNum.toFixed(2).replace('.', ',')} €`
+            const periodLabel = plan.priceOnce    != null ? (plan.slug.includes('pack') ? 'einmalig · 5 Einsprüche' : 'einmalig · 1 Einspruch') : 'pro Monat'
 
-          return (
-            <div
-              key={plan.slug}
-              className={`rounded-2xl border flex flex-col bg-[var(--surface)] relative ${
-                plan.isPopular && !isCurrent
-                  ? 'border-brand-500 ring-2 ring-brand-100 dark:ring-brand-900'
-                  : isCurrent
-                    ? 'border-green-400 ring-2 ring-green-100 dark:ring-green-900'
-                    : 'border-[var(--border)]'
-              }`}
-            >
-              {isCurrent && (
-                <div className="bg-green-600 text-white text-xs font-semibold text-center py-1.5 rounded-t-[14px]">
-                  Ihr aktueller Plan
-                </div>
-              )}
-              {!isCurrent && plan.isPopular && (
-                <div className="bg-brand-600 text-white text-xs font-semibold text-center py-1.5 rounded-t-[14px]">
-                  Beliebteste Wahl
-                </div>
-              )}
-
-              <div className="p-5 flex flex-col flex-1">
-                <div className="flex items-start gap-3 mb-4">
-                  <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${
-                    plan.isPopular ? 'bg-brand-50 dark:bg-brand-950 text-brand-600' : 'bg-[var(--background-subtle)] text-[var(--muted)]'
-                  }`}>
-                    <Icon className="w-4 h-4" />
+            return (
+              <div
+                key={plan.slug}
+                className={`rounded-2xl border flex flex-col bg-[var(--surface)] relative ${
+                  plan.isPopular && !isCurrent
+                    ? 'border-brand-500 ring-2 ring-brand-100 dark:ring-brand-900'
+                    : isCurrent
+                      ? 'border-green-400 ring-2 ring-green-100 dark:ring-green-900'
+                      : 'border-[var(--border)]'
+                }`}
+              >
+                {isCurrent && (
+                  <div className="bg-green-600 text-white text-xs font-semibold text-center py-1.5 rounded-t-[14px]">
+                    Ihr aktueller Plan
                   </div>
-                  <div>
-                    <p className="font-bold text-sm text-[var(--foreground)]">{name}</p>
-                    <div className="flex items-baseline gap-1 mt-0.5">
-                      <span className="text-xl font-bold text-[var(--foreground)]">{priceLabel}</span>
-                      <span className="text-xs text-[var(--muted)]">{periodLabel}</span>
+                )}
+                {!isCurrent && plan.isPopular && (
+                  <div className="bg-brand-600 text-white text-xs font-semibold text-center py-1.5 rounded-t-[14px]">
+                    Beliebteste Wahl
+                  </div>
+                )}
+
+                <div className="p-5 flex flex-col flex-1">
+                  <div className="flex items-start gap-3 mb-4">
+                    <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${
+                      plan.isPopular ? 'bg-brand-50 dark:bg-brand-950 text-brand-600' : 'bg-[var(--background-subtle)] text-[var(--muted)]'
+                    }`}>
+                      <Icon className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <p className="font-bold text-sm text-[var(--foreground)]">{name}</p>
+                      <div className="flex items-baseline gap-1 mt-0.5">
+                        <span className="text-xl font-bold text-[var(--foreground)]">{priceLabel}</span>
+                        <span className="text-xs text-[var(--muted)]">{periodLabel}</span>
+                      </div>
                     </div>
                   </div>
+
+                  <ul className="space-y-1.5 flex-1 mb-5">
+                    {features.map((f) => (
+                      <li key={f.text} className="flex items-start gap-2 text-xs">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-green-500 shrink-0 mt-0.5" />
+                        <span className="text-[var(--foreground)]">{f.text}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <CheckoutButton
+                    planSlug={plan.slug}
+                    cta={isCurrent ? '✓ Aktiver Plan' : cta}
+                    highlight={plan.isPopular && !isCurrent}
+                    locale={locale}
+                    disabled={isCurrent}
+                    disabledReason="Dies ist Ihr aktueller Plan"
+                  />
                 </div>
-
-                <ul className="space-y-1.5 flex-1 mb-5">
-                  {features.map((f) => (
-                    <li key={f.text} className="flex items-start gap-2 text-xs">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-green-500 shrink-0 mt-0.5" />
-                      <span className="text-[var(--foreground)]">{f.text}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <CheckoutButton
-                  planSlug={plan.slug}
-                  cta={isCurrent ? '✓ Aktiver Plan' : cta}
-                  highlight={plan.isPopular && !isCurrent}
-                  locale={locale}
-                  disabled={isCurrent}
-                  disabledReason="Dies ist Ihr aktueller Plan"
-                />
               </div>
-            </div>
-          )
-        })}
-      </div>
+            )
+          })}
+        </div>
+      )}
 
-      {/* ── Professional review add-on ──────────────────────────────── */}
-      <div className="rounded-2xl border-2 border-dashed border-amber-300 dark:border-amber-700 bg-amber-50/50 dark:bg-amber-950/20 p-5 mb-8">
+      {/* ── Professional review add-on — info card ────────────────── */}
+      <div className="rounded-2xl border-2 border-dashed border-amber-300 dark:border-amber-700 bg-amber-50/50 dark:bg-amber-950/20 p-5 mb-4">
         <div className="flex items-start gap-4">
           <div className="w-10 h-10 bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-400 rounded-xl flex items-center justify-center shrink-0">
             <UserCheck className="w-5 h-5" />
           </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-1 flex-wrap">
-              <p className="font-bold text-[var(--foreground)]">Profi-Prüfung</p>
+              <p className="font-bold text-[var(--foreground)]">{addonPlanName}</p>
               <span className="text-xs font-semibold bg-amber-100 dark:bg-amber-900/60 text-amber-700 dark:text-amber-400 px-2 py-0.5 rounded-full">
                 Optionales Add-on
               </span>
@@ -253,21 +316,73 @@ export default async function BillingPage() {
             </p>
             <div className="flex items-center gap-4 flex-wrap text-sm">
               <div>
-                <span className="font-bold text-[var(--foreground)]">99 €</span>
+                <span className="font-bold text-[var(--foreground)]">{formatEur(stdAddonPriceCents)}</span>
                 <span className="text-[var(--muted)] ml-1">/ Fall</span>
               </div>
-              <div className="flex items-center gap-1 text-amber-700 dark:text-amber-400 text-xs font-medium">
-                <span className="font-bold text-base">69 €</span>
-                <span>/ Fall für Monats-Flat-Abonnenten</span>
-              </div>
+              {hasActiveSub && (
+                <div className="flex items-center gap-1 text-amber-700 dark:text-amber-400 text-xs font-medium">
+                  <span className="font-bold text-base">{formatEur(subAddonPriceCents)}</span>
+                  <span>/ Fall für Abonnenten</span>
+                </div>
+              )}
             </div>
           </div>
         </div>
         <div className="mt-4 flex items-start gap-2 text-xs text-[var(--muted)] border-t border-amber-200 dark:border-amber-800 pt-3">
           <Info className="w-3.5 h-3.5 shrink-0 mt-0.5 text-amber-500" />
-          <span>Nach der Generierung Ihres Einspruchs anklickbar. Die Prüfung erfolgt durch verifizierte Experten.</span>
+          <span>Nach der Generierung Ihres Einspruchs buchbar. Stornierbar innerhalb von {ADDON.cancellationWindowDays} Tagen, sofern nicht bereits genutzt.</span>
         </div>
       </div>
+
+      {/* ── Purchased add-ons ─────────────────────────────────────── */}
+      {addonPurchases.length > 0 && (
+        <div className="bg-[var(--surface)] rounded-2xl border border-[var(--border)] p-5 mb-8">
+          <h2 className="font-semibold text-sm text-[var(--foreground)] mb-4 flex items-center gap-2">
+            <UserCheck className="w-4 h-4 text-[var(--muted)]" />
+            Gebuchte Add-ons
+          </h2>
+          <div className="divide-y divide-[var(--border)]">
+            {addonPurchases.map((ap) => {
+              const withinWindow = (Date.now() - new Date(ap.purchasedAt).getTime()) / 86400000 <= ADDON.cancellationWindowDays
+              const canCancel = ap.status === 'ACTIVE' && !ap.usedAt && withinWindow
+              const statusBadge =
+                ap.status === 'ACTIVE' && !ap.usedAt ? { label: 'Aktiv', cls: 'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-400' } :
+                ap.status === 'USED'   ? { label: 'Genutzt', cls: 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-400' } :
+                ap.status === 'CANCELLED' ? { label: 'Storniert', cls: 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400' } :
+                { label: 'Erstattet', cls: 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400' }
+
+              return (
+                <div key={ap.id} className="py-3.5 flex items-start justify-between gap-4">
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <p className="text-sm font-medium text-[var(--foreground)]">{addonPlanName}</p>
+                      <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${statusBadge.cls}`}>{statusBadge.label}</span>
+                    </div>
+                    <p className="text-xs text-[var(--muted)] mt-0.5">
+                      {formatDate(ap.purchasedAt)} · {formatEur(ap.amountCents)}
+                      {ap.case && ` · Fall: ${ap.case.useCase}`}
+                    </p>
+                    {canCancel && (
+                      <p className="text-xs text-amber-700 dark:text-amber-400 mt-1 flex items-center gap-1">
+                        <Info className="w-3 h-3" />
+                        Stornierbar bis {formatDate(new Date(new Date(ap.purchasedAt).getTime() + ADDON.cancellationWindowDays * 86400000))}
+                      </p>
+                    )}
+                  </div>
+                  <div className="shrink-0 pt-0.5">
+                    {canCancel && <CancelAddonButton addonId={ap.id} />}
+                    {ap.status === 'CANCELLED' && (
+                      <span className="flex items-center gap-1 text-xs text-[var(--muted)]">
+                        <XCircle className="w-3.5 h-3.5" /> {ap.cancelledAt ? formatDate(ap.cancelledAt) : ''}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      )}
 
       {/* ── Invoices ────────────────────────────────────────────────── */}
       <div className="bg-[var(--surface)] rounded-2xl border border-[var(--border)] p-5">

@@ -2,20 +2,53 @@ import { Check, Minus } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Badge } from './ui/Badge'
 import { Button } from './ui/Button'
-import type { PricingPlanData } from '@/lib/contentFallbacks'
 import { Link } from '@/i18n/navigation'
 
+// Accepts either the DB shape (translations as array, features as array already filtered by locale)
+// or the legacy seed shape (translations as Record). The locale prop drives which translation to use.
+interface PlanTranslation {
+  locale: string
+  name: string
+  description?: string | null
+  cta?: string | null
+}
+
+interface PlanFeature {
+  locale?: string
+  text: string
+  included: boolean
+  sortOrder: number
+}
+
+interface PricingCardPlan {
+  slug: string
+  priceOnce?: number | null
+  priceMonthly?: number | null
+  priceAnnual?: number | null | { toNumber(): number }
+  currency: string
+  isPopular: boolean
+  // DB shape: array already filtered by locale; seed shape: Record keyed by locale
+  translations: PlanTranslation[] | Record<string, PlanTranslation>
+  // DB shape: array already filtered by locale; seed shape: array with locale field
+  features: PlanFeature[]
+}
+
 interface PricingCardProps {
-  plan: PricingPlanData
+  plan: PricingCardPlan
   locale: string
   currentPlanSlug?: string
   className?: string
 }
 
 export function PricingCard({ plan, locale, currentPlanSlug, className }: PricingCardProps) {
-  const t = plan.translations[locale] ?? plan.translations['de']
-  const featuresForLocale = plan.features.filter((f) => f.locale === locale)
-  const features = featuresForLocale.length > 0 ? featuresForLocale : plan.features.filter((f) => f.locale === 'de')
+  // Normalise translations: handle both array (DB) and Record (seed/legacy) shapes
+  const t = Array.isArray(plan.translations)
+    ? (plan.translations[0] as PlanTranslation | undefined)
+    : ((plan.translations as Record<string, PlanTranslation>)[locale] ?? (plan.translations as Record<string, PlanTranslation>)['de'])
+
+  // Normalise features: DB returns pre-filtered array; seed shape has locale field
+  const featuresForLocale = plan.features.filter((f) => !f.locale || f.locale === locale)
+  const features = featuresForLocale.length > 0 ? featuresForLocale : plan.features.filter((f) => !f.locale || f.locale === 'de')
   const isCurrent = currentPlanSlug === plan.slug
   const isPopular = plan.isPopular
 
@@ -102,7 +135,7 @@ export function PricingCard({ plan, locale, currentPlanSlug, className }: Pricin
   )
 }
 
-function getPriceLabel(plan: PricingPlanData, locale: string) {
+function getPriceLabel(plan: PricingCardPlan, locale: string) {
   const currency = plan.currency === 'EUR' ? '€' : plan.currency
   const isEN = locale === 'en'
 

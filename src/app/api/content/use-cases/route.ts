@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
-import { getUseCases } from '@/lib/contentFallbacks'
 import { logger } from '@/lib/logger'
 
 export async function GET(req: NextRequest) {
@@ -12,13 +11,9 @@ export async function GET(req: NextRequest) {
       orderBy: { sortOrder: 'asc' },
     })
 
-    if (rows.length > 0) {
-      return NextResponse.json(rows)
-    }
+    return NextResponse.json(rows)
   } catch (err) {
-    // DB unavailable — fall through to static fallback
-    logger.warn('use-cases DB query failed, using fallback', { err })
+    logger.error('use-cases DB query failed', { err })
+    return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 })
   }
-
-  return NextResponse.json(getUseCases(locale))
 }

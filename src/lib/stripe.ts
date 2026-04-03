@@ -5,17 +5,24 @@ import { config } from '@/config/env'
 // Credits granted per plan slug for one-time purchases.
 // Subscription plans use -1 meaning "unlimited while active".
 export const PLAN_CREDITS: Record<string, number> = {
-  'individual-single':    1,
-  'individual-pack':      5,
-  'selfemployed-pack':    5,
-  'individual-monthly':  -1,
-  'selfemployed-monthly':-1,
-  'advisor-monthly':     -1,
-  'lawyer-monthly':      -1,
+  'individual-single':         1,
+  'individual-pack':           5,
+  'selfemployed-pack':         5,
+  'individual-monthly':       -1,
+  'selfemployed-monthly':     -1,
+  'advisor-monthly':          -1,
+  'lawyer-monthly':           -1,
+  // Add-ons — no credits, they unlock a per-case service
+  'expert-review':             0,
+  'expert-review-subscriber':  0,
 }
 
 export function isSubscriptionPlan(planSlug: string): boolean {
   return (PLAN_CREDITS[planSlug] ?? 0) === -1
+}
+
+export function isAddonPlan(planSlug: string): boolean {
+  return planSlug.startsWith('expert-review')
 }
 
 // Lazy proxy — the Stripe client is only constructed on first API call,

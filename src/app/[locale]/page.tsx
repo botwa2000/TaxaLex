@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { getTranslations } from 'next-intl/server'
 import { PublicNav } from '@/components/PublicNav'
 import { Footer } from '@/components/Footer'
@@ -8,7 +10,7 @@ import { StatCard } from '@/components/StatCard'
 import { UseCaseCard } from '@/components/UseCaseCard'
 import { FAQAccordion } from '@/components/FAQAccordion'
 import { PricingCard } from '@/components/PricingCard'
-import { getUseCases, getFAQs, getPricingPlans } from '@/lib/contentFallbacks'
+import { db } from '@/lib/db'
 import { Upload, Brain, Download, BarChart3, Clock, CheckCircle2, Shield, Zap, Globe, Lock, X, Scale, FileText, MessageSquare } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
 
@@ -31,9 +33,28 @@ export default async function LandingPage({
     getTranslations({ locale, namespace: 'trust' }),
   ])
 
-  const useCases = getUseCases(locale)
-  const faqs = getFAQs(locale)
-  const individualPlans = getPricingPlans('individual')
+  const [rawUseCases, rawFaqs, rawPlans] = await Promise.all([
+    db.useCase.findMany({ where: { locale, isActive: true }, orderBy: { sortOrder: 'asc' } }),
+    db.fAQ.findMany({ where: { locale, isActive: true }, orderBy: { sortOrder: 'asc' } }),
+    db.pricingPlan.findMany({
+      where: { isActive: true, userGroup: 'individual' },
+      include: {
+        translations: { where: { locale } },
+        features: { where: { locale }, orderBy: { sortOrder: 'asc' } },
+      },
+      orderBy: { sortOrder: 'asc' },
+    }),
+  ])
+
+  // Convert DB types to component-compatible shapes
+  const useCases = rawUseCases.map(uc => ({ ...uc, successRate: uc.successRate ?? undefined, badge: uc.badge ?? undefined }))
+  const faqs = rawFaqs.map(faq => ({ ...faq, userGroup: faq.userGroup ?? undefined }))
+  const individualPlans = rawPlans.map(p => ({
+    ...p,
+    priceOnce:    p.priceOnce    != null ? Number(p.priceOnce)    : null,
+    priceMonthly: p.priceMonthly != null ? Number(p.priceMonthly) : null,
+    priceAnnual:  p.priceAnnual  != null ? Number(p.priceAnnual)  : null,
+  }))
 
   const processSteps = [
     { step: 1, icon: Upload, title: tHiw('steps.upload.title'), description: tHiw('steps.upload.description'), detail: tHiw('steps.upload.detail') },

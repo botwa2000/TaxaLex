@@ -95,6 +95,13 @@ export const CASE_PRACTICE_AREA: Record<string, 'TAX' | 'LEGAL'> = {
   sonstige: 'LEGAL',
 } as const
 
+// ── Add-on Purchases ──────────────────────────────────────────────────────────
+
+export const ADDON = {
+  /** Days within which any purchase (addon or subscription initial) can be cancelled, if unused */
+  cancellationWindowDays: 14,
+} as const
+
 // ── Supported File Types ──────────────────────────────────────────────────────
 
 export const UPLOAD = {

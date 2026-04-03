@@ -1,8 +1,10 @@
+export const dynamic = 'force-dynamic'
+
 import { PublicNav } from '@/components/PublicNav'
 import { Footer } from '@/components/Footer'
 import { TrustBadges } from '@/components/TrustBadges'
 import { UseCaseCard } from '@/components/UseCaseCard'
-import { getUseCases } from '@/lib/contentFallbacks'
+import { db } from '@/lib/db'
 import { Globe, FileText, CheckCircle2, Clock, ArrowRight, Languages } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
 
@@ -16,11 +18,16 @@ export default async function FuerExpatsPage({
   // Expat page is always EN-first but adapts to locale
   const isEN = locale === 'en'
 
-  // Show the 4 most relevant use cases for expats in English
-  const allUseCases = getUseCases('en')
-  const expatUseCases = allUseCases.filter((uc) =>
-    ['tax', 'jobcenter', 'bussgeld', 'krankenversicherung'].includes(uc.slug)
-  )
+  // Show the 4 most relevant use cases for expats — always in English
+  const rawExpatUseCases = await db.useCase.findMany({
+    where: {
+      locale: 'en',
+      isActive: true,
+      slug: { in: ['tax', 'jobcenter', 'bussgeld', 'krankenversicherung'] },
+    },
+    orderBy: { sortOrder: 'asc' },
+  })
+  const expatUseCases = rawExpatUseCases.map(uc => ({ ...uc, successRate: uc.successRate ?? undefined, badge: uc.badge ?? undefined }))
 
   const features = [
     {

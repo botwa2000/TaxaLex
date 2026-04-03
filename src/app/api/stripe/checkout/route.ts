@@ -1,15 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { auth } from '@/auth'
-import { stripe, PLAN_CREDITS, isSubscriptionPlan } from '@/lib/stripe'
+import { stripe, PLAN_CREDITS, isSubscriptionPlan, isAddonPlan } from '@/lib/stripe'
 import { db } from '@/lib/db'
 import { logger } from '@/lib/logger'
 import { config } from '@/config/env'
-import { PRICING_PLANS } from '@/lib/contentFallbacks'
 
 const CheckoutSchema = z.object({
   planSlug: z.string().min(1),
   locale: z.string().default('de'),
+  /** Required when planSlug is an addon (expert-review*) */
+  caseId: z.string().optional(),
 })
 
 export async function POST(req: NextRequest) {
@@ -29,29 +30,52 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Ungültige Anfrage.' }, { status: 400 })
   }
 
-  const { planSlug, locale } = parsed.data
+  const { planSlug, locale, caseId } = parsed.data
+
+  // ── Addon-specific validation ───────────────────────────────────────────
+  if (isAddonPlan(planSlug)) {
+    if (!caseId) {
+      return NextResponse.json({ error: 'caseId ist für Add-on Käufe erforderlich.' }, { status: 400 })
+    }
+    // Verify the case belongs to this user
+    const caseRecord = await db.case.findFirst({ where: { id: caseId, userId } })
+    if (!caseRecord) {
+      return NextResponse.json({ error: 'Fall nicht gefunden.' }, { status: 404 })
+    }
+    // Prevent double-purchase: block if already an ACTIVE addon for this case
+    const existing = await db.addonPurchase.findFirst({
+      where: { userId, caseId, addonType: 'EXPERT_REVIEW', status: 'ACTIVE' },
+    })
+    if (existing) {
+      return NextResponse.json({ error: 'Add-on für diesen Fall bereits aktiv.' }, { status: 409 })
+    }
+    // Subscriber discount: only allow expert-review-subscriber slug if user has active sub
+    if (planSlug === 'expert-review-subscriber') {
+      const sub = await db.subscription.findUnique({ where: { userId } })
+      if (sub?.status !== 'ACTIVE' && sub?.status !== 'TRIALING') {
+        return NextResponse.json({ error: 'Rabattpreis nur für aktive Abonnenten.' }, { status: 403 })
+      }
+    }
+  }
 
   try {
-    // ── Resolve plan from DB, fall back to static content ─────────────────
+    // ── Resolve plan from DB ───────────────────────────────────────────────
     const dbPlan = await db.pricingPlan.findUnique({
       where: { slug: planSlug },
       include: { translations: true },
     }).catch(() => null)
 
-    const fallback = PRICING_PLANS.find((p) => p.slug === planSlug)
-    if (!dbPlan && !fallback) {
+    if (!dbPlan) {
       return NextResponse.json({ error: 'Plan nicht gefunden.' }, { status: 404 })
     }
 
     const planName =
-      dbPlan?.translations.find((t) => t.locale === locale)?.name ??
-      dbPlan?.translations.find((t) => t.locale === 'de')?.name ??
-      (fallback?.translations as Record<string, { name: string }>)[locale]?.name ??
-      (fallback?.translations as Record<string, { name: string }>)['de']?.name ??
+      dbPlan.translations.find((t) => t.locale === locale)?.name ??
+      dbPlan.translations.find((t) => t.locale === 'de')?.name ??
       planSlug
 
-    const priceOnce    = dbPlan?.priceOnce    != null ? Number(dbPlan.priceOnce)    : (fallback?.priceOnce    ?? null)
-    const priceMonthly = dbPlan?.priceMonthly != null ? Number(dbPlan.priceMonthly) : (fallback?.priceMonthly ?? null)
+    const priceOnce    = dbPlan.priceOnce    != null ? Number(dbPlan.priceOnce)    : null
+    const priceMonthly = dbPlan.priceMonthly != null ? Number(dbPlan.priceMonthly) : null
     const isSub        = isSubscriptionPlan(planSlug)
     const unitPrice    = isSub ? priceMonthly : priceOnce
 
@@ -60,7 +84,7 @@ export async function POST(req: NextRequest) {
     }
 
     // ── Ensure Stripe product exists for this plan (cached in DB) ──────────
-    let stripeProductId = dbPlan?.stripeProductId ?? null
+    let stripeProductId = dbPlan.stripeProductId ?? null
     if (!stripeProductId) {
       // Search first to avoid duplicates if DB write failed on a previous attempt
       const existing = await stripe.products.search({
@@ -142,6 +166,7 @@ export async function POST(req: NextRequest) {
         planSlug,
         locale,
         credits: credits.toString(),
+        ...(caseId ? { caseId } : {}),
       },
 
       ...(isSub ? {

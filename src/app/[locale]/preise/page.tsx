@@ -1,11 +1,10 @@
-'use client'
+export const dynamic = 'force-dynamic'
 
-import { useState } from 'react'
 import { PublicNav } from '@/components/PublicNav'
 import { Footer } from '@/components/Footer'
 import { PricingCard } from '@/components/PricingCard'
 import { TrustBadges } from '@/components/TrustBadges'
-import { getPricingPlans } from '@/lib/contentFallbacks'
+import { db } from '@/lib/db'
 import { CheckCircle2, Shield, UserCheck, ArrowRight } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
 
@@ -13,19 +12,33 @@ interface PricingPageProps {
   params: Promise<{ locale: string }>
 }
 
-export default function PricingPage({ params: _ }: PricingPageProps) {
-  const locale = typeof window !== 'undefined'
-    ? (window.location.pathname.split('/')[1] ?? 'de')
-    : 'de'
-
+export default async function PricingPage({ params }: PricingPageProps) {
+  const { locale } = await params
   const isEN = locale === 'en'
-  const plans = getPricingPlans('individual')
 
-  // Professional review add-on — two tiers
-  const addon = {
-    standard: { amount: '€99', label: isEN ? 'per case' : 'pro Fall' },
-    subscriber: { amount: '€69', label: isEN ? 'per case (monthly plan)' : 'pro Fall (Monats-Flat)' },
-  }
+  const rawPlans = await db.pricingPlan.findMany({
+    where: { isActive: true, userGroup: 'individual' },
+    include: {
+      translations: { where: { locale } },
+      features: { where: { locale }, orderBy: { sortOrder: 'asc' } },
+    },
+    orderBy: { sortOrder: 'asc' },
+  })
+  const plans = rawPlans.map(p => ({
+    ...p,
+    priceOnce:    p.priceOnce    != null ? Number(p.priceOnce)    : null,
+    priceMonthly: p.priceMonthly != null ? Number(p.priceMonthly) : null,
+    priceAnnual:  p.priceAnnual  != null ? Number(p.priceAnnual)  : null,
+  }))
+
+  // Professional review add-on — prices from DB, fallback to seed defaults
+  const [stdAddonPlan, subAddonPlan] = await Promise.all([
+    db.pricingPlan.findUnique({ where: { slug: 'expert-review' }, select: { priceOnce: true, translations: { where: { locale } } } }).catch(() => null),
+    db.pricingPlan.findUnique({ where: { slug: 'expert-review-subscriber' }, select: { priceOnce: true } }).catch(() => null),
+  ])
+  const stdAddonPrice = stdAddonPlan?.priceOnce ? Number(stdAddonPlan.priceOnce) : 99
+  const subAddonPrice = subAddonPlan?.priceOnce ? Number(subAddonPlan.priceOnce) : 69
+  const addonPlanName = stdAddonPlan?.translations[0]?.name ?? (isEN ? 'Professional review' : 'Profi-Prüfung')
 
   return (
     <>
@@ -79,8 +92,8 @@ export default function PricingPage({ params: _ }: PricingPageProps) {
               <div className="space-y-3 mb-6">
                 <div className="bg-[var(--background)] rounded-xl px-4 py-3">
                   <div className="flex items-baseline gap-1">
-                    <span className="text-2xl font-extrabold text-[var(--foreground)]">{addon.standard.amount}</span>
-                    <span className="text-sm text-[var(--muted)]">/ {addon.standard.label}</span>
+                    <span className="text-2xl font-extrabold text-[var(--foreground)]">€{stdAddonPrice}</span>
+                    <span className="text-sm text-[var(--muted)]">/ {isEN ? 'per case' : 'pro Fall'}</span>
                   </div>
                   <p className="text-xs text-[var(--muted)] mt-0.5">
                     {isEN ? 'Single case & 5-pack' : 'Einzelfall & 5er-Paket'}
@@ -88,7 +101,7 @@ export default function PricingPage({ params: _ }: PricingPageProps) {
                 </div>
                 <div className="bg-amber-50 dark:bg-amber-950/40 border border-amber-100 dark:border-amber-900 rounded-xl px-4 py-3">
                   <div className="flex items-baseline gap-1">
-                    <span className="text-2xl font-extrabold text-amber-700 dark:text-amber-300">{addon.subscriber.amount}</span>
+                    <span className="text-2xl font-extrabold text-amber-700 dark:text-amber-300">€{subAddonPrice}</span>
                     <span className="text-sm text-amber-600 dark:text-amber-400">/ {isEN ? 'case' : 'Fall'}</span>
                   </div>
                   <p className="text-xs text-amber-600 dark:text-amber-400 mt-0.5">

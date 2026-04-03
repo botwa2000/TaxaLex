@@ -54,6 +54,18 @@ enum CreditReason {
   CASE_CREATED
   REFUND
   ADMIN_GRANT
+  ADDON_PURCHASE
+}
+
+enum AddonType {
+  EXPERT_REVIEW
+}
+
+enum AddonStatus {
+  ACTIVE
+  USED
+  REFUNDED
+  CANCELLED
 }
 
 enum DocumentType {
@@ -136,6 +148,7 @@ model User {
   creditLedger             CreditLedger[]
   advisorAssignments       AdvisorAssignment[]      @relation("AdvisorAssignments")
   authoredAnnotations      CaseAnnotation[]         @relation("AnnotationAuthor")
+  addonPurchases           AddonPurchase[]
 
   @@index([email])
 }
@@ -229,6 +242,7 @@ model Case {
   assignments      AdvisorAssignment[]
   handoffPacket    HandoffPacket?
   annotations      CaseAnnotation[]
+  addonPurchases   AddonPurchase[]
 
   @@index([userId])
   @@index([status])
@@ -461,6 +475,28 @@ model StripeEvent {
   createdAt   DateTime  @default(now())
 
   @@index([stripeId])
+}
+
+// ── Add-on Purchases ──────────────────────────────────────────────────────────
+
+model AddonPurchase {
+  id                    String      @id @default(cuid())
+  userId                String
+  user                  User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  caseId                String?
+  case                  Case?       @relation(fields: [caseId], references: [id], onDelete: SetNull)
+  addonType             AddonType
+  status                AddonStatus @default(ACTIVE)
+  amountCents           Int
+  planSlug              String
+  stripePaymentIntentId String?
+  purchasedAt           DateTime    @default(now())
+  usedAt                DateTime?
+  cancelledAt           DateTime?
+
+  @@index([userId])
+  @@index([caseId])
+  @@index([userId, addonType, status])
 }
 
 model TrustStat {

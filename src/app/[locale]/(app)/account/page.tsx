@@ -1,6 +1,5 @@
 import { auth } from '@/auth'
 import { DEMO_USER_ID, DEMO_USER } from '@/lib/mockData'
-import { PRICING_PLANS } from '@/lib/contentFallbacks'
 import { Link } from '@/i18n/navigation'
 import { DeleteAccountButton } from './DeleteAccountButton'
 import { ThemeSettingRow } from '@/components/ThemeSettingRow'
@@ -47,14 +46,18 @@ export default async function AccountPage() {
   const [session, t] = await Promise.all([auth(), getTranslations('account')])
   const userId = session!.user!.id as string
   let user: UserRecord | null = null
+  let locale = 'de'
 
   try {
     if (userId === DEMO_USER_ID) throw new Error('demo')
     const { db } = await import('@/lib/db')
-    user = await db.user.findUnique({
-      where: { id: userId },
-      select: { id: true, email: true, name: true, role: true, locale: true, theme: true, emailVerified: true, createdAt: true },
-    })
+    ;[user] = await Promise.all([
+      db.user.findUnique({
+        where: { id: userId },
+        select: { id: true, email: true, name: true, role: true, locale: true, theme: true, emailVerified: true, createdAt: true },
+      }),
+    ])
+    locale = user?.locale ?? 'de'
   } catch {
     user = { ...(DEMO_USER as unknown as UserRecord), emailVerified: null, theme: 'system' }
   }
@@ -68,7 +71,30 @@ export default async function AccountPage() {
   const initials = (user.name ?? user.email).slice(0, 2).toUpperCase()
   const memberSince = new Date(user.createdAt).toLocaleDateString(undefined, { month: 'long', year: 'numeric' })
 
-  const individualPlans = PRICING_PLANS.filter((p) => p.userGroup === 'individual')
+  // Load individual plans from DB; empty array if demo or DB unavailable
+  const individualPlans = (!isDemo)
+    ? await (async () => {
+        try {
+          const { db } = await import('@/lib/db')
+          const raw = await db.pricingPlan.findMany({
+            where: { isActive: true, userGroup: 'individual' },
+            include: {
+              translations: { where: { locale } },
+              features: { where: { locale }, orderBy: { sortOrder: 'asc' } },
+            },
+            orderBy: { sortOrder: 'asc' },
+          })
+          return raw.map(p => ({
+            ...p,
+            priceOnce:    p.priceOnce    != null ? Number(p.priceOnce)    : null,
+            priceMonthly: p.priceMonthly != null ? Number(p.priceMonthly) : null,
+            priceAnnual:  p.priceAnnual  != null ? Number(p.priceAnnual)  : null,
+          }))
+        } catch {
+          return [] as never[]
+        }
+      })()
+    : [] as never[]
 
   return (
     <div className="space-y-6">
@@ -197,7 +223,7 @@ export default async function AccountPage() {
           </div>
           <div className="grid sm:grid-cols-3 gap-3">
             {individualPlans.map((plan) => {
-              const t = plan.translations['de']
+              const t = plan.translations[0]
               const price = plan.priceOnce ?? plan.priceMonthly
               const suffix = plan.priceMonthly ? '/Monat' : '/Einspruch'
               const isPopular = plan.isPopular

@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
-import { getFAQs } from '@/lib/contentFallbacks'
 import { logger } from '@/lib/logger'
 
 export async function GET(req: NextRequest) {
@@ -19,13 +18,9 @@ export async function GET(req: NextRequest) {
       orderBy: { sortOrder: 'asc' },
     })
 
-    if (rows.length > 0) {
-      return NextResponse.json(rows)
-    }
+    return NextResponse.json(rows)
   } catch (err) {
-    logger.warn('faq DB query failed, using fallback', { err })
+    logger.error('faq DB query failed', { err })
+    return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 })
   }
-
-  const faqs = getFAQs(locale, category === 'all' ? undefined : category)
-  return NextResponse.json(faqs)
 }

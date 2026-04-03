@@ -1,6 +1,6 @@
 import { auth } from '@/auth'
 import { redirect } from 'next/navigation'
-import { getPricingPlans } from '@/lib/contentFallbacks'
+import { db } from '@/lib/db'
 import { DEMO_CLIENTS, getAdvisorStats } from '@/lib/mockData'
 import { CreditCard, CheckCircle2 } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
@@ -16,11 +16,20 @@ export default async function AdvisorBillingPage() {
   const stats = getAdvisorStats(advisorId)
 
   const userGroup = session.user?.role === 'LAWYER' ? 'lawyer' : 'advisor'
-  const plans = getPricingPlans(userGroup)
+
+  const plans = await db.pricingPlan.findMany({
+    where: { isActive: true, userGroup },
+    include: {
+      translations: { where: { locale: 'de' } },
+      features: { where: { locale: 'de' }, orderBy: { sortOrder: 'asc' } },
+    },
+    orderBy: { sortOrder: 'asc' },
+  }).catch(() => [])
+
   const currentPlan = plans[0] // Monthly plan is the only advisor plan
 
-  const planTranslation = currentPlan?.translations['de'] ?? currentPlan?.translations['en']
-  const features = currentPlan?.features.filter((f) => f.locale === 'de' && f.included) ?? []
+  const planTranslation = currentPlan?.translations[0] ?? null
+  const features = currentPlan?.features.filter((f) => f.included) ?? []
 
   return (
     <div>
