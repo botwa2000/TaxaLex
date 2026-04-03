@@ -38,7 +38,7 @@ export const PIPELINE = {
   /** Hard timeout per agent call in ms */
   agentTimeoutMs: 60_000,
   /** Max file size accepted for upload (bytes) */
-  maxUploadBytes: 10 * 1024 * 1024, // 10 MB
+  maxUploadBytes: 20 * 1024 * 1024, // 20 MB
   /** Max number of documents per case */
   maxDocuments: 10,
 } as const

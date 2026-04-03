@@ -254,12 +254,20 @@ function EinspruchPageInner() {
         setCaseId(newId)
       }
 
-      // Send files as binary FormData — server handles PDF/image extraction via Claude
-      const formData = new FormData()
-      if (caseIdRef.current) formData.append('caseId', caseIdRef.current)
-      for (const f of files) formData.append('files', f)
+      // Read files as base64 and send as JSON — avoids Next.js FormData body size limits
+      const filePayloads = await Promise.all(files.map(async (f) => {
+        const buf = await f.arrayBuffer()
+        const bytes = new Uint8Array(buf)
+        let binary = ''
+        for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i])
+        return { name: f.name, type: f.type, base64: btoa(binary) }
+      }))
 
-      const res = await fetch('/api/analyze', { method: 'POST', body: formData })
+      const res = await fetch('/api/analyze', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ caseId: caseIdRef.current, files: filePayloads }),
+      })
       if (res.status === 401) { router.push('/login?callbackUrl=/einspruch'); return }
       if (res.status === 402) { router.push('/billing?reason=credits'); return }
       if (!res.ok) {
