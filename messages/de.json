@@ -782,41 +782,101 @@
   "wizard": {
     "steps": {
       "upload": "Hochladen",
+      "analyzing": "Erkennung",
       "questions": "Rückfragen",
       "generating": "KI-Analyse",
       "result": "Ergebnis"
     },
+    "header": {
+      "create": "Einspruch erstellen",
+      "case": "Fall"
+    },
     "upload": {
       "title": "Bescheid hochladen",
-      "subtitle": "Laden Sie Ihren Bescheid und relevante Unterlagen hoch",
-      "dropzone": "Dateien auswählen",
+      "subtitle": "Laden Sie Ihren Bescheid hoch — oder starten Sie direkt ohne Dokument für eine Demo.",
+      "dropzoneTitle": "Dateien hier ablegen",
+      "dropzoneClick": "oder klicken, um Dateien auszuwählen",
       "dropzoneHint": "PDF, DOCX, TXT oder Bilder",
-      "analyze": "Dokumente analysieren"
+      "analyze": "Dokumente analysieren",
+      "demoButton": "Demo starten (ohne Dokument)",
+      "security": {
+        "ssl": "SSL-verschlüsselt",
+        "eu": "EU-Server",
+        "noStore": "Nicht gespeichert"
+      }
+    },
+    "analyzing": {
+      "title": "Dokument wird analysiert…",
+      "step1": "Dokument wird gelesen…",
+      "step2": "Daten werden extrahiert…",
+      "step3": "Rückfragen werden vorbereitet…",
+      "liveMode": "KI-gestützte Analyse · Inhalte werden nicht dauerhaft gespeichert",
+      "demoMode": "Demo-Modus · Kein Dokument hochgeladen"
     },
     "questions": {
       "title": "Rückfragen",
-      "subtitle": "Bitte beantworten Sie diese Fragen für einen optimalen Einspruch",
-      "detectedData": "Erkannte Daten",
-      "finanzamt": "Finanzamt",
-      "nachzahlung": "Nachzahlung",
-      "generate": "Einspruch generieren"
+      "subtitle": "Bitte beantworten Sie diese Fragen für einen optimal formulierten Einspruch.",
+      "detectedData": "Erkannter Bescheid",
+      "liveBadge": "Live ✓",
+      "demoBadge": "Demo",
+      "required": "Pflichtfeld",
+      "optional": "Optional",
+      "answered": "beantwortet",
+      "back": "Zurück",
+      "generate": "Einspruch generieren",
+      "generateWithDocs": "Einspruch generieren ({count} Dokumente)",
+      "additionalDocs": {
+        "title": "Weitere Belege hochladen",
+        "subtitle": "Belege stärken Ihren Einspruch — die KI-Agenten berücksichtigen sie automatisch.",
+        "add": "Dokument hinzufügen",
+        "optional": "Optional"
+      }
     },
     "generating": {
-      "title": "Multi-KI-Analyse läuft...",
+      "title": "Multi-KI-Pipeline läuft…",
+      "step": "Schritt {current} / {total}: {label}",
+      "allDone": "Alle {n} Agenten abgeschlossen",
+      "timeWarning": "Durchschnittliche Dauer: 20–40 Sekunden · Bitte nicht schließen",
+      "draftTitle": "Entwurf in Echtzeit",
+      "writing": "wird geschrieben…",
+      "draftPlaceholder": "Einspruch wird formuliert…",
       "agents": {
-        "drafter": "Entwurf wird erstellt... (Claude)",
-        "reviewer": "Fehlerprüfung läuft... (Gemini)",
-        "factchecker": "Faktencheck läuft... (Perplexity)",
-        "adversary": "Finanzamt-Perspektive... (Claude)",
-        "consolidator": "Konsolidierung... (Claude)"
+        "drafter": "Entwurf wird erstellt… (Claude)",
+        "reviewer": "Fehlerprüfung läuft… (Gemini)",
+        "factchecker": "Faktencheck läuft… (Perplexity)",
+        "adversary": "Finanzamt-Perspektive… (Claude)",
+        "consolidator": "Konsolidierung… (Claude)"
       }
     },
     "result": {
-      "title": "Einspruch fertig",
-      "subtitle": "Geprüft durch {count} KI-Agenten",
+      "title": "Einspruch bereit!",
+      "subtitle": "KI-Agenten haben Ihren Einspruch geprüft und optimiert.",
+      "badges": {
+        "legal": "✓ Rechtlich geprüft",
+        "bfh": "✓ BFH-Urteile eingeflossen",
+        "formal": "✓ Formell korrekt"
+      },
+      "copy": "Kopieren",
+      "copied": "Kopiert!",
+      "download": "Herunterladen (.txt)",
+      "openInCases": "In Meine Fälle öffnen",
+      "newAppeal": "Neuen Einspruch erstellen",
+      "nextSteps": {
+        "title": "Nächste Schritte",
+        "check": "Prüfen Sie Name, Adresse und Steuernummer im Entwurf",
+        "print": "Drucken Sie das Schreiben aus und unterschreiben Sie es",
+        "send": "Senden Sie es per Einschreiben oder Fax an die Behörde"
+      },
+      "legalNote": "Kein Rechtsrat i.S.d. RDG",
       "agentLog": "KI-Agenten-Protokoll",
       "outputLanguageWarning": "Dieses Dokument wurde in {language} erstellt. Für die Einreichung beim Finanzamt ist die deutsche Version erforderlich.",
       "downloadTxt": "Als TXT herunterladen"
+    },
+    "errors": {
+      "analyze": "Dokumentenanalyse fehlgeschlagen. Bitte versuchen Sie es erneut.",
+      "connection": "Verbindungsfehler — bitte erneut versuchen.",
+      "generate": "Einspruch-Generierung fehlgeschlagen. Bitte versuchen Sie es erneut.",
+      "backToUpload": "Zurück zum Upload"
     }
   },
   "outputLanguage": {

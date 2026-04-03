@@ -781,42 +781,102 @@
   },
   "wizard": {
     "steps": {
-      "upload": "Завантаження",
-      "questions": "Запитання",
-      "generating": "Аналіз AI",
-      "result": "Результат"
+      "upload": "Upload",
+      "analyzing": "Detection",
+      "questions": "Questions",
+      "generating": "AI Analysis",
+      "result": "Result"
+    },
+    "header": {
+      "create": "Create objection",
+      "case": "Case"
     },
     "upload": {
-      "title": "Завантажте своє повідомлення",
-      "subtitle": "Завантажте ваше адміністративне рішення та будь-які підтвердні документи",
-      "dropzone": "Обрати файли",
-      "dropzoneHint": "PDF, DOCX, TXT або зображення",
-      "analyze": "Аналізувати документи"
+      "title": "Upload your notice",
+      "subtitle": "Upload your official notice — or start directly without a document for a demo.",
+      "dropzoneTitle": "Drop files here",
+      "dropzoneClick": "or click to browse",
+      "dropzoneHint": "PDF, DOCX, TXT or images",
+      "analyze": "Analyse documents",
+      "demoButton": "Start demo (without document)",
+      "security": {
+        "ssl": "SSL encrypted",
+        "eu": "EU servers",
+        "noStore": "Not stored"
+      }
+    },
+    "analyzing": {
+      "title": "Analysing your document…",
+      "step1": "Reading document…",
+      "step2": "Extracting data…",
+      "step3": "Preparing follow-up questions…",
+      "liveMode": "AI-powered analysis · Content is not stored permanently",
+      "demoMode": "Demo mode · No document uploaded"
     },
     "questions": {
-      "title": "Додаткові запитання",
-      "subtitle": "Будь ласка, дайте відповідь на ці запитання для оптимізації вашого листа-заперечення",
-      "detectedData": "Виявлені дані",
-      "finanzamt": "Податкова інспекція",
-      "nachzahlung": "Сума до сплати",
-      "generate": "Згенерувати лист-заперечення"
+      "title": "Follow-up questions",
+      "subtitle": "Please answer these questions to optimise your objection letter.",
+      "detectedData": "Detected notice",
+      "liveBadge": "Live ✓",
+      "demoBadge": "Demo",
+      "required": "Required",
+      "optional": "Optional",
+      "answered": "answered",
+      "back": "Back",
+      "generate": "Generate objection letter",
+      "generateWithDocs": "Generate objection ({count} documents)",
+      "additionalDocs": {
+        "title": "Upload additional documents",
+        "subtitle": "Supporting documents strengthen your objection — the AI agents will consider them automatically.",
+        "add": "Add document",
+        "optional": "Optional"
+      }
     },
     "generating": {
-      "title": "Виконується мультиагентний аналіз AI...",
+      "title": "Multi-AI pipeline running…",
+      "step": "Step {current} of {total}: {label}",
+      "allDone": "All {n} agents completed",
+      "timeWarning": "Average time: 20–40 seconds · Please don’t close this tab",
+      "draftTitle": "Draft in real time",
+      "writing": "writing…",
+      "draftPlaceholder": "Objection letter is being drafted…",
       "agents": {
-        "drafter": "Складання листа... (Claude)",
-        "reviewer": "Перевірка на помилки... (Gemini)",
-        "factchecker": "Перевірка юридичних посилань... (Perplexity)",
-        "adversary": "Перевірка позиції органу влади... (Claude)",
-        "consolidator": "Консолідація фінальної версії... (Claude)"
+        "drafter": "Drafting letter… (Claude)",
+        "reviewer": "Reviewing for errors… (Gemini)",
+        "factchecker": "Fact-checking legal citations… (Perplexity)",
+        "adversary": "Authority perspective check… (Claude)",
+        "consolidator": "Consolidating final version… (Claude)"
       }
     },
     "result": {
-      "title": "Лист-заперечення готовий",
-      "subtitle": "Перевірено {count} AI-агентами",
-      "agentLog": "Журнал AI-агентів",
-      "outputLanguageWarning": "Цей документ згенеровано мовою: {language}. Для подання до німецьких органів влади потрібна німецька версія.",
-      "downloadTxt": "Завантажити як TXT"
+      "title": "Objection letter ready!",
+      "subtitle": "AI agents reviewed and optimised your objection letter.",
+      "badges": {
+        "legal": "✓ Legally reviewed",
+        "bfh": "✓ Case law applied",
+        "formal": "✓ Formally correct"
+      },
+      "copy": "Copy",
+      "copied": "Copied!",
+      "download": "Download (.txt)",
+      "openInCases": "Open in My Cases",
+      "newAppeal": "Create new objection",
+      "nextSteps": {
+        "title": "Next steps",
+        "check": "Check your name, address and tax number in the draft",
+        "print": "Print the letter and sign it",
+        "send": "Send it by registered mail or fax to the authority"
+      },
+      "legalNote": "Not legal advice under RDG",
+      "agentLog": "AI Agent Log",
+      "outputLanguageWarning": "This document was generated in {language}. The German version is required for submission to German authorities.",
+      "downloadTxt": "Download as TXT"
+    },
+    "errors": {
+      "analyze": "Document analysis failed. Please try again.",
+      "connection": "Connection error — please try again.",
+      "generate": "Objection generation failed. Please try again.",
+      "backToUpload": "Back to upload"
     }
   },
   "outputLanguage": {

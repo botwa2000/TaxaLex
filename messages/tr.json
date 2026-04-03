@@ -781,42 +781,102 @@
   },
   "wizard": {
     "steps": {
-      "upload": "Yükleme",
-      "questions": "Sorular",
-      "generating": "Yapay Zeka Analizi",
-      "result": "Sonuç"
+      "upload": "Upload",
+      "analyzing": "Detection",
+      "questions": "Questions",
+      "generating": "AI Analysis",
+      "result": "Result"
+    },
+    "header": {
+      "create": "Create objection",
+      "case": "Case"
     },
     "upload": {
-      "title": "Kararı yükleyin",
-      "subtitle": "İdari kararınızı ve varsa destekleyici belgeleri yükleyin",
-      "dropzone": "Dosya seç",
-      "dropzoneHint": "PDF, DOCX, TXT veya görsel",
-      "analyze": "Belgeleri analiz et"
+      "title": "Upload your notice",
+      "subtitle": "Upload your official notice — or start directly without a document for a demo.",
+      "dropzoneTitle": "Drop files here",
+      "dropzoneClick": "or click to browse",
+      "dropzoneHint": "PDF, DOCX, TXT or images",
+      "analyze": "Analyse documents",
+      "demoButton": "Start demo (without document)",
+      "security": {
+        "ssl": "SSL encrypted",
+        "eu": "EU servers",
+        "noStore": "Not stored"
+      }
+    },
+    "analyzing": {
+      "title": "Analysing your document…",
+      "step1": "Reading document…",
+      "step2": "Extracting data…",
+      "step3": "Preparing follow-up questions…",
+      "liveMode": "AI-powered analysis · Content is not stored permanently",
+      "demoMode": "Demo mode · No document uploaded"
     },
     "questions": {
-      "title": "Ek sorular",
-      "subtitle": "İtiraz mektubunuzu optimize etmek için lütfen bu soruları yanıtlayın",
-      "detectedData": "Algılanan veriler",
-      "finanzamt": "Vergi dairesi",
-      "nachzahlung": "Ödenecek tutar",
-      "generate": "İtiraz mektubu oluştur"
+      "title": "Follow-up questions",
+      "subtitle": "Please answer these questions to optimise your objection letter.",
+      "detectedData": "Detected notice",
+      "liveBadge": "Live ✓",
+      "demoBadge": "Demo",
+      "required": "Required",
+      "optional": "Optional",
+      "answered": "answered",
+      "back": "Back",
+      "generate": "Generate objection letter",
+      "generateWithDocs": "Generate objection ({count} documents)",
+      "additionalDocs": {
+        "title": "Upload additional documents",
+        "subtitle": "Supporting documents strengthen your objection — the AI agents will consider them automatically.",
+        "add": "Add document",
+        "optional": "Optional"
+      }
     },
     "generating": {
-      "title": "Çoklu yapay zeka analizi çalışıyor...",
+      "title": "Multi-AI pipeline running…",
+      "step": "Step {current} of {total}: {label}",
+      "allDone": "All {n} agents completed",
+      "timeWarning": "Average time: 20–40 seconds · Please don’t close this tab",
+      "draftTitle": "Draft in real time",
+      "writing": "writing…",
+      "draftPlaceholder": "Objection letter is being drafted…",
       "agents": {
-        "drafter": "Mektup hazırlanıyor... (Claude)",
-        "reviewer": "Hatalar inceleniyor... (Gemini)",
-        "factchecker": "Hukuki kaynaklar doğrulanıyor... (Perplexity)",
-        "adversary": "Kurum perspektifi kontrol ediliyor... (Claude)",
-        "consolidator": "Nihai sürüm birleştiriliyor... (Claude)"
+        "drafter": "Drafting letter… (Claude)",
+        "reviewer": "Reviewing for errors… (Gemini)",
+        "factchecker": "Fact-checking legal citations… (Perplexity)",
+        "adversary": "Authority perspective check… (Claude)",
+        "consolidator": "Consolidating final version… (Claude)"
       }
     },
     "result": {
-      "title": "İtiraz mektubu hazır",
-      "subtitle": "{count} yapay zeka ajanı tarafından incelendi",
-      "agentLog": "Yapay Zeka Ajanı Günlüğü",
-      "outputLanguageWarning": "Bu belge {language} dilinde oluşturuldu. Alman makamlarına başvuru için Almanca sürüm gereklidir.",
-      "downloadTxt": "TXT olarak indir"
+      "title": "Objection letter ready!",
+      "subtitle": "AI agents reviewed and optimised your objection letter.",
+      "badges": {
+        "legal": "✓ Legally reviewed",
+        "bfh": "✓ Case law applied",
+        "formal": "✓ Formally correct"
+      },
+      "copy": "Copy",
+      "copied": "Copied!",
+      "download": "Download (.txt)",
+      "openInCases": "Open in My Cases",
+      "newAppeal": "Create new objection",
+      "nextSteps": {
+        "title": "Next steps",
+        "check": "Check your name, address and tax number in the draft",
+        "print": "Print the letter and sign it",
+        "send": "Send it by registered mail or fax to the authority"
+      },
+      "legalNote": "Not legal advice under RDG",
+      "agentLog": "AI Agent Log",
+      "outputLanguageWarning": "This document was generated in {language}. The German version is required for submission to German authorities.",
+      "downloadTxt": "Download as TXT"
+    },
+    "errors": {
+      "analyze": "Document analysis failed. Please try again.",
+      "connection": "Connection error — please try again.",
+      "generate": "Objection generation failed. Please try again.",
+      "backToUpload": "Back to upload"
     }
   },
   "outputLanguage": {

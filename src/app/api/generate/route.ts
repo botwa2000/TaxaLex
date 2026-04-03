@@ -9,14 +9,14 @@ import { rateLimit } from '@/lib/rateLimit'
 export const maxDuration = 120
 
 const BescheidDataSchema = z.object({
-  finanzamt: z.string().min(1).max(200),
-  steuernummer: z.string().max(50),
-  bescheidDatum: z.string().max(20),
-  steuerart: z.string().max(100),
-  nachzahlung: z.number().nonnegative(),
-  streitigerBetrag: z.number().nonnegative(),
+  finanzamt: z.string().max(200).optional().default(''),
+  steuernummer: z.string().max(50).optional().default(''),
+  bescheidDatum: z.string().max(20).optional().default(''),
+  steuerart: z.string().max(100).optional().default(''),
+  nachzahlung: z.union([z.number(), z.string()]).transform(v => Number(v) || 0).optional().default(0),
+  streitigerBetrag: z.union([z.number(), z.string()]).transform(v => Number(v) || 0).optional().default(0),
   rawText: z.string().optional(),
-})
+}).passthrough() // allow extra fields the AI may return
 
 const GenerateSchema = z.object({
   caseId: z.string().optional(),
