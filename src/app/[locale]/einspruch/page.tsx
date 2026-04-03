@@ -254,14 +254,19 @@ function EinspruchPageInner() {
         setCaseId(newId)
       }
 
-      // Read files as base64 and send as JSON — avoids Next.js FormData body size limits
-      const filePayloads = await Promise.all(files.map(async (f) => {
-        const buf = await f.arrayBuffer()
-        const bytes = new Uint8Array(buf)
-        let binary = ''
-        for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i])
-        return { name: f.name, type: f.type, base64: btoa(binary) }
-      }))
+      // Read files as base64 via FileReader — native API, non-blocking, handles large files
+      const filePayloads = await Promise.all(files.map((f) =>
+        new Promise<{ name: string; type: string; base64: string }>((resolve, reject) => {
+          const reader = new FileReader()
+          reader.onload = () => {
+            const dataUrl = reader.result as string
+            // DataURL format: "data:<mime>;base64,<data>" — strip the prefix
+            resolve({ name: f.name, type: f.type, base64: dataUrl.split(',')[1] })
+          }
+          reader.onerror = reject
+          reader.readAsDataURL(f)
+        })
+      ))
 
       const res = await fetch('/api/analyze', {
         method: 'POST',
