@@ -13,14 +13,13 @@ export async function POST(req: NextRequest) {
   const signature = req.headers.get('stripe-signature') ?? ''
 
   if (!config.stripeWebhookSecret) {
-    logger.warn('STRIPE_WEBHOOK_SECRET not set — skipping signature verification (dev only)')
+    logger.error('STRIPE_WEBHOOK_SECRET not set — rejecting webhook')
+    return NextResponse.json({ error: 'Webhook secret not configured' }, { status: 500 })
   }
 
   let event: Stripe.Event
   try {
-    event = config.stripeWebhookSecret
-      ? stripe.webhooks.constructEvent(body, signature, config.stripeWebhookSecret)
-      : (JSON.parse(body) as Stripe.Event)
+    event = stripe.webhooks.constructEvent(body, signature, config.stripeWebhookSecret)
   } catch (err) {
     logger.warn('Stripe webhook signature invalid', { err })
     return NextResponse.json({ error: 'Invalid signature' }, { status: 400 })

@@ -6,13 +6,20 @@ import { sendEmail } from '@/lib/email'
 import { PasswordReset } from '@/lib/emailTemplates/PasswordReset'
 import { logger } from '@/lib/logger'
 import { config } from '@/config/env'
+import { verifyTurnstile } from '@/lib/turnstile'
+import { rateLimit } from '@/lib/rateLimit'
 
 const Schema = z.object({
   email: z.string().email(),
   locale: z.string().optional(),
+  turnstileToken: z.string().optional(),
 })
 
 export async function POST(req: NextRequest) {
+  // Rate limit: 5 reset requests per IP per 15 minutes
+  const limited = rateLimit(req, { maxRequests: 5, windowMs: 15 * 60 * 1000 })
+  if (limited) return limited
+
   const body = await req.json().catch(() => ({}))
   const parsed = Schema.safeParse(body)
 
@@ -21,7 +28,13 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: true })
   }
 
-  const { email, locale = 'de' } = parsed.data
+  const { email, locale = 'de', turnstileToken } = parsed.data
+
+  // Bot protection — silent fail (always return 200)
+  const turnstileOk = await verifyTurnstile(turnstileToken)
+  if (!turnstileOk) {
+    return NextResponse.json({ success: true })
+  }
 
   try {
     const user = await db.user.findUnique({

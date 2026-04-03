@@ -7,6 +7,7 @@ import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import { Loader2, Info, ChevronDown, Eye, EyeOff } from 'lucide-react'
 import { features } from '@/config/features'
+import { TurnstileBox } from '@/components/Turnstile'
 
 const DEMO_ACCOUNTS = [
   { label: 'Admin', email: 'admin@taxalex.de', password: 'Admin1234!', role: 'Administrator' },
@@ -31,6 +32,7 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false)
   const [demoOpen, setDemoOpen] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
+  const [turnstileToken, setTurnstileToken] = useState('')
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -187,6 +189,8 @@ export default function LoginPage() {
             </button>
           </div>
         </div>
+
+        <TurnstileBox onSuccess={setTurnstileToken} className="mb-2" />
 
         <button
           type="submit"

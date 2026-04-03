@@ -27,13 +27,14 @@ const nextConfig = {
             value: [
               "default-src 'self'",
               // Next.js requires unsafe-eval in dev; analytics scripts need unsafe-inline
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://challenges.cloudflare.com",
               "style-src 'self' 'unsafe-inline'",
               // GA and PostHog image beacons
               "img-src 'self' data: blob: https://www.google-analytics.com https://www.googletagmanager.com",
               "font-src 'self'",
               // API calls: self + AI providers (server-side only) + analytics
               "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net https://app.posthog.com https://eu.posthog.com",
+              "frame-src 'self' https://challenges.cloudflare.com",
               "frame-ancestors 'none'",
               "base-uri 'self'",
               "form-action 'self'",

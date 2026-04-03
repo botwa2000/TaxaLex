@@ -7,7 +7,7 @@ import {
 import {
   DEMO_USER_ID, DEMO_CASES, DEMO_DOCUMENTS, DEMO_AGENT_OUTPUTS, DEMO_FINAL_DRAFT,
 } from '@/lib/mockData'
-import { CaseDetailClient } from '@/app/(app)/cases/[id]/CaseDetailClient'
+import { CaseDetailClient } from './CaseDetailClient'
 import { HandoffRequestForm } from '@/components/client/HandoffRequestForm'
 import { ExpertReviewCTA } from '@/components/client/ExpertReviewCTA'
 import { AnnotationReplyCard } from '@/components/client/AnnotationReplyCard'

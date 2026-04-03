@@ -58,6 +58,9 @@ export const config = {
   stripePublishableKey: optionalEnv('STRIPE_PUBLISHABLE_KEY'),
   stripeWebhookSecret: optionalEnv('STRIPE_WEBHOOK_SECRET'),
 
+  // ── Bot Protection (Turnstile) ──────────────────────────────────────
+  turnstileSecretKey: optionalEnv('TURNSTILE_SECRET_KEY'),
+
   // ── Storage ────────────────────────────────────────────────────────────
   s3Endpoint: optionalEnv('S3_ENDPOINT'),
   s3Bucket: optionalEnv('S3_BUCKET'),

@@ -3,11 +3,13 @@
 import { useState } from 'react'
 import { Link } from '@/i18n/navigation'
 import { Loader2, Mail, ArrowLeft, CheckCircle2 } from 'lucide-react'
+import { TurnstileBox } from '@/components/Turnstile'
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
   const [sent, setSent] = useState(false)
+  const [turnstileToken, setTurnstileToken] = useState('')
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -16,7 +18,7 @@ export default function ForgotPasswordPage() {
     await fetch('/api/auth/forgot-password', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email }),
+      body: JSON.stringify({ email, turnstileToken }),
     })
     setLoading(false)
     setSent(true)
@@ -74,6 +76,8 @@ export default function ForgotPasswordPage() {
             className="w-full border border-[var(--border)] rounded-lg px-3 py-2.5 text-sm bg-[var(--surface)] text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400 transition-colors"
           />
         </div>
+
+        <TurnstileBox onSuccess={setTurnstileToken} className="mb-2" />
 
         <button
           type="submit"

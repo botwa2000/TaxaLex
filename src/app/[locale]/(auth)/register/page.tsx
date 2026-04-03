@@ -5,6 +5,7 @@ import { useTranslations, useLocale } from 'next-intl'
 import { Link } from '@/i18n/navigation'
 import { Loader2, CheckCircle2, User, Briefcase, Eye, EyeOff } from 'lucide-react'
 import { AUTH } from '@/config/constants'
+import { TurnstileBox } from '@/components/Turnstile'
 
 type UserType = 'individual' | 'expert'
 
@@ -27,6 +28,7 @@ export default function RegisterPage() {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
+  const [turnstileToken, setTurnstileToken] = useState('')
 
   function toggleArea(area: 'TAX' | 'LEGAL') {
     setPracticeAreas(prev =>
@@ -55,6 +57,7 @@ export default function RegisterPage() {
         userType,
         practiceAreas: userType === 'expert' ? practiceAreas : undefined,
         locale,
+        turnstileToken,
       }),
     })
 
@@ -243,6 +246,8 @@ export default function RegisterPage() {
             </div>
           )}
         </div>
+
+        <TurnstileBox onSuccess={setTurnstileToken} className="mb-2" />
 
         <button
           type="submit"

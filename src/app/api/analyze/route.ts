@@ -5,6 +5,7 @@ import { logger } from '@/lib/logger'
 import { PIPELINE } from '@/config/constants'
 import { getActiveModels } from '@/lib/pipelineMode'
 import { auth } from '@/auth'
+import { rateLimit } from '@/lib/rateLimit'
 
 const AnalyzeSchema = z.object({
   documents: z
@@ -21,6 +22,10 @@ const AnalyzeSchema = z.object({
 })
 
 export async function POST(req: NextRequest) {
+  // Rate limit: 30 analyze requests per IP per hour
+  const limited = rateLimit(req, { maxRequests: 30, windowMs: 60 * 60 * 1000 })
+  if (limited) return limited
+
   const session = await auth()
   if (!session?.user?.id) {
     return NextResponse.json({ error: 'Nicht angemeldet' }, { status: 401 })

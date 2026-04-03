@@ -13,7 +13,6 @@ export function CaseDetailClient({ draft }: { draft: string }) {
   }
 
   function handleDownload() {
-    // Plain text download — PDF generation needs server-side rendering (future feature)
     const blob = new Blob([draft], { type: 'text/plain;charset=utf-8' })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
@@ -27,7 +26,7 @@ export function CaseDetailClient({ draft }: { draft: string }) {
     <div className="flex items-center gap-2">
       <button
         onClick={handleCopy}
-        className="flex items-center gap-1.5 text-sm border border-[var(--border)] px-3 py-1.5 rounded-lg hover:bg-gray-50 transition-colors"
+        className="flex items-center gap-1.5 text-sm border border-[var(--border)] px-3 py-1.5 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
       >
         {copied ? <Check className="w-3.5 h-3.5 text-green-600" /> : <Copy className="w-3.5 h-3.5" />}
         {copied ? 'Kopiert!' : 'Kopieren'}

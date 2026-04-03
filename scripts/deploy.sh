@@ -198,6 +198,10 @@ elif [[ "$CMD" == "secrets" ]]; then
     echo "    STRIPE_WEBHOOK_SECRET_DEV not set — skipping (add after registering webhook)"
   fi
 
+  # Cloudflare Turnstile
+  create_or_replace "turnstile_secret_key_prod" "${TURNSTILE_SECRET_KEY:-}"
+  create_or_replace "turnstile_secret_key_dev"  "${TURNSTILE_SECRET_KEY:-}"
+
   echo "==> Done. Verify with: ssh server 'docker secret ls | grep taxalex'"
 
 else

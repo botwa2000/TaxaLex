@@ -4,6 +4,7 @@ import { orchestrate } from '@/lib/agents'
 import { logger } from '@/lib/logger'
 import { PIPELINE } from '@/config/constants'
 import { auth } from '@/auth'
+import { rateLimit } from '@/lib/rateLimit'
 
 export const maxDuration = 120
 
@@ -48,6 +49,13 @@ function extractSummary(content: string): string {
 }
 
 export async function POST(req: NextRequest) {
+  // Rate limit: 10 generate requests per IP per hour
+  const limited = rateLimit(req, { maxRequests: 10, windowMs: 60 * 60 * 1000 })
+  if (limited) return new Response(
+    sseEvent('error', { message: 'Zu viele Anfragen. Bitte versuchen Sie es später erneut.', status: 429 }),
+    { status: 429, headers: { 'Content-Type': 'text/event-stream' } }
+  )
+
   const session = await auth()
   if (!session?.user?.id) {
     return new Response(sseEvent('error', { message: 'Nicht angemeldet', status: 401 }), {

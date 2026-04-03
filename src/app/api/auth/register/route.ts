@@ -7,6 +7,8 @@ import { sendEmail } from '@/lib/email'
 import { VerifyEmail } from '@/lib/emailTemplates/VerifyEmail'
 import { logger } from '@/lib/logger'
 import { AUTH } from '@/config/constants'
+import { verifyTurnstile } from '@/lib/turnstile'
+import { rateLimit } from '@/lib/rateLimit'
 
 const RegisterSchema = z.object({
   email: z.string().email('Ungültige E-Mail-Adresse'),
@@ -15,6 +17,7 @@ const RegisterSchema = z.object({
   locale: z.string().optional(),
   userType: z.enum(['individual', 'expert']).optional().default('individual'),
   practiceAreas: z.array(z.enum(['TAX', 'LEGAL'])).optional(),
+  turnstileToken: z.string().optional(),
 })
 
 function generate6DigitCode(): string {
@@ -22,6 +25,10 @@ function generate6DigitCode(): string {
 }
 
 export async function POST(req: NextRequest) {
+  // Rate limit: 5 registrations per IP per 15 minutes
+  const limited = rateLimit(req, { maxRequests: 5, windowMs: 15 * 60 * 1000 })
+  if (limited) return limited
+
   try {
     const body = await req.json()
     const parsed = RegisterSchema.safeParse(body)
@@ -33,7 +40,13 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    const { email, password, name, locale = 'de', userType, practiceAreas } = parsed.data
+    const { email, password, name, locale = 'de', userType, practiceAreas, turnstileToken } = parsed.data
+
+    // Bot protection
+    const turnstileOk = await verifyTurnstile(turnstileToken)
+    if (!turnstileOk) {
+      return NextResponse.json({ error: 'Bot-Prüfung fehlgeschlagen. Bitte erneut versuchen.' }, { status: 403 })
+    }
     const normalizedEmail = email.toLowerCase()
 
     if (userType === 'expert' && (!practiceAreas || practiceAreas.length === 0)) {
