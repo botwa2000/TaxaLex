@@ -8,7 +8,8 @@
 type LogLevel = "debug" | "info" | "warn" | "error";
 type LogContext = Record<string, unknown>;
 
-const isProd = process.env.NODE_ENV === "production";
+// DEBUG_LOGS=true overrides NODE_ENV=production suppression (used on dev server).
+const isProd = process.env.NODE_ENV === "production" && process.env.DEBUG_LOGS !== "true";
 
 // Fields that must never appear in production logs
 const REDACTED_KEYS = new Set([

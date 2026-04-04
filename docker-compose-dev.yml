@@ -33,6 +33,7 @@ services:
       - turnstile_secret_key_dev
     environment:
       - NODE_ENV=production
+      - DEBUG_LOGS=true
       - NEXT_PUBLIC_SITE_URL=https://dev.taxalex.de
       - NEXTAUTH_URL=https://dev.taxalex.de
       - FEATURE_PAYMENTS=true
