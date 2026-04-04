@@ -109,6 +109,8 @@ function EinspruchPageInner() {
   const [answers, setAnswers]               = useState<Record<string, string>>({})
   const [result, setResult]                 = useState<GenerateResult | null>(null)
   const [activeAgent, setActiveAgent]       = useState(0)
+  const [activeAgentRoles, setActiveAgentRoles] = useState<Set<string>>(new Set())
+  const [isUploading, setIsUploading]       = useState(false)
   const [copied, setCopied]                 = useState(false)
   const [caseId, setCaseId]                 = useState<string | null>(null)
   const [agentOutputData, setAgentOutputData] = useState<AgentOutputData[]>([])
@@ -212,6 +214,8 @@ function EinspruchPageInner() {
 
     try {
       // Encode files as base64 via FileReader (non-blocking, handles large PDFs)
+      // isUploading = true shows "Uploading…" on the analyzing screen while files travel to the server
+      setIsUploading(true)
       const filePayloads = await Promise.all(files.map(async (f) => ({
         name: f.name,
         type: f.type,
@@ -226,6 +230,7 @@ function EinspruchPageInner() {
           uiLanguage: locale,
         }),
       })
+      setIsUploading(false)
 
       if (res.status === 401) { router.push(`/${locale}/login?callbackUrl=/${locale}/einspruch`); return }
       if (res.status === 402) { router.push(`/${locale}/billing?reason=credits`); return }
@@ -353,9 +358,14 @@ function EinspruchPageInner() {
           let payload: Record<string, unknown>
           try { payload = JSON.parse(dataStr) } catch { continue }
 
-          if (eventName === 'agent_complete') {
+          if (eventName === 'agent_start') {
+            // Show spinner for this agent immediately — important for the parallel middle stage
+            // where reviewer/factchecker/adversary all start at once
+            setActiveAgentRoles(prev => new Set([...prev, String(payload.role ?? '')]))
+          } else if (eventName === 'agent_complete') {
+            const role = String(payload.role ?? '')
             const out: AgentOutputData = {
-              role:       String(payload.role ?? ''),
+              role,
               provider:   String(payload.provider ?? ''),
               model:      String(payload.model ?? ''),
               durationMs: Number(payload.durationMs ?? 0),
@@ -364,6 +374,8 @@ function EinspruchPageInner() {
             accOutputs.push(out)
             setAgentOutputData([...accOutputs])
             setActiveAgent(accOutputs.length)
+            // Remove from active set once done
+            setActiveAgentRoles(prev => { const s = new Set(prev); s.delete(role); return s })
             if (payload.draftPreview) setDraftPreview(String(payload.draftPreview))
           } else if (eventName === 'pipeline_complete') {
             finalDraft = String(payload.finalDraft ?? '')
@@ -415,6 +427,8 @@ function EinspruchPageInner() {
     setBescheidData(null)
     setQuestions([])
     setActiveAgent(0)
+    setActiveAgentRoles(new Set())
+    setIsUploading(false)
     setAnalyzeStep(0)
     setCaseId(null)
     setAgentOutputData([])
@@ -590,7 +604,9 @@ function EinspruchPageInner() {
             <p className="text-sm text-[var(--muted)] mb-6 min-h-[1.25rem] transition-all text-center">
               {analyzePreview
                 ? t('analyzing.detectedSubtitle')
-                : files.length > 0 ? analyzeStatusMessages[analyzeStep] : t('analyzing.demoMode')}
+                : isUploading
+                  ? t('analyzing.uploading')
+                  : files.length > 0 ? analyzeStatusMessages[analyzeStep] : t('analyzing.demoMode')}
             </p>
 
             {/* Detected data preview — shown briefly after analyze returns */}
@@ -872,9 +888,11 @@ function EinspruchPageInner() {
               </div>
               <h1 className="text-2xl font-bold text-[var(--foreground)] mb-2">{t('generating.title')}</h1>
               <p className="text-sm text-[var(--muted)]">
-                {activeAgent < AGENT_IDS.length
-                  ? t(`generating.agents.${AGENT_IDS[activeAgent]}`)
-                  : t('generating.finalising')}
+                {activeAgentRoles.size > 0
+                  ? t(`generating.agents.${[...activeAgentRoles][0]}`)
+                  : activeAgent >= AGENT_IDS.length
+                    ? t('generating.finalising')
+                    : t(`generating.agents.${AGENT_IDS[Math.min(activeAgent, AGENT_IDS.length - 1)]}`)}
               </p>
             </div>
 
@@ -903,8 +921,8 @@ function EinspruchPageInner() {
 
                 <div className="space-y-2">
                   {AGENT_IDS.map((agentId, i) => {
-                    const done   = i < activeAgent
-                    const active = i === activeAgent
+                    const done   = agentOutputData.some(o => o.role === agentId)
+                    const active = activeAgentRoles.has(agentId) && !done
                     const outputData = agentOutputData.find(o => o.role === agentId)
                     return (
                       <div key={agentId} className={`flex items-center gap-3 px-4 py-3.5 rounded-xl text-sm transition-all duration-300 ${

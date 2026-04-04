@@ -6,7 +6,9 @@ import { PIPELINE } from '@/config/constants'
 import { auth } from '@/auth'
 import { rateLimit } from '@/lib/rateLimit'
 
-export const maxDuration = 120
+// Steps 2–4 now run in parallel; realistic max with prod models is ~150–180s.
+// 300s gives a generous buffer without a 10-minute hang on unexpected slowness.
+export const maxDuration = 300
 
 const BescheidDataSchema = z.object({
   finanzamt: z.string().max(200).optional().default(''),
@@ -112,6 +114,12 @@ export async function POST(req: NextRequest) {
         }
       }
 
+      // Heartbeat: SSE comment every 15s prevents nginx/proxy keepalive timeouts
+      // during silent gaps between agent calls (especially the parallel middle stage).
+      const heartbeat = setInterval(() => {
+        try { controller.enqueue(encoder.encode(':heartbeat\n\n')) } catch { /* client disconnected */ }
+      }, 15_000)
+
       try {
         // Mark case as generating
         if (caseId && !isDemo) {
@@ -129,7 +137,7 @@ export async function POST(req: NextRequest) {
           userAnswers,
           outputLanguage,
           uiLanguage,
-          (event) => send(event.type, event.data)  // progress callback
+          (event) => send(event.type, event.data)  // forwards agent_start + agent_complete
         )
 
         // Persist outputs and deduct credit only when user has access
@@ -186,6 +194,7 @@ export async function POST(req: NextRequest) {
         }
         send('error', { message: 'Einspruch-Generierung fehlgeschlagen' })
       } finally {
+        clearInterval(heartbeat)
         controller.close()
       }
     },

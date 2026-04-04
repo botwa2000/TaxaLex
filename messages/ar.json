@@ -138,7 +138,8 @@
     "legalBasis": "الأساس القانوني",
     "expandDetails": "إظهار التفاصيل",
     "collapseDetails": "إخفاء التفاصيل",
-    "sectionLabel": "أنواع الإشعارات المدعومة"
+    "sectionLabel": "أنواع الإشعارات المدعومة",
+    "sonstige": "قرار إداري آخر"
   },
   "stats": {
     "title": "أرقام ذات دلالة",
@@ -370,6 +371,16 @@
       "trustDemo": "عرض تجريبي تفاعلي — لا يلزم تسجيل",
       "trustGdpr": "متوافق مع اللائحة العامة لحماية البيانات (GDPR) · خوادم أوروبية · مشفَّر",
       "privacy": "الخصوصية"
+    },
+    "verify": {
+      "bannerTitle": "يرجى تأكيد عنوان بريدك الإلكتروني.",
+      "bannerHint": "لقد أرسلنا لك رمز تأكيد.",
+      "enterCode": "أدخل الرمز",
+      "resend": "إعادة الإرسال",
+      "sent": "تم إرسال رمز جديد — تحقق من صندوق الوارد.",
+      "enterNow": "أدخل الرمز الآن →",
+      "close": "إغلاق",
+      "error": "خطأ أثناء إرسال الرمز."
     }
   },
   "dashboard": {
@@ -381,7 +392,9 @@
       "totalCases": "إجمالي الطعون",
       "activeCases": "القضايا النشطة",
       "submittedCases": "مُقدَّمة",
-      "successRate": "معدل النجاح"
+      "successRate": "معدل النجاح",
+      "openCases": "القضايا المفتوحة",
+      "urgentDeadlines": "المواعيد النهائية العاجلة"
     },
     "recentCases": "القضايا الأخيرة",
     "noCases": "لا توجد قضايا",
@@ -396,15 +409,32 @@
       "SUBMITTED": "مُقدَّمة",
       "AWAITING_RESPONSE": "في الانتظار",
       "CLOSED_SUCCESS": "ناجحة",
-      "CLOSED_REJECTED": "مرفوضة"
+      "CLOSED_REJECTED": "مرفوضة",
+      "ANALYZING": "جارٍ التحليل",
+      "UPLOADING": "جارٍ الرفع",
+      "CLOSED_PARTIAL": "مقبول جزئيًا",
+      "REJECTED": "مرفوض"
     },
     "quickActions": {
       "title": "وصول سريع",
       "newCase": "طعن جديد",
       "viewCases": "قضاياي",
       "billing": "الفواتير",
-      "account": "الإعدادات"
-    }
+      "account": "الإعدادات",
+      "newCaseSubtitle": "إنشاء اعتراض",
+      "viewCasesSubtitle": "عرض السجل",
+      "upgradePlan": "ترقية الخطة",
+      "upgradePlanSubtitle": "Pro من 9.99 يورو/شهريًا"
+    },
+    "subtitle": "اعتراضاتك وطعونك في لمحة واحدة",
+    "adminSubtitle": "نظرة عامة على النظام · جميع المستخدمين والقضايا",
+    "openAdminPanel": "فتح لوحة المشرف",
+    "recentActivity": "النشاط الأخير",
+    "startFirst": "إنشاء أول طلب",
+    "updatedAt": "تم التحديث {date}",
+    "overdueLabel": "⚠ انتهى الموعد النهائي",
+    "daysLeft": "متبقٍّ {days} يوم",
+    "urgentWarning": "{count, plural, one {ينتهي # موعد نهائي} other {تنتهي # مواعيد نهائية}} في أقل من 7 أيام"
   },
   "billing": {
     "title": "الفواتير",
@@ -421,23 +451,44 @@
   },
   "cases": {
     "title": "قضاياي",
-    "subtitle": "جميع طعونك واعتراضاتك",
+    "subtitle": "{count, plural, one {# قضية} two {# قضيتان} few {# قضايا} other {# قضايا}} إجمالاً",
     "filter": {
-      "all": "الكل",
-      "active": "نشطة",
-      "submitted": "مُقدَّمة",
-      "closed": "مغلقة"
+      "all": "الكل ({count})",
+      "active": "نشطة ({count})",
+      "submitted": "مُقدَّمة ({count})",
+      "closed": "مغلقة ({count})"
     },
     "empty": "لم يتم العثور على قضايا",
     "emptyHint": "ابدأ طعنك الأول",
     "newCase": "طلب جديد",
     "caseId": "رقم القضية",
     "createdAt": "تاريخ الإنشاء",
-    "status": "الحالة",
+    "status": {
+      "CREATED": "جديدة",
+      "UPLOADING": "جارٍ الرفع",
+      "ANALYZING": "جارٍ التحليل",
+      "QUESTIONS": "أسئلة",
+      "GENERATING": "جارٍ الإنشاء",
+      "DRAFT_READY": "المسودة جاهزة",
+      "SUBMITTED": "مُقدَّمة",
+      "AWAITING_RESPONSE": "في انتظار الرد",
+      "CLOSED_SUCCESS": "ناجحة",
+      "CLOSED_PARTIAL": "مقبولة جزئيًا",
+      "CLOSED_REJECTED": "مرفوضة",
+      "REJECTED": "مرفوضة"
+    },
     "type": "النوع",
     "actions": "الإجراءات",
     "viewCase": "عرض القضية",
-    "downloadDraft": "تنزيل المسودة"
+    "downloadDraft": "تنزيل المسودة",
+    "search": "البحث في القضايا…",
+    "noResults": "لا توجد قضايا تطابق هذا الفلتر",
+    "startFirst": "إنشاء أول طلب",
+    "overdueLabel": "⚠ انتهى الموعد النهائي",
+    "deadlineLabel": "الموعد النهائي: {date}",
+    "documents": "{count, plural, one {# مستند} two {# مستندان} few {# مستندات} other {# مستندات}}",
+    "deleteCase": "حذف القضية",
+    "deleteConfirm": "هل تريد حذف هذه القضية؟ لا يمكن التراجع عن هذا الإجراء."
   },
   "account": {
     "title": "الملف الشخصي والإعدادات",
@@ -781,102 +832,114 @@
   },
   "wizard": {
     "steps": {
-      "upload": "Upload",
-      "analyzing": "Detection",
-      "questions": "Questions",
-      "generating": "AI Analysis",
-      "result": "Result"
+      "upload": "الرفع",
+      "analyzing": "الكشف",
+      "questions": "الأسئلة",
+      "generating": "تحليل الذكاء الاصطناعي",
+      "result": "النتيجة"
     },
     "header": {
-      "create": "Create objection",
-      "case": "Case"
+      "create": "إنشاء اعتراض",
+      "case": "القضية"
     },
     "upload": {
-      "title": "Upload your notice",
-      "subtitle": "Upload your official notice — or start directly without a document for a demo.",
-      "dropzoneTitle": "Drop files here",
-      "dropzoneClick": "or click to browse",
-      "dropzoneHint": "PDF, DOCX, TXT or images",
-      "analyze": "Analyse documents",
-      "demoButton": "Start demo (without document)",
+      "title": "ارفع قرارك الإداري",
+      "subtitle": "ارفع قرارك الرسمي — أو ابدأ مباشرةً دون مستند للتجربة.",
+      "dropzoneTitle": "أفلت الملفات هنا",
+      "dropzoneClick": "أو انقر للاستعراض",
+      "dropzoneHint": "PDF أو DOCX أو TXT أو صور",
+      "analyze": "تحليل المستندات",
+      "demoButton": "بدء التجربة (بدون مستند)",
       "security": {
-        "ssl": "SSL encrypted",
-        "eu": "EU servers",
-        "noStore": "Not stored"
-      }
+        "ssl": "مشفّر بـ SSL",
+        "eu": "خوادم الاتحاد الأوروبي",
+        "noStore": "غير محفوظ"
+      },
+      "noCredits": "لا توجد رصيد متاح.",
+      "topUpLink": "اشحن الآن →"
     },
     "analyzing": {
-      "title": "Analysing your document…",
-      "step1": "Reading document…",
-      "step2": "Extracting data…",
-      "step3": "Preparing follow-up questions…",
-      "liveMode": "AI-powered analysis · Content is not stored permanently",
-      "demoMode": "Demo mode · No document uploaded"
+      "title": "جارٍ تحليل مستندك…",
+      "step1": "جارٍ قراءة المستند…",
+      "step2": "جارٍ استخراج البيانات…",
+      "step3": "جارٍ إعداد الأسئلة التكميلية…",
+      "liveMode": "تحليل مدعوم بالذكاء الاصطناعي · لا يُحفظ المحتوى بصورة دائمة",
+      "demoMode": "وضع التجربة · لم يُرفع أي مستند",
+      "uploading": "جارٍ رفع الملفات…",
+      "detectedTitle": "بيانات القرار المكتشفة",
+      "detectedSubtitle": "تمت قراءة المستند — الانتقال إلى الأسئلة…"
     },
     "questions": {
-      "title": "Follow-up questions",
-      "subtitle": "Please answer these questions to optimise your objection letter.",
-      "detectedData": "Detected notice",
-      "liveBadge": "Live ✓",
-      "demoBadge": "Demo",
-      "required": "Required",
-      "optional": "Optional",
-      "answered": "answered",
-      "back": "Back",
-      "generate": "Generate objection letter",
-      "generateWithDocs": "Generate objection ({count} documents)",
+      "title": "أسئلة تكميلية",
+      "subtitle": "يرجى الإجابة على هذه الأسئلة لتحسين خطاب الاعتراض.",
+      "detectedData": "القرار المكتشف",
+      "liveBadge": "وضع حقيقي ✓",
+      "demoBadge": "تجربة",
+      "required": "مطلوب",
+      "optional": "اختياري",
+      "answered": "تمت الإجابة",
+      "back": "رجوع",
+      "generate": "إنشاء خطاب الاعتراض",
+      "generateWithDocs": "إنشاء الاعتراض ({count} مستندات)",
       "additionalDocs": {
-        "title": "Upload additional documents",
-        "subtitle": "Supporting documents strengthen your objection — the AI agents will consider them automatically.",
-        "add": "Add document",
-        "optional": "Optional"
-      }
+        "title": "رفع مستندات إضافية",
+        "subtitle": "المستندات الداعمة تعزز اعتراضك — سيأخذها وكلاء الذكاء الاصطناعي بعين الاعتبار تلقائيًا.",
+        "add": "إضافة مستند",
+        "optional": "اختياري"
+      },
+      "demoHint": "وضع التجربة: انقر على «إنشاء» للحصول على مسودة نموذجية.",
+      "noQuestionsHint": "لا توجد أسئلة إضافية — يمكنك الإنشاء مباشرةً."
     },
     "generating": {
-      "title": "Multi-AI pipeline running…",
-      "step": "Step {current} of {total}: {label}",
-      "allDone": "All {n} agents completed",
-      "timeWarning": "Average time: 20–40 seconds · Please don’t close this tab",
-      "draftTitle": "Draft in real time",
-      "writing": "writing…",
-      "draftPlaceholder": "Objection letter is being drafted…",
+      "title": "تشغيل خط أنابيب الذكاء الاصطناعي متعدد الوكلاء…",
+      "step": "الخطوة {current} من {total}: {label}",
+      "allDone": "اكتمل عمل جميع الوكلاء الـ {n}",
+      "timeWarning": "المدة المتوسطة: 20–40 ثانية · يرجى عدم إغلاق هذه التبويبة",
+      "draftTitle": "المسودة في الوقت الفعلي",
+      "writing": "جارٍ الكتابة…",
+      "draftPlaceholder": "جارٍ صياغة خطاب الاعتراض…",
       "agents": {
-        "drafter": "Drafting letter… (Claude)",
-        "reviewer": "Reviewing for errors… (Gemini)",
-        "factchecker": "Fact-checking legal citations… (Perplexity)",
-        "adversary": "Authority perspective check… (Claude)",
-        "consolidator": "Consolidating final version… (Claude)"
-      }
+        "drafter": "جارٍ صياغة الخطاب… (Claude)",
+        "reviewer": "جارٍ مراجعة الأخطاء… (Gemini)",
+        "factchecker": "جارٍ التحقق من المراجع القانونية… (Perplexity)",
+        "adversary": "جارٍ فحص منظور الجهة الإدارية… (Claude)",
+        "consolidator": "جارٍ دمج النسخة النهائية… (Claude)"
+      },
+      "finalising": "جارٍ إتمام الخطاب…"
     },
     "result": {
-      "title": "Objection letter ready!",
-      "subtitle": "AI agents reviewed and optimised your objection letter.",
+      "title": "خطاب الاعتراض جاهز!",
+      "subtitle": "راجع وكلاء الذكاء الاصطناعي خطاب اعتراضك وحسّنوه.",
       "badges": {
-        "legal": "✓ Legally reviewed",
-        "bfh": "✓ Case law applied",
-        "formal": "✓ Formally correct"
+        "legal": "✓ تمت المراجعة القانونية",
+        "bfh": "✓ تُطبَّق الاجتهادات القضائية",
+        "formal": "✓ صحيح من الناحية الشكلية"
       },
-      "copy": "Copy",
-      "copied": "Copied!",
-      "download": "Download (.txt)",
-      "openInCases": "Open in My Cases",
-      "newAppeal": "Create new objection",
+      "copy": "نسخ",
+      "copied": "تم النسخ!",
+      "download": "تنزيل (.txt)",
+      "openInCases": "فتح في قضاياي",
+      "newAppeal": "إنشاء اعتراض جديد",
       "nextSteps": {
-        "title": "Next steps",
-        "check": "Check your name, address and tax number in the draft",
-        "print": "Print the letter and sign it",
-        "send": "Send it by registered mail or fax to the authority"
+        "title": "الخطوات التالية",
+        "check": "تحقق من اسمك وعنوانك ورقمك الضريبي في المسودة",
+        "print": "اطبع الخطاب ووقّعه",
+        "send": "أرسله بالبريد المسجل أو الفاكس إلى الجهة المختصة"
       },
-      "legalNote": "Not legal advice under RDG",
-      "agentLog": "AI Agent Log",
-      "outputLanguageWarning": "This document was generated in {language}. The German version is required for submission to German authorities.",
-      "downloadTxt": "Download as TXT"
+      "legalNote": "لا يُعدّ استشارة قانونية بموجب RDG",
+      "agentLog": "سجل وكلاء الذكاء الاصطناعي",
+      "outputLanguageWarning": "تم إنشاء هذا المستند بلغة: {language}. يُشترط تقديم النسخة الألمانية للجهات الألمانية.",
+      "downloadTxt": "تنزيل بصيغة TXT",
+      "draftEditable": "مسودة · قابلة للتعديل",
+      "lockedTitle": "خطاب اعتراضك جاهز",
+      "lockedHint": "افتح الخطاب الكامل لتنزيله ونسخه وتقديمه.",
+      "unlockCta": "فتح الخطاب الكامل"
     },
     "errors": {
-      "analyze": "Document analysis failed. Please try again.",
-      "connection": "Connection error — please try again.",
-      "generate": "Objection generation failed. Please try again.",
-      "backToUpload": "Back to upload"
+      "analyze": "فشل تحليل المستند. يرجى المحاولة مجددًا.",
+      "connection": "خطأ في الاتصال — يرجى المحاولة مجددًا.",
+      "generate": "فشل إنشاء الاعتراض. يرجى المحاولة مجددًا.",
+      "backToUpload": "العودة إلى الرفع"
     }
   },
   "outputLanguage": {

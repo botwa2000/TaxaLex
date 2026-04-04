@@ -20,7 +20,7 @@ type Filter = 'all' | 'active' | 'submitted' | 'closed'
 
 const ACTIVE_STATUSES = ['CREATED', 'UPLOADING', 'ANALYZING', 'QUESTIONS', 'GENERATING', 'DRAFT_READY']
 const SUBMITTED_STATUSES = ['SUBMITTED', 'AWAITING_RESPONSE']
-const CLOSED_STATUSES = ['CLOSED_SUCCESS', 'CLOSED_PARTIAL', 'REJECTED', 'CLOSED_REJECTED']
+const CLOSED_STATUSES = ['CLOSED_SUCCESS', 'CLOSED_PARTIAL', 'REJECTED']
 
 function matchesFilter(c: CaseListItem, filter: Filter): boolean {
   if (filter === 'all') return true
@@ -41,7 +41,6 @@ const STATUS_COLORS: Record<string, string> = {
   AWAITING_RESPONSE: 'bg-amber-50 text-amber-700',
   CLOSED_SUCCESS: 'bg-green-50 text-green-700',
   CLOSED_PARTIAL: 'bg-yellow-50 text-yellow-700',
-  CLOSED_REJECTED: 'bg-red-50 text-red-700',
   REJECTED: 'bg-red-50 text-red-700',
 }
 
@@ -90,7 +89,7 @@ export function CasesClient({ cases: initialCases }: Props) {
     GENERATING: t('status.GENERATING'), DRAFT_READY: t('status.DRAFT_READY'),
     SUBMITTED: t('status.SUBMITTED'), AWAITING_RESPONSE: t('status.AWAITING_RESPONSE'),
     CLOSED_SUCCESS: t('status.CLOSED_SUCCESS'), CLOSED_PARTIAL: t('status.CLOSED_PARTIAL'),
-    CLOSED_REJECTED: t('status.CLOSED_REJECTED'), REJECTED: t('status.REJECTED'),
+    REJECTED: t('status.REJECTED'),
   }
   const ucLabels: Record<string, string> = {
     tax: tUC('tax'), jobcenter: tUC('jobcenter'), rente: tUC('rente'),

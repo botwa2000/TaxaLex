@@ -138,7 +138,8 @@
     "legalBasis": "Podstawa prawna",
     "expandDetails": "Pokaż szczegóły",
     "collapseDetails": "Ukryj szczegóły",
-    "sectionLabel": "Obsługiwane rodzaje decyzji"
+    "sectionLabel": "Obsługiwane rodzaje decyzji",
+    "sonstige": "Inne zawiadomienie"
   },
   "stats": {
     "title": "Liczby, które mają znaczenie",
@@ -370,6 +371,16 @@
       "trustDemo": "Interaktywne demo — bez rejestracji",
       "trustGdpr": "Zgodne z RODO · Serwery w UE · Szyfrowane",
       "privacy": "Prywatność"
+    },
+    "verify": {
+      "bannerTitle": "Proszę potwierdzić adres e-mail.",
+      "bannerHint": "Wysłaliśmy Ci kod potwierdzający.",
+      "enterCode": "Wprowadź kod",
+      "resend": "Wyślij ponownie",
+      "sent": "Nowy kod wysłany — sprawdź skrzynkę odbiorczą.",
+      "enterNow": "Wprowadź kod teraz →",
+      "close": "Zamknij",
+      "error": "Błąd podczas wysyłania kodu."
     }
   },
   "dashboard": {
@@ -381,7 +392,9 @@
       "totalCases": "Łączna liczba odwołań",
       "activeCases": "Aktywne sprawy",
       "submittedCases": "Złożone",
-      "successRate": "Wskaźnik sukcesu"
+      "successRate": "Wskaźnik sukcesu",
+      "openCases": "Otwarte sprawy",
+      "urgentDeadlines": "Pilne terminy"
     },
     "recentCases": "Ostatnie sprawy",
     "noCases": "Brak spraw",
@@ -396,15 +409,32 @@
       "SUBMITTED": "Złożono",
       "AWAITING_RESPONSE": "Oczekuje",
       "CLOSED_SUCCESS": "Zakończono sukcesem",
-      "CLOSED_REJECTED": "Odrzucono"
+      "CLOSED_REJECTED": "Odrzucono",
+      "ANALYZING": "Analizowanie",
+      "UPLOADING": "Przesyłanie",
+      "CLOSED_PARTIAL": "Częściowo zaakceptowane",
+      "REJECTED": "Odrzucone"
     },
     "quickActions": {
       "title": "Szybki dostęp",
       "newCase": "Nowe odwołanie",
       "viewCases": "Moje sprawy",
       "billing": "Rozliczenia",
-      "account": "Ustawienia"
-    }
+      "account": "Ustawienia",
+      "newCaseSubtitle": "Utwórz odwołanie",
+      "viewCasesSubtitle": "Wyświetl historię",
+      "upgradePlan": "Zmień plan",
+      "upgradePlanSubtitle": "Pro od 9,99 €/mies."
+    },
+    "subtitle": "Twoje odwołania i skargi – przegląd",
+    "adminSubtitle": "Przegląd systemu · wszyscy użytkownicy i sprawy",
+    "openAdminPanel": "Otwórz panel administracyjny",
+    "recentActivity": "Ostatnia aktywność",
+    "startFirst": "Utwórz pierwsze zgłoszenie",
+    "updatedAt": "Zaktualizowano {date}",
+    "overdueLabel": "⚠ Termin minął",
+    "daysLeft": "Pozostało {days}d",
+    "urgentWarning": "{count, plural, one {# termin wygasa} few {# terminy wygasają} other {# terminów wygasa}} w ciągu mniej niż 7 dni"
   },
   "billing": {
     "title": "Rozliczenia",
@@ -421,23 +451,44 @@
   },
   "cases": {
     "title": "Moje sprawy",
-    "subtitle": "Wszystkie Twoje odwołania i skargi",
+    "subtitle": "{count, plural, one {# sprawa} few {# sprawy} other {# spraw}} łącznie",
     "filter": {
-      "all": "Wszystkie",
-      "active": "Aktywne",
-      "submitted": "Złożone",
-      "closed": "Zamknięte"
+      "all": "Wszystkie ({count})",
+      "active": "Aktywne ({count})",
+      "submitted": "Złożone ({count})",
+      "closed": "Zamknięte ({count})"
     },
     "empty": "Nie znaleziono spraw",
     "emptyHint": "Złóż swoje pierwsze odwołanie",
     "newCase": "Nowe zgłoszenie",
     "caseId": "Numer sprawy",
     "createdAt": "Utworzono",
-    "status": "Status",
+    "status": {
+      "CREATED": "Nowa",
+      "UPLOADING": "Przesyłanie",
+      "ANALYZING": "Analizowanie",
+      "QUESTIONS": "Pytania",
+      "GENERATING": "Generowanie",
+      "DRAFT_READY": "Projekt gotowy",
+      "SUBMITTED": "Złożone",
+      "AWAITING_RESPONSE": "Oczekuje odpowiedzi",
+      "CLOSED_SUCCESS": "Zakończone sukcesem",
+      "CLOSED_PARTIAL": "Częściowo zaakceptowane",
+      "CLOSED_REJECTED": "Odrzucone",
+      "REJECTED": "Odrzucone"
+    },
     "type": "Typ",
     "actions": "Akcje",
     "viewCase": "Zobacz sprawę",
-    "downloadDraft": "Pobierz szkic"
+    "downloadDraft": "Pobierz szkic",
+    "search": "Szukaj spraw…",
+    "noResults": "Brak spraw pasujących do tego filtru",
+    "startFirst": "Utwórz pierwsze zgłoszenie",
+    "overdueLabel": "⚠ Termin minął",
+    "deadlineLabel": "Termin: {date}",
+    "documents": "{count, plural, one {# dokument} few {# dokumenty} other {# dokumentów}}",
+    "deleteCase": "Usuń sprawę",
+    "deleteConfirm": "Usunąć tę sprawę? Tej operacji nie można cofnąć."
   },
   "account": {
     "title": "Profil i ustawienia",
@@ -781,102 +832,114 @@
   },
   "wizard": {
     "steps": {
-      "upload": "Upload",
-      "analyzing": "Detection",
-      "questions": "Questions",
-      "generating": "AI Analysis",
-      "result": "Result"
+      "upload": "Przesyłanie",
+      "analyzing": "Wykrywanie",
+      "questions": "Pytania",
+      "generating": "Analiza AI",
+      "result": "Wynik"
     },
     "header": {
-      "create": "Create objection",
-      "case": "Case"
+      "create": "Utwórz odwołanie",
+      "case": "Sprawa"
     },
     "upload": {
-      "title": "Upload your notice",
-      "subtitle": "Upload your official notice — or start directly without a document for a demo.",
-      "dropzoneTitle": "Drop files here",
-      "dropzoneClick": "or click to browse",
-      "dropzoneHint": "PDF, DOCX, TXT or images",
-      "analyze": "Analyse documents",
-      "demoButton": "Start demo (without document)",
+      "title": "Prześlij decyzję",
+      "subtitle": "Prześlij oficjalną decyzję — lub zacznij bezpośrednio bez dokumentu w trybie demonstracyjnym.",
+      "dropzoneTitle": "Upuść pliki tutaj",
+      "dropzoneClick": "lub kliknij, aby przeglądać",
+      "dropzoneHint": "PDF, DOCX, TXT lub obrazy",
+      "analyze": "Analizuj dokumenty",
+      "demoButton": "Uruchom demo (bez dokumentu)",
       "security": {
-        "ssl": "SSL encrypted",
-        "eu": "EU servers",
-        "noStore": "Not stored"
-      }
+        "ssl": "Szyfrowanie SSL",
+        "eu": "Serwery w UE",
+        "noStore": "Nie przechowywane"
+      },
+      "noCredits": "Brak dostępnych kredytów.",
+      "topUpLink": "Doładuj teraz →"
     },
     "analyzing": {
-      "title": "Analysing your document…",
-      "step1": "Reading document…",
-      "step2": "Extracting data…",
-      "step3": "Preparing follow-up questions…",
-      "liveMode": "AI-powered analysis · Content is not stored permanently",
-      "demoMode": "Demo mode · No document uploaded"
+      "title": "Analizowanie dokumentu…",
+      "step1": "Odczytywanie dokumentu…",
+      "step2": "Wyodrębnianie danych…",
+      "step3": "Przygotowywanie pytań uzupełniających…",
+      "liveMode": "Analiza oparta na AI · Treść nie jest przechowywana na stałe",
+      "demoMode": "Tryb demo · Brak przesłanego dokumentu",
+      "uploading": "Przesyłanie plików…",
+      "detectedTitle": "Wykryte dane decyzji",
+      "detectedSubtitle": "Dokument odczytany — przejście do pytań…"
     },
     "questions": {
-      "title": "Follow-up questions",
-      "subtitle": "Please answer these questions to optimise your objection letter.",
-      "detectedData": "Detected notice",
-      "liveBadge": "Live ✓",
+      "title": "Pytania uzupełniające",
+      "subtitle": "Proszę odpowiedzieć na pytania w celu optymalizacji pisma odwoławczego.",
+      "detectedData": "Wykryta decyzja",
+      "liveBadge": "Tryb rzeczywisty ✓",
       "demoBadge": "Demo",
-      "required": "Required",
-      "optional": "Optional",
-      "answered": "answered",
-      "back": "Back",
-      "generate": "Generate objection letter",
-      "generateWithDocs": "Generate objection ({count} documents)",
+      "required": "Wymagane",
+      "optional": "Opcjonalne",
+      "answered": "udzielono odpowiedzi",
+      "back": "Wstecz",
+      "generate": "Wygeneruj pismo odwoławcze",
+      "generateWithDocs": "Wygeneruj odwołanie ({count} dokumentów)",
       "additionalDocs": {
-        "title": "Upload additional documents",
-        "subtitle": "Supporting documents strengthen your objection — the AI agents will consider them automatically.",
-        "add": "Add document",
-        "optional": "Optional"
-      }
+        "title": "Prześlij dodatkowe dokumenty",
+        "subtitle": "Dokumenty wspierające wzmacniają odwołanie — agenci AI uwzględnią je automatycznie.",
+        "add": "Dodaj dokument",
+        "optional": "Opcjonalne"
+      },
+      "demoHint": "Tryb demo: kliknij Generuj, aby uzyskać przykładowy projekt.",
+      "noQuestionsHint": "Brak dalszych pytań — możesz wygenerować bezpośrednio."
     },
     "generating": {
-      "title": "Multi-AI pipeline running…",
-      "step": "Step {current} of {total}: {label}",
-      "allDone": "All {n} agents completed",
-      "timeWarning": "Average time: 20–40 seconds · Please don’t close this tab",
-      "draftTitle": "Draft in real time",
-      "writing": "writing…",
-      "draftPlaceholder": "Objection letter is being drafted…",
+      "title": "Uruchomiono wieloagentowy potok AI…",
+      "step": "Krok {current} z {total}: {label}",
+      "allDone": "Wszystkie {n} agentów zakończyło pracę",
+      "timeWarning": "Średni czas: 20–40 sekund · Proszę nie zamykać tej karty",
+      "draftTitle": "Projekt w czasie rzeczywistym",
+      "writing": "pisanie…",
+      "draftPlaceholder": "Pismo odwoławcze jest tworzone…",
       "agents": {
-        "drafter": "Drafting letter… (Claude)",
-        "reviewer": "Reviewing for errors… (Gemini)",
-        "factchecker": "Fact-checking legal citations… (Perplexity)",
-        "adversary": "Authority perspective check… (Claude)",
-        "consolidator": "Consolidating final version… (Claude)"
-      }
+        "drafter": "Tworzenie pisma… (Claude)",
+        "reviewer": "Sprawdzanie błędów… (Gemini)",
+        "factchecker": "Weryfikacja powołań prawnych… (Perplexity)",
+        "adversary": "Analiza perspektywy organu… (Claude)",
+        "consolidator": "Konsolidacja wersji finalnej… (Claude)"
+      },
+      "finalising": "Finalizowanie pisma…"
     },
     "result": {
-      "title": "Objection letter ready!",
-      "subtitle": "AI agents reviewed and optimised your objection letter.",
+      "title": "Pismo odwoławcze gotowe!",
+      "subtitle": "Agenci AI przejrzeli i zoptymalizowali Twoje pismo odwoławcze.",
       "badges": {
-        "legal": "✓ Legally reviewed",
-        "bfh": "✓ Case law applied",
-        "formal": "✓ Formally correct"
+        "legal": "✓ Zweryfikowane prawnie",
+        "bfh": "✓ Zastosowano orzecznictwo",
+        "formal": "✓ Poprawne formalnie"
       },
-      "copy": "Copy",
-      "copied": "Copied!",
-      "download": "Download (.txt)",
-      "openInCases": "Open in My Cases",
-      "newAppeal": "Create new objection",
+      "copy": "Kopiuj",
+      "copied": "Skopiowano!",
+      "download": "Pobierz (.txt)",
+      "openInCases": "Otwórz w Moich sprawach",
+      "newAppeal": "Utwórz nowe odwołanie",
       "nextSteps": {
-        "title": "Next steps",
-        "check": "Check your name, address and tax number in the draft",
-        "print": "Print the letter and sign it",
-        "send": "Send it by registered mail or fax to the authority"
+        "title": "Kolejne kroki",
+        "check": "Sprawdź imię i nazwisko, adres oraz numer podatkowy w projekcie",
+        "print": "Wydrukuj pismo i podpisz je",
+        "send": "Wyślij listem poleconym lub faksem do właściwego organu"
       },
-      "legalNote": "Not legal advice under RDG",
-      "agentLog": "AI Agent Log",
-      "outputLanguageWarning": "This document was generated in {language}. The German version is required for submission to German authorities.",
-      "downloadTxt": "Download as TXT"
+      "legalNote": "Nie stanowi porady prawnej w rozumieniu RDG",
+      "agentLog": "Dziennik agentów AI",
+      "outputLanguageWarning": "Dokument został wygenerowany w języku: {language}. Do złożenia w niemieckich organach administracji wymagana jest wersja niemieckojęzyczna.",
+      "downloadTxt": "Pobierz jako TXT",
+      "draftEditable": "Projekt · edytowalny",
+      "lockedTitle": "Twoje pismo odwoławcze jest gotowe",
+      "lockedHint": "Odblokuj pełne pismo, aby je pobrać, skopiować i złożyć.",
+      "unlockCta": "Odblokuj pełne pismo"
     },
     "errors": {
-      "analyze": "Document analysis failed. Please try again.",
-      "connection": "Connection error — please try again.",
-      "generate": "Objection generation failed. Please try again.",
-      "backToUpload": "Back to upload"
+      "analyze": "Analiza dokumentu nie powiodła się. Proszę spróbować ponownie.",
+      "connection": "Błąd połączenia — proszę spróbować ponownie.",
+      "generate": "Generowanie odwołania nie powiodło się. Proszę spróbować ponownie.",
+      "backToUpload": "Powróć do przesyłania"
     }
   },
   "outputLanguage": {

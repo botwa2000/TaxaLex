@@ -14,11 +14,6 @@ export async function DELETE(
   const userId = session.user.id as string
   const { id } = await params
 
-  // Demo users have no DB cases
-  if (userId.startsWith('demo_')) {
-    return NextResponse.json({ ok: true })
-  }
-
   try {
     const { db } = await import('@/lib/db')
 

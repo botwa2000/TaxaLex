@@ -138,7 +138,8 @@
     "legalBasis": "Hukuki dayanak",
     "expandDetails": "Ayrıntıları göster",
     "collapseDetails": "Ayrıntıları gizle",
-    "sectionLabel": "Desteklenen karar türleri"
+    "sectionLabel": "Desteklenen karar türleri",
+    "sonstige": "Diğer bildirim"
   },
   "stats": {
     "title": "Önemli rakamlar",
@@ -370,6 +371,16 @@
       "trustDemo": "İnteraktif demo — kayıt gerekmez",
       "trustGdpr": "GDPR uyumlu · AB sunucuları · Şifreli",
       "privacy": "Gizlilik"
+    },
+    "verify": {
+      "bannerTitle": "Lütfen e-posta adresinizi onaylayın.",
+      "bannerHint": "Size bir doğrulama kodu gönderdik.",
+      "enterCode": "Kodu girin",
+      "resend": "Yeniden gönder",
+      "sent": "Yeni kod gönderildi — gelen kutunuzu kontrol edin.",
+      "enterNow": "Kodu şimdi girin →",
+      "close": "Kapat",
+      "error": "Kod gönderilirken hata oluştu."
     }
   },
   "dashboard": {
@@ -381,7 +392,9 @@
       "totalCases": "Toplam itiraz",
       "activeCases": "Aktif davalar",
       "submittedCases": "Gönderildi",
-      "successRate": "Başarı oranı"
+      "successRate": "Başarı oranı",
+      "openCases": "Açık davalar",
+      "urgentDeadlines": "Acil son tarihler"
     },
     "recentCases": "Son davalar",
     "noCases": "Dava yok",
@@ -396,15 +409,32 @@
       "SUBMITTED": "Gönderildi",
       "AWAITING_RESPONSE": "Beklemede",
       "CLOSED_SUCCESS": "Başarılı",
-      "CLOSED_REJECTED": "Reddedildi"
+      "CLOSED_REJECTED": "Reddedildi",
+      "ANALYZING": "Analiz ediliyor",
+      "UPLOADING": "Yükleniyor",
+      "CLOSED_PARTIAL": "Kısmen kabul edildi",
+      "REJECTED": "Reddedildi"
     },
     "quickActions": {
       "title": "Hızlı erişim",
       "newCase": "Yeni itiraz",
       "viewCases": "Davalarım",
       "billing": "Faturalama",
-      "account": "Ayarlar"
-    }
+      "account": "Ayarlar",
+      "newCaseSubtitle": "İtiraz oluştur",
+      "viewCasesSubtitle": "Geçmişi görüntüle",
+      "upgradePlan": "Planı yükselt",
+      "upgradePlanSubtitle": "Ayda 9,99 €'dan Pro"
+    },
+    "subtitle": "İtiraz ve temyizlerinize genel bakış",
+    "adminSubtitle": "Sistem genel görünümü · tüm kullanıcılar ve davalar",
+    "openAdminPanel": "Yönetici panelini aç",
+    "recentActivity": "Son etkinlik",
+    "startFirst": "İlk talebi oluştur",
+    "updatedAt": "{date} tarihinde güncellendi",
+    "overdueLabel": "⚠ Son tarih geçti",
+    "daysLeft": "{days} gün kaldı",
+    "urgentWarning": "7 günden az süre içinde {count, plural, one {# son tarih doluyor} other {# son tarih doluyor}}"
   },
   "billing": {
     "title": "Faturalama",
@@ -421,23 +451,44 @@
   },
   "cases": {
     "title": "Davalarım",
-    "subtitle": "Tüm itiraz ve şikayetleriniz",
+    "subtitle": "Toplam {count, plural, one {# dava} other {# dava}}",
     "filter": {
-      "all": "Tümü",
-      "active": "Aktif",
-      "submitted": "Gönderildi",
-      "closed": "Kapalı"
+      "all": "Tümü ({count})",
+      "active": "Aktif ({count})",
+      "submitted": "Gönderilmiş ({count})",
+      "closed": "Kapalı ({count})"
     },
     "empty": "Dava bulunamadı",
     "emptyHint": "İlk itirazınızı başlatın",
     "newCase": "Yeni başvuru",
     "caseId": "Dava No",
     "createdAt": "Oluşturma tarihi",
-    "status": "Durum",
+    "status": {
+      "CREATED": "Yeni",
+      "UPLOADING": "Yükleniyor",
+      "ANALYZING": "Analiz ediliyor",
+      "QUESTIONS": "Sorular",
+      "GENERATING": "Oluşturuluyor",
+      "DRAFT_READY": "Taslak hazır",
+      "SUBMITTED": "Gönderildi",
+      "AWAITING_RESPONSE": "Yanıt bekleniyor",
+      "CLOSED_SUCCESS": "Başarılı",
+      "CLOSED_PARTIAL": "Kısmen kabul edildi",
+      "CLOSED_REJECTED": "Reddedildi",
+      "REJECTED": "Reddedildi"
+    },
     "type": "Tür",
     "actions": "İşlemler",
     "viewCase": "Davayı görüntüle",
-    "downloadDraft": "Taslağı indir"
+    "downloadDraft": "Taslağı indir",
+    "search": "Dava ara…",
+    "noResults": "Bu filtreyle eşleşen dava yok",
+    "startFirst": "İlk talebi oluştur",
+    "overdueLabel": "⚠ Son tarih geçti",
+    "deadlineLabel": "Son tarih: {date}",
+    "documents": "{count, plural, one {# belge} other {# belge}}",
+    "deleteCase": "Davayı sil",
+    "deleteConfirm": "Bu dava silinsin mi? Bu işlem geri alınamaz."
   },
   "account": {
     "title": "Profil & Ayarlar",
@@ -781,102 +832,114 @@
   },
   "wizard": {
     "steps": {
-      "upload": "Upload",
-      "analyzing": "Detection",
-      "questions": "Questions",
-      "generating": "AI Analysis",
-      "result": "Result"
+      "upload": "Yükleme",
+      "analyzing": "Tespit",
+      "questions": "Sorular",
+      "generating": "Yapay Zeka Analizi",
+      "result": "Sonuç"
     },
     "header": {
-      "create": "Create objection",
-      "case": "Case"
+      "create": "İtiraz oluştur",
+      "case": "Dava"
     },
     "upload": {
-      "title": "Upload your notice",
-      "subtitle": "Upload your official notice — or start directly without a document for a demo.",
-      "dropzoneTitle": "Drop files here",
-      "dropzoneClick": "or click to browse",
-      "dropzoneHint": "PDF, DOCX, TXT or images",
-      "analyze": "Analyse documents",
-      "demoButton": "Start demo (without document)",
+      "title": "Belgenizi yükleyin",
+      "subtitle": "Resmi bildiriminizi yükleyin — ya da demo için doğrudan belge olmadan başlayın.",
+      "dropzoneTitle": "Dosyaları buraya bırakın",
+      "dropzoneClick": "veya göz atmak için tıklayın",
+      "dropzoneHint": "PDF, DOCX, TXT veya görsel",
+      "analyze": "Belgeleri analiz et",
+      "demoButton": "Demoyu başlat (belge olmadan)",
       "security": {
-        "ssl": "SSL encrypted",
-        "eu": "EU servers",
-        "noStore": "Not stored"
-      }
+        "ssl": "SSL şifreli",
+        "eu": "AB sunucuları",
+        "noStore": "Saklanmaz"
+      },
+      "noCredits": "Kullanılabilir kredi yok.",
+      "topUpLink": "Şimdi yükle →"
     },
     "analyzing": {
-      "title": "Analysing your document…",
-      "step1": "Reading document…",
-      "step2": "Extracting data…",
-      "step3": "Preparing follow-up questions…",
-      "liveMode": "AI-powered analysis · Content is not stored permanently",
-      "demoMode": "Demo mode · No document uploaded"
+      "title": "Belgeniz analiz ediliyor…",
+      "step1": "Belge okunuyor…",
+      "step2": "Veriler çıkarılıyor…",
+      "step3": "Ek sorular hazırlanıyor…",
+      "liveMode": "Yapay zeka destekli analiz · İçerik kalıcı olarak saklanmaz",
+      "demoMode": "Demo modu · Belge yüklenmedi",
+      "uploading": "Dosyalar yükleniyor…",
+      "detectedTitle": "Tespit edilen bildirim verileri",
+      "detectedSubtitle": "Belge okundu — sorulara geçiliyor…"
     },
     "questions": {
-      "title": "Follow-up questions",
-      "subtitle": "Please answer these questions to optimise your objection letter.",
-      "detectedData": "Detected notice",
-      "liveBadge": "Live ✓",
+      "title": "Ek sorular",
+      "subtitle": "İtiraz mektubunuzu optimize etmek için lütfen bu soruları yanıtlayın.",
+      "detectedData": "Tespit edilen bildirim",
+      "liveBadge": "Canlı mod ✓",
       "demoBadge": "Demo",
-      "required": "Required",
-      "optional": "Optional",
-      "answered": "answered",
-      "back": "Back",
-      "generate": "Generate objection letter",
-      "generateWithDocs": "Generate objection ({count} documents)",
+      "required": "Zorunlu",
+      "optional": "İsteğe bağlı",
+      "answered": "yanıtlandı",
+      "back": "Geri",
+      "generate": "İtiraz mektubu oluştur",
+      "generateWithDocs": "İtiraz oluştur ({count} belge)",
       "additionalDocs": {
-        "title": "Upload additional documents",
-        "subtitle": "Supporting documents strengthen your objection — the AI agents will consider them automatically.",
-        "add": "Add document",
-        "optional": "Optional"
-      }
+        "title": "Ek belgeler yükle",
+        "subtitle": "Destekleyici belgeler itirazınızı güçlendirir — yapay zeka ajanları bunları otomatik olarak dikkate alır.",
+        "add": "Belge ekle",
+        "optional": "İsteğe bağlı"
+      },
+      "demoHint": "Demo modu: örnek taslak için Oluştur'a tıklayın.",
+      "noQuestionsHint": "Ek soru yok — doğrudan oluşturabilirsiniz."
     },
     "generating": {
-      "title": "Multi-AI pipeline running…",
-      "step": "Step {current} of {total}: {label}",
-      "allDone": "All {n} agents completed",
-      "timeWarning": "Average time: 20–40 seconds · Please don’t close this tab",
-      "draftTitle": "Draft in real time",
-      "writing": "writing…",
-      "draftPlaceholder": "Objection letter is being drafted…",
+      "title": "Çok ajanli yapay zeka hattı çalışıyor…",
+      "step": "Adım {current} / {total}: {label}",
+      "allDone": "{n} ajanın tamamı tamamlandı",
+      "timeWarning": "Ortalama süre: 20–40 saniye · Lütfen bu sekmeyi kapatmayın",
+      "draftTitle": "Gerçek zamanlı taslak",
+      "writing": "yazılıyor…",
+      "draftPlaceholder": "İtiraz mektubu hazırlanıyor…",
       "agents": {
-        "drafter": "Drafting letter… (Claude)",
-        "reviewer": "Reviewing for errors… (Gemini)",
-        "factchecker": "Fact-checking legal citations… (Perplexity)",
-        "adversary": "Authority perspective check… (Claude)",
-        "consolidator": "Consolidating final version… (Claude)"
-      }
+        "drafter": "Mektup taslağı hazırlanıyor… (Claude)",
+        "reviewer": "Hatalar inceleniyor… (Gemini)",
+        "factchecker": "Hukuki atıflar kontrol ediliyor… (Perplexity)",
+        "adversary": "Kurum perspektifi değerlendiriliyor… (Claude)",
+        "consolidator": "Nihai sürüm birleştiriliyor… (Claude)"
+      },
+      "finalising": "Mektup sonlandırılıyor…"
     },
     "result": {
-      "title": "Objection letter ready!",
-      "subtitle": "AI agents reviewed and optimised your objection letter.",
+      "title": "İtiraz mektubu hazır!",
+      "subtitle": "Yapay zeka ajanları itiraz mektubunuzu inceleyip optimize etti.",
       "badges": {
-        "legal": "✓ Legally reviewed",
-        "bfh": "✓ Case law applied",
-        "formal": "✓ Formally correct"
+        "legal": "✓ Hukuki açıdan incelendi",
+        "bfh": "✓ İçtihat uygulandı",
+        "formal": "✓ Biçimsel olarak doğru"
       },
-      "copy": "Copy",
-      "copied": "Copied!",
-      "download": "Download (.txt)",
-      "openInCases": "Open in My Cases",
-      "newAppeal": "Create new objection",
+      "copy": "Kopyala",
+      "copied": "Kopyalandı!",
+      "download": "İndir (.txt)",
+      "openInCases": "Davalarımda aç",
+      "newAppeal": "Yeni itiraz oluştur",
       "nextSteps": {
-        "title": "Next steps",
-        "check": "Check your name, address and tax number in the draft",
-        "print": "Print the letter and sign it",
-        "send": "Send it by registered mail or fax to the authority"
+        "title": "Sonraki adımlar",
+        "check": "Taslaktaki adınızı, adresinizi ve vergi numaranızı kontrol edin",
+        "print": "Mektubu yazdırın ve imzalayın",
+        "send": "Taahhütlü posta veya faks ile yetkili kuruma gönderin"
       },
-      "legalNote": "Not legal advice under RDG",
-      "agentLog": "AI Agent Log",
-      "outputLanguageWarning": "This document was generated in {language}. The German version is required for submission to German authorities.",
-      "downloadTxt": "Download as TXT"
+      "legalNote": "RDG kapsamında hukuki danışmanlık teşkil etmez",
+      "agentLog": "Yapay Zeka Ajan Günlüğü",
+      "outputLanguageWarning": "Bu belge {language} dilinde oluşturulmuştur. Alman makamlarına sunmak için Almanca sürüm gereklidir.",
+      "downloadTxt": "TXT olarak indir",
+      "draftEditable": "Taslak · düzenlenebilir",
+      "lockedTitle": "İtiraz mektubunuz hazır",
+      "lockedHint": "Tam mektubu indirmek, kopyalamak ve göndermek için kilidi açın.",
+      "unlockCta": "Tam mektubun kilidini aç"
     },
     "errors": {
-      "analyze": "Document analysis failed. Please try again.",
-      "connection": "Connection error — please try again.",
-      "generate": "Objection generation failed. Please try again.",
-      "backToUpload": "Back to upload"
+      "analyze": "Belge analizi başarısız oldu. Lütfen tekrar deneyin.",
+      "connection": "Bağlantı hatası — lütfen tekrar deneyin.",
+      "generate": "İtiraz oluşturma başarısız oldu. Lütfen tekrar deneyin.",
+      "backToUpload": "Yüklemeye geri dön"
     }
   },
   "outputLanguage": {

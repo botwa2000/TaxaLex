@@ -1,5 +1,6 @@
 import { auth } from '@/auth'
-import { DEMO_USER_ID, DEMO_CASES } from '@/lib/mockData'
+import { DEMO_CASES } from '@/lib/mockData'
+import { logger } from '@/lib/logger'
 import { CasesClient } from './CasesClient'
 
 type CaseListItem = {
@@ -17,8 +18,10 @@ export default async function CasesPage() {
   const userId = session!.user!.id as string
   let cases: CaseListItem[] = []
 
+  const isDemo = userId.startsWith('demo_')
+
   try {
-    if (userId === DEMO_USER_ID) throw new Error('demo')
+    if (isDemo) throw new Error('demo')
     const { db } = await import('@/lib/db')
     const raw = await db.case.findMany({
       where: { userId },
@@ -30,8 +33,13 @@ export default async function CasesPage() {
       },
     })
     cases = raw as CaseListItem[]
-  } catch {
-    cases = DEMO_CASES.map((c) => ({ ...c })) as CaseListItem[]
+  } catch (err) {
+    // Only show demo cases for demo accounts — real users with DB errors see empty list
+    if (isDemo) {
+      cases = DEMO_CASES.map((c) => ({ ...c })) as CaseListItem[]
+    } else {
+      logger.error('Cases fetch failed', { error: err, userId: userId.slice(-8) })
+    }
   }
 
   return <CasesClient cases={cases} />

@@ -866,7 +866,8 @@
       "liveMode": "KI-gestützte Analyse · Inhalte werden nicht dauerhaft gespeichert",
       "demoMode": "Demo-Modus · Kein Dokument hochgeladen",
       "detectedTitle": "Erkannte Bescheid-Daten",
-      "detectedSubtitle": "Dokument ausgelesen — weiter zu den Rückfragen…"
+      "detectedSubtitle": "Dokument ausgelesen — weiter zu den Rückfragen…",
+      "uploading": "Dateien werden hochgeladen…"
     },
     "questions": {
       "title": "Rückfragen",

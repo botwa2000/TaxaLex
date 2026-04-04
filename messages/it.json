@@ -138,7 +138,8 @@
     "legalBasis": "Base giuridica",
     "expandDetails": "Mostra dettagli",
     "collapseDetails": "Nascondi dettagli",
-    "sectionLabel": "Tipi di avviso supportati"
+    "sectionLabel": "Tipi di avviso supportati",
+    "sonstige": "Altro provvedimento"
   },
   "stats": {
     "title": "I numeri che contano",
@@ -370,6 +371,16 @@
       "trustDemo": "Demo interattiva — nessuna registrazione richiesta",
       "trustGdpr": "Conforme al GDPR · Server UE · Crittografato",
       "privacy": "Privacy"
+    },
+    "verify": {
+      "bannerTitle": "Confermi il suo indirizzo e-mail.",
+      "bannerHint": "Le abbiamo inviato un codice di conferma.",
+      "enterCode": "Inserisci codice",
+      "resend": "Invia di nuovo",
+      "sent": "Nuovo codice inviato — controlli la casella di posta.",
+      "enterNow": "Inserisci il codice ora →",
+      "close": "Chiudi",
+      "error": "Errore nell'invio del codice."
     }
   },
   "dashboard": {
@@ -381,7 +392,9 @@
       "totalCases": "Ricorsi totali",
       "activeCases": "Casi attivi",
       "submittedCases": "Inviati",
-      "successRate": "Tasso di successo"
+      "successRate": "Tasso di successo",
+      "openCases": "Fascicoli aperti",
+      "urgentDeadlines": "Scadenze urgenti"
     },
     "recentCases": "Casi recenti",
     "noCases": "Nessun caso",
@@ -396,15 +409,32 @@
       "SUBMITTED": "Inviato",
       "AWAITING_RESPONSE": "In attesa",
       "CLOSED_SUCCESS": "Riuscito",
-      "CLOSED_REJECTED": "Respinto"
+      "CLOSED_REJECTED": "Respinto",
+      "ANALYZING": "In analisi",
+      "UPLOADING": "Caricamento",
+      "CLOSED_PARTIAL": "Parzialmente accettato",
+      "REJECTED": "Respinto"
     },
     "quickActions": {
       "title": "Accesso rapido",
       "newCase": "Nuovo ricorso",
       "viewCases": "I miei casi",
       "billing": "Fatturazione",
-      "account": "Impostazioni"
-    }
+      "account": "Impostazioni",
+      "newCaseSubtitle": "Crea ricorso",
+      "viewCasesSubtitle": "Visualizza storico",
+      "upgradePlan": "Aggiorna piano",
+      "upgradePlanSubtitle": "Pro da 9,99 €/mese"
+    },
+    "subtitle": "I vostri ricorsi e le vostre impugnazioni in un colpo d'occhio",
+    "adminSubtitle": "Panoramica del sistema · tutti gli utenti e i fascicoli",
+    "openAdminPanel": "Apri pannello di amministrazione",
+    "recentActivity": "Attività recente",
+    "startFirst": "Crea la prima richiesta",
+    "updatedAt": "Aggiornato il {date}",
+    "overdueLabel": "⚠ Scadenza superata",
+    "daysLeft": "{days}g rimanenti",
+    "urgentWarning": "{count, plural, one {# scadenza tra} other {# scadenze tra}} meno di 7 giorni"
   },
   "billing": {
     "title": "Fatturazione",
@@ -421,23 +451,44 @@
   },
   "cases": {
     "title": "I miei casi",
-    "subtitle": "Tutti i tuoi ricorsi e opposizioni",
+    "subtitle": "{count, plural, one {# fascicolo} other {# fascicoli}} in totale",
     "filter": {
-      "all": "Tutti",
-      "active": "Attivi",
-      "submitted": "Inviati",
-      "closed": "Chiusi"
+      "all": "Tutti ({count})",
+      "active": "Attivi ({count})",
+      "submitted": "Presentati ({count})",
+      "closed": "Chiusi ({count})"
     },
     "empty": "Nessun caso trovato",
     "emptyHint": "Inizia il tuo primo ricorso",
     "newCase": "Nuova richiesta",
     "caseId": "ID caso",
     "createdAt": "Creato il",
-    "status": "Stato",
+    "status": {
+      "CREATED": "Nuovo",
+      "UPLOADING": "Caricamento",
+      "ANALYZING": "In analisi",
+      "QUESTIONS": "Domande",
+      "GENERATING": "Generazione",
+      "DRAFT_READY": "Bozza pronta",
+      "SUBMITTED": "Presentato",
+      "AWAITING_RESPONSE": "In attesa",
+      "CLOSED_SUCCESS": "Accolto",
+      "CLOSED_PARTIAL": "Parzialmente accettato",
+      "CLOSED_REJECTED": "Respinto",
+      "REJECTED": "Respinto"
+    },
     "type": "Tipo",
     "actions": "Azioni",
     "viewCase": "Visualizza caso",
-    "downloadDraft": "Scarica bozza"
+    "downloadDraft": "Scarica bozza",
+    "search": "Cerca fascicoli…",
+    "noResults": "Nessun fascicolo corrisponde a questo filtro",
+    "startFirst": "Crea la prima richiesta",
+    "overdueLabel": "⚠ Scadenza superata",
+    "deadlineLabel": "Scadenza: {date}",
+    "documents": "{count, plural, one {# documento} other {# documenti}}",
+    "deleteCase": "Elimina fascicolo",
+    "deleteConfirm": "Eliminare questo fascicolo? Questa operazione è irreversibile."
   },
   "account": {
     "title": "Profilo & Impostazioni",
@@ -781,102 +832,114 @@
   },
   "wizard": {
     "steps": {
-      "upload": "Upload",
-      "analyzing": "Detection",
-      "questions": "Questions",
-      "generating": "AI Analysis",
-      "result": "Result"
+      "upload": "Caricamento",
+      "analyzing": "Rilevamento",
+      "questions": "Domande",
+      "generating": "Analisi IA",
+      "result": "Risultato"
     },
     "header": {
-      "create": "Create objection",
-      "case": "Case"
+      "create": "Crea ricorso",
+      "case": "Fascicolo"
     },
     "upload": {
-      "title": "Upload your notice",
-      "subtitle": "Upload your official notice — or start directly without a document for a demo.",
-      "dropzoneTitle": "Drop files here",
-      "dropzoneClick": "or click to browse",
-      "dropzoneHint": "PDF, DOCX, TXT or images",
-      "analyze": "Analyse documents",
-      "demoButton": "Start demo (without document)",
+      "title": "Carichi il provvedimento",
+      "subtitle": "Carichi il provvedimento ufficiale — oppure inizi direttamente senza documento per una dimostrazione.",
+      "dropzoneTitle": "Trascina i file qui",
+      "dropzoneClick": "o clicca per sfogliare",
+      "dropzoneHint": "PDF, DOCX, TXT o immagini",
+      "analyze": "Analizza documenti",
+      "demoButton": "Avvia demo (senza documento)",
       "security": {
-        "ssl": "SSL encrypted",
-        "eu": "EU servers",
-        "noStore": "Not stored"
-      }
+        "ssl": "Crittografia SSL",
+        "eu": "Server UE",
+        "noStore": "Non conservato"
+      },
+      "noCredits": "Nessun credito disponibile.",
+      "topUpLink": "Ricarica ora →"
     },
     "analyzing": {
-      "title": "Analysing your document…",
-      "step1": "Reading document…",
-      "step2": "Extracting data…",
-      "step3": "Preparing follow-up questions…",
-      "liveMode": "AI-powered analysis · Content is not stored permanently",
-      "demoMode": "Demo mode · No document uploaded"
+      "title": "Analisi del documento in corso…",
+      "step1": "Lettura del documento…",
+      "step2": "Estrazione dei dati…",
+      "step3": "Preparazione delle domande integrative…",
+      "liveMode": "Analisi basata su IA · Il contenuto non viene conservato in modo permanente",
+      "demoMode": "Modalità demo · Nessun documento caricato",
+      "uploading": "Caricamento file in corso…",
+      "detectedTitle": "Dati del provvedimento rilevati",
+      "detectedSubtitle": "Documento letto — passaggio alle domande…"
     },
     "questions": {
-      "title": "Follow-up questions",
-      "subtitle": "Please answer these questions to optimise your objection letter.",
-      "detectedData": "Detected notice",
-      "liveBadge": "Live ✓",
+      "title": "Domande integrative",
+      "subtitle": "Risponda a queste domande per ottimizzare il ricorso.",
+      "detectedData": "Provvedimento rilevato",
+      "liveBadge": "Modalità reale ✓",
       "demoBadge": "Demo",
-      "required": "Required",
-      "optional": "Optional",
-      "answered": "answered",
-      "back": "Back",
-      "generate": "Generate objection letter",
-      "generateWithDocs": "Generate objection ({count} documents)",
+      "required": "Obbligatorio",
+      "optional": "Facoltativo",
+      "answered": "risposto",
+      "back": "Indietro",
+      "generate": "Genera ricorso",
+      "generateWithDocs": "Genera ricorso ({count} documenti)",
       "additionalDocs": {
-        "title": "Upload additional documents",
-        "subtitle": "Supporting documents strengthen your objection — the AI agents will consider them automatically.",
-        "add": "Add document",
-        "optional": "Optional"
-      }
+        "title": "Carica documenti aggiuntivi",
+        "subtitle": "I documenti a supporto rafforzano il ricorso — gli agenti IA li prenderanno in considerazione automaticamente.",
+        "add": "Aggiungi documento",
+        "optional": "Facoltativo"
+      },
+      "demoHint": "Modalità demo: clicchi su Genera per ottenere una bozza di esempio.",
+      "noQuestionsHint": "Nessun'altra domanda — può generare direttamente."
     },
     "generating": {
-      "title": "Multi-AI pipeline running…",
-      "step": "Step {current} of {total}: {label}",
-      "allDone": "All {n} agents completed",
-      "timeWarning": "Average time: 20–40 seconds · Please don’t close this tab",
-      "draftTitle": "Draft in real time",
-      "writing": "writing…",
-      "draftPlaceholder": "Objection letter is being drafted…",
+      "title": "Pipeline multi-IA in esecuzione…",
+      "step": "Passaggio {current} di {total}: {label}",
+      "allDone": "Tutti i {n} agenti hanno completato",
+      "timeWarning": "Tempo medio: 20–40 secondi · Non chiuda questa scheda",
+      "draftTitle": "Bozza in tempo reale",
+      "writing": "redazione…",
+      "draftPlaceholder": "Il ricorso è in fase di redazione…",
       "agents": {
-        "drafter": "Drafting letter… (Claude)",
-        "reviewer": "Reviewing for errors… (Gemini)",
-        "factchecker": "Fact-checking legal citations… (Perplexity)",
-        "adversary": "Authority perspective check… (Claude)",
-        "consolidator": "Consolidating final version… (Claude)"
-      }
+        "drafter": "Redazione del ricorso… (Claude)",
+        "reviewer": "Verifica degli errori… (Gemini)",
+        "factchecker": "Verifica dei riferimenti normativi… (Perplexity)",
+        "adversary": "Analisi della prospettiva dell'autorità… (Claude)",
+        "consolidator": "Consolidamento della versione finale… (Claude)"
+      },
+      "finalising": "Finalizzazione del ricorso…"
     },
     "result": {
-      "title": "Objection letter ready!",
-      "subtitle": "AI agents reviewed and optimised your objection letter.",
+      "title": "Ricorso pronto!",
+      "subtitle": "Gli agenti IA hanno revisionato e ottimizzato il Suo ricorso.",
       "badges": {
-        "legal": "✓ Legally reviewed",
-        "bfh": "✓ Case law applied",
-        "formal": "✓ Formally correct"
+        "legal": "✓ Verificato legalmente",
+        "bfh": "✓ Giurisprudenza applicata",
+        "formal": "✓ Formalmente corretto"
       },
-      "copy": "Copy",
-      "copied": "Copied!",
-      "download": "Download (.txt)",
-      "openInCases": "Open in My Cases",
-      "newAppeal": "Create new objection",
+      "copy": "Copia",
+      "copied": "Copiato!",
+      "download": "Scarica (.txt)",
+      "openInCases": "Apri in I miei fascicoli",
+      "newAppeal": "Crea nuovo ricorso",
       "nextSteps": {
-        "title": "Next steps",
-        "check": "Check your name, address and tax number in the draft",
-        "print": "Print the letter and sign it",
-        "send": "Send it by registered mail or fax to the authority"
+        "title": "Passi successivi",
+        "check": "Verifichi nome, indirizzo e codice fiscale nella bozza",
+        "print": "Stampi la lettera e la firmi",
+        "send": "La invii tramite raccomandata o fax all'autorità competente"
       },
-      "legalNote": "Not legal advice under RDG",
-      "agentLog": "AI Agent Log",
-      "outputLanguageWarning": "This document was generated in {language}. The German version is required for submission to German authorities.",
-      "downloadTxt": "Download as TXT"
+      "legalNote": "Non costituisce consulenza legale ai sensi del RDG",
+      "agentLog": "Registro agenti IA",
+      "outputLanguageWarning": "Questo documento è stato generato in {language}. La versione in tedesco è richiesta per la presentazione alle autorità tedesche.",
+      "downloadTxt": "Scarica come TXT",
+      "draftEditable": "Bozza · modificabile",
+      "lockedTitle": "Il Suo ricorso è pronto",
+      "lockedHint": "Sblocchi il ricorso completo per scaricarlo, copiarlo e presentarlo.",
+      "unlockCta": "Sblocca ricorso completo"
     },
     "errors": {
-      "analyze": "Document analysis failed. Please try again.",
-      "connection": "Connection error — please try again.",
-      "generate": "Objection generation failed. Please try again.",
-      "backToUpload": "Back to upload"
+      "analyze": "L'analisi del documento è fallita. Riprovi.",
+      "connection": "Errore di connessione — riprovi.",
+      "generate": "La generazione del ricorso è fallita. Riprovi.",
+      "backToUpload": "Torna al caricamento"
     }
   },
   "outputLanguage": {

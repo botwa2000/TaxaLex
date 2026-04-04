@@ -138,7 +138,8 @@
     "legalBasis": "Правова база",
     "expandDetails": "Показати деталі",
     "collapseDetails": "Приховати деталі",
-    "sectionLabel": "Підтримувані типи повідомлень"
+    "sectionLabel": "Підтримувані типи повідомлень",
+    "sonstige": "Інше повідомлення"
   },
   "stats": {
     "title": "Цифри, які мають значення",
@@ -370,6 +371,16 @@
       "trustDemo": "Інтерактивне демо — реєстрація не потрібна",
       "trustGdpr": "Відповідає GDPR · Сервери в ЄС · Зашифровано",
       "privacy": "Конфіденційність"
+    },
+    "verify": {
+      "bannerTitle": "Будь ласка, підтвердьте адресу електронної пошти.",
+      "bannerHint": "Ми надіслали вам код підтвердження.",
+      "enterCode": "Введіть код",
+      "resend": "Надіслати повторно",
+      "sent": "Новий код надіслано — перевірте пошту.",
+      "enterNow": "Ввести код зараз →",
+      "close": "Закрити",
+      "error": "Помилка при надсиланні коду."
     }
   },
   "dashboard": {
@@ -381,7 +392,9 @@
       "totalCases": "Всього заперечень",
       "activeCases": "Активні справи",
       "submittedCases": "Подано",
-      "successRate": "Відсоток успіху"
+      "successRate": "Відсоток успіху",
+      "openCases": "Відкриті справи",
+      "urgentDeadlines": "Термінові дедлайни"
     },
     "recentCases": "Нещодавні справи",
     "noCases": "Справ ще немає",
@@ -396,15 +409,32 @@
       "SUBMITTED": "Подано",
       "AWAITING_RESPONSE": "Очікує відповіді",
       "CLOSED_SUCCESS": "Успішно",
-      "CLOSED_REJECTED": "Відхилено"
+      "CLOSED_REJECTED": "Відхилено",
+      "ANALYZING": "Аналізується",
+      "UPLOADING": "Завантажується",
+      "CLOSED_PARTIAL": "Частково прийнято",
+      "REJECTED": "Відхилено"
     },
     "quickActions": {
       "title": "Швидкі дії",
       "newCase": "Нове заперечення",
       "viewCases": "Мої справи",
       "billing": "Оплата",
-      "account": "Налаштування"
-    }
+      "account": "Налаштування",
+      "newCaseSubtitle": "Створити заперечення",
+      "viewCasesSubtitle": "Переглянути історію",
+      "upgradePlan": "Покращити тариф",
+      "upgradePlanSubtitle": "Pro від €9,99/місяць"
+    },
+    "subtitle": "Ваші заперечення та апеляції — загальний огляд",
+    "adminSubtitle": "Огляд системи · усі користувачі та справи",
+    "openAdminPanel": "Відкрити панель адміністратора",
+    "recentActivity": "Остання активність",
+    "startFirst": "Створити перший запит",
+    "updatedAt": "Оновлено {date}",
+    "overdueLabel": "⚠ Термін минув",
+    "daysLeft": "Залишилось {days}д",
+    "urgentWarning": "{count, plural, one {# термін закінчується} few {# терміни закінчуються} other {# термінів закінчуються}} менш ніж через 7 днів"
   },
   "billing": {
     "title": "Оплата",
@@ -421,23 +451,44 @@
   },
   "cases": {
     "title": "Мої справи",
-    "subtitle": "Всі ваші заперечення та оскарження",
+    "subtitle": "{count, plural, one {# справа} few {# справи} other {# справ}} загалом",
     "filter": {
-      "all": "Всі",
-      "active": "Активні",
-      "submitted": "Подані",
-      "closed": "Закриті"
+      "all": "Усі ({count})",
+      "active": "Активні ({count})",
+      "submitted": "Подані ({count})",
+      "closed": "Закриті ({count})"
     },
     "empty": "Справ не знайдено",
     "emptyHint": "Розпочніть своє перше заперечення",
     "newCase": "Новий запит",
     "caseId": "ID справи",
     "createdAt": "Створено",
-    "status": "Статус",
+    "status": {
+      "CREATED": "Нова",
+      "UPLOADING": "Завантажується",
+      "ANALYZING": "Аналізується",
+      "QUESTIONS": "Запитання",
+      "GENERATING": "Генерується",
+      "DRAFT_READY": "Чернетка готова",
+      "SUBMITTED": "Подано",
+      "AWAITING_RESPONSE": "Очікує відповіді",
+      "CLOSED_SUCCESS": "Успішно",
+      "CLOSED_PARTIAL": "Частково прийнято",
+      "CLOSED_REJECTED": "Відхилено",
+      "REJECTED": "Відхилено"
+    },
     "type": "Тип",
     "actions": "Дії",
     "viewCase": "Переглянути справу",
-    "downloadDraft": "Завантажити чернетку"
+    "downloadDraft": "Завантажити чернетку",
+    "search": "Пошук справ…",
+    "noResults": "Немає справ, що відповідають фільтру",
+    "startFirst": "Створити перший запит",
+    "overdueLabel": "⚠ Термін минув",
+    "deadlineLabel": "Термін: {date}",
+    "documents": "{count, plural, one {# документ} few {# документи} other {# документів}}",
+    "deleteCase": "Видалити справу",
+    "deleteConfirm": "Видалити цю справу? Цю дію неможливо скасувати."
   },
   "account": {
     "title": "Профіль і налаштування",
@@ -781,102 +832,114 @@
   },
   "wizard": {
     "steps": {
-      "upload": "Upload",
-      "analyzing": "Detection",
-      "questions": "Questions",
-      "generating": "AI Analysis",
-      "result": "Result"
+      "upload": "Завантаження",
+      "analyzing": "Розпізнавання",
+      "questions": "Запитання",
+      "generating": "ШІ-аналіз",
+      "result": "Результат"
     },
     "header": {
-      "create": "Create objection",
-      "case": "Case"
+      "create": "Створити заперечення",
+      "case": "Справа"
     },
     "upload": {
-      "title": "Upload your notice",
-      "subtitle": "Upload your official notice — or start directly without a document for a demo.",
-      "dropzoneTitle": "Drop files here",
-      "dropzoneClick": "or click to browse",
-      "dropzoneHint": "PDF, DOCX, TXT or images",
-      "analyze": "Analyse documents",
-      "demoButton": "Start demo (without document)",
+      "title": "Завантажте повідомлення",
+      "subtitle": "Завантажте офіційне повідомлення — або почніть без документа для демонстрації.",
+      "dropzoneTitle": "Перетягніть файли сюди",
+      "dropzoneClick": "або натисніть для вибору",
+      "dropzoneHint": "PDF, DOCX, TXT або зображення",
+      "analyze": "Аналізувати документи",
+      "demoButton": "Почати демо (без документа)",
       "security": {
-        "ssl": "SSL encrypted",
-        "eu": "EU servers",
-        "noStore": "Not stored"
-      }
+        "ssl": "SSL-шифрування",
+        "eu": "Сервери ЄС",
+        "noStore": "Не зберігається"
+      },
+      "noCredits": "Кредити недоступні.",
+      "topUpLink": "Поповнити зараз →"
     },
     "analyzing": {
-      "title": "Analysing your document…",
-      "step1": "Reading document…",
-      "step2": "Extracting data…",
-      "step3": "Preparing follow-up questions…",
-      "liveMode": "AI-powered analysis · Content is not stored permanently",
-      "demoMode": "Demo mode · No document uploaded"
+      "title": "Аналіз документа…",
+      "step1": "Читання документа…",
+      "step2": "Вилучення даних…",
+      "step3": "Підготовка додаткових запитань…",
+      "liveMode": "Аналіз на базі ШІ · Вміст не зберігається постійно",
+      "demoMode": "Демо-режим · Документ не завантажено",
+      "uploading": "Файли завантажуються…",
+      "detectedTitle": "Розпізнані дані повідомлення",
+      "detectedSubtitle": "Документ прочитано — перехід до запитань…"
     },
     "questions": {
-      "title": "Follow-up questions",
-      "subtitle": "Please answer these questions to optimise your objection letter.",
-      "detectedData": "Detected notice",
-      "liveBadge": "Live ✓",
-      "demoBadge": "Demo",
-      "required": "Required",
-      "optional": "Optional",
-      "answered": "answered",
-      "back": "Back",
-      "generate": "Generate objection letter",
-      "generateWithDocs": "Generate objection ({count} documents)",
+      "title": "Додаткові запитання",
+      "subtitle": "Будь ласка, дайте відповіді на запитання для оптимізації листа-заперечення.",
+      "detectedData": "Розпізнане повідомлення",
+      "liveBadge": "Реальний режим ✓",
+      "demoBadge": "Демо",
+      "required": "Обов'язково",
+      "optional": "Необов'язково",
+      "answered": "відповіді надано",
+      "back": "Назад",
+      "generate": "Згенерувати лист-заперечення",
+      "generateWithDocs": "Згенерувати заперечення ({count} документів)",
       "additionalDocs": {
-        "title": "Upload additional documents",
-        "subtitle": "Supporting documents strengthen your objection — the AI agents will consider them automatically.",
-        "add": "Add document",
-        "optional": "Optional"
-      }
+        "title": "Завантажити додаткові документи",
+        "subtitle": "Підтверджуючі документи посилюють заперечення — ШІ-агенти врахують їх автоматично.",
+        "add": "Додати документ",
+        "optional": "Необов'язково"
+      },
+      "demoHint": "Демо-режим: натисніть «Згенерувати» для зразка чернетки.",
+      "noQuestionsHint": "Додаткових запитань немає — можна одразу генерувати."
     },
     "generating": {
-      "title": "Multi-AI pipeline running…",
-      "step": "Step {current} of {total}: {label}",
-      "allDone": "All {n} agents completed",
-      "timeWarning": "Average time: 20–40 seconds · Please don’t close this tab",
-      "draftTitle": "Draft in real time",
-      "writing": "writing…",
-      "draftPlaceholder": "Objection letter is being drafted…",
+      "title": "Запущено мультиагентний ШІ-конвеєр…",
+      "step": "Крок {current} з {total}: {label}",
+      "allDone": "Усі {n} агентів завершили роботу",
+      "timeWarning": "Середній час: 20–40 секунд · Не закривайте цю вкладку",
+      "draftTitle": "Чернетка в реальному часі",
+      "writing": "складається…",
+      "draftPlaceholder": "Лист-заперечення складається…",
       "agents": {
-        "drafter": "Drafting letter… (Claude)",
-        "reviewer": "Reviewing for errors… (Gemini)",
-        "factchecker": "Fact-checking legal citations… (Perplexity)",
-        "adversary": "Authority perspective check… (Claude)",
-        "consolidator": "Consolidating final version… (Claude)"
-      }
+        "drafter": "Складання листа… (Claude)",
+        "reviewer": "Перевірка помилок… (Gemini)",
+        "factchecker": "Перевірка правових посилань… (Perplexity)",
+        "adversary": "Перевірка позиції органу… (Claude)",
+        "consolidator": "Формування фінальної версії… (Claude)"
+      },
+      "finalising": "Фіналізація листа…"
     },
     "result": {
-      "title": "Objection letter ready!",
-      "subtitle": "AI agents reviewed and optimised your objection letter.",
+      "title": "Лист-заперечення готовий!",
+      "subtitle": "ШІ-агенти перевірили та оптимізували ваш лист-заперечення.",
       "badges": {
-        "legal": "✓ Legally reviewed",
-        "bfh": "✓ Case law applied",
-        "formal": "✓ Formally correct"
+        "legal": "✓ Юридично перевірено",
+        "bfh": "✓ Застосована судова практика",
+        "formal": "✓ Відповідає формі"
       },
-      "copy": "Copy",
-      "copied": "Copied!",
-      "download": "Download (.txt)",
-      "openInCases": "Open in My Cases",
-      "newAppeal": "Create new objection",
+      "copy": "Копіювати",
+      "copied": "Скопійовано!",
+      "download": "Завантажити (.txt)",
+      "openInCases": "Відкрити в «Мої справи»",
+      "newAppeal": "Створити нове заперечення",
       "nextSteps": {
-        "title": "Next steps",
-        "check": "Check your name, address and tax number in the draft",
-        "print": "Print the letter and sign it",
-        "send": "Send it by registered mail or fax to the authority"
+        "title": "Наступні кроки",
+        "check": "Перевірте ім'я, адресу та податковий номер у чернетці",
+        "print": "Роздрукуйте лист і підпишіть його",
+        "send": "Надішліть рекомендованим листом або факсом до органу влади"
       },
-      "legalNote": "Not legal advice under RDG",
-      "agentLog": "AI Agent Log",
-      "outputLanguageWarning": "This document was generated in {language}. The German version is required for submission to German authorities.",
-      "downloadTxt": "Download as TXT"
+      "legalNote": "Не є юридичною консультацією за змістом RDG",
+      "agentLog": "Журнал ШІ-агентів",
+      "outputLanguageWarning": "Цей документ згенеровано мовою: {language}. Для подачі до німецьких органів влади потрібна німецька версія.",
+      "downloadTxt": "Завантажити як TXT",
+      "draftEditable": "Чернетка · редагована",
+      "lockedTitle": "Ваш лист-заперечення готовий",
+      "lockedHint": "Розблокуйте повний лист для завантаження, копіювання та подачі.",
+      "unlockCta": "Розблокувати повний лист"
     },
     "errors": {
-      "analyze": "Document analysis failed. Please try again.",
-      "connection": "Connection error — please try again.",
-      "generate": "Objection generation failed. Please try again.",
-      "backToUpload": "Back to upload"
+      "analyze": "Аналіз документа не вдався. Будь ласка, спробуйте знову.",
+      "connection": "Помилка з'єднання — будь ласка, спробуйте знову.",
+      "generate": "Генерація заперечення не вдалася. Будь ласка, спробуйте знову.",
+      "backToUpload": "Повернутися до завантаження"
     }
   },
   "outputLanguage": {

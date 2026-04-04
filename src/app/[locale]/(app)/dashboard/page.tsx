@@ -36,8 +36,10 @@ export default async function DashboardPage() {
   let stats = { open: 0, submitted: 0, urgent: 0, total: 0 }
   let emailVerified: Date | null = null
 
+  const isDemo = userId.startsWith('demo_')
+
   try {
-    if (userId === DEMO_USER_ID) throw new Error('demo')
+    if (isDemo) throw new Error('demo')
     const { db } = await import('@/lib/db')
     const [rawCases, userRecord] = await Promise.all([
       db.case.findMany({
@@ -83,7 +85,6 @@ export default async function DashboardPage() {
     AWAITING_RESPONSE: t('status.AWAITING_RESPONSE'),
     CLOSED_SUCCESS: t('status.CLOSED_SUCCESS'),
     CLOSED_PARTIAL: t('status.CLOSED_PARTIAL'),
-    CLOSED_REJECTED: t('status.CLOSED_REJECTED'),
     REJECTED: t('status.REJECTED'),
   }
   const useCaseLabels: Record<string, string> = {

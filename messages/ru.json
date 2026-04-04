@@ -138,7 +138,8 @@
     "legalBasis": "Правовая основа",
     "expandDetails": "Показать подробности",
     "collapseDetails": "Скрыть подробности",
-    "sectionLabel": "Поддерживаемые типы уведомлений"
+    "sectionLabel": "Поддерживаемые типы уведомлений",
+    "sonstige": "Иное уведомление"
   },
   "stats": {
     "title": "Цифры, которые важны",
@@ -370,6 +371,16 @@
       "trustDemo": "Интерактивное демо — регистрация не требуется",
       "trustGdpr": "Соответствует GDPR · Серверы в ЕС · Шифрование",
       "privacy": "Конфиденциальность"
+    },
+    "verify": {
+      "bannerTitle": "Пожалуйста, подтвердите адрес электронной почты.",
+      "bannerHint": "Мы отправили вам код подтверждения.",
+      "enterCode": "Введите код",
+      "resend": "Отправить повторно",
+      "sent": "Новый код отправлен — проверьте почту.",
+      "enterNow": "Ввести код сейчас →",
+      "close": "Закрыть",
+      "error": "Ошибка при отправке кода."
     }
   },
   "dashboard": {
@@ -381,7 +392,9 @@
       "totalCases": "Всего возражений",
       "activeCases": "Активные дела",
       "submittedCases": "Поданные",
-      "successRate": "Процент успеха"
+      "successRate": "Процент успеха",
+      "openCases": "Открытые дела",
+      "urgentDeadlines": "Срочные дедлайны"
     },
     "recentCases": "Последние дела",
     "noCases": "Дел пока нет",
@@ -396,15 +409,32 @@
       "SUBMITTED": "Подано",
       "AWAITING_RESPONSE": "Ожидание ответа",
       "CLOSED_SUCCESS": "Успешно закрыто",
-      "CLOSED_REJECTED": "Отклонено"
+      "CLOSED_REJECTED": "Отклонено",
+      "ANALYZING": "Анализируется",
+      "UPLOADING": "Загружается",
+      "CLOSED_PARTIAL": "Частично принято",
+      "REJECTED": "Отклонено"
     },
     "quickActions": {
       "title": "Быстрые действия",
       "newCase": "Новое возражение",
       "viewCases": "Мои дела",
       "billing": "Оплата",
-      "account": "Настройки"
-    }
+      "account": "Настройки",
+      "newCaseSubtitle": "Создать возражение",
+      "viewCasesSubtitle": "Просмотреть историю",
+      "upgradePlan": "Улучшить тариф",
+      "upgradePlanSubtitle": "Pro от €9,99/месяц"
+    },
+    "subtitle": "Ваши возражения и апелляции — общий обзор",
+    "adminSubtitle": "Обзор системы · все пользователи и дела",
+    "openAdminPanel": "Открыть панель администратора",
+    "recentActivity": "Последняя активность",
+    "startFirst": "Создать первый запрос",
+    "updatedAt": "Обновлено {date}",
+    "overdueLabel": "⚠ Срок истёк",
+    "daysLeft": "Осталось {days}д",
+    "urgentWarning": "{count, plural, one {# срок истекает} few {# срока истекают} other {# сроков истекают}} менее чем через 7 дней"
   },
   "billing": {
     "title": "Оплата",
@@ -421,23 +451,44 @@
   },
   "cases": {
     "title": "Мои дела",
-    "subtitle": "Все ваши дела по возражениям и обжалованиям",
+    "subtitle": "{count, plural, one {# дело} few {# дела} other {# дел}} всего",
     "filter": {
-      "all": "Все",
-      "active": "Активные",
-      "submitted": "Поданные",
-      "closed": "Закрытые"
+      "all": "Все ({count})",
+      "active": "Активные ({count})",
+      "submitted": "Поданные ({count})",
+      "closed": "Закрытые ({count})"
     },
     "empty": "Дела не найдены",
     "emptyHint": "Начните первое возражение",
     "newCase": "Новая заявка",
     "caseId": "Идентификатор дела",
     "createdAt": "Создано",
-    "status": "Статус",
+    "status": {
+      "CREATED": "Новое",
+      "UPLOADING": "Загружается",
+      "ANALYZING": "Анализируется",
+      "QUESTIONS": "Вопросы",
+      "GENERATING": "Генерируется",
+      "DRAFT_READY": "Черновик готов",
+      "SUBMITTED": "Подано",
+      "AWAITING_RESPONSE": "Ожидает ответа",
+      "CLOSED_SUCCESS": "Успешно",
+      "CLOSED_PARTIAL": "Частично принято",
+      "CLOSED_REJECTED": "Отклонено",
+      "REJECTED": "Отклонено"
+    },
     "type": "Тип",
     "actions": "Действия",
     "viewCase": "Просмотреть дело",
-    "downloadDraft": "Скачать черновик"
+    "downloadDraft": "Скачать черновик",
+    "search": "Поиск дел…",
+    "noResults": "Нет дел, соответствующих фильтру",
+    "startFirst": "Создать первый запрос",
+    "overdueLabel": "⚠ Срок истёк",
+    "deadlineLabel": "Срок: {date}",
+    "documents": "{count, plural, one {# документ} few {# документа} other {# документов}}",
+    "deleteCase": "Удалить дело",
+    "deleteConfirm": "Удалить это дело? Отменить действие невозможно."
   },
   "account": {
     "title": "Профиль и настройки",
@@ -781,102 +832,114 @@
   },
   "wizard": {
     "steps": {
-      "upload": "Upload",
-      "analyzing": "Detection",
-      "questions": "Questions",
-      "generating": "AI Analysis",
-      "result": "Result"
+      "upload": "Загрузка",
+      "analyzing": "Распознавание",
+      "questions": "Вопросы",
+      "generating": "ИИ-анализ",
+      "result": "Результат"
     },
     "header": {
-      "create": "Create objection",
-      "case": "Case"
+      "create": "Создать возражение",
+      "case": "Дело"
     },
     "upload": {
-      "title": "Upload your notice",
-      "subtitle": "Upload your official notice — or start directly without a document for a demo.",
-      "dropzoneTitle": "Drop files here",
-      "dropzoneClick": "or click to browse",
-      "dropzoneHint": "PDF, DOCX, TXT or images",
-      "analyze": "Analyse documents",
-      "demoButton": "Start demo (without document)",
+      "title": "Загрузите уведомление",
+      "subtitle": "Загрузите официальное уведомление — или начните без документа для демонстрации.",
+      "dropzoneTitle": "Перетащите файлы сюда",
+      "dropzoneClick": "или нажмите для выбора",
+      "dropzoneHint": "PDF, DOCX, TXT или изображения",
+      "analyze": "Анализировать документы",
+      "demoButton": "Начать демо (без документа)",
       "security": {
-        "ssl": "SSL encrypted",
-        "eu": "EU servers",
-        "noStore": "Not stored"
-      }
+        "ssl": "SSL-шифрование",
+        "eu": "Серверы ЕС",
+        "noStore": "Не сохраняется"
+      },
+      "noCredits": "Кредиты недоступны.",
+      "topUpLink": "Пополнить сейчас →"
     },
     "analyzing": {
-      "title": "Analysing your document…",
-      "step1": "Reading document…",
-      "step2": "Extracting data…",
-      "step3": "Preparing follow-up questions…",
-      "liveMode": "AI-powered analysis · Content is not stored permanently",
-      "demoMode": "Demo mode · No document uploaded"
+      "title": "Анализ документа…",
+      "step1": "Чтение документа…",
+      "step2": "Извлечение данных…",
+      "step3": "Подготовка дополнительных вопросов…",
+      "liveMode": "Анализ на базе ИИ · Содержимое не сохраняется постоянно",
+      "demoMode": "Демо-режим · Документ не загружен",
+      "uploading": "Файлы загружаются…",
+      "detectedTitle": "Распознанные данные уведомления",
+      "detectedSubtitle": "Документ прочитан — переход к вопросам…"
     },
     "questions": {
-      "title": "Follow-up questions",
-      "subtitle": "Please answer these questions to optimise your objection letter.",
-      "detectedData": "Detected notice",
-      "liveBadge": "Live ✓",
-      "demoBadge": "Demo",
-      "required": "Required",
-      "optional": "Optional",
-      "answered": "answered",
-      "back": "Back",
-      "generate": "Generate objection letter",
-      "generateWithDocs": "Generate objection ({count} documents)",
+      "title": "Дополнительные вопросы",
+      "subtitle": "Пожалуйста, ответьте на вопросы для оптимизации письма-возражения.",
+      "detectedData": "Распознанное уведомление",
+      "liveBadge": "Реальный режим ✓",
+      "demoBadge": "Демо",
+      "required": "Обязательно",
+      "optional": "Необязательно",
+      "answered": "отвечено",
+      "back": "Назад",
+      "generate": "Сгенерировать письмо-возражение",
+      "generateWithDocs": "Сгенерировать возражение ({count} документа/документов)",
       "additionalDocs": {
-        "title": "Upload additional documents",
-        "subtitle": "Supporting documents strengthen your objection — the AI agents will consider them automatically.",
-        "add": "Add document",
-        "optional": "Optional"
-      }
+        "title": "Загрузить дополнительные документы",
+        "subtitle": "Подтверждающие документы усиливают возражение — ИИ-агенты учтут их автоматически.",
+        "add": "Добавить документ",
+        "optional": "Необязательно"
+      },
+      "demoHint": "Демо-режим: нажмите «Сгенерировать» для образца черновика.",
+      "noQuestionsHint": "Дополнительных вопросов нет — можно сразу генерировать."
     },
     "generating": {
-      "title": "Multi-AI pipeline running…",
-      "step": "Step {current} of {total}: {label}",
-      "allDone": "All {n} agents completed",
-      "timeWarning": "Average time: 20–40 seconds · Please don’t close this tab",
-      "draftTitle": "Draft in real time",
-      "writing": "writing…",
-      "draftPlaceholder": "Objection letter is being drafted…",
+      "title": "Запущен мультиагентный ИИ-конвейер…",
+      "step": "Шаг {current} из {total}: {label}",
+      "allDone": "Все {n} агентов завершили работу",
+      "timeWarning": "Среднее время: 20–40 секунд · Не закрывайте эту вкладку",
+      "draftTitle": "Черновик в реальном времени",
+      "writing": "составляется…",
+      "draftPlaceholder": "Письмо-возражение составляется…",
       "agents": {
-        "drafter": "Drafting letter… (Claude)",
-        "reviewer": "Reviewing for errors… (Gemini)",
-        "factchecker": "Fact-checking legal citations… (Perplexity)",
-        "adversary": "Authority perspective check… (Claude)",
-        "consolidator": "Consolidating final version… (Claude)"
-      }
+        "drafter": "Составление письма… (Claude)",
+        "reviewer": "Проверка ошибок… (Gemini)",
+        "factchecker": "Проверка правовых ссылок… (Perplexity)",
+        "adversary": "Проверка позиции органа… (Claude)",
+        "consolidator": "Формирование финальной версии… (Claude)"
+      },
+      "finalising": "Финализация письма…"
     },
     "result": {
-      "title": "Objection letter ready!",
-      "subtitle": "AI agents reviewed and optimised your objection letter.",
+      "title": "Письмо-возражение готово!",
+      "subtitle": "ИИ-агенты проверили и оптимизировали ваше письмо-возражение.",
       "badges": {
-        "legal": "✓ Legally reviewed",
-        "bfh": "✓ Case law applied",
-        "formal": "✓ Formally correct"
+        "legal": "✓ Юридически проверено",
+        "bfh": "✓ Применена судебная практика",
+        "formal": "✓ Соответствует форме"
       },
-      "copy": "Copy",
-      "copied": "Copied!",
-      "download": "Download (.txt)",
-      "openInCases": "Open in My Cases",
-      "newAppeal": "Create new objection",
+      "copy": "Копировать",
+      "copied": "Скопировано!",
+      "download": "Скачать (.txt)",
+      "openInCases": "Открыть в «Мои дела»",
+      "newAppeal": "Создать новое возражение",
       "nextSteps": {
-        "title": "Next steps",
-        "check": "Check your name, address and tax number in the draft",
-        "print": "Print the letter and sign it",
-        "send": "Send it by registered mail or fax to the authority"
+        "title": "Следующие шаги",
+        "check": "Проверьте имя, адрес и налоговый номер в черновике",
+        "print": "Распечатайте письмо и подпишите его",
+        "send": "Отправьте заказным письмом или факсом в ведомство"
       },
-      "legalNote": "Not legal advice under RDG",
-      "agentLog": "AI Agent Log",
-      "outputLanguageWarning": "This document was generated in {language}. The German version is required for submission to German authorities.",
-      "downloadTxt": "Download as TXT"
+      "legalNote": "Не является юридической консультацией по смыслу RDG",
+      "agentLog": "Журнал ИИ-агентов",
+      "outputLanguageWarning": "Этот документ сгенерирован на языке: {language}. Для подачи в немецкие органы власти требуется немецкая версия.",
+      "downloadTxt": "Скачать как TXT",
+      "draftEditable": "Черновик · редактируемый",
+      "lockedTitle": "Ваше письмо-возражение готово",
+      "lockedHint": "Разблокируйте полное письмо для скачивания, копирования и подачи.",
+      "unlockCta": "Разблокировать полное письмо"
     },
     "errors": {
-      "analyze": "Document analysis failed. Please try again.",
-      "connection": "Connection error — please try again.",
-      "generate": "Objection generation failed. Please try again.",
-      "backToUpload": "Back to upload"
+      "analyze": "Анализ документа не удался. Пожалуйста, попробуйте снова.",
+      "connection": "Ошибка соединения — пожалуйста, попробуйте снова.",
+      "generate": "Генерация возражения не удалась. Пожалуйста, попробуйте снова.",
+      "backToUpload": "Вернуться к загрузке"
     }
   },
   "outputLanguage": {

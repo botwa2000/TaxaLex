@@ -866,7 +866,8 @@
       "liveMode": "AI-powered analysis · Content is not stored permanently",
       "demoMode": "Demo mode · No document uploaded",
       "detectedTitle": "Detected notice data",
-      "detectedSubtitle": "Document read — moving to questions…"
+      "detectedSubtitle": "Document read — moving to questions…",
+      "uploading": "Uploading files…"
     },
     "questions": {
       "title": "Follow-up questions",
