@@ -158,6 +158,7 @@ Rules for followUpQuestions:
   (4) Adversary: what weaknesses could the Finanzamt exploit — and what information from the user would pre-empt them?
 - For the "type" field: use "yesno" for yes/no questions, "amount" for monetary amounts, "date" for questions asking for a specific date, "text" for everything else.
 - For "background": always include the relevant legal basis (§ AO, § EStG, BFH ruling, etc.) and explain the specific legal distinction that makes the user's answer critical. E.g. for crisis questions: distinguish between the common understanding of "crisis" and the strict tax-law definition (§ 32a GmbHG, BFH criteria).
+- Each question must ask exactly ONE thing. If you find yourself writing "and" or listing multiple sub-questions in one entry, split them into separate entries. Never combine two questions into one.
 - rawText: 2–3 sentences only — no full document text.
 - LANGUAGE: Write all followUpQuestions and background fields in ${uiLangName}. The bescheidData field values must remain in their original language as found in the document.`,
     })

@@ -141,7 +141,8 @@ function EinspruchPageInner() {
   ] as const
 
   const currentIdx    = STEPS.findIndex((s) => s.id === step)
-  const answeredCount = questions.filter((q) => answers[q.id]?.trim()).length
+  const answeredCount        = questions.filter((q) => answers[q.id]?.trim()).length
+  const requiredUnanswered   = questions.filter((q) => q.required && !answers[q.id]?.trim()).length
   const fieldLabels   = BESCHEID_FIELD_LABELS[locale] ?? BESCHEID_FIELD_LABELS['en']
 
   // ── Check user access on mount ────────────────────────────────────────────
@@ -661,60 +662,48 @@ function EinspruchPageInner() {
                   : files.length > 0 ? analyzeStatusMessages[analyzeStep] : t('analyzing.demoMode')}
             </p>
 
-            {/* Detected data preview — shown briefly after analyze returns */}
-            {analyzePreview && bescheidData && (
-              <div className="w-full max-w-sm bg-[var(--surface)] border border-green-200 dark:border-green-800 rounded-2xl p-4 mb-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
+            {/* Skeleton card — shown as soon as real file analysis starts.
+                Fields show shimmer placeholders until data arrives, then fill in one by one. */}
+            {files.length > 0 && (
+              <div className={`w-full max-w-sm bg-[var(--surface)] border rounded-2xl p-4 mb-4 transition-colors ${analyzePreview ? 'border-green-200 dark:border-green-800' : 'border-[var(--border)]'}`}>
                 <div className="flex items-center gap-2 mb-3">
-                  <div className="w-5 h-5 bg-green-100 dark:bg-green-950/40 rounded-md flex items-center justify-center">
-                    <ScanSearch className="w-3 h-3 text-green-600" />
+                  <div className={`w-5 h-5 rounded-md flex items-center justify-center transition-colors ${analyzePreview ? 'bg-green-100 dark:bg-green-950/40' : 'bg-brand-100 dark:bg-brand-950/40'}`}>
+                    <ScanSearch className={`w-3 h-3 transition-colors ${analyzePreview ? 'text-green-600' : 'text-brand-500'}`} />
                   </div>
-                  <p className="text-xs font-semibold text-green-700 dark:text-green-400">
+                  <p className={`text-xs font-semibold transition-colors ${analyzePreview ? 'text-green-700 dark:text-green-400' : 'text-[var(--foreground)]'}`}>
                     {t('questions.detectedData')}
                   </p>
+                  {!analyzePreview && (
+                    <Loader2 className="w-3 h-3 text-brand-400 animate-spin ml-auto" />
+                  )}
                 </div>
-                <div className="space-y-2">
-                  {Object.entries(bescheidData)
-                    .filter(([k, v]) => k !== 'rawText' && (v || v === 0))
-                    .map(([k, v], idx) => {
-                      if (idx >= visibleFieldCount) return null
-                      const label = fieldLabels[k] ?? k
-                      const display = typeof v === 'number'
-                        ? v.toLocaleString(locale, { minimumFractionDigits: 2 })
-                        : String(v)
-                      return (
-                        <div key={k} className="flex items-start justify-between gap-3 animate-in fade-in slide-in-from-left-2 duration-300">
-                          <span className="text-xs text-[var(--muted)]">{label}</span>
-                          <span className="text-xs font-semibold text-[var(--foreground)] text-right max-w-[160px] leading-tight">{display}</span>
-                        </div>
-                      )
-                    })}
-                </div>
-              </div>
-            )}
-
-            {/* Spinner while waiting for analyze API */}
-            {!analyzePreview && files.length > 0 && (
-              <div className="w-full max-w-xs mb-6">
-                <div className="flex items-center gap-3 bg-[var(--surface)] border border-[var(--border)] rounded-xl px-4 py-3 mb-4">
-                  <FileText className="w-5 h-5 text-brand-500 shrink-0" />
-                  <div className="flex-1 min-w-0 text-left">
-                    <p className="text-sm font-medium text-[var(--foreground)] truncate">{files[0]?.name}</p>
-                    {files.length > 1 && (
-                      <p className="text-xs text-[var(--muted)]">+{files.length - 1} more</p>
-                    )}
-                  </div>
-                  <Loader2 className="w-4 h-4 text-brand-500 animate-spin shrink-0" />
-                </div>
-                <div className="h-1.5 bg-[var(--border)] rounded-full overflow-hidden">
-                  <div className="h-full bg-brand-500 rounded-full animate-pulse" style={{ width: '60%' }} />
+                <div className="space-y-2.5">
+                  {Object.entries(fieldLabels).map(([k, label], idx) => {
+                    const realValue = bescheidData ? bescheidData[k] : null
+                    const showReal  = analyzePreview && idx < visibleFieldCount && (realValue || realValue === 0)
+                    const display   = showReal
+                      ? (typeof realValue === 'number'
+                          ? realValue.toLocaleString(locale, { minimumFractionDigits: 2 })
+                          : String(realValue))
+                      : null
+                    return (
+                      <div key={k} className="flex items-center justify-between gap-3 min-h-[18px]">
+                        <span className="text-xs text-[var(--muted)] shrink-0">{label}</span>
+                        {display
+                          ? <span className="text-xs font-semibold text-[var(--foreground)] text-right max-w-[160px] leading-tight animate-in fade-in slide-in-from-right-2 duration-300">{display}</span>
+                          : <div className="h-2.5 bg-[var(--border)] rounded-full animate-pulse flex-1 max-w-[120px]" />}
+                      </div>
+                    )
+                  })}
                 </div>
               </div>
             )}
 
-            {!analyzePreview && (
-              <p className="text-xs text-[var(--muted)] text-center">
-                {files.length > 0 ? t('analyzing.liveMode') : t('analyzing.demoMode')}
-              </p>
+            {!files.length && (
+              <p className="text-xs text-[var(--muted)] text-center">{t('analyzing.demoMode')}</p>
+            )}
+            {files.length > 0 && !analyzePreview && (
+              <p className="text-xs text-[var(--muted)] text-center">{t('analyzing.liveMode')}</p>
             )}
           </div>
         )}
@@ -792,12 +781,13 @@ function EinspruchPageInner() {
                             </p>
                           )}
 
-                          {/* Yes/No question → two radio-style buttons */}
+                          {/* Yes/No/Unknown question → three radio-style buttons */}
                           {qType === 'yesno' && (
                             <div className="flex gap-2">
                               {[
-                                { value: tCommon('yes'), label: tCommon('yes') },
-                                { value: tCommon('no'),  label: tCommon('no') },
+                                { value: tCommon('yes'),     label: tCommon('yes') },
+                                { value: tCommon('no'),      label: tCommon('no') },
+                                { value: tCommon('unknown'), label: tCommon('unknown') },
                               ].map(({ value, label }) => (
                                 <button
                                   key={value}
@@ -952,7 +942,14 @@ function EinspruchPageInner() {
                 onChange={(e) => addAdditionalFiles(e.target.files)} />
             </div>
 
-            <div className="flex gap-3 mt-4">
+            {requiredUnanswered > 0 && (
+              <p className="mt-4 flex items-center gap-1.5 text-xs text-amber-600 dark:text-amber-400">
+                <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                {t('questions.requiredUnanswered').replace('{count}', String(requiredUnanswered))}
+              </p>
+            )}
+
+            <div className="flex gap-3 mt-3">
               <button
                 onClick={() => setStep('upload')}
                 className="flex items-center gap-2 border border-[var(--border)] text-[var(--foreground)] px-5 py-3 rounded-xl text-sm font-medium hover:bg-[var(--background-subtle)] transition-colors">
@@ -960,7 +957,7 @@ function EinspruchPageInner() {
               </button>
               <button
                 onClick={handleGenerate}
-                disabled={!!analyzeError && !bescheidData}
+                disabled={(!!analyzeError && !bescheidData) || requiredUnanswered > 0}
                 className="flex-1 bg-brand-600 text-white py-3 rounded-xl font-semibold hover:bg-brand-700 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
                 <Brain className="w-4 h-4" />
                 {additionalFiles.length > 0

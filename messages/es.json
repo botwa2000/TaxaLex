@@ -24,7 +24,8 @@
     "learnMore": "Saber más",
     "getStarted": "Empezar gratis",
     "tryFree": "Probar gratis",
-    "viewAll": "Ver todo"
+    "viewAll": "Ver todo",
+    "unknown": "Desconocido"
   },
   "nav": {
     "home": "Inicio",
@@ -867,7 +868,8 @@
       "demoMode": "Modo demo · No se ha subido ningún documento",
       "uploading": "Subiendo archivos…",
       "detectedTitle": "Datos de la resolución detectados",
-      "detectedSubtitle": "Documento leído — pasando a preguntas…"
+      "detectedSubtitle": "Documento leído — pasando a preguntas…",
+      "scanning": "Analizando documento…"
     },
     "questions": {
       "title": "Preguntas complementarias",
@@ -891,7 +893,8 @@
       "noQuestionsHint": "No hay más preguntas — puede generar directamente.",
       "additionalContext": "Cualquier otra información relevante",
       "additionalContextPlaceholder": "Cualquier contexto, hecho o documento adicional que el sistema deba considerar…",
-      "questionBackground": "Contexto jurídico:"
+      "questionBackground": "Contexto jurídico:",
+      "requiredUnanswered": "Por favor, responda todas las preguntas obligatorias antes de generar."
     },
     "generating": {
       "title": "Pipeline multi-IA en ejecución…",

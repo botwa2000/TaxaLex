@@ -24,7 +24,8 @@
     "learnMore": "Dowiedz się więcej",
     "getStarted": "Zacznij bezpłatnie",
     "tryFree": "Wypróbuj bezpłatnie",
-    "viewAll": "Pokaż wszystkie"
+    "viewAll": "Pokaż wszystkie",
+    "unknown": "Nieznane"
   },
   "nav": {
     "home": "Strona główna",
@@ -867,7 +868,8 @@
       "demoMode": "Tryb demo · Brak przesłanego dokumentu",
       "uploading": "Przesyłanie plików…",
       "detectedTitle": "Wykryte dane decyzji",
-      "detectedSubtitle": "Dokument odczytany — przejście do pytań…"
+      "detectedSubtitle": "Dokument odczytany — przejście do pytań…",
+      "scanning": "Skanowanie dokumentu…"
     },
     "questions": {
       "title": "Pytania uzupełniające",
@@ -891,7 +893,8 @@
       "noQuestionsHint": "Brak dalszych pytań — możesz wygenerować bezpośrednio.",
       "additionalContext": "Wszelkie inne istotne informacje",
       "additionalContextPlaceholder": "Wszelki dodatkowy kontekst, fakty lub dokumenty, które system powinien wziąć pod uwagę…",
-      "questionBackground": "Kontekst prawny:"
+      "questionBackground": "Kontekst prawny:",
+      "requiredUnanswered": "Proszę odpowiedzieć na wszystkie wymagane pytania przed generowaniem."
     },
     "generating": {
       "title": "Uruchomiono wieloagentowy potok AI…",
