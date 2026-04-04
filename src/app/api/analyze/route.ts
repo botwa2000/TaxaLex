@@ -42,29 +42,10 @@ export async function POST(req: NextRequest) {
   const userId = session.user.id as string
   const isDemo = userId.startsWith('demo_')
 
+  // Analyze is always free — no payment gate here.
+  // Credits are only consumed when the final draft is saved in /api/generate.
+  // Users with no credits get a locked result at the end (freemium preview gate).
   logger.debug('[ANALYZE] ─── Request received', { userId: userId.slice(-8), isDemo })
-
-  // Payment guard
-  if (!isDemo) {
-    const t = Date.now()
-    const { db } = await import('@/lib/db')
-    const user = await db.user.findUnique({
-      where: { id: userId },
-      select: { creditBalance: true, subscription: { select: { status: true } } },
-    })
-    const credits = user?.creditBalance ?? 0
-    const subStatus = user?.subscription?.status ?? 'none'
-    const hasAccess = credits > 0 || ['ACTIVE', 'TRIALING'].includes(subStatus)
-    logger.debug('[ANALYZE] ─── Access check', {
-      credits,
-      subStatus,
-      hasAccess,
-      checkMs: Date.now() - t,
-    })
-    if (!hasAccess) {
-      return NextResponse.json({ error: 'Kein Guthaben — bitte ein Paket kaufen' }, { status: 402 })
-    }
-  }
 
   try {
     const body = await req.json()

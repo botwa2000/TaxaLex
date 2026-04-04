@@ -233,7 +233,6 @@ function EinspruchPageInner() {
       setIsUploading(false)
 
       if (res.status === 401) { router.push(`/${locale}/login?callbackUrl=/${locale}/einspruch`); return }
-      if (res.status === 402) { router.push(`/${locale}/billing?reason=credits`); return }
 
       if (!res.ok) {
         const err = await res.json().catch(() => ({ error: t('errors.analyze') }))
@@ -555,13 +554,13 @@ function EinspruchPageInner() {
             )}
 
             {hasAccess === false && files.length > 0 && (
-              <div className="mt-5 flex items-start gap-3 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-xl px-4 py-3.5">
-                <AlertCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+              <div className="mt-5 flex items-start gap-3 bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 rounded-xl px-4 py-3.5">
+                <AlertCircle className="w-4 h-4 text-blue-500 shrink-0 mt-0.5" />
                 <div className="flex-1">
-                  <p className="text-sm font-medium text-amber-800 dark:text-amber-300">
+                  <p className="text-sm font-medium text-blue-800 dark:text-blue-300">
                     {t('upload.noCredits')}
                   </p>
-                  <a href={`/${locale}/billing`} className="text-xs text-amber-700 dark:text-amber-400 underline hover:no-underline">
+                  <a href={`/${locale}/billing`} className="text-xs text-blue-600 dark:text-blue-400 underline hover:no-underline">
                     {t('upload.topUpLink')}
                   </a>
                 </div>
@@ -569,8 +568,7 @@ function EinspruchPageInner() {
             )}
             <button
               onClick={handleAnalyze}
-              disabled={hasAccess === false && files.length > 0}
-              className="mt-6 w-full bg-brand-600 text-white py-3.5 rounded-xl font-semibold hover:bg-brand-700 active:bg-brand-800 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
+              className="mt-6 w-full bg-brand-600 text-white py-3.5 rounded-xl font-semibold hover:bg-brand-700 active:bg-brand-800 transition-colors flex items-center justify-center gap-2">
               {files.length === 0
                 ? <><ScanSearch className="w-4 h-4" />{t('upload.demoButton')}</>
                 : <>{t('upload.analyze')}<ArrowRight className="w-4 h-4" /></>}
