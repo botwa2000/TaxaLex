@@ -30,6 +30,7 @@ const AnalyzeSchema = z.object({
 })
 
 export async function POST(req: NextRequest) {
+  const t0Route = Date.now()
   const limited = rateLimit(req, { maxRequests: 30, windowMs: 60 * 60 * 1000 })
   if (limited) return limited
 
@@ -39,17 +40,27 @@ export async function POST(req: NextRequest) {
   }
 
   const userId = session.user.id as string
+  const isDemo = userId.startsWith('demo_')
+
+  logger.debug('[ANALYZE] ─── Request received', { userId: userId.slice(-8), isDemo })
 
   // Payment guard
-  if (!userId.startsWith('demo_')) {
+  if (!isDemo) {
+    const t = Date.now()
     const { db } = await import('@/lib/db')
     const user = await db.user.findUnique({
       where: { id: userId },
       select: { creditBalance: true, subscription: { select: { status: true } } },
     })
-    const hasAccess =
-      (user?.creditBalance ?? 0) > 0 ||
-      ['ACTIVE', 'TRIALING'].includes(user?.subscription?.status ?? '')
+    const credits = user?.creditBalance ?? 0
+    const subStatus = user?.subscription?.status ?? 'none'
+    const hasAccess = credits > 0 || ['ACTIVE', 'TRIALING'].includes(subStatus)
+    logger.debug('[ANALYZE] ─── Access check', {
+      credits,
+      subStatus,
+      hasAccess,
+      checkMs: Date.now() - t,
+    })
     if (!hasAccess) {
       return NextResponse.json({ error: 'Kein Guthaben — bitte ein Paket kaufen' }, { status: 402 })
     }
@@ -59,6 +70,7 @@ export async function POST(req: NextRequest) {
     const body = await req.json()
     const parsed = AnalyzeSchema.safeParse(body)
     if (!parsed.success) {
+      logger.debug('[ANALYZE] ─── Schema validation failed', { errors: parsed.error.flatten() })
       return NextResponse.json(
         { error: 'Ungültige Anfrage', details: parsed.error.flatten() },
         { status: 400 }
@@ -73,29 +85,46 @@ export async function POST(req: NextRequest) {
       // base64 is ~4/3 the size of the original binary
       totalBytes += Math.ceil(f.base64.length * 3 / 4)
     }
+
+    logger.debug('[ANALYZE] ─── Files received', {
+      fileCount: files.length,
+      totalKB: Math.round(totalBytes / 1024),
+      caseId: caseId ?? 'none',
+      uiLanguage,
+      files: files.map((f) => ({
+        name: f.name,
+        type: f.type,
+        sizeKB: Math.round(f.base64.length * 3 / 4 / 1024),
+      })),
+    })
+
     if (totalBytes > MAX_TOTAL_BYTES) {
       return NextResponse.json({ error: `Dateien zu groß (max. ${MAX_TOTAL_BYTES / 1024 / 1024} MB)` }, { status: 413 })
     }
 
     // Mark case as analyzing
-    if (caseId && !userId.startsWith('demo_')) {
+    if (caseId && !isDemo) {
       const { db } = await import('@/lib/db')
       await db.case.updateMany({
         where: { id: caseId, userId },
         data: { status: 'ANALYZING' },
       })
+      logger.debug('[ANALYZE] ─── DB: case status → ANALYZING', { caseId })
     }
 
     // Build Claude multimodal content blocks
+    logger.debug('[ANALYZE] ─── Building content blocks…')
     const contentBlocks: Anthropic.Messages.ContentBlockParam[] = []
 
     for (const file of files) {
       if (PDF_TYPES.has(file.type)) {
+        logger.debug('[ANALYZE]      PDF block', { name: file.name, sizeKB: Math.round(file.base64.length * 3 / 4 / 1024) })
         contentBlocks.push({
           type: 'document',
           source: { type: 'base64', media_type: 'application/pdf', data: file.base64 },
         })
       } else if (IMAGE_TYPES.has(file.type)) {
+        logger.debug('[ANALYZE]      Image block', { name: file.name, mimeType: file.type, sizeKB: Math.round(file.base64.length * 3 / 4 / 1024) })
         contentBlocks.push({
           type: 'image',
           source: {
@@ -107,6 +136,7 @@ export async function POST(req: NextRequest) {
       } else {
         // Text files — decode base64 to UTF-8
         const text = Buffer.from(file.base64, 'base64').toString('utf-8')
+        logger.debug('[ANALYZE]      Text block', { name: file.name, chars: text.length })
         contentBlocks.push({ type: 'text', text: `### ${file.name}\n${text}` })
       }
     }
@@ -141,7 +171,15 @@ Rules:
     })
 
     const { models } = await getActiveModels()
-    const t0 = Date.now()
+
+    logger.debug('[ANALYZE] ─── Calling Claude (analyzer)', {
+      model: models.analyzer.model,
+      contentBlocks: contentBlocks.length,
+      outputLang: uiLangName,
+      maxTokens: PIPELINE.analyzeMaxTokens,
+    })
+
+    const t0Api = Date.now()
 
     // Analyze always uses Anthropic — the route builds Claude-native PDF/image
     // content blocks. The admin-controlled provider in models.analyzer is ignored here;
@@ -154,24 +192,54 @@ Rules:
       messages: [{ role: 'user', content: contentBlocks }],
     })
 
-    const durationMs = Date.now() - t0
+    const durationMs = Date.now() - t0Api
     logger.agent('analyzer', 'anthropic', models.analyzer.model, durationMs)
+    logger.debug('[ANALYZE] ─── Claude responded', {
+      durationMs,
+      inputTokens: response.usage?.input_tokens,
+      outputTokens: response.usage?.output_tokens,
+      stopReason: response.stop_reason,
+      responseBlocks: response.content.length,
+    })
 
     const result = response.content
       .filter((b) => b.type === 'text')
       .map((b) => b.text)
       .join('\n')
 
+    logger.debug('[ANALYZE] ─── Extracting JSON from response', { rawResponseChars: result.length })
+
     const jsonMatch = result.match(/\{[\s\S]*\}/)
     if (!jsonMatch) {
-      logger.error('JSON extraction failed', { resultLength: result.length })
+      logger.error('[ANALYZE] JSON extraction failed — no JSON found in response', {
+        resultLength: result.length,
+        preview: result.slice(0, 200),
+      })
       return NextResponse.json({ error: 'Datenextraktion fehlgeschlagen' }, { status: 500 })
     }
 
-    const data = JSON.parse(jsonMatch[0])
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let data: any
+    try {
+      data = JSON.parse(jsonMatch[0])
+    } catch (parseErr) {
+      logger.error('[ANALYZE] JSON.parse failed', { parseErr, snippet: jsonMatch[0].slice(0, 300) })
+      return NextResponse.json({ error: 'Datenextraktion fehlgeschlagen' }, { status: 500 })
+    }
+
+    const bescheidKeys = Object.keys(data.bescheidData ?? {})
+    const questionCount = (data.followUpQuestions as unknown[])?.length ?? 0
+    logger.debug('[ANALYZE] ─── JSON parsed successfully', {
+      bescheidKeys,
+      questionCount,
+      questions: (data.followUpQuestions as Array<{ id: string; question: string; type: string }> | undefined)
+        ?.map((q) => ({ id: q.id, type: q.type, questionPreview: q.question?.slice(0, 60) })),
+    })
 
     // Save to DB
-    if (caseId && !userId.startsWith('demo_')) {
+    if (caseId && !isDemo) {
+      logger.debug('[ANALYZE] ─── Saving to DB…', { caseId, docCount: files.length })
+      const t = Date.now()
       const { db } = await import('@/lib/db')
       await Promise.all([
         db.case.updateMany({
@@ -191,11 +259,17 @@ Rules:
           })
         ),
       ])
+      logger.debug('[ANALYZE] ─── DB: case status → QUESTIONS, documents saved', {
+        caseId,
+        docCount: files.length,
+        dbMs: Date.now() - t,
+      })
     }
 
+    logger.debug('[ANALYZE] ─── Complete', { totalMs: Date.now() - t0Route })
     return NextResponse.json(data)
   } catch (error) {
-    logger.error('Analyze error', { error })
+    logger.error('[ANALYZE] Unhandled error', { error, elapsedMs: Date.now() - t0Route })
     return NextResponse.json({ error: 'Analyse fehlgeschlagen' }, { status: 500 })
   }
 }

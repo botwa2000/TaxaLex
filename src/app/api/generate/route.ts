@@ -51,6 +51,8 @@ function extractSummary(content: string): string {
 }
 
 export async function POST(req: NextRequest) {
+  const t0Route = Date.now()
+
   // Rate limit: 10 generate requests per IP per hour
   const limited = rateLimit(req, { maxRequests: 10, windowMs: 60 * 60 * 1000 })
   if (limited) return new Response(
@@ -69,6 +71,8 @@ export async function POST(req: NextRequest) {
   const userId = session.user.id as string
   const isDemo = userId.startsWith('demo_')
 
+  logger.debug('[GENERATE] ─── Request received', { userId: userId.slice(-8), isDemo })
+
   // Check access — pipeline always runs; result is locked if no credits.
   // This lets users see the value before paying (freemium preview gate).
   let hasAccess = isDemo
@@ -78,9 +82,10 @@ export async function POST(req: NextRequest) {
       where: { id: userId },
       select: { creditBalance: true, subscription: { select: { status: true } } },
     })
-    hasAccess =
-      (user?.creditBalance ?? 0) > 0 ||
-      ['ACTIVE', 'TRIALING'].includes(user?.subscription?.status ?? '')
+    const credits = user?.creditBalance ?? 0
+    const subStatus = user?.subscription?.status ?? 'none'
+    hasAccess = credits > 0 || ['ACTIVE', 'TRIALING'].includes(subStatus)
+    logger.debug('[GENERATE] ─── Access check', { credits, subStatus, hasAccess })
   }
 
   let body: unknown
@@ -95,6 +100,7 @@ export async function POST(req: NextRequest) {
 
   const parsed = GenerateSchema.safeParse(body)
   if (!parsed.success) {
+    logger.debug('[GENERATE] ─── Schema validation failed', { errors: parsed.error.flatten() })
     return new Response(
       sseEvent('error', { message: 'Ungültige Anfrage', details: parsed.error.flatten() }),
       { status: 400, headers: { 'Content-Type': 'text/event-stream' } }
@@ -102,6 +108,18 @@ export async function POST(req: NextRequest) {
   }
 
   const { caseId, bescheidData, documents, userAnswers, outputLanguage, uiLanguage } = parsed.data
+
+  logger.debug('[GENERATE] ─── Payload parsed', {
+    caseId: caseId ?? 'none',
+    finanzamt: bescheidData.finanzamt,
+    steuerart: bescheidData.steuerart,
+    nachzahlung: bescheidData.nachzahlung,
+    docCount: documents.length,
+    answerCount: Object.keys(userAnswers).length,
+    outputLanguage,
+    uiLanguage,
+    answers: Object.entries(userAnswers).map(([k, v]) => ({ q: k.slice(0, 40), aPreview: v.slice(0, 40) })),
+  })
 
   const encoder = new TextEncoder()
   const stream = new ReadableStream({
@@ -128,7 +146,11 @@ export async function POST(req: NextRequest) {
             where: { id: caseId, userId },
             data: { status: 'GENERATING', userAnswers },
           })
+          logger.debug('[GENERATE] ─── DB: case status → GENERATING', { caseId })
         }
+
+        logger.debug('[GENERATE] ─── Starting orchestrate()', { caseId: caseId ?? 'none' })
+        const t0Pipeline = Date.now()
 
         // Run the 5-agent pipeline with per-agent SSE events
         const { outputs, finalDraft, pipelineMode } = await orchestrate(
@@ -140,8 +162,18 @@ export async function POST(req: NextRequest) {
           (event) => send(event.type, event.data)  // forwards agent_start + agent_complete
         )
 
+        logger.debug('[GENERATE] ─── Pipeline complete', {
+          pipelineMode,
+          agentCount: outputs.length,
+          totalPipelineMs: Date.now() - t0Pipeline,
+          draftChars: finalDraft.length,
+          agentTimes: outputs.map((o) => ({ role: o.role, durationMs: o.durationMs })),
+        })
+
         // Persist outputs and deduct credit only when user has access
         if (caseId && !isDemo && hasAccess) {
+          logger.debug('[GENERATE] ─── Saving outputs + deducting credit', { caseId, agentCount: outputs.length })
+          const t = Date.now()
           const { db } = await import('@/lib/db')
           await db.$transaction([
             ...outputs.map((o) =>
@@ -169,7 +201,10 @@ export async function POST(req: NextRequest) {
               data: { creditBalance: { decrement: 1 } },
             }),
           ])
+          logger.debug('[GENERATE] ─── DB transaction complete', { dbMs: Date.now() - t })
           logger.info('Pipeline saved', { caseId, pipelineMode, agents: outputs.length })
+        } else if (caseId && !isDemo && !hasAccess) {
+          logger.debug('[GENERATE] ─── Skipping DB save + credit (no access, locked result)', { caseId })
         }
 
         send('pipeline_complete', {
@@ -180,8 +215,13 @@ export async function POST(req: NextRequest) {
           // locked = true means pipeline ran but user needs to pay to see the full result
           locked: !hasAccess && !isDemo,
         })
+
+        logger.debug('[GENERATE] ─── pipeline_complete SSE sent', {
+          locked: !hasAccess && !isDemo,
+          totalMs: Date.now() - t0Route,
+        })
       } catch (error) {
-        logger.error('Generate pipeline error', { error, caseId })
+        logger.error('[GENERATE] Pipeline error', { error, caseId, elapsedMs: Date.now() - t0Route })
         // Roll back case status if something went wrong mid-pipeline
         if (caseId && !isDemo) {
           try {
@@ -190,6 +230,7 @@ export async function POST(req: NextRequest) {
               where: { id: caseId, userId, status: 'GENERATING' },
               data: { status: 'QUESTIONS' },
             })
+            logger.debug('[GENERATE] ─── DB: rolled back case status → QUESTIONS', { caseId })
           } catch { /* rollback best-effort */ }
         }
         send('error', { message: 'Einspruch-Generierung fehlgeschlagen' })

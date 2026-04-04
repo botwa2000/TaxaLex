@@ -126,6 +126,14 @@ export async function callAgent(
   config: AgentConfig,
   userMessage: string
 ): Promise<string> {
+  logger.debug(`[callAgent:${config.role}] API call`, {
+    provider: config.provider,
+    model: config.model,
+    systemPromptChars: config.systemPrompt.length,
+    userMessageChars: userMessage.length,
+    maxTokens: PIPELINE.maxTokens,
+  })
+
   if (config.provider === 'anthropic') {
     const client = getAnthropic()
     const response = await client.messages.create({
@@ -134,10 +142,17 @@ export async function callAgent(
       system: config.systemPrompt,
       messages: [{ role: 'user', content: userMessage }],
     })
-    return response.content
+    const text = response.content
       .filter((b) => b.type === 'text')
       .map((b) => b.text)
       .join('\n')
+    logger.debug(`[callAgent:${config.role}] Anthropic response`, {
+      inputTokens: response.usage?.input_tokens,
+      outputTokens: response.usage?.output_tokens,
+      stopReason: response.stop_reason,
+      outputChars: text.length,
+    })
+    return text
   }
 
   if (config.provider === 'openai') {
@@ -150,7 +165,14 @@ export async function callAgent(
         { role: 'user', content: userMessage },
       ],
     })
-    return response.choices[0]?.message?.content ?? ''
+    const text = response.choices[0]?.message?.content ?? ''
+    logger.debug(`[callAgent:${config.role}] OpenAI response`, {
+      inputTokens: response.usage?.prompt_tokens,
+      outputTokens: response.usage?.completion_tokens,
+      finishReason: response.choices[0]?.finish_reason,
+      outputChars: text.length,
+    })
+    return text
   }
 
   if (config.provider === 'perplexity') {
@@ -163,7 +185,14 @@ export async function callAgent(
         { role: 'user', content: userMessage },
       ],
     })
-    return response.choices[0]?.message?.content ?? ''
+    const text = response.choices[0]?.message?.content ?? ''
+    logger.debug(`[callAgent:${config.role}] Perplexity response`, {
+      inputTokens: response.usage?.prompt_tokens,
+      outputTokens: response.usage?.completion_tokens,
+      finishReason: response.choices[0]?.finish_reason,
+      outputChars: text.length,
+    })
+    return text
   }
 
   if (config.provider === 'google') {
@@ -173,7 +202,12 @@ export async function callAgent(
       systemInstruction: config.systemPrompt,
     })
     const result = await model.generateContent(userMessage)
-    return result.response.text()
+    const text = result.response.text()
+    logger.debug(`[callAgent:${config.role}] Google response`, {
+      outputChars: text.length,
+      usageMetadata: result.response.usageMetadata,
+    })
+    return text
   }
 
   throw new Error(`Unknown provider: ${config.provider}`)
@@ -199,11 +233,34 @@ export async function orchestrate(
   uiLanguage = 'de',
   onProgress?: (event: ProgressEvent) => void
 ): Promise<{ outputs: AgentOutput[]; finalDraft: string; pipelineMode: string }> {
+  const t0Pipeline = Date.now()
   const { models, mode: pipelineModeUsed } = await getActiveModels()
+
+  logger.debug('[PIPELINE] ─── Orchestrator start', {
+    pipelineMode: pipelineModeUsed,
+    outputLanguage,
+    uiLanguage,
+    docCount: documents.length,
+    answerCount: Object.keys(userAnswers).length,
+    agents: {
+      drafter:     `${models.drafter.provider}/${models.drafter.model}`,
+      reviewer:    `${models.reviewer.provider}/${models.reviewer.model}`,
+      factchecker: `${models.factchecker.provider}/${models.factchecker.model}`,
+      adversary:   `${models.adversary.provider}/${models.adversary.model}`,
+      consolidator:`${models.consolidator.provider}/${models.consolidator.model}`,
+    },
+  })
+
   // Language directives live inside system prompts — see buildAgents().
   const AGENTS = buildAgents(models, uiLanguage, outputLanguage)
   const outputs: AgentOutput[] = []
   const context = buildContext(bescheidData, documents, userAnswers)
+
+  logger.debug('[PIPELINE] ─── Context built', {
+    contextChars: context.length,
+    hasDocuments: documents.length > 0,
+    hasAnswers: Object.keys(userAnswers).length > 0,
+  })
 
   async function runAgent(
     role: AgentRole,
@@ -211,11 +268,21 @@ export async function orchestrate(
     prompt: string,
     opts?: { draftPreview?: boolean }
   ): Promise<string> {
+    logger.debug(`[PIPELINE:${role}] → Starting`, {
+      provider: agentConfig.provider,
+      model: agentConfig.model,
+      promptChars: prompt.length,
+    })
     onProgress?.({ type: 'agent_start', data: { role } })
     const t = Date.now()
     const content = await callAgent(agentConfig, prompt)
     const durationMs = Date.now() - t
     logger.agent(role, agentConfig.provider, agentConfig.model, durationMs)
+    logger.debug(`[PIPELINE:${role}] ✓ Complete`, {
+      durationMs,
+      outputChars: content.length,
+      outputPreview: content.slice(0, 120).replace(/\n/g, ' '),
+    })
     outputs.push(makeOutput(role, agentConfig, content, durationMs))
     onProgress?.({
       type: 'agent_complete',
@@ -232,16 +299,20 @@ export async function orchestrate(
   }
 
   // Step 1: Draft
+  logger.debug('[PIPELINE] ─── STEP 1: Drafter (sequential)')
   const draftContent = await runAgent(
     'drafter',
     AGENTS.drafter,
     `Draft an objection letter based on the following case data:\n\n${context}`,
     { draftPreview: true }
   )
+  logger.debug('[PIPELINE] ─── STEP 1 complete', { draftChars: draftContent.length, elapsedMs: Date.now() - t0Pipeline })
 
   // Steps 2–4: Run in parallel — all analyse the same draft independently
   // Reviewer, FactChecker and Adversary do not depend on each other's output,
   // so Promise.all() cuts the middle-stage wall-clock time to max(three) instead of sum(three).
+  logger.debug('[PIPELINE] ─── STEP 2–4: Reviewer + FactChecker + Adversary (parallel)')
+  const t0Parallel = Date.now()
   const [reviewContent, factCheckContent, adversaryContent] = await Promise.all([
     runAgent(
       'reviewer',
@@ -259,8 +330,15 @@ export async function orchestrate(
       `Analyse this objection letter from the tax authority's perspective:\n\n${draftContent}\n\nOriginal case data:\n${context}`
     ),
   ])
+  logger.debug('[PIPELINE] ─── STEP 2–4 complete (all parallel)', {
+    wallClockMs: Date.now() - t0Parallel,
+    reviewChars: reviewContent.length,
+    factCheckChars: factCheckContent.length,
+    adversaryChars: adversaryContent.length,
+  })
 
   // Step 5: Consolidate — final letter (language-aware — system prompt sets outputLanguage)
+  logger.debug('[PIPELINE] ─── STEP 5: Consolidator (sequential)')
   const finalDraft = await runAgent(
     'consolidator',
     AGENTS.consolidator,
@@ -282,7 +360,14 @@ ORIGINAL CASE DATA:
 ${context}`
   )
 
+  const totalMs = Date.now() - t0Pipeline
   logger.info('Pipeline complete', { totalAgents: outputs.length, pipelineMode: pipelineModeUsed })
+  logger.debug('[PIPELINE] ─── All steps complete', {
+    totalMs,
+    finalDraftChars: finalDraft.length,
+    agentBreakdown: outputs.map((o) => ({ role: o.role, durationMs: o.durationMs, provider: o.provider })),
+  })
+
   return { outputs, finalDraft, pipelineMode: pipelineModeUsed }
 }
 
