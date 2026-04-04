@@ -888,7 +888,10 @@
         "optional": "İsteğe bağlı"
       },
       "demoHint": "Demo modu: örnek taslak için Oluştur'a tıklayın.",
-      "noQuestionsHint": "Ek soru yok — doğrudan oluşturabilirsiniz."
+      "noQuestionsHint": "Ek soru yok — doğrudan oluşturabilirsiniz.",
+      "additionalContext": "Diğer ilgili bilgiler",
+      "additionalContextPlaceholder": "Sistemin dikkate almasını istediğiniz ek bağlam, gerçek veya belgeler…",
+      "questionBackground": "Hukuki arka plan:"
     },
     "generating": {
       "title": "Çok ajanli yapay zeka hattı çalışıyor…",

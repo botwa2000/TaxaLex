@@ -888,7 +888,10 @@
         "optional": "Optional"
       },
       "demoHint": "Demo-Modus: Klicken Sie auf Einspruch generieren für einen Beispielentwurf.",
-      "noQuestionsHint": "Keine weiteren Rückfragen — Sie können direkt generieren."
+      "noQuestionsHint": "Keine weiteren Rückfragen — Sie können direkt generieren.",
+      "additionalContext": "Weitere relevante Informationen",
+      "additionalContextPlaceholder": "Weitere Kontext, Fakten oder Dokumente, die das System berücksichtigen soll…",
+      "questionBackground": "Rechtlicher Hintergrund:"
     },
     "generating": {
       "title": "Multi-KI-Pipeline läuft…",

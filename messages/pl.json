@@ -888,7 +888,10 @@
         "optional": "Opcjonalne"
       },
       "demoHint": "Tryb demo: kliknij Generuj, aby uzyskać przykładowy projekt.",
-      "noQuestionsHint": "Brak dalszych pytań — możesz wygenerować bezpośrednio."
+      "noQuestionsHint": "Brak dalszych pytań — możesz wygenerować bezpośrednio.",
+      "additionalContext": "Wszelkie inne istotne informacje",
+      "additionalContextPlaceholder": "Wszelki dodatkowy kontekst, fakty lub dokumenty, które system powinien wziąć pod uwagę…",
+      "questionBackground": "Kontekst prawny:"
     },
     "generating": {
       "title": "Uruchomiono wieloagentowy potok AI…",

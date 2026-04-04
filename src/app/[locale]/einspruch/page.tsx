@@ -96,6 +96,7 @@ function EinspruchPageInner() {
   const params       = useParams()
   const locale       = typeof params?.locale === 'string' ? params.locale : 'de'
   const t            = useTranslations('wizard')
+  const tCommon      = useTranslations('common')
 
   const type         = searchParams.get('type')
   const useCaseLabel = type ? (USE_CASE_KEYS[type] ?? type.replace(/-/g, ' ')) : null
@@ -105,7 +106,7 @@ function EinspruchPageInner() {
   const [files, setFiles]                   = useState<File[]>([])
   const [isDragging, setIsDragging]         = useState(false)
   const [bescheidData, setBescheidData]     = useState<Record<string, unknown> | null>(null)
-  const [questions, setQuestions]           = useState<Array<{ id: string; question: string; required?: boolean; type?: 'text' | 'yesno' | 'amount' }>>([])
+  const [questions, setQuestions]           = useState<Array<{ id: string; question: string; required?: boolean; type?: 'text' | 'yesno' | 'amount' | 'date'; background?: string }>>([])
   const [answers, setAnswers]               = useState<Record<string, string>>({})
   const [result, setResult]                 = useState<GenerateResult | null>(null)
   const [activeAgent, setActiveAgent]       = useState(0)
@@ -129,7 +130,7 @@ function EinspruchPageInner() {
   const docsRef                = useRef<{ name: string; text: string }[] | null>(null)
   const caseIdRef              = useRef<string | null>(null)
   const bescheidDataRef        = useRef<Record<string, unknown> | null>(null)
-  const questionsRef           = useRef<Array<{ id: string; question: string; required?: boolean }> | null>(null)
+  const questionsRef           = useRef<Array<{ id: string; question: string; required?: boolean; type?: string; background?: string }> | null>(null)
 
   const STEPS = [
     { id: 'upload',    label: t('steps.upload'),    icon: Upload },
@@ -202,13 +203,66 @@ function EinspruchPageInner() {
     setDraftPreview('')
     setStep('analyzing')
 
-    // Demo mode: no files, skip API call
+    // Demo mode: no files — show hardcoded example data so the wizard feels alive
     if (files.length === 0) {
-      setTimeout(() => {
-        setBescheidData(null)
-        setQuestions([])
-        setStep('questions')
-      }, 2000)
+      const demoBescheid = {
+        finanzamt: 'Finanzamt München',
+        steuernummer: '143/234/56789',
+        bescheidDatum: '12.03.2023',
+        steuerart: 'Einkommensteuer 2022',
+        nachzahlung: 2847.50,
+        streitigerBetrag: 2847.50,
+      }
+      const demoQuestions = [
+        {
+          id: 'dq1',
+          question: locale === 'de'
+            ? 'Hatten Sie im Jahr 2022 Einnahmen aus mehreren Quellen (z.B. Anstellung und Freelance)?'
+            : 'Did you have income from multiple sources in 2022 (e.g. employment and freelance)?',
+          required: true,
+          type: 'yesno' as const,
+          background: locale === 'de'
+            ? 'Mehrere Einkunftsarten können die Steuerprogression erhöhen. Nach § 32a EStG wird das Gesamteinkommen progressiv besteuert, weshalb die Aufteilung entscheidend für die korrekte Berechnung ist.'
+            : 'Multiple income types can affect tax progression. Under § 32a EStG, total income is taxed progressively, making the breakdown critical for correct calculation.',
+        },
+        {
+          id: 'dq2',
+          question: locale === 'de'
+            ? 'Wann haben Sie Ihre Steuererklärung für 2022 eingereicht?'
+            : 'When did you file your 2022 tax return?',
+          required: true,
+          type: 'date' as const,
+          background: locale === 'de'
+            ? 'Das Einreichungsdatum ist relevant für die Einspruchsfrist (§ 355 AO: 1 Monat nach Bekanntgabe des Bescheids) und mögliche Verspätungszuschläge nach § 152 AO.'
+            : 'The filing date is relevant for the objection deadline (§ 355 AO: 1 month after notice) and possible late-filing penalties under § 152 AO.',
+        },
+        {
+          id: 'dq3',
+          question: locale === 'de'
+            ? 'Welche Werbungskosten bzw. Betriebsausgaben haben Sie geltend gemacht?'
+            : 'What work-related expenses or business costs did you claim?',
+          required: false,
+          type: 'text' as const,
+          background: locale === 'de'
+            ? 'Werbungskosten (§ 9 EStG) und Betriebsausgaben (§ 4 Abs. 4 EStG) mindern das zu versteuernde Einkommen. Das Finanzamt kann diese bei Betriebsprüfungen hinterfragen — vollständige Dokumentation stärkt den Einspruch erheblich.'
+            : 'Work expenses (§ 9 EStG) and business costs (§ 4 para. 4 EStG) reduce taxable income. Tax authorities often challenge these — thorough documentation significantly strengthens the objection.',
+        },
+      ]
+
+      // Animate the detected fields appearing one by one, then move to questions
+      setBescheidData(demoBescheid)
+      const fieldCount = Object.keys(demoBescheid).filter(k => k !== 'rawText').length
+      setVisibleFieldCount(0)
+      setAnalyzePreview(true)
+      for (let i = 1; i <= fieldCount; i++) {
+        await new Promise((resolve) => setTimeout(resolve, 350))
+        setVisibleFieldCount(i)
+      }
+      await new Promise((resolve) => setTimeout(resolve, 800))
+      setAnalyzePreview(false)
+
+      setQuestions(demoQuestions)
+      setStep('questions')
       return
     }
 
@@ -247,7 +301,7 @@ function EinspruchPageInner() {
       docsRef.current         = null // document content goes through bescheidData.rawText
 
       setBescheidData(bescheidDataRef.current)
-      setQuestions(questionsRef.current ?? [])
+      setQuestions((questionsRef.current ?? []) as Array<{ id: string; question: string; required?: boolean; type?: 'text' | 'yesno' | 'amount' | 'date'; background?: string }>)
 
       // Animate detected fields appearing one by one, then move to questions
       if (bescheidDataRef.current && Object.keys(bescheidDataRef.current).some(k => bescheidDataRef.current![k])) {
@@ -723,19 +777,27 @@ function EinspruchPageInner() {
                           {answered ? <CheckCircle2 className="w-3.5 h-3.5" /> : String(i + 1)}
                         </span>
                         <div className="flex-1">
-                          <label className="block text-sm font-medium text-[var(--foreground)] mb-3">
+                          <label className="block text-sm font-medium text-[var(--foreground)] mb-2">
                             {q.question}
                             {q.required
                               ? <span className="text-red-500 ml-1.5 text-xs font-normal">{t('questions.required')}</span>
                               : <span className="text-[var(--muted)] ml-1.5 text-xs font-normal">{t('questions.optional')}</span>}
                           </label>
 
+                          {/* Legal background hint */}
+                          {q.background && (
+                            <p className="text-xs text-[var(--muted)] bg-[var(--background-subtle)] border border-[var(--border)] rounded-lg px-3 py-2 mb-3 leading-relaxed">
+                              <span className="font-semibold text-brand-600 dark:text-brand-400">{t('questions.questionBackground')} </span>
+                              {q.background}
+                            </p>
+                          )}
+
                           {/* Yes/No question → two radio-style buttons */}
                           {qType === 'yesno' && (
                             <div className="flex gap-2">
                               {[
-                                { value: t('common.yes'), label: t('common.yes') },
-                                { value: t('common.no'),  label: t('common.no') },
+                                { value: tCommon('yes'), label: tCommon('yes') },
+                                { value: tCommon('no'),  label: tCommon('no') },
                               ].map(({ value, label }) => (
                                 <button
                                   key={value}
@@ -767,6 +829,15 @@ function EinspruchPageInner() {
                             </div>
                           )}
 
+                          {/* Date question → date input */}
+                          {qType === 'date' && (
+                            <input
+                              type="date"
+                              className="w-full border border-[var(--border)] rounded-xl px-4 py-3 text-sm bg-[var(--background-subtle)] text-[var(--foreground)] focus:bg-[var(--surface)] focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400 transition-colors"
+                              value={answers[q.id] ?? ''}
+                              onChange={(e) => setAnswers((a) => ({ ...a, [q.id]: e.target.value }))} />
+                          )}
+
                           {/* Text question → textarea */}
                           {qType === 'text' && (
                             <textarea
@@ -781,6 +852,29 @@ function EinspruchPageInner() {
                     </div>
                   )
                 })}
+
+                {/* Fixed "any other information" field — always shown after API questions */}
+                {(questions.length > 0 || files.length === 0) && (
+                  <div className="bg-[var(--surface)] border border-dashed border-[var(--border)] rounded-2xl p-5">
+                    <div className="flex items-start gap-3">
+                      <span className="w-6 h-6 rounded-lg text-xs font-bold flex items-center justify-center shrink-0 mt-0.5 bg-[var(--background-subtle)] text-[var(--muted)]">
+                        +
+                      </span>
+                      <div className="flex-1">
+                        <label className="block text-sm font-medium text-[var(--foreground)] mb-2">
+                          {t('questions.additionalContext')}
+                          <span className="text-[var(--muted)] ml-1.5 text-xs font-normal">{t('questions.optional')}</span>
+                        </label>
+                        <textarea
+                          rows={3}
+                          className="w-full border border-[var(--border)] rounded-xl px-4 py-3 text-sm bg-[var(--background-subtle)] text-[var(--foreground)] focus:bg-[var(--surface)] focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400 transition-colors resize-none placeholder:text-[var(--muted)]"
+                          placeholder={t('questions.additionalContextPlaceholder')}
+                          value={answers['__additional__'] ?? ''}
+                          onChange={(e) => setAnswers((a) => ({ ...a, '__additional__': e.target.value }))} />
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Detected bescheid data sidebar */}

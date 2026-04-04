@@ -888,7 +888,10 @@
         "optional": "Optional"
       },
       "demoHint": "Demo mode: click Generate for a sample draft.",
-      "noQuestionsHint": "No further questions — you can generate directly."
+      "noQuestionsHint": "No further questions — you can generate directly.",
+      "additionalContext": "Any other relevant information",
+      "additionalContextPlaceholder": "Any additional context, facts, or documents you'd like the system to consider…",
+      "questionBackground": "Legal background:"
     },
     "generating": {
       "title": "Multi-AI pipeline running…",

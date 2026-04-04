@@ -140,15 +140,26 @@ Respond ONLY with a JSON object (no markdown, no comments):
     "rawText": "2–3 sentence summary of the document — the main reason for the payment demand or rejection (max 400 chars)"
   },
   "followUpQuestions": [
-    { "id": "q1", "question": "...", "required": true, "type": "text" }
+    {
+      "id": "q1",
+      "question": "Question text in ${uiLangName}",
+      "required": true,
+      "type": "text",
+      "background": "1–2 sentences explaining the legal/tax basis of this question and why the answer matters for the objection — written in ${uiLangName}"
+    }
   ]
 }
 
-Rules:
-- Limit followUpQuestions to at most 5 targeted questions.
-- For the "type" field: use "yesno" for yes/no questions, "amount" for monetary amounts, "text" for everything else.
+Rules for followUpQuestions:
+- Generate up to 6 questions. Think from four angles simultaneously:
+  (1) Drafter: what facts are needed to write the objection letter?
+  (2) Reviewer: what evidence or dates could be challenged by the tax authority?
+  (3) FactChecker: are there legal distinctions the user must clarify (e.g. crisis definition in tax law vs common understanding)?
+  (4) Adversary: what weaknesses could the Finanzamt exploit — and what information from the user would pre-empt them?
+- For the "type" field: use "yesno" for yes/no questions, "amount" for monetary amounts, "date" for questions asking for a specific date, "text" for everything else.
+- For "background": always include the relevant legal basis (§ AO, § EStG, BFH ruling, etc.) and explain the specific legal distinction that makes the user's answer critical. E.g. for crisis questions: distinguish between the common understanding of "crisis" and the strict tax-law definition (§ 32a GmbHG, BFH criteria).
 - rawText: 2–3 sentences only — no full document text.
-- LANGUAGE: Write all followUpQuestions in ${uiLangName}. The bescheidData field values must remain in their original language as found in the document.`,
+- LANGUAGE: Write all followUpQuestions and background fields in ${uiLangName}. The bescheidData field values must remain in their original language as found in the document.`,
     })
 
     const { models } = await getActiveModels()
@@ -169,7 +180,7 @@ Rules:
     const response = await client.messages.create({
       model: models.analyzer.model,
       max_tokens: PIPELINE.analyzeMaxTokens,
-      system: `You are a tax law expert. Extract structured data from official notices and generate targeted follow-up questions. Respond ONLY with valid JSON — no markdown, no explanations. All followUpQuestions must be written in ${uiLangName}.`,
+      system: `You are a senior tax lawyer with expertise in German objection proceedings (Einspruchsverfahren, §347 AO) and GmbH law. Extract structured data from official notices and generate targeted follow-up questions that cover all angles a full review team would need. Respond ONLY with valid JSON — no markdown, no explanations. All followUpQuestions and background fields must be written in ${uiLangName}.`,
       messages: [{ role: 'user', content: contentBlocks }],
     })
 

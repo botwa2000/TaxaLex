@@ -888,7 +888,10 @@
         "optional": "Opcional"
       },
       "demoHint": "Modo demo: haga clic en Generar para obtener un borrador de ejemplo.",
-      "noQuestionsHint": "No hay más preguntas — puede generar directamente."
+      "noQuestionsHint": "No hay más preguntas — puede generar directamente.",
+      "additionalContext": "Cualquier otra información relevante",
+      "additionalContextPlaceholder": "Cualquier contexto, hecho o documento adicional que el sistema deba considerar…",
+      "questionBackground": "Contexto jurídico:"
     },
     "generating": {
       "title": "Pipeline multi-IA en ejecución…",
