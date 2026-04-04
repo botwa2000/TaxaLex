@@ -67,22 +67,18 @@ export async function POST(req: NextRequest) {
   const userId = session.user.id as string
   const isDemo = userId.startsWith('demo_')
 
-  // Payment guard
+  // Check access — pipeline always runs; result is locked if no credits.
+  // This lets users see the value before paying (freemium preview gate).
+  let hasAccess = isDemo
   if (!isDemo) {
     const { db } = await import('@/lib/db')
     const user = await db.user.findUnique({
       where: { id: userId },
       select: { creditBalance: true, subscription: { select: { status: true } } },
     })
-    const hasAccess =
+    hasAccess =
       (user?.creditBalance ?? 0) > 0 ||
       ['ACTIVE', 'TRIALING'].includes(user?.subscription?.status ?? '')
-    if (!hasAccess) {
-      return new Response(sseEvent('error', { message: 'Kein Guthaben', status: 402 }), {
-        status: 402,
-        headers: { 'Content-Type': 'text/event-stream' },
-      })
-    }
   }
 
   let body: unknown
@@ -136,11 +132,10 @@ export async function POST(req: NextRequest) {
           (event) => send(event.type, event.data)  // progress callback
         )
 
-        // Persist outputs and update case
-        if (caseId && !isDemo) {
+        // Persist outputs and deduct credit only when user has access
+        if (caseId && !isDemo && hasAccess) {
           const { db } = await import('@/lib/db')
           await db.$transaction([
-            // Save each agent output
             ...outputs.map((o) =>
               db.caseOutput.create({
                 data: {
@@ -154,12 +149,10 @@ export async function POST(req: NextRequest) {
                 },
               })
             ),
-            // Update case to DRAFT_READY
             db.case.updateMany({
               where: { id: caseId, userId },
               data: { status: 'DRAFT_READY' },
             }),
-            // Deduct 1 credit
             db.creditLedger.create({
               data: { userId, delta: -1, reason: 'CASE_CREATED', referenceId: caseId },
             }),
@@ -176,6 +169,8 @@ export async function POST(req: NextRequest) {
           caseId: caseId ?? null,
           pipelineMode,
           agentCount: outputs.length,
+          // locked = true means pipeline ran but user needs to pay to see the full result
+          locked: !hasAccess && !isDemo,
         })
       } catch (error) {
         logger.error('Generate pipeline error', { error, caseId })

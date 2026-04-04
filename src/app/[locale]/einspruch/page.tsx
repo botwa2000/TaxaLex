@@ -115,9 +115,11 @@ function EinspruchPageInner() {
   const [draftPreview, setDraftPreview]     = useState<string>('')
   const [generateError, setGenerateError]   = useState<string | null>(null)
   const [analyzeError, setAnalyzeError]     = useState<string | null>(null)
+  const [resultLocked, setResultLocked]     = useState(false) // true = freemium gate active
   const [analyzeStep, setAnalyzeStep]       = useState(0) // 0-2 for rotating status messages
   const [additionalFiles, setAdditionalFiles] = useState<File[]>([])
   const [analyzePreview, setAnalyzePreview] = useState(false) // briefly show detected data on analyzing screen
+  const [visibleFieldCount, setVisibleFieldCount] = useState(0) // animated field reveal
   const [hasAccess, setHasAccess]           = useState<boolean | null>(null) // null = loading
 
   const fileInputRef           = useRef<HTMLInputElement>(null)
@@ -243,10 +245,17 @@ function EinspruchPageInner() {
       setBescheidData(bescheidDataRef.current)
       setQuestions(questionsRef.current ?? [])
 
-      // Show detected data on the analyzing screen for 1.5s before moving to questions
+      // Animate detected fields appearing one by one, then move to questions
       if (bescheidDataRef.current && Object.keys(bescheidDataRef.current).some(k => bescheidDataRef.current![k])) {
+        const fieldCount = Object.keys(bescheidDataRef.current).filter(k => k !== 'rawText' && bescheidDataRef.current![k]).length
+        setVisibleFieldCount(0)
         setAnalyzePreview(true)
-        await new Promise((resolve) => setTimeout(resolve, 1800))
+        // Reveal each field every 350 ms, then pause 600 ms so user sees the complete list
+        for (let i = 1; i <= fieldCount; i++) {
+          await new Promise((resolve) => setTimeout(resolve, 350))
+          setVisibleFieldCount(i)
+        }
+        await new Promise((resolve) => setTimeout(resolve, 800))
         setAnalyzePreview(false)
       }
     } catch {
@@ -358,6 +367,7 @@ function EinspruchPageInner() {
             if (payload.draftPreview) setDraftPreview(String(payload.draftPreview))
           } else if (eventName === 'pipeline_complete') {
             finalDraft = String(payload.finalDraft ?? '')
+            if (payload.locked) setResultLocked(true)
             if (payload.caseId) {
               completedCaseId = String(payload.caseId)
               caseIdRef.current = completedCaseId
@@ -412,6 +422,8 @@ function EinspruchPageInner() {
     setGenerateError(null)
     setAnalyzeError(null)
     setAnalyzePreview(false)
+    setResultLocked(false)
+    setVisibleFieldCount(0)
     docsRef.current          = null
     caseIdRef.current        = null
     bescheidDataRef.current  = null
@@ -533,10 +545,10 @@ function EinspruchPageInner() {
                 <AlertCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
                 <div className="flex-1">
                   <p className="text-sm font-medium text-amber-800 dark:text-amber-300">
-                    {locale === 'de' ? 'Kein Guthaben verfügbar.' : 'No credits available.'}
+                    {t('upload.noCredits')}
                   </p>
                   <a href={`/${locale}/billing`} className="text-xs text-amber-700 dark:text-amber-400 underline hover:no-underline">
-                    {locale === 'de' ? 'Jetzt aufladen →' : 'Top up now →'}
+                    {t('upload.topUpLink')}
                   </a>
                 </div>
               </div>
@@ -573,13 +585,11 @@ function EinspruchPageInner() {
                 : <ScanSearch className="w-8 h-8 text-brand-600 animate-pulse" />}
             </div>
             <h1 className="text-2xl font-bold text-[var(--foreground)] mb-2 text-center">
-              {analyzePreview
-                ? (locale === 'de' ? 'Erkannte Daten' : 'Detected data')
-                : t('analyzing.title')}
+              {analyzePreview ? t('analyzing.detectedTitle') : t('analyzing.title')}
             </h1>
             <p className="text-sm text-[var(--muted)] mb-6 min-h-[1.25rem] transition-all text-center">
               {analyzePreview
-                ? (locale === 'de' ? 'Bescheid erfolgreich ausgelesen — weiterleiten…' : 'Notice successfully read — redirecting…')
+                ? t('analyzing.detectedSubtitle')
                 : files.length > 0 ? analyzeStatusMessages[analyzeStep] : t('analyzing.demoMode')}
             </p>
 
@@ -595,20 +605,21 @@ function EinspruchPageInner() {
                   </p>
                 </div>
                 <div className="space-y-2">
-                  {Object.entries(bescheidData).map(([k, v]) => {
-                    if (!v && v !== 0) return null
-                    if (k === 'rawText') return null
-                    const label = fieldLabels[k] ?? k
-                    const display = typeof v === 'number'
-                      ? v.toLocaleString(locale, { minimumFractionDigits: 2 })
-                      : String(v)
-                    return (
-                      <div key={k} className="flex items-start justify-between gap-3">
-                        <span className="text-xs text-[var(--muted)]">{label}</span>
-                        <span className="text-xs font-semibold text-[var(--foreground)] text-right max-w-[160px] leading-tight">{display}</span>
-                      </div>
-                    )
-                  })}
+                  {Object.entries(bescheidData)
+                    .filter(([k, v]) => k !== 'rawText' && (v || v === 0))
+                    .map(([k, v], idx) => {
+                      if (idx >= visibleFieldCount) return null
+                      const label = fieldLabels[k] ?? k
+                      const display = typeof v === 'number'
+                        ? v.toLocaleString(locale, { minimumFractionDigits: 2 })
+                        : String(v)
+                      return (
+                        <div key={k} className="flex items-start justify-between gap-3 animate-in fade-in slide-in-from-left-2 duration-300">
+                          <span className="text-xs text-[var(--muted)]">{label}</span>
+                          <span className="text-xs font-semibold text-[var(--foreground)] text-right max-w-[160px] leading-tight">{display}</span>
+                        </div>
+                      )
+                    })}
                 </div>
               </div>
             )}
@@ -681,9 +692,7 @@ function EinspruchPageInner() {
               <div className="space-y-4">
                 {questions.length === 0 && !analyzeError && (
                   <p className="text-sm text-[var(--muted)] italic py-4">
-                    {files.length === 0
-                      ? (locale === 'de' ? 'Demo-Modus: Klicken Sie auf „Einspruch generieren" für einen Beispielentwurf.' : 'Demo mode: Click "Generate" for a sample draft.')
-                      : (locale === 'de' ? 'Keine weiteren Rückfragen — Sie können direkt generieren.' : 'No further questions — you can generate directly.')}
+                    {files.length === 0 ? t('questions.demoHint') : t('questions.noQuestionsHint')}
                   </p>
                 )}
                 {questions.map((q, i) => {
@@ -711,8 +720,8 @@ function EinspruchPageInner() {
                           {qType === 'yesno' && (
                             <div className="flex gap-2">
                               {[
-                                { value: locale === 'de' ? 'Ja' : 'Yes', label: locale === 'de' ? 'Ja' : 'Yes' },
-                                { value: locale === 'de' ? 'Nein' : 'No', label: locale === 'de' ? 'Nein' : 'No' },
+                                { value: t('common.yes'), label: t('common.yes') },
+                                { value: t('common.no'),  label: t('common.no') },
                               ].map(({ value, label }) => (
                                 <button
                                   key={value}
@@ -865,7 +874,7 @@ function EinspruchPageInner() {
               <p className="text-sm text-[var(--muted)]">
                 {activeAgent < AGENT_IDS.length
                   ? t(`generating.agents.${AGENT_IDS[activeAgent]}`)
-                  : locale === 'de' ? 'Schreiben wird finalisiert…' : 'Finalising letter…'}
+                  : t('generating.finalising')}
               </p>
             </div>
 
@@ -1037,7 +1046,7 @@ function EinspruchPageInner() {
                   </div>
                 )}
 
-                {/* Draft preview */}
+                {/* Draft preview — locked (freemium) or full */}
                 <div className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl overflow-hidden mb-5">
                   <div className="flex items-center justify-between px-5 py-3 border-b border-[var(--border)] bg-[var(--background-subtle)]">
                     <div className="flex items-center gap-2">
@@ -1048,14 +1057,33 @@ function EinspruchPageInner() {
                       </div>
                       <span className="text-xs text-[var(--muted)] ml-1">TaxaLex-Einspruch.txt</span>
                     </div>
-                    <span className="text-xs text-[var(--muted)]">{locale === 'de' ? 'Entwurf · bearbeitbar' : 'Draft · editable'}</span>
+                    <span className="text-xs text-[var(--muted)]">{t('result.draftEditable')}</span>
                   </div>
-                  <pre className="p-5 font-mono text-sm text-[var(--foreground)] leading-relaxed whitespace-pre-wrap max-h-80 overflow-y-auto">
-                    {result.finalDraft}
-                  </pre>
+                  <div className="relative">
+                    <pre className={`p-5 font-mono text-sm text-[var(--foreground)] leading-relaxed whitespace-pre-wrap overflow-y-auto ${resultLocked ? 'max-h-48 select-none' : 'max-h-80'}`}>
+                      {resultLocked
+                        ? result.finalDraft.slice(0, 600)
+                        : result.finalDraft}
+                    </pre>
+                    {resultLocked && (
+                      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-[var(--surface)] to-transparent flex flex-col items-center justify-end pb-5 gap-3">
+                        <div className="flex items-center gap-2 text-sm font-semibold text-[var(--foreground)]">
+                          <Lock className="w-4 h-4 text-brand-600" />
+                          {t('result.lockedTitle')}
+                        </div>
+                        <p className="text-xs text-[var(--muted)] text-center px-6">{t('result.lockedHint')}</p>
+                        <a
+                          href={`/${locale}/billing`}
+                          className="bg-brand-600 text-white px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-brand-700 transition-colors flex items-center gap-2">
+                          <Sparkles className="w-4 h-4" />{t('result.unlockCta')}
+                        </a>
+                      </div>
+                    )}
+                  </div>
                 </div>
 
-                {/* Actions */}
+                {/* Actions — hidden when locked */}
+                {!resultLocked && (
                 <div className="flex gap-3 mb-4">
                   <button
                     onClick={handleDownload}
@@ -1070,6 +1098,7 @@ function EinspruchPageInner() {
                       : <><Copy className="w-4 h-4" />{t('result.copy')}</>}
                   </button>
                 </div>
+                )}
 
                 {result.caseId && (
                   <button

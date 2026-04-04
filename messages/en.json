@@ -486,7 +486,9 @@
     "startFirst": "Start first request",
     "overdueLabel": "⚠ Deadline expired",
     "deadlineLabel": "Deadline: {date}",
-    "documents": "{count, plural, one {# document} other {# documents}}"
+    "documents": "{count, plural, one {# document} other {# documents}}",
+    "deleteCase": "Delete case",
+    "deleteConfirm": "Delete this case? This cannot be undone."
   },
   "account": {
     "title": "Profile & settings",
@@ -852,7 +854,9 @@
         "ssl": "SSL encrypted",
         "eu": "EU servers",
         "noStore": "Not stored"
-      }
+      },
+      "noCredits": "No credits available.",
+      "topUpLink": "Top up now →"
     },
     "analyzing": {
       "title": "Analysing your document…",
@@ -860,7 +864,9 @@
       "step2": "Extracting data…",
       "step3": "Preparing follow-up questions…",
       "liveMode": "AI-powered analysis · Content is not stored permanently",
-      "demoMode": "Demo mode · No document uploaded"
+      "demoMode": "Demo mode · No document uploaded",
+      "detectedTitle": "Detected notice data",
+      "detectedSubtitle": "Document read — moving to questions…"
     },
     "questions": {
       "title": "Follow-up questions",
@@ -879,7 +885,9 @@
         "subtitle": "Supporting documents strengthen your objection — the AI agents will consider them automatically.",
         "add": "Add document",
         "optional": "Optional"
-      }
+      },
+      "demoHint": "Demo mode: click Generate for a sample draft.",
+      "noQuestionsHint": "No further questions — you can generate directly."
     },
     "generating": {
       "title": "Multi-AI pipeline running…",
@@ -895,7 +903,8 @@
         "factchecker": "Fact-checking legal citations… (Perplexity)",
         "adversary": "Authority perspective check… (Claude)",
         "consolidator": "Consolidating final version… (Claude)"
-      }
+      },
+      "finalising": "Finalising letter…"
     },
     "result": {
       "title": "Objection letter ready!",
@@ -919,7 +928,11 @@
       "legalNote": "Not legal advice under RDG",
       "agentLog": "AI Agent Log",
       "outputLanguageWarning": "This document was generated in {language}. The German version is required for submission to German authorities.",
-      "downloadTxt": "Download as TXT"
+      "downloadTxt": "Download as TXT",
+      "draftEditable": "Draft · editable",
+      "lockedTitle": "Your objection letter is ready",
+      "lockedHint": "Unlock the full letter to download, copy and submit it.",
+      "unlockCta": "Unlock full letter"
     },
     "errors": {
       "analyze": "Document analysis failed. Please try again.",

@@ -1,9 +1,10 @@
 'use client'
 
-import { useState, useMemo } from 'react'
-import { Plus, FolderOpen, ArrowRight, Search } from 'lucide-react'
+import { useState, useMemo, useCallback } from 'react'
+import { Plus, FolderOpen, ArrowRight, Search, Trash2 } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
+import { useRouter } from 'next/navigation'
 
 type CaseListItem = {
   id: string
@@ -54,12 +55,31 @@ interface Props {
   cases: CaseListItem[]
 }
 
-export function CasesClient({ cases }: Props) {
+export function CasesClient({ cases: initialCases }: Props) {
   const t = useTranslations('cases')
   const tUC = useTranslations('useCases')
+  const router = useRouter()
 
   const [filter, setFilter] = useState<Filter>('all')
   const [search, setSearch] = useState('')
+  const [cases, setCases] = useState(initialCases)
+  const [deletingId, setDeletingId] = useState<string | null>(null)
+
+  const handleDelete = useCallback(async (e: React.MouseEvent, id: string) => {
+    e.preventDefault()
+    e.stopPropagation()
+    if (!confirm(t('deleteConfirm'))) return
+    setDeletingId(id)
+    try {
+      const res = await fetch(`/api/cases/${id}`, { method: 'DELETE' })
+      if (res.ok) {
+        setCases((prev) => prev.filter((c) => c.id !== id))
+        router.refresh()
+      }
+    } finally {
+      setDeletingId(null)
+    }
+  }, [t, router])
 
   const now = new Date()
 
@@ -182,35 +202,41 @@ export function CasesClient({ cases }: Props) {
             const isOverdue = daysLeft !== null && daysLeft < 0
 
             return (
-              <Link
-                key={c.id}
-                href={`/cases/${c.id}`}
-                className="flex items-center gap-4 px-5 py-4 hover:bg-[var(--background-subtle)] transition-colors"
-              >
-                <div className={`w-2 h-2 rounded-full shrink-0 ${STATUS_DOTS[c.status] ?? 'bg-gray-300'}`} />
-                <div className="flex-1 min-w-0">
-                  <p className="font-medium text-sm text-[var(--foreground)]">{ucLabels[c.useCase] ?? c.useCase}</p>
-                  <p className="text-xs text-[var(--muted)] mt-0.5">
-                    #{c.id.slice(-8).toUpperCase()} · {new Date(c.createdAt).toLocaleDateString()} ·{' '}
-                    {t('documents', { count: c._count.documents })}
-                  </p>
-                </div>
-                {c.deadline && (
-                  <p
-                    className={`text-xs font-medium shrink-0 hidden sm:block ${
-                      isOverdue ? 'text-red-600' : isUrgent ? 'text-amber-600' : 'text-[var(--muted)]'
-                    }`}
-                  >
-                    {isOverdue
-                      ? t('overdueLabel')
-                      : t('deadlineLabel', { date: new Date(c.deadline).toLocaleDateString() })}
-                  </p>
-                )}
-                <span className={`text-xs font-medium px-2 py-0.5 rounded-full whitespace-nowrap shrink-0 ${STATUS_COLORS[c.status] ?? 'bg-gray-100 text-gray-600'}`}>
-                  {statusLabels[c.status] ?? c.status}
-                </span>
-                <ArrowRight className="w-3.5 h-3.5 text-[var(--muted)] shrink-0" />
-              </Link>
+              <div key={c.id} className="flex items-center gap-4 px-5 py-4 hover:bg-[var(--background-subtle)] transition-colors group">
+                <Link href={`/cases/${c.id}`} className="flex items-center gap-4 flex-1 min-w-0">
+                  <div className={`w-2 h-2 rounded-full shrink-0 ${STATUS_DOTS[c.status] ?? 'bg-gray-300'}`} />
+                  <div className="flex-1 min-w-0">
+                    <p className="font-medium text-sm text-[var(--foreground)]">{ucLabels[c.useCase] ?? c.useCase}</p>
+                    <p className="text-xs text-[var(--muted)] mt-0.5">
+                      #{c.id.slice(-8).toUpperCase()} · {new Date(c.createdAt).toLocaleDateString()} ·{' '}
+                      {t('documents', { count: c._count.documents })}
+                    </p>
+                  </div>
+                  {c.deadline && (
+                    <p
+                      className={`text-xs font-medium shrink-0 hidden sm:block ${
+                        isOverdue ? 'text-red-600' : isUrgent ? 'text-amber-600' : 'text-[var(--muted)]'
+                      }`}
+                    >
+                      {isOverdue
+                        ? t('overdueLabel')
+                        : t('deadlineLabel', { date: new Date(c.deadline).toLocaleDateString() })}
+                    </p>
+                  )}
+                  <span className={`text-xs font-medium px-2 py-0.5 rounded-full whitespace-nowrap shrink-0 ${STATUS_COLORS[c.status] ?? 'bg-gray-100 text-gray-600'}`}>
+                    {statusLabels[c.status] ?? c.status}
+                  </span>
+                  <ArrowRight className="w-3.5 h-3.5 text-[var(--muted)] shrink-0" />
+                </Link>
+                <button
+                  onClick={(e) => handleDelete(e, c.id)}
+                  disabled={deletingId === c.id}
+                  title={t('deleteCase')}
+                  className="p-1.5 text-[var(--muted)] hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 rounded-lg transition-colors opacity-0 group-hover:opacity-100 shrink-0 disabled:opacity-30"
+                >
+                  <Trash2 className="w-3.5 h-3.5" />
+                </button>
+              </div>
             )
           })}
         </div>

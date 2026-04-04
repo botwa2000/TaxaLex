@@ -4,37 +4,58 @@
  */
 
 // ── AI Models ─────────────────────────────────────────────────────────────────
+//
+// Each entry is { provider, model }.  The admin toggles between DEV and PROD via
+// the pipeline_mode DB flag (Admin → Overview tab).
+//
+// HOW TO UPDATE MODELS:
+//   • Anthropic: model IDs without a date suffix (e.g. "claude-sonnet-4-6") are
+//     provider-maintained aliases that point to the latest stable release in that
+//     tier — no action needed when a new version ships.
+//     Dated IDs (e.g. "claude-haiku-4-5-20251001") are pinned; bump them here
+//     when a new Haiku version is available.
+//   • Google: "gemini-2.0-flash" and "gemini-1.5-pro" are stable non-versioned
+//     aliases maintained by Google — they auto-update within their tier.
+//   • Perplexity: "sonar" and "sonar-pro" are tier aliases, not pinned versions.
+
+export type ModelSpec = {
+  provider: 'anthropic' | 'google' | 'perplexity' | 'openai'
+  model: string
+}
 
 /**
- * DEV tier — cheapest models, used during development and testing.
- * Gemini Flash is free; Haiku is ~10× cheaper than Sonnet; sonar (not sonar-pro) is cheaper Perplexity.
+ * DEV tier — all pipeline agents run on Gemini Flash (free quota, instant).
+ * Analyzer stays on Anthropic Haiku because the /api/analyze route uses
+ * Claude's native PDF/image content blocks (no transparent provider swap).
  */
 export const MODELS_DEV = {
-  drafter:      'claude-haiku-4-5-20251001',
-  reviewer:     'gemini-1.5-flash',
-  factchecker:  'sonar',
-  adversary:    'claude-haiku-4-5-20251001',
-  consolidator: 'claude-haiku-4-5-20251001',
-} as const
+  analyzer:     { provider: 'anthropic',  model: 'claude-haiku-4-5-20251001' },
+  drafter:      { provider: 'google',     model: 'gemini-2.0-flash' },
+  reviewer:     { provider: 'google',     model: 'gemini-2.0-flash' },
+  factchecker:  { provider: 'perplexity', model: 'sonar' },
+  adversary:    { provider: 'google',     model: 'gemini-2.0-flash' },
+  consolidator: { provider: 'google',     model: 'gemini-2.0-flash' },
+} as const satisfies Record<string, ModelSpec>
 
 /**
- * PROD tier — best models for real users.
+ * PROD tier — highest-quality models for paying users.
+ * Sonnet alias auto-updates to the latest stable Sonnet when Anthropic ships one.
  */
 export const MODELS_PROD = {
-  drafter:      'claude-sonnet-4-6',
-  reviewer:     'gemini-1.5-pro',
-  factchecker:  'sonar-pro',
-  adversary:    'claude-sonnet-4-6',
-  consolidator: 'claude-sonnet-4-6',
-} as const
-
-/** Legacy alias — replaced at runtime by pipeline mode. Do not use directly in agents.ts. */
-export const MODELS = MODELS_PROD
+  analyzer:     { provider: 'anthropic',  model: 'claude-haiku-4-5-20251001' },
+  drafter:      { provider: 'anthropic',  model: 'claude-sonnet-4-6' },
+  reviewer:     { provider: 'google',     model: 'gemini-1.5-pro' },
+  factchecker:  { provider: 'perplexity', model: 'sonar-pro' },
+  adversary:    { provider: 'anthropic',  model: 'claude-sonnet-4-6' },
+  consolidator: { provider: 'anthropic',  model: 'claude-sonnet-4-6' },
+} as const satisfies Record<string, ModelSpec>
 
 // ── AI Pipeline ───────────────────────────────────────────────────────────────
 
 export const PIPELINE = {
   maxTokens: 8192,
+  /** Max tokens for the analyze (extraction) step — small JSON response, no need for 8 k */
+  analyzeMaxTokens: 2048,
   /** Hard timeout per agent call in ms */
   agentTimeoutMs: 60_000,
   /** Max file size accepted for upload (bytes) — Anthropic PDF limit is 32 MB */

@@ -486,7 +486,9 @@
     "startFirst": "Erste Anfrage starten",
     "overdueLabel": "⚠ Frist abgelaufen",
     "deadlineLabel": "Frist: {date}",
-    "documents": "{count, plural, one {# Dokument} other {# Dokumente}}"
+    "documents": "{count, plural, one {# Dokument} other {# Dokumente}}",
+    "deleteCase": "Fall löschen",
+    "deleteConfirm": "Diesen Fall löschen? Dies kann nicht rückgängig gemacht werden."
   },
   "account": {
     "title": "Profil & Einstellungen",
@@ -852,7 +854,9 @@
         "ssl": "SSL-verschlüsselt",
         "eu": "EU-Server",
         "noStore": "Nicht gespeichert"
-      }
+      },
+      "noCredits": "Kein Guthaben verfügbar.",
+      "topUpLink": "Jetzt aufladen →"
     },
     "analyzing": {
       "title": "Dokument wird analysiert…",
@@ -860,7 +864,9 @@
       "step2": "Daten werden extrahiert…",
       "step3": "Rückfragen werden vorbereitet…",
       "liveMode": "KI-gestützte Analyse · Inhalte werden nicht dauerhaft gespeichert",
-      "demoMode": "Demo-Modus · Kein Dokument hochgeladen"
+      "demoMode": "Demo-Modus · Kein Dokument hochgeladen",
+      "detectedTitle": "Erkannte Bescheid-Daten",
+      "detectedSubtitle": "Dokument ausgelesen — weiter zu den Rückfragen…"
     },
     "questions": {
       "title": "Rückfragen",
@@ -879,7 +885,9 @@
         "subtitle": "Belege stärken Ihren Einspruch — die KI-Agenten berücksichtigen sie automatisch.",
         "add": "Dokument hinzufügen",
         "optional": "Optional"
-      }
+      },
+      "demoHint": "Demo-Modus: Klicken Sie auf Einspruch generieren für einen Beispielentwurf.",
+      "noQuestionsHint": "Keine weiteren Rückfragen — Sie können direkt generieren."
     },
     "generating": {
       "title": "Multi-KI-Pipeline läuft…",
@@ -895,7 +903,8 @@
         "factchecker": "Faktencheck läuft… (Perplexity)",
         "adversary": "Finanzamt-Perspektive… (Claude)",
         "consolidator": "Konsolidierung… (Claude)"
-      }
+      },
+      "finalising": "Schreiben wird finalisiert…"
     },
     "result": {
       "title": "Einspruch bereit!",
@@ -919,7 +928,11 @@
       "legalNote": "Kein Rechtsrat i.S.d. RDG",
       "agentLog": "KI-Agenten-Protokoll",
       "outputLanguageWarning": "Dieses Dokument wurde in {language} erstellt. Für die Einreichung beim Finanzamt ist die deutsche Version erforderlich.",
-      "downloadTxt": "Als TXT herunterladen"
+      "downloadTxt": "Als TXT herunterladen",
+      "draftEditable": "Entwurf · bearbeitbar",
+      "lockedTitle": "Ihr Einspruch ist fertig",
+      "lockedHint": "Schalten Sie das vollständige Schreiben frei, um es herunterzuladen und einzureichen.",
+      "unlockCta": "Vollständiges Schreiben freischalten"
     },
     "errors": {
       "analyze": "Dokumentenanalyse fehlgeschlagen. Bitte versuchen Sie es erneut.",

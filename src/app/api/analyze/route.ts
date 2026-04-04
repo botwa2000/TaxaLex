@@ -7,6 +7,7 @@ import { getActiveModels } from '@/lib/pipelineMode'
 import { auth } from '@/auth'
 import { rateLimit } from '@/lib/rateLimit'
 import { config } from '@/config/env'
+import { languageNames } from '@/config/i18n'
 
 export const maxDuration = 120
 
@@ -110,49 +111,51 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    const langInstruction =
-      uiLanguage !== 'de'
-        ? `\n\nIMPORTANT: Write all questions in the language with code "${uiLanguage}".`
-        : ''
+    const uiLangName = languageNames[uiLanguage] ?? uiLanguage
 
     contentBlocks.push({
       type: 'text',
-      text: `Analysiere die obigen Dokumente und extrahiere die Kerndaten im JSON-Format.
+      text: `Analyse the documents above and extract the core data as JSON.
 
-Antworte NUR mit einem JSON-Objekt (kein Markdown, kein Kommentar):
+Respond ONLY with a JSON object (no markdown, no comments):
 {
   "bescheidData": {
-    "finanzamt": "Name des Finanzamts oder der Behörde",
-    "steuernummer": "Steuernummer oder Aktenzeichen",
-    "bescheidDatum": "Datum im Format DD.MM.YYYY",
-    "steuerart": "Art des Bescheids (z.B. Einkommensteuer 2022)",
+    "finanzamt": "name of the authority",
+    "steuernummer": "tax number or file reference",
+    "bescheidDatum": "date in format DD.MM.YYYY",
+    "steuerart": "type of notice (e.g. Einkommensteuer 2022)",
     "nachzahlung": 0,
     "streitigerBetrag": 0,
-    "rawText": "Kurze Zusammenfassung des Dokuments in 2-3 Sätzen (max. 400 Zeichen) — der Hauptgrund für die Nachzahlung oder Ablehnung"
+    "rawText": "2–3 sentence summary of the document — the main reason for the payment demand or rejection (max 400 chars)"
   },
   "followUpQuestions": [
     { "id": "q1", "question": "...", "required": true, "type": "text" }
   ]
-}${langInstruction}
+}
 
-Beschränke followUpQuestions auf maximal 5 gezielte Fragen.
-Für das Feld "type" in followUpQuestions: Nutze "yesno" für Ja/Nein-Fragen, "amount" für Betrags-/Zahlungsangaben, "text" für alle anderen.
-Für rawText: Nur 2-3 Sätze — kein langer Dokumententext.`,
+Rules:
+- Limit followUpQuestions to at most 5 targeted questions.
+- For the "type" field: use "yesno" for yes/no questions, "amount" for monetary amounts, "text" for everything else.
+- rawText: 2–3 sentences only — no full document text.
+- LANGUAGE: Write all followUpQuestions in ${uiLangName}. The bescheidData field values must remain in their original language as found in the document.`,
     })
 
     const { models } = await getActiveModels()
     const t0 = Date.now()
 
+    // Analyze always uses Anthropic — the route builds Claude-native PDF/image
+    // content blocks. The admin-controlled provider in models.analyzer is ignored here;
+    // only the model name is used (Haiku in both dev and prod for speed).
     const client = new Anthropic({ apiKey: config.anthropicApiKey })
     const response = await client.messages.create({
-      model: models.drafter,
-      max_tokens: PIPELINE.maxTokens,
-      system: 'Du bist ein Steuerexperte. Extrahiere strukturierte Kerndaten aus Steuerdokumenten und stelle bis zu 5 gezielte Rückfragen. Antworte ausschließlich mit validem JSON — kein Markdown, keine Erklärungen. Das Feld rawText enthält nur eine 2-3-Satz-Zusammenfassung, NICHT den vollen Dokumententext.',
+      model: models.analyzer.model,
+      max_tokens: PIPELINE.analyzeMaxTokens,
+      system: `You are a tax law expert. Extract structured data from official notices and generate targeted follow-up questions. Respond ONLY with valid JSON — no markdown, no explanations. All followUpQuestions must be written in ${uiLangName}.`,
       messages: [{ role: 'user', content: contentBlocks }],
     })
 
     const durationMs = Date.now() - t0
-    logger.agent('drafter', 'anthropic', models.drafter, durationMs)
+    logger.agent('analyzer', 'anthropic', models.analyzer.model, durationMs)
 
     const result = response.content
       .filter((b) => b.type === 'text')

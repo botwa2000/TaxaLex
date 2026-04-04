@@ -41,6 +41,9 @@ export const authConfig: NextAuthConfig = {
 
   session: {
     strategy: 'jwt',
-    maxAge: 30 * 24 * 60 * 60,
+    // 8 hours — covers closed-browser overnight scenario without the client-side
+    // idle timer needing to fire. Rolling update means active sessions are renewed.
+    maxAge: 8 * 60 * 60,
+    updateAge: 60 * 60, // re-issue JWT every 1h of active use
   },
 }

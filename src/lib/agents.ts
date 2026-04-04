@@ -8,6 +8,7 @@ import Anthropic from '@anthropic-ai/sdk'
 import OpenAI from 'openai'
 import { GoogleGenerativeAI } from '@google/generative-ai'
 import type { AgentConfig, AgentOutput, AgentRole, BescheidData } from '@/types'
+import type { ModelSpec } from '@/config/constants'
 import { logger } from '@/lib/logger'
 import { languageNames } from '@/config/i18n'
 import { config } from '@/config/env'
@@ -54,62 +55,65 @@ function getGoogleAI(): GoogleGenerativeAI {
 
 // --- Agent configurations ---
 // Models are injected at call time from pipelineMode so dev/prod can be toggled live.
+// Each entry in `models` carries both provider and model name — no hardcoding here.
+//
+// Language split:
+//   • Letter agents (drafter, consolidator) write in `outputLanguage` (default: German).
+//   • Analysis agents (reviewer, factchecker, adversary) communicate in `uiLanguage`
+//     so the user reads feedback in their own language, not in German.
+// Language directives live in the system prompt so they take effect from the first token,
+// not as a fragile appendix on the user message.
 
-function buildAgents(models: Record<string, string>): Record<AgentRole, AgentConfig> {
+type PipelineModels = Record<'drafter' | 'reviewer' | 'factchecker' | 'adversary' | 'consolidator', ModelSpec>
+
+function buildAgents(
+  models: PipelineModels,
+  uiLanguage: string,
+  outputLanguage: string,
+): Record<AgentRole, AgentConfig> {
+  const uiLang  = languageNames[uiLanguage]  ?? uiLanguage
+  const outLang = languageNames[outputLanguage] ?? outputLanguage
+
   return {
     drafter: {
       role: 'drafter',
-      provider: 'anthropic',
-      model: models.drafter,
-      systemPrompt: `Du bist ein erfahrener Steuerrechtler, spezialisiert auf Einspruchsverfahren
-nach §347 AO. Erstelle ein vollständiges Einspruchsschreiben basierend auf den
-bereitgestellten Unterlagen. Verwende die korrekte BFH-Rechtsprechung und
-Gesetzesgrundlagen. Strukturiere das Schreiben in: Antrag auf AdV, Sachverhalt,
-Begründung (mit Unterpunkten), Rechtsfolge, konkreter Antrag.
-Verwende den Fremdvergleich ("fremder Dritter unter gleichen Umständen") statt
-"ordentlicher Kaufmann". Berücksichtige Verböserungsrisiken nach §367 Abs. 2 AO.`,
+      provider: models.drafter.provider,
+      model: models.drafter.model,
+      systemPrompt: `You are an experienced tax lawyer specialising in objection proceedings (§347 AO, Germany). Draft a complete formal objection letter based on the provided documents. Apply correct BFH case law and statutory references. Structure: Application for suspension of enforcement (AdV) → Facts → Grounds (with sub-points) → Legal consequence → Specific application. Use the arm's-length standard ("independent third party under identical circumstances") rather than "prudent businessman". Account for aggravation risks under §367 para. 2 AO.
+
+LANGUAGE DIRECTIVE: Write the complete objection letter in ${outLang}. This document will be submitted to German-speaking authorities.`,
     },
     reviewer: {
       role: 'reviewer',
-      provider: 'google',
-      model: models.reviewer,
-      systemPrompt: `Du bist ein Steuerberater, der Einspruchsschreiben auf Fehler prüft.
-Prüfe insbesondere: korrekte Rechtsbegriffe (BFH-konform), mathematische Berechnungen,
-Vollständigkeit der Argumentation, korrekte Gesetzeszitate, Konsistenz der
-Krisenzeitpunkt-Argumentation, ob der Verlustvortrags-Bescheid mitangefochten wird.
-Gib eine Liste konkreter Fehler und Verbesserungsvorschläge zurück.`,
+      provider: models.reviewer.provider,
+      model: models.reviewer.model,
+      systemPrompt: `You are a tax adviser reviewing a formal objection letter for errors. Check: correct BFH-compliant legal terminology, arithmetic, completeness of argumentation, accuracy of statutory citations, consistency of the crisis-date line of argument, and whether any loss-carryforward notice is also contested. Return a numbered list of concrete errors and improvement suggestions.
+
+LANGUAGE DIRECTIVE: Write your entire review and all feedback in ${uiLang}. Do not use German unless quoting a specific legal term that has no equivalent.`,
     },
     factchecker: {
       role: 'factchecker',
-      provider: 'perplexity',
-      model: models.factchecker,
-      systemPrompt: `Du bist ein Steuerrechts-Experte, der die Richtigkeit von Rechtsgrundlagen
-in einem deutschen Einspruchsschreiben überprüft. Prüfe mit aktuellen Web-Quellen:
-- Existieren die genannten BFH-Urteile und sind die Aktenzeichen korrekt?
-- Sind die zitierten Paragraphen (AO, EStG, KStG etc.) in der genannten Fassung gültig?
-- Entsprechen die Gesetzeszitate dem aktuellen Stand?
-- Gibt es neuere BFH/FG-Rechtsprechung, die die Argumentation stärkt oder widerlegt?
-Gib konkrete Korrekturen und aktuelle Fundstellen zurück.`,
+      provider: models.factchecker.provider,
+      model: models.factchecker.model,
+      systemPrompt: `You are a tax law expert verifying legal references in a German objection letter using live web sources. Check: Do cited BFH rulings exist and are their case numbers correct? Are cited paragraphs (AO, EStG, KStG, etc.) valid in the stated version? Are statutory citations current? Is there newer BFH/FG case law that strengthens or weakens the argument? Return concrete corrections and source references.
+
+LANGUAGE DIRECTIVE: Write your entire fact-check report in ${uiLang}. Quote German legal terms verbatim where necessary, but explain them in ${uiLang}.`,
     },
     adversary: {
       role: 'adversary',
-      provider: 'anthropic',
-      model: models.adversary,
-      systemPrompt: `Du bist ein erfahrener Finanzbeamter/Sachbearbeiter. Analysiere das
-Einspruchsschreiben aus Sicht des Finanzamts. Identifiziere jede Schwachstelle,
-die das Finanzamt nutzen könnte: fehlende Nachweise, angreifbare Formulierungen,
-Anlaufverluste-Einwand, Going-Concern-Widerspruch, Verböserungsmöglichkeiten.
-Bewerte jede Schwachstelle nach Risiko (hoch/mittel/niedrig).`,
+      provider: models.adversary.provider,
+      model: models.adversary.model,
+      systemPrompt: `You are an experienced German tax official (Finanzbeamter/Sachbearbeiter). Analyse the objection letter from the tax authority's perspective. Identify every weakness the authority could exploit: missing evidence, vulnerable wording, start-up-loss objection, going-concern contradiction, aggravation opportunities. Rate each weakness: high / medium / low risk.
+
+LANGUAGE DIRECTIVE: Write your entire analysis in ${uiLang}. Use German technical terms only where unavoidable, and explain them in ${uiLang}.`,
     },
     consolidator: {
       role: 'consolidator',
-      provider: 'anthropic',
-      model: models.consolidator,
-      systemPrompt: `Du bist ein Senior-Steuerberater, der ein finales Einspruchsschreiben
-erstellt. Dir liegen vor: ein Entwurf, ein Review mit Fehlern, eine Faktenchecks
-der Rechtsgrundlagen, und eine Gegneranalyse. Erstelle die finale Version, die alle
-Fehler korrigiert, alle Rechtsgrundlagen verifiziert und alle Schwachstellen präventiv
-adressiert. Das Ergebnis muss juristisch wasserdicht sein. Verwende formelle, präzise Sprache.`,
+      provider: models.consolidator.provider,
+      model: models.consolidator.model,
+      systemPrompt: `You are a senior tax adviser producing the final objection letter. You have four inputs: (1) a draft letter, (2) a reviewer's error list, (3) a fact-checker's legal-reference report, (4) an adversarial weakness analysis. Produce the final version: correct all errors, verify all legal references, pre-emptively address every identified weakness. The result must be legally watertight and formally precise.
+
+LANGUAGE DIRECTIVE: Write the complete objection letter in ${outLang}. This document will be submitted to German-speaking authorities.`,
     },
   }
 }
@@ -194,22 +198,10 @@ export async function orchestrate(
   onProgress?: (event: ProgressEvent) => void
 ): Promise<{ outputs: AgentOutput[]; finalDraft: string; pipelineMode: string }> {
   const { models, mode: pipelineModeUsed } = await getActiveModels()
-  const AGENTS = buildAgents(models)
+  // Language directives live inside system prompts — see buildAgents().
+  const AGENTS = buildAgents(models, uiLanguage, outputLanguage)
   const outputs: AgentOutput[] = []
   const context = buildContext(bescheidData, documents, userAnswers)
-
-  const outputLangName = languageNames[outputLanguage] ?? outputLanguage
-  const uiLangName = languageNames[uiLanguage] ?? uiLanguage
-
-  // Analysis agents respond in the user's UI language (not submitted to authorities)
-  const analysisLangInstruction = uiLanguage !== 'de'
-    ? `\n\nIMPORTANT: Write your entire analysis and feedback in ${uiLangName}.`
-    : ''
-
-  // Draft/consolidator produce the final letter — German required for submission
-  const draftLangInstruction = outputLanguage !== 'de'
-    ? `\n\nIMPORTANT: Write the complete objection letter in ${outputLangName}. Note: this version is for review only — German is required for official submission.`
-    : ''
 
   async function runAgent(
     role: AgentRole,
@@ -241,51 +233,51 @@ export async function orchestrate(
   const draftContent = await runAgent(
     'drafter',
     AGENTS.drafter,
-    `Erstelle ein Einspruchsschreiben basierend auf:\n\n${context}${draftLangInstruction}`,
+    `Draft an objection letter based on the following case data:\n\n${context}`,
     { draftPreview: true }
   )
 
-  // Step 2: Review (Gemini)
+  // Step 2: Review (language-aware — system prompt sets uiLanguage)
   const reviewContent = await runAgent(
     'reviewer',
     AGENTS.reviewer,
-    `Prüfe dieses Einspruchsschreiben auf Fehler:\n\n${draftContent}\n\nOriginaldaten:\n${context}${analysisLangInstruction}`
+    `Review this objection letter for errors:\n\n${draftContent}\n\nOriginal case data:\n${context}`
   )
 
-  // Step 3: Fact-check (Perplexity)
+  // Step 3: Fact-check (language-aware — system prompt sets uiLanguage)
   const factCheckContent = await runAgent(
     'factchecker',
     AGENTS.factchecker,
-    `Prüfe die Rechtsgrundlagen in diesem Einspruchsschreiben auf Korrektheit:\n\n${draftContent}${analysisLangInstruction}`
+    `Verify the legal references in this objection letter:\n\n${draftContent}`
   )
 
-  // Step 4: Adversarial
+  // Step 4: Adversarial (language-aware — system prompt sets uiLanguage)
   const adversaryContent = await runAgent(
     'adversary',
     AGENTS.adversary,
-    `Analysiere aus Finanzamt-Perspektive:\n\n${draftContent}\n\nOriginaldaten:\n${context}${analysisLangInstruction}`
+    `Analyse this objection letter from the tax authority's perspective:\n\n${draftContent}\n\nOriginal case data:\n${context}`
   )
 
-  // Step 5: Consolidate — final letter
+  // Step 5: Consolidate — final letter (language-aware — system prompt sets outputLanguage)
   const finalDraft = await runAgent(
     'consolidator',
     AGENTS.consolidator,
-    `Erstelle die finale Version des Einspruchsschreibens.
+    `Produce the final objection letter using all four inputs below.
 
-ENTWURF:
+DRAFT:
 ${draftContent}
 
-REVIEW – gefundene Fehler (Gemini):
+REVIEW — errors found:
 ${reviewContent}
 
-FAKTENCHECK – verifizierte Rechtsgrundlagen (Perplexity):
+FACT-CHECK — verified legal references:
 ${factCheckContent}
 
-GEGNERANALYSE – Schwachstellen aus FA-Sicht:
+ADVERSARIAL ANALYSIS — weaknesses from the authority's perspective:
 ${adversaryContent}
 
-ORIGINALDATEN:
-${context}${draftLangInstruction}`
+ORIGINAL CASE DATA:
+${context}`
   )
 
   logger.info('Pipeline complete', { totalAgents: outputs.length, pipelineMode: pipelineModeUsed })
