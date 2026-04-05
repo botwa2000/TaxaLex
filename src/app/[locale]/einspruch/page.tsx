@@ -389,11 +389,14 @@ function EinspruchPageInner() {
         }))
       )
 
+      const t0Fetch = Date.now()
+      console.debug('[analyze] fetch() start — payload', Math.round(JSON.stringify({ files: filePayloads }).length / 1024), 'KB')
       const res = await fetch('/api/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ files: filePayloads, uiLanguage: locale }),
       })
+      console.debug('[analyze] fetch() resolved in', Date.now() - t0Fetch, 'ms — status', res.status)
       setIsUploading(false)
 
       if (res.status === 401) {

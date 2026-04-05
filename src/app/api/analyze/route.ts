@@ -158,6 +158,19 @@ Questions rules: Generate 3 to 6 questions. You MUST always generate at least 3 
           )
         }
 
+        // Cloudflare and some proxies buffer SSE until their internal buffer fills
+        // (typically 1-2 KB). Send a padding comment large enough to force an
+        // immediate flush, then the real first event, before the Anthropic call.
+        const pad = ': ' + 'x'.repeat(2048) + '\n\n'
+        controller.enqueue(encoder.encode(pad))
+
+        // Heartbeat every 10s keeps Cloudflare/nginx from closing the idle
+        // connection during the Anthropic API call (which can take 30–60s for
+        // large PDFs). SSE comment lines are ignored by the browser.
+        const heartbeat = setInterval(() => {
+          try { controller.enqueue(encoder.encode(':heartbeat\n\n')) } catch { /* client disconnected */ }
+        }, 10_000)
+
         // Send immediately — this is the first SSE event the browser receives.
         // Because this runs inside start() (after HTTP headers are already sent),
         // the browser resolves fetch() and clears "Uploading..." BEFORE we even
@@ -323,6 +336,7 @@ Questions rules: Generate 3 to 6 questions. You MUST always generate at least 3 
           })
           send('error', { message: 'Analyse fehlgeschlagen' })
         } finally {
+          clearInterval(heartbeat)
           controller.close()
         }
       },
