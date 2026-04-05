@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect, Suspense } from 'react'
+import Link from 'next/link'
 import { useSearchParams, useRouter, useParams } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import {
@@ -154,6 +155,7 @@ function EinspruchPageInner() {
   const locale = typeof params?.locale === 'string' ? params.locale : 'de'
   const t = useTranslations('wizard')
   const tCommon = useTranslations('common')
+  const tNav = useTranslations('nav')
 
   const type = searchParams.get('type')
   const useCaseLabel = type ? (USE_CASE_KEYS[type] ?? type.replace(/-/g, ' ')) : null
@@ -700,7 +702,17 @@ function EinspruchPageInner() {
     <div className="min-h-screen bg-[var(--background)] flex flex-col">
       <header className="border-b border-[var(--border)] bg-[var(--surface)] sticky top-0 z-10">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
-          <Logo size="sm" href={`/${locale}`} />
+          <div className="flex items-center gap-3">
+            <Link
+              href={`/${locale}/dashboard`}
+              className="flex items-center gap-1.5 text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition-colors"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span className="hidden sm:inline">{tNav('dashboard')}</span>
+            </Link>
+            <div className="w-px h-5 bg-[var(--border)] hidden sm:block" />
+            <Logo size="sm" href={`/${locale}`} />
+          </div>
           <div className="flex items-center gap-3">
             {caseId && step !== 'upload' && (
               <span className="hidden sm:flex items-center gap-1.5 text-xs text-[var(--muted)] bg-[var(--background-subtle)] border border-[var(--border)] px-2.5 py-1 rounded-full">

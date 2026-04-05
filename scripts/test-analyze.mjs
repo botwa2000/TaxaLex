@@ -41,24 +41,27 @@ function toBase64(buf) {
 // ── Step 1: Login ─────────────────────────────────────────────────────────────
 
 async function login() {
-  console.log(`\n[1] Logging in at ${BASE_URL}/api/auth/callback/credentials …`)
+  console.log(`\n[1] Logging in at ${BASE_URL} …`)
   const t0 = Date.now()
 
-  // next-auth credentials login
-  // First, get the CSRF token
-  const csrfRes = await fetch(`${BASE_URL}/api/auth/csrf`)
+  // Step 1: Get CSRF token
+  const csrfRes = await fetch(`${BASE_URL}/api/auth/csrf`, { redirect: 'follow' })
   const csrfJson = await csrfRes.json()
   const csrfToken = csrfJson.csrfToken
   if (!csrfToken) throw new Error('Could not get CSRF token')
 
-  const setCookieRaw = csrfRes.headers.get('set-cookie') ?? ''
-  const csrfCookie = setCookieRaw.split(';')[0]
+  // Collect all cookies from the CSRF response using getSetCookie() (Node 18+)
+  const csrfCookies = (csrfRes.headers.getSetCookie?.() ?? [csrfRes.headers.get('set-cookie') ?? ''])
+    .filter(Boolean)
+    .map((c) => c.split(';')[0])
+  const csrfCookieHeader = csrfCookies.join('; ')
 
+  // Step 2: POST credentials
   const loginBody = new URLSearchParams({
     csrfToken,
     email: 'admin@taxalex.de',
     password: 'Admin1234!',
-    callbackUrl: '/',
+    callbackUrl: `${BASE_URL}/`,
     json: 'true',
   })
 
@@ -66,26 +69,49 @@ async function login() {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
-      Cookie: csrfCookie,
+      Cookie: csrfCookieHeader,
     },
     body: loginBody,
     redirect: 'manual',
   })
 
-  // Collect session cookie from all set-cookie headers
-  const allCookies = loginRes.headers.get('set-cookie') ?? ''
-  const sessionCookie = allCookies
-    .split(',')
-    .map((c) => c.trim().split(';')[0])
-    .filter((c) => c.includes('next-auth.session-token') || c.includes('__Secure-next-auth.session-token'))
-    .join('; ')
-
-  if (!sessionCookie) {
-    throw new Error(`Login failed — no session cookie in response. Status: ${loginRes.status}`)
+  // Node 18+: getSetCookie() returns all Set-Cookie headers as an array
+  const allSetCookies = loginRes.headers.getSetCookie?.() ?? []
+  if (allSetCookies.length === 0) {
+    // Fallback for older Node
+    const raw = loginRes.headers.get('set-cookie') ?? ''
+    if (raw) allSetCookies.push(...raw.split(','))
   }
 
-  const cookieHeader = [csrfCookie, sessionCookie].filter(Boolean).join('; ')
-  console.log(`    ✓ Logged in in ${fmt(Date.now() - t0)}`)
+  const sessionCookies = allSetCookies
+    .map((c) => c.split(';')[0].trim())
+    .filter((c) => c.includes('session-token'))
+
+  if (sessionCookies.length === 0) {
+    // Follow the redirect and try again — some NextAuth versions send cookie after redirect
+    const redirectUrl = loginRes.headers.get('location')
+    if (redirectUrl) {
+      const redirectRes = await fetch(redirectUrl, {
+        headers: { Cookie: csrfCookieHeader },
+        redirect: 'manual',
+      })
+      const redirectCookies = redirectRes.headers.getSetCookie?.() ?? []
+      sessionCookies.push(
+        ...redirectCookies
+          .map((c) => c.split(';')[0].trim())
+          .filter((c) => c.includes('session-token') || c.includes('callback-url'))
+      )
+    }
+  }
+
+  if (sessionCookies.length === 0) {
+    throw new Error(
+      `Login failed — no session cookie. Status: ${loginRes.status}, Location: ${loginRes.headers.get('location') ?? 'none'}`
+    )
+  }
+
+  const cookieHeader = [...csrfCookies, ...sessionCookies].join('; ')
+  console.log(`    ✓ Logged in in ${fmt(Date.now() - t0)} (${sessionCookies.length} session cookie(s))`)
   return cookieHeader
 }
 
