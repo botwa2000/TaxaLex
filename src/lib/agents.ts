@@ -66,14 +66,17 @@ function getGoogleAI(): GoogleGenerativeAI {
 // Language directives live in the system prompt so they take effect from the first token,
 // not as a fragile appendix on the user message.
 
-type PipelineModels = Record<'drafter' | 'reviewer' | 'factchecker' | 'adversary' | 'consolidator', ModelSpec>
+type PipelineModels = Record<
+  'drafter' | 'reviewer' | 'factchecker' | 'adversary' | 'consolidator',
+  ModelSpec
+>
 
 function buildAgents(
   models: PipelineModels,
   uiLanguage: string,
-  outputLanguage: string,
+  outputLanguage: string
 ): Record<AgentRole, AgentConfig> {
-  const uiLang  = languageNames[uiLanguage]  ?? uiLanguage
+  const uiLang = languageNames[uiLanguage] ?? uiLanguage
   const outLang = languageNames[outputLanguage] ?? outputLanguage
 
   return {
@@ -81,31 +84,42 @@ function buildAgents(
       role: 'drafter',
       provider: models.drafter.provider,
       model: models.drafter.model,
-      systemPrompt: `You are an experienced tax lawyer specialising in objection proceedings (§347 AO, Germany). Draft a complete formal objection letter based on the provided documents. Apply correct BFH case law and statutory references. Structure: Application for suspension of enforcement (AdV) → Facts → Grounds (with sub-points) → Legal consequence → Specific application. Use the arm's-length standard ("independent third party under identical circumstances") rather than "prudent businessman". Account for aggravation risks under §367 para. 2 AO.
+      systemPrompt: `You are an experienced German legal specialist in formal objection and appeal proceedings. Based on the document type in the case data, apply the correct legal framework and draft a complete formal letter:
 
-LANGUAGE DIRECTIVE: Write the complete objection letter in ${outLang}. This document will be submitted to German-speaking authorities.`,
+• Steuerbescheid → Einspruch (§347 AO), cite BFH case law, account for aggravation under §367 Abs. 2 AO
+• Bußgeldbescheid / Verwarnung → Einspruch (§67 OWiG), challenge evidence and proportionality
+• Kindergeld-Bescheid → Einspruch (§68 EStG, §355 AO), cite FG/BFH case law
+• Jobcenter / Bürgergeld-Bescheid → Widerspruch (§§83–86 SGG, §44 SGB X)
+• Krankenkassen-Bescheid → Widerspruch (§§78ff SGG) or Beschwerde under VVG
+• Kündigung → formal legal objection citing §4 KSchG, §622 BGB, BAG case law
+• Mieterhöhung → Widerspruch (§558b BGB), challenge formalities and comparables
+• Other → formal Widerspruch/Einspruch citing the applicable statutory basis
+
+Structure: Introduction and specific application → Facts → Legal grounds (numbered sub-points with §§ and case law) → Formal request.
+
+LANGUAGE DIRECTIVE: Write the complete letter in ${outLang}. This document will be submitted to German-speaking authorities.`,
     },
     reviewer: {
       role: 'reviewer',
       provider: models.reviewer.provider,
       model: models.reviewer.model,
-      systemPrompt: `You are a tax adviser reviewing a formal objection letter for errors. Check: correct BFH-compliant legal terminology, arithmetic, completeness of argumentation, accuracy of statutory citations, consistency of the crisis-date line of argument, and whether any loss-carryforward notice is also contested. Return a numbered list of concrete errors and improvement suggestions.
+      systemPrompt: `You are a legal adviser reviewing a formal objection or appeal letter for errors. Based on the document type, check: correct legal terminology for the applicable law, arithmetic where relevant, completeness of argumentation, accuracy of statutory citations and case law references, consistency of the factual narrative, and whether all claims are properly substantiated. Return a numbered list of concrete errors and improvement suggestions.
 
-LANGUAGE DIRECTIVE: Write your entire review and all feedback in ${uiLang}. Do not use German unless quoting a specific legal term that has no equivalent.`,
+LANGUAGE DIRECTIVE: Write your entire review in ${uiLang}. Quote German legal terms verbatim only where necessary, and explain them in ${uiLang}.`,
     },
     factchecker: {
       role: 'factchecker',
       provider: models.factchecker.provider,
       model: models.factchecker.model,
-      systemPrompt: `You are a tax law expert verifying legal references in a German objection letter using live web sources. Check: Do cited BFH rulings exist and are their case numbers correct? Are cited paragraphs (AO, EStG, KStG, etc.) valid in the stated version? Are statutory citations current? Is there newer BFH/FG case law that strengthens or weakens the argument? Return concrete corrections and source references.
+      systemPrompt: `You are a legal expert verifying references in a formal objection letter using live web sources. Check: Do cited court rulings (BGH, BFH, BAG, BVerwG, BSG, OLG, FG, etc.) exist with correct case numbers? Are cited statutory paragraphs (AO, BGB, SGB, OWiG, KSchG, VVG, etc.) valid and current? Is there newer case law that strengthens or weakens the argument? Return concrete corrections with source references.
 
-LANGUAGE DIRECTIVE: Write your entire fact-check report in ${uiLang}. Quote German legal terms verbatim where necessary, but explain them in ${uiLang}.`,
+LANGUAGE DIRECTIVE: Write your entire fact-check report in ${uiLang}. Quote German legal terms verbatim where necessary, and explain them in ${uiLang}.`,
     },
     adversary: {
       role: 'adversary',
       provider: models.adversary.provider,
       model: models.adversary.model,
-      systemPrompt: `You are an experienced German tax official (Finanzbeamter/Sachbearbeiter). Analyse the objection letter from the tax authority's perspective. Identify every weakness the authority could exploit: missing evidence, vulnerable wording, start-up-loss objection, going-concern contradiction, aggravation opportunities. Rate each weakness: high / medium / low risk.
+      systemPrompt: `You are an experienced German civil servant at the relevant authority handling this case. Analyse the objection letter from the authority's perspective. Identify every weakness they could exploit: missing evidence, procedural gaps, vulnerable legal arguments, factual inconsistencies, missed deadlines, insufficient substantiation. Rate each weakness: high / medium / low risk.
 
 LANGUAGE DIRECTIVE: Write your entire analysis in ${uiLang}. Use German technical terms only where unavoidable, and explain them in ${uiLang}.`,
     },
@@ -113,9 +127,9 @@ LANGUAGE DIRECTIVE: Write your entire analysis in ${uiLang}. Use German technica
       role: 'consolidator',
       provider: models.consolidator.provider,
       model: models.consolidator.model,
-      systemPrompt: `You are a senior tax adviser producing the final objection letter. You have four inputs: (1) a draft letter, (2) a reviewer's error list, (3) a fact-checker's legal-reference report, (4) an adversarial weakness analysis. Produce the final version: correct all errors, verify all legal references, pre-emptively address every identified weakness. The result must be legally watertight and formally precise.
+      systemPrompt: `You are a senior legal adviser producing the final objection or appeal letter. You have four inputs: (1) a draft letter, (2) a reviewer's error list, (3) a fact-checker's legal-reference report, (4) an adversarial weakness analysis. Produce the final version: correct all errors, verify all legal references, pre-emptively address every identified weakness. The result must be legally watertight, formally precise, and ready for submission.
 
-LANGUAGE DIRECTIVE: Write the complete objection letter in ${outLang}. This document will be submitted to German-speaking authorities.`,
+LANGUAGE DIRECTIVE: Write the complete letter in ${outLang}. This document will be submitted to German-speaking authorities.`,
     },
   }
 }
@@ -223,7 +237,17 @@ export async function callAgent(
  */
 type ProgressEvent =
   | { type: 'agent_start'; data: { role: AgentRole } }
-  | { type: 'agent_complete'; data: { role: AgentRole; provider: string; model: string; durationMs: number; summary: string; draftPreview?: string } }
+  | {
+      type: 'agent_complete'
+      data: {
+        role: AgentRole
+        provider: string
+        model: string
+        durationMs: number
+        summary: string
+        draftPreview?: string
+      }
+    }
 
 export async function orchestrate(
   bescheidData: BescheidData,
@@ -243,11 +267,11 @@ export async function orchestrate(
     docCount: documents.length,
     answerCount: Object.keys(userAnswers).length,
     agents: {
-      drafter:     `${models.drafter.provider}/${models.drafter.model}`,
-      reviewer:    `${models.reviewer.provider}/${models.reviewer.model}`,
+      drafter: `${models.drafter.provider}/${models.drafter.model}`,
+      reviewer: `${models.reviewer.provider}/${models.reviewer.model}`,
       factchecker: `${models.factchecker.provider}/${models.factchecker.model}`,
-      adversary:   `${models.adversary.provider}/${models.adversary.model}`,
-      consolidator:`${models.consolidator.provider}/${models.consolidator.model}`,
+      adversary: `${models.adversary.provider}/${models.adversary.model}`,
+      consolidator: `${models.consolidator.provider}/${models.consolidator.model}`,
     },
   })
 
@@ -306,7 +330,10 @@ export async function orchestrate(
     `Draft an objection letter based on the following case data:\n\n${context}`,
     { draftPreview: true }
   )
-  logger.debug('[PIPELINE] ─── STEP 1 complete', { draftChars: draftContent.length, elapsedMs: Date.now() - t0Pipeline })
+  logger.debug('[PIPELINE] ─── STEP 1 complete', {
+    draftChars: draftContent.length,
+    elapsedMs: Date.now() - t0Pipeline,
+  })
 
   // Steps 2–4: Run in parallel — all analyse the same draft independently
   // Reviewer, FactChecker and Adversary do not depend on each other's output,
@@ -361,11 +388,18 @@ ${context}`
   )
 
   const totalMs = Date.now() - t0Pipeline
-  logger.info('Pipeline complete', { totalAgents: outputs.length, pipelineMode: pipelineModeUsed })
+  logger.info('Pipeline complete', {
+    totalAgents: outputs.length,
+    pipelineMode: pipelineModeUsed,
+  })
   logger.debug('[PIPELINE] ─── All steps complete', {
     totalMs,
     finalDraftChars: finalDraft.length,
-    agentBreakdown: outputs.map((o) => ({ role: o.role, durationMs: o.durationMs, provider: o.provider })),
+    agentBreakdown: outputs.map((o) => ({
+      role: o.role,
+      durationMs: o.durationMs,
+      provider: o.provider,
+    })),
   })
 
   return { outputs, finalDraft, pipelineMode: pipelineModeUsed }
@@ -380,13 +414,19 @@ function buildContext(
 ): string {
   const parts: string[] = []
 
-  parts.push(`## Bescheid-Daten
-Finanzamt: ${bescheid.finanzamt}
-Steuernummer: ${bescheid.steuernummer}
-Bescheid-Datum: ${bescheid.bescheidDatum}
-Steuerart: ${bescheid.steuerart}
-Nachzahlung: €${bescheid.nachzahlung}
-Streitiger Betrag: €${bescheid.streitigerBetrag}${bescheid.rawText ? `\nKontext: ${bescheid.rawText}` : ''}`)
+  // Section heading from the AI-detected document type label, if present
+  const docTypeInfo = bescheid.docType as
+    | { category?: string; label?: string }
+    | undefined
+  const sectionHeading = docTypeInfo?.label ?? 'Dokument-Daten'
+
+  const fieldLines = Object.entries(bescheid)
+    .filter(([key]) => key !== 'docType')
+    .filter(([, value]) => value !== null && value !== undefined && value !== '')
+    .map(([key, value]) => `${key}: ${String(value)}`)
+    .join('\n')
+
+  parts.push(`## ${sectionHeading}\n${fieldLines}`)
 
   if (documents.length > 0) {
     parts.push('## Dokumente')
@@ -398,7 +438,7 @@ Streitiger Betrag: €${bescheid.streitigerBetrag}${bescheid.rawText ? `\nKontex
   if (Object.keys(answers).length > 0) {
     parts.push('## Zusätzliche Angaben')
     for (const [q, a] of Object.entries(answers)) {
-      parts.push(`${q}: ${a}`)
+      if (a.trim()) parts.push(`${q}: ${a}`)
     }
   }
 

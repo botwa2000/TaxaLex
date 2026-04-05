@@ -1,6 +1,11 @@
 // Core types for the multi-agent objection engine
 
-export type AgentRole = 'drafter' | 'reviewer' | 'factchecker' | 'adversary' | 'consolidator'
+export type AgentRole =
+  | 'drafter'
+  | 'reviewer'
+  | 'factchecker'
+  | 'adversary'
+  | 'consolidator'
 
 export type AgentProvider = 'anthropic' | 'openai' | 'google' | 'perplexity'
 
@@ -27,21 +32,15 @@ export interface TaxCase {
 }
 
 export type CaseStatus =
-  | 'upload'        // Step 1: Uploading documents
-  | 'questions'     // Step 2: AI asks follow-up questions
-  | 'drafting'      // Step 3: Multi-agent drafting
-  | 'review'        // Step 4: User reviews result
-  | 'complete'      // Step 5: Final document ready
+  | 'upload' // Step 1: Uploading documents
+  | 'questions' // Step 2: AI asks follow-up questions
+  | 'drafting' // Step 3: Multi-agent drafting
+  | 'review' // Step 4: User reviews result
+  | 'complete' // Step 5: Final document ready
 
-export interface BescheidData {
-  finanzamt: string
-  steuernummer: string
-  bescheidDatum: string
-  steuerart: string
-  nachzahlung: number
-  streitigerBetrag: number
-  rawText?: string
-}
+// Generic record — field keys and labels are determined at runtime by the AI
+// based on the actual document type (tax notice, traffic fine, kindergeld, etc.)
+export type BescheidData = Record<string, unknown>
 
 export interface UploadedDocument {
   id: string
@@ -57,9 +56,9 @@ export interface AgentOutput {
   model: string
   content: string
   timestamp: Date
-  durationMs?: number     // Wall-clock milliseconds for this agent
-  issues?: string[]       // Problems identified (for reviewer/adversary)
-  confidence?: number     // 0-1 confidence score
+  durationMs?: number // Wall-clock milliseconds for this agent
+  issues?: string[] // Problems identified (for reviewer/adversary)
+  confidence?: number // 0-1 confidence score
 }
 
 export interface EinspruchDocument {
