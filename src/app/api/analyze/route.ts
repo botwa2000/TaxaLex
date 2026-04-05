@@ -142,25 +142,13 @@ Questions rules: Generate 3 to 6 questions. You MUST always generate at least 3 
     const { models } = await getActiveModels()
     const client = new Anthropic({ apiKey: config.anthropicApiKey })
 
-    logger.debug('[ANALYZE] ─── Starting streaming analysis', {
+    logger.debug('[ANALYZE] ─── Returning streaming response (Anthropic call deferred to stream start)', {
       model: models.analyzer.model,
       uiLang: uiLangName,
       contentBlocks: contentBlocks.length,
     })
 
-    const t0Api = Date.now()
-
-    const messageStream = await client.messages.create({
-      model: models.analyzer.model,
-      max_tokens: PIPELINE.analyzeMaxTokens,
-      system: `You are an expert legal analyst specialising in German administrative law and formal objection proceedings. Analyse official documents and extract structured information. Your response must follow EXACTLY the JSONL format specified — document type first, then each field as a compact single-line JSON object, then the ---QUESTIONS--- separator, then the questions JSON array. No markdown, no explanations, no other text.`,
-      messages: [{ role: 'user', content: contentBlocks }],
-      stream: true,
-    })
-
     const encoder = new TextEncoder()
-    const collectedFields: Record<string, unknown> = {}
-    let followUpQuestions: unknown[] = []
 
     const readableStream = new ReadableStream({
       async start(controller) {
@@ -170,11 +158,32 @@ Questions rules: Generate 3 to 6 questions. You MUST always generate at least 3 
           )
         }
 
+        // Send immediately — this is the first SSE event the browser receives.
+        // Because this runs inside start() (after HTTP headers are already sent),
+        // the browser resolves fetch() and clears "Uploading..." BEFORE we even
+        // call the Anthropic API. Large PDFs uploading to Anthropic no longer
+        // block the client.
+        send('analyzing_start', { status: 'started' })
+
+        const collectedFields: Record<string, unknown> = {}
+        let followUpQuestions: unknown[] = []
         let lineBuffer = ''
         let questionsBuffer = ''
         let inQuestionsSection = false
 
         try {
+          const t0Api = Date.now()
+
+          logger.debug('[ANALYZE] ─── Calling Anthropic API', { model: models.analyzer.model })
+
+          const messageStream = await client.messages.create({
+            model: models.analyzer.model,
+            max_tokens: PIPELINE.analyzeMaxTokens,
+            system: `You are an expert legal analyst specialising in German administrative law and formal objection proceedings. Analyse official documents and extract structured information. Your response must follow EXACTLY the JSONL format specified — document type first, then each field as a compact single-line JSON object, then the ---QUESTIONS--- separator, then the questions JSON array. No markdown, no explanations, no other text.`,
+            messages: [{ role: 'user', content: contentBlocks }],
+            stream: true,
+          })
+
           for await (const event of messageStream) {
             if (
               event.type === 'content_block_delta' &&

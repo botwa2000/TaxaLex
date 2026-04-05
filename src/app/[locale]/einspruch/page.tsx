@@ -444,7 +444,12 @@ function EinspruchPageInner() {
             try {
               const payload = JSON.parse(dataStr)
               console.debug(`[analyze] SSE ← ${eventName}`, payload)
-              if (eventName === 'doc_type') {
+              if (eventName === 'analyzing_start') {
+                // Server confirmed it has received the files and is calling the AI.
+                // isUploading is already false at this point (fetch resolved),
+                // but this event confirms the AI pipeline is alive.
+                setIsUploading(false)
+              } else if (eventName === 'doc_type') {
                 setDetectedDocType(payload as DetectedDocType)
               } else if (eventName === 'field') {
                 setDetectedFields((prev) => [...prev, payload as DetectedField])
