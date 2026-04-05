@@ -932,6 +932,8 @@
         "print": "Stampi la lettera e la firmi",
         "send": "La invii tramite raccomandata o fax all'autorità competente"
       },
+      "retentionNotice": "I dati del suo caso vengono conservati per {days} giorni, poi eliminati definitivamente. Acquisti un piano per conservare i file a tempo indeterminato.",
+      "retentionCta": "Vedi i piani",
       "legalNote": "Non costituisce consulenza legale ai sensi del RDG",
       "agentLog": "Registro agenti IA",
       "outputLanguageWarning": "Questo documento è stato generato in {language}. La versione in tedesco è richiesta per la presentazione alle autorità tedesche.",

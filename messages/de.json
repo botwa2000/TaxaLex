@@ -932,6 +932,8 @@
         "print": "Drucken Sie das Schreiben aus und unterschreiben Sie es",
         "send": "Senden Sie es per Einschreiben oder Fax an die Behörde"
       },
+      "retentionNotice": "Ihre Falldaten werden {days} Tage gespeichert und dann dauerhaft gelöscht. Kaufen Sie einen Plan, um Ihre Daten dauerhaft zu behalten.",
+      "retentionCta": "Pläne ansehen",
       "legalNote": "Kein Rechtsrat i.S.d. RDG",
       "agentLog": "KI-Agenten-Protokoll",
       "outputLanguageWarning": "Dieses Dokument wurde in {language} erstellt. Für die Einreichung beim Finanzamt ist die deutsche Version erforderlich.",

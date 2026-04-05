@@ -932,6 +932,8 @@
         "print": "Imprima a petição e assine-a",
         "send": "Envie por carta registrada ou fax à autoridade competente"
       },
+      "retentionNotice": "Os dados do seu caso são armazenados por {days} dias e depois excluídos permanentemente. Adquira um plano para manter seus arquivos indefinidamente.",
+      "retentionCta": "Ver planos",
       "legalNote": "Não constitui assessoria jurídica nos termos do RDG",
       "agentLog": "Registro de agentes de IA",
       "outputLanguageWarning": "Este documento foi gerado em {language}. A versão em alemão é exigida para submissão às autoridades alemãs.",

@@ -74,6 +74,11 @@ export const config = {
 
   // ── Observability ──────────────────────────────────────────────────────
   sentryDsn: optionalEnv('SENTRY_DSN'),
+
+  // ── Cron ───────────────────────────────────────────────────────────────────
+  // Bearer token for /api/cron/* endpoints. Required in production.
+  // Set via Docker Swarm secret (injected in entrypoint.sh) + .env.local for dev.
+  cronSecret: optionalEnv('CRON_SECRET'),
 } as const
 
 export type Config = typeof config

@@ -932,6 +932,8 @@
         "print": "Imprima la carta y fírmela",
         "send": "Envíela por correo certificado o fax a la autoridad competente"
       },
+      "retentionNotice": "Los datos de su caso se almacenan durante {days} días y luego se eliminan permanentemente. Adquiera un plan para conservar sus archivos indefinidamente.",
+      "retentionCta": "Ver planes",
       "legalNote": "No constituye asesoramiento jurídico en virtud del RDG",
       "agentLog": "Registro de agentes IA",
       "outputLanguageWarning": "Este documento se generó en {language}. La versión en alemán es obligatoria para presentarlo ante las autoridades alemanas.",

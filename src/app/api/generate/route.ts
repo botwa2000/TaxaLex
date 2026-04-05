@@ -214,6 +214,9 @@ export async function POST(req: NextRequest) {
           agentCount: outputs.length,
           // locked = true means pipeline ran but user needs to pay to see the full result
           locked: !hasAccess && !isDemo,
+          // Free users: case data retained for 30 days then deleted.
+          // Paid users (credits > 0 or active sub) get null = stored indefinitely.
+          retentionDays: (!hasAccess && !isDemo) ? 30 : null,
         })
 
         logger.debug('[GENERATE] ─── pipeline_complete SSE sent', {

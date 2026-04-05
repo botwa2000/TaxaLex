@@ -932,6 +932,8 @@
         "print": "Imprimez la lettre et signez-la",
         "send": "Envoyez-la en recommandé ou par fax à l'autorité compétente"
       },
+      "retentionNotice": "Les données de votre dossier sont conservées {days} jours, puis supprimées définitivement. Achetez un plan pour conserver vos fichiers indéfiniment.",
+      "retentionCta": "Voir les offres",
       "legalNote": "Ne constitue pas un conseil juridique au sens du RDG",
       "agentLog": "Journal des agents IA",
       "outputLanguageWarning": "Ce document a été généré en {language}. La version en allemand est requise pour la soumission aux autorités allemandes.",

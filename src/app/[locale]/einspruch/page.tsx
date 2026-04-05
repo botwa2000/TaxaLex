@@ -186,6 +186,7 @@ function EinspruchPageInner() {
   const [generateError, setGenerateError] = useState<string | null>(null)
   const [analyzeError, setAnalyzeError] = useState<string | null>(null)
   const [resultLocked, setResultLocked] = useState(false) // true = freemium gate active
+  const [retentionDays, setRetentionDays] = useState<number | null>(null) // null = stored permanently
   const [detectedFields, setDetectedFields] = useState<DetectedField[]>([])
   const [detectedDocType, setDetectedDocType] = useState<DetectedDocType | null>(null)
   const [additionalFiles, setAdditionalFiles] = useState<File[]>([])
@@ -625,6 +626,7 @@ function EinspruchPageInner() {
           } else if (eventName === 'pipeline_complete') {
             finalDraft = String(payload.finalDraft ?? '')
             if (payload.locked) setResultLocked(true)
+            if (typeof payload.retentionDays === 'number') setRetentionDays(payload.retentionDays)
             if (payload.caseId) {
               completedCaseId = String(payload.caseId)
               caseIdRef.current = completedCaseId
@@ -691,6 +693,7 @@ function EinspruchPageInner() {
     setGenerateError(null)
     setAnalyzeError(null)
     setResultLocked(false)
+    setRetentionDays(null)
     docsRef.current = null
     caseIdRef.current = null
     bescheidDataRef.current = null
@@ -1720,6 +1723,24 @@ function EinspruchPageInner() {
                     <FolderOpen className="w-4 h-4" />
                     {t('result.openInCases')}
                   </button>
+                )}
+
+                {/* Retention notice — shown only for free users */}
+                {retentionDays !== null && (
+                  <div className="flex items-start gap-3 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-xl p-4 mb-5">
+                    <Clock className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
+                    <div className="text-sm">
+                      <p className="text-amber-800 dark:text-amber-300">
+                        {t('result.retentionNotice', { days: retentionDays })}
+                      </p>
+                      <button
+                        onClick={() => router.push(`/${locale}/pricing`)}
+                        className="mt-1 text-amber-700 dark:text-amber-400 font-semibold hover:underline"
+                      >
+                        {t('result.retentionCta')} →
+                      </button>
+                    </div>
+                  </div>
                 )}
 
                 {/* Next steps */}

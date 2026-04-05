@@ -932,6 +932,8 @@
         "print": "Mektubu yazdırın ve imzalayın",
         "send": "Taahhütlü posta veya faks ile yetkili kuruma gönderin"
       },
+      "retentionNotice": "Dava verileriniz {days} gün boyunca saklanır, ardından kalıcı olarak silinir. Dosyalarınızı süresiz tutmak için bir plan satın alın.",
+      "retentionCta": "Planları görüntüle",
       "legalNote": "RDG kapsamında hukuki danışmanlık teşkil etmez",
       "agentLog": "Yapay Zeka Ajan Günlüğü",
       "outputLanguageWarning": "Bu belge {language} dilinde oluşturulmuştur. Alman makamlarına sunmak için Almanca sürüm gereklidir.",

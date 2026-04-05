@@ -932,6 +932,8 @@
         "print": "Wydrukuj pismo i podpisz je",
         "send": "Wyślij listem poleconym lub faksem do właściwego organu"
       },
+      "retentionNotice": "Dane Twojej sprawy są przechowywane przez {days} dni, a następnie trwale usuwane. Kup plan, aby przechowywać pliki bezterminowo.",
+      "retentionCta": "Zobacz plany",
       "legalNote": "Nie stanowi porady prawnej w rozumieniu RDG",
       "agentLog": "Dziennik agentów AI",
       "outputLanguageWarning": "Dokument został wygenerowany w języku: {language}. Do złożenia w niemieckich organach administracji wymagana jest wersja niemieckojęzyczna.",

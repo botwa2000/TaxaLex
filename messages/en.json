@@ -932,6 +932,8 @@
         "print": "Print the letter and sign it",
         "send": "Send it by registered mail or fax to the authority"
       },
+      "retentionNotice": "Your case data is stored for {days} days, then permanently deleted. Purchase a plan to keep your files indefinitely.",
+      "retentionCta": "See plans",
       "legalNote": "Not legal advice under RDG",
       "agentLog": "AI Agent Log",
       "outputLanguageWarning": "This document was generated in {language}. The German version is required for submission to German authorities.",
