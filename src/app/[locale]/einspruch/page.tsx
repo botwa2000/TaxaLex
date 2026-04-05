@@ -406,55 +406,75 @@ function EinspruchPageInner() {
       }
 
       // Consume the SSE stream — fields arrive and are rendered in real-time
+      console.debug('[analyze] SSE stream started')
       const reader = res.body.getReader()
       const decoder = new TextDecoder()
       let buffer = ''
 
-      while (true) {
-        const { done, value } = await reader.read()
-        if (done) break
-        buffer += decoder.decode(value, { stream: true })
+      // Client-side timeout — if no SSE event arrives within 120s, abort
+      let lastEventTime = Date.now()
+      const timeoutChecker = setInterval(() => {
+        if (Date.now() - lastEventTime > 120_000) {
+          clearInterval(timeoutChecker)
+          reader.cancel()
+          console.error('[analyze] Timeout — no SSE event for 120s')
+          setAnalyzeError(t('errors.analyze'))
+          setStep('questions')
+        }
+      }, 5000)
 
-        const parts = buffer.split('\n\n')
-        buffer = parts.pop() ?? ''
+      try {
+        while (true) {
+          const { done, value } = await reader.read()
+          if (done) break
+          lastEventTime = Date.now()
+          buffer += decoder.decode(value, { stream: true })
 
-        for (const part of parts) {
-          let eventName = '',
-            dataStr = ''
-          for (const line of part.split('\n')) {
-            if (line.startsWith('event: ')) eventName = line.slice(7).trim()
-            if (line.startsWith('data: ')) dataStr = line.slice(6).trim()
-          }
-          if (!dataStr) continue
-          try {
-            const payload = JSON.parse(dataStr)
-            if (eventName === 'doc_type') {
-              setDetectedDocType(payload as DetectedDocType)
-            } else if (eventName === 'field') {
-              setDetectedFields((prev) => [...prev, payload as DetectedField])
-            } else if (eventName === 'complete') {
-              bescheidDataRef.current = payload.bescheidData ?? null
-              questionsRef.current = payload.followUpQuestions ?? null
-              setBescheidData(payload.bescheidData)
-              setQuestions(
-                (payload.followUpQuestions ?? []) as Array<{
-                  id: string
-                  question: string
-                  required?: boolean
-                  type?: 'text' | 'yesno' | 'amount' | 'date'
-                  background?: string
-                }>
-              )
-            } else if (eventName === 'error') {
-              setAnalyzeError(payload.message ?? t('errors.analyze'))
+          const parts = buffer.split('\n\n')
+          buffer = parts.pop() ?? ''
+
+          for (const part of parts) {
+            let eventName = '',
+              dataStr = ''
+            for (const line of part.split('\n')) {
+              if (line.startsWith('event: ')) eventName = line.slice(7).trim()
+              if (line.startsWith('data: ')) dataStr = line.slice(6).trim()
             }
-          } catch {
-            /* malformed SSE chunk — skip */
+            if (!dataStr) continue
+            try {
+              const payload = JSON.parse(dataStr)
+              console.debug(`[analyze] SSE ← ${eventName}`, payload)
+              if (eventName === 'doc_type') {
+                setDetectedDocType(payload as DetectedDocType)
+              } else if (eventName === 'field') {
+                setDetectedFields((prev) => [...prev, payload as DetectedField])
+              } else if (eventName === 'complete') {
+                bescheidDataRef.current = payload.bescheidData ?? null
+                questionsRef.current = payload.followUpQuestions ?? null
+                setBescheidData(payload.bescheidData)
+                setQuestions(
+                  (payload.followUpQuestions ?? []) as Array<{
+                    id: string
+                    question: string
+                    required?: boolean
+                    type?: 'text' | 'yesno' | 'amount' | 'date'
+                    background?: string
+                  }>
+                )
+              } else if (eventName === 'error') {
+                setAnalyzeError(payload.message ?? t('errors.analyze'))
+              }
+            } catch {
+              /* malformed SSE chunk — skip */
+            }
           }
         }
+      } finally {
+        clearInterval(timeoutChecker)
       }
-    } catch {
-      setAnalyzeError(t('errors.connection'))
+    } catch (err) {
+      console.error('[analyze] Error', err)
+      if (!analyzeError) setAnalyzeError(t('errors.connection'))
     }
 
     setStep('questions')
@@ -570,6 +590,7 @@ function EinspruchPageInner() {
           } catch {
             continue
           }
+          console.debug(`[generate] SSE ← ${eventName}`, payload)
 
           if (eventName === 'agent_start') {
             // Show spinner for this agent immediately — important for the parallel middle stage

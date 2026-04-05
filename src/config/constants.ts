@@ -14,7 +14,7 @@
 //     tier — no action needed when a new version ships.
 //     Dated IDs (e.g. "claude-haiku-4-5-20251001") are pinned; bump them here
 //     when a new Haiku version is available.
-//   • Google: "gemini-2.0-flash" and "gemini-1.5-pro" are stable non-versioned
+//   • Google: "gemini-2.5-flash" and "gemini-1.5-pro" are stable non-versioned
 //     aliases maintained by Google — they auto-update within their tier.
 //   • Perplexity: "sonar" and "sonar-pro" are tier aliases, not pinned versions.
 
@@ -30,11 +30,11 @@ export type ModelSpec = {
  */
 export const MODELS_DEV = {
   analyzer:     { provider: 'anthropic',  model: 'claude-haiku-4-5-20251001' },
-  drafter:      { provider: 'google',     model: 'gemini-2.0-flash' },
-  reviewer:     { provider: 'google',     model: 'gemini-2.0-flash' },
+  drafter:      { provider: 'google',     model: 'gemini-2.5-flash' },
+  reviewer:     { provider: 'google',     model: 'gemini-2.5-flash' },
   factchecker:  { provider: 'perplexity', model: 'sonar' },
-  adversary:    { provider: 'google',     model: 'gemini-2.0-flash' },
-  consolidator: { provider: 'google',     model: 'gemini-2.0-flash' },
+  adversary:    { provider: 'google',     model: 'gemini-2.5-flash' },
+  consolidator: { provider: 'google',     model: 'gemini-2.5-flash' },
 } as const satisfies Record<string, ModelSpec>
 
 /**
@@ -54,8 +54,8 @@ export const MODELS_PROD = {
 
 export const PIPELINE = {
   maxTokens: 8192,
-  /** Max tokens for the analyze (extraction) step — small JSON response, no need for 8 k */
-  analyzeMaxTokens: 2048,
+  /** Max tokens for the analyze step — no artificial cap, same as agents */
+  analyzeMaxTokens: 8192,
   /** Hard timeout per agent call in ms */
   agentTimeoutMs: 60_000,
   /** Max file size accepted for upload (bytes) — Anthropic PDF limit is 32 MB */
