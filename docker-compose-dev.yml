@@ -31,6 +31,7 @@ services:
       - source: taxalex_stripe_webhook_secret_dev
         target: stripe_webhook_secret_dev
       - turnstile_secret_key_dev
+      - cron_secret_dev
     environment:
       - NODE_ENV=production
       - DEBUG_LOGS=true
@@ -97,4 +98,6 @@ secrets:
   taxalex_stripe_webhook_secret_dev:
     external: true
   turnstile_secret_key_dev:
+    external: true
+  cron_secret_dev:
     external: true

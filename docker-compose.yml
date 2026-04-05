@@ -31,6 +31,7 @@ services:
       - source: taxalex_stripe_webhook_secret_prod
         target: stripe_webhook_secret_prod
       - turnstile_secret_key_prod
+      - cron_secret_prod
     environment:
       - NODE_ENV=production
       - NEXT_PUBLIC_SITE_URL=https://taxalex.de
@@ -96,4 +97,6 @@ secrets:
   taxalex_stripe_webhook_secret_prod:
     external: true
   turnstile_secret_key_prod:
+    external: true
+  cron_secret_prod:
     external: true

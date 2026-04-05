@@ -202,6 +202,10 @@ elif [[ "$CMD" == "secrets" ]]; then
   create_or_replace "turnstile_secret_key_prod" "${TURNSTILE_SECRET_KEY:-}"
   create_or_replace "turnstile_secret_key_dev"  "${TURNSTILE_SECRET_KEY:-}"
 
+  # Cron auth token (used by /api/cron/cleanup)
+  create_or_replace "cron_secret_prod" "${CRON_SECRET_PROD:-}"
+  create_or_replace "cron_secret_dev"  "${CRON_SECRET_DEV:-}"
+
   echo "==> Done. Verify with: ssh server 'docker secret ls | grep taxalex'"
 
 else
