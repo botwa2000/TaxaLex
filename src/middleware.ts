@@ -20,8 +20,12 @@ export default auth((req) => {
   const isAuthenticated = !!req.auth
 
   // Extract locale from path (e.g. /de/dashboard → de)
+  // Fall back to NEXT_LOCALE cookie (survives logout) before defaulting to 'de'
   const localeMatch = pathname.match(/^\/(de|en|fr|it|es|pt|tr|ru|pl|ar|uk)(\/|$)/)
-  const locale = localeMatch ? localeMatch[1] : 'de'
+  const cookieLocale = req.cookies.get('NEXT_LOCALE')?.value
+  const locale = localeMatch
+    ? localeMatch[1]
+    : (cookieLocale && locales.includes(cookieLocale as (typeof locales)[number]) ? cookieLocale : 'de')
 
   // Normalise: "/de/dashboard" → "/dashboard", "/de/" or "/de" → "/"
   const cleanPath = localeMatch

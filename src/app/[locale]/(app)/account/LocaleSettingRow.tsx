@@ -27,6 +27,9 @@ export function LocaleSettingRow({ initialLocale }: { initialLocale: string }) {
     setOpen(false)
     setCurrent(newLocale)
 
+    // Persist locale in a cookie that survives logout — next-intl reads this automatically
+    document.cookie = `NEXT_LOCALE=${newLocale};path=/;max-age=${60 * 60 * 24 * 365};samesite=lax`
+
     // Save preference to DB (fire-and-forget — navigation is the priority)
     fetch('/api/user/locale', {
       method: 'PATCH',

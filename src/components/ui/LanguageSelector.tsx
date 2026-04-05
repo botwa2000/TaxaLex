@@ -32,6 +32,9 @@ export function LanguageSelector({ currentLocale, variant = 'select', className,
   function handleChange(newLocale: string) {
     setOpen(false)
 
+    // Persist locale in a cookie that survives logout — next-intl reads this automatically
+    document.cookie = `NEXT_LOCALE=${newLocale};path=/;max-age=${60 * 60 * 24 * 365};samesite=lax`
+
     if (persistLocale) {
       // Fire-and-forget — don't block navigation
       fetch('/api/user/locale', {

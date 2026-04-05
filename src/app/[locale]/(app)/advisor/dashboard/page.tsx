@@ -23,9 +23,9 @@ type AssignmentRow = {
   }
 }
 
-export default async function AdvisorDashboardPage() {
-  const session = await auth()
-  if (!session) redirect('/login')
+export default async function AdvisorDashboardPage({ params }: { params: Promise<{ locale: string }> }) {
+  const [session, { locale }] = await Promise.all([auth(), params])
+  if (!session) redirect(`/${locale}/login`)
   if (!['ADVISOR', 'LAWYER', 'EXPERT', 'ADMIN'].includes(session.user?.role ?? '')) {
     redirect('/dashboard')
   }

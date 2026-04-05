@@ -136,7 +136,7 @@ Then a JSON array of follow-up questions (may span multiple lines):
 Valid categories: tax_notice | traffic_fine | parking_ticket | kindergeld | job_center | rent_increase | insurance_rejection | termination_letter | other_official
 Valid icons: building | hash | calendar | euro | scale | map-pin | clock | user | file-text | alert-circle | tag | shield | car | gavel | home | heart-pulse
 
-Questions rules: up to 6 questions covering (1) facts needed for the letter, (2) challengeable evidence or dates, (3) legal distinctions to clarify, (4) authority weaknesses to pre-empt. One question per entry. Include legal basis (§§, court rulings) in background. Write all questions and background in ${uiLangName}.`,
+Questions rules: Generate 3 to 6 questions. You MUST always generate at least 3 — even if the document seems clear, there are always procedural details (deadlines, prior correspondence, taxpayer intent) worth confirming. Cover: (1) facts needed for the letter, (2) challengeable evidence or dates, (3) legal distinctions to clarify, (4) authority weaknesses to pre-empt. One question per entry. Include legal basis (§§, court rulings) in background. Write all questions and background in ${uiLangName}.`,
     })
 
     const { models } = await getActiveModels()

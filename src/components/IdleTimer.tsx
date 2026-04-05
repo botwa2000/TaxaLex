@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { signOut } from 'next-auth/react'
+import { useParams } from 'next/navigation'
 
 const IDLE_MS    = 2 * 60 * 60 * 1000   // 2 hours
 const WARNING_MS = 5 * 60 * 1000        // warn 5 min before
@@ -9,6 +10,9 @@ const WARNING_MS = 5 * 60 * 1000        // warn 5 min before
 const ACTIVITY_EVENTS = ['mousemove', 'mousedown', 'keydown', 'touchstart', 'scroll', 'click'] as const
 
 export function IdleTimer() {
+  const params = useParams()
+  const locale = typeof params?.locale === 'string' ? params.locale : 'de'
+
   const [showWarning, setShowWarning] = useState(false)
   const [secsLeft,    setSecsLeft   ] = useState(WARNING_MS / 1000)
 
@@ -36,7 +40,7 @@ export function IdleTimer() {
     }, IDLE_MS - WARNING_MS)
 
     logoutRef.current = setTimeout(() => {
-      signOut({ callbackUrl: '/login?reason=idle' })
+      signOut({ callbackUrl: `/${locale}/login?reason=idle` })
     }, IDLE_MS)
   }
 

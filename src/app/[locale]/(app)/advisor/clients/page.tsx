@@ -4,9 +4,9 @@ import { DEMO_CLIENTS } from '@/lib/mockData'
 import { Users, Plus, Mail, FileText } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
 
-export default async function AdvisorClientsPage() {
-  const session = await auth()
-  if (!session) redirect('/login')
+export default async function AdvisorClientsPage({ params }: { params: Promise<{ locale: string }> }) {
+  const [session, { locale }] = await Promise.all([auth(), params])
+  if (!session) redirect(`/${locale}/login`)
   if (!['ADVISOR', 'LAWYER', 'ADMIN'].includes(session.user?.role ?? '')) {
     redirect('/dashboard')
   }

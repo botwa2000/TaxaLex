@@ -23,9 +23,9 @@ const STATUS_MAP: Record<string, { label: string; color: string; dot: string }> 
   CREATING:          { label: 'Wird erstellt',    color: 'bg-gray-100 text-gray-600',  dot: 'bg-gray-300' },
 }
 
-export default async function AdvisorAppealsPage() {
-  const session = await auth()
-  if (!session) redirect('/login')
+export default async function AdvisorAppealsPage({ params }: { params: Promise<{ locale: string }> }) {
+  const [session, { locale }] = await Promise.all([auth(), params])
+  if (!session) redirect(`/${locale}/login`)
   if (!['ADVISOR', 'LAWYER', 'ADMIN'].includes(session.user?.role ?? '')) {
     redirect('/dashboard')
   }

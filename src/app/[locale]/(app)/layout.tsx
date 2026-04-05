@@ -25,7 +25,7 @@ export default async function AppLayout({
   params: Promise<{ locale: string }>
 }) {
   const [session, { locale }, t] = await Promise.all([auth(), params, getTranslations('nav')])
-  if (!session) redirect('/login')
+  if (!session) redirect(`/${locale}/login`)
 
   const isAdmin = session!.user?.role === 'ADMIN'
   const isAdvisor = ['ADVISOR', 'LAWYER'].includes(session!.user?.role ?? '')

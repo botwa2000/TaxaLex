@@ -5,9 +5,9 @@ import { DEMO_CLIENTS, getAdvisorStats } from '@/lib/mockData'
 import { CreditCard, CheckCircle2 } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
 
-export default async function AdvisorBillingPage() {
-  const session = await auth()
-  if (!session) redirect('/login')
+export default async function AdvisorBillingPage({ params }: { params: Promise<{ locale: string }> }) {
+  const [session, { locale }] = await Promise.all([auth(), params])
+  if (!session) redirect(`/${locale}/login`)
   if (!['ADVISOR', 'LAWYER', 'ADMIN'].includes(session.user?.role ?? '')) {
     redirect('/dashboard')
   }

@@ -13,15 +13,16 @@ export default async function AdvisorCasePage({
 }: {
   params: Promise<{ locale: string; id: string }>
 }) {
-  if (!features.advisorModule) redirect('/advisor/dashboard')
+  const { locale, id: caseId } = await params
+
+  if (!features.advisorModule) redirect(`/${locale}/advisor/dashboard`)
 
   const session = await auth()
-  if (!session) redirect('/login')
+  if (!session) redirect(`/${locale}/login`)
   if (!['ADVISOR', 'LAWYER', 'EXPERT', 'ADMIN'].includes(session.user?.role ?? '')) {
-    redirect('/dashboard')
+    redirect(`/${locale}/dashboard`)
   }
 
-  const { id: caseId } = await params
   const advisorId = session.user!.id as string
 
   const assignment = await db.advisorAssignment.findFirst({
