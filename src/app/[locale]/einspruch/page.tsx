@@ -194,6 +194,7 @@ function EinspruchPageInner() {
   const [analyzeError, setAnalyzeError] = useState<string | null>(null)
   const [resultLocked, setResultLocked] = useState(false) // true = freemium gate active
   const [openContextIds, setOpenContextIds] = useState<Set<string>>(new Set())
+  const [skippedIds, setSkippedIds] = useState<Set<string>>(new Set())
   const [retentionDays, setRetentionDays] = useState<number | null>(null) // null = stored permanently
   const [detectedFields, setDetectedFields] = useState<DetectedField[]>([])
   const [detectedDocType, setDetectedDocType] = useState<DetectedDocType | null>(null)
@@ -564,8 +565,17 @@ function EinspruchPageInner() {
     setGenerateError(null)
     setStep('generating')
 
-    // Collect documents: extracted text from analyze + any additional files
-    const baseDocs = docsRef.current ?? []
+    // Re-encode the original uploaded files — docsRef is never populated from analyze,
+    // so we use the File objects still in state (same approach as additionalFiles below)
+    const baseDocs =
+      files.length > 0
+        ? await Promise.all(
+            files.map(async (f) => {
+              const base64 = await fileToBase64(f)
+              return { name: f.name, text: `[base64:${f.type}]${base64}` }
+            })
+          )
+        : []
     const additionalDocs =
       additionalFiles.length > 0
         ? await Promise.all(
@@ -721,6 +731,19 @@ function EinspruchPageInner() {
     setStep('result')
   }
 
+  function toggleSkip(id: string) {
+    setSkippedIds((prev) => {
+      const s = new Set(prev)
+      if (s.has(id)) {
+        s.delete(id)
+      } else {
+        s.add(id)
+        setAnswers((a) => ({ ...a, [id]: '' }))
+      }
+      return s
+    })
+  }
+
   function handleDownload() {
     const draft = result?.finalDraft
     if (!draft) return
@@ -748,6 +771,7 @@ function EinspruchPageInner() {
     setAdditionalFiles([])
     setResult(null)
     setAnswers({})
+    setSkippedIds(new Set())
     setBescheidData(null)
     setQuestions([])
     setActiveAgent(0)
@@ -1213,7 +1237,7 @@ function EinspruchPageInner() {
                           )}
                         </span>
                         <div className="flex-1">
-                          <label className="block text-sm font-medium text-[var(--foreground)] mb-2">
+                          <label className="block text-[15px] font-semibold text-[var(--foreground)] mb-2">
                             {q.question}
                             {q.required ? (
                               <span className="text-red-500 ml-1.5 text-xs font-normal">
@@ -1302,49 +1326,80 @@ function EinspruchPageInner() {
 
                           {/* Amount question → number input */}
                           {qType === 'amount' && (
-                            <div className="relative">
-                              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-[var(--muted)]">
-                                €
-                              </span>
-                              <input
-                                type="number"
-                                step="0.01"
-                                min="0"
-                                className="w-full pl-8 pr-4 py-3 text-sm border border-[var(--border)] rounded-xl bg-[var(--background-subtle)] text-[var(--foreground)] focus:bg-[var(--surface)] focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400 transition-colors"
-                                placeholder="0,00"
-                                value={answers[q.id] ?? ''}
-                                onChange={(e) =>
-                                  setAnswers((a) => ({ ...a, [q.id]: e.target.value }))
-                                }
-                              />
+                            <div>
+                              <div className={`relative transition-opacity ${skippedIds.has(q.id) ? 'opacity-40 pointer-events-none' : ''}`}>
+                                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-[var(--muted)]">
+                                  €
+                                </span>
+                                <input
+                                  type="number"
+                                  step="0.01"
+                                  min="0"
+                                  className="w-full pl-8 pr-4 py-3 text-[15px] border border-[var(--border)] rounded-xl bg-[var(--background-subtle)] text-[var(--foreground)] focus:bg-[var(--surface)] focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400 transition-colors"
+                                  placeholder="0,00"
+                                  value={answers[q.id] ?? ''}
+                                  onChange={(e) =>
+                                    setAnswers((a) => ({ ...a, [q.id]: e.target.value }))
+                                  }
+                                />
+                              </div>
+                              <button
+                                type="button"
+                                onClick={() => toggleSkip(q.id)}
+                                className="mt-1.5 text-xs text-[var(--muted)] hover:text-[var(--foreground)] underline transition-colors"
+                              >
+                                {skippedIds.has(q.id) ? t('questions.restore') : t('questions.skip')}
+                              </button>
                             </div>
                           )}
 
                           {/* Date question → date input */}
                           {qType === 'date' && (
-                            <input
-                              type="date"
-                              className="w-full border border-[var(--border)] rounded-xl px-4 py-3 text-sm bg-[var(--background-subtle)] text-[var(--foreground)] focus:bg-[var(--surface)] focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400 transition-colors"
-                              value={answers[q.id] ?? ''}
-                              onChange={(e) =>
-                                setAnswers((a) => ({ ...a, [q.id]: e.target.value }))
-                              }
-                            />
+                            <div>
+                              <div className={`transition-opacity ${skippedIds.has(q.id) ? 'opacity-40 pointer-events-none' : ''}`}>
+                                <input
+                                  type="date"
+                                  className="w-full border border-[var(--border)] rounded-xl px-4 py-3 text-[15px] bg-[var(--background-subtle)] text-[var(--foreground)] focus:bg-[var(--surface)] focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400 transition-colors"
+                                  value={answers[q.id] ?? ''}
+                                  onChange={(e) =>
+                                    setAnswers((a) => ({ ...a, [q.id]: e.target.value }))
+                                  }
+                                />
+                              </div>
+                              <button
+                                type="button"
+                                onClick={() => toggleSkip(q.id)}
+                                className="mt-1.5 text-xs text-[var(--muted)] hover:text-[var(--foreground)] underline transition-colors"
+                              >
+                                {skippedIds.has(q.id) ? t('questions.restore') : t('questions.skip')}
+                              </button>
+                            </div>
                           )}
 
                           {/* Text question → textarea */}
                           {qType === 'text' && (
-                            <textarea
-                              rows={3}
-                              className="w-full border border-[var(--border)] rounded-xl px-4 py-3 text-sm bg-[var(--background-subtle)] text-[var(--foreground)] focus:bg-[var(--surface)] focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400 transition-colors resize-none placeholder:text-[var(--muted)]"
-                              placeholder={
-                                q.required ? '' : t('questions.optional') + '…'
-                              }
-                              value={answers[q.id] ?? ''}
-                              onChange={(e) =>
-                                setAnswers((a) => ({ ...a, [q.id]: e.target.value }))
-                              }
-                            />
+                            <div>
+                              <div className={`transition-opacity ${skippedIds.has(q.id) ? 'opacity-40 pointer-events-none' : ''}`}>
+                                <textarea
+                                  rows={3}
+                                  className="w-full border border-[var(--border)] rounded-xl px-4 py-3 text-[15px] bg-[var(--background-subtle)] text-[var(--foreground)] focus:bg-[var(--surface)] focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400 transition-colors resize-none placeholder:text-[var(--muted)]"
+                                  placeholder={
+                                    q.required ? '' : t('questions.optional') + '…'
+                                  }
+                                  value={answers[q.id] ?? ''}
+                                  onChange={(e) =>
+                                    setAnswers((a) => ({ ...a, [q.id]: e.target.value }))
+                                  }
+                                />
+                              </div>
+                              <button
+                                type="button"
+                                onClick={() => toggleSkip(q.id)}
+                                className="mt-1.5 text-xs text-[var(--muted)] hover:text-[var(--foreground)] underline transition-colors"
+                              >
+                                {skippedIds.has(q.id) ? t('questions.restore') : t('questions.skip')}
+                              </button>
+                            </div>
                           )}
                         </div>
                       </div>
@@ -1404,20 +1459,24 @@ function EinspruchPageInner() {
                         </span>
                       </div>
                     )}
-                    <div className="space-y-2.5">
-                      {detectedFields.map((field) => (
-                        <div
-                          key={field.key}
-                          className="flex items-start justify-between gap-2"
-                        >
-                          <span className="text-xs text-[var(--muted)]">
-                            {field.label}
-                          </span>
-                          <span className="text-xs font-semibold text-[var(--foreground)] text-right max-w-[130px] leading-tight">
-                            {field.value}
-                          </span>
-                        </div>
-                      ))}
+                    <div className="space-y-2">
+                      {detectedFields.map((field) => {
+                        const imp = field.importance ?? 'low'
+                        const border =
+                          imp === 'high'   ? 'border-l-amber-400' :
+                          imp === 'medium' ? 'border-l-indigo-400' :
+                                             'border-l-[var(--border-strong)]'
+                        return (
+                          <div key={field.key} className={`border-l-2 ${border} pl-2 py-0.5`}>
+                            <p className="text-[10px] uppercase tracking-wide text-[var(--muted)] leading-none mb-0.5">
+                              {field.label}
+                            </p>
+                            <p className="text-xs font-semibold text-[var(--foreground)] leading-snug break-words">
+                              {field.value}
+                            </p>
+                          </div>
+                        )
+                      })}
                     </div>
                   </div>
                 </div>

@@ -903,6 +903,8 @@
       "context": "Kontekst",
       "legalBasis": "Podstawa prawna",
       "guidance": "Jak odpowiedzieć",
+      "skip": "Pomiń to pytanie",
+      "restore": "Przywróć odpowiedź",
       "requiredUnanswered": "Proszę odpowiedzieć na wszystkie wymagane pytania przed generowaniem."
     },
     "generating": {
