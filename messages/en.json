@@ -836,6 +836,7 @@
       "upload": "Upload",
       "analyzing": "Detection",
       "questions": "Questions",
+      "reviewing": "Reviewing",
       "generating": "AI Analysis",
       "result": "Result"
     },
@@ -876,6 +877,10 @@
       "file": "file",
       "files": "files",
       "scanning": "Scanning document…"
+    },
+    "reviewing": {
+      "title": "Reviewing additional documents",
+      "subtitle": "Analysing your uploaded files and answers…"
     },
     "questions": {
       "title": "Follow-up questions",

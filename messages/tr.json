@@ -836,6 +836,7 @@
       "upload": "Yükleme",
       "analyzing": "Tespit",
       "questions": "Sorular",
+      "reviewing": "İnceleme",
       "generating": "Yapay Zeka Analizi",
       "result": "Sonuç"
     },
@@ -876,6 +877,10 @@
       "detectedTitle": "Tespit edilen bildirim verileri",
       "detectedSubtitle": "Belge okundu — sorulara geçiliyor…",
       "scanning": "Belge taranıyor…"
+    },
+    "reviewing": {
+      "title": "Ek belgeler inceleniyor",
+      "subtitle": "Dosyalarınız ve yanıtlarınız analiz ediliyor…"
     },
     "questions": {
       "title": "Ek sorular",

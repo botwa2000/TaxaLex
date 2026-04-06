@@ -836,6 +836,7 @@
       "upload": "Caricamento",
       "analyzing": "Rilevamento",
       "questions": "Domande",
+      "reviewing": "Revisione",
       "generating": "Analisi IA",
       "result": "Risultato"
     },
@@ -876,6 +877,10 @@
       "detectedTitle": "Dati del provvedimento rilevati",
       "detectedSubtitle": "Documento letto — passaggio alle domande…",
       "scanning": "Analisi del documento…"
+    },
+    "reviewing": {
+      "title": "Revisione dei documenti aggiuntivi",
+      "subtitle": "Analisi dei file e delle risposte…"
     },
     "questions": {
       "title": "Domande integrative",

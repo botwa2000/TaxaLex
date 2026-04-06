@@ -23,13 +23,19 @@ const FileSchema = z.object({
   base64: z.string(),
 })
 
-const AnalyzeByIdSchema = z.object({
+const ReviewExtras = z.object({
+  reviewMode: z.boolean().optional().default(false),
+  existingBescheidData: z.record(z.unknown()).optional(),
+  userAnswers: z.record(z.string()).optional(),
+})
+
+const AnalyzeByIdSchema = ReviewExtras.extend({
   uploadId: z.string().uuid(),
   caseId: z.string().optional(),
   uiLanguage: z.string().length(2).optional().default('de'),
 })
 
-const AnalyzeByFilesSchema = z.object({
+const AnalyzeByFilesSchema = ReviewExtras.extend({
   files: z.array(FileSchema).min(1).max(PIPELINE.maxDocuments),
   caseId: z.string().optional(),
   uiLanguage: z.string().length(2).optional().default('de'),
@@ -67,7 +73,7 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    const { caseId, uiLanguage } = parsed.data
+    const { caseId, uiLanguage, reviewMode, existingBescheidData, userAnswers } = parsed.data
     type AnalysisFile = { name: string; type: string; base64: string; sizeBytes: number }
     let files: AnalysisFile[]
 
@@ -146,11 +152,27 @@ export async function POST(req: NextRequest) {
 
     const uiLangName = languageNames[uiLanguage] ?? uiLanguage
 
+    // In review mode, prepend existing analysis + user answers as context
+    if (reviewMode && (existingBescheidData || userAnswers)) {
+      const contextLines: string[] = ['=== PRIOR ANALYSIS (already extracted — do not repeat these fields) ===']
+      if (existingBescheidData && Object.keys(existingBescheidData).length > 0) {
+        contextLines.push(JSON.stringify(existingBescheidData, null, 2))
+      }
+      if (userAnswers && Object.keys(userAnswers).length > 0) {
+        contextLines.push('\n=== USER ANSWERS TO FOLLOW-UP QUESTIONS ===')
+        for (const [k, v] of Object.entries(userAnswers)) {
+          contextLines.push(`${k}: ${v || '(not answered)'}`)
+        }
+      }
+      contextLines.push('\n=== ADDITIONAL DOCUMENTS TO ANALYSE (extract only NEW information) ===')
+      contentBlocks.unshift({ type: 'text', text: contextLines.join('\n') })
+    }
+
     contentBlocks.push({
       type: 'text',
       text: `⚠️ OUTPUT LANGUAGE: ${uiLangName} ONLY. Every field label, question, background, and guidance must be in ${uiLangName} — not the document's language.
 
-Extract all key information from the document(s) above.
+${reviewMode ? 'Extract only NEW fields from the additional documents above that are NOT already in the prior analysis. Focus on information that supplements or updates the existing data.' : 'Extract all key information from the document(s) above.'}
 
 Your response must follow this EXACT format — no deviations, no markdown, no extra text:
 
@@ -165,6 +187,8 @@ After ALL fields, output this exact separator on its own line:
 
 Then a JSON array of follow-up questions (may span multiple lines):
 [{"id":"q1","question":"...in ${uiLangName}","required":true,"type":"text|yesno|amount|date","background":"legal basis and §§ citations in ${uiLangName}","guidance":"2-3 sentences in ${uiLangName}: what factors determine the answer, concrete examples (if X then answer A because..., if Y then answer B because...), and how the AI will use this to strengthen the objection letter"}]
+
+Type rules (CRITICAL — do NOT mix types): "yesno" = the answer is yes/no/don't-know ONLY (even if the question mentions dates or amounts as context); "date" = the answer is ONLY a specific date or date range; "amount" = the answer is ONLY a monetary figure; "text" = everything else, including compound questions that ask for explanation or multiple pieces of information. If a question asks both yes/no AND a follow-up detail, split into TWO separate questions. Never assign "date" or "amount" to a question whose primary answer is yes or no.
 
 Valid categories: tax_notice | traffic_fine | parking_ticket | kindergeld | job_center | rent_increase | insurance_rejection | termination_letter | other_official
 Valid icons: building | hash | calendar | euro | scale | map-pin | clock | user | file-text | alert-circle | tag | shield | car | gavel | home | heart-pulse
@@ -222,10 +246,14 @@ Questions rules: Generate 3 to 6 questions. You MUST always generate at least 3 
 
           logger.debug('[ANALYZE] ─── Calling Anthropic API', { model: models.analyzer.model })
 
+          const systemPrompt = reviewMode
+            ? `You are an expert legal analyst supplementing a prior document analysis with NEW evidence. Extract only information NOT already captured in the existing analysis. Your response must follow EXACTLY the JSONL format specified — document type first, then NEW fields only as compact single-line JSON objects. After all fields output ---QUESTIONS--- on its own line, then output an empty JSON array: []. No markdown, no explanations, no other text. CRITICAL: All output text must be written in ${uiLangName}.`
+            : `You are an expert legal analyst specialising in German administrative law and formal objection proceedings. Analyse official documents and extract structured information. Your response must follow EXACTLY the JSONL format specified — document type first, then each field as a compact single-line JSON object, then the ---QUESTIONS--- separator, then the questions JSON array. No markdown, no explanations, no other text. CRITICAL: All output text — every label, question, background, guidance — MUST be written in ${uiLangName}. The document language does not determine the output language.`
+
           const messageStream = await client.messages.create({
             model: models.analyzer.model,
             max_tokens: PIPELINE.analyzeMaxTokens,
-            system: `You are an expert legal analyst specialising in German administrative law and formal objection proceedings. Analyse official documents and extract structured information. Your response must follow EXACTLY the JSONL format specified — document type first, then each field as a compact single-line JSON object, then the ---QUESTIONS--- separator, then the questions JSON array. No markdown, no explanations, no other text. CRITICAL: All output text — every label, question, background, guidance — MUST be written in ${uiLangName}. The document language does not determine the output language.`,
+            system: systemPrompt,
             messages: [{ role: 'user', content: contentBlocks }],
             stream: true,
           })

@@ -836,6 +836,7 @@
       "upload": "Subida",
       "analyzing": "Detección",
       "questions": "Preguntas",
+      "reviewing": "Revisión",
       "generating": "Análisis IA",
       "result": "Resultado"
     },
@@ -876,6 +877,10 @@
       "detectedTitle": "Datos de la resolución detectados",
       "detectedSubtitle": "Documento leído — pasando a preguntas…",
       "scanning": "Analizando documento…"
+    },
+    "reviewing": {
+      "title": "Revisando documentos adicionales",
+      "subtitle": "Analizando sus archivos y respuestas…"
     },
     "questions": {
       "title": "Preguntas complementarias",

@@ -836,6 +836,7 @@
       "upload": "Przesyłanie",
       "analyzing": "Wykrywanie",
       "questions": "Pytania",
+      "reviewing": "Przegląd",
       "generating": "Analiza AI",
       "result": "Wynik"
     },
@@ -876,6 +877,10 @@
       "detectedTitle": "Wykryte dane decyzji",
       "detectedSubtitle": "Dokument odczytany — przejście do pytań…",
       "scanning": "Skanowanie dokumentu…"
+    },
+    "reviewing": {
+      "title": "Analiza dodatkowych dokumentów",
+      "subtitle": "Przetwarzamy pliki i odpowiedzi…"
     },
     "questions": {
       "title": "Pytania uzupełniające",

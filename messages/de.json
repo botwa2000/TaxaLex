@@ -836,6 +836,7 @@
       "upload": "Hochladen",
       "analyzing": "Erkennung",
       "questions": "Rückfragen",
+      "reviewing": "Überprüfung",
       "generating": "KI-Analyse",
       "result": "Ergebnis"
     },
@@ -876,6 +877,10 @@
       "file": "Datei",
       "files": "Dateien",
       "scanning": "Dokument wird analysiert…"
+    },
+    "reviewing": {
+      "title": "Zusätzliche Dokumente werden analysiert",
+      "subtitle": "Ihre Dateien und Antworten werden ausgewertet…"
     },
     "questions": {
       "title": "Rückfragen",

@@ -836,6 +836,7 @@
       "upload": "Téléversement",
       "analyzing": "Détection",
       "questions": "Questions",
+      "reviewing": "Révision",
       "generating": "Analyse IA",
       "result": "Résultat"
     },
@@ -876,6 +877,10 @@
       "detectedTitle": "Données de la décision détectées",
       "detectedSubtitle": "Document lu — passage aux questions…",
       "scanning": "Analyse du document…"
+    },
+    "reviewing": {
+      "title": "Révision des documents supplémentaires",
+      "subtitle": "Analyse de vos fichiers et réponses…"
     },
     "questions": {
       "title": "Questions complémentaires",

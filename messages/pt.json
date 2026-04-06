@@ -836,6 +836,7 @@
       "upload": "Envio",
       "analyzing": "Detecção",
       "questions": "Perguntas",
+      "reviewing": "Revisão",
       "generating": "Análise por IA",
       "result": "Resultado"
     },
@@ -876,6 +877,10 @@
       "detectedTitle": "Dados do ato administrativo detectados",
       "detectedSubtitle": "Documento lido — avançando para as perguntas…",
       "scanning": "Analisando documento…"
+    },
+    "reviewing": {
+      "title": "Revisando documentos adicionais",
+      "subtitle": "Analisando seus arquivos e respostas…"
     },
     "questions": {
       "title": "Perguntas complementares",

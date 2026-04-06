@@ -44,7 +44,7 @@ import {
 } from 'lucide-react'
 import { Logo } from '@/components/Logo'
 
-type Step = 'upload' | 'analyzing' | 'questions' | 'generating' | 'result'
+type Step = 'upload' | 'analyzing' | 'questions' | 'reviewing' | 'generating' | 'result'
 
 // ── Agent config (labels come from translations) ─────────────────────────────
 const AGENT_IDS = [
@@ -219,6 +219,7 @@ function EinspruchPageInner() {
     { id: 'upload', label: t('steps.upload'), icon: Upload },
     { id: 'analyzing', label: t('steps.analyzing'), icon: ScanSearch },
     { id: 'questions', label: t('steps.questions'), icon: MessageSquare },
+    { id: 'reviewing', label: t('steps.reviewing'), icon: Loader2 },
     { id: 'generating', label: t('steps.generating'), icon: Brain },
     { id: 'result', label: t('steps.result'), icon: FileCheck },
   ] as const
@@ -555,6 +556,171 @@ function EinspruchPageInner() {
     }
 
     setStep('questions')
+  }
+
+  // ── handleReview — called by Generate button ─────────────────────────────────
+  // If there are additional files: upload + review-analyze them first (appends fields
+  // to sidebar), then auto-proceeds to handleGenerate.
+  // If no additional files: jumps straight to handleGenerate.
+  async function handleReview() {
+    if (additionalFiles.length === 0) {
+      handleGenerate()
+      return
+    }
+
+    setStep('reviewing')
+    setUploadPhase('uploading')
+    setUploadProgress(0)
+    setUploadSentMB(0)
+    setUploadTotalMB(0)
+    setUploadSpeedMBps(0)
+
+    // ── Phase 1: upload additional files ────────────────────────────────────────
+    const formData = new FormData()
+    let totalBytes = 0
+    for (const f of additionalFiles) {
+      formData.append('files', f)
+      totalBytes += f.size
+    }
+    setUploadTotalMB(totalBytes / 1024 / 1024)
+
+    let reviewUploadId: string | null = null
+
+    await new Promise<void>((resolve) => {
+      const xhr = new XMLHttpRequest()
+      let speedSamples: { time: number; loaded: number }[] = []
+
+      xhr.upload.addEventListener('progress', (e) => {
+        if (!e.lengthComputable) return
+        const now = Date.now()
+        speedSamples.push({ time: now, loaded: e.loaded })
+        speedSamples = speedSamples.filter((s) => now - s.time < 2000)
+        if (speedSamples.length >= 2) {
+          const oldest = speedSamples[0]
+          const dtSec = (now - oldest.time) / 1000
+          const delta = e.loaded - oldest.loaded
+          setUploadSpeedMBps(dtSec > 0 ? delta / dtSec / 1024 / 1024 : 0)
+        }
+        setUploadProgress(Math.round((e.loaded / e.total) * 100))
+        setUploadSentMB(e.loaded / 1024 / 1024)
+      })
+
+      xhr.upload.addEventListener('load', () => {
+        setUploadProgress(100)
+        setUploadPhase(null)
+      })
+
+      xhr.onload = () => {
+        setUploadPhase(null)
+        if (xhr.status === 401) {
+          router.push(`/${locale}/login?callbackUrl=/${locale}/einspruch`)
+          resolve()
+          return
+        }
+        if (xhr.status !== 200) {
+          // Upload failed — revert to questions step
+          try {
+            const err = JSON.parse(xhr.responseText) as { error?: string }
+            setAnalyzeError(err.error ?? t('errors.analyze'))
+          } catch {
+            setAnalyzeError(t('errors.analyze'))
+          }
+          setStep('questions')
+          resolve()
+          return
+        }
+        try {
+          const data = JSON.parse(xhr.responseText) as { uploadId: string }
+          reviewUploadId = data.uploadId
+        } catch {
+          setAnalyzeError(t('errors.analyze'))
+          setStep('questions')
+        }
+        resolve()
+      }
+
+      xhr.onerror = () => {
+        setUploadPhase(null)
+        setAnalyzeError(t('errors.connection'))
+        setStep('questions')
+        resolve()
+      }
+
+      xhr.open('POST', '/api/upload')
+      xhr.timeout = 0
+      xhr.send(formData)
+    })
+
+    if (!reviewUploadId) {
+      // Already reverted to questions in the XHR handlers above
+      return
+    }
+
+    // ── Phase 2: SSE review-analyze (non-fatal — always proceeds to generate) ──
+    const abortCtrl = new AbortController()
+    const reviewTimeout = setTimeout(() => abortCtrl.abort(), 180_000)
+
+    try {
+      const res = await fetch('/api/analyze', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          uploadId: reviewUploadId,
+          uiLanguage: locale,
+          reviewMode: true,
+          existingBescheidData: bescheidDataRef.current ?? {},
+          userAnswers: answers,
+        }),
+        signal: abortCtrl.signal,
+      })
+
+      if (res.ok && res.body) {
+        const reader = res.body.getReader()
+        const decoder = new TextDecoder()
+        let buffer = ''
+
+        outer: while (true) {
+          const { done, value } = await reader.read()
+          if (done) break
+          buffer += decoder.decode(value, { stream: true })
+          const chunks = buffer.split('\n\n')
+          buffer = chunks.pop() ?? ''
+
+          for (const chunk of chunks) {
+            let eventName = 'message', dataStr = ''
+            for (const line of chunk.split('\n')) {
+              if (line.startsWith('event: ')) eventName = line.slice(7).trim()
+              if (line.startsWith('data: ')) dataStr = line.slice(6)
+            }
+            if (!dataStr) continue
+            let payload: Record<string, unknown>
+            try { payload = JSON.parse(dataStr) } catch { continue }
+
+            if (eventName === 'field') {
+              // Upsert: update existing key or append new
+              setDetectedFields((prev) => {
+                const field = payload as unknown as DetectedField
+                const idx = prev.findIndex((f) => f.key === field.key)
+                if (idx !== -1) {
+                  const updated = [...prev]
+                  updated[idx] = field
+                  return updated
+                }
+                return [...prev, field]
+              })
+            } else if (eventName === 'complete' || eventName === 'error') {
+              break outer
+            }
+          }
+        }
+      }
+    } catch {
+      // Timeout or network error — non-fatal, continue to generate
+    } finally {
+      clearTimeout(reviewTimeout)
+    }
+
+    handleGenerate()
   }
 
   async function handleGenerate() {
@@ -1205,7 +1371,7 @@ function EinspruchPageInner() {
               />
             </div>
 
-            <div className="grid lg:grid-cols-[1fr_240px] gap-6">
+            <div className="grid lg:grid-cols-[1fr_300px] gap-6">
               <div className="space-y-4">
                 {questions.length === 0 && !analyzeError && (
                   <p className="text-sm text-[var(--muted)] italic py-4">
@@ -1298,29 +1464,37 @@ function EinspruchPageInner() {
                             </div>
                           )}
 
-                          {/* Yes/No/Unknown question → three radio-style buttons */}
+                          {/* Yes/No question → two radio-style buttons + skip link */}
                           {qType === 'yesno' && (
-                            <div className="flex gap-2">
-                              {[
-                                { value: tCommon('yes'), label: tCommon('yes') },
-                                { value: tCommon('no'), label: tCommon('no') },
-                                { value: tCommon('unknown'), label: tCommon('unknown') },
-                              ].map(({ value, label }) => (
-                                <button
-                                  key={value}
-                                  type="button"
-                                  onClick={() =>
-                                    setAnswers((a) => ({ ...a, [q.id]: value }))
-                                  }
-                                  className={`flex-1 py-2.5 rounded-xl text-sm font-semibold border-2 transition-all ${
-                                    answers[q.id] === value
-                                      ? 'bg-brand-600 border-brand-600 text-white'
-                                      : 'bg-[var(--background-subtle)] border-[var(--border)] text-[var(--foreground)] hover:border-brand-300'
-                                  }`}
-                                >
-                                  {label}
-                                </button>
-                              ))}
+                            <div>
+                              <div className={`flex gap-2 transition-opacity ${skippedIds.has(q.id) ? 'opacity-40 pointer-events-none' : ''}`}>
+                                {[
+                                  { value: tCommon('yes'), label: tCommon('yes') },
+                                  { value: tCommon('no'), label: tCommon('no') },
+                                ].map(({ value, label }) => (
+                                  <button
+                                    key={value}
+                                    type="button"
+                                    onClick={() =>
+                                      setAnswers((a) => ({ ...a, [q.id]: value }))
+                                    }
+                                    className={`flex-1 py-2.5 rounded-xl text-[15px] font-semibold border-2 transition-all ${
+                                      answers[q.id] === value
+                                        ? 'bg-brand-600 border-brand-600 text-white'
+                                        : 'bg-[var(--background-subtle)] border-[var(--border)] text-[var(--foreground)] hover:border-brand-300'
+                                    }`}
+                                  >
+                                    {label}
+                                  </button>
+                                ))}
+                              </div>
+                              <button
+                                type="button"
+                                onClick={() => toggleSkip(q.id)}
+                                className="mt-1.5 text-xs text-[var(--muted)] hover:text-[var(--foreground)] underline transition-colors"
+                              >
+                                {skippedIds.has(q.id) ? t('questions.restore') : t('questions.skip')}
+                              </button>
                             </div>
                           )}
 
@@ -1559,7 +1733,7 @@ function EinspruchPageInner() {
                 {t('questions.back')}
               </button>
               <button
-                onClick={handleGenerate}
+                onClick={handleReview}
                 disabled={(!!analyzeError && !bescheidData) || requiredUnanswered > 0}
                 className="flex-1 bg-brand-600 text-white py-3 rounded-xl font-semibold hover:bg-brand-700 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
@@ -1572,6 +1746,114 @@ function EinspruchPageInner() {
                   : t('questions.generate')}
               </button>
             </div>
+          </div>
+        )}
+
+        {/* ═══ Step 3b — Reviewing (additional docs) ═══ */}
+        {step === 'reviewing' && (
+          <div className="py-8 flex flex-col items-center">
+            <div
+              className={`w-16 h-16 border rounded-2xl flex items-center justify-center mb-5 transition-all duration-500 ${
+                uploadPhase === 'uploading'
+                  ? 'bg-blue-50 dark:bg-blue-950/40 border-blue-200 dark:border-blue-800'
+                  : 'bg-brand-50 dark:bg-brand-950/40 border-brand-200 dark:border-brand-800'
+              }`}
+            >
+              {uploadPhase === 'uploading' ? (
+                <Upload className="w-8 h-8 text-blue-500 animate-bounce" />
+              ) : (
+                <Loader2 className="w-8 h-8 text-brand-600 animate-spin" />
+              )}
+            </div>
+
+            <h1 className="text-2xl font-bold text-[var(--foreground)] mb-1 text-center">
+              {t('reviewing.title')}
+            </h1>
+            <p className="text-sm text-[var(--muted)] mb-5 text-center">
+              {uploadPhase === 'uploading'
+                ? t('analyzing.uploading')
+                : t('reviewing.subtitle')}
+            </p>
+
+            {/* Upload progress bar */}
+            {uploadPhase === 'uploading' && (
+              <div className="w-full max-w-sm mb-5">
+                <div className="flex items-center justify-between text-xs text-[var(--muted)] mb-1.5">
+                  <span>
+                    {additionalFiles.length} {additionalFiles.length === 1 ? t('analyzing.file') : t('analyzing.files')}
+                  </span>
+                  <span className="tabular-nums">{uploadProgress}%</span>
+                </div>
+                <div className="h-2 bg-[var(--border)] rounded-full overflow-hidden mb-2">
+                  <div
+                    className="h-full bg-blue-500 rounded-full transition-all duration-300"
+                    style={{ width: `${uploadProgress}%` }}
+                  />
+                </div>
+                <div className="flex items-center justify-between text-xs text-[var(--muted)] tabular-nums">
+                  <span>
+                    {uploadSentMB.toFixed(1)} / {uploadTotalMB.toFixed(1)} MB
+                  </span>
+                  {uploadSpeedMBps > 0.01 && (
+                    <span>
+                      {uploadSpeedMBps.toFixed(1)} MB/s
+                      {uploadTotalMB > uploadSentMB && (
+                        <> · ~{Math.max(1, Math.ceil((uploadTotalMB - uploadSentMB) / uploadSpeedMBps))}s</>
+                      )}
+                    </span>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Streaming field cards — same as analyzing step */}
+            {uploadPhase !== 'uploading' && (
+              <div className="w-full max-w-sm space-y-2">
+                {detectedFields.map((field) => {
+                  const FieldIcon = resolveFieldIcon(field.icon)
+                  const imp = field.importance === 'high'
+                    ? { border: 'border-l-amber-400', iconBg: 'bg-amber-50 dark:bg-amber-950/30', iconColor: 'text-amber-600 dark:text-amber-400' }
+                    : field.importance === 'medium'
+                    ? { border: 'border-l-indigo-400', iconBg: 'bg-indigo-50 dark:bg-indigo-950/30', iconColor: 'text-indigo-600 dark:text-indigo-400' }
+                    : { border: 'border-l-[var(--border)]', iconBg: 'bg-[var(--background-subtle)]', iconColor: 'text-[var(--muted)]' }
+                  return (
+                    <div
+                      key={field.key}
+                      className={`flex items-center gap-3 bg-[var(--surface)] border border-[var(--border)] border-l-2 ${imp.border} rounded-xl px-4 py-3 animate-in slide-in-from-right-2 fade-in duration-300`}
+                    >
+                      <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${imp.iconBg}`}>
+                        <FieldIcon className={`w-4 h-4 ${imp.iconColor}`} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-[10px] uppercase tracking-wider text-[var(--muted)] leading-none mb-1">
+                          {field.label}
+                        </p>
+                        <p className="text-sm font-semibold text-[var(--foreground)] truncate">
+                          {field.value}
+                        </p>
+                      </div>
+                    </div>
+                  )
+                })}
+                {/* Skeleton while waiting for first fields */}
+                {detectedFields.length === 0 && (
+                  <>
+                    {[0, 1, 2].map((i) => (
+                      <div
+                        key={i}
+                        className="flex items-center gap-3 bg-[var(--surface)] border border-[var(--border)] border-l-2 border-l-[var(--border)] rounded-xl px-4 py-3"
+                      >
+                        <div className="w-8 h-8 rounded-lg bg-[var(--border)] animate-pulse shrink-0" />
+                        <div className="flex-1 space-y-1.5">
+                          <div className="h-2 bg-[var(--border)] rounded-full animate-pulse w-20" />
+                          <div className="h-2.5 bg-[var(--border)] rounded-full animate-pulse w-32" />
+                        </div>
+                      </div>
+                    ))}
+                  </>
+                )}
+              </div>
+            )}
           </div>
         )}
 
