@@ -868,7 +868,13 @@
       "demoMode": "Demo-Modus · Kein Dokument hochgeladen",
       "detectedTitle": "Erkannte Bescheid-Daten",
       "detectedSubtitle": "Dokument ausgelesen — weiter zu den Rückfragen…",
-      "uploading": "Dateien werden hochgeladen…",
+      "uploadingTitle": "Dokumente werden hochgeladen…",
+      "uploading": "Verbindung wird hergestellt…",
+      "encodingFiles": "Dokumente werden vorbereitet…",
+      "filePreparing": "Wird vorbereitet…",
+      "fileReady": "Bereit",
+      "file": "Datei",
+      "files": "Dateien",
       "scanning": "Dokument wird analysiert…"
     },
     "questions": {

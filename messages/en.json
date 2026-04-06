@@ -868,7 +868,13 @@
       "demoMode": "Demo mode · No document uploaded",
       "detectedTitle": "Detected notice data",
       "detectedSubtitle": "Document read — moving to questions…",
-      "uploading": "Uploading files…",
+      "uploadingTitle": "Uploading documents…",
+      "uploading": "Connecting to server…",
+      "encodingFiles": "Preparing files…",
+      "filePreparing": "Preparing…",
+      "fileReady": "Ready",
+      "file": "file",
+      "files": "files",
       "scanning": "Scanning document…"
     },
     "questions": {
