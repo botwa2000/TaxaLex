@@ -172,6 +172,7 @@ function EinspruchPageInner() {
       required?: boolean
       type?: 'text' | 'yesno' | 'amount' | 'date'
       background?: string
+      guidance?: string
     }>
   >([])
   const [answers, setAnswers] = useState<Record<string, string>>({})
@@ -179,13 +180,12 @@ function EinspruchPageInner() {
   const [activeAgent, setActiveAgent] = useState(0)
   const [activeAgentRoles, setActiveAgentRoles] = useState<Set<string>>(new Set())
   // Upload progress tracking (null = not in upload phase)
-  const [uploadPhase, setUploadPhase] = useState<'encoding' | 'uploading' | null>(null)
-  const [uploadFileIndex, setUploadFileIndex] = useState(0)
+  const [uploadPhase, setUploadPhase] = useState<'uploading' | null>(null)
   const [uploadProgress, setUploadProgress] = useState(0) // 0–100
   const [uploadSentMB, setUploadSentMB] = useState(0)
   const [uploadTotalMB, setUploadTotalMB] = useState(0)
   const [uploadSpeedMBps, setUploadSpeedMBps] = useState(0)
-  const isUploading = uploadPhase === 'encoding' || uploadPhase === 'uploading'
+  const isUploading = uploadPhase === 'uploading'
   const [copied, setCopied] = useState(false)
   const [caseId, setCaseId] = useState<string | null>(null)
   const [agentOutputData, setAgentOutputData] = useState<AgentOutputData[]>([])
@@ -193,6 +193,7 @@ function EinspruchPageInner() {
   const [generateError, setGenerateError] = useState<string | null>(null)
   const [analyzeError, setAnalyzeError] = useState<string | null>(null)
   const [resultLocked, setResultLocked] = useState(false) // true = freemium gate active
+  const [openContextIds, setOpenContextIds] = useState<Set<string>>(new Set())
   const [retentionDays, setRetentionDays] = useState<number | null>(null) // null = stored permanently
   const [detectedFields, setDetectedFields] = useState<DetectedField[]>([])
   const [detectedDocType, setDetectedDocType] = useState<DetectedDocType | null>(null)
@@ -210,6 +211,7 @@ function EinspruchPageInner() {
     required?: boolean
     type?: string
     background?: string
+    guidance?: string
   }> | null>(null)
 
   const STEPS = [
@@ -385,49 +387,31 @@ function EinspruchPageInner() {
       return
     }
 
-    // ── Phase 1: Encode files one by one (shows per-file progress) ──────────
-    setUploadPhase('encoding')
-    const filePayloads: Array<{ name: string; type: string; base64: string }> = []
-    for (let i = 0; i < files.length; i++) {
-      setUploadFileIndex(i)
-      try {
-        filePayloads.push({
-          name: files[i].name,
-          type: files[i].type,
-          base64: await fileToBase64(files[i]),
-        })
-      } catch {
-        setUploadPhase(null)
-        setAnalyzeError(t('errors.analyze'))
-        setStep('questions')
-        return
-      }
+    // ── Phase 1: XHR upload raw files to /api/upload ─────────────────────────
+    // Raw binary (no base64) → 33% smaller payload, no encoding delay.
+    // XHR gives upload.progress events; fetch() does not.
+    setUploadPhase('uploading')
+    const formData = new FormData()
+    let totalBytes = 0
+    for (const file of files) {
+      formData.append('files', file)
+      totalBytes += file.size
     }
-
-    const body = JSON.stringify({ files: filePayloads, uiLanguage: locale })
-    setUploadTotalMB(body.length / 1024 / 1024)
+    setUploadTotalMB(totalBytes / 1024 / 1024)
     setUploadProgress(0)
     setUploadSentMB(0)
     setUploadSpeedMBps(0)
-    setUploadPhase('uploading')
 
-    // ── Phase 2: XHR upload + SSE stream (progress events for both) ──────────
-    // XHR gives us upload.progress events (bytes sent) AND response streaming
-    // via onprogress (xhr.responseText accumulates SSE chunks as they arrive).
-    // fetch() provides neither — it only resolves once all request bytes are sent.
-    let redirecting = false
+    let uploadId: string | null = null
 
     await new Promise<void>((resolve) => {
       const xhr = new XMLHttpRequest()
-      let xhrConsumed = 0 // chars of responseText already parsed
-      let sseBuffer = ''
       let speedSamples: { time: number; loaded: number }[] = []
 
       xhr.upload.addEventListener('progress', (e) => {
         if (!e.lengthComputable) return
         const now = Date.now()
         speedSamples.push({ time: now, loaded: e.loaded })
-        // Rolling 2-second window for stable speed estimate
         speedSamples = speedSamples.filter((s) => now - s.time < 2000)
         if (speedSamples.length >= 2) {
           const oldest = speedSamples[0]
@@ -439,17 +423,91 @@ function EinspruchPageInner() {
         setUploadSentMB(e.loaded / 1024 / 1024)
       })
 
-      // Upload fully sent — switch to AI analysis phase
       xhr.upload.addEventListener('load', () => {
         setUploadProgress(100)
         setUploadPhase(null)
       })
 
-      // SSE response arriving — parse events incrementally
-      xhr.onprogress = () => {
-        const newText = xhr.responseText.slice(xhrConsumed)
-        xhrConsumed = xhr.responseText.length
-        sseBuffer += newText
+      xhr.onload = () => {
+        setUploadPhase(null)
+        if (xhr.status === 401) {
+          router.push(`/${locale}/login?callbackUrl=/${locale}/einspruch`)
+          resolve()
+          return
+        }
+        if (xhr.status !== 200) {
+          try {
+            const err = JSON.parse(xhr.responseText) as { error?: string }
+            setAnalyzeError(err.error ?? t('errors.analyze'))
+          } catch {
+            setAnalyzeError(t('errors.analyze'))
+          }
+          resolve()
+          return
+        }
+        try {
+          const data = JSON.parse(xhr.responseText) as { uploadId: string }
+          uploadId = data.uploadId
+        } catch {
+          setAnalyzeError(t('errors.analyze'))
+        }
+        resolve()
+      }
+
+      xhr.onerror = () => {
+        setUploadPhase(null)
+        setAnalyzeError(t('errors.connection'))
+        resolve()
+      }
+
+      xhr.open('POST', '/api/upload')
+      xhr.timeout = 0 // no cap — upload time depends on connection speed
+      xhr.send(formData)
+    })
+
+    if (!uploadId) {
+      setStep('questions')
+      return
+    }
+
+    // ── Phase 2: SSE analysis (separate request, separate timeout) ────────────
+    // With upload done, the only remaining time is AI analysis (max ~120s).
+    const abortCtrl = new AbortController()
+    const analysisTimeout = setTimeout(() => abortCtrl.abort(), 180_000)
+
+    try {
+      const res = await fetch('/api/analyze', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ uploadId, uiLanguage: locale }),
+        signal: abortCtrl.signal,
+      })
+
+      if (res.status === 401) {
+        router.push(`/${locale}/login?callbackUrl=/${locale}/einspruch`)
+        return
+      }
+
+      if (!res.ok || !res.body) {
+        try {
+          const err = await res.json() as { error?: string }
+          setAnalyzeError(err.error ?? t('errors.analyze'))
+        } catch {
+          setAnalyzeError(t('errors.analyze'))
+        }
+        setStep('questions')
+        return
+      }
+
+      // Parse SSE stream from response body
+      const reader = res.body.getReader()
+      const decoder = new TextDecoder()
+      let sseBuffer = ''
+
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+        sseBuffer += decoder.decode(value, { stream: true })
         const parts = sseBuffer.split('\n\n')
         sseBuffer = parts.pop() ?? ''
         for (const part of parts) {
@@ -476,6 +534,7 @@ function EinspruchPageInner() {
                   required?: boolean
                   type?: 'text' | 'yesno' | 'amount' | 'date'
                   background?: string
+                  guidance?: string
                 }>
               )
             } else if (eventName === 'error') {
@@ -484,45 +543,17 @@ function EinspruchPageInner() {
           } catch { /* malformed SSE chunk */ }
         }
       }
-
-      xhr.onload = () => {
-        setUploadPhase(null)
-        if (xhr.status === 401) {
-          redirecting = true
-          router.push(`/${locale}/login?callbackUrl=/${locale}/einspruch`)
-          resolve()
-          return
-        }
-        if (xhr.status >= 400) {
-          try {
-            const errData = JSON.parse(xhr.responseText) as { error?: string }
-            setAnalyzeError(errData.error ?? t('errors.analyze'))
-          } catch {
-            setAnalyzeError(t('errors.analyze'))
-          }
-        }
-        resolve()
-      }
-
-      xhr.onerror = () => {
-        setUploadPhase(null)
-        setAnalyzeError(t('errors.connection'))
-        resolve()
-      }
-
-      xhr.ontimeout = () => {
-        setUploadPhase(null)
+    } catch (e) {
+      if (e instanceof DOMException && e.name === 'AbortError') {
         setAnalyzeError(t('errors.analyze'))
-        resolve()
+      } else {
+        setAnalyzeError(t('errors.connection'))
       }
+    } finally {
+      clearTimeout(analysisTimeout)
+    }
 
-      xhr.open('POST', '/api/analyze')
-      xhr.setRequestHeader('Content-Type', 'application/json')
-      xhr.timeout = 180_000
-      xhr.send(body)
-    })
-
-    if (!redirecting) setStep('questions')
+    setStep('questions')
   }
 
   async function handleGenerate() {
@@ -722,7 +753,6 @@ function EinspruchPageInner() {
     setActiveAgent(0)
     setActiveAgentRoles(new Set())
     setUploadPhase(null)
-    setUploadFileIndex(0)
     setUploadProgress(0)
     setUploadSentMB(0)
     setUploadTotalMB(0)
@@ -993,48 +1023,14 @@ function EinspruchPageInner() {
             </h1>
 
             <p className="text-sm text-[var(--muted)] mb-5 text-center min-h-[1.25rem]">
-              {uploadPhase === 'encoding'
-                ? t('analyzing.encodingFiles')
-                : uploadPhase === 'uploading'
-                  ? t('analyzing.uploading')
-                  : detectedDocType
-                    ? t('analyzing.detectedSubtitle')
-                    : files.length > 0
-                      ? t('analyzing.scanning')
-                      : t('analyzing.demoMode')}
+              {uploadPhase === 'uploading'
+                ? t('analyzing.uploading')
+                : detectedDocType
+                  ? t('analyzing.detectedSubtitle')
+                  : files.length > 0
+                    ? t('analyzing.scanning')
+                    : t('analyzing.demoMode')}
             </p>
-
-            {/* ── Encoding phase: per-file status list ── */}
-            {uploadPhase === 'encoding' && files.length > 0 && (
-              <div className="w-full max-w-sm space-y-2 mb-5">
-                {files.map((f, i) => (
-                  <div
-                    key={f.name}
-                    className="flex items-center gap-3 bg-[var(--surface)] border border-[var(--border)] rounded-xl px-4 py-3"
-                  >
-                    <div className="w-8 h-8 bg-blue-50 dark:bg-blue-950/40 rounded-lg flex items-center justify-center shrink-0">
-                      {i < uploadFileIndex ? (
-                        <CheckCircle2 className="w-4 h-4 text-green-500" />
-                      ) : i === uploadFileIndex ? (
-                        <Loader2 className="w-4 h-4 text-blue-500 animate-spin" />
-                      ) : (
-                        <FileText className="w-4 h-4 text-[var(--muted)]" />
-                      )}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-[var(--foreground)] truncate">{f.name}</p>
-                      <p className="text-xs text-[var(--muted)]">
-                        {i < uploadFileIndex
-                          ? t('analyzing.fileReady')
-                          : i === uploadFileIndex
-                            ? t('analyzing.filePreparing')
-                            : `${(f.size / 1024 / 1024).toFixed(1)} MB`}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
 
             {/* ── Upload phase: progress bar + speed/ETA ── */}
             {uploadPhase === 'uploading' && (
@@ -1082,37 +1078,27 @@ function EinspruchPageInner() {
               <div className="w-full max-w-sm space-y-2">
                 {detectedFields.map((field) => {
                   const FieldIcon = resolveFieldIcon(field.icon)
+                  const imp = field.importance === 'high'
+                    ? { border: 'border-l-amber-400', iconBg: 'bg-amber-50 dark:bg-amber-950/30', iconColor: 'text-amber-600 dark:text-amber-400' }
+                    : field.importance === 'medium'
+                    ? { border: 'border-l-indigo-400', iconBg: 'bg-indigo-50 dark:bg-indigo-950/30', iconColor: 'text-indigo-600 dark:text-indigo-400' }
+                    : { border: 'border-l-[var(--border)]', iconBg: 'bg-[var(--background-subtle)]', iconColor: 'text-[var(--muted)]' }
                   return (
                     <div
                       key={field.key}
-                      className="flex items-center gap-3 bg-[var(--surface)] border border-[var(--border)] rounded-xl px-4 py-3 animate-in slide-in-from-right-2 fade-in duration-300"
+                      className={`flex items-center gap-3 bg-[var(--surface)] border border-[var(--border)] border-l-2 ${imp.border} rounded-xl px-4 py-3 animate-in slide-in-from-right-2 fade-in duration-300`}
                     >
-                      <div
-                        className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
-                          field.importance === 'high'
-                            ? 'bg-brand-50 dark:bg-brand-950/40'
-                            : 'bg-[var(--background-subtle)]'
-                        }`}
-                      >
-                        <FieldIcon
-                          className={`w-4 h-4 ${
-                            field.importance === 'high'
-                              ? 'text-brand-500'
-                              : 'text-[var(--muted)]'
-                          }`}
-                        />
+                      <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${imp.iconBg}`}>
+                        <FieldIcon className={`w-4 h-4 ${imp.iconColor}`} />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-[11px] text-[var(--muted)] leading-none mb-0.5">
+                        <p className="text-[10px] uppercase tracking-wider text-[var(--muted)] leading-none mb-1">
                           {field.label}
                         </p>
                         <p className="text-sm font-semibold text-[var(--foreground)] truncate">
                           {field.value}
                         </p>
                       </div>
-                      {field.importance === 'high' && (
-                        <div className="w-1.5 h-1.5 rounded-full bg-brand-400 shrink-0" />
-                      )}
                     </div>
                   )
                 })}
@@ -1123,7 +1109,7 @@ function EinspruchPageInner() {
                     {[0, 1, 2].map((i) => (
                       <div
                         key={i}
-                        className="flex items-center gap-3 bg-[var(--surface)] border border-[var(--border)] rounded-xl px-4 py-3"
+                        className="flex items-center gap-3 bg-[var(--surface)] border border-[var(--border)] border-l-2 border-l-[var(--border)] rounded-xl px-4 py-3"
                       >
                         <div className="w-8 h-8 rounded-lg bg-[var(--border)] animate-pulse shrink-0" />
                         <div className="flex-1 space-y-1.5">
@@ -1240,14 +1226,52 @@ function EinspruchPageInner() {
                             )}
                           </label>
 
-                          {/* Legal background hint */}
-                          {q.background && (
-                            <p className="text-xs text-[var(--muted)] bg-[var(--background-subtle)] border border-[var(--border)] rounded-lg px-3 py-2 mb-3 leading-relaxed">
-                              <span className="font-semibold text-brand-600 dark:text-brand-400">
-                                {t('questions.questionBackground')}{' '}
-                              </span>
-                              {q.background}
-                            </p>
+                          {/* Context toggle — legal basis + practical guidance */}
+                          {(q.background || q.guidance) && (
+                            <div className="mb-3">
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  setOpenContextIds((prev) => {
+                                    const next = new Set(prev)
+                                    if (next.has(q.id)) next.delete(q.id)
+                                    else next.add(q.id)
+                                    return next
+                                  })
+                                }
+                                className="inline-flex items-center gap-1.5 text-xs text-[var(--muted)] hover:text-[var(--foreground)] transition-colors py-0.5"
+                              >
+                                <span className="text-[10px]">ℹ️</span>
+                                {t('questions.context')}
+                                <span className="text-[9px] opacity-60">{openContextIds.has(q.id) ? '▴' : '▾'}</span>
+                              </button>
+
+                              {openContextIds.has(q.id) && (
+                                <div className="mt-2 rounded-xl border border-[var(--border)] bg-[var(--background-subtle)] overflow-hidden text-xs leading-relaxed">
+                                  {q.background && (
+                                    <div className="px-3 py-2.5 flex gap-2">
+                                      <span className="shrink-0 text-[11px] mt-0.5">⚖️</span>
+                                      <div>
+                                        <span className="font-semibold text-[var(--foreground)] block mb-0.5">{t('questions.legalBasis')}</span>
+                                        <span className="text-[var(--muted)]">{q.background}</span>
+                                      </div>
+                                    </div>
+                                  )}
+                                  {q.background && q.guidance && (
+                                    <div className="border-t border-[var(--border)]" />
+                                  )}
+                                  {q.guidance && (
+                                    <div className="px-3 py-2.5 flex gap-2">
+                                      <span className="shrink-0 text-[11px] mt-0.5">💡</span>
+                                      <div>
+                                        <span className="font-semibold text-[var(--foreground)] block mb-0.5">{t('questions.guidance')}</span>
+                                        <span className="text-[var(--muted)]">{q.guidance}</span>
+                                      </div>
+                                    </div>
+                                  )}
+                                </div>
+                              )}
+                            </div>
                           )}
 
                           {/* Yes/No/Unknown question → three radio-style buttons */}

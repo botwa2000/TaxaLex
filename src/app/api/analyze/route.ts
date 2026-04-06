@@ -8,6 +8,7 @@ import { auth } from '@/auth'
 import { rateLimit } from '@/lib/rateLimit'
 import { config } from '@/config/env'
 import { languageNames } from '@/config/i18n'
+import { consumeUpload } from '@/lib/uploadStore'
 
 export const maxDuration = 120
 
@@ -22,11 +23,19 @@ const FileSchema = z.object({
   base64: z.string(),
 })
 
-const AnalyzeSchema = z.object({
+const AnalyzeByIdSchema = z.object({
+  uploadId: z.string().uuid(),
   caseId: z.string().optional(),
   uiLanguage: z.string().length(2).optional().default('de'),
-  files: z.array(FileSchema).min(1).max(PIPELINE.maxDocuments),
 })
+
+const AnalyzeByFilesSchema = z.object({
+  files: z.array(FileSchema).min(1).max(PIPELINE.maxDocuments),
+  caseId: z.string().optional(),
+  uiLanguage: z.string().length(2).optional().default('de'),
+})
+
+const AnalyzeSchema = z.union([AnalyzeByIdSchema, AnalyzeByFilesSchema])
 
 function jsonResponse(body: unknown, status = 200) {
   return new Response(JSON.stringify(body), {
@@ -58,10 +67,32 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    const { files, caseId, uiLanguage } = parsed.data
+    const { caseId, uiLanguage } = parsed.data
+    type AnalysisFile = { name: string; type: string; base64: string; sizeBytes: number }
+    let files: AnalysisFile[]
+
+    if ('uploadId' in parsed.data) {
+      const stored = consumeUpload(parsed.data.uploadId, userId)
+      if (!stored) {
+        return jsonResponse({ error: 'Upload nicht gefunden oder abgelaufen' }, 410)
+      }
+      files = stored.map((f) => ({
+        name: f.name,
+        type: f.type,
+        base64: f.buffer.toString('base64'),
+        sizeBytes: f.buffer.length,
+      }))
+    } else {
+      files = parsed.data.files.map((f) => ({
+        name: f.name,
+        type: f.type,
+        base64: f.base64,
+        sizeBytes: Math.ceil((f.base64.length * 3) / 4),
+      }))
+    }
 
     let totalBytes = 0
-    for (const f of files) totalBytes += Math.ceil((f.base64.length * 3) / 4)
+    for (const f of files) totalBytes += f.sizeBytes
 
     logger.debug('[ANALYZE] ─── Files received', {
       fileCount: files.length,
@@ -117,7 +148,9 @@ export async function POST(req: NextRequest) {
 
     contentBlocks.push({
       type: 'text',
-      text: `Extract all key information from the document(s) above.
+      text: `⚠️ OUTPUT LANGUAGE: ${uiLangName} ONLY. Every field label, question, background, and guidance must be in ${uiLangName} — not the document's language.
+
+Extract all key information from the document(s) above.
 
 Your response must follow this EXACT format — no deviations, no markdown, no extra text:
 
@@ -131,12 +164,12 @@ After ALL fields, output this exact separator on its own line:
 ---QUESTIONS---
 
 Then a JSON array of follow-up questions (may span multiple lines):
-[{"id":"q1","question":"...in ${uiLangName}","required":true,"type":"text|yesno|amount|date","background":"legal basis in ${uiLangName}"}]
+[{"id":"q1","question":"...in ${uiLangName}","required":true,"type":"text|yesno|amount|date","background":"legal basis and §§ citations in ${uiLangName}","guidance":"2-3 sentences in ${uiLangName}: what factors determine the answer, concrete examples (if X then answer A because..., if Y then answer B because...), and how the AI will use this to strengthen the objection letter"}]
 
 Valid categories: tax_notice | traffic_fine | parking_ticket | kindergeld | job_center | rent_increase | insurance_rejection | termination_letter | other_official
 Valid icons: building | hash | calendar | euro | scale | map-pin | clock | user | file-text | alert-circle | tag | shield | car | gavel | home | heart-pulse
 
-Questions rules: Generate 3 to 6 questions. You MUST always generate at least 3 — even if the document seems clear, there are always procedural details (deadlines, prior correspondence, taxpayer intent) worth confirming. Cover: (1) facts needed for the letter, (2) challengeable evidence or dates, (3) legal distinctions to clarify, (4) authority weaknesses to pre-empt. One question per entry. Include legal basis (§§, court rulings) in background. Write all questions and background in ${uiLangName}.`,
+Questions rules: Generate 3 to 6 questions. You MUST always generate at least 3 — even if the document seems clear, there are always procedural details (deadlines, prior correspondence, taxpayer intent) worth confirming. Cover: (1) facts needed for the letter, (2) challengeable evidence or dates, (3) legal distinctions to clarify, (4) authority weaknesses to pre-empt. One question per entry. Include legal basis (§§, court rulings) in background field. Include practical answer guidance in guidance field. Write ALL text in ${uiLangName}.`,
     })
 
     const { models } = await getActiveModels()
@@ -192,7 +225,7 @@ Questions rules: Generate 3 to 6 questions. You MUST always generate at least 3 
           const messageStream = await client.messages.create({
             model: models.analyzer.model,
             max_tokens: PIPELINE.analyzeMaxTokens,
-            system: `You are an expert legal analyst specialising in German administrative law and formal objection proceedings. Analyse official documents and extract structured information. Your response must follow EXACTLY the JSONL format specified — document type first, then each field as a compact single-line JSON object, then the ---QUESTIONS--- separator, then the questions JSON array. No markdown, no explanations, no other text.`,
+            system: `You are an expert legal analyst specialising in German administrative law and formal objection proceedings. Analyse official documents and extract structured information. Your response must follow EXACTLY the JSONL format specified — document type first, then each field as a compact single-line JSON object, then the ---QUESTIONS--- separator, then the questions JSON array. No markdown, no explanations, no other text. CRITICAL: All output text — every label, question, background, guidance — MUST be written in ${uiLangName}. The document language does not determine the output language.`,
             messages: [{ role: 'user', content: contentBlocks }],
             stream: true,
           })
@@ -314,7 +347,7 @@ Questions rules: Generate 3 to 6 questions. You MUST always generate at least 3 
                       type: 'BESCHEID',
                       storagePath: 'memory',
                       mimeType: file.type || 'application/octet-stream',
-                      sizeBytes: Math.ceil((file.base64.length * 3) / 4),
+                      sizeBytes: file.sizeBytes,
                     },
                   })
                 ),

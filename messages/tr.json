@@ -900,6 +900,9 @@
       "additionalContext": "Diğer ilgili bilgiler",
       "additionalContextPlaceholder": "Sistemin dikkate almasını istediğiniz ek bağlam, gerçek veya belgeler…",
       "questionBackground": "Hukuki arka plan:",
+      "context": "Bağlam",
+      "legalBasis": "Hukuki dayanak",
+      "guidance": "Nasıl yanıtlanır",
       "requiredUnanswered": "Lütfen oluşturmadan önce tüm zorunlu soruları yanıtlayın."
     },
     "generating": {

@@ -900,6 +900,9 @@
       "additionalContext": "Qualquer outra informação relevante",
       "additionalContextPlaceholder": "Qualquer contexto, facto ou documento adicional que o sistema deva considerar…",
       "questionBackground": "Contexto jurídico:",
+      "context": "Contexto",
+      "legalBasis": "Base jurídica",
+      "guidance": "Como responder",
       "requiredUnanswered": "Por favor, responda todas as perguntas obrigatórias antes de gerar."
     },
     "generating": {

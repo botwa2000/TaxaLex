@@ -900,6 +900,9 @@
       "additionalContext": "أي معلومات أخرى ذات صلة",
       "additionalContextPlaceholder": "أي سياق أو حقائق أو مستندات إضافية تريد أن يأخذها النظام بعين الاعتبار…",
       "questionBackground": "الخلفية القانونية:",
+      "context": "السياق",
+      "legalBasis": "الأساس القانوني",
+      "guidance": "كيفية الإجابة",
       "requiredUnanswered": "الرجاء الإجابة على جميع الأسئلة المطلوبة قبل الإنشاء."
     },
     "generating": {

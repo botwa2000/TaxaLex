@@ -900,6 +900,9 @@
       "additionalContext": "Weitere relevante Informationen",
       "additionalContextPlaceholder": "Weitere Kontext, Fakten oder Dokumente, die das System berücksichtigen soll…",
       "questionBackground": "Rechtlicher Hintergrund:",
+      "context": "Kontext",
+      "legalBasis": "Rechtsgrundlage",
+      "guidance": "Wie antworten",
       "requiredUnanswered": "Bitte beantworten Sie zuerst alle Pflichtfragen."
     },
     "generating": {
