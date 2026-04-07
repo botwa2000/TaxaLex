@@ -157,6 +157,8 @@ elif [[ "$CMD" == "secrets" ]]; then
   create_or_replace "google_ai_api_key_dev"   "${GOOGLE_AI_API_KEY_DEV:-}"
   create_or_replace "perplexity_api_key_prod" "${PERPLEXITY_API_KEY_PROD:-}"
   create_or_replace "perplexity_api_key_dev"  "${PERPLEXITY_API_KEY_DEV:-}"
+  create_or_replace "xai_api_key_prod"        "${XAI_API_KEY_PROD:-}"
+  create_or_replace "xai_api_key_dev"         "${XAI_API_KEY_DEV:-}"
   create_or_replace "database_url_prod"      "${DATABASE_URL_PROD:-}"
   create_or_replace "database_url_dev"       "${DATABASE_URL_DEV:-}"
 
