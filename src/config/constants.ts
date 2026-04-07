@@ -60,8 +60,11 @@ export const PIPELINE = {
   maxTokens: 8192,
   /** Max tokens for the analyze step — no artificial cap, same as agents */
   analyzeMaxTokens: 8192,
-  /** Hard timeout per agent call in ms */
-  agentTimeoutMs: 60_000,
+  /** Hard timeout per agent call in ms.
+   *  Gemini 2.5 Flash needs up to 90s for a full legal letter on large cases.
+   *  Prod models (Sonnet, Grok, GPT-4o) are typically faster but 120s is safe.
+   */
+  agentTimeoutMs: 120_000,
   /** Max file size accepted for upload (bytes) — Anthropic PDF limit is 32 MB */
   maxUploadBytes: 30 * 1024 * 1024, // 30 MB
   /** Max number of documents per case */

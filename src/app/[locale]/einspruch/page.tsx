@@ -190,6 +190,8 @@ function EinspruchPageInner() {
   const [detectedDocType, setDetectedDocType] = useState<DetectedDocType | null>(null)
   const [additionalFiles, setAdditionalFiles] = useState<File[]>([])
   const [hasAccess, setHasAccess] = useState<boolean | null>(null) // null = loading
+  // Fields found specifically during the review step (subset of detectedFields)
+  const [reviewFields, setReviewFields] = useState<DetectedField[]>([])
 
   const fileInputRef = useRef<HTMLInputElement>(null)
   const additionalFileInputRef = useRef<HTMLInputElement>(null)
@@ -560,6 +562,7 @@ function EinspruchPageInner() {
     }
 
     setStep('reviewing')
+    setReviewFields([])
     setUploadPhase('uploading')
     setUploadProgress(0)
     setUploadSentMB(0)
@@ -693,7 +696,17 @@ function EinspruchPageInner() {
               const field = payload as unknown as DetectedField
               // Accumulate for merging into bescheidDataRef
               reviewFieldUpdates[field.key] = field.value
-              // Upsert into sidebar state for live preview
+              // Track in review-specific list for the reviewing step UI
+              setReviewFields((prev) => {
+                const idx = prev.findIndex((f) => f.key === field.key)
+                if (idx !== -1) {
+                  const updated = [...prev]
+                  updated[idx] = field
+                  return updated
+                }
+                return [...prev, field]
+              })
+              // Also upsert into the main detectedFields for the sidebar
               setDetectedFields((prev) => {
                 const idx = prev.findIndex((f) => f.key === field.key)
                 if (idx !== -1) {
@@ -931,6 +944,7 @@ function EinspruchPageInner() {
     setUploadTotalMB(0)
     setUploadSpeedMBps(0)
     setDetectedFields([])
+    setReviewFields([])
     setDetectedDocType(null)
     setCaseId(null)
     setAgentOutputData([])
@@ -1805,10 +1819,15 @@ function EinspruchPageInner() {
               </div>
             )}
 
-            {/* Streaming field cards — same as analyzing step */}
+            {/* Streaming field cards — only fields from the additional documents */}
             {uploadPhase !== 'uploading' && (
               <div className="w-full max-w-sm space-y-2">
-                {detectedFields.map((field) => {
+                {reviewFields.length > 0 && (
+                  <p className="text-xs text-[var(--muted)] text-center mb-1">
+                    {reviewFields.length} {t('reviewing.found')}
+                  </p>
+                )}
+                {reviewFields.map((field) => {
                   const FieldIcon = resolveFieldIcon(field.icon)
                   const imp = field.importance === 'high'
                     ? { border: 'border-l-amber-400', iconBg: 'bg-amber-50 dark:bg-amber-950/30', iconColor: 'text-amber-600 dark:text-amber-400' }
@@ -1834,8 +1853,8 @@ function EinspruchPageInner() {
                     </div>
                   )
                 })}
-                {/* Skeleton while waiting for first fields */}
-                {detectedFields.length === 0 && (
+                {/* Skeleton while waiting for first fields from additional docs */}
+                {reviewFields.length === 0 && (
                   <>
                     {[0, 1, 2].map((i) => (
                       <div

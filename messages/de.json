@@ -880,7 +880,8 @@
     },
     "reviewing": {
       "title": "Zusätzliche Dokumente werden analysiert",
-      "subtitle": "Ihre Dateien und Antworten werden ausgewertet…"
+      "subtitle": "Ihre Dateien und Antworten werden ausgewertet…",
+      "found": "neue Felder aus Zusatzdokumenten"
     },
     "questions": {
       "title": "Rückfragen",

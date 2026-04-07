@@ -880,7 +880,8 @@
     },
     "reviewing": {
       "title": "Revisione dei documenti aggiuntivi",
-      "subtitle": "Analisi dei file e delle risposte…"
+      "subtitle": "Analisi dei file e delle risposte…",
+      "found": "nuovi campi dai documenti aggiuntivi"
     },
     "questions": {
       "title": "Domande integrative",

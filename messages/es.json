@@ -880,7 +880,8 @@
     },
     "reviewing": {
       "title": "Revisando documentos adicionales",
-      "subtitle": "Analizando sus archivos y respuestas…"
+      "subtitle": "Analizando sus archivos y respuestas…",
+      "found": "nuevos campos de documentos adicionales"
     },
     "questions": {
       "title": "Preguntas complementarias",

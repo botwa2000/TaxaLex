@@ -880,7 +880,8 @@
     },
     "reviewing": {
       "title": "Ek belgeler inceleniyor",
-      "subtitle": "Dosyalarınız ve yanıtlarınız analiz ediliyor…"
+      "subtitle": "Dosyalarınız ve yanıtlarınız analiz ediliyor…",
+      "found": "ek belgelerden yeni alan"
     },
     "questions": {
       "title": "Ek sorular",

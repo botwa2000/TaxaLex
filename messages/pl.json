@@ -880,7 +880,8 @@
     },
     "reviewing": {
       "title": "Analiza dodatkowych dokumentów",
-      "subtitle": "Przetwarzamy pliki i odpowiedzi…"
+      "subtitle": "Przetwarzamy pliki i odpowiedzi…",
+      "found": "nowych pól z dodatkowych dokumentów"
     },
     "questions": {
       "title": "Pytania uzupełniające",

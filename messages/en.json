@@ -880,7 +880,8 @@
     },
     "reviewing": {
       "title": "Reviewing additional documents",
-      "subtitle": "Analysing your uploaded files and answers…"
+      "subtitle": "Analysing your uploaded files and answers…",
+      "found": "new fields from additional documents"
     },
     "questions": {
       "title": "Follow-up questions",
