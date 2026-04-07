@@ -44,6 +44,7 @@ import {
 } from 'lucide-react'
 import { Logo } from '@/components/Logo'
 import { brand } from '@/config/brand'
+import { languageNames } from '@/config/i18n'
 
 type Step = 'upload' | 'analyzing' | 'questions' | 'reviewing' | 'generating' | 'result'
 
@@ -182,6 +183,7 @@ function EinspruchPageInner() {
   const [analyzeError, setAnalyzeError] = useState<string | null>(null)
   const [resultLocked, setResultLocked] = useState(false) // true = freemium gate active
   const [editedDraft, setEditedDraft] = useState<string>('')
+  const [outputLanguage, setOutputLanguage] = useState('de')
   const [openContextIds, setOpenContextIds] = useState<Set<string>>(new Set())
   const [retentionDays, setRetentionDays] = useState<number | null>(null) // null = stored permanently
   const [detectedFields, setDetectedFields] = useState<DetectedField[]>([])
@@ -191,7 +193,6 @@ function EinspruchPageInner() {
 
   const fileInputRef = useRef<HTMLInputElement>(null)
   const additionalFileInputRef = useRef<HTMLInputElement>(null)
-  const docsRef = useRef<{ name: string; text: string }[] | null>(null)
   const caseIdRef = useRef<string | null>(null)
   const bescheidDataRef = useRef<Record<string, unknown> | null>(null)
   const questionsRef = useRef<Array<{
@@ -256,7 +257,6 @@ function EinspruchPageInner() {
   async function handleAnalyze() {
     bescheidDataRef.current = null
     questionsRef.current = null
-    docsRef.current = null
     caseIdRef.current = null
     setCaseId(null)
     setAdditionalFiles([])
@@ -793,7 +793,7 @@ function EinspruchPageInner() {
           documents: [],
           userAnswers: remappedAnswers,
           uiLanguage: locale,
-          outputLanguage: 'de',
+          outputLanguage,
         }),
         signal: abortCtrl.signal,
       })
@@ -936,11 +936,11 @@ function EinspruchPageInner() {
     setAgentOutputData([])
     setDraftPreview('')
     setEditedDraft('')
+    setOutputLanguage('de')
     setGenerateError(null)
     setAnalyzeError(null)
     setResultLocked(false)
     setRetentionDays(null)
-    docsRef.current = null
     caseIdRef.current = null
     bescheidDataRef.current = null
     questionsRef.current = null
@@ -1997,7 +1997,7 @@ function EinspruchPageInner() {
                     <div className="w-2.5 h-2.5 rounded-full bg-amber-400/60" />
                     <div className="w-2.5 h-2.5 rounded-full bg-green-400/60" />
                     <span className="ml-2 text-xs text-[var(--muted)]">
-                      TaxaLex-Einspruch.txt
+                      {brand.name}-Einspruch.txt
                     </span>
                     {caseId && (
                       <span className="ml-auto text-[10px] text-green-600 dark:text-green-400">
@@ -2117,6 +2117,18 @@ function EinspruchPageInner() {
                         </div>
                       )
                     })}
+                  </div>
+                )}
+
+                {/* Non-German output language warning */}
+                {outputLanguage !== 'de' && (
+                  <div className="flex items-start gap-3 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-xl p-4 mb-5">
+                    <Globe className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
+                    <p className="text-sm text-amber-800 dark:text-amber-300">
+                      {t('result.outputLanguageWarning', {
+                        language: languageNames[outputLanguage] ?? outputLanguage,
+                      })}
+                    </p>
                   </div>
                 )}
 
