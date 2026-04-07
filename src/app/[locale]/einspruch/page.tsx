@@ -43,6 +43,7 @@ import {
   type LucideIcon,
 } from 'lucide-react'
 import { Logo } from '@/components/Logo'
+import { brand } from '@/config/brand'
 
 type Step = 'upload' | 'analyzing' | 'questions' | 'reviewing' | 'generating' | 'result'
 
@@ -60,8 +61,8 @@ const AGENT_PROVIDERS: Record<AgentId, string> = {
   drafter: 'Claude',
   reviewer: 'Gemini',
   factchecker: 'Perplexity',
-  adversary: 'Claude',
-  consolidator: 'Claude',
+  adversary: 'Grok',
+  consolidator: 'GPT-4o',
 }
 
 const AGENT_COLORS: Record<AgentId, string> = {
@@ -135,19 +136,6 @@ interface GenerateResult {
   caseId?: string | null
 }
 
-// ── Async base64 via FileReader (non-blocking, handles large files) ───────────
-function fileToBase64(f: File): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    reader.onload = () => {
-      const dataUrl = reader.result as string
-      resolve(dataUrl.split(',')[1])
-    }
-    reader.onerror = reject
-    reader.readAsDataURL(f)
-  })
-}
-
 function EinspruchPageInner() {
   const searchParams = useSearchParams()
   const router = useRouter()
@@ -193,8 +181,8 @@ function EinspruchPageInner() {
   const [generateError, setGenerateError] = useState<string | null>(null)
   const [analyzeError, setAnalyzeError] = useState<string | null>(null)
   const [resultLocked, setResultLocked] = useState(false) // true = freemium gate active
+  const [editedDraft, setEditedDraft] = useState<string>('')
   const [openContextIds, setOpenContextIds] = useState<Set<string>>(new Set())
-  const [skippedIds, setSkippedIds] = useState<Set<string>>(new Set())
   const [retentionDays, setRetentionDays] = useState<number | null>(null) // null = stored permanently
   const [detectedFields, setDetectedFields] = useState<DetectedField[]>([])
   const [detectedDocType, setDetectedDocType] = useState<DetectedDocType | null>(null)
@@ -225,10 +213,13 @@ function EinspruchPageInner() {
   ] as const
 
   const currentIdx = STEPS.findIndex((s) => s.id === step)
-  const answeredCount = questions.filter((q) => answers[q.id]?.trim()).length
-  const requiredUnanswered = questions.filter(
-    (q) => q.required && !answers[q.id]?.trim()
-  ).length
+  // '__na__' counts as answered — it's an explicit "I don't know" response
+  const isAnswered = (id: string) => {
+    const v = answers[id]
+    return v === '__na__' || (typeof v === 'string' && v.trim().length > 0)
+  }
+  const answeredCount = questions.filter((q) => isAnswered(q.id)).length
+  const requiredUnanswered = questions.filter((q) => q.required && !isAnswered(q.id)).length
   // ── Check user access on mount ────────────────────────────────────────────
   useEffect(() => {
     fetch('/api/user/access')
@@ -659,6 +650,8 @@ function EinspruchPageInner() {
     // ── Phase 2: SSE review-analyze (non-fatal — always proceeds to generate) ──
     const abortCtrl = new AbortController()
     const reviewTimeout = setTimeout(() => abortCtrl.abort(), 180_000)
+    // Accumulate new/updated fields locally so we can merge into bescheidDataRef
+    const reviewFieldUpdates: Record<string, string> = {}
 
     try {
       const res = await fetch('/api/analyze', {
@@ -697,9 +690,11 @@ function EinspruchPageInner() {
             try { payload = JSON.parse(dataStr) } catch { continue }
 
             if (eventName === 'field') {
-              // Upsert: update existing key or append new
+              const field = payload as unknown as DetectedField
+              // Accumulate for merging into bescheidDataRef
+              reviewFieldUpdates[field.key] = field.value
+              // Upsert into sidebar state for live preview
               setDetectedFields((prev) => {
-                const field = payload as unknown as DetectedField
                 const idx = prev.findIndex((f) => f.key === field.key)
                 if (idx !== -1) {
                   const updated = [...prev]
@@ -720,6 +715,12 @@ function EinspruchPageInner() {
       clearTimeout(reviewTimeout)
     }
 
+    // Merge any newly discovered fields into bescheidDataRef before generate reads it.
+    // This ensures the pipeline has the most complete picture of the case.
+    if (Object.keys(reviewFieldUpdates).length > 0) {
+      bescheidDataRef.current = { ...(bescheidDataRef.current ?? {}), ...reviewFieldUpdates }
+    }
+
     handleGenerate()
   }
 
@@ -731,28 +732,21 @@ function EinspruchPageInner() {
     setGenerateError(null)
     setStep('generating')
 
-    // Re-encode the original uploaded files — docsRef is never populated from analyze,
-    // so we use the File objects still in state (same approach as additionalFiles below)
-    const baseDocs =
-      files.length > 0
-        ? await Promise.all(
-            files.map(async (f) => {
-              const base64 = await fileToBase64(f)
-              return { name: f.name, text: `[base64:${f.type}]${base64}` }
-            })
-          )
-        : []
-    const additionalDocs =
-      additionalFiles.length > 0
-        ? await Promise.all(
-            additionalFiles.map(async (f) => {
-              // Use FileReader for additional files too so PDFs don't become garbage
-              const base64 = await fileToBase64(f)
-              return { name: f.name, text: `[base64:${f.type}]${base64}` }
-            })
-          )
-        : []
-    const docs = [...baseDocs, ...additionalDocs]
+    // All document content was already extracted during the analyze step (bescheidDataRef).
+    // Do NOT re-encode files as base64 — LLMs cannot parse binary-encoded PDFs passed as text,
+    // and large files exceed Zod's validation limit causing 400 errors.
+    // bescheidData carries everything agents need.
+
+    // Remap answer keys from internal question IDs (q1, q2…) to question text so agents
+    // can interpret the context. N/A sentinel is preserved as-is for buildContext() to handle.
+    const questionMap = Object.fromEntries(
+      (questionsRef.current ?? []).map((q) => [q.id, q.question])
+    )
+    const remappedAnswers: Record<string, string> = {}
+    for (const [id, value] of Object.entries(answers)) {
+      const text = questionMap[id] ?? id
+      remappedAnswers[text] = value
+    }
 
     // Create the case record now — user has committed to generating
     let activeCaseId = caseIdRef.current
@@ -785,6 +779,10 @@ function EinspruchPageInner() {
     let finalDraft: string | null = null
     let completedCaseId = activeCaseId
 
+    // 300 s hard timeout — pipeline can take 2-3 minutes in prod with 5 providers
+    const abortCtrl = new AbortController()
+    const generateTimeout = setTimeout(() => abortCtrl.abort(), 300_000)
+
     try {
       const res = await fetch('/api/generate', {
         method: 'POST',
@@ -792,11 +790,12 @@ function EinspruchPageInner() {
         body: JSON.stringify({
           caseId: activeCaseId ?? undefined,
           bescheidData: bescheidDataRef.current ?? bescheidData ?? {},
-          documents: docs,
-          userAnswers: answers,
+          documents: [],
+          userAnswers: remappedAnswers,
           uiLanguage: locale,
           outputLanguage: 'de',
         }),
+        signal: abortCtrl.signal,
       })
 
       if (res.status === 401) {
@@ -809,7 +808,6 @@ function EinspruchPageInner() {
       }
 
       if (!res.ok || !res.body) {
-        const errText = await res.text().catch(() => '')
         setGenerateError(t('errors.generate'))
         // Stay in result step but with error and no draft
         setResult({ outputs: [], finalDraft: '', caseId: completedCaseId })
@@ -842,8 +840,6 @@ function EinspruchPageInner() {
           } catch {
             continue
           }
-          console.debug(`[generate] SSE ← ${eventName}`, payload)
-
           if (eventName === 'agent_start') {
             // Show spinner for this agent immediately — important for the parallel middle stage
             // where reviewer/factchecker/adversary all start at once
@@ -883,8 +879,11 @@ function EinspruchPageInner() {
       }
     } catch {
       setGenerateError(t('errors.connection'))
+    } finally {
+      clearTimeout(generateTimeout)
     }
 
+    setEditedDraft(finalDraft ?? '')
     setResult({
       outputs: accOutputs.map((o) => ({
         role: o.role,
@@ -897,36 +896,21 @@ function EinspruchPageInner() {
     setStep('result')
   }
 
-  function toggleSkip(id: string) {
-    setSkippedIds((prev) => {
-      const s = new Set(prev)
-      if (s.has(id)) {
-        s.delete(id)
-      } else {
-        s.add(id)
-        setAnswers((a) => ({ ...a, [id]: '' }))
-      }
-      return s
-    })
-  }
-
   function handleDownload() {
-    const draft = result?.finalDraft
-    if (!draft) return
+    if (!editedDraft) return
     const url = URL.createObjectURL(
-      new Blob([draft], { type: 'text/plain;charset=utf-8' })
+      new Blob([editedDraft], { type: 'text/plain;charset=utf-8' })
     )
     Object.assign(document.createElement('a'), {
       href: url,
-      download: 'TaxaLex-Einspruch.txt',
+      download: `${brand.name}-Einspruch.txt`,
     }).click()
     URL.revokeObjectURL(url)
   }
 
   async function handleCopy() {
-    const draft = result?.finalDraft
-    if (!draft) return
-    await navigator.clipboard.writeText(draft)
+    if (!editedDraft) return
+    await navigator.clipboard.writeText(editedDraft)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
   }
@@ -937,7 +921,6 @@ function EinspruchPageInner() {
     setAdditionalFiles([])
     setResult(null)
     setAnswers({})
-    setSkippedIds(new Set())
     setBescheidData(null)
     setQuestions([])
     setActiveAgent(0)
@@ -952,6 +935,7 @@ function EinspruchPageInner() {
     setCaseId(null)
     setAgentOutputData([])
     setDraftPreview('')
+    setEditedDraft('')
     setGenerateError(null)
     setAnalyzeError(null)
     setResultLocked(false)
@@ -1079,7 +1063,7 @@ function EinspruchPageInner() {
               </p>
               <p className="text-sm text-[var(--muted)]">{t('upload.dropzoneClick')}</p>
               <div className="flex items-center justify-center gap-2 mt-4 flex-wrap">
-                {['PDF', 'DOCX', 'JPG / PNG', 'TXT'].map((ext) => (
+                {['PDF', 'JPG / PNG', 'TXT'].map((ext) => (
                   <span
                     key={ext}
                     className="text-xs bg-[var(--background-subtle)] text-[var(--muted)] px-2.5 py-1 rounded-full border border-[var(--border)]"
@@ -1093,7 +1077,7 @@ function EinspruchPageInner() {
                 type="file"
                 multiple
                 className="hidden"
-                accept=".pdf,.docx,.txt,.jpg,.jpeg,.png,.webp"
+                accept=".pdf,.txt,.jpg,.jpeg,.png,.webp"
                 onChange={(e) => addFiles(e.target.files)}
               />
             </div>
@@ -1464,44 +1448,38 @@ function EinspruchPageInner() {
                             </div>
                           )}
 
-                          {/* Yes/No question → two radio-style buttons + skip link */}
+                          {/* Yes/No question → three buttons: Yes / No / N/A */}
                           {qType === 'yesno' && (
-                            <div>
-                              <div className={`flex gap-2 transition-opacity ${skippedIds.has(q.id) ? 'opacity-40 pointer-events-none' : ''}`}>
-                                {[
-                                  { value: tCommon('yes'), label: tCommon('yes') },
-                                  { value: tCommon('no'), label: tCommon('no') },
-                                ].map(({ value, label }) => (
-                                  <button
-                                    key={value}
-                                    type="button"
-                                    onClick={() =>
-                                      setAnswers((a) => ({ ...a, [q.id]: value }))
-                                    }
-                                    className={`flex-1 py-2.5 rounded-xl text-[15px] font-semibold border-2 transition-all ${
-                                      answers[q.id] === value
-                                        ? 'bg-brand-600 border-brand-600 text-white'
-                                        : 'bg-[var(--background-subtle)] border-[var(--border)] text-[var(--foreground)] hover:border-brand-300'
-                                    }`}
-                                  >
-                                    {label}
-                                  </button>
-                                ))}
-                              </div>
-                              <button
-                                type="button"
-                                onClick={() => toggleSkip(q.id)}
-                                className="mt-1.5 text-xs text-[var(--muted)] hover:text-[var(--foreground)] underline transition-colors"
-                              >
-                                {skippedIds.has(q.id) ? t('questions.restore') : t('questions.skip')}
-                              </button>
+                            <div className="flex gap-2">
+                              {[
+                                { value: tCommon('yes'), label: tCommon('yes') },
+                                { value: tCommon('no'), label: tCommon('no') },
+                                { value: '__na__', label: t('questions.na') },
+                              ].map(({ value, label }) => (
+                                <button
+                                  key={value}
+                                  type="button"
+                                  onClick={() =>
+                                    setAnswers((a) => ({ ...a, [q.id]: a[q.id] === value ? '' : value }))
+                                  }
+                                  className={`flex-1 py-2.5 rounded-xl text-[15px] font-semibold border-2 transition-all ${
+                                    answers[q.id] === value
+                                      ? value === '__na__'
+                                        ? 'bg-[var(--muted)] border-[var(--muted)] text-[var(--surface)]'
+                                        : 'bg-brand-600 border-brand-600 text-white'
+                                      : 'bg-[var(--background-subtle)] border-[var(--border)] text-[var(--foreground)] hover:border-brand-300'
+                                  }`}
+                                >
+                                  {label}
+                                </button>
+                              ))}
                             </div>
                           )}
 
-                          {/* Amount question → number input */}
+                          {/* Amount question → number input + N/A button */}
                           {qType === 'amount' && (
                             <div>
-                              <div className={`relative transition-opacity ${skippedIds.has(q.id) ? 'opacity-40 pointer-events-none' : ''}`}>
+                              <div className={`relative transition-opacity ${answers[q.id] === '__na__' ? 'opacity-40 pointer-events-none' : ''}`}>
                                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-[var(--muted)]">
                                   €
                                 </span>
@@ -1511,7 +1489,7 @@ function EinspruchPageInner() {
                                   min="0"
                                   className="w-full pl-8 pr-4 py-3 text-[15px] border border-[var(--border)] rounded-xl bg-[var(--background-subtle)] text-[var(--foreground)] focus:bg-[var(--surface)] focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400 transition-colors"
                                   placeholder="0,00"
-                                  value={answers[q.id] ?? ''}
+                                  value={answers[q.id] === '__na__' ? '' : (answers[q.id] ?? '')}
                                   onChange={(e) =>
                                     setAnswers((a) => ({ ...a, [q.id]: e.target.value }))
                                   }
@@ -1519,22 +1497,28 @@ function EinspruchPageInner() {
                               </div>
                               <button
                                 type="button"
-                                onClick={() => toggleSkip(q.id)}
-                                className="mt-1.5 text-xs text-[var(--muted)] hover:text-[var(--foreground)] underline transition-colors"
+                                onClick={() =>
+                                  setAnswers((a) => ({ ...a, [q.id]: a[q.id] === '__na__' ? '' : '__na__' }))
+                                }
+                                className={`mt-1.5 text-xs px-2.5 py-1 rounded-lg border transition-colors ${
+                                  answers[q.id] === '__na__'
+                                    ? 'bg-[var(--muted)] border-[var(--muted)] text-[var(--surface)]'
+                                    : 'border-[var(--border)] text-[var(--muted)] hover:text-[var(--foreground)] hover:border-[var(--foreground)]'
+                                }`}
                               >
-                                {skippedIds.has(q.id) ? t('questions.restore') : t('questions.skip')}
+                                {t('questions.na')}
                               </button>
                             </div>
                           )}
 
-                          {/* Date question → date input */}
+                          {/* Date question → date input + N/A button */}
                           {qType === 'date' && (
                             <div>
-                              <div className={`transition-opacity ${skippedIds.has(q.id) ? 'opacity-40 pointer-events-none' : ''}`}>
+                              <div className={`transition-opacity ${answers[q.id] === '__na__' ? 'opacity-40 pointer-events-none' : ''}`}>
                                 <input
                                   type="date"
                                   className="w-full border border-[var(--border)] rounded-xl px-4 py-3 text-[15px] bg-[var(--background-subtle)] text-[var(--foreground)] focus:bg-[var(--surface)] focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400 transition-colors"
-                                  value={answers[q.id] ?? ''}
+                                  value={answers[q.id] === '__na__' ? '' : (answers[q.id] ?? '')}
                                   onChange={(e) =>
                                     setAnswers((a) => ({ ...a, [q.id]: e.target.value }))
                                   }
@@ -1542,25 +1526,31 @@ function EinspruchPageInner() {
                               </div>
                               <button
                                 type="button"
-                                onClick={() => toggleSkip(q.id)}
-                                className="mt-1.5 text-xs text-[var(--muted)] hover:text-[var(--foreground)] underline transition-colors"
+                                onClick={() =>
+                                  setAnswers((a) => ({ ...a, [q.id]: a[q.id] === '__na__' ? '' : '__na__' }))
+                                }
+                                className={`mt-1.5 text-xs px-2.5 py-1 rounded-lg border transition-colors ${
+                                  answers[q.id] === '__na__'
+                                    ? 'bg-[var(--muted)] border-[var(--muted)] text-[var(--surface)]'
+                                    : 'border-[var(--border)] text-[var(--muted)] hover:text-[var(--foreground)] hover:border-[var(--foreground)]'
+                                }`}
                               >
-                                {skippedIds.has(q.id) ? t('questions.restore') : t('questions.skip')}
+                                {t('questions.na')}
                               </button>
                             </div>
                           )}
 
-                          {/* Text question → textarea */}
+                          {/* Text question → textarea + N/A button */}
                           {qType === 'text' && (
                             <div>
-                              <div className={`transition-opacity ${skippedIds.has(q.id) ? 'opacity-40 pointer-events-none' : ''}`}>
+                              <div className={`transition-opacity ${answers[q.id] === '__na__' ? 'opacity-40 pointer-events-none' : ''}`}>
                                 <textarea
                                   rows={3}
                                   className="w-full border border-[var(--border)] rounded-xl px-4 py-3 text-[15px] bg-[var(--background-subtle)] text-[var(--foreground)] focus:bg-[var(--surface)] focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400 transition-colors resize-none placeholder:text-[var(--muted)]"
                                   placeholder={
                                     q.required ? '' : t('questions.optional') + '…'
                                   }
-                                  value={answers[q.id] ?? ''}
+                                  value={answers[q.id] === '__na__' ? '' : (answers[q.id] ?? '')}
                                   onChange={(e) =>
                                     setAnswers((a) => ({ ...a, [q.id]: e.target.value }))
                                   }
@@ -1568,10 +1558,16 @@ function EinspruchPageInner() {
                               </div>
                               <button
                                 type="button"
-                                onClick={() => toggleSkip(q.id)}
-                                className="mt-1.5 text-xs text-[var(--muted)] hover:text-[var(--foreground)] underline transition-colors"
+                                onClick={() =>
+                                  setAnswers((a) => ({ ...a, [q.id]: a[q.id] === '__na__' ? '' : '__na__' }))
+                                }
+                                className={`mt-1.5 text-xs px-2.5 py-1 rounded-lg border transition-colors ${
+                                  answers[q.id] === '__na__'
+                                    ? 'bg-[var(--muted)] border-[var(--muted)] text-[var(--surface)]'
+                                    : 'border-[var(--border)] text-[var(--muted)] hover:text-[var(--foreground)] hover:border-[var(--foreground)]'
+                                }`}
                               >
-                                {skippedIds.has(q.id) ? t('questions.restore') : t('questions.skip')}
+                                {t('questions.na')}
                               </button>
                             </div>
                           )}
@@ -2134,7 +2130,7 @@ function EinspruchPageInner() {
                         <div className="w-2.5 h-2.5 rounded-full bg-green-400/60" />
                       </div>
                       <span className="text-xs text-[var(--muted)] ml-1">
-                        TaxaLex-Einspruch.txt
+                        {brand.name}-Einspruch.txt
                       </span>
                     </div>
                     <span className="text-xs text-[var(--muted)]">
@@ -2142,11 +2138,13 @@ function EinspruchPageInner() {
                     </span>
                   </div>
                   <div className="relative">
-                    <pre
-                      className={`p-5 font-mono text-sm text-[var(--foreground)] leading-relaxed whitespace-pre-wrap overflow-y-auto ${resultLocked ? 'max-h-48 select-none' : 'max-h-80'}`}
-                    >
-                      {resultLocked ? result.finalDraft.slice(0, 600) : result.finalDraft}
-                    </pre>
+                    <textarea
+                      readOnly={resultLocked}
+                      className={`w-full p-5 font-mono text-sm text-[var(--foreground)] leading-relaxed whitespace-pre-wrap resize-none bg-transparent focus:outline-none ${resultLocked ? 'max-h-48 select-none overflow-hidden' : 'max-h-80 overflow-y-auto'}`}
+                      value={resultLocked ? result.finalDraft.slice(0, 600) : editedDraft}
+                      onChange={(e) => !resultLocked && setEditedDraft(e.target.value)}
+                      rows={resultLocked ? 8 : 16}
+                    />
                     {resultLocked && (
                       <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-[var(--surface)] to-transparent flex flex-col items-center justify-end pb-5 gap-3">
                         <div className="flex items-center gap-2 text-sm font-semibold text-[var(--foreground)]">
@@ -2216,7 +2214,7 @@ function EinspruchPageInner() {
                         {t('result.retentionNotice', { days: retentionDays })}
                       </p>
                       <button
-                        onClick={() => router.push(`/${locale}/pricing`)}
+                        onClick={() => router.push(`/${locale}/billing`)}
                         className="mt-1 text-amber-700 dark:text-amber-400 font-semibold hover:underline"
                       >
                         {t('result.retentionCta')} →

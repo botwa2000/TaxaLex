@@ -4,6 +4,16 @@
  * Pipeline: Draft → [Review + FactCheck + Adversary in parallel] → Consolidate
  * Steps 2–4 work independently on the same draft, so they run concurrently.
  * This reduces typical prod pipeline time from ~240s to ~150s (37% faster).
+ *
+ * Prod provider assignment (one distinct model per provider):
+ *   Drafter      → Claude Sonnet  (Anthropic)  — legal writing
+ *   Reviewer     → Gemini 1.5 Pro (Google)     — structured error analysis
+ *   FactChecker  → Sonar Pro      (Perplexity) — live-web citation verification
+ *   Adversary    → Grok 3         (xAI)        — adversarial reasoning, authority POV
+ *   Consolidator → GPT-4o         (OpenAI)     — multi-source synthesis, final letter
+ *
+ * Dev provider assignment (all Gemini Flash — zero marginal cost):
+ *   All five pipeline agents → gemini-2.5-flash
  */
 
 import Anthropic from '@anthropic-ai/sdk'
@@ -22,19 +32,16 @@ import { getActiveModels } from '@/lib/pipelineMode'
 let anthropic: Anthropic | null = null
 let openai: OpenAI | null = null
 let perplexity: OpenAI | null = null
+let xai: OpenAI | null = null
 let googleAI: GoogleGenerativeAI | null = null
 
 function getAnthropic(): Anthropic {
-  if (!anthropic) {
-    anthropic = new Anthropic({ apiKey: config.anthropicApiKey })
-  }
+  if (!anthropic) anthropic = new Anthropic({ apiKey: config.anthropicApiKey })
   return anthropic
 }
 
 function getOpenAI(): OpenAI {
-  if (!openai) {
-    openai = new OpenAI({ apiKey: config.openaiApiKey })
-  }
+  if (!openai) openai = new OpenAI({ apiKey: config.openaiApiKey })
   return openai
 }
 
@@ -48,23 +55,29 @@ function getPerplexity(): OpenAI {
   return perplexity
 }
 
-function getGoogleAI(): GoogleGenerativeAI {
-  if (!googleAI) {
-    googleAI = new GoogleGenerativeAI(config.googleAiApiKey)
+// xAI (Grok) uses an OpenAI-compatible API — same SDK, different base URL and key.
+function getXAI(): OpenAI {
+  if (!xai) {
+    xai = new OpenAI({
+      apiKey: config.xaiApiKey,
+      baseURL: 'https://api.x.ai/v1',
+    })
   }
+  return xai
+}
+
+function getGoogleAI(): GoogleGenerativeAI {
+  if (!googleAI) googleAI = new GoogleGenerativeAI(config.googleAiApiKey)
   return googleAI
 }
 
 // --- Agent configurations ---
 // Models are injected at call time from pipelineMode so dev/prod can be toggled live.
-// Each entry in `models` carries both provider and model name — no hardcoding here.
 //
 // Language split:
 //   • Letter agents (drafter, consolidator) write in `outputLanguage` (default: German).
 //   • Analysis agents (reviewer, factchecker, adversary) communicate in `uiLanguage`
 //     so the user reads feedback in their own language, not in German.
-// Language directives live in the system prompt so they take effect from the first token,
-// not as a fragile appendix on the user message.
 
 type PipelineModels = Record<
   'drafter' | 'reviewer' | 'factchecker' | 'adversary' | 'consolidator',
@@ -135,27 +148,43 @@ LANGUAGE DIRECTIVE: Write the complete letter in ${outLang}. This document will 
 }
 
 // --- Core agent call ---
+// Each provider call is raced against PIPELINE.agentTimeoutMs to prevent indefinite hangs.
+
+function withTimeout<T>(promise: Promise<T>, ms: number, label: string): Promise<T> {
+  return Promise.race([
+    promise,
+    new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new Error(`Agent timeout: ${label} exceeded ${ms}ms`)), ms)
+    ),
+  ])
+}
 
 export async function callAgent(
   config: AgentConfig,
   userMessage: string
 ): Promise<string> {
+  const timeoutMs = PIPELINE.agentTimeoutMs
   logger.debug(`[callAgent:${config.role}] API call`, {
     provider: config.provider,
     model: config.model,
     systemPromptChars: config.systemPrompt.length,
     userMessageChars: userMessage.length,
     maxTokens: PIPELINE.maxTokens,
+    timeoutMs,
   })
 
   if (config.provider === 'anthropic') {
     const client = getAnthropic()
-    const response = await client.messages.create({
-      model: config.model,
-      max_tokens: PIPELINE.maxTokens,
-      system: config.systemPrompt,
-      messages: [{ role: 'user', content: userMessage }],
-    })
+    const response = await withTimeout(
+      client.messages.create({
+        model: config.model,
+        max_tokens: PIPELINE.maxTokens,
+        system: config.systemPrompt,
+        messages: [{ role: 'user', content: userMessage }],
+      }),
+      timeoutMs,
+      `anthropic/${config.model}`
+    )
     const text = response.content
       .filter((b) => b.type === 'text')
       .map((b) => b.text)
@@ -171,14 +200,18 @@ export async function callAgent(
 
   if (config.provider === 'openai') {
     const client = getOpenAI()
-    const response = await client.chat.completions.create({
-      model: config.model,
-      max_tokens: PIPELINE.maxTokens,
-      messages: [
-        { role: 'system', content: config.systemPrompt },
-        { role: 'user', content: userMessage },
-      ],
-    })
+    const response = await withTimeout(
+      client.chat.completions.create({
+        model: config.model,
+        max_tokens: PIPELINE.maxTokens,
+        messages: [
+          { role: 'system', content: config.systemPrompt },
+          { role: 'user', content: userMessage },
+        ],
+      }),
+      timeoutMs,
+      `openai/${config.model}`
+    )
     const text = response.choices[0]?.message?.content ?? ''
     logger.debug(`[callAgent:${config.role}] OpenAI response`, {
       inputTokens: response.usage?.prompt_tokens,
@@ -189,16 +222,45 @@ export async function callAgent(
     return text
   }
 
+  if (config.provider === 'xai') {
+    // Grok uses an OpenAI-compatible API — same call shape, different client base URL.
+    const client = getXAI()
+    const response = await withTimeout(
+      client.chat.completions.create({
+        model: config.model,
+        max_tokens: PIPELINE.maxTokens,
+        messages: [
+          { role: 'system', content: config.systemPrompt },
+          { role: 'user', content: userMessage },
+        ],
+      }),
+      timeoutMs,
+      `xai/${config.model}`
+    )
+    const text = response.choices[0]?.message?.content ?? ''
+    logger.debug(`[callAgent:${config.role}] xAI/Grok response`, {
+      inputTokens: response.usage?.prompt_tokens,
+      outputTokens: response.usage?.completion_tokens,
+      finishReason: response.choices[0]?.finish_reason,
+      outputChars: text.length,
+    })
+    return text
+  }
+
   if (config.provider === 'perplexity') {
     const client = getPerplexity()
-    const response = await client.chat.completions.create({
-      model: config.model,
-      max_tokens: PIPELINE.maxTokens,
-      messages: [
-        { role: 'system', content: config.systemPrompt },
-        { role: 'user', content: userMessage },
-      ],
-    })
+    const response = await withTimeout(
+      client.chat.completions.create({
+        model: config.model,
+        max_tokens: PIPELINE.maxTokens,
+        messages: [
+          { role: 'system', content: config.systemPrompt },
+          { role: 'user', content: userMessage },
+        ],
+      }),
+      timeoutMs,
+      `perplexity/${config.model}`
+    )
     const text = response.choices[0]?.message?.content ?? ''
     logger.debug(`[callAgent:${config.role}] Perplexity response`, {
       inputTokens: response.usage?.prompt_tokens,
@@ -215,7 +277,11 @@ export async function callAgent(
       model: config.model,
       systemInstruction: config.systemPrompt,
     })
-    const result = await model.generateContent(userMessage)
+    const result = await withTimeout(
+      model.generateContent(userMessage),
+      timeoutMs,
+      `google/${config.model}`
+    )
     const text = result.response.text()
     logger.debug(`[callAgent:${config.role}] Google response`, {
       outputChars: text.length,
@@ -229,11 +295,13 @@ export async function callAgent(
 
 /**
  * Full multi-agent pipeline:
- * 1. Drafter   (Claude)      – creates initial Einspruch
- * 2. Reviewer  (Gemini)      – checks for legal/math errors
- * 3. FactCheck (Perplexity)  – verifies citations & case law with live web search
- * 4. Adversary (Claude)      – attacks from Finanzamt perspective
- * 5. Consolidator (Claude)   – produces final bulletproof version
+ * 1. Drafter      (Claude Sonnet / Gemini Flash in dev)  — creates initial Einspruch
+ * 2. Reviewer     (Gemini Pro)                           — checks for legal/math errors
+ * 3. FactCheck    (Perplexity Sonar Pro)                 — verifies citations with live web
+ * 4. Adversary    (Grok 3 / Gemini Flash in dev)         — attacks from authority perspective
+ * 5. Consolidator (GPT-4o / Gemini Flash in dev)         — final bulletproof version
+ *
+ * Steps 2–4 run in parallel (Promise.all) — reduces wall-clock time by ~37%.
  */
 type ProgressEvent =
   | { type: 'agent_start'; data: { role: AgentRole } }
@@ -267,15 +335,14 @@ export async function orchestrate(
     docCount: documents.length,
     answerCount: Object.keys(userAnswers).length,
     agents: {
-      drafter: `${models.drafter.provider}/${models.drafter.model}`,
-      reviewer: `${models.reviewer.provider}/${models.reviewer.model}`,
-      factchecker: `${models.factchecker.provider}/${models.factchecker.model}`,
-      adversary: `${models.adversary.provider}/${models.adversary.model}`,
+      drafter:      `${models.drafter.provider}/${models.drafter.model}`,
+      reviewer:     `${models.reviewer.provider}/${models.reviewer.model}`,
+      factchecker:  `${models.factchecker.provider}/${models.factchecker.model}`,
+      adversary:    `${models.adversary.provider}/${models.adversary.model}`,
       consolidator: `${models.consolidator.provider}/${models.consolidator.model}`,
     },
   })
 
-  // Language directives live inside system prompts — see buildAgents().
   const AGENTS = buildAgents(models, uiLanguage, outputLanguage)
   const outputs: AgentOutput[] = []
   const context = buildContext(bescheidData, documents, userAnswers)
@@ -335,7 +402,7 @@ export async function orchestrate(
     elapsedMs: Date.now() - t0Pipeline,
   })
 
-  // Steps 2–4: Run in parallel — all analyse the same draft independently
+  // Steps 2–4: Run in parallel — all analyse the same draft independently.
   // Reviewer, FactChecker and Adversary do not depend on each other's output,
   // so Promise.all() cuts the middle-stage wall-clock time to max(three) instead of sum(three).
   logger.debug('[PIPELINE] ─── STEP 2–4: Reviewer + FactChecker + Adversary (parallel)')
@@ -354,7 +421,7 @@ export async function orchestrate(
     runAgent(
       'adversary',
       AGENTS.adversary,
-      `Analyse this objection letter from the tax authority's perspective:\n\n${draftContent}\n\nOriginal case data:\n${context}`
+      `Analyse this objection letter from the authority's perspective:\n\n${draftContent}\n\nOriginal case data:\n${context}`
     ),
   ])
   logger.debug('[PIPELINE] ─── STEP 2–4 complete (all parallel)', {
@@ -364,7 +431,7 @@ export async function orchestrate(
     adversaryChars: adversaryContent.length,
   })
 
-  // Step 5: Consolidate — final letter (language-aware — system prompt sets outputLanguage)
+  // Step 5: Consolidate — receives ALL four prior agent outputs.
   logger.debug('[PIPELINE] ─── STEP 5: Consolidator (sequential)')
   const finalDraft = await runAgent(
     'consolidator',
@@ -414,10 +481,7 @@ function buildContext(
 ): string {
   const parts: string[] = []
 
-  // Section heading from the AI-detected document type label, if present
-  const docTypeInfo = bescheid.docType as
-    | { category?: string; label?: string }
-    | undefined
+  const docTypeInfo = bescheid.docType as { category?: string; label?: string } | undefined
   const sectionHeading = docTypeInfo?.label ?? 'Dokument-Daten'
 
   const fieldLines = Object.entries(bescheid)
@@ -436,9 +500,12 @@ function buildContext(
   }
 
   if (Object.keys(answers).length > 0) {
-    parts.push('## Zusätzliche Angaben')
+    parts.push('## Zusätzliche Angaben des Antragstellers')
     for (const [q, a] of Object.entries(answers)) {
-      if (a.trim()) parts.push(`${q}: ${a}`)
+      if (!a.trim()) continue
+      // Translate N/A sentinel — should have been remapped client-side, but defensive fallback
+      const displayAnswer = a === '__na__' ? 'Nicht bekannt / N/A' : a
+      parts.push(`${q}: ${displayAnswer}`)
     }
   }
 

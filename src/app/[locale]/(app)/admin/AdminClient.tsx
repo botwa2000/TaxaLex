@@ -822,15 +822,16 @@ export function AdminClient({ users: initialUsers, cases, stats, systemHealth, i
                   <div className="mt-2 space-y-1 text-xs text-[var(--muted)]">
                     {pipelineMode === 'dev' ? (
                       <>
-                        <p>Drafter / Adversary / Consolidator: <span className="font-mono text-[var(--foreground)]">claude-haiku-4-5</span></p>
-                        <p>Reviewer: <span className="font-mono text-[var(--foreground)]">gemini-1.5-flash</span> (kostenlos)</p>
-                        <p>Factchecker: <span className="font-mono text-[var(--foreground)]">sonar</span></p>
+                        <p>Analyzer: <span className="font-mono text-[var(--foreground)]">claude-haiku-4-5-20251001</span></p>
+                        <p>Drafter / Reviewer / FactChecker / Adversary / Consolidator: <span className="font-mono text-[var(--foreground)]">gemini-2.5-flash</span> (kostenlos)</p>
                       </>
                     ) : (
                       <>
-                        <p>Drafter / Adversary / Consolidator: <span className="font-mono text-[var(--foreground)]">claude-sonnet-4-6</span></p>
+                        <p>Analyzer / Drafter: <span className="font-mono text-[var(--foreground)]">claude-haiku / claude-sonnet-4-6</span></p>
                         <p>Reviewer: <span className="font-mono text-[var(--foreground)]">gemini-1.5-pro</span></p>
-                        <p>Factchecker: <span className="font-mono text-[var(--foreground)]">sonar-pro</span></p>
+                        <p>FactChecker: <span className="font-mono text-[var(--foreground)]">sonar-pro</span> (Perplexity)</p>
+                        <p>Adversary: <span className="font-mono text-[var(--foreground)]">grok-3</span> (xAI)</p>
+                        <p>Consolidator: <span className="font-mono text-[var(--foreground)]">gpt-4o</span> (OpenAI)</p>
                       </>
                     )}
                   </div>

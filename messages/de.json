@@ -908,8 +908,7 @@
       "context": "Kontext",
       "legalBasis": "Rechtsgrundlage",
       "guidance": "Wie antworten",
-      "skip": "Frage überspringen",
-      "restore": "Antwort wiederherstellen",
+      "na": "N/A / Unbekannt",
       "requiredUnanswered": "Bitte beantworten Sie zuerst alle Pflichtfragen."
     },
     "generating": {

@@ -38,6 +38,7 @@ export const config = {
   googleAiApiKey: optionalEnv('GOOGLE_AI_API_KEY'),       // required only when pipeline runs
   perplexityApiKey: optionalEnv('PERPLEXITY_API_KEY'),    // required only when pipeline runs
   openaiApiKey: optionalEnv('OPENAI_API_KEY'),
+  xaiApiKey: optionalEnv('XAI_API_KEY'),        // Grok adversary (required in prod pipeline)
 
   // ── Auth ───────────────────────────────────────────────────────────────
   nextAuthSecret: requireEnv('NEXTAUTH_SECRET'),

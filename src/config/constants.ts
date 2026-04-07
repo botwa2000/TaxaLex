@@ -19,35 +19,39 @@
 //   • Perplexity: "sonar" and "sonar-pro" are tier aliases, not pinned versions.
 
 export type ModelSpec = {
-  provider: 'anthropic' | 'google' | 'perplexity' | 'openai'
+  provider: 'anthropic' | 'google' | 'perplexity' | 'openai' | 'xai'
   model: string
 }
 
 /**
- * DEV tier — all pipeline agents run on Gemini Flash (free quota, instant).
- * Analyzer stays on Anthropic Haiku because the /api/analyze route uses
- * Claude's native PDF/image content blocks (no transparent provider swap).
+ * DEV tier — ALL agents run on Gemini Flash (free quota, instant, zero marginal cost).
+ * Analyzer stays on Anthropic Haiku: the /api/analyze route requires Claude's native
+ * PDF/image content blocks — there is no provider-agnostic equivalent.
  */
 export const MODELS_DEV = {
-  analyzer:     { provider: 'anthropic',  model: 'claude-haiku-4-5-20251001' },
-  drafter:      { provider: 'google',     model: 'gemini-2.5-flash' },
-  reviewer:     { provider: 'google',     model: 'gemini-2.5-flash' },
-  factchecker:  { provider: 'perplexity', model: 'sonar' },
-  adversary:    { provider: 'google',     model: 'gemini-2.5-flash' },
-  consolidator: { provider: 'google',     model: 'gemini-2.5-flash' },
+  analyzer:     { provider: 'anthropic', model: 'claude-haiku-4-5-20251001' },
+  drafter:      { provider: 'google',    model: 'gemini-2.5-flash' },
+  reviewer:     { provider: 'google',    model: 'gemini-2.5-flash' },
+  factchecker:  { provider: 'google',    model: 'gemini-2.5-flash' },
+  adversary:    { provider: 'google',    model: 'gemini-2.5-flash' },
+  consolidator: { provider: 'google',    model: 'gemini-2.5-flash' },
 } as const satisfies Record<string, ModelSpec>
 
 /**
- * PROD tier — highest-quality models for paying users.
- * Sonnet alias auto-updates to the latest stable Sonnet when Anthropic ships one.
+ * PROD tier — five distinct best-in-class models, one per provider.
+ *   Drafter      → Claude Sonnet  (Anthropic)  — legal writing, instruction-following
+ *   Reviewer     → Gemini 1.5 Pro (Google)     — structured error analysis
+ *   FactChecker  → Sonar Pro      (Perplexity) — live-web citation verification
+ *   Adversary    → Grok 3         (xAI)        — adversarial reasoning, authority POV
+ *   Consolidator → GPT-4o         (OpenAI)     — multi-source synthesis, final letter
  */
 export const MODELS_PROD = {
   analyzer:     { provider: 'anthropic',  model: 'claude-haiku-4-5-20251001' },
   drafter:      { provider: 'anthropic',  model: 'claude-sonnet-4-6' },
   reviewer:     { provider: 'google',     model: 'gemini-1.5-pro' },
   factchecker:  { provider: 'perplexity', model: 'sonar-pro' },
-  adversary:    { provider: 'anthropic',  model: 'claude-sonnet-4-6' },
-  consolidator: { provider: 'anthropic',  model: 'claude-sonnet-4-6' },
+  adversary:    { provider: 'xai',        model: 'grok-3' },
+  consolidator: { provider: 'openai',     model: 'gpt-4o' },
 } as const satisfies Record<string, ModelSpec>
 
 // ── AI Pipeline ───────────────────────────────────────────────────────────────

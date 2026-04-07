@@ -7,7 +7,7 @@ export type AgentRole =
   | 'adversary'
   | 'consolidator'
 
-export type AgentProvider = 'anthropic' | 'openai' | 'google' | 'perplexity'
+export type AgentProvider = 'anthropic' | 'openai' | 'google' | 'perplexity' | 'xai'
 
 export interface AgentConfig {
   role: AgentRole

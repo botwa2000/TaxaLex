@@ -908,8 +908,7 @@
       "context": "Contesto",
       "legalBasis": "Base giuridica",
       "guidance": "Come rispondere",
-      "skip": "Salta questa domanda",
-      "restore": "Ripristina risposta",
+      "na": "N/A / Sconosciuto",
       "requiredUnanswered": "Si prega di rispondere a tutte le domande obbligatorie prima di generare."
     },
     "generating": {

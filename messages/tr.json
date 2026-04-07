@@ -908,8 +908,7 @@
       "context": "Bağlam",
       "legalBasis": "Hukuki dayanak",
       "guidance": "Nasıl yanıtlanır",
-      "skip": "Bu soruyu atla",
-      "restore": "Yanıtı geri yükle",
+      "na": "Y/B / Bilinmiyor",
       "requiredUnanswered": "Lütfen oluşturmadan önce tüm zorunlu soruları yanıtlayın."
     },
     "generating": {

@@ -908,8 +908,7 @@
       "context": "Context",
       "legalBasis": "Legal basis",
       "guidance": "How to answer",
-      "skip": "Skip this question",
-      "restore": "Restore answer",
+      "na": "N/A / Unknown",
       "requiredUnanswered": "Please answer all required questions before generating."
     },
     "generating": {
