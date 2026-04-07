@@ -950,7 +950,7 @@ function EinspruchPageInner() {
   return (
     <div className="min-h-screen bg-[var(--background)] flex flex-col">
       <header className="border-b border-[var(--border)] bg-[var(--surface)] sticky top-0 z-10">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
+        <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Link
               href={`/${locale}/dashboard`}
@@ -974,9 +974,10 @@ function EinspruchPageInner() {
         </div>
       </header>
 
-      <main className="flex-1 max-w-3xl mx-auto w-full px-4 sm:px-6 py-8">
-        {/* Step indicator */}
-        <div className="flex items-center mb-10">
+      <main className="flex-1 max-w-screen-xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8">
+        {/* Step indicator — capped so it doesn't stretch across the full 1280px on wide screens */}
+        <div className="max-w-3xl mx-auto mb-10">
+        <div className="flex items-center">
           {STEPS.map((s, i) => {
             const done = i < currentIdx,
               active = i === currentIdx
@@ -1022,9 +1023,11 @@ function EinspruchPageInner() {
           })}
         </div>
 
+        </div>
+
         {/* ═══ Step 1 — Upload ═══ */}
         {step === 'upload' && (
-          <div>
+          <div className="max-w-xl mx-auto">
             <h1 className="text-2xl font-bold text-[var(--foreground)] mb-1">
               {t('upload.title')}
             </h1>
@@ -1169,7 +1172,7 @@ function EinspruchPageInner() {
 
         {/* ═══ Step 2 — Analyzing ═══ */}
         {step === 'analyzing' && (
-          <div className="py-8 flex flex-col items-center">
+          <div className="max-w-xl mx-auto py-8 flex flex-col items-center">
             <div
               className={`w-16 h-16 border rounded-2xl flex items-center justify-center mb-5 transition-all duration-500 ${
                 detectedDocType
@@ -1355,7 +1358,7 @@ function EinspruchPageInner() {
               />
             </div>
 
-            <div className="grid lg:grid-cols-[1fr_300px] gap-6">
+            <div className="grid lg:grid-cols-[1fr_380px] xl:grid-cols-[1fr_420px] gap-6 lg:gap-8">
               <div className="space-y-4">
                 {questions.length === 0 && !analyzeError && (
                   <p className="text-sm text-[var(--muted)] italic py-4">
@@ -1387,7 +1390,7 @@ function EinspruchPageInner() {
                           )}
                         </span>
                         <div className="flex-1">
-                          <label className="block text-[15px] font-semibold text-[var(--foreground)] mb-2">
+                          <label className="block text-base font-semibold text-[var(--foreground)] mb-2">
                             {q.question}
                             {q.required ? (
                               <span className="text-red-500 ml-1.5 text-xs font-normal">
@@ -1638,10 +1641,10 @@ function EinspruchPageInner() {
                                              'border-l-[var(--border-strong)]'
                         return (
                           <div key={field.key} className={`border-l-2 ${border} pl-2 py-0.5`}>
-                            <p className="text-[10px] uppercase tracking-wide text-[var(--muted)] leading-none mb-0.5">
+                            <p className="text-[11px] uppercase tracking-wide text-[var(--muted)] leading-none mb-0.5">
                               {field.label}
                             </p>
-                            <p className="text-xs font-semibold text-[var(--foreground)] leading-snug break-words">
+                            <p className="text-sm font-semibold text-[var(--foreground)] leading-snug break-words">
                               {field.value}
                             </p>
                           </div>
@@ -1747,7 +1750,7 @@ function EinspruchPageInner() {
 
         {/* ═══ Step 3b — Reviewing (additional docs) ═══ */}
         {step === 'reviewing' && (
-          <div className="py-8 flex flex-col items-center">
+          <div className="max-w-xl mx-auto py-8 flex flex-col items-center">
             <div
               className={`w-16 h-16 border rounded-2xl flex items-center justify-center mb-5 transition-all duration-500 ${
                 uploadPhase === 'uploading'
@@ -1855,7 +1858,7 @@ function EinspruchPageInner() {
 
         {/* ═══ Step 4 — Generating ═══ */}
         {step === 'generating' && (
-          <div className="py-4">
+          <div className="max-w-2xl mx-auto py-4">
             <div className="text-center mb-8">
               <div className="inline-flex items-center justify-center w-16 h-16 bg-brand-50 dark:bg-brand-950/40 rounded-2xl mb-4">
                 <Brain className="w-8 h-8 text-brand-600 animate-pulse" />
@@ -2027,7 +2030,7 @@ function EinspruchPageInner() {
 
         {/* ═══ Step 5 — Result ═══ */}
         {step === 'result' && result && (
-          <div>
+          <div className="max-w-3xl mx-auto">
             {/* Generate error banner */}
             {generateError && (
               <div className="mb-5 flex items-start gap-3 bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-800 rounded-xl px-4 py-3">
