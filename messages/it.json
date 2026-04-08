@@ -1011,6 +1011,10 @@
       "connection": "Errore di connessione — riprovi.",
       "generate": "La generazione del ricorso è fallita. Riprovi.",
       "backToUpload": "Torna al caricamento"
+    },
+    "demo": {
+      "countdown": "Demo: continuazione tra {seconds} s…",
+      "skip": "Salta →"
     }
   },
   "outputLanguage": {
@@ -1058,5 +1062,77 @@
     "name2": "Rifiuto Jobcenter",
     "name3": "Aumento di affitto",
     "name4": "Avviso di licenziamento"
+  },
+  "useCasePage": {
+    "badge": "8 tipi di provvedimenti supportati",
+    "heroTitle": "Quando puoi presentare ricorso?",
+    "heroSubtitle": "Scopri i tuoi diritti riguardo ai provvedimenti amministrativi tedeschi più comuni — con scadenze, basi legali e tassi di successo.",
+    "heroCta": "Inizia con l'IA ora",
+    "deadlineLabel": "Scadenza",
+    "urgentBadge": "Scadenza urgente!",
+    "hotBadge": "Molto richiesto",
+    "ctaStart": "Avvia il ricorso con l'IA",
+    "ctaTemplate": "Visualizza il modello",
+    "bottomTitle": "Non sei sicuro di quale tipo si applica?",
+    "bottomSubtitle": "Carica qualsiasi provvedimento ufficiale — la nostra IA identifica automaticamente il tipo, trova i motivi di ricorso e redige una lettera professionale in pochi minuti.",
+    "bottomCta": "Carica il provvedimento e inizia",
+    "cases": {
+      "tax": {
+        "title": "Avviso di accertamento fiscale",
+        "desc": "Hai ricevuto un avviso di accertamento fiscale con cui non sei d'accordo? Un ricorso ai sensi del § 347 AO è il meccanismo legale per contestarlo entro 30 giorni. Errori comuni: spese lavorative calcolate in modo errato, spese speciali rifiutate, crediti d'imposta mancanti o errori nel calcolo del supplemento di solidarietà.",
+        "deadline": "30 giorni dalla notifica",
+        "success": "67% parzialmente o completamente riusciti",
+        "tip": "Presenta il ricorso anche senza motivazione — la motivazione può essere presentata in un secondo momento."
+      },
+      "grundsteuer": {
+        "title": "Imposta fondiaria (riforma 2022)",
+        "desc": "Dalla riforma dell'imposta fondiaria del 2022, milioni di proprietari hanno ricevuto nuovi avvisi. Errori frequenti: superficie del terreno errata, valore catastale (Bodenrichtwert) non corretto, classificazione d'uso sbagliata o dati dell'edificio erronei. Il tasso di errore nei nuovi avvisi è elevato — vale la pena contestarli.",
+        "deadline": "30 giorni dalla notifica",
+        "success": "Tasso di successo molto elevato con errori dei dati dimostrabili",
+        "tip": "Confronta i dati immobiliari con l'estratto del registro fondiario — molti errori sono immediatamente visibili."
+      },
+      "jobcenter": {
+        "title": "Jobcenter / Bürgergeld",
+        "desc": "Il Jobcenter ha rifiutato, ridotto o soppresso le tue prestazioni Bürgergeld? Un ricorso ai sensi del § 78 SGG è gratuito e spesso sospende l'esecuzione. Casi frequenti: sanzioni illegali, calcolo errato dei bisogni, detrazioni non considerate, spese di trasloco rifiutate o errori nel calcolo del reddito.",
+        "deadline": "1 mese dalla notifica",
+        "success": "Gratuito ai sensi del § 184 SGG — nessun rischio di spese processuali",
+        "tip": "Il ricorso generalmente sospende l'esecuzione — le prestazioni continuano a essere erogate."
+      },
+      "rente": {
+        "title": "Avviso pensionistico",
+        "desc": "La tua pensione è stata calcolata troppo bassa? La Deutsche Rentenversicherung basa i calcoli su periodi assicurativi e punti contributivi. Gli errori sorgono da periodi contributivi non registrati, crediti per l'educazione dei figli calcolati in modo errato o periodi di formazione non contabilizzati.",
+        "deadline": "1 mese dalla notifica",
+        "success": "Spesso riuscito con periodi assicurativi mancanti dimostrabili",
+        "tip": "Controlla attentamente gli avvisi pensionistici — ogni euro conta nel corso dei decenni di pensione."
+      },
+      "krankenversicherung": {
+        "title": "Assicurazione sanitaria",
+        "desc": "La tua cassa sanitaria ha rifiutato la copertura per un farmaco, una terapia, un ausilio o un'operazione? Hai il diritto di presentare ricorso ai sensi del § 78 SGG. La cassa deve decidere entro 3-5 settimane ai sensi del § 13 Abs. 3a SGB V. Motivi frequenti: necessità medica valutata in modo insufficiente, relazione MDK difettosa.",
+        "deadline": "1 mese dalla notifica",
+        "success": "Circa il 40% di tasso di successo con ricorso ben motivato",
+        "tip": "Un certificato medico di necessità medica aumenta considerevolmente le possibilità di successo."
+      },
+      "kuendigung": {
+        "title": "Licenziamento",
+        "desc": "Hai ricevuto un avviso di licenziamento che ritieni ingiusto o formalmente difettoso? La legge sulla protezione dal licenziamento tutela i lavoratori nelle aziende con più di 10 dipendenti dopo 6 mesi. Motivi possibili di invalidità: assenza di giustificazione sociale, mancata audizione del consiglio di fabbrica, vizi di forma.",
+        "deadline": "3 settimane per presentare ricorso al tribunale del lavoro",
+        "success": "Molti procedimenti si concludono con un'indennità di licenziamento",
+        "tip": "⚠ Solo 3 settimane! Agisci immediatamente — dopo di che il licenziamento è definitivo."
+      },
+      "miete": {
+        "title": "Aumento di affitto / Deposito cauzionale",
+        "desc": "Il proprietario richiede un aumento di affitto o trattiene il tuo deposito cauzionale? Gli aumenti di affitto sono validi solo fino all'affitto di riferimento locale e nei limiti del tetto legale (§ 558 Abs. 3 BGB). I depositi cauzionali devono essere restituiti dopo il tuo trasloco entro un termine ragionevole.",
+        "deadline": "2 mesi per opporsi all'aumento di affitto",
+        "success": "Spesso riuscito quando l'indice degli affitti locali viene superato",
+        "tip": "Consulta l'indice degli affitti locale — molti aumenti superano il livello consentito."
+      },
+      "bussgeld": {
+        "title": "Verbale / Avviso di sanzione",
+        "desc": "Hai ricevuto un verbale per eccesso di velocità, uso del cellulare, passaggio con il rosso o parcheggio irregolare? Un ricorso ai sensi del § 67 OWiG ti dà diritto a un procedimento giudiziario e all'accesso al fascicolo. Motivi frequenti: errori di misurazione, taratura scaduta, identificazione del conducente difettosa.",
+        "deadline": "2 settimane dalla notifica",
+        "success": "Circa il 30% dei procedimenti archiviati dopo la consultazione del fascicolo",
+        "tip": "Richiedi sempre prima l'accesso al fascicolo — spesso rivela vizi procedurali."
+      }
+    }
   }
 }

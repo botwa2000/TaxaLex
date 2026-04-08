@@ -1006,6 +1006,10 @@
       "demoBanner": "Demo-Modus: Dieser Einspruch wurde mit Beispieldaten erstellt. Für einen echten Einspruch mit Ihren Dokumenten registrieren Sie sich.",
       "demoRegisterLink": "Jetzt kostenlos registrieren →"
     },
+    "demo": {
+      "countdown": "Demo: weiter in {seconds} Sek…",
+      "skip": "Überspringen →"
+    },
     "errors": {
       "analyze": "Dokumentenanalyse fehlgeschlagen. Bitte versuchen Sie es erneut.",
       "connection": "Verbindungsfehler — bitte erneut versuchen.",
@@ -1058,5 +1062,77 @@
     "name2": "Jobcenter-Ablehnung",
     "name3": "Mieterhöhung",
     "name4": "Kündigung"
+  },
+  "useCasePage": {
+    "badge": "8 Bescheid-Typen unterstützt",
+    "heroTitle": "Wann können Sie Einspruch einlegen?",
+    "heroSubtitle": "Erfahren Sie Ihre Rechte bei den häufigsten deutschen Verwaltungsbescheiden — mit Fristen, Rechtsgrundlagen und Erfolgsquoten.",
+    "heroCta": "Jetzt mit KI starten",
+    "deadlineLabel": "Frist",
+    "urgentBadge": "Kurze Frist!",
+    "hotBadge": "Stark gefragt",
+    "ctaStart": "Einspruch mit KI starten",
+    "ctaTemplate": "Vorlage ansehen",
+    "bottomTitle": "Nicht sicher, welcher Typ zutrifft?",
+    "bottomSubtitle": "Laden Sie einfach Ihren Bescheid hoch — unsere KI erkennt den Typ automatisch, findet Einspruchsgründe und erstellt in Minuten ein professionelles Schreiben.",
+    "bottomCta": "Bescheid hochladen & starten",
+    "cases": {
+      "tax": {
+        "title": "Steuerbescheid",
+        "desc": "Das Finanzamt hat Ihnen einen Steuerbescheid geschickt und Sie sind mit der Festsetzung nicht einverstanden? Ein Einspruch nach § 347 AO ist die rechtliche Möglichkeit, innerhalb von 30 Tagen zu widersprechen. Häufige Fehler in Bescheiden: falsch berechnete Werbungskosten, nicht anerkannte Sonderausgaben, fehlende Steuerermäßigungen oder Berechnungsfehler beim Solidaritätszuschlag.",
+        "deadline": "30 Tage ab Zustellung",
+        "success": "67 % teilweise oder vollständig erfolgreich",
+        "tip": "Einspruch auch ohne Begründung einlegen — Begründung kann nachgereicht werden."
+      },
+      "grundsteuer": {
+        "title": "Grundsteuerbescheid (Reform 2022)",
+        "desc": "Seit der Grundsteuerreform 2022 haben Millionen Eigentümer neue Bescheide erhalten. Häufige Fehler: falsche Grundstücksfläche, unzutreffender Bodenrichtwert, falsche Nutzungsart oder fehlerhafte Gebäudedaten. Ein Einspruch lohnt sich besonders jetzt, solange die Verwaltung viele neue Bescheide bearbeitet und Fehlerquoten hoch sind.",
+        "deadline": "30 Tage ab Zustellung",
+        "success": "Sehr hohe Erfolgsquote bei nachweisbaren Datenfehlern",
+        "tip": "Grundstücksdaten mit Grundbuchauszug vergleichen — viele Fehler sofort erkennbar."
+      },
+      "jobcenter": {
+        "title": "Jobcenter / Bürgergeld",
+        "desc": "Das Jobcenter hat Ihre Leistungen abgelehnt, gekürzt oder gestrichen? Ein Widerspruch nach § 78 SGG ist kostenfrei und suspendiert oft die Vollziehung. Häufige Fälle: rechtswidrige Sanktionen, fehlerhafte Bedarfsberechnung, nicht berücksichtigte Freibeträge, abgelehnte Umzugskosten oder Fehler bei der Anrechnung von Einkommen.",
+        "deadline": "1 Monat ab Bekanntgabe",
+        "success": "Kostenlos nach § 184 SGG — kein Prozesskostenrisiko",
+        "tip": "Widerspruch hemmt in der Regel die Vollziehung — Leistungen werden weitergezahlt."
+      },
+      "rente": {
+        "title": "Rentenbescheid",
+        "desc": "Ihre Rente wurde zu niedrig berechnet? Die Deutsche Rentenversicherung berechnet Renten auf Basis von Versicherungszeiten und Entgeltpunkten. Fehler entstehen durch nicht erfasste Beitragszeiten, falsch berechnete Kindererziehungszeiten, fehlende Anrechnungszeiten für Ausbildung oder Krankheit.",
+        "deadline": "1 Monat ab Bekanntgabe",
+        "success": "Häufig erfolgreich bei nachweisbaren fehlenden Versicherungszeiten",
+        "tip": "Rentenbescheide genau prüfen — jeder Euro zählt über Jahrzehnte."
+      },
+      "krankenversicherung": {
+        "title": "Krankenversicherung",
+        "desc": "Die Krankenkasse hat ein Medikament, eine Therapie, ein Hilfsmittel oder eine Operation abgelehnt? Ein Widerspruch ist Ihr gesetzliches Recht. Die Kasse muss nach § 13 Abs. 3a SGB V innerhalb von 3–5 Wochen entscheiden. Fehler: medizinische Notwendigkeit nicht ausreichend geprüft, fehlerhaftes MDK-Gutachten.",
+        "deadline": "1 Monat ab Bekanntgabe",
+        "success": "Ca. 40 % Erfolgsquote bei gut begründetem Widerspruch",
+        "tip": "Ärztliches Attest zur medizinischen Notwendigkeit erhöht Erfolgschancen erheblich."
+      },
+      "kuendigung": {
+        "title": "Kündigung",
+        "desc": "Eine Kündigung erhalten und der Meinung, sie ist ungerechtfertigt oder formell fehlerhaft? Das Kündigungsschutzgesetz schützt Arbeitnehmer in Betrieben ab 10 Mitarbeitern nach 6 Monaten. Mögliche Unwirksamkeitsgründe: soziale Rechtfertigung fehlt, keine Betriebsratsanhörung, formelle Mängel.",
+        "deadline": "3 Wochen für Klage beim Arbeitsgericht",
+        "success": "Viele Verfahren enden mit einer Abfindung",
+        "tip": "⚠ Nur 3 Wochen! Sofort handeln — danach ist die Kündigung rechtskräftig."
+      },
+      "miete": {
+        "title": "Mieterhöhung / Kaution",
+        "desc": "Vermieter verlangt eine Mieterhöhung oder behält die Kaution ein? Mieterhöhungen sind nur bis zur ortsüblichen Vergleichsmiete und unter Einhaltung der Kappungsgrenze (§ 558 Abs. 3 BGB) zulässig. Kautionen müssen nach Auszug innerhalb angemessener Frist zurückgegeben werden.",
+        "deadline": "2 Monate für Widerspruch gegen Mieterhöhung",
+        "success": "Häufig erfolgreich bei Überschreitung des Mietspiegels",
+        "tip": "Lokalen Mietspiegel prüfen — viele Erhöhungen überschreiten das zulässige Maß."
+      },
+      "bussgeld": {
+        "title": "Bußgeldbescheid",
+        "desc": "Bußgeldbescheid wegen Geschwindigkeitsüberschreitung, Handyverstoß, Rotlichtverstoß oder Falschparken erhalten? Ein Einspruch nach § 67 OWiG gibt Ihnen Anspruch auf ein gerichtliches Verfahren und Akteneinsicht. Häufige Fehler: Messfehler, abgelaufener Eichschein, fehlerhafte Fahrerfeststellung.",
+        "deadline": "2 Wochen ab Zustellung",
+        "success": "Ca. 30 % Verfahrenseinstellungen durch Akteneinsicht",
+        "tip": "Immer zuerst Akteneinsicht beantragen — deckt oft Verfahrensfehler auf."
+      }
+    }
   }
 }

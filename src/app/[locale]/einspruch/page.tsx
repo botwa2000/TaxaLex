@@ -193,6 +193,8 @@ function EinspruchPageInner() {
   const [detectedDocType, setDetectedDocType] = useState<DetectedDocType | null>(null)
   const isDemoModeRef = useRef(false)
   const [isDemoMode, setIsDemoMode] = useState(false)
+  const [demoCountdown, setDemoCountdown] = useState<{ remaining: number; total: number } | null>(null)
+  const demoCountdownCallbackRef = useRef<(() => void) | null>(null)
   const [additionalFiles, setAdditionalFiles] = useState<File[]>([])
   const { status: sessionStatus } = useSession()
   const isLoggedIn = sessionStatus === 'authenticated'
@@ -247,21 +249,39 @@ function EinspruchPageInner() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []) // only on mount
 
-  // In demo mode: auto-fill answers and proceed after a short delay
+  // In demo mode: auto-fill answers then start a countdown before submitting
   useEffect(() => {
     if (!isDemoMode || step !== 'questions') return
     const scenario = getDemoScenario(type ?? 'tax', locale)
-    const timer = setTimeout(() => {
+    // Show questions for 3 s so the user can read them, then auto-fill
+    const fillTimer = setTimeout(() => {
       const autoAnswers: Record<string, string> = {}
       for (const q of scenario.questions) {
         autoAnswers[q.id] = q.autoAnswer
       }
       setAnswers(autoAnswers)
-      setTimeout(() => handleReview(), 1500)
-    }, 2000)
-    return () => clearTimeout(timer)
+      // Countdown before auto-submitting so the user can see the filled answers
+      startDemoCountdown(8, () => handleReview())
+    }, 3000)
+    return () => clearTimeout(fillTimer)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDemoMode, step])
+
+  // Tick the demo countdown every second; fire callback when it reaches 0
+  useEffect(() => {
+    if (!demoCountdown) return
+    if (demoCountdown.remaining <= 0) {
+      const cb = demoCountdownCallbackRef.current
+      demoCountdownCallbackRef.current = null
+      setDemoCountdown(null)
+      cb?.()
+      return
+    }
+    const timer = setTimeout(() => {
+      setDemoCountdown((prev) => (prev ? { ...prev, remaining: prev.remaining - 1 } : null))
+    }, 1000)
+    return () => clearTimeout(timer)
+  }, [demoCountdown])
 
   // ── Handlers ──────────────────────────────────────────────────────────────
   function addFiles(incoming: FileList | null) {
@@ -286,6 +306,18 @@ function EinspruchPageInner() {
 
   function removeAdditionalFile(name: string) {
     setAdditionalFiles((prev) => prev.filter((f) => f.name !== name))
+  }
+
+  function startDemoCountdown(seconds: number, onComplete: () => void) {
+    demoCountdownCallbackRef.current = onComplete
+    setDemoCountdown({ remaining: seconds, total: seconds })
+  }
+
+  function skipDemoCountdown() {
+    const cb = demoCountdownCallbackRef.current
+    demoCountdownCallbackRef.current = null
+    setDemoCountdown(null)
+    cb?.()
   }
 
   async function handleAnalyze() {
@@ -321,7 +353,8 @@ function EinspruchPageInner() {
       questionsRef.current = scenario.questions
       setBescheidData(Object.fromEntries(scenario.fields.map((f) => [f.key, f.value])))
       setQuestions(scenario.questions)
-      setStep('questions')
+      // Show extracted fields with a countdown before advancing to questions
+      startDemoCountdown(8, () => setStep('questions'))
       return
     }
 
@@ -941,6 +974,8 @@ function EinspruchPageInner() {
     questionsRef.current = null
     isDemoModeRef.current = false
     setIsDemoMode(false)
+    setDemoCountdown(null)
+    demoCountdownCallbackRef.current = null
   }
 
   // ── Render ─────────────────────────────────────────────────────────────────
@@ -1305,6 +1340,31 @@ function EinspruchPageInner() {
               <p className="text-xs text-[var(--muted)] text-center mt-2">
                 {t('analyzing.demoMode')}
               </p>
+            )}
+
+            {/* Demo countdown bar — shown after fields are extracted, before advancing */}
+            {isDemoMode && demoCountdown && (
+              <div className="mt-6 w-full max-w-sm">
+                <div className="flex items-center justify-between text-xs mb-2">
+                  <span className="text-brand-600 dark:text-brand-400 font-medium">
+                    {t('demo.countdown').replace('{seconds}', String(demoCountdown.remaining))}
+                  </span>
+                  <button
+                    onClick={skipDemoCountdown}
+                    className="text-brand-600 dark:text-brand-400 hover:text-brand-700 dark:hover:text-brand-300 font-medium underline"
+                  >
+                    {t('demo.skip')}
+                  </button>
+                </div>
+                <div className="h-1.5 bg-[var(--border)] rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-brand-500 rounded-full transition-all duration-1000 ease-linear"
+                    style={{
+                      width: `${((demoCountdown.total - demoCountdown.remaining) / demoCountdown.total) * 100}%`,
+                    }}
+                  />
+                </div>
+              </div>
             )}
           </div>
         )}
@@ -1722,6 +1782,31 @@ function EinspruchPageInner() {
                   String(requiredUnanswered)
                 )}
               </p>
+            )}
+
+            {/* Demo countdown bar — shown after auto-fill, before auto-submit */}
+            {isDemoMode && demoCountdown && (
+              <div className="mt-4 mb-1">
+                <div className="flex items-center justify-between text-xs mb-2">
+                  <span className="text-brand-600 dark:text-brand-400 font-medium">
+                    {t('demo.countdown').replace('{seconds}', String(demoCountdown.remaining))}
+                  </span>
+                  <button
+                    onClick={skipDemoCountdown}
+                    className="text-brand-600 dark:text-brand-400 hover:text-brand-700 dark:hover:text-brand-300 font-medium underline"
+                  >
+                    {t('demo.skip')}
+                  </button>
+                </div>
+                <div className="h-1.5 bg-[var(--border)] rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-brand-500 rounded-full transition-all duration-1000 ease-linear"
+                    style={{
+                      width: `${((demoCountdown.total - demoCountdown.remaining) / demoCountdown.total) * 100}%`,
+                    }}
+                  />
+                </div>
+              </div>
             )}
 
             <div className="flex gap-3 mt-3">

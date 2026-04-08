@@ -1011,6 +1011,10 @@
       "connection": "Błąd połączenia — proszę spróbować ponownie.",
       "generate": "Generowanie odwołania nie powiodło się. Proszę spróbować ponownie.",
       "backToUpload": "Powróć do przesyłania"
+    },
+    "demo": {
+      "countdown": "Demo: kontynuacja za {seconds} s…",
+      "skip": "Pomiń →"
     }
   },
   "outputLanguage": {
@@ -1058,5 +1062,77 @@
     "name2": "Odmowa Jobcenter",
     "name3": "Podwyżka czynszu",
     "name4": "Wypowiedzenie umowy o pracę"
+  },
+  "useCasePage": {
+    "badge": "8 obsługiwanych typów decyzji",
+    "heroTitle": "Kiedy możesz złożyć sprzeciw?",
+    "heroSubtitle": "Dowiedz się o swoich prawach w przypadku najczęstszych niemieckich decyzji administracyjnych — z terminami, podstawą prawną i wskaźnikami sukcesu.",
+    "heroCta": "Zacznij teraz z AI",
+    "deadlineLabel": "Termin",
+    "urgentBadge": "Pilny termin!",
+    "hotBadge": "Bardzo popularne",
+    "ctaStart": "Złóż sprzeciw z AI",
+    "ctaTemplate": "Zobacz szablon",
+    "bottomTitle": "Nie jesteś pewien, który typ dotyczy Twojej sprawy?",
+    "bottomSubtitle": "Prześlij dowolną oficjalną decyzję — nasza AI automatycznie identyfikuje typ, znajduje podstawy sprzeciwu i w kilka minut sporządza profesjonalne pismo.",
+    "bottomCta": "Prześlij decyzję i zacznij",
+    "cases": {
+      "tax": {
+        "title": "Decyzja podatkowa",
+        "desc": "Otrzymałeś decyzję podatkową, z którą się nie zgadzasz? Sprzeciw na podstawie § 347 AO to prawny mechanizm jej zakwestionowania w ciągu 30 dni. Częste błędy: nieprawidłowo obliczone koszty pracownicze, odrzucone wydatki specjalne, brakujące ulgi podatkowe lub błędy w obliczeniu dopłaty solidarnościowej.",
+        "deadline": "30 dni od doręczenia",
+        "success": "67% częściowo lub w pełni skutecznych",
+        "tip": "Złóż sprzeciw nawet bez uzasadnienia — uzasadnienie można dostarczyć później."
+      },
+      "grundsteuer": {
+        "title": "Podatek od nieruchomości (reforma 2022)",
+        "desc": "Od czasu reformy podatku od nieruchomości z 2022 roku miliony właścicieli nieruchomości otrzymały nowe decyzje. Częste błędy: nieprawidłowa powierzchnia działki, błędna wartość gruntu (Bodenrichtwert), niewłaściwa klasyfikacja użytkowania lub błędne dane budynku. Wskaźnik błędów w nowych decyzjach jest wysoki — warto je kwestionować.",
+        "deadline": "30 dni od doręczenia",
+        "success": "Bardzo wysoki wskaźnik sukcesu przy udokumentowanych błędach danych",
+        "tip": "Porównaj dane nieruchomości z odpisem z księgi wieczystej — wiele błędów jest natychmiast widocznych."
+      },
+      "jobcenter": {
+        "title": "Jobcenter / Bürgergeld",
+        "desc": "Jobcenter odmówił, zmniejszył lub wstrzymał Twoje świadczenia Bürgergeld? Sprzeciw na podstawie § 78 SGG jest bezpłatny i często zawiesza wykonanie decyzji. Częste przypadki: bezprawne sankcje, nieprawidłowe obliczenie potrzeb, nieuwzględnione zwolnienia, odrzucone koszty przeprowadzki lub błędy w obliczeniu dochodów.",
+        "deadline": "1 miesiąc od powiadomienia",
+        "success": "Bezpłatny na podstawie § 184 SGG — bez ryzyka kosztów procesowych",
+        "tip": "Sprzeciw zazwyczaj zawiesza wykonanie decyzji — świadczenia są nadal wypłacane."
+      },
+      "rente": {
+        "title": "Decyzja emerytalna",
+        "desc": "Twoja emerytura została obliczona za nisko? Deutsche Rentenversicherung opiera obliczenia na okresach ubezpieczenia i punktach składkowych. Błędy wynikają z niezarejestrowanych okresów składkowych, nieprawidłowo obliczonych ulg za wychowanie dzieci lub niezaliczonych okresów szkolenia.",
+        "deadline": "1 miesiąc od powiadomienia",
+        "success": "Często skuteczny przy udokumentowanych brakujących okresach ubezpieczenia",
+        "tip": "Dokładnie sprawdź decyzje emerytalne — każde euro ma znaczenie przez dziesięciolecia emerytury."
+      },
+      "krankenversicherung": {
+        "title": "Ubezpieczenie zdrowotne",
+        "desc": "Twoja kasa chorych odmówiła pokrycia kosztów leku, terapii, środka pomocniczego lub operacji? Masz prawo złożyć sprzeciw na podstawie § 78 SGG. Kasa musi podjąć decyzję w ciągu 3–5 tygodni zgodnie z § 13 Abs. 3a SGB V. Częste podstawy: niedostatecznie oceniona konieczność medyczna, wadliwa opinia MDK.",
+        "deadline": "1 miesiąc od powiadomienia",
+        "success": "Ok. 40% wskaźnik sukcesu przy dobrze uzasadnionym sprzeciwie",
+        "tip": "Zaświadczenie lekarskie o konieczności medycznej znacznie zwiększa szanse powodzenia."
+      },
+      "kuendigung": {
+        "title": "Wypowiedzenie",
+        "desc": "Otrzymałeś wypowiedzenie, które uważasz za nieuzasadnione lub formalnie wadliwe? Ustawa o ochronie przed zwolnieniem chroni pracowników w firmach zatrudniających ponad 10 pracowników po 6 miesiącach. Możliwe podstawy nieważności: brak społecznego uzasadnienia, brak przesłuchania rady zakładowej, wady formalne.",
+        "deadline": "3 tygodnie na złożenie pozwu do sądu pracy",
+        "success": "Wiele postępowań kończy się odprawą",
+        "tip": "⚠ Tylko 3 tygodnie! Działaj natychmiast — potem wypowiedzenie staje się prawomocne."
+      },
+      "miete": {
+        "title": "Podwyżka czynszu / Kaucja",
+        "desc": "Wynajmujący żąda podwyżki czynszu lub zatrzymuje Twoją kaucję? Podwyżki czynszu są ważne tylko do wysokości lokalnego czynszu referencyjnego i w granicach ustawowego limitu (§ 558 Abs. 3 BGB). Kaucje muszą zostać zwrócone po wyprowadzce w rozsądnym terminie.",
+        "deadline": "2 miesiące na wniesienie sprzeciwu wobec podwyżki czynszu",
+        "success": "Często skuteczny przy przekroczeniu lokalnego indeksu czynszów",
+        "tip": "Sprawdź lokalny indeks czynszów — wiele podwyżek przekracza dozwolony poziom."
+      },
+      "bussgeld": {
+        "title": "Mandat / Decyzja o karze",
+        "desc": "Otrzymałeś mandat za przekroczenie prędkości, używanie telefonu, przejazd na czerwonym świetle lub nieprawidłowe parkowanie? Sprzeciw na podstawie § 67 OWiG daje Ci prawo do postępowania sądowego i wglądu do akt. Częste podstawy: błędy pomiaru, przeterminowana legalizacja, wadliwe ustalenie tożsamości kierowcy.",
+        "deadline": "2 tygodnie od doręczenia",
+        "success": "Ok. 30% postępowań umorzonych po wglądzie do akt",
+        "tip": "Zawsze najpierw złóż wniosek o wgląd do akt — często ujawnia uchybienia proceduralne."
+      }
+    }
   }
 }

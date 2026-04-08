@@ -1011,6 +1011,10 @@
       "connection": "Error de conexión — por favor, inténtelo de nuevo.",
       "generate": "La generación del recurso ha fallado. Por favor, inténtelo de nuevo.",
       "backToUpload": "Volver a la subida"
+    },
+    "demo": {
+      "countdown": "Demo: continuando en {seconds} s…",
+      "skip": "Saltar →"
     }
   },
   "outputLanguage": {
@@ -1058,5 +1062,77 @@
     "name2": "Denegación del Jobcenter",
     "name3": "Subida de alquiler",
     "name4": "Notificación de despido"
+  },
+  "useCasePage": {
+    "badge": "8 tipos de resoluciones admitidas",
+    "heroTitle": "¿Cuándo puede presentar un recurso?",
+    "heroSubtitle": "Conozca sus derechos frente a las resoluciones administrativas alemanas más comunes — con plazos, bases legales y tasas de éxito.",
+    "heroCta": "Comenzar con IA ahora",
+    "deadlineLabel": "Plazo",
+    "urgentBadge": "¡Plazo urgente!",
+    "hotBadge": "Muy solicitado",
+    "ctaStart": "Iniciar recurso con IA",
+    "ctaTemplate": "Ver plantilla",
+    "bottomTitle": "¿No sabe qué tipo aplica?",
+    "bottomSubtitle": "Cargue cualquier resolución oficial — nuestra IA identifica el tipo automáticamente, encuentra los motivos de recurso y redacta una carta profesional en minutos.",
+    "bottomCta": "Cargar resolución y comenzar",
+    "cases": {
+      "tax": {
+        "title": "Liquidación tributaria",
+        "desc": "¿Ha recibido una liquidación tributaria con la que no está de acuerdo? Un recurso según § 347 AO es el mecanismo legal para impugnarla en 30 días. Errores frecuentes: gastos laborales mal calculados, gastos especiales rechazados, créditos fiscales faltantes o errores en el cálculo del recargo de solidaridad.",
+        "deadline": "30 días desde la notificación",
+        "success": "67% parcial o totalmente exitosos",
+        "tip": "Presente el recurso aunque no tenga argumentos — la fundamentación puede presentarse posteriormente."
+      },
+      "grundsteuer": {
+        "title": "Impuesto sobre bienes inmuebles (reforma 2022)",
+        "desc": "Desde la reforma del impuesto sobre bienes inmuebles de 2022, millones de propietarios han recibido nuevas liquidaciones. Errores frecuentes: superficie del terreno incorrecta, valor catastral (Bodenrichtwert) inexacto, clasificación de uso incorrecta o datos del edificio erróneos. La tasa de error en las nuevas liquidaciones es alta — vale la pena impugnarla.",
+        "deadline": "30 días desde la notificación",
+        "success": "Tasa de éxito muy alta con errores de datos comprobables",
+        "tip": "Compare los datos del inmueble con el extracto del registro de la propiedad — muchos errores son inmediatamente visibles."
+      },
+      "jobcenter": {
+        "title": "Jobcenter / Bürgergeld",
+        "desc": "¿El Jobcenter rechazó, redujo o eliminó sus prestaciones Bürgergeld? Un recurso según § 78 SGG es gratuito y a menudo suspende la ejecución. Casos frecuentes: sanciones ilegales, cálculo incorrecto de necesidades, deducciones no consideradas, gastos de mudanza rechazados o errores en el cómputo de ingresos.",
+        "deadline": "1 mes desde la notificación",
+        "success": "Gratuito según § 184 SGG — sin riesgo de costas procesales",
+        "tip": "El recurso generalmente suspende la ejecución — las prestaciones continúan pagándose."
+      },
+      "rente": {
+        "title": "Resolución de pensión",
+        "desc": "¿Su pensión fue calculada demasiado baja? La Deutsche Rentenversicherung basa sus cálculos en períodos de seguro y puntos de cotización. Los errores surgen por períodos de cotización no registrados, créditos por crianza de hijos mal calculados o períodos de formación no contabilizados.",
+        "deadline": "1 mes desde la notificación",
+        "success": "Con frecuencia exitoso con períodos de seguro faltantes comprobables",
+        "tip": "Revise detalladamente las resoluciones de pensión — cada euro cuenta a lo largo de décadas de jubilación."
+      },
+      "krankenversicherung": {
+        "title": "Seguro médico",
+        "desc": "¿Su seguro médico rechazó la cobertura de un medicamento, terapia, ayuda técnica u operación? Tiene derecho a recurrir según § 78 SGG. La aseguradora debe decidir en 3 a 5 semanas según § 13 Abs. 3a SGB V. Motivos frecuentes: necesidad médica evaluada insuficientemente, informe MDK defectuoso.",
+        "deadline": "1 mes desde la notificación",
+        "success": "Aprox. 40% de tasa de éxito con recurso bien fundamentado",
+        "tip": "Un certificado médico de necesidad médica aumenta considerablemente las posibilidades de éxito."
+      },
+      "kuendigung": {
+        "title": "Despido",
+        "desc": "¿Ha recibido una notificación de despido que considera injusta o formalmente defectuosa? La ley de protección contra el despido protege a los trabajadores en empresas con más de 10 empleados tras 6 meses. Motivos posibles de invalidez: ausencia de justificación social, falta de audiencia del comité de empresa, defectos de forma.",
+        "deadline": "3 semanas para presentar demanda en el tribunal laboral",
+        "success": "Muchos procedimientos concluyen con una indemnización por despido",
+        "tip": "⚠ ¡Solo 3 semanas! Actúe inmediatamente — después de eso el despido es definitivo."
+      },
+      "miete": {
+        "title": "Subida de alquiler / Fianza",
+        "desc": "¿El arrendador exige una subida de alquiler o retiene su fianza? Las subidas de alquiler solo son válidas hasta el alquiler de referencia local y dentro del límite legal (§ 558 Abs. 3 BGB). Las fianzas deben devolverse tras su mudanza en un plazo razonable.",
+        "deadline": "2 meses para oponerse a la subida de alquiler",
+        "success": "Con frecuencia exitoso cuando se supera el índice de alquileres local",
+        "tip": "Consulte el índice de alquileres local — muchas subidas superan el nivel permitido."
+      },
+      "bussgeld": {
+        "title": "Multa / Resolución sancionadora",
+        "desc": "¿Ha recibido una multa por exceso de velocidad, uso del teléfono, semáforo en rojo o aparcamiento indebido? Un recurso según § 67 OWiG le da derecho a un procedimiento judicial y acceso al expediente. Motivos frecuentes: errores de medición, calibración caducada, identificación del conductor defectuosa.",
+        "deadline": "2 semanas desde la notificación",
+        "success": "Aprox. 30% de procedimientos archivados tras consultar el expediente",
+        "tip": "Solicite siempre primero el acceso al expediente — con frecuencia revela defectos de procedimiento."
+      }
+    }
   }
 }

@@ -1011,6 +1011,10 @@
       "connection": "Bağlantı hatası — lütfen tekrar deneyin.",
       "generate": "İtiraz oluşturma başarısız oldu. Lütfen tekrar deneyin.",
       "backToUpload": "Yüklemeye geri dön"
+    },
+    "demo": {
+      "countdown": "Demo: {seconds} sn içinde devam ediyor…",
+      "skip": "Atla →"
     }
   },
   "outputLanguage": {
@@ -1058,5 +1062,77 @@
     "name2": "Jobcenter Reddi",
     "name3": "Kira Artışı",
     "name4": "İş Akdi Feshi"
+  },
+  "useCasePage": {
+    "badge": "8 desteklenen karar türü",
+    "heroTitle": "Ne zaman itiraz edebilirsiniz?",
+    "heroSubtitle": "En yaygın Alman idari kararlarına karşı haklarınızı öğrenin — son tarihler, yasal dayanak ve başarı oranlarıyla birlikte.",
+    "heroCta": "Şimdi yapay zeka ile başla",
+    "deadlineLabel": "Son tarih",
+    "urgentBadge": "Acil son tarih!",
+    "hotBadge": "Çok talep görüyor",
+    "ctaStart": "Yapay zeka ile itiraz başlat",
+    "ctaTemplate": "Şablonu görüntüle",
+    "bottomTitle": "Hangi türün geçerli olduğundan emin değil misiniz?",
+    "bottomSubtitle": "Herhangi bir resmi kararı yükleyin — yapay zekamız türü otomatik olarak belirler, itiraz gerekçelerini bulur ve dakikalar içinde profesyonel bir mektup hazırlar.",
+    "bottomCta": "Kararı yükle ve başla",
+    "cases": {
+      "tax": {
+        "title": "Vergi Değerlendirmesi",
+        "desc": "Katılmadığınız bir vergi değerlendirmesi mi aldınız? § 347 AO kapsamında itiraz, 30 gün içinde bunu itiraz etmenin yasal mekanizmasıdır. Yaygın hatalar: yanlış hesaplanan çalışma giderleri, reddedilen özel giderler, eksik vergi indirimleri veya dayanışma ek vergisi hesaplama hataları.",
+        "deadline": "Tebliğden itibaren 30 gün",
+        "success": "%67 kısmen veya tamamen başarılı",
+        "tip": "Gerekçe olmadan bile itiraz edin — gerekçe daha sonra sunulabilir."
+      },
+      "grundsteuer": {
+        "title": "Emlak Vergisi (2022 Reformu)",
+        "desc": "2022 emlak vergisi reformundan bu yana milyonlarca mülk sahibi yeni değerlendirmeler aldı. Yaygın hatalar: yanlış arazi alanı, hatalı arazi değeri (Bodenrichtwert), yanlış kullanım sınıflandırması veya hatalı bina verileri. Yeni değerlendirmelerdeki hata oranı yüksek — itiraz etmeye değer.",
+        "deadline": "Tebliğden itibaren 30 gün",
+        "success": "Kanıtlanabilir veri hatalarında çok yüksek başarı oranı",
+        "tip": "Mülk verilerini tapu siciline göre karşılaştırın — birçok hata hemen görülebilir."
+      },
+      "jobcenter": {
+        "title": "Jobcenter / Bürgergeld",
+        "desc": "Jobcenter, Bürgergeld yardımlarınızı reddetti, azalttı veya durdurdu mu? § 78 SGG kapsamında itiraz ücretsizdir ve genellikle icraatı askıya alır. Yaygın durumlar: hukuka aykırı yaptırımlar, hatalı ihtiyaç hesabı, dikkate alınmayan indirimler, reddedilen taşınma masrafları veya gelir hesabındaki hatalar.",
+        "deadline": "Bildirimden itibaren 1 ay",
+        "success": "§ 184 SGG kapsamında ücretsiz — dava masrafı riski yok",
+        "tip": "İtiraz genellikle icraatı askıya alır — yardımlar ödenmeye devam eder."
+      },
+      "rente": {
+        "title": "Emeklilik Bildirimi",
+        "desc": "Emekliliğiniz çok düşük hesaplandı mı? Deutsche Rentenversicherung, hesaplamalarını sigorta dönemlerine ve katkı puanlarına dayandırır. Hatalar, kaydedilmemiş katkı dönemlerinden, yanlış hesaplanan çocuk yetiştirme kredilerinden veya sayılmayan eğitim dönemlerinden kaynaklanır.",
+        "deadline": "Bildirimden itibaren 1 ay",
+        "success": "Kanıtlanabilir eksik sigorta dönemleriyle çoğunlukla başarılı",
+        "tip": "Emeklilik bildirimlerini dikkatle kontrol edin — her euro onlarca yıllık emeklilik süresinde önemlidir."
+      },
+      "krankenversicherung": {
+        "title": "Sağlık Sigortası",
+        "desc": "Sağlık sigortanız bir ilaç, terapi, yardımcı araç veya ameliyatın kapsamını reddetti mi? § 78 SGG kapsamında itiraz hakkınız bulunmaktadır. Sigorta şirketi, § 13 Abs. 3a SGB V uyarınca 3–5 hafta içinde karar vermelidir. Yaygın gerekçeler: tıbbi zorunluluğun yetersiz değerlendirilmesi, hatalı MDK raporu.",
+        "deadline": "Bildirimden itibaren 1 ay",
+        "success": "İyi gerekçeli itirazda yaklaşık %40 başarı oranı",
+        "tip": "Tıbbi zorunluluğa ilişkin doktor sertifikası başarı şansını önemli ölçüde artırır."
+      },
+      "kuendigung": {
+        "title": "İş Akdi Feshi",
+        "desc": "Haksız veya biçimsel olarak kusurlu olduğunu düşündüğünüz bir fesih bildirimi mi aldınız? İş güvencesi yasası, 10'dan fazla çalışanı olan şirketlerde 6 aydan fazla çalışan işçileri korur. Olası geçersizlik nedenleri: sosyal gerekçenin yokluğu, işçi konseyi duruşmasının eksikliği, biçimsel kusurlar.",
+        "deadline": "İş mahkemesine dava açmak için 3 hafta",
+        "success": "Birçok dava kıdem tazminatıyla sonuçlanır",
+        "tip": "⚠ Sadece 3 hafta! Hemen harekete geçin — bundan sonra fesih kesinleşir."
+      },
+      "miete": {
+        "title": "Kira Artışı / Depozito",
+        "desc": "Kiracı kira artışı talep ediyor mu yoksa depozitonuzu mu tutuyor? Kira artışları yalnızca yerel referans kiraya kadar ve yasal sınır dahilinde geçerlidir (§ 558 Abs. 3 BGB). Depozitolar, taşınmanızdan sonra makul bir süre içinde iade edilmelidir.",
+        "deadline": "Kira artışına itiraz için 2 ay",
+        "success": "Yerel kira endeksi aşıldığında çoğunlukla başarılı",
+        "tip": "Yerel kira endeksini kontrol edin — birçok artış izin verilen düzeyi aşıyor."
+      },
+      "bussgeld": {
+        "title": "Para Cezası / Cezai Karar",
+        "desc": "Hız ihlali, telefon kullanımı, kırmızı ışık ihlali veya yanlış park nedeniyle para cezası mı aldınız? § 67 OWiG kapsamında itiraz, mahkeme sürecine ve dosyaya erişim hakkına sahip olmanızı sağlar. Yaygın gerekçeler: ölçüm hataları, süresi dolmuş kalibrasyon, hatalı sürücü tespiti.",
+        "deadline": "Tebliğden itibaren 2 hafta",
+        "success": "Dosya incelemesinin ardından yaklaşık %30 dava düşürülüyor",
+        "tip": "Önce her zaman dosyaya erişim talebinde bulunun — genellikle usul hatalarını ortaya çıkarır."
+      }
+    }
   }
 }

@@ -1006,6 +1006,10 @@
       "demoBanner": "Demo mode: This objection was created with sample data. Register to generate a real objection with your own documents.",
       "demoRegisterLink": "Register for free →"
     },
+    "demo": {
+      "countdown": "Demo: continuing in {seconds}s…",
+      "skip": "Skip →"
+    },
     "errors": {
       "analyze": "Document analysis failed. Please try again.",
       "connection": "Connection error — please try again.",
@@ -1058,5 +1062,77 @@
     "name2": "Jobcenter Rejection",
     "name3": "Rent Increase",
     "name4": "Dismissal Notice"
+  },
+  "useCasePage": {
+    "badge": "8 supported case types",
+    "heroTitle": "When can you object?",
+    "heroSubtitle": "Learn about your rights for the most common German administrative notices — with deadlines, legal basis, and success rates.",
+    "heroCta": "Start with AI now",
+    "deadlineLabel": "Deadline",
+    "urgentBadge": "Urgent deadline",
+    "hotBadge": "In high demand",
+    "ctaStart": "Start objection with AI",
+    "ctaTemplate": "View template",
+    "bottomTitle": "Not sure which type applies?",
+    "bottomSubtitle": "Upload any official notice — our AI identifies the type automatically, finds objection grounds, and drafts a professional letter in minutes.",
+    "bottomCta": "Upload notice & start",
+    "cases": {
+      "tax": {
+        "title": "Tax Assessment",
+        "desc": "Received a tax assessment you disagree with? An objection under § 347 AO is the legal mechanism to challenge it within 30 days. Common errors: miscalculated work expenses, rejected special expenses, missing tax credits, or solidarity surcharge errors.",
+        "deadline": "30 days from delivery",
+        "success": "67% partially or fully successful",
+        "tip": "File objection even without grounds — reasoning can be submitted later."
+      },
+      "grundsteuer": {
+        "title": "Property Tax (2022 Reform)",
+        "desc": "Since the 2022 property tax reform, millions of property owners received new assessments. Common errors: wrong land area, incorrect Bodenrichtwert, wrong usage classification, or incorrect building data. The error rate in new assessments is high — worth challenging.",
+        "deadline": "30 days from delivery",
+        "success": "Very high success rate with provable data errors",
+        "tip": "Compare property data with land register — many errors immediately visible."
+      },
+      "jobcenter": {
+        "title": "Jobcenter / Bürgergeld",
+        "desc": "Jobcenter rejected or reduced your Bürgergeld benefits? An objection under § 78 SGG is free of charge and often suspends enforcement. Common cases: unlawful sanctions, incorrect needs calculation, uncounted allowances, rejected moving costs.",
+        "deadline": "1 month from notification",
+        "success": "Free of charge under § 184 SGG — no cost risk",
+        "tip": "Objection generally suspends enforcement — benefits continue to be paid."
+      },
+      "rente": {
+        "title": "Pension Notice",
+        "desc": "Your pension was calculated too low? The Deutsche Rentenversicherung bases calculations on insurance periods and contribution points. Errors occur through missing insurance periods, incorrect child-rearing credits, or uncounted training periods.",
+        "deadline": "1 month from notification",
+        "success": "Often successful with provable missing insurance periods",
+        "tip": "Always worth checking — every euro adds up over decades of retirement."
+      },
+      "krankenversicherung": {
+        "title": "Health Insurance",
+        "desc": "Health insurer rejected coverage for medication, therapy, or medical aids? You have the right to object under § 78 SGG. The insurer must decide within 3–5 weeks. Common grounds: insufficient assessment of medical necessity, defective MDK report.",
+        "deadline": "1 month from notification",
+        "success": "Approx. 40% success rate with well-reasoned objection",
+        "tip": "Medical certificate of necessity significantly increases success chances."
+      },
+      "kuendigung": {
+        "title": "Dismissal",
+        "desc": "Received a dismissal notice you believe is unjust or defective? Employment protection law shields workers in companies with 10+ employees after 6 months. Grounds for invalidity: lack of social justification, missing works council hearing, procedural defects.",
+        "deadline": "3 weeks to file at labor court",
+        "success": "Many cases result in a severance settlement",
+        "tip": "⚠ Only 3 weeks! Act immediately — after that the dismissal is final."
+      },
+      "miete": {
+        "title": "Rent Increase / Deposit",
+        "desc": "Landlord demanding a rent increase or withholding your deposit? Rent increases are only valid up to the local reference rent and within the statutory cap (§ 558 Abs. 3 BGB). Deposits must be returned after you move out within a reasonable timeframe.",
+        "deadline": "2 months to object to rent increase",
+        "success": "Often successful when local rent index is exceeded",
+        "tip": "Check local rent index — many increases exceed the permitted level."
+      },
+      "bussgeld": {
+        "title": "Fine / Penalty Notice",
+        "desc": "Received a fine for speeding, using a phone, running a red light, or parking violations? An objection under § 67 OWiG entitles you to court proceedings and file access. Common grounds: measurement errors, expired calibration, defective driver identification.",
+        "deadline": "2 weeks from delivery",
+        "success": "Approx. 30% of cases dropped after file inspection",
+        "tip": "Always request file access first — often reveals procedural defects."
+      }
+    }
   }
 }

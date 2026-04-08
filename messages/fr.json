@@ -1011,6 +1011,10 @@
       "connection": "Erreur de connexion — veuillez réessayer.",
       "generate": "La génération du recours a échoué. Veuillez réessayer.",
       "backToUpload": "Retour au téléversement"
+    },
+    "demo": {
+      "countdown": "Démo : continuation dans {seconds} s…",
+      "skip": "Passer →"
     }
   },
   "outputLanguage": {
@@ -1058,5 +1062,77 @@
     "name2": "Refus Jobcenter",
     "name3": "Augmentation de loyer",
     "name4": "Avis de licenciement"
+  },
+  "useCasePage": {
+    "badge": "8 types de décisions pris en charge",
+    "heroTitle": "Quand pouvez-vous faire opposition ?",
+    "heroSubtitle": "Découvrez vos droits pour les décisions administratives allemandes les plus courantes — avec délais, bases légales et taux de succès.",
+    "heroCta": "Commencer avec l'IA maintenant",
+    "deadlineLabel": "Délai",
+    "urgentBadge": "Délai court !",
+    "hotBadge": "Très demandé",
+    "ctaStart": "Démarrer l'opposition avec l'IA",
+    "ctaTemplate": "Voir le modèle",
+    "bottomTitle": "Vous ne savez pas quel type s'applique ?",
+    "bottomSubtitle": "Téléchargez simplement votre décision — notre IA identifie automatiquement le type, trouve les motifs d'opposition et rédige un courrier professionnel en quelques minutes.",
+    "bottomCta": "Télécharger la décision et commencer",
+    "cases": {
+      "tax": {
+        "title": "Avis d'imposition",
+        "desc": "Vous avez reçu un avis d'imposition avec lequel vous n'êtes pas d'accord ? Une opposition selon § 347 AO est le mécanisme légal pour le contester dans les 30 jours. Erreurs fréquentes : frais professionnels mal calculés, dépenses spéciales refusées, crédits d'impôt manquants ou erreurs de calcul de la surtaxe de solidarité.",
+        "deadline": "30 jours à compter de la notification",
+        "success": "67 % partiellement ou totalement réussis",
+        "tip": "Déposez votre opposition même sans justification — les motifs peuvent être soumis ultérieurement."
+      },
+      "grundsteuer": {
+        "title": "Taxe foncière (réforme 2022)",
+        "desc": "Depuis la réforme de la taxe foncière 2022, des millions de propriétaires ont reçu de nouvelles décisions. Erreurs fréquentes : surface foncière incorrecte, valeur vénale (Bodenrichtwert) inexacte, mauvaise classification d'usage ou données de bâtiment erronées. Le taux d'erreur dans les nouveaux avis est élevé — cela vaut la peine de contester.",
+        "deadline": "30 jours à compter de la notification",
+        "success": "Taux de succès très élevé pour les erreurs de données prouvables",
+        "tip": "Comparez les données foncières avec l'extrait du cadastre — de nombreuses erreurs sont immédiatement visibles."
+      },
+      "jobcenter": {
+        "title": "Jobcenter / Bürgergeld",
+        "desc": "Le Jobcenter a refusé, réduit ou supprimé vos allocations Bürgergeld ? Un recours selon § 78 SGG est gratuit et suspend souvent l'exécution. Cas fréquents : sanctions illégales, calcul des besoins incorrect, abattements non pris en compte, frais de déménagement refusés ou erreurs dans le calcul des revenus.",
+        "deadline": "1 mois à compter de la notification",
+        "success": "Gratuit selon § 184 SGG — aucun risque de frais judiciaires",
+        "tip": "Le recours suspend généralement l'exécution — les prestations continuent d'être versées."
+      },
+      "rente": {
+        "title": "Avis de retraite",
+        "desc": "Votre retraite a été calculée trop bas ? La Deutsche Rentenversicherung base ses calculs sur les périodes d'assurance et les points de cotisation. Des erreurs surviennent en raison de périodes de cotisation non enregistrées, de crédits d'éducation des enfants mal calculés ou de périodes de formation non comptabilisées.",
+        "deadline": "1 mois à compter de la notification",
+        "success": "Souvent réussi avec des périodes d'assurance manquantes prouvables",
+        "tip": "Vérifiez attentivement les avis de retraite — chaque euro compte sur des décennies de retraite."
+      },
+      "krankenversicherung": {
+        "title": "Assurance maladie",
+        "desc": "Votre caisse maladie a refusé la prise en charge d'un médicament, d'une thérapie, d'une aide technique ou d'une opération ? Vous avez le droit de faire opposition selon § 78 SGG. La caisse doit décider dans les 3 à 5 semaines selon § 13 Abs. 3a SGB V. Motifs fréquents : nécessité médicale insuffisamment évaluée, rapport MDK défectueux.",
+        "deadline": "1 mois à compter de la notification",
+        "success": "Environ 40 % de taux de succès avec une opposition bien motivée",
+        "tip": "Un certificat médical attestant la nécessité médicale augmente considérablement les chances de succès."
+      },
+      "kuendigung": {
+        "title": "Licenciement",
+        "desc": "Vous avez reçu un avis de licenciement que vous estimez injuste ou formellement défectueux ? La loi sur la protection contre le licenciement protège les salariés dans les entreprises de plus de 10 employés après 6 mois. Motifs d'invalidité possibles : absence de justification sociale, absence d'audition du comité d'entreprise, vices de forme.",
+        "deadline": "3 semaines pour saisir le tribunal du travail",
+        "success": "De nombreuses procédures aboutissent à une indemnité de licenciement",
+        "tip": "⚠ Seulement 3 semaines ! Agissez immédiatement — après cela, le licenciement est définitif."
+      },
+      "miete": {
+        "title": "Augmentation de loyer / Caution",
+        "desc": "Le propriétaire demande une augmentation de loyer ou retient votre caution ? Les augmentations de loyer ne sont valables que jusqu'au loyer de référence local et dans le respect du plafond légal (§ 558 Abs. 3 BGB). Les cautions doivent être restituées après votre déménagement dans un délai raisonnable.",
+        "deadline": "2 mois pour s'opposer à l'augmentation de loyer",
+        "success": "Souvent réussi lorsque l'indice des loyers locaux est dépassé",
+        "tip": "Consultez l'indice des loyers local — de nombreuses augmentations dépassent le niveau autorisé."
+      },
+      "bussgeld": {
+        "title": "Avis d'amende",
+        "desc": "Vous avez reçu une amende pour excès de vitesse, utilisation du téléphone, feu rouge grillé ou stationnement illicite ? Une opposition selon § 67 OWiG vous donne droit à une procédure judiciaire et à l'accès au dossier. Motifs fréquents : erreurs de mesure, calibrage expiré, identification du conducteur défectueuse.",
+        "deadline": "2 semaines à compter de la notification",
+        "success": "Environ 30 % des procédures classées après consultation du dossier",
+        "tip": "Demandez toujours d'abord l'accès au dossier — révèle souvent des vices de procédure."
+      }
+    }
   }
 }

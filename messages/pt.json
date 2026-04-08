@@ -1011,6 +1011,10 @@
       "connection": "Erro de conexão — tente novamente.",
       "generate": "A geração da impugnação falhou. Tente novamente.",
       "backToUpload": "Voltar ao envio"
+    },
+    "demo": {
+      "countdown": "Demo: continuando em {seconds} s…",
+      "skip": "Pular →"
     }
   },
   "outputLanguage": {
@@ -1058,5 +1062,77 @@
     "name2": "Recusa do Jobcenter",
     "name3": "Aumento de renda",
     "name4": "Aviso de despedimento"
+  },
+  "useCasePage": {
+    "badge": "8 tipos de decisões suportados",
+    "heroTitle": "Quando pode apresentar recurso?",
+    "heroSubtitle": "Conheça os seus direitos em relação às decisões administrativas alemãs mais comuns — com prazos, fundamento legal e taxas de sucesso.",
+    "heroCta": "Começar com IA agora",
+    "deadlineLabel": "Prazo",
+    "urgentBadge": "Prazo urgente!",
+    "hotBadge": "Muito procurado",
+    "ctaStart": "Iniciar recurso com IA",
+    "ctaTemplate": "Ver modelo",
+    "bottomTitle": "Não tem a certeza de qual tipo se aplica?",
+    "bottomSubtitle": "Carregue qualquer decisão oficial — a nossa IA identifica o tipo automaticamente, encontra os fundamentos do recurso e redige uma carta profissional em minutos.",
+    "bottomCta": "Carregar decisão e começar",
+    "cases": {
+      "tax": {
+        "title": "Liquidação fiscal",
+        "desc": "Recebeu uma liquidação fiscal com a qual não concorda? Um recurso ao abrigo do § 347 AO é o mecanismo legal para a contestar em 30 dias. Erros comuns: despesas com trabalho mal calculadas, despesas especiais rejeitadas, créditos fiscais em falta ou erros no cálculo do sobretaxa de solidariedade.",
+        "deadline": "30 dias a contar da notificação",
+        "success": "67% parcialmente ou totalmente bem-sucedidos",
+        "tip": "Apresente o recurso mesmo sem fundamentos — a fundamentação pode ser apresentada posteriormente."
+      },
+      "grundsteuer": {
+        "title": "Imposto sobre imóveis (reforma 2022)",
+        "desc": "Desde a reforma do imposto sobre imóveis de 2022, milhões de proprietários receberam novas liquidações. Erros frequentes: área do terreno incorreta, valor do solo (Bodenrichtwert) inexato, classificação de uso incorreta ou dados do edifício errados. A taxa de erro nas novas liquidações é elevada — vale a pena contestar.",
+        "deadline": "30 dias a contar da notificação",
+        "success": "Taxa de sucesso muito elevada com erros de dados comprováveis",
+        "tip": "Compare os dados do imóvel com o extrato do registo predial — muitos erros são imediatamente visíveis."
+      },
+      "jobcenter": {
+        "title": "Jobcenter / Bürgergeld",
+        "desc": "O Jobcenter recusou, reduziu ou cancelou as suas prestações Bürgergeld? Um recurso ao abrigo do § 78 SGG é gratuito e frequentemente suspende a execução. Casos frequentes: sanções ilegais, cálculo incorreto das necessidades, deduções não consideradas, despesas de mudança recusadas ou erros no cálculo de rendimentos.",
+        "deadline": "1 mês a contar da notificação",
+        "success": "Gratuito ao abrigo do § 184 SGG — sem risco de custas processuais",
+        "tip": "O recurso geralmente suspende a execução — as prestações continuam a ser pagas."
+      },
+      "rente": {
+        "title": "Aviso de pensão",
+        "desc": "A sua pensão foi calculada demasiado baixa? A Deutsche Rentenversicherung baseia os cálculos em períodos de seguro e pontos de contribuição. Os erros surgem de períodos de contribuição não registados, créditos por criação de filhos mal calculados ou períodos de formação não contabilizados.",
+        "deadline": "1 mês a contar da notificação",
+        "success": "Frequentemente bem-sucedido com períodos de seguro em falta comprováveis",
+        "tip": "Verifique atentamente os avisos de pensão — cada euro conta ao longo de décadas de reforma."
+      },
+      "krankenversicherung": {
+        "title": "Seguro de saúde",
+        "desc": "A sua seguradora de saúde recusou a cobertura de um medicamento, terapia, auxílio ou operação? Tem o direito de recorrer ao abrigo do § 78 SGG. A seguradora deve decidir em 3 a 5 semanas ao abrigo do § 13 Abs. 3a SGB V. Fundamentos frequentes: necessidade médica avaliada de forma insuficiente, relatório MDK defeituoso.",
+        "deadline": "1 mês a contar da notificação",
+        "success": "Aprox. 40% de taxa de sucesso com recurso bem fundamentado",
+        "tip": "Um certificado médico de necessidade médica aumenta consideravelmente as hipóteses de sucesso."
+      },
+      "kuendigung": {
+        "title": "Despedimento",
+        "desc": "Recebeu um aviso de despedimento que considera injusto ou formalmente defeituoso? A lei de proteção contra o despedimento protege os trabalhadores em empresas com mais de 10 funcionários após 6 meses. Possíveis fundamentos de invalidade: ausência de justificação social, falta de audição do conselho de trabalhadores, vícios de forma.",
+        "deadline": "3 semanas para intentar ação no tribunal do trabalho",
+        "success": "Muitos procedimentos terminam com uma indemnização por despedimento",
+        "tip": "⚠ Apenas 3 semanas! Aja imediatamente — depois disso o despedimento torna-se definitivo."
+      },
+      "miete": {
+        "title": "Aumento de renda / Depósito",
+        "desc": "O senhorio exige um aumento de renda ou retém o seu depósito? Os aumentos de renda só são válidos até à renda de referência local e dentro do limite legal (§ 558 Abs. 3 BGB). Os depósitos devem ser devolvidos após a sua saída num prazo razoável.",
+        "deadline": "2 meses para se opor ao aumento de renda",
+        "success": "Frequentemente bem-sucedido quando o índice de rendas local é excedido",
+        "tip": "Consulte o índice de rendas local — muitos aumentos excedem o nível permitido."
+      },
+      "bussgeld": {
+        "title": "Multa / Notificação de coima",
+        "desc": "Recebeu uma multa por excesso de velocidade, utilização do telemóvel, passagem a sinal vermelho ou estacionamento irregular? Um recurso ao abrigo do § 67 OWiG dá-lhe direito a um processo judicial e acesso ao processo. Fundamentos frequentes: erros de medição, calibração expirada, identificação defeituosa do condutor.",
+        "deadline": "2 semanas a contar da notificação",
+        "success": "Aprox. 30% dos casos arquivados após consulta do processo",
+        "tip": "Solicite sempre primeiro o acesso ao processo — frequentemente revela vícios processuais."
+      }
+    }
   }
 }
