@@ -1144,5 +1144,226 @@
         "tip": "Solicite sempre primeiro o acesso ao processo — frequentemente revela vícios processuais."
       }
     }
+  },
+  "howItWorksPage": {
+    "heroTitle": "Como funciona o TaxaLex",
+    "heroSubtitle": "Três passos simples. Cinco agentes de IA. Uma carta de oposição pronta para enviar.",
+    "step1Title": "Carregue o seu aviso",
+    "step1Subtitle": "Todos os formatos de ficheiro comuns suportados",
+    "formatsTitle": "Formatos suportados",
+    "formatPdf": "PDF – Extracção de texto directa ou OCR",
+    "formatImg": "JPG, PNG – Foto do aviso (OCR)",
+    "formatDocx": "DOCX – Documentos Word editáveis",
+    "formatTxt": "TXT – Texto simples",
+    "formatNote": "Máx. 10 MB por ficheiro. São permitidos vários ficheiros.",
+    "extractionTitle": "Extracção automática de dados",
+    "extractionDesc": "O TaxaLex extrai automaticamente dados-chave como o nome do serviço de finanças, a data do aviso, os montantes avaliados, os prazos e as referências legais. Reveja e confirme os dados extraídos antes de a geração começar.",
+    "step2Title": "Análise de IA por 5 agentes",
+    "step2Subtitle": "Claude, Gemini e Perplexity trabalham juntos",
+    "analysisNote": "A análise completa termina tipicamente em menos de 5 minutos. Pode acompanhar o progresso em tempo real.",
+    "step3Title": "Descarregar e submeter",
+    "step3Subtitle": "Reveja, descarregue e envie para a autoridade",
+    "downloadTitle": "Formatos de download",
+    "downloadDocx": "DOCX – Editável no Word",
+    "downloadTxt": "TXT – Texto simples",
+    "downloadPdf": "PDF – Em breve",
+    "legalNoteTitle": "Nota legal",
+    "legalNoteDesc": "O documento gerado é um rascunho assistido por IA. Não constitui aconselhamento jurídico no âmbito da lei alemã de serviços jurídicos (RDG). Para casos complexos, consulte um consultor fiscal ou advogado antes de submeter.",
+    "ctaDemo": "Experimente a demo",
+    "agents": {
+      "drafter": { "description": "Cria o rascunho inicial da oposição incluindo todos os requisitos formais, citações da base legal e a estrutura de argumentação." },
+      "reviewer": { "description": "Revê o rascunho em busca de erros lógicos, argumentos em falta, citações incorrectas e deficiências formais." },
+      "factChecker": { "description": "Verifica todas as citações legais face à legislação actual e decisões judiciais recentes através da pesquisa Perplexity." },
+      "adversary": { "description": "Adopta a perspectiva da autoridade e identifica potenciais pontos fracos na oposição — para que possam ser abordados de forma proactiva." },
+      "consolidator": { "description": "Funde os resultados dos quatro agentes numa carta de oposição final e polida, pronta para submissão." }
+    }
+  },
+  "expatsPage": {
+    "heroBadge": "Para expatriados na Alemanha",
+    "heroTitle": "Navegue na burocracia alemã — na sua língua.",
+    "heroSubtitle": "Recebeu um aviso alemão que não entende? O TaxaLex analisa-o, explica-o na sua língua e redige uma carta de oposição profissional em alemão — em minutos.",
+    "ctaRegister": "Começar gratuitamente",
+    "ctaTryWithout": "Experimentar sem conta",
+    "featuresTitle": "Porque é que os expatriados usam o TaxaLex",
+    "feature1Title": "Interface em 7 línguas",
+    "feature1Desc": "Use o TaxaLex em inglês, alemão, turco, russo, polaco, ucraniano ou árabe. A carta de oposição é sempre em alemão — exigido pelas autoridades alemãs.",
+    "feature2Title": "Saída em alemão",
+    "feature2Desc": "A sua carta de oposição é redigida em alemão juridicamente correcto — mesmo que não fale alemão. Pode descarregar uma tradução em inglês como referência.",
+    "feature3Title": "Prazos apertados, cobertos",
+    "feature3Desc": "Os prazos de oposição alemães são tipicamente de 30 dias. O TaxaLex ajuda-o a agir rapidamente — a IA redige a sua carta em menos de 5 minutos para nunca perder um prazo.",
+    "feature4Title": "Concebido para a Alemanha",
+    "feature4Desc": "Todas as referências legais, prazos e endereços de autoridades são específicos da lei alemã: § 347 AO, SGG § 84, BGB § 541, e mais.",
+    "useCasesTitle": "Avisos mais comuns para expatriados",
+    "useCasesSubtitle": "Estes são os avisos que os expatriados na Alemanha recebem com mais frequência e precisam de contestar.",
+    "languagesTitle": "Disponível na sua língua",
+    "languagesSubtitle": "Mude a língua da interface no rodapé a qualquer momento. A carta de oposição é sempre apresentada em alemão.",
+    "ctaStartFree": "Começar gratuitamente"
+  },
+  "contactPage": {
+    "title": "Contacto",
+    "subtitle": "Dúvidas, comentários ou problemas com o seu recurso? Estamos aqui para ajudar.",
+    "emailTitle": "Suporte por e-mail",
+    "emailNote": "Respondemos em 1 dia útil.",
+    "hoursTitle": "Horário de suporte",
+    "hoursValue": "Segunda – Sexta, 9:00 – 18:00 (CET)",
+    "legalNote": "{brandName} não fornece aconselhamento jurídico no âmbito da Lei de Serviços Jurídicos (RDG). Para assuntos legais urgentes, consulte um advogado ou consultor fiscal autorizado."
+  },
+  "pricingPage": {
+    "heroTitle": "Preços simples e transparentes",
+    "heroSubtitle": "Pague por processo ou subscreva para acesso ilimitado. Sem taxas ocultas.",
+    "addonBadge": "Complemento opcional",
+    "addonTitle": "Revisão profissional",
+    "addonDesc": "Peça a revisão da sua carta gerada por IA por um consultor fiscal ou advogado autorizado antes do envio.",
+    "perCase": "por processo",
+    "perCaseUnit": "processo",
+    "singleAndPack": "Processo único e pacote de 5",
+    "monthlySubscribers": "Subscritores de tarifa mensal",
+    "addonFeature1": "Consultor fiscal ou advogado autorizado",
+    "addonFeature2": "Aprovação, comentário ou questão",
+    "addonFeature3": "Resposta em 48 horas",
+    "addonFeature4": "Ligação segura — sem conta necessária",
+    "addonCta": "Saber mais",
+    "vatNote": "Todos os preços excl. IVA.",
+    "legalNoteTitle": "Nota legal",
+    "legalNoteText": "TaxaLex gera rascunhos de cartas de recurso assistidos por IA. Estes não constituem aconselhamento jurídico nos termos da Lei alemã de Serviços Jurídicos (RDG). A revisão profissional é um controlo de qualidade por um profissional autorizado — não é um mandato de representação.",
+    "addonPlanFallback": "Revisão profissional"
+  },
+  "templatesPage": {
+    "heroBadge": "16 modelos gratuitos",
+    "heroTitle": "Modelos de cartas jurídicas",
+    "heroSubtitle": "Descarregue modelos estruturados profissionalmente para os recursos administrativos mais comuns na Alemanha — ou preencha-os online e deixe a nossa IA fazer o resto.",
+    "heroCtaAi": "Gerar com IA",
+    "heroCtaBrowse": "Ver modelos ↓",
+    "infoBannerTip": "Dica: use a nossa IA para gerar uma versão personalizada — carregue o seu aviso e obtenha uma carta adaptada ao seu caso.",
+    "infoBannerCta": "Experimentar gratuitamente",
+    "catAll": "Todos",
+    "catTax": "Fiscal",
+    "catSocial": "Prestações sociais",
+    "catEmployment": "Emprego",
+    "catHousing": "Habitação",
+    "catConsumer": "Consumidor",
+    "catGeneral": "Geral",
+    "badgePopular": "Popular",
+    "deadlineLabel": "Prazo:",
+    "ctaOpenTemplate": "Abrir modelo",
+    "ctaAiTitle": "Gerar com IA (carregar o seu aviso)",
+    "bottomTitle": "Não encontrou o seu caso? A IA trata disso.",
+    "bottomSubtitle": "Carregue qualquer aviso oficial — fiscal, social, laboral ou habitacional — e a nossa IA irá analisá-lo, identificar os fundamentos do recurso e redigir uma carta profissional em minutos.",
+    "bottomCta": "Começar gratuitamente",
+    "tpl": {
+      "steuerbescheid-einspruch": {
+        "title": "Recurso contra liquidação fiscal",
+        "desc": "Recurso formal contra uma liquidação de imposto sobre o rendimento, imposto comercial ou imposto predial ao abrigo do § 347 AO. Inclui base legal, fundamentos do recurso e pedido de suspensão da execução.",
+        "deadline": "30 dias",
+        "badge": ""
+      },
+      "grundsteuer-einspruch": {
+        "title": "Recurso imposto predial (reforma 2022)",
+        "desc": "Conteste a sua nova liquidação do imposto predial na sequência da reforma Grundsteuer 2022. Cobre erros na área do terreno, Bodenrichtwert e classificação de uso.",
+        "deadline": "30 dias",
+        "badge": "Alta procura"
+      },
+      "jobcenter-widerspruch": {
+        "title": "Recurso Jobcenter (Bürgergeld)",
+        "desc": "Recorra contra a recusa ou redução dos pagamentos Bürgergeld, sanções ou cortes. Gratuito ao abrigo do § 184 SGG.",
+        "deadline": "1 mês",
+        "badge": ""
+      },
+      "rente-widerspruch": {
+        "title": "Recurso contra aviso de pensão",
+        "desc": "Conteste cálculos de pensão incorrectos da Deutsche Rentenversicherung — pontos de pensão, períodos de seguro, créditos por educação dos filhos.",
+        "deadline": "1 mês",
+        "badge": ""
+      },
+      "krankenkasse-widerspruch": {
+        "title": "Recurso seguro de saúde (recusa de cobertura)",
+        "desc": "Conteste a recusa do seu seguro GKV em cobrir medicamentos, terapia, ajudas médicas ou encaminhamentos para especialistas.",
+        "deadline": "1 mês",
+        "badge": ""
+      },
+      "pflegegrad-widerspruch": {
+        "title": "Recurso classificação nível de cuidados",
+        "desc": "Conteste uma avaliação incorrecta do nível de cuidados (Pflegegrad 1–5) pelo MDK ou Medicproof. Inclui discriminação de pontos e impugnação dos critérios de avaliação.",
+        "deadline": "1 mês",
+        "badge": ""
+      },
+      "elterngeld-widerspruch": {
+        "title": "Recurso subsídio parental / abono de família",
+        "desc": "Conteste o cálculo incorrecto ou a recusa do Elterngeld, ElterngeldPlus ou Kindergeld. Referências aos §§ 1–4 BEEG.",
+        "deadline": "1 mês",
+        "badge": ""
+      },
+      "kuendigung-widerspruch": {
+        "title": "Recurso despedimento / protecção no emprego",
+        "desc": "Conteste um despedimento injusto ou socialmente injustificado. Inclui pedido de revogação e referência ao prazo do § 4 KSchG.",
+        "deadline": "3 semanas",
+        "badge": ""
+      },
+      "mieterhöhung-widerspruch": {
+        "title": "Recurso aumento de renda",
+        "desc": "Conteste aumentos de renda injustificados acima da renda de referência local (Mietspiegel), violações da regra de limite ou requisitos formais em falta.",
+        "deadline": "2 meses",
+        "badge": ""
+      },
+      "nebenkosten-widerspruch": {
+        "title": "Recurso mapa de encargos acessórios",
+        "desc": "Conteste mapas de encargos acessórios incorrectos: recibos em falta, chaves de repartição erradas, entrega tardia ou rubricas não imputáveis.",
+        "deadline": "12 meses",
+        "badge": ""
+      },
+      "maengelanzeige": {
+        "title": "Comunicação de defeitos ao senhorio",
+        "desc": "Comunicação escrita formal de defeitos no apartamento (bolor, avaria do aquecimento, danos por água) com prazo de reparação e referência aos direitos de redução de renda (§ 536 BGB).",
+        "deadline": "Imediatamente",
+        "badge": ""
+      },
+      "bussgeld-einspruch": {
+        "title": "Recurso coima de trânsito",
+        "desc": "Conteste coimas de radar, multas de estacionamento e proibições de conduzir. Cobre erros de medição, vícios processuais e problemas de identificação do condutor.",
+        "deadline": "2 semanas",
+        "badge": ""
+      },
+      "ruecktritt-kaufvertrag": {
+        "title": "Resolução de contrato (produto defeituoso)",
+        "desc": "Resolva um contrato de compra por defeitos após tentativas de reparação falhadas. Referências aos §§ 437, 440 BGB com prazo final de reparação.",
+        "deadline": "2 anos",
+        "badge": ""
+      },
+      "gez-widerspruch": {
+        "title": "Recurso taxa de radiodifusão (GEZ)",
+        "desc": "Conteste liquidações da taxa de radiodifusão: número de agregados incorrectos, elegibilidade para isenção (beneficiários Bürgergeld, pessoas com deficiência) ou dupla tributação.",
+        "deadline": "1 mês",
+        "badge": ""
+      },
+      "akteneinsicht": {
+        "title": "Pedido de acesso ao processo",
+        "desc": "Pedido formal de consulta do seu processo administrativo ao abrigo do § 29 VwVfG ou § 25 SGB X. Passo padrão antes de apresentar um recurso.",
+        "deadline": "A qualquer momento",
+        "badge": ""
+      },
+      "zahlungsaufforderung": {
+        "title": "Exigência de pagamento / notificação formal",
+        "desc": "Aviso de pagamento profissional com notificação legal de mora, exigência de juros ao abrigo do § 288 BGB e prazo antes de acção judicial.",
+        "deadline": "Imediatamente",
+        "badge": ""
+      }
+    }
+  },
+  "templateDetailPage": {
+    "backLink": "Todos os modelos",
+    "tabFillIn": "Preencher",
+    "tabPreview": "Pré-visualização",
+    "progressLabel": "Campos preenchidos",
+    "downloadBtn": "Descarregar (.txt)",
+    "copyBtn": "Copiar",
+    "copiedBtn": "Copiado!",
+    "aiUpsellTitle": "Deixe a IA personalizar para si",
+    "aiUpsellDesc": "Carregue o seu aviso oficial — a nossa IA analisa-o e preenche todos os campos com base no seu documento real em segundos.",
+    "aiUpsellCta": "Usar IA para preencher",
+    "legalNote": "Este modelo é fornecido apenas para fins informativos. Não constitui aconselhamento jurídico. Verifique antes de enviar.",
+    "previewLabel": "Pré-visualização em directo",
+    "previewUpdates": "Actualiza enquanto escreve",
+    "previewDraft": "Rascunho editável",
+    "missingFields": "campo(s) obrigatório(s) ainda vazio(s)"
   }
 }

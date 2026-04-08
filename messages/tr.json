@@ -1144,5 +1144,226 @@
         "tip": "Önce her zaman dosyaya erişim talebinde bulunun — genellikle usul hatalarını ortaya çıkarır."
       }
     }
+  },
+  "howItWorksPage": {
+    "heroTitle": "TaxaLex nasıl çalışır",
+    "heroSubtitle": "Üç basit adım. Beş yapay zeka ajanı. Göndermeye hazır bir itiraz mektubu.",
+    "step1Title": "Bildiriminizi yükleyin",
+    "step1Subtitle": "Tüm yaygın dosya formatları desteklenir",
+    "formatsTitle": "Desteklenen formatlar",
+    "formatPdf": "PDF – Doğrudan metin çıkarma veya OCR",
+    "formatImg": "JPG, PNG – Bildirimin fotoğrafı (OCR)",
+    "formatDocx": "DOCX – Düzenlenebilir Word belgeleri",
+    "formatTxt": "TXT – Düz metin",
+    "formatNote": "Dosya başına maks. 10 MB. Birden fazla dosyaya izin verilir.",
+    "extractionTitle": "Otomatik veri çıkarma",
+    "extractionDesc": "TaxaLex, vergi dairesi adı, bildirim tarihi, vergi miktarları, son tarihler ve yasal referanslar gibi temel verileri otomatik olarak çıkarır. Oluşturma başlamadan önce çıkarılan verileri inceleyip onaylarsınız.",
+    "step2Title": "5 ajan tarafından yapay zeka analizi",
+    "step2Subtitle": "Claude, Gemini ve Perplexity birlikte çalışır",
+    "analysisNote": "Tüm analiz genellikle 5 dakikadan kısa sürede tamamlanır. İlerlemeyi gerçek zamanlı olarak izleyebilirsiniz.",
+    "step3Title": "İndir ve gönder",
+    "step3Subtitle": "İnceleyin, indirin ve yetkili makama gönderin",
+    "downloadTitle": "İndirme formatları",
+    "downloadDocx": "DOCX – Word'de düzenlenebilir",
+    "downloadTxt": "TXT – Düz metin",
+    "downloadPdf": "PDF – Yakında",
+    "legalNoteTitle": "Yasal not",
+    "legalNoteDesc": "Oluşturulan belge, yapay zeka destekli bir taslaktır. Alman Hukuki Hizmetler Kanunu (RDG) anlamında hukuki tavsiye niteliği taşımaz. Karmaşık davalar için başvurmadan önce bir vergi danışmanı veya avukata danışın.",
+    "ctaDemo": "Demoyu deneyin",
+    "agents": {
+      "drafter": { "description": "Tüm biçimsel gereksinimleri, yasal dayanak alıntılarını ve argumanrasyon yapısını içeren ilk itiraz taslağını oluşturur." },
+      "reviewer": { "description": "Taslağı mantıksal hatalar, eksik argümanlar, yanlış alıntılar ve biçimsel eksiklikler açısından inceler." },
+      "factChecker": { "description": "Tüm yasal alıntıları Perplexity araması aracılığıyla mevcut mevzuat ve son mahkeme kararlarına göre doğrular." },
+      "adversary": { "description": "Yetkili makamın bakış açısını benimser ve itirazın potansiyel zayıf noktalarını belirler — böylece proaktif olarak ele alınabilirler." },
+      "consolidator": { "description": "Dört ajanın tüm çıktılarını sunuma hazır, nihai ve cilalı bir itiraz mektubunda birleştirir." }
+    }
+  },
+  "expatsPage": {
+    "heroBadge": "Almanya'daki expatlar için",
+    "heroTitle": "Alman bürokrasisinde kendi dilinizle yol alın.",
+    "heroSubtitle": "Anlamadığınız bir Alman bildirimi mi aldınız? TaxaLex onu analiz eder, kendi dilinizde açıklar ve dakikalar içinde profesyonel bir Almanca itiraz mektubu taslağı hazırlar.",
+    "ctaRegister": "Ücretsiz başlayın",
+    "ctaTryWithout": "Hesap olmadan deneyin",
+    "featuresTitle": "Expatlar neden TaxaLex kullanır",
+    "feature1Title": "7 dilde arayüz",
+    "feature1Desc": "TaxaLex'i İngilizce, Almanca, Türkçe, Rusça, Lehçe, Ukraynaca veya Arapça kullanın. İtiraz mektubu her zaman Almanca olur — Alman makamları tarafından zorunlu tutulmaktadır.",
+    "feature2Title": "Almanca çıktı",
+    "feature2Desc": "İtiraz mektubunuz hukuki açıdan doğru Almanca ile hazırlanır — Almanca bilmeseniz bile. Başvuru için İngilizce çeviri indirebilirsiniz.",
+    "feature3Title": "Sıkışık son tarihler, güvence altında",
+    "feature3Desc": "Alman itiraz son tarihleri genellikle 30 gündür. TaxaLex hızlı hareket etmenize yardımcı olur — yapay zeka mektubunuzu 5 dakikadan kısa sürede taslak haline getirir.",
+    "feature4Title": "Almanya için tasarlandı",
+    "feature4Desc": "Tüm yasal referanslar, son tarihler ve yetkili makam adresleri Alman hukukuna özgüdür: § 347 AO, SGG § 84, BGB § 541 ve daha fazlası.",
+    "useCasesTitle": "Expatlar için en yaygın bildirimler",
+    "useCasesSubtitle": "Bunlar, Almanya'daki expatların en sık aldığı ve itiraz etmesi gereken bildirimlerdir.",
+    "languagesTitle": "Kendi dilinizde mevcut",
+    "languagesSubtitle": "Arayüz dilini dilediğiniz zaman alt bilgiden değiştirin. İtiraz mektubu her zaman Almanca olarak sunulur.",
+    "ctaStartFree": "Ücretsiz başlayın"
+  },
+  "contactPage": {
+    "title": "İletişim",
+    "subtitle": "İtirazınızla ilgili sorularınız, geri bildirimleriniz veya sorunlarınız mı var? Yardım etmek için buradayız.",
+    "emailTitle": "E-posta desteği",
+    "emailNote": "1 iş günü içinde yanıt veriyoruz.",
+    "hoursTitle": "Destek saatleri",
+    "hoursValue": "Pazartesi – Cuma, 9:00 – 18:00 (CET)",
+    "legalNote": "{brandName}, Hukuki Hizmetler Kanunu (RDG) anlamında hukuki tavsiye sağlamaz. Acil hukuki konular için lütfen lisanslı bir avukata veya vergi danışmanına başvurun."
+  },
+  "pricingPage": {
+    "heroTitle": "Basit ve şeffaf fiyatlar",
+    "heroSubtitle": "Dava başına ödeme yapın veya sınırsız erişim için abone olun. Gizli ücret yok.",
+    "addonBadge": "İsteğe bağlı eklenti",
+    "addonTitle": "Profesyonel inceleme",
+    "addonDesc": "Yapay zeka tarafından oluşturulan mektubunuzu göndermeden önce lisanslı bir vergi danışmanı veya avukat tarafından inceletin.",
+    "perCase": "dava başına",
+    "perCaseUnit": "dava",
+    "singleAndPack": "Tek dava ve 5'li paket",
+    "monthlySubscribers": "Aylık paket aboneleri",
+    "addonFeature1": "Lisanslı vergi danışmanı veya avukat",
+    "addonFeature2": "Onay, yorum veya soru",
+    "addonFeature3": "48 saat içinde yanıt",
+    "addonFeature4": "Güvenli bağlantı — giriş gerekmez",
+    "addonCta": "Daha fazla bilgi",
+    "vatNote": "Tüm fiyatlar KDV hariçtir.",
+    "legalNoteTitle": "Yasal not",
+    "legalNoteText": "TaxaLex, yapay zeka destekli itiraz mektubu taslakları oluşturur. Bunlar, Alman Hukuki Hizmetler Kanunu (RDG) kapsamında hukuki tavsiye niteliği taşımaz. Profesyonel inceleme, lisanslı bir uzman tarafından kalite kontrolüdür — temsil yetkisi değildir.",
+    "addonPlanFallback": "Profesyonel inceleme"
+  },
+  "templatesPage": {
+    "heroBadge": "16 ücretsiz şablon",
+    "heroTitle": "Hukuki mektup şablonları",
+    "heroSubtitle": "Almanya'daki en yaygın idari itirazlar için profesyonelce hazırlanmış şablonları indirin — veya çevrimiçi doldurun ve yapay zekamızın geri kalanını tamamlamasına izin verin.",
+    "heroCtaAi": "Yapay zeka ile oluştur",
+    "heroCtaBrowse": "Şablonlara göz at ↓",
+    "infoBannerTip": "İpucu: Kişiselleştirilmiş bir sürüm oluşturmak için yapay zekamızı kullanın — bildiriminizi yükleyin ve durumunuza özel bir mektup alın.",
+    "infoBannerCta": "Ücretsiz deneyin",
+    "catAll": "Tümü",
+    "catTax": "Vergi",
+    "catSocial": "Sosyal yardımlar",
+    "catEmployment": "İstihdam",
+    "catHousing": "Konut",
+    "catConsumer": "Tüketici",
+    "catGeneral": "Genel",
+    "badgePopular": "Popüler",
+    "deadlineLabel": "Son tarih:",
+    "ctaOpenTemplate": "Şablonu aç",
+    "ctaAiTitle": "Yapay zeka ile oluştur (bildiriminizi yükleyin)",
+    "bottomTitle": "Davanızı bulamadınız mı? Yapay zeka halleder.",
+    "bottomSubtitle": "Herhangi bir resmi bildirimi yükleyin — vergi, sosyal, istihdam veya konut — ve yapay zekamız analiz edecek, itiraz gerekçelerini belirleyecek ve dakikalar içinde profesyonel bir mektup hazırlayacak.",
+    "bottomCta": "Ücretsiz başla",
+    "tpl": {
+      "steuerbescheid-einspruch": {
+        "title": "Vergi tarhiyatına itiraz",
+        "desc": "§ 347 AO uyarınca gelir vergisi, ticaret vergisi veya emlak vergisi tarhiyatına karşı resmi itiraz. Hukuki dayanak, itiraz gerekçeleri ve yürütmeyi durdurma talebi içerir.",
+        "deadline": "30 gün",
+        "badge": ""
+      },
+      "grundsteuer-einspruch": {
+        "title": "Arazi vergisine itiraz (2022 reformu)",
+        "desc": "2022 Grundsteuer reformunun ardından yeni arazi vergisi tarhiyatınıza itiraz edin. Arazi alanı, Bodenrichtwert ve kullanım sınıflandırmasındaki hataları kapsar.",
+        "deadline": "30 gün",
+        "badge": "Yüksek talep"
+      },
+      "jobcenter-widerspruch": {
+        "title": "Jobcenter itirazı (Bürgergeld)",
+        "desc": "Reddedilen veya azaltılan Bürgergeld ödemelerine, yaptırımlara veya kesintilere itiraz edin. § 184 SGG uyarınca ücretsizdir.",
+        "deadline": "1 ay",
+        "badge": ""
+      },
+      "rente-widerspruch": {
+        "title": "Emeklilik bildirimine itiraz",
+        "desc": "Deutsche Rentenversicherung'un hatalı emeklilik hesaplamalarına itiraz edin — emeklilik puanları, sigorta süreleri, çocuk yetiştirme kredileri.",
+        "deadline": "1 ay",
+        "badge": ""
+      },
+      "krankenkasse-widerspruch": {
+        "title": "Sağlık sigortası itirazı (kapsam reddi)",
+        "desc": "GKV sigortacınızın ilaç, terapi, tıbbi yardım veya uzman yönlendirmelerini karşılamayı reddetmesine itiraz edin.",
+        "deadline": "1 ay",
+        "badge": ""
+      },
+      "pflegegrad-widerspruch": {
+        "title": "Bakım düzeyi sınıflandırmasına itiraz",
+        "desc": "MDK veya Medicproof tarafından yapılan hatalı bakım düzeyi (Pflegegrad 1–5) değerlendirmesine itiraz edin. Puan dökümü ve değerlendirme kriterlerine itiraz içerir.",
+        "deadline": "1 ay",
+        "badge": ""
+      },
+      "elterngeld-widerspruch": {
+        "title": "Ebeveyn / çocuk yardımına itiraz",
+        "desc": "Elterngeld, ElterngeldPlus veya Kindergeld'in hatalı hesaplanmasına veya reddine itiraz edin. §§ 1–4 BEEG'e atıflar.",
+        "deadline": "1 ay",
+        "badge": ""
+      },
+      "kuendigung-widerspruch": {
+        "title": "İşten çıkarma itirazı / iş güvencesi",
+        "desc": "Haksız veya sosyal açıdan gerekçesiz işten çıkarmaya itiraz edin. İptal talebi ve § 4 KSchG süresine atıf içerir.",
+        "deadline": "3 hafta",
+        "badge": ""
+      },
+      "mieterhöhung-widerspruch": {
+        "title": "Kira artışına itiraz",
+        "desc": "Yerel referans kirayı (Mietspiegel) aşan haksız kira artışlarına, %20 sınırı ihlallerine veya eksik biçimsel gerekliliklere itiraz edin.",
+        "deadline": "2 ay",
+        "badge": ""
+      },
+      "nebenkosten-widerspruch": {
+        "title": "Yan giderler hesabına itiraz",
+        "desc": "Hatalı yardımcı masraf hesaplarına itiraz edin: eksik makbuzlar, yanlış dağıtım anahtarları, geç teslim veya faturalandırılamayan masraf kalemleri.",
+        "deadline": "12 ay",
+        "badge": ""
+      },
+      "maengelanzeige": {
+        "title": "Kiraya verene ayıp bildirimi",
+        "desc": "Tamir tarihi ve § 536 BGB uyarınca kira indirimi hakkına atıfla daire kusurlarının (küf, ısıtma arızası, su hasarı) resmi yazılı bildirimi.",
+        "deadline": "Derhal",
+        "badge": ""
+      },
+      "bussgeld-einspruch": {
+        "title": "Trafik cezasına itiraz",
+        "desc": "Hız kamerası cezalarına, park cezalarına ve sürüş yasaklarına itiraz edin. Ölçüm hatalarını, usul kusurlarını ve sürücü kimlik sorunlarını kapsar.",
+        "deadline": "2 hafta",
+        "badge": ""
+      },
+      "ruecktritt-kaufvertrag": {
+        "title": "Sözleşmeden cayma (kusurlu mal)",
+        "desc": "Başarısız onarım girişimlerinin ardından kusurlar nedeniyle satın alma sözleşmesinden cayın. §§ 437, 440 BGB atıfları ve son onarım tarihi.",
+        "deadline": "2 yıl",
+        "badge": ""
+      },
+      "gez-widerspruch": {
+        "title": "Yayın katkı payına itiraz (GEZ)",
+        "desc": "Yayın katkı payı bildirimlerine itiraz edin: hatalı hane sayısı, muafiyet hakkı (Bürgergeld alıcıları, engelliler) veya çifte vergilendirme.",
+        "deadline": "1 ay",
+        "badge": ""
+      },
+      "akteneinsicht": {
+        "title": "Dosyaya erişim talebi",
+        "desc": "§ 29 VwVfG veya § 25 SGB X uyarınca idari dosyanıza erişim için resmi talep. İtiraz öncesi standart adım.",
+        "deadline": "Her zaman",
+        "badge": ""
+      },
+      "zahlungsaufforderung": {
+        "title": "Ödeme talebi / resmi ihtarname",
+        "desc": "§ 288 BGB uyarınca faiz talebi ve hukuki işlem öncesi süre ile yasal gecikme bildirimi içeren profesyonel ödeme hatırlatıcısı.",
+        "deadline": "Derhal",
+        "badge": ""
+      }
+    }
+  },
+  "templateDetailPage": {
+    "backLink": "Tüm şablonlar",
+    "tabFillIn": "Doldur",
+    "tabPreview": "Önizleme",
+    "progressLabel": "Doldurulan alanlar",
+    "downloadBtn": "İndir (.txt)",
+    "copyBtn": "Kopyala",
+    "copiedBtn": "Kopyalandı!",
+    "aiUpsellTitle": "Yapay zekanın kişiselleştirmesine izin verin",
+    "aiUpsellDesc": "Resmi bildiriminizi yükleyin — yapay zekamız analiz eder ve saniyeler içinde tüm alanları gerçek belgenize göre doldurur.",
+    "aiUpsellCta": "Doldurmak için yapay zekayı kullan",
+    "legalNote": "Bu şablon yalnızca bilgilendirme amacıyla sağlanmaktadır. Hukuki tavsiye niteliği taşımaz. Göndermeden önce lütfen gözden geçirin.",
+    "previewLabel": "Canlı önizleme",
+    "previewUpdates": "Siz yazarken güncellenir",
+    "previewDraft": "Düzenlenebilir taslak",
+    "missingFields": "zorunlu alan(lar) hâlâ boş"
   }
 }

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { getTranslations } from 'next-intl/server'
 import { Mail, Clock } from 'lucide-react'
 import { PublicNav } from '@/components/PublicNav'
 import { Footer } from '@/components/Footer'
@@ -11,19 +12,17 @@ export const metadata: Metadata = {
 
 export default async function KontaktPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
-  const isEN = locale === 'en'
+  const t = await getTranslations('contactPage')
 
   return (
     <>
       <PublicNav locale={locale} />
       <div className="max-w-2xl mx-auto px-4 py-16 sm:py-20">
         <h1 className="text-3xl font-bold text-[var(--foreground)] mb-3">
-          {isEN ? 'Contact' : 'Kontakt'}
+          {t('title')}
         </h1>
         <p className="text-[var(--muted)] mb-10 text-base leading-relaxed">
-          {isEN
-            ? 'Questions, feedback, or issues with your appeal? We\'re here to help.'
-            : 'Fragen, Feedback oder Probleme mit Ihrem Einspruch? Wir helfen gerne weiter.'}
+          {t('subtitle')}
         </p>
 
         <div className="space-y-6">
@@ -34,7 +33,7 @@ export default async function KontaktPage({ params }: { params: Promise<{ locale
             </div>
             <div>
               <p className="text-sm font-semibold text-[var(--foreground)] mb-0.5">
-                {isEN ? 'Email support' : 'E-Mail-Support'}
+                {t('emailTitle')}
               </p>
               <a
                 href={`mailto:${brand.supportEmail}`}
@@ -43,7 +42,7 @@ export default async function KontaktPage({ params }: { params: Promise<{ locale
                 {brand.supportEmail}
               </a>
               <p className="text-xs text-[var(--muted)] mt-1">
-                {isEN ? 'We reply within 1 business day.' : 'Wir antworten innerhalb von 1 Werktag.'}
+                {t('emailNote')}
               </p>
             </div>
           </div>
@@ -55,10 +54,10 @@ export default async function KontaktPage({ params }: { params: Promise<{ locale
             </div>
             <div>
               <p className="text-sm font-semibold text-[var(--foreground)] mb-0.5">
-                {isEN ? 'Support hours' : 'Supportzeiten'}
+                {t('hoursTitle')}
               </p>
               <p className="text-sm text-[var(--muted)]">
-                {isEN ? 'Monday – Friday, 9:00 – 18:00 (CET)' : 'Montag – Freitag, 9:00 – 18:00 Uhr'}
+                {t('hoursValue')}
               </p>
             </div>
           </div>
@@ -66,9 +65,7 @@ export default async function KontaktPage({ params }: { params: Promise<{ locale
 
         {/* Legal note */}
         <p className="mt-10 text-xs text-[var(--muted)] leading-relaxed border-t border-[var(--border)] pt-6">
-          {isEN
-            ? `${brand.name} does not provide legal advice within the meaning of the Legal Services Act (RDG). For urgent legal matters, please consult a licensed attorney or tax advisor.`
-            : `${brand.name} erbringt keine Rechtsberatung i.S.d. RDG. Bei dringenden rechtlichen Fragen wenden Sie sich bitte an einen zugelassenen Rechtsanwalt oder Steuerberater.`}
+          {t('legalNote').replace('{brandName}', brand.name)}
         </p>
       </div>
       <Footer locale={locale} />

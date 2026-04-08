@@ -1144,5 +1144,226 @@
         "tip": "Zawsze najpierw złóż wniosek o wgląd do akt — często ujawnia uchybienia proceduralne."
       }
     }
+  },
+  "howItWorksPage": {
+    "heroTitle": "Jak działa TaxaLex",
+    "heroSubtitle": "Trzy proste kroki. Pięciu agentów AI. Jeden list sprzeciw gotowy do wysłania.",
+    "step1Title": "Prześlij swoje zawiadomienie",
+    "step1Subtitle": "Obsługiwane są wszystkie popularne formaty plików",
+    "formatsTitle": "Obsługiwane formaty",
+    "formatPdf": "PDF – Bezpośrednia ekstrakcja tekstu lub OCR",
+    "formatImg": "JPG, PNG – Zdjęcie zawiadomienia (OCR)",
+    "formatDocx": "DOCX – Edytowalne dokumenty Word",
+    "formatTxt": "TXT – Zwykły tekst",
+    "formatNote": "Maks. 10 MB na plik. Dozwolonych jest wiele plików.",
+    "extractionTitle": "Automatyczna ekstrakcja danych",
+    "extractionDesc": "TaxaLex automatycznie wyodrębnia kluczowe dane, takie jak nazwa urzędu skarbowego, data zawiadomienia, kwoty wymiaru, terminy i odniesienia prawne. Przeglądasz i potwierdzasz wyodrębnione dane przed rozpoczęciem generowania.",
+    "step2Title": "Analiza AI przez 5 agentów",
+    "step2Subtitle": "Claude, Gemini i Perplexity współpracują razem",
+    "analysisNote": "Cała analiza zazwyczaj kończy się w mniej niż 5 minut. Możesz obserwować postęp w czasie rzeczywistym.",
+    "step3Title": "Pobierz i złóż",
+    "step3Subtitle": "Przejrzyj, pobierz i wyślij do organu",
+    "downloadTitle": "Formaty pobierania",
+    "downloadDocx": "DOCX – Edytowalny w programie Word",
+    "downloadTxt": "TXT – Zwykły tekst",
+    "downloadPdf": "PDF – Wkrótce",
+    "legalNoteTitle": "Uwaga prawna",
+    "legalNoteDesc": "Wygenerowany dokument jest szkicem wspomaganym przez AI. Nie stanowi porady prawnej w rozumieniu niemieckiej ustawy o usługach prawnych (RDG). W przypadku skomplikowanych spraw skonsultuj się z doradcą podatkowym lub prawnikiem przed złożeniem.",
+    "ctaDemo": "Wypróbuj demo",
+    "agents": {
+      "drafter": { "description": "Tworzy wstępny projekt sprzeciwu zawierający wszystkie wymagania formalne, cytaty podstawy prawnej i strukturę argumentacji." },
+      "reviewer": { "description": "Sprawdza projekt pod kątem błędów logicznych, brakujących argumentów, nieprawidłowych cytatów i uchybień formalnych." },
+      "factChecker": { "description": "Weryfikuje wszystkie cytaty prawne w oparciu o obowiązujące przepisy i najnowsze orzecznictwo za pomocą wyszukiwania Perplexity." },
+      "adversary": { "description": "Przyjmuje perspektywę organu i identyfikuje potencjalne słabości sprzeciwu — aby można je było proaktywnie zaadresować." },
+      "consolidator": { "description": "Łączy wyniki wszystkich czterech agentów w ostateczny, dopracowany list sprzeciw gotowy do złożenia." }
+    }
+  },
+  "expatsPage": {
+    "heroBadge": "Dla ekspatów w Niemczech",
+    "heroTitle": "Poruszaj się po niemieckiej biurokracji — w swoim języku.",
+    "heroSubtitle": "Otrzymałeś niemieckie zawiadomienie, którego nie rozumiesz? TaxaLex analizuje je, wyjaśnia w Twoim języku i redaguje profesjonalny niemiecki list sprzeciw — w kilka minut.",
+    "ctaRegister": "Zacznij za darmo",
+    "ctaTryWithout": "Spróbuj bez konta",
+    "featuresTitle": "Dlaczego ekspatzi używają TaxaLex",
+    "feature1Title": "Interfejs w 7 językach",
+    "feature1Desc": "Używaj TaxaLex po angielsku, niemiecku, turecku, rosyjsku, polsku, ukraińsku lub arabsku. List sprzeciw jest zawsze po niemiecku — wymagane przez niemieckie organy.",
+    "feature2Title": "Wynik po niemiecku",
+    "feature2Desc": "Twój list sprzeciw jest redagowany w prawnie poprawnym języku niemieckim — nawet jeśli nie mówisz po niemiecku. Możesz pobrać tłumaczenie na angielski w celach informacyjnych.",
+    "feature3Title": "Napięte terminy, zabezpieczone",
+    "feature3Desc": "Terminy sprzeciwu w Niemczech wynoszą zazwyczaj 30 dni. TaxaLex pomaga Ci działać szybko — AI redaguje Twój list w mniej niż 5 minut, abyś nigdy nie przegapił terminu.",
+    "feature4Title": "Zaprojektowany dla Niemiec",
+    "feature4Desc": "Wszystkie odniesienia prawne, terminy i adresy organów są specyficzne dla prawa niemieckiego: § 347 AO, SGG § 84, BGB § 541 i inne.",
+    "useCasesTitle": "Najczęstsze zawiadomienia dla ekspatów",
+    "useCasesSubtitle": "Są to zawiadomienia, które ekspatzi w Niemczech najczęściej otrzymują i muszą zaskarżać.",
+    "languagesTitle": "Dostępny w Twoim języku",
+    "languagesSubtitle": "Zmień język interfejsu w stopce w dowolnym momencie. List sprzeciw jest zawsze składany po niemiecku.",
+    "ctaStartFree": "Zacznij za darmo"
+  },
+  "contactPage": {
+    "title": "Kontakt",
+    "subtitle": "Pytania, opinie lub problemy z Twoim odwołaniem? Jesteśmy tu, aby pomóc.",
+    "emailTitle": "Wsparcie e-mail",
+    "emailNote": "Odpowiadamy w ciągu 1 dnia roboczego.",
+    "hoursTitle": "Godziny wsparcia",
+    "hoursValue": "Poniedziałek – Piątek, 9:00 – 18:00 (CET)",
+    "legalNote": "{brandName} nie udziela porad prawnych w rozumieniu ustawy o usługach prawnych (RDG). W pilnych sprawach prawnych prosimy skonsultować się z licencjonowanym prawnikiem lub doradcą podatkowym."
+  },
+  "pricingPage": {
+    "heroTitle": "Proste i przejrzyste ceny",
+    "heroSubtitle": "Płać za sprawę lub subskrybuj nieograniczony dostęp. Bez ukrytych opłat.",
+    "addonBadge": "Opcjonalny dodatek",
+    "addonTitle": "Weryfikacja profesjonalna",
+    "addonDesc": "Zleć sprawdzenie listu wygenerowanego przez AI przez licencjonowanego doradcę podatkowego lub prawnika przed wysłaniem.",
+    "perCase": "za sprawę",
+    "perCaseUnit": "sprawę",
+    "singleAndPack": "Pojedyncza sprawa i pakiet 5",
+    "monthlySubscribers": "Abonenci miesięcznego pakietu",
+    "addonFeature1": "Licencjonowany doradca podatkowy lub prawnik",
+    "addonFeature2": "Zatwierdzenie, komentarz lub pytanie",
+    "addonFeature3": "Odpowiedź w ciągu 48 godzin",
+    "addonFeature4": "Bezpieczny link — bez konta",
+    "addonCta": "Dowiedz się więcej",
+    "vatNote": "Wszystkie ceny bez VAT.",
+    "legalNoteTitle": "Uwaga prawna",
+    "legalNoteText": "TaxaLex generuje robocze pisma odwoławcze wspomagane przez AI. Nie stanowią one porady prawnej w rozumieniu niemieckiej ustawy o usługach prawnych (RDG). Weryfikacja profesjonalna to kontrola jakości przez licencjonowanego specjalistę — nie jest to pełnomocnictwo procesowe.",
+    "addonPlanFallback": "Weryfikacja profesjonalna"
+  },
+  "templatesPage": {
+    "heroBadge": "16 darmowych szablonów",
+    "heroTitle": "Szablony pism prawnych",
+    "heroSubtitle": "Pobierz profesjonalnie opracowane szablony dla najpopularniejszych odwołań administracyjnych w Niemczech — lub wypełnij je online i pozwól naszej AI zająć się resztą.",
+    "heroCtaAi": "Generuj z AI",
+    "heroCtaBrowse": "Przeglądaj szablony ↓",
+    "infoBannerTip": "Wskazówka: użyj naszej AI, aby wygenerować spersonalizowaną wersję — wgraj swoje pismo i otrzymaj list dopasowany do Twojej sprawy.",
+    "infoBannerCta": "Wypróbuj za darmo",
+    "catAll": "Wszystkie",
+    "catTax": "Podatkowe",
+    "catSocial": "Świadczenia socjalne",
+    "catEmployment": "Praca",
+    "catHousing": "Mieszkanie",
+    "catConsumer": "Konsumenckie",
+    "catGeneral": "Ogólne",
+    "badgePopular": "Popularne",
+    "deadlineLabel": "Termin:",
+    "ctaOpenTemplate": "Otwórz szablon",
+    "ctaAiTitle": "Generuj z AI (wgraj swoje pismo)",
+    "bottomTitle": "Nie znalazłeś swojej sprawy? AI zajmie się tym.",
+    "bottomSubtitle": "Wgraj dowolne oficjalne pismo — podatkowe, socjalne, pracownicze lub mieszkaniowe — a nasza AI je przeanalizuje, znajdzie podstawy odwołania i w kilka minut przygotuje profesjonalne pismo.",
+    "bottomCta": "Zacznij za darmo",
+    "tpl": {
+      "steuerbescheid-einspruch": {
+        "title": "Odwołanie od decyzji podatkowej",
+        "desc": "Formalne odwołanie od decyzji dotyczącej podatku dochodowego, podatku od działalności gospodarczej lub podatku od nieruchomości na podstawie § 347 AO. Zawiera podstawę prawną, zarzuty i wniosek o zawieszenie wykonania.",
+        "deadline": "30 dni",
+        "badge": ""
+      },
+      "grundsteuer-einspruch": {
+        "title": "Odwołanie od podatku gruntowego (reforma 2022)",
+        "desc": "Zakwestionuj nową decyzję o podatku gruntowym po reformie Grundsteuer 2022. Obejmuje błędy w powierzchni działki, Bodenrichtwert i klasyfikacji użytkowania.",
+        "deadline": "30 dni",
+        "badge": "Duże zapotrzebowanie"
+      },
+      "jobcenter-widerspruch": {
+        "title": "Odwołanie od decyzji Jobcenter (Bürgergeld)",
+        "desc": "Odwołanie od odmowy lub redukcji świadczeń Bürgergeld, sankcji lub cięć. Bezpłatne na podstawie § 184 SGG.",
+        "deadline": "1 miesiąc",
+        "badge": ""
+      },
+      "rente-widerspruch": {
+        "title": "Odwołanie od decyzji emerytalnej",
+        "desc": "Zakwestionuj błędne obliczenia emerytury Deutsche Rentenversicherung — punkty emerytalne, okresy ubezpieczenia, punkty za wychowanie dzieci.",
+        "deadline": "1 miesiąc",
+        "badge": ""
+      },
+      "krankenkasse-widerspruch": {
+        "title": "Odwołanie od decyzji ubezpieczyciela zdrowotnego",
+        "desc": "Zakwestionuj odmowę pokrycia przez ubezpieczyciela GKV leków, terapii, pomocy medycznych lub skierowań do specjalistów.",
+        "deadline": "1 miesiąc",
+        "badge": ""
+      },
+      "pflegegrad-widerspruch": {
+        "title": "Odwołanie od klasyfikacji stopnia opieki",
+        "desc": "Zakwestionuj błędną ocenę stopnia opieki (Pflegegrad 1–5) przez MDK lub Medicproof. Zawiera zestawienie punktów i zaskarżenie kryteriów oceny.",
+        "deadline": "1 miesiąc",
+        "badge": ""
+      },
+      "elterngeld-widerspruch": {
+        "title": "Odwołanie od zasiłku rodzicielskiego / na dziecko",
+        "desc": "Zakwestionuj błędne obliczenie lub odmowę Elterngeld, ElterngeldPlus lub Kindergeld. Odniesienia do §§ 1–4 BEEG.",
+        "deadline": "1 miesiąc",
+        "badge": ""
+      },
+      "kuendigung-widerspruch": {
+        "title": "Odwołanie od wypowiedzenia / ochrona zatrudnienia",
+        "desc": "Zakwestionuj niesprawiedliwe lub nieuzasadnione społecznie zwolnienie. Zawiera żądanie cofnięcia i odniesienie do terminu z § 4 KSchG.",
+        "deadline": "3 tygodnie",
+        "badge": ""
+      },
+      "mieterhöhung-widerspruch": {
+        "title": "Odwołanie od podwyżki czynszu",
+        "desc": "Zakwestionuj nieuzasadnione podwyżki czynszu powyżej lokalnego czynszu referencyjnego (Mietspiegel), naruszenia limitu 20% lub brakujące wymagania formalne.",
+        "deadline": "2 miesiące",
+        "badge": ""
+      },
+      "nebenkosten-widerspruch": {
+        "title": "Odwołanie od rozliczenia kosztów dodatkowych",
+        "desc": "Zakwestionuj nieprawidłowe rozliczenia kosztów dodatkowych: brakujące rachunki, błędne klucze podziału, opóźnione dostarczenie lub nieuwzględniane pozycje kosztów.",
+        "deadline": "12 miesięcy",
+        "badge": ""
+      },
+      "maengelanzeige": {
+        "title": "Zawiadomienie o wadach do wynajmującego",
+        "desc": "Formalne pisemne zawiadomienie o wadach mieszkania (pleśń, awaria ogrzewania, szkody wodne) z terminem naprawy i odniesieniem do prawa do obniżki czynszu (§ 536 BGB).",
+        "deadline": "Natychmiast",
+        "badge": ""
+      },
+      "bussgeld-einspruch": {
+        "title": "Odwołanie od mandatu drogowego",
+        "desc": "Zakwestionuj mandaty z fotoradarów, parkometrów i zakazy jazdy. Obejmuje błędy pomiarowe, uchybienia proceduralne i problemy z identyfikacją kierowcy.",
+        "deadline": "2 tygodnie",
+        "badge": ""
+      },
+      "ruecktritt-kaufvertrag": {
+        "title": "Odstąpienie od umowy (wadliwy towar)",
+        "desc": "Odstąp od umowy kupna z powodu wad po nieudanych próbach naprawy. Odniesienia do §§ 437, 440 BGB z ostatecznym terminem naprawy.",
+        "deadline": "2 lata",
+        "badge": ""
+      },
+      "gez-widerspruch": {
+        "title": "Odwołanie od opłaty radiowo-telewizyjnej (GEZ)",
+        "desc": "Zakwestionuj decyzje o opłacie radiowo-telewizyjnej: błędna liczba gospodarstw domowych, uprawnienie do zwolnienia (beneficjenci Bürgergeld, osoby niepełnosprawne) lub podwójne naliczenie.",
+        "deadline": "1 miesiąc",
+        "badge": ""
+      },
+      "akteneinsicht": {
+        "title": "Wniosek o wgląd do akt",
+        "desc": "Formalne wnioskowanie o wgląd do akt administracyjnych na podstawie § 29 VwVfG lub § 25 SGB X. Standardowy krok przed złożeniem odwołania.",
+        "deadline": "W każdym czasie",
+        "badge": ""
+      },
+      "zahlungsaufforderung": {
+        "title": "Wezwanie do zapłaty / formalne upomnienie",
+        "desc": "Profesjonalne wezwanie do zapłaty z prawnym zawiadomieniem o zwłoce, roszczeniem odsetkowym na podstawie § 288 BGB i terminem przed postępowaniem sądowym.",
+        "deadline": "Natychmiast",
+        "badge": ""
+      }
+    }
+  },
+  "templateDetailPage": {
+    "backLink": "Wszystkie szablony",
+    "tabFillIn": "Wypełnij",
+    "tabPreview": "Podgląd",
+    "progressLabel": "Uzupełnione pola",
+    "downloadBtn": "Pobierz (.txt)",
+    "copyBtn": "Kopiuj",
+    "copiedBtn": "Skopiowano!",
+    "aiUpsellTitle": "Pozwól AI spersonalizować je za Ciebie",
+    "aiUpsellDesc": "Wgraj oficjalne pismo — nasza AI je przeanalizuje i wypełni wszystkie pola na podstawie Twojego dokumentu w kilka sekund.",
+    "aiUpsellCta": "Użyj AI do wypełnienia",
+    "legalNote": "Szablon ten ma wyłącznie charakter informacyjny. Nie stanowi porady prawnej. Sprawdź przed wysłaniem.",
+    "previewLabel": "Podgląd na żywo",
+    "previewUpdates": "Aktualizuje się podczas pisania",
+    "previewDraft": "Edytowalny szkic",
+    "missingFields": "wymagane pole(-a) nadal puste"
   }
 }

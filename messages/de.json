@@ -1144,5 +1144,226 @@
         "tip": "Immer zuerst Akteneinsicht beantragen — deckt oft Verfahrensfehler auf."
       }
     }
+  },
+  "howItWorksPage": {
+    "heroTitle": "So funktioniert TaxaLex",
+    "heroSubtitle": "Drei einfache Schritte. Fünf KI-Agenten. Ein versandfertiges Einspruchsschreiben.",
+    "step1Title": "Bescheid hochladen",
+    "step1Subtitle": "Alle gängigen Dateiformate werden unterstützt",
+    "formatsTitle": "Unterstützte Formate",
+    "formatPdf": "PDF – Direkte Textextraktion oder OCR",
+    "formatImg": "JPG, PNG – Foto des Bescheids (OCR)",
+    "formatDocx": "DOCX – Bearbeitbare Word-Dokumente",
+    "formatTxt": "TXT – Reiner Text",
+    "formatNote": "Max. 10 MB pro Datei. Mehrere Dateien möglich.",
+    "extractionTitle": "Automatische Datenextraktion",
+    "extractionDesc": "TaxaLex extrahiert automatisch Schlüsseldaten wie Finanzamtname, Bescheiddatum, festgesetzte Beträge, Fristen und Rechtsgrundlagen. Sie überprüfen und bestätigen die erkannten Daten, bevor die Generierung beginnt.",
+    "step2Title": "KI-Analyse durch 5 Agenten",
+    "step2Subtitle": "Claude, Gemini und Perplexity arbeiten zusammen",
+    "analysisNote": "Die gesamte Analyse dauert typischerweise unter 5 Minuten. Sie können den Fortschritt in Echtzeit verfolgen.",
+    "step3Title": "Herunterladen & einreichen",
+    "step3Subtitle": "Prüfen, herunterladen und an die Behörde senden",
+    "downloadTitle": "Download-Formate",
+    "downloadDocx": "DOCX – Bearbeitbar in Word",
+    "downloadTxt": "TXT – Reiner Text",
+    "downloadPdf": "PDF – Demnächst",
+    "legalNoteTitle": "Rechtlicher Hinweis",
+    "legalNoteDesc": "Das generierte Dokument ist ein KI-gestützter Entwurf. Es stellt keine Rechtsberatung i.S.d. RDG dar. Bei komplexen Fällen empfehlen wir die Prüfung durch einen Steuerberater oder Anwalt vor der Einreichung.",
+    "ctaDemo": "Demo starten",
+    "agents": {
+      "drafter": { "description": "Erstellt den ersten Einspruchsentwurf mit allen formalen Anforderungen, Rechtsgrundlagen und Argumentationsstruktur." },
+      "reviewer": { "description": "Prüft den Entwurf auf Logikfehler, fehlende Argumente, falsche Zitate und formale Mängel." },
+      "factChecker": { "description": "Verifiziert alle Rechtszitate gegen aktuelle Gesetzgebung und aktuelle BFH-Urteile über Perplexity-Recherche." },
+      "adversary": { "description": "Nimmt die Perspektive des Finanzamts ein und identifiziert potenzielle Schwächen des Einspruchs – damit diese proaktiv adressiert werden." },
+      "consolidator": { "description": "Fügt die Ausgaben aller vier Agenten zu einem finalen, ausgefeilten Einspruchsschreiben zusammen." }
+    }
+  },
+  "expatsPage": {
+    "heroBadge": "Für Expats in Deutschland",
+    "heroTitle": "Deutsche Bürokratie – in Ihrer Sprache.",
+    "heroSubtitle": "Einen deutschen Bescheid erhalten, den Sie nicht verstehen? TaxaLex analysiert ihn, erklärt ihn in Ihrer Sprache und erstellt ein professionelles deutsches Einspruchsschreiben – in Minuten.",
+    "ctaRegister": "Kostenlos starten",
+    "ctaTryWithout": "Ohne Konto ausprobieren",
+    "featuresTitle": "Warum Expats TaxaLex nutzen",
+    "feature1Title": "Interface in 7 Sprachen",
+    "feature1Desc": "TaxaLex auf Englisch, Deutsch, Türkisch, Russisch, Polnisch, Ukrainisch oder Arabisch. Das Einspruchsschreiben ist immer auf Deutsch – Pflicht für Behörden.",
+    "feature2Title": "Ausgabe auf Deutsch",
+    "feature2Desc": "Ihr Einspruchsschreiben wird in korrektem juristischen Deutsch verfasst – auch wenn Sie kein Deutsch sprechen. Eine englische Übersetzung zur Orientierung ist verfügbar.",
+    "feature3Title": "Enge Fristen, abgesichert",
+    "feature3Desc": "Deutsche Einspruchsfristen betragen typischerweise 30 Tage. TaxaLex hilft Ihnen, schnell zu handeln – die KI erstellt Ihr Schreiben in unter 5 Minuten.",
+    "feature4Title": "Für Deutschland entwickelt",
+    "feature4Desc": "Alle Rechtsgrundlagen, Fristen und Behörden sind auf deutsches Recht zugeschnitten: § 347 AO, SGG § 84, BGB § 541 und mehr.",
+    "useCasesTitle": "Häufigste Bescheide für Expats",
+    "useCasesSubtitle": "Diese Bescheide erhalten Expats in Deutschland am häufigsten und müssen sie anfechten.",
+    "languagesTitle": "Verfügbar in Ihrer Sprache",
+    "languagesSubtitle": "Wechseln Sie die Interface-Sprache jederzeit im Footer. Das Einspruchsschreiben wird immer auf Deutsch eingereicht.",
+    "ctaStartFree": "Kostenlos starten"
+  },
+  "contactPage": {
+    "title": "Kontakt",
+    "subtitle": "Fragen, Feedback oder Probleme mit Ihrem Einspruch? Wir helfen gerne weiter.",
+    "emailTitle": "E-Mail-Support",
+    "emailNote": "Wir antworten innerhalb von 1 Werktag.",
+    "hoursTitle": "Supportzeiten",
+    "hoursValue": "Montag – Freitag, 9:00 – 18:00 Uhr",
+    "legalNote": "{brandName} erbringt keine Rechtsberatung i.S.d. RDG. Bei dringenden rechtlichen Fragen wenden Sie sich bitte an einen zugelassenen Rechtsanwalt oder Steuerberater."
+  },
+  "pricingPage": {
+    "heroTitle": "Einfache, transparente Preise",
+    "heroSubtitle": "Pro Fall oder per Abo. Keine versteckten Kosten.",
+    "addonBadge": "Optionale Zubuchung",
+    "addonTitle": "Berater-Prüfung",
+    "addonDesc": "KI-Entwurf vor dem Versand durch einen zugelassenen Steuerberater oder Anwalt prüfen lassen.",
+    "perCase": "pro Fall",
+    "perCaseUnit": "Fall",
+    "singleAndPack": "Einzelfall & 5er-Paket",
+    "monthlySubscribers": "Monats-Flat Abonnenten",
+    "addonFeature1": "Zugelassener Steuerberater / Anwalt",
+    "addonFeature2": "Freigabe, Kommentar oder Rückfrage",
+    "addonFeature3": "Antwort innerhalb von 48 Stunden",
+    "addonFeature4": "Sicherer Link — kein Konto nötig",
+    "addonCta": "Mehr erfahren",
+    "vatNote": "Alle Preise zzgl. MwSt.",
+    "legalNoteTitle": "Rechtlicher Hinweis",
+    "legalNoteText": "TaxaLex erstellt KI-gestützte Einspruchs-Entwürfe. Diese stellen keine Rechtsberatung i.S.d. RDG dar. Die Berater-Prüfung ist eine fachliche Qualitätsprüfung durch einen zugelassenen Fachmann — kein Mandatsverhältnis.",
+    "addonPlanFallback": "Profi-Prüfung"
+  },
+  "templatesPage": {
+    "heroBadge": "16 kostenlose Vorlagen",
+    "heroTitle": "Vorlagen für rechtliche Schreiben",
+    "heroSubtitle": "Laden Sie professionell strukturierte Vorlagen für die häufigsten Verwaltungseinsprüche in Deutschland herunter — oder füllen Sie sie online aus und lassen Sie unsere KI den Rest erledigen.",
+    "heroCtaAi": "Lieber mit KI generieren",
+    "heroCtaBrowse": "Vorlagen ansehen ↓",
+    "infoBannerTip": "Tipp: Mit unserer KI erstellen Sie eine individuelle Version — laden Sie Ihren Bescheid hoch und erhalten Sie ein auf Ihren Fall zugeschnittenes Schreiben.",
+    "infoBannerCta": "Kostenlos testen",
+    "catAll": "Alle",
+    "catTax": "Steuer",
+    "catSocial": "Sozialleistungen",
+    "catEmployment": "Arbeit",
+    "catHousing": "Wohnen",
+    "catConsumer": "Verbraucher",
+    "catGeneral": "Allgemein",
+    "badgePopular": "Beliebt",
+    "deadlineLabel": "Frist:",
+    "ctaOpenTemplate": "Vorlage öffnen",
+    "ctaAiTitle": "Mit KI generieren (Bescheid hochladen)",
+    "bottomTitle": "Ihren Fall nicht gefunden? KI übernimmt.",
+    "bottomSubtitle": "Laden Sie jeden offiziellen Bescheid hoch — Steuer, Sozial, Arbeit oder Wohnen — und unsere KI analysiert ihn, findet Einspruchsgründe und erstellt in Minuten ein professionelles Schreiben.",
+    "bottomCta": "Kostenlos starten",
+    "tpl": {
+      "steuerbescheid-einspruch": {
+        "title": "Einspruch Steuerbescheid",
+        "desc": "Formeller Einspruch gegen Einkommensteuer-, Gewerbesteuer- oder Grundsteuerbescheid nach § 347 AO. Mit Rechtsgrundlage, Einspruchsgründen und Aussetzungsantrag.",
+        "deadline": "30 Tage",
+        "badge": ""
+      },
+      "grundsteuer-einspruch": {
+        "title": "Einspruch Grundsteuerbescheid (Reform 2022)",
+        "desc": "Einspruch gegen den neuen Grundsteuerbescheid nach der Reform 2022. Deckt Fehler bei Grundstücksfläche, Bodenrichtwert und Nutzungsart ab.",
+        "deadline": "30 Tage",
+        "badge": "Stark gefragt"
+      },
+      "jobcenter-widerspruch": {
+        "title": "Widerspruch Jobcenter / Bürgergeld",
+        "desc": "Widerspruch gegen abgelehnte oder gekürzte Bürgergeld-Leistungen, Sanktionen und Streichungen. Kostenlos nach § 184 SGG.",
+        "deadline": "1 Monat",
+        "badge": ""
+      },
+      "rente-widerspruch": {
+        "title": "Widerspruch Rentenbescheid",
+        "desc": "Widerspruch gegen fehlerhafte Rentenberechnungen der DRV — Rentenpunkte, Versicherungszeiten, Kindererziehungszeiten.",
+        "deadline": "1 Monat",
+        "badge": ""
+      },
+      "krankenkasse-widerspruch": {
+        "title": "Widerspruch Krankenkasse (Leistungsablehnung)",
+        "desc": "Widerspruch gegen die Ablehnung von Medikamenten, Therapien, Hilfsmitteln oder Überweisungen durch die Krankenkasse.",
+        "deadline": "1 Monat",
+        "badge": ""
+      },
+      "pflegegrad-widerspruch": {
+        "title": "Widerspruch Pflegegrad-Einstufung",
+        "desc": "Widerspruch gegen fehlerhafte Pflegegrad-Einstufung durch MDK oder Medicproof. Mit Punkteaufstellung und Rüge der Begutachtungskriterien.",
+        "deadline": "1 Monat",
+        "badge": ""
+      },
+      "elterngeld-widerspruch": {
+        "title": "Widerspruch Elterngeld / Kindergeld",
+        "desc": "Widerspruch gegen fehlerhafte Berechnung oder Ablehnung von Elterngeld, ElterngeldPlus oder Kindergeld.",
+        "deadline": "1 Monat",
+        "badge": ""
+      },
+      "kuendigung-widerspruch": {
+        "title": "Widerspruch Kündigung (Kündigungsschutz)",
+        "desc": "Widerspruch gegen sozialwidrige oder formell fehlerhafte Kündigung. Mit Aufhebungsaufforderung und Hinweis auf Klagefrist nach § 4 KSchG.",
+        "deadline": "3 Wochen",
+        "badge": ""
+      },
+      "mieterhöhung-widerspruch": {
+        "title": "Widerspruch Mieterhöhung",
+        "desc": "Widerspruch gegen Mieterhöhungen über die ortsübliche Vergleichsmiete, Verstoß gegen die Kappungsgrenze oder Formmängel.",
+        "deadline": "2 Monate",
+        "badge": ""
+      },
+      "nebenkosten-widerspruch": {
+        "title": "Widerspruch Nebenkostenabrechnung",
+        "desc": "Widerspruch gegen fehlerhafte Nebenkostenabrechnung: fehlende Belege, falscher Verteilungsschlüssel, verspätete Zustellung oder nicht umlagefähige Kosten.",
+        "deadline": "12 Monate",
+        "badge": ""
+      },
+      "maengelanzeige": {
+        "title": "Mängelanzeige an Vermieter",
+        "desc": "Formelle Mängelanzeige (Schimmel, Heizungsausfall, Wasserschaden) mit Fristsetzung und Hinweis auf Mietminderungsrecht nach § 536 BGB.",
+        "deadline": "Sofort",
+        "badge": ""
+      },
+      "bussgeld-einspruch": {
+        "title": "Einspruch Bußgeldbescheid (Verkehr)",
+        "desc": "Einspruch gegen Radarfallen-Bußgelder, Parktickets und Fahrverbote. Mit Messfehlern, Verfahrensmängeln und Fahrerfeststellung.",
+        "deadline": "2 Wochen",
+        "badge": ""
+      },
+      "ruecktritt-kaufvertrag": {
+        "title": "Rücktritt Kaufvertrag (Mangel)",
+        "desc": "Rücktritt vom Kaufvertrag nach fehlgeschlagener Nachbesserung. Referenziert §§ 437, 440 BGB und setzt Nachfrist.",
+        "deadline": "2 Jahre",
+        "badge": ""
+      },
+      "gez-widerspruch": {
+        "title": "Widerspruch Rundfunkbeitrag (GEZ)",
+        "desc": "Widerspruch gegen Rundfunkbeitragsbescheide: falsche Haushaltszahl, Befreiungsanspruch (Bürgergeld, Behinderung) oder Doppelveranlagung.",
+        "deadline": "1 Monat",
+        "badge": ""
+      },
+      "akteneinsicht": {
+        "title": "Antrag auf Akteneinsicht",
+        "desc": "Formeller Antrag auf Akteneinsicht nach § 29 VwVfG oder § 25 SGB X. Standard vor Einspruch, um die Begründung der Behörde zu verstehen.",
+        "deadline": "Jederzeit",
+        "badge": ""
+      },
+      "zahlungsaufforderung": {
+        "title": "Mahnung / Zahlungsaufforderung",
+        "desc": "Professionelle Mahnung mit Verzugsschaden, Zinsforderung nach § 288 BGB und Fristsetzung vor gerichtlicher Geltendmachung.",
+        "deadline": "Sofort",
+        "badge": ""
+      }
+    }
+  },
+  "templateDetailPage": {
+    "backLink": "Alle Vorlagen",
+    "tabFillIn": "Ausfüllen",
+    "tabPreview": "Vorschau",
+    "progressLabel": "Felder ausgefüllt",
+    "downloadBtn": "Herunterladen (.txt)",
+    "copyBtn": "Kopieren",
+    "copiedBtn": "Kopiert!",
+    "aiUpsellTitle": "KI füllt es automatisch aus",
+    "aiUpsellDesc": "Laden Sie Ihren Bescheid hoch — unsere KI analysiert ihn und füllt alle Felder anhand Ihres echten Dokuments in Sekunden aus.",
+    "aiUpsellCta": "Mit KI ausfüllen",
+    "legalNote": "Diese Vorlage dient zur Information und ist kein Rechtsrat i.S.d. RDG. Bitte vor Einreichung prüfen.",
+    "previewLabel": "Echtzeit-Vorschau",
+    "previewUpdates": "Aktualisiert beim Tippen",
+    "previewDraft": "Bearbeitbarer Entwurf",
+    "missingFields": "Pflichtfeld(er) noch leer"
   }
 }

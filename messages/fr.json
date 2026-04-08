@@ -1144,5 +1144,226 @@
         "tip": "Demandez toujours d'abord l'accès au dossier — révèle souvent des vices de procédure."
       }
     }
+  },
+  "howItWorksPage": {
+    "heroTitle": "Comment fonctionne TaxaLex",
+    "heroSubtitle": "Trois étapes simples. Cinq agents IA. Une lettre d'objection prête à envoyer.",
+    "step1Title": "Télécharger votre avis",
+    "step1Subtitle": "Tous les formats de fichiers courants pris en charge",
+    "formatsTitle": "Formats pris en charge",
+    "formatPdf": "PDF – Extraction de texte directe ou OCR",
+    "formatImg": "JPG, PNG – Photo de l'avis (OCR)",
+    "formatDocx": "DOCX – Documents Word modifiables",
+    "formatTxt": "TXT – Texte brut",
+    "formatNote": "Max. 10 Mo par fichier. Plusieurs fichiers autorisés.",
+    "extractionTitle": "Extraction automatique des données",
+    "extractionDesc": "TaxaLex extrait automatiquement les données clés telles que le nom du bureau fiscal, la date de l'avis, les montants évalués, les délais et les références juridiques. Vous vérifiez et confirmez les données extraites avant le début de la génération.",
+    "step2Title": "Analyse IA par 5 agents",
+    "step2Subtitle": "Claude, Gemini et Perplexity travaillent ensemble",
+    "analysisNote": "L'analyse complète se termine généralement en moins de 5 minutes. Vous pouvez suivre la progression en temps réel.",
+    "step3Title": "Télécharger & soumettre",
+    "step3Subtitle": "Examiner, télécharger et envoyer à l'autorité",
+    "downloadTitle": "Formats de téléchargement",
+    "downloadDocx": "DOCX – Modifiable dans Word",
+    "downloadTxt": "TXT – Texte brut",
+    "downloadPdf": "PDF – Bientôt disponible",
+    "legalNoteTitle": "Note juridique",
+    "legalNoteDesc": "Le document généré est un projet assisté par IA. Il ne constitue pas un conseil juridique au sens de la loi allemande sur les services juridiques (RDG). Pour les cas complexes, consultez un conseiller fiscal ou un avocat avant de soumettre.",
+    "ctaDemo": "Essayer la démo",
+    "agents": {
+      "drafter": { "description": "Crée l'ébauche initiale de l'objection avec toutes les exigences formelles, les citations de bases légales et la structure d'argumentation." },
+      "reviewer": { "description": "Examine l'ébauche pour déceler les erreurs logiques, les arguments manquants, les citations incorrectes et les déficiences formelles." },
+      "factChecker": { "description": "Vérifie toutes les citations juridiques par rapport à la législation en vigueur et aux décisions de justice récentes via la recherche Perplexity." },
+      "adversary": { "description": "Adopte la perspective de l'autorité et identifie les faiblesses potentielles de l'objection — afin qu'elles puissent être traitées de manière proactive." },
+      "consolidator": { "description": "Fusionne les résultats des quatre agents en une lettre d'objection finale et soignée, prête à être soumise." }
+    }
+  },
+  "expatsPage": {
+    "heroBadge": "Pour les expatriés en Allemagne",
+    "heroTitle": "Naviguez dans la bureaucratie allemande — dans votre langue.",
+    "heroSubtitle": "Reçu un avis allemand que vous ne comprenez pas ? TaxaLex l'analyse, l'explique dans votre langue et rédige une lettre d'objection professionnelle en allemand — en quelques minutes.",
+    "ctaRegister": "Commencer gratuitement",
+    "ctaTryWithout": "Essayer sans compte",
+    "featuresTitle": "Pourquoi les expatriés utilisent TaxaLex",
+    "feature1Title": "Interface en 7 langues",
+    "feature1Desc": "Utilisez TaxaLex en anglais, allemand, turc, russe, polonais, ukrainien ou arabe. La lettre d'objection est toujours en allemand — obligatoire par les autorités allemandes.",
+    "feature2Title": "Sortie en allemand",
+    "feature2Desc": "Votre lettre d'objection est rédigée en allemand juridiquement correct — même si vous ne parlez pas allemand. Vous pouvez télécharger une traduction en anglais pour référence.",
+    "feature3Title": "Délais serrés, couverts",
+    "feature3Desc": "Les délais d'objection allemands sont généralement de 30 jours. TaxaLex vous aide à agir vite — l'IA rédige votre lettre en moins de 5 minutes pour ne jamais manquer un délai.",
+    "feature4Title": "Conçu pour l'Allemagne",
+    "feature4Desc": "Toutes les références juridiques, délais et adresses d'autorités sont spécifiques au droit allemand : § 347 AO, SGG § 84, BGB § 541, et plus.",
+    "useCasesTitle": "Avis les plus courants pour les expatriés",
+    "useCasesSubtitle": "Ce sont les avis que les expatriés en Allemagne reçoivent le plus souvent et doivent contester.",
+    "languagesTitle": "Disponible dans votre langue",
+    "languagesSubtitle": "Changez la langue de l'interface dans le pied de page à tout moment. La lettre d'objection est toujours soumise en allemand.",
+    "ctaStartFree": "Commencer gratuitement"
+  },
+  "contactPage": {
+    "title": "Contact",
+    "subtitle": "Des questions, des commentaires ou des problèmes avec votre recours ? Nous sommes là pour aider.",
+    "emailTitle": "Support par e-mail",
+    "emailNote": "Nous répondons dans un délai d'un jour ouvrable.",
+    "hoursTitle": "Horaires d'assistance",
+    "hoursValue": "Lundi – Vendredi, 9h00 – 18h00 (CET)",
+    "legalNote": "{brandName} ne fournit pas de conseils juridiques au sens de la loi sur les services juridiques (RDG). Pour les questions juridiques urgentes, veuillez consulter un avocat ou un conseiller fiscal agréé."
+  },
+  "pricingPage": {
+    "heroTitle": "Tarifs simples et transparents",
+    "heroSubtitle": "Payez par dossier ou abonnez-vous pour un accès illimité. Sans frais cachés.",
+    "addonBadge": "Option supplémentaire",
+    "addonTitle": "Révision professionnelle",
+    "addonDesc": "Faites réviser votre lettre générée par IA par un conseiller fiscal ou un avocat agréé avant envoi.",
+    "perCase": "par dossier",
+    "perCaseUnit": "dossier",
+    "singleAndPack": "Dossier unique & pack de 5",
+    "monthlySubscribers": "Abonnés forfait mensuel",
+    "addonFeature1": "Conseiller fiscal ou avocat agréé",
+    "addonFeature2": "Approbation, commentaire ou question",
+    "addonFeature3": "Réponse sous 48 heures",
+    "addonFeature4": "Lien sécurisé — sans compte requis",
+    "addonCta": "En savoir plus",
+    "vatNote": "Tous les prix hors TVA.",
+    "legalNoteTitle": "Mention légale",
+    "legalNoteText": "TaxaLex génère des projets de lettres de recours assistés par IA. Ceux-ci ne constituent pas un conseil juridique au sens de la loi allemande sur les services juridiques (RDG). La révision professionnelle est un contrôle qualité par un professionnel agréé — et non un mandat de représentation.",
+    "addonPlanFallback": "Révision professionnelle"
+  },
+  "templatesPage": {
+    "heroBadge": "16 modèles gratuits",
+    "heroTitle": "Modèles de lettres juridiques",
+    "heroSubtitle": "Téléchargez des modèles structurés professionnellement pour les recours administratifs les plus courants en Allemagne — ou remplissez-les en ligne et laissez notre IA faire le reste.",
+    "heroCtaAi": "Générer avec l'IA",
+    "heroCtaBrowse": "Voir les modèles ↓",
+    "infoBannerTip": "Conseil : utilisez notre IA pour générer une version personnalisée — téléchargez votre avis et obtenez une lettre adaptée à votre cas.",
+    "infoBannerCta": "Essayer gratuitement",
+    "catAll": "Tous",
+    "catTax": "Fiscalité",
+    "catSocial": "Prestations sociales",
+    "catEmployment": "Emploi",
+    "catHousing": "Logement",
+    "catConsumer": "Consommateur",
+    "catGeneral": "Général",
+    "badgePopular": "Populaire",
+    "deadlineLabel": "Délai :",
+    "ctaOpenTemplate": "Ouvrir le modèle",
+    "ctaAiTitle": "Générer avec l'IA (télécharger votre avis)",
+    "bottomTitle": "Vous ne trouvez pas votre cas ? Laissez l'IA s'en charger.",
+    "bottomSubtitle": "Téléchargez n'importe quel avis officiel — fiscal, social, emploi ou logement — et notre IA l'analysera, identifiera les motifs de recours et rédigera une lettre professionnelle en quelques minutes.",
+    "bottomCta": "Commencer gratuitement",
+    "tpl": {
+      "steuerbescheid-einspruch": {
+        "title": "Recours contre un avis d'imposition",
+        "desc": "Recours formel contre un avis d'impôt sur le revenu, de taxe professionnelle ou de taxe foncière en vertu du § 347 AO. Inclut la base légale, les motifs de recours et la demande de sursis à exécution.",
+        "deadline": "30 jours",
+        "badge": ""
+      },
+      "grundsteuer-einspruch": {
+        "title": "Recours taxe foncière (réforme 2022)",
+        "desc": "Contestez votre nouvel avis de taxe foncière suite à la réforme Grundsteuer 2022. Couvre les erreurs de superficie, de Bodenrichtwert et de classification d'usage.",
+        "deadline": "30 jours",
+        "badge": "Forte demande"
+      },
+      "jobcenter-widerspruch": {
+        "title": "Recours Jobcenter (Bürgergeld)",
+        "desc": "Contestez le refus ou la réduction des prestations Bürgergeld, des sanctions ou des suppressions. Gratuit en vertu du § 184 SGG.",
+        "deadline": "1 mois",
+        "badge": ""
+      },
+      "rente-widerspruch": {
+        "title": "Recours contre un avis de retraite",
+        "desc": "Contestez les calculs de retraite incorrects de la Deutsche Rentenversicherung — points de retraite, périodes d'assurance, crédits pour éducation des enfants.",
+        "deadline": "1 mois",
+        "badge": ""
+      },
+      "krankenkasse-widerspruch": {
+        "title": "Recours assurance maladie (refus de prise en charge)",
+        "desc": "Contestez le refus de votre assureur GKV de couvrir un médicament, une thérapie, des aides médicales ou des orientations vers un spécialiste.",
+        "deadline": "1 mois",
+        "badge": ""
+      },
+      "pflegegrad-widerspruch": {
+        "title": "Recours classification niveau de soins",
+        "desc": "Contestez une évaluation incorrecte du niveau de soins (Pflegegrad 1–5) par le MDK ou Medicproof. Inclut la décomposition des points et l'appel des critères d'évaluation.",
+        "deadline": "1 mois",
+        "badge": ""
+      },
+      "elterngeld-widerspruch": {
+        "title": "Recours allocations parentales / familiales",
+        "desc": "Contestez le calcul incorrect ou le refus de l'Elterngeld, ElterngeldPlus ou Kindergeld. Références aux §§ 1–4 BEEG.",
+        "deadline": "1 mois",
+        "badge": ""
+      },
+      "kuendigung-widerspruch": {
+        "title": "Recours licenciement / protection de l'emploi",
+        "desc": "Contestez un licenciement abusif ou injustifié socialement. Inclut la demande d'annulation et la référence au délai de § 4 KSchG.",
+        "deadline": "3 semaines",
+        "badge": ""
+      },
+      "mieterhöhung-widerspruch": {
+        "title": "Recours augmentation de loyer",
+        "desc": "Contestez les augmentations de loyer injustifiées dépassant le loyer de référence local (Mietspiegel), les violations du plafond ou les exigences formelles manquantes.",
+        "deadline": "2 mois",
+        "badge": ""
+      },
+      "nebenkosten-widerspruch": {
+        "title": "Recours décompte de charges",
+        "desc": "Contestez les décomptes de charges incorrects : justificatifs manquants, clés de répartition erronées, livraison tardive ou postes non imputables.",
+        "deadline": "12 mois",
+        "badge": ""
+      },
+      "maengelanzeige": {
+        "title": "Avis de défaut au propriétaire",
+        "desc": "Notification écrite formelle des défauts du logement (moisissures, panne de chauffage, dégâts des eaux) avec délai de réparation et référence aux droits de réduction de loyer (§ 536 BGB).",
+        "deadline": "Immédiatement",
+        "badge": ""
+      },
+      "bussgeld-einspruch": {
+        "title": "Recours amende de circulation",
+        "desc": "Contestez les amendes radar, les contraventions de stationnement et les interdictions de conduire. Couvre les erreurs de mesure, les vices de procédure et les problèmes d'identification du conducteur.",
+        "deadline": "2 semaines",
+        "badge": ""
+      },
+      "ruecktritt-kaufvertrag": {
+        "title": "Résiliation de contrat (produit défectueux)",
+        "desc": "Résiliez un contrat d'achat en raison de défauts après des tentatives de réparation infructueuses. Références aux §§ 437, 440 BGB avec délai final de réparation.",
+        "deadline": "2 ans",
+        "badge": ""
+      },
+      "gez-widerspruch": {
+        "title": "Recours redevance audiovisuelle (GEZ)",
+        "desc": "Contestez les avis de redevance audiovisuelle : nombre de foyers incorrect, éligibilité à l'exonération (bénéficiaires Bürgergeld, personnes handicapées) ou double imposition.",
+        "deadline": "1 mois",
+        "badge": ""
+      },
+      "akteneinsicht": {
+        "title": "Demande d'accès au dossier",
+        "desc": "Demande formelle de consultation de votre dossier administratif en vertu du § 29 VwVfG ou § 25 SGB X. Étape standard avant de déposer un recours.",
+        "deadline": "À tout moment",
+        "badge": ""
+      },
+      "zahlungsaufforderung": {
+        "title": "Mise en demeure / demande de paiement",
+        "desc": "Rappel de paiement professionnel avec mise en demeure légale, réclamation d'intérêts en vertu du § 288 BGB et délai avant action en justice.",
+        "deadline": "Immédiatement",
+        "badge": ""
+      }
+    }
+  },
+  "templateDetailPage": {
+    "backLink": "Tous les modèles",
+    "tabFillIn": "Remplir",
+    "tabPreview": "Aperçu",
+    "progressLabel": "Champs complétés",
+    "downloadBtn": "Télécharger (.txt)",
+    "copyBtn": "Copier",
+    "copiedBtn": "Copié !",
+    "aiUpsellTitle": "Laissez l'IA le personnaliser",
+    "aiUpsellDesc": "Téléchargez votre avis officiel — notre IA l'analyse et remplit tous les champs en quelques secondes.",
+    "aiUpsellCta": "Utiliser l'IA",
+    "legalNote": "Ce modèle est fourni à titre informatif uniquement. Il ne constitue pas un conseil juridique. Veuillez vérifier avant envoi.",
+    "previewLabel": "Aperçu en direct",
+    "previewUpdates": "Se met à jour au fil de la frappe",
+    "previewDraft": "Brouillon modifiable",
+    "missingFields": "champ(s) obligatoire(s) encore vide(s)"
   }
 }

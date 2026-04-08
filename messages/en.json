@@ -1144,5 +1144,226 @@
         "tip": "Always request file access first — often reveals procedural defects."
       }
     }
+  },
+  "howItWorksPage": {
+    "heroTitle": "How TaxaLex works",
+    "heroSubtitle": "Three simple steps. Five AI agents. One ready-to-send objection letter.",
+    "step1Title": "Upload your notice",
+    "step1Subtitle": "All common file formats supported",
+    "formatsTitle": "Supported formats",
+    "formatPdf": "PDF – Direct text extraction or OCR",
+    "formatImg": "JPG, PNG – Photo of the notice (OCR)",
+    "formatDocx": "DOCX – Editable Word documents",
+    "formatTxt": "TXT – Plain text",
+    "formatNote": "Max. 10 MB per file. Multiple files allowed.",
+    "extractionTitle": "Automatic data extraction",
+    "extractionDesc": "TaxaLex automatically extracts key data such as tax office name, notice date, assessment amounts, deadlines and legal references. You review and confirm the extracted data before generation begins.",
+    "step2Title": "AI analysis by 5 agents",
+    "step2Subtitle": "Claude, Gemini and Perplexity work together",
+    "analysisNote": "The entire analysis typically completes in under 5 minutes. You can watch the progress in real time.",
+    "step3Title": "Download & submit",
+    "step3Subtitle": "Review, download, and send to the authority",
+    "downloadTitle": "Download formats",
+    "downloadDocx": "DOCX – Editable in Word",
+    "downloadTxt": "TXT – Plain text",
+    "downloadPdf": "PDF – Coming soon",
+    "legalNoteTitle": "Legal note",
+    "legalNoteDesc": "The generated document is an AI-assisted draft. It is not legal advice within the meaning of the German Legal Services Act (RDG). For complex cases, consult a tax advisor or lawyer before submission.",
+    "ctaDemo": "Try the demo",
+    "agents": {
+      "drafter": { "description": "Creates the initial objection draft including all formal requirements, citations of legal basis, and argumentation structure." },
+      "reviewer": { "description": "Reviews the draft for logical errors, missing arguments, incorrect citations, and formal deficiencies." },
+      "factChecker": { "description": "Verifies all legal citations against current legislation and recent court rulings via Perplexity search." },
+      "adversary": { "description": "Takes the authority's perspective and identifies potential weaknesses in the objection — so they can be addressed proactively." },
+      "consolidator": { "description": "Merges the outputs of all four agents into a final, polished objection letter ready for submission." }
+    }
+  },
+  "expatsPage": {
+    "heroBadge": "For expats in Germany",
+    "heroTitle": "Navigate German bureaucracy — in your language.",
+    "heroSubtitle": "Received a German notice you don't understand? TaxaLex analyses it, explains it in your language, and drafts a professional German objection letter — in minutes.",
+    "ctaRegister": "Get started for free",
+    "ctaTryWithout": "Try without account",
+    "featuresTitle": "Why expats use TaxaLex",
+    "feature1Title": "Interface in 7 languages",
+    "feature1Desc": "Use TaxaLex in English, German, Turkish, Russian, Polish, Ukrainian, or Arabic. The objection letter is always in German — required by German authorities.",
+    "feature2Title": "German-language output",
+    "feature2Desc": "Your objection letter is drafted in legally correct German — even if you don't speak German. You can download an English translation for your reference.",
+    "feature3Title": "Tight deadlines, covered",
+    "feature3Desc": "German objection deadlines are typically 30 days. TaxaLex helps you act fast — the AI drafts your letter in under 5 minutes so you never miss a deadline.",
+    "feature4Title": "Built for Germany",
+    "feature4Desc": "All legal references, deadlines, and authority addresses are specific to German law: § 347 AO, SGG § 84, BGB § 541, and more.",
+    "useCasesTitle": "Most common notices for expats",
+    "useCasesSubtitle": "These are the notices expats in Germany most frequently receive and need to appeal.",
+    "languagesTitle": "Available in your language",
+    "languagesSubtitle": "Switch the interface language in the footer at any time. The objection letter is always submitted in German.",
+    "ctaStartFree": "Start for free"
+  },
+  "contactPage": {
+    "title": "Contact",
+    "subtitle": "Questions, feedback, or issues with your appeal? We're here to help.",
+    "emailTitle": "Email support",
+    "emailNote": "We reply within 1 business day.",
+    "hoursTitle": "Support hours",
+    "hoursValue": "Monday – Friday, 9:00 – 18:00 (CET)",
+    "legalNote": "{brandName} does not provide legal advice within the meaning of the Legal Services Act (RDG). For urgent legal matters, please consult a licensed attorney or tax advisor."
+  },
+  "pricingPage": {
+    "heroTitle": "Simple, transparent pricing",
+    "heroSubtitle": "Pay per case or subscribe for unlimited access. No hidden fees.",
+    "addonBadge": "Optional add-on",
+    "addonTitle": "Professional review",
+    "addonDesc": "Have your AI-generated letter reviewed by a licensed tax advisor or lawyer before sending.",
+    "perCase": "per case",
+    "perCaseUnit": "case",
+    "singleAndPack": "Single case & 5-pack",
+    "monthlySubscribers": "Monthly flat subscribers",
+    "addonFeature1": "Licensed tax advisor or lawyer",
+    "addonFeature2": "Approval, comment, or question",
+    "addonFeature3": "Response within 48 hours",
+    "addonFeature4": "Secure link — no login needed",
+    "addonCta": "Learn more",
+    "vatNote": "All prices excl. VAT.",
+    "legalNoteTitle": "Legal note",
+    "legalNoteText": "TaxaLex generates AI-assisted draft objection letters. These are not legal advice within the meaning of the German Legal Services Act (RDG). Professional review is a quality check by a licensed professional — not a legal representation mandate.",
+    "addonPlanFallback": "Professional review"
+  },
+  "templatesPage": {
+    "heroBadge": "16 free templates",
+    "heroTitle": "Legal Letter Templates",
+    "heroSubtitle": "Download professionally structured templates for the most common administrative objections in Germany — or fill them online with your details and let our AI complete the rest.",
+    "heroCtaAi": "Generate with AI instead",
+    "heroCtaBrowse": "Browse templates ↓",
+    "infoBannerTip": "Tip: Use our AI to generate a personalised version — upload your notice and get a letter tailored to your exact case.",
+    "infoBannerCta": "Try it free",
+    "catAll": "All",
+    "catTax": "Tax",
+    "catSocial": "Social Benefits",
+    "catEmployment": "Employment",
+    "catHousing": "Housing",
+    "catConsumer": "Consumer",
+    "catGeneral": "General",
+    "badgePopular": "Popular",
+    "deadlineLabel": "Deadline:",
+    "ctaOpenTemplate": "Open template",
+    "ctaAiTitle": "Generate with AI (upload your notice)",
+    "bottomTitle": "Don't see your case? Let AI handle it.",
+    "bottomSubtitle": "Upload any official notice — tax, social, employment, or housing — and our AI will analyse it, identify objection grounds, and draft a professional letter in minutes.",
+    "bottomCta": "Start for free",
+    "tpl": {
+      "steuerbescheid-einspruch": {
+        "title": "Tax Assessment Objection",
+        "desc": "Formal objection against an income tax, trade tax, or property tax assessment under § 347 AO. Includes legal basis, objection grounds, and request for suspension of enforcement.",
+        "deadline": "30 days",
+        "badge": ""
+      },
+      "grundsteuer-einspruch": {
+        "title": "Property Tax Objection (2022 Reform)",
+        "desc": "Challenge your new property tax assessment following the 2022 Grundsteuer reform. Covers errors in land area, Bodenrichtwert, and usage classification.",
+        "deadline": "30 days",
+        "badge": "High demand"
+      },
+      "jobcenter-widerspruch": {
+        "title": "Jobcenter Objection (Bürgergeld)",
+        "desc": "Object to rejected or reduced Bürgergeld (citizen income) payments, sanctions, or benefit cuts. Free of charge under § 184 SGG.",
+        "deadline": "1 month",
+        "badge": ""
+      },
+      "rente-widerspruch": {
+        "title": "Pension Notice Objection",
+        "desc": "Dispute incorrect pension calculations from Deutsche Rentenversicherung — pension points, insurance periods, child-rearing credits.",
+        "deadline": "1 month",
+        "badge": ""
+      },
+      "krankenkasse-widerspruch": {
+        "title": "Health Insurance Coverage Objection",
+        "desc": "Challenge your GKV insurer's refusal to cover medication, therapy, medical aids, or specialist referrals. References medical necessity (§ 12 SGB V).",
+        "deadline": "1 month",
+        "badge": ""
+      },
+      "pflegegrad-widerspruch": {
+        "title": "Nursing Care Level Objection",
+        "desc": "Object to an incorrect nursing care level (Pflegegrad 1–5) assessment by the MDK or Medicproof. Includes points breakdown and appeal of assessment criteria.",
+        "deadline": "1 month",
+        "badge": ""
+      },
+      "elterngeld-widerspruch": {
+        "title": "Parental Benefit / Child Benefit Objection",
+        "desc": "Challenge incorrect calculation or rejection of Elterngeld, ElterngeldPlus, or Kindergeld. References §§ 1–4 BEEG and applicable income calculation rules.",
+        "deadline": "1 month",
+        "badge": ""
+      },
+      "kuendigung-widerspruch": {
+        "title": "Dismissal Objection / Employment Protection",
+        "desc": "Object to unfair or socially unjustified dismissal. Includes demand for revocation, notice of employment protection claim, and reference to § 4 KSchG deadline.",
+        "deadline": "3 weeks",
+        "badge": ""
+      },
+      "mieterhöhung-widerspruch": {
+        "title": "Rent Increase Objection",
+        "desc": "Challenge unjustified rent increases above the local reference rent (Mietspiegel), violations of the 20% cap rule, or missing formal requirements.",
+        "deadline": "2 months",
+        "badge": ""
+      },
+      "nebenkosten-widerspruch": {
+        "title": "Ancillary Cost Statement Objection",
+        "desc": "Contest incorrect utility cost statements: missing receipts, wrong distribution keys, late delivery, or non-chargeable cost items.",
+        "deadline": "12 months",
+        "badge": ""
+      },
+      "maengelanzeige": {
+        "title": "Defect Notice to Landlord",
+        "desc": "Formal written notice of apartment defects (mould, heating failure, water damage) with deadline for repair and reference to rent reduction rights under § 536 BGB.",
+        "deadline": "Immediately",
+        "badge": ""
+      },
+      "bussgeld-einspruch": {
+        "title": "Traffic Fine Objection",
+        "desc": "Challenge speed camera fines, parking tickets, and driving bans. Covers measurement errors, procedural defects, and driver identification issues.",
+        "deadline": "2 weeks",
+        "badge": ""
+      },
+      "ruecktritt-kaufvertrag": {
+        "title": "Contract Withdrawal (Defective Goods)",
+        "desc": "Withdraw from a purchase contract due to defects after failed repair attempts. References §§ 437, 440 BGB and sets a final repair deadline.",
+        "deadline": "2 years",
+        "badge": ""
+      },
+      "gez-widerspruch": {
+        "title": "Broadcasting Fee Objection (GEZ/ARD-ZDF)",
+        "desc": "Object to broadcasting fee assessments: incorrect number of households, exemption eligibility (Bürgergeld recipients, disabled persons), or duplicate billing.",
+        "deadline": "1 month",
+        "badge": ""
+      },
+      "akteneinsicht": {
+        "title": "Request for File Access",
+        "desc": "Formal request to inspect your administrative file under § 29 VwVfG or § 25 SGB X. Standard for use before filing an objection to understand the authority's reasoning.",
+        "deadline": "Anytime",
+        "badge": ""
+      },
+      "zahlungsaufforderung": {
+        "title": "Payment Demand / Formal Notice",
+        "desc": "Professional payment reminder with legal default notice, interest claim under § 288 BGB, and deadline before legal action. Suitable for private and commercial claims.",
+        "deadline": "Immediately",
+        "badge": ""
+      }
+    }
+  },
+  "templateDetailPage": {
+    "backLink": "All templates",
+    "tabFillIn": "Fill in",
+    "tabPreview": "Preview",
+    "progressLabel": "Fields completed",
+    "downloadBtn": "Download (.txt)",
+    "copyBtn": "Copy",
+    "copiedBtn": "Copied!",
+    "aiUpsellTitle": "Let AI personalise it for you",
+    "aiUpsellDesc": "Upload your official notice — our AI analyses it and fills in all fields based on your actual document in seconds.",
+    "aiUpsellCta": "Use AI to fill",
+    "legalNote": "This template is provided for informational purposes only. It does not constitute legal advice. Please review before submission.",
+    "previewLabel": "Live preview",
+    "previewUpdates": "Updates as you type",
+    "previewDraft": "Editable draft",
+    "missingFields": "required field(s) still empty"
   }
 }

@@ -2,6 +2,7 @@
 
 import { useState, use, useCallback } from 'react'
 import { notFound } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { PublicNav } from '@/components/PublicNav'
 import { Footer } from '@/components/Footer'
 import { Link } from '@/i18n/navigation'
@@ -21,6 +22,8 @@ export default function TemplatePage({
 
   if (!template) notFound()
 
+  const t = useTranslations('templateDetailPage')
+  // Use EN fields when locale is 'en', DE otherwise (template content is only authored in DE/EN)
   const isEN = locale === 'en'
   const title = isEN ? template.titleEN : template.titleDE
   const desc = isEN ? template.descEN : template.descDE
@@ -71,7 +74,7 @@ export default function TemplatePage({
           className="inline-flex items-center gap-1.5 text-sm text-[var(--muted)] hover:text-[var(--foreground)] mb-6 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
-          {isEN ? 'All templates' : 'Alle Vorlagen'}
+          {t('backLink')}
         </Link>
 
         {/* Header */}
@@ -100,7 +103,7 @@ export default function TemplatePage({
             }`}
           >
             <Edit3 className="w-3.5 h-3.5 inline mr-1.5" />
-            {isEN ? 'Fill in' : 'Ausfüllen'}
+            {t('tabFillIn')}
           </button>
           <button
             onClick={() => setActiveTab('preview')}
@@ -111,7 +114,7 @@ export default function TemplatePage({
             }`}
           >
             <Eye className="w-3.5 h-3.5 inline mr-1.5" />
-            {isEN ? 'Preview' : 'Vorschau'}
+            {t('tabPreview')}
           </button>
         </div>
 
@@ -121,7 +124,7 @@ export default function TemplatePage({
             {/* Progress */}
             <div className="mb-5">
               <div className="flex items-center justify-between text-xs text-[var(--muted)] mb-2">
-                <span>{isEN ? 'Fields completed' : 'Felder ausgefüllt'}: {filledCount}/{template.placeholders.length}</span>
+                <span>{t('progressLabel')}: {filledCount}/{template.placeholders.length}</span>
                 <span className={progress === 100 ? 'text-green-600 font-medium' : ''}>{progress}%</span>
               </div>
               <div className="h-1.5 bg-[var(--border)] rounded-full overflow-hidden">
@@ -174,14 +177,14 @@ export default function TemplatePage({
                 className="flex-1 flex items-center justify-center gap-2 bg-brand-600 hover:bg-brand-700 active:bg-brand-800 text-white py-3 rounded-xl font-semibold transition-colors"
               >
                 <Download className="w-4 h-4" />
-                {isEN ? 'Download (.txt)' : 'Herunterladen (.txt)'}
+                {t('downloadBtn')}
               </button>
               <button
                 onClick={handleCopy}
                 className="flex items-center justify-center gap-2 border border-[var(--border)] px-4 py-3 rounded-xl font-medium text-sm hover:bg-[var(--background-subtle)] transition-colors"
               >
                 {copied ? <CheckCircle2 className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
-                {copied ? (isEN ? 'Copied!' : 'Kopiert!') : (isEN ? 'Copy' : 'Kopieren')}
+                {copied ? t('copiedBtn') : t('copyBtn')}
               </button>
             </div>
 
@@ -193,19 +196,17 @@ export default function TemplatePage({
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-semibold text-brand-800 dark:text-brand-300 mb-1">
-                    {isEN ? 'Let AI personalise it for you' : 'KI füllt es automatisch aus'}
+                    {t('aiUpsellTitle')}
                   </p>
                   <p className="text-xs text-brand-700 dark:text-brand-400 mb-3 leading-relaxed">
-                    {isEN
-                      ? 'Upload your official notice — our AI analyses it and fills in all fields based on your actual document in seconds.'
-                      : 'Laden Sie Ihren Bescheid hoch — unsere KI analysiert ihn und füllt alle Felder anhand Ihres echten Dokuments in Sekunden aus.'}
+                    {t('aiUpsellDesc')}
                   </p>
                   <Link
                     href={`/einspruch?type=${template.slug}`}
                     className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-600 dark:text-brand-400 hover:underline"
                   >
                     <Zap className="w-3.5 h-3.5" />
-                    {isEN ? 'Use AI to fill' : 'Mit KI ausfüllen'}
+                    {t('aiUpsellCta')}
                   </Link>
                 </div>
               </div>
@@ -214,9 +215,7 @@ export default function TemplatePage({
             {/* Legal note */}
             <p className="text-xs text-[var(--muted)] mt-4 leading-relaxed">
               <Scale className="w-3 h-3 inline mr-1" />
-              {isEN
-                ? 'This template is provided for informational purposes only. It does not constitute legal advice. Please review before submission.'
-                : 'Diese Vorlage dient zur Information und ist kein Rechtsrat i.S.d. RDG. Bitte vor Einreichung prüfen.'}
+              {t('legalNote')}
             </p>
           </div>
 
@@ -225,10 +224,10 @@ export default function TemplatePage({
             <div className="sticky top-20">
               <div className="flex items-center justify-between mb-3">
                 <p className="text-xs font-semibold uppercase tracking-wider text-[var(--muted)]">
-                  {isEN ? 'Live preview' : 'Echtzeit-Vorschau'}
+                  {t('previewLabel')}
                 </p>
                 <span className="text-xs text-[var(--muted)]">
-                  {isEN ? 'Updates as you type' : 'Aktualisiert beim Tippen'}
+                  {t('previewUpdates')}
                 </span>
               </div>
               <div className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl overflow-hidden">
@@ -242,7 +241,7 @@ export default function TemplatePage({
                     <span className="ml-1 text-xs text-[var(--muted)]">{id}.txt</span>
                   </div>
                   <span className="text-xs text-[var(--muted)]">
-                    {isEN ? 'Editable draft' : 'Bearbeitbarer Entwurf'}
+                    {t('previewDraft')}
                   </span>
                 </div>
                 <pre className="p-5 text-xs text-[var(--foreground)] leading-relaxed whitespace-pre-wrap font-mono max-h-[520px] overflow-y-auto scrollbar-thin">
@@ -254,7 +253,7 @@ export default function TemplatePage({
               {filledCount < totalRequired && (
                 <div className="mt-3 flex items-center gap-2 text-xs text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 px-3 py-2.5 rounded-xl">
                   <span className="font-medium">
-                    {totalRequired - filledCount} {isEN ? 'required field(s) still empty' : 'Pflichtfeld(er) noch leer'}
+                    {totalRequired - filledCount} {t('missingFields')}
                   </span>
                 </div>
               )}
