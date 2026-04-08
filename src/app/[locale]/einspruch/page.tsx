@@ -1877,8 +1877,8 @@ function EinspruchPageInner() {
 
         {/* ═══ Step 4 — Generating ═══ */}
         {step === 'generating' && (
-          <div className="max-w-2xl mx-auto py-4">
-            <div className="text-center mb-8">
+          <div className="py-4">
+            <div className="max-w-2xl mx-auto text-center mb-8">
               <div className="inline-flex items-center justify-center w-16 h-16 bg-brand-50 dark:bg-brand-950/40 rounded-2xl mb-4">
                 <Brain className="w-8 h-8 text-brand-600 animate-pulse" />
               </div>
@@ -2049,7 +2049,7 @@ function EinspruchPageInner() {
 
         {/* ═══ Step 5 — Result ═══ */}
         {step === 'result' && result && (
-          <div className="max-w-3xl mx-auto">
+          <div>
             {/* Generate error banner */}
             {generateError && (
               <div className="mb-5 flex items-start gap-3 bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-800 rounded-xl px-4 py-3">
@@ -2070,7 +2070,7 @@ function EinspruchPageInner() {
 
             {result.finalDraft ? (
               <>
-                <div className="text-center mb-8">
+                <div className="max-w-2xl mx-auto text-center mb-8">
                   <div className="relative inline-flex mb-4">
                     <div className="w-16 h-16 bg-green-100 dark:bg-green-950/40 rounded-2xl flex items-center justify-center">
                       <CheckCircle2 className="w-8 h-8 text-green-600" />

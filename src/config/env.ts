@@ -31,7 +31,9 @@ export const config = {
   nodeEnv: process.env.NODE_ENV ?? 'development',
 
   // ── App ────────────────────────────────────────────────────────────────
-  appUrl: optionalEnv('APP_URL', optionalEnv('NEXT_PUBLIC_APP_URL', 'http://localhost:3000')),
+  // NEXTAUTH_URL is set in both docker-compose files and is the canonical public URL —
+  // use it as a fallback so Stripe success_url never points at localhost in production
+  appUrl: optionalEnv('APP_URL', optionalEnv('NEXT_PUBLIC_APP_URL', optionalEnv('NEXTAUTH_URL', 'http://localhost:3000'))),
 
   // ── AI Providers ───────────────────────────────────────────────────────
   anthropicApiKey: requireEnv('ANTHROPIC_API_KEY'),

@@ -195,7 +195,8 @@ export function getDemoStats() {
   const urgent = cases.filter(
     (c) => c.deadline && c.deadline > now && Math.ceil((c.deadline.getTime() - now.getTime()) / 86400000) <= 7
   ).length
-  return { open, submitted, urgent, total: cases.length }
+  const closed = cases.filter((c) => c.status === 'CLOSED_SUCCESS' || c.status === 'CLOSED_PARTIAL').length
+  return { open, submitted, urgent, total: cases.length, closed }
 }
 
 // All-users list for admin panel — matches seed.ts accounts

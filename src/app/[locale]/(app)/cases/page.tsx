@@ -11,6 +11,7 @@ type CaseListItem = {
   createdAt: Date
   updatedAt: Date
   _count: { documents: number }
+  answersCount: number
 }
 
 export default async function CasesPage() {
@@ -29,14 +30,24 @@ export default async function CasesPage() {
       select: {
         id: true, useCase: true, status: true, deadline: true,
         createdAt: true, updatedAt: true,
+        userAnswers: true,
         _count: { select: { documents: true } },
       },
     })
-    cases = raw as CaseListItem[]
+    cases = raw.map((c) => ({
+      id: c.id,
+      useCase: c.useCase,
+      status: c.status,
+      deadline: c.deadline,
+      createdAt: c.createdAt,
+      updatedAt: c.updatedAt,
+      _count: c._count,
+      answersCount: Object.keys((c.userAnswers as Record<string, unknown>) ?? {}).length,
+    }))
   } catch (err) {
     // Only show demo cases for demo accounts — real users with DB errors see empty list
     if (isDemo) {
-      cases = DEMO_CASES.map((c) => ({ ...c })) as CaseListItem[]
+      cases = (DEMO_CASES as unknown as CaseListItem[]).map((c) => ({ ...c, answersCount: 0 }))
     } else {
       logger.error('Cases fetch failed', { error: err, userId: userId.slice(-8) })
     }

@@ -4,7 +4,7 @@ import { useState, useMemo, useCallback } from 'react'
 import { Plus, FolderOpen, ArrowRight, Search, Trash2 } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 type CaseListItem = {
   id: string
@@ -14,6 +14,7 @@ type CaseListItem = {
   createdAt: Date
   updatedAt: Date
   _count: { documents: number }
+  answersCount: number
 }
 
 type Filter = 'all' | 'active' | 'submitted' | 'closed'
@@ -31,23 +32,37 @@ function matchesFilter(c: CaseListItem, filter: Filter): boolean {
 }
 
 const STATUS_COLORS: Record<string, string> = {
-  CREATED: 'bg-gray-100 text-gray-600',
-  UPLOADING: 'bg-blue-50 text-blue-600',
-  ANALYZING: 'bg-purple-50 text-purple-600',
-  QUESTIONS: 'bg-amber-50 text-amber-700',
-  GENERATING: 'bg-purple-50 text-purple-600',
-  DRAFT_READY: 'bg-blue-50 text-blue-700',
-  SUBMITTED: 'bg-green-50 text-green-700',
-  AWAITING_RESPONSE: 'bg-amber-50 text-amber-700',
-  CLOSED_SUCCESS: 'bg-green-50 text-green-700',
-  CLOSED_PARTIAL: 'bg-yellow-50 text-yellow-700',
-  REJECTED: 'bg-red-50 text-red-700',
+  CREATED: 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400',
+  UPLOADING: 'bg-blue-50 text-blue-600 dark:bg-blue-950/30 dark:text-blue-400',
+  ANALYZING: 'bg-purple-50 text-purple-600 dark:bg-purple-950/30 dark:text-purple-400',
+  QUESTIONS: 'bg-amber-50 text-amber-700 dark:bg-amber-950/30 dark:text-amber-400',
+  GENERATING: 'bg-purple-50 text-purple-600 dark:bg-purple-950/30 dark:text-purple-400',
+  DRAFT_READY: 'bg-blue-50 text-blue-700 dark:bg-blue-950/30 dark:text-blue-400',
+  SUBMITTED: 'bg-green-50 text-green-700 dark:bg-green-950/30 dark:text-green-400',
+  AWAITING_RESPONSE: 'bg-amber-50 text-amber-700 dark:bg-amber-950/30 dark:text-amber-400',
+  CLOSED_SUCCESS: 'bg-green-50 text-green-700 dark:bg-green-950/30 dark:text-green-400',
+  CLOSED_PARTIAL: 'bg-yellow-50 text-yellow-700 dark:bg-yellow-950/30 dark:text-yellow-400',
+  REJECTED: 'bg-red-50 text-red-700 dark:bg-red-950/30 dark:text-red-400',
 }
 
 const STATUS_DOTS: Record<string, string> = {
   CREATED: 'bg-gray-400', QUESTIONS: 'bg-amber-400', GENERATING: 'bg-purple-500',
   DRAFT_READY: 'bg-blue-500', SUBMITTED: 'bg-green-500', AWAITING_RESPONSE: 'bg-amber-500',
   CLOSED_SUCCESS: 'bg-green-500', CLOSED_PARTIAL: 'bg-yellow-500', REJECTED: 'bg-red-500',
+}
+
+/** Returns the href for the per-row CTA, or null if no CTA should be shown */
+function rowCtaHref(c: CaseListItem): string | null {
+  if (c.status === 'DRAFT_READY') return `/cases/${c.id}?tab=letter`
+  if (SUBMITTED_STATUSES.includes(c.status)) return `/cases/${c.id}`
+  if (CLOSED_STATUSES.includes(c.status)) return `/cases/${c.id}`
+  return null
+}
+
+function rowCtaLabel(c: CaseListItem, t: (key: string) => string): string {
+  if (c.status === 'DRAFT_READY') return t('resume')
+  if (CLOSED_STATUSES.includes(c.status)) return t('viewResult')
+  return t('viewDetails')
 }
 
 interface Props {
@@ -58,11 +73,27 @@ export function CasesClient({ cases: initialCases }: Props) {
   const t = useTranslations('cases')
   const tUC = useTranslations('useCases')
   const router = useRouter()
+  const searchParams = useSearchParams()
 
-  const [filter, setFilter] = useState<Filter>('all')
+  // Initialise filter from URL ?filter= param so dashboard stat card links work
+  const [filter, setFilter] = useState<Filter>(() => {
+    const f = searchParams.get('filter')
+    return (['active', 'submitted', 'closed'] as Filter[]).includes(f as Filter)
+      ? (f as Filter)
+      : 'all'
+  })
   const [search, setSearch] = useState('')
   const [cases, setCases] = useState(initialCases)
   const [deletingId, setDeletingId] = useState<string | null>(null)
+
+  function handleFilterChange(newFilter: Filter) {
+    setFilter(newFilter)
+    // Sync URL without triggering navigation so the filter survives back-button
+    const url = new URL(window.location.href)
+    if (newFilter === 'all') url.searchParams.delete('filter')
+    else url.searchParams.set('filter', newFilter)
+    window.history.replaceState(null, '', url.toString())
+  }
 
   const handleDelete = useCallback(async (e: React.MouseEvent, id: string) => {
     e.preventDefault()
@@ -159,7 +190,7 @@ export function CasesClient({ cases: initialCases }: Props) {
           {filters.map((f) => (
             <button
               key={f.key}
-              onClick={() => setFilter(f.key)}
+              onClick={() => handleFilterChange(f.key)}
               className={`px-3 py-1.5 text-xs rounded-lg font-medium transition-colors ${
                 filter === f.key
                   ? 'bg-brand-600 text-white'
@@ -199,9 +230,10 @@ export function CasesClient({ cases: initialCases }: Props) {
               : null
             const isUrgent = daysLeft !== null && daysLeft <= 7 && daysLeft >= 0
             const isOverdue = daysLeft !== null && daysLeft < 0
+            const ctaHref = rowCtaHref(c)
 
             return (
-              <div key={c.id} className="flex items-center gap-4 px-5 py-4 hover:bg-[var(--background-subtle)] transition-colors group">
+              <div key={c.id} className="flex items-center gap-3 px-5 py-4 hover:bg-[var(--background-subtle)] transition-colors group">
                 <Link href={`/cases/${c.id}`} className="flex items-center gap-4 flex-1 min-w-0">
                   <div className={`w-2 h-2 rounded-full shrink-0 ${STATUS_DOTS[c.status] ?? 'bg-gray-300'}`} />
                   <div className="flex-1 min-w-0">
@@ -209,6 +241,9 @@ export function CasesClient({ cases: initialCases }: Props) {
                     <p className="text-xs text-[var(--muted)] mt-0.5">
                       #{c.id.slice(-8).toUpperCase()} · {new Date(c.createdAt).toLocaleDateString()} ·{' '}
                       {t('documents', { count: c._count.documents })}
+                      {c.answersCount > 0 && (
+                        <> · {t('answersCount', { count: c.answersCount })}</>
+                      )}
                     </p>
                   </div>
                   {c.deadline && (
@@ -225,8 +260,24 @@ export function CasesClient({ cases: initialCases }: Props) {
                   <span className={`text-xs font-medium px-2 py-0.5 rounded-full whitespace-nowrap shrink-0 ${STATUS_COLORS[c.status] ?? 'bg-gray-100 text-gray-600'}`}>
                     {statusLabels[c.status] ?? c.status}
                   </span>
-                  <ArrowRight className="w-3.5 h-3.5 text-[var(--muted)] shrink-0" />
                 </Link>
+
+                {/* Contextual CTA per row */}
+                {ctaHref && (
+                  <Link
+                    href={ctaHref}
+                    onClick={(e) => e.stopPropagation()}
+                    className={`hidden sm:flex items-center gap-1 text-xs font-medium px-2.5 py-1.5 rounded-lg border transition-colors shrink-0 ${
+                      c.status === 'DRAFT_READY'
+                        ? 'border-brand-300 text-brand-700 bg-brand-50 hover:bg-brand-100 dark:border-brand-700 dark:text-brand-400 dark:bg-brand-950/30'
+                        : 'border-[var(--border)] text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-[var(--background-subtle)]'
+                    }`}
+                  >
+                    {rowCtaLabel(c, (k) => t(k as Parameters<typeof t>[0]))}
+                    <ArrowRight className="w-3 h-3" />
+                  </Link>
+                )}
+
                 <button
                   onClick={(e) => handleDelete(e, c.id)}
                   disabled={deletingId === c.id}

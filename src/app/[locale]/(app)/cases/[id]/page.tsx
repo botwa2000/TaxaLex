@@ -2,7 +2,7 @@ import { auth } from '@/auth'
 import { notFound } from 'next/navigation'
 import {
   ArrowLeft, FileText, Cpu, MessageSquare, CheckCircle2, Clock, AlertTriangle,
-  Download, Send, Paperclip, User, ExternalLink,
+  Paperclip, User, ExternalLink, Send, Trophy,
 } from 'lucide-react'
 import {
   DEMO_USER_ID, DEMO_CASES, DEMO_DOCUMENTS, DEMO_AGENT_OUTPUTS, DEMO_FINAL_DRAFT,
@@ -14,6 +14,7 @@ import { AnnotationReplyCard } from '@/components/client/AnnotationReplyCard'
 import { features } from '@/config/features'
 import { Link } from '@/i18n/navigation'
 import type { AnnotationData } from '@/types'
+import { getTranslations } from 'next-intl/server'
 
 function extractOutputSummary(content: string): string {
   const lines = content
@@ -32,6 +33,7 @@ type CaseDetail = {
   createdAt: Date
   updatedAt: Date
   bescheidData: Record<string, unknown> | null
+  userAnswers: Record<string, string> | null
 }
 
 export default async function CaseDetailPage({
@@ -46,6 +48,8 @@ export default async function CaseDetailPage({
   const { id, locale } = await params
   const { tab = 'overview' } = await searchParams
 
+  const t = await getTranslations('cases')
+
   let caseData: CaseDetail | null = null
   let documents: { id: string; name: string; type: string; createdAt: Date }[] = []
   let agentOutputs: { role: string; provider: string; model: string; durationMs: number; summary: string }[] = []
@@ -53,7 +57,7 @@ export default async function CaseDetailPage({
   let annotations: AnnotationData[] = []
   let hasActiveAssignment = false
   let hasActiveAddon = false
-  let addonPriceCents = 9900     // resolved from DB below; fallback matches seed data
+  let addonPriceCents = 9900
   let addonPlanSlug: 'expert-review' | 'expert-review-subscriber' = 'expert-review'
   let isSubscriber = false
   let standardPriceCents = 9900
@@ -84,7 +88,6 @@ export default async function CaseDetailPage({
       annotations = ((raw as { annotations: unknown[] }).annotations as AnnotationData[]) ?? []
     }
 
-    // Load documents and AI outputs from DB
     const [dbDocuments, dbOutputs] = await Promise.all([
       db.document.findMany({
         where: { caseId: id },
@@ -100,7 +103,6 @@ export default async function CaseDetailPage({
 
     documents = dbDocuments
 
-    // Map CaseOutputs → agentOutputs format expected by AIAnalysisTab
     agentOutputs = dbOutputs.map((o) => ({
       role: o.role,
       provider: o.provider,
@@ -109,18 +111,15 @@ export default async function CaseDetailPage({
       summary: extractOutputSummary(o.content),
     }))
 
-    // Final draft is the consolidator output marked as final
     const finalOutput = dbOutputs.find((o) => o.isFinal) ?? dbOutputs.find((o) => o.role === 'consolidator')
     finalDraft = finalOutput?.content ?? null
 
     if (features.advisorModule) {
-      // Check if user already purchased the expert review add-on for this case
       const addon = await db.addonPurchase.findFirst({
         where: { userId, caseId: id, addonType: 'EXPERT_REVIEW', status: 'ACTIVE' },
       })
       hasActiveAddon = !!addon
 
-      // Resolve pricing from DB so it stays consistent with what Stripe charges
       const sub = await db.subscription.findUnique({
         where: { userId },
         select: { status: true },
@@ -140,7 +139,7 @@ export default async function CaseDetailPage({
   } catch {
     const found = DEMO_CASES.find((c) => c.id === id)
     if (!found) notFound()
-    caseData = found as CaseDetail
+    caseData = found as unknown as CaseDetail
     documents = DEMO_DOCUMENTS[id] ?? []
     agentOutputs = DEMO_AGENT_OUTPUTS[id] ?? []
     finalDraft = agentOutputs.length > 0 ? DEMO_FINAL_DRAFT : null
@@ -153,10 +152,13 @@ export default async function CaseDetailPage({
   const isUrgent = daysLeft !== null && daysLeft <= 7 && daysLeft >= 0
   const isOverdue = daysLeft !== null && daysLeft < 0
 
+  const answersCount = Object.keys(caseData.userAnswers ?? {}).length
+  const fieldsCount = Object.keys(caseData.bescheidData ?? {}).length
+
   const tabs = [
     { id: 'overview', label: 'Übersicht', icon: MessageSquare },
-    { id: 'documents', label: `Dokumente (${documents.length})`, icon: Paperclip },
-    { id: 'ai', label: `KI-Analyse (${agentOutputs.length})`, icon: Cpu },
+    { id: 'documents', label: `${t('detail.documentsTitle')} (${documents.length})`, icon: Paperclip },
+    { id: 'ai', label: `${t('detail.aiTitle')} (${agentOutputs.length})`, icon: Cpu },
     { id: 'letter', label: 'Einspruch', icon: FileText },
   ]
 
@@ -164,7 +166,7 @@ export default async function CaseDetailPage({
     <div>
       <Link href="/cases" className="inline-flex items-center gap-1.5 text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition-colors mb-5">
         <ArrowLeft className="w-4 h-4" />
-        Zurück zu Meine Fälle
+        {t('detail.back')}
       </Link>
 
       {/* Case header */}
@@ -176,50 +178,43 @@ export default async function CaseDetailPage({
               <StatusBadge status={caseData.status} />
             </div>
             <p className="text-sm text-[var(--muted)]">
-              Fall #{caseData.id.slice(-8).toUpperCase()} · Erstellt am{' '}
+              {t('caseId')} #{caseData.id.slice(-8).toUpperCase()} · {t('createdAt')}{' '}
               {new Date(caseData.createdAt).toLocaleDateString('de-DE', { day: '2-digit', month: 'long', year: 'numeric' })}
             </p>
             {caseData.deadline && (
-              <div className={`inline-flex items-center gap-1.5 mt-2 text-xs font-medium px-2.5 py-1 rounded-full ${isOverdue ? 'bg-red-50 text-red-700' : isUrgent ? 'bg-amber-50 text-amber-700' : 'bg-gray-50 text-[var(--muted)]'}`}>
+              <div className={`inline-flex items-center gap-1.5 mt-2 text-xs font-medium px-2.5 py-1 rounded-full ${isOverdue ? 'bg-red-50 text-red-700 dark:bg-red-950/30 dark:text-red-400' : isUrgent ? 'bg-amber-50 text-amber-700 dark:bg-amber-950/30 dark:text-amber-400' : 'bg-[var(--background-subtle)] text-[var(--muted)]'}`}>
                 {isOverdue || isUrgent ? <AlertTriangle className="w-3.5 h-3.5" /> : <Clock className="w-3.5 h-3.5" />}
                 {isOverdue
-                  ? 'Einspruchsfrist abgelaufen'
+                  ? t('detail.overdueLabel')
                   : isUrgent
-                  ? `Frist läuft in ${daysLeft} Tagen ab — ${new Date(caseData.deadline).toLocaleDateString('de-DE')}`
-                  : `Frist: ${new Date(caseData.deadline).toLocaleDateString('de-DE')} (noch ${daysLeft} Tage)`}
+                  ? t('detail.deadlineUrgent', { days: daysLeft! })
+                  : t('detail.deadlineLabel', { date: new Date(caseData.deadline).toLocaleDateString('de-DE') })}
               </div>
             )}
           </div>
-          <div className="flex items-center gap-2 shrink-0">
-            {caseData.status === 'DRAFT_READY' && (
-              <>
-                <button className="flex items-center gap-1.5 border border-[var(--border)] text-[var(--foreground)] text-sm font-medium px-3 py-1.5 rounded-lg hover:bg-[var(--background-subtle)] transition-colors">
-                  <Download className="w-3.5 h-3.5" /> PDF
-                </button>
-                <button className="flex items-center gap-1.5 bg-brand-600 text-white text-sm font-medium px-3 py-1.5 rounded-lg hover:bg-brand-700 transition-colors">
-                  <Send className="w-3.5 h-3.5" /> Einreichen
-                </button>
-              </>
-            )}
-            {caseData.status === 'SUBMITTED' && (
-              <span className="flex items-center gap-1.5 bg-green-50 text-green-700 text-sm font-medium px-3 py-1.5 rounded-lg">
-                <CheckCircle2 className="w-3.5 h-3.5" /> Eingereicht
-              </span>
-            )}
-          </div>
+
+          {/* Action buttons — wired via CaseDetailClient */}
+          {caseData.status === 'DRAFT_READY' && finalDraft && (
+            <CaseDetailClient caseId={caseData.id} draft={finalDraft} status={caseData.status} />
+          )}
+          {caseData.status === 'SUBMITTED' && (
+            <span className="flex items-center gap-1.5 bg-green-50 text-green-700 dark:bg-green-950/30 dark:text-green-400 text-sm font-medium px-3 py-1.5 rounded-lg shrink-0">
+              <CheckCircle2 className="w-3.5 h-3.5" /> {t('detail.statusSubmitted')}
+            </span>
+          )}
         </div>
       </div>
 
       {/* Tab nav */}
-      <div className="flex gap-1 mb-5 bg-[var(--surface)] border border-[var(--border)] rounded-xl p-1.5 w-fit">
-        {tabs.map((t) => (
+      <div className="flex gap-1 mb-5 bg-[var(--surface)] border border-[var(--border)] rounded-xl p-1.5 w-fit overflow-x-auto">
+        {tabs.map((tabItem) => (
           <Link
-            key={t.id}
-            href={`/cases/${caseData!.id}?tab=${t.id}`}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${tab === t.id ? 'bg-brand-600 text-white' : 'text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-[var(--background-subtle)]'}`}
+            key={tabItem.id}
+            href={`/cases/${caseData!.id}?tab=${tabItem.id}`}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors whitespace-nowrap ${tab === tabItem.id ? 'bg-brand-600 text-white' : 'text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-[var(--background-subtle)]'}`}
           >
-            <t.icon className="w-3.5 h-3.5" />
-            {t.label}
+            <tabItem.icon className="w-3.5 h-3.5" />
+            {tabItem.label}
           </Link>
         ))}
       </div>
@@ -227,7 +222,17 @@ export default async function CaseDetailPage({
       {/* Tab content */}
       {tab === 'overview' && (
         <>
-          <OverviewTab caseData={caseData} daysLeft={daysLeft} isUrgent={isUrgent} isOverdue={isOverdue} />
+          <OverviewTab
+            caseData={caseData}
+            daysLeft={daysLeft}
+            isUrgent={isUrgent}
+            isOverdue={isOverdue}
+            docsCount={documents.length}
+            answersCount={answersCount}
+            fieldsCount={fieldsCount}
+            finalDraft={finalDraft}
+            t={t}
+          />
           {features.advisorModule && caseData.status === 'DRAFT_READY' && !hasActiveAssignment && (
             <div className="mt-6">
               {hasActiveAddon ? (
@@ -255,69 +260,129 @@ export default async function CaseDetailPage({
           )}
         </>
       )}
-      {tab === 'documents' && <DocumentsTab documents={documents} caseId={caseData.id} />}
-      {tab === 'ai' && <AIAnalysisTab outputs={agentOutputs} />}
-      {tab === 'letter' && <LetterTab draft={finalDraft} status={caseData.status} caseId={caseData.id} />}
+      {tab === 'documents' && <DocumentsTab documents={documents} t={t} />}
+      {tab === 'ai' && <AIAnalysisTab outputs={agentOutputs} t={t} />}
+      {tab === 'letter' && <LetterTab draft={finalDraft} status={caseData.status} caseId={caseData.id} t={t} />}
     </div>
   )
 }
 
-function OverviewTab({ caseData, daysLeft, isUrgent, isOverdue }: { caseData: CaseDetail; daysLeft: number | null; isUrgent: boolean; isOverdue: boolean }) {
+// ── Sub-components ────────────────────────────────────────────────────────────
+
+type Translator = Awaited<ReturnType<typeof getTranslations<'cases'>>>
+
+function OverviewTab({
+  caseData,
+  daysLeft,
+  isUrgent,
+  isOverdue,
+  docsCount,
+  answersCount,
+  fieldsCount,
+  finalDraft,
+  t,
+}: {
+  caseData: CaseDetail
+  daysLeft: number | null
+  isUrgent: boolean
+  isOverdue: boolean
+  docsCount: number
+  answersCount: number
+  fieldsCount: number
+  finalDraft: string | null
+  t: Translator
+}) {
   const timeline = [
-    { status: 'CREATED', label: 'Fall erstellt', icon: CheckCircle2, date: caseData.createdAt },
-    { status: 'DRAFT_READY', label: 'Einspruch generiert', icon: Cpu, date: null },
-    { status: 'SUBMITTED', label: 'Eingereicht', icon: Send, date: null },
-    { status: 'AWAITING_RESPONSE', label: 'Warte auf Bescheid', icon: Clock, date: null },
-    { status: 'CLOSED_SUCCESS', label: 'Erfolgreich abgeschlossen', icon: CheckCircle2, date: null },
+    { status: 'CREATED',           label: t('detail.created'),           icon: CheckCircle2 },
+    { status: 'ANALYZING',         label: t('detail.analyzed'),          icon: Cpu },
+    { status: 'QUESTIONS',         label: t('detail.questionsAnswered'), icon: MessageSquare },
+    { status: 'DRAFT_READY',       label: t('detail.draftGenerated'),   icon: FileText },
+    { status: 'SUBMITTED',         label: t('detail.submitted'),        icon: Send },
+    { status: 'AWAITING_RESPONSE', label: t('detail.awaitingResponse'), icon: Clock },
+    { status: 'CLOSED_SUCCESS',    label: t('detail.closedSuccess'),    icon: Trophy },
   ]
-  const statusOrder = ['CREATED', 'QUESTIONS', 'GENERATING', 'DRAFT_READY', 'SUBMITTED', 'AWAITING_RESPONSE', 'CLOSED_SUCCESS']
+  const statusOrder = ['CREATED', 'UPLOADING', 'ANALYZING', 'QUESTIONS', 'GENERATING', 'DRAFT_READY', 'SUBMITTED', 'AWAITING_RESPONSE', 'CLOSED_SUCCESS']
   const currentIdx = statusOrder.indexOf(caseData.status)
   const enrichedTimeline = timeline.map((s) => ({ ...s, done: statusOrder.indexOf(s.status) <= currentIdx }))
 
   return (
-    <div className="grid sm:grid-cols-3 gap-5">
-      <div className="sm:col-span-2 bg-[var(--surface)] rounded-xl border border-[var(--border)] p-5">
-        <h2 className="font-semibold text-sm text-[var(--foreground)] mb-4">Fallverlauf</h2>
-        <div className="space-y-4">
-          {enrichedTimeline.map((event, i) => (
-            <div key={i} className="flex gap-3">
-              <div className="flex flex-col items-center">
-                <div className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${event.done ? 'bg-brand-600' : 'bg-gray-100'}`}>
-                  <event.icon className={`w-3.5 h-3.5 ${event.done ? 'text-white' : 'text-gray-400'}`} />
-                </div>
-                {i < enrichedTimeline.length - 1 && <div className={`w-px flex-1 my-1 ${event.done ? 'bg-brand-200' : 'bg-gray-100'}`} />}
-              </div>
-              <div className="pb-4">
-                <p className={`text-sm font-medium ${event.done ? 'text-[var(--foreground)]' : 'text-[var(--muted)]'}`}>{event.label}</p>
-                {event.date && <p className="text-xs text-[var(--muted)]">{new Date(event.date).toLocaleDateString('de-DE')}</p>}
-              </div>
-            </div>
-          ))}
+    <div className="space-y-5">
+      {/* Mini stats row */}
+      <div className="grid grid-cols-3 gap-4">
+        <div className="bg-[var(--surface)] rounded-xl border border-[var(--border)] p-4 text-center">
+          <Paperclip className="w-5 h-5 mx-auto mb-1 text-[var(--muted)]" />
+          <p className="text-2xl font-black text-[var(--foreground)] leading-none">{docsCount}</p>
+          <p className="text-xs text-[var(--muted)] mt-1">{t('stats.documents')}</p>
+        </div>
+        <div className="bg-[var(--surface)] rounded-xl border border-[var(--border)] p-4 text-center">
+          <MessageSquare className="w-5 h-5 mx-auto mb-1 text-[var(--muted)]" />
+          <p className="text-2xl font-black text-[var(--foreground)] leading-none">{answersCount}</p>
+          <p className="text-xs text-[var(--muted)] mt-1">{t('stats.answers')}</p>
+        </div>
+        <div className="bg-[var(--surface)] rounded-xl border border-[var(--border)] p-4 text-center">
+          <FileText className="w-5 h-5 mx-auto mb-1 text-[var(--muted)]" />
+          <p className="text-2xl font-black text-[var(--foreground)] leading-none">{fieldsCount}</p>
+          <p className="text-xs text-[var(--muted)] mt-1">{t('stats.fields')}</p>
         </div>
       </div>
 
-      <div className="space-y-4">
-        {caseData.deadline && (
-          <div className={`rounded-xl border p-4 ${isOverdue ? 'bg-red-50 border-red-200' : isUrgent ? 'bg-amber-50 border-amber-200' : 'bg-[var(--surface)] border-[var(--border)]'}`}>
-            <h2 className={`font-semibold text-sm mb-1 ${isOverdue ? 'text-red-800' : isUrgent ? 'text-amber-800' : 'text-[var(--foreground)]'}`}>
-              {isOverdue ? '⚠ Frist abgelaufen' : 'Einspruchsfrist'}
-            </h2>
-            <p className={`text-sm ${isOverdue ? 'text-red-700' : isUrgent ? 'text-amber-700' : 'text-[var(--muted)]'}`}>
-              {new Date(caseData.deadline).toLocaleDateString('de-DE', { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' })}
-            </p>
-            {daysLeft !== null && !isOverdue && (
-              <p className={`text-xs mt-1 font-medium ${isUrgent ? 'text-amber-600' : 'text-[var(--muted)]'}`}>
-                Noch {daysLeft} Tage
-              </p>
-            )}
+      <div className="grid sm:grid-cols-3 gap-5">
+        {/* Timeline */}
+        <div className="sm:col-span-2 bg-[var(--surface)] rounded-xl border border-[var(--border)] p-5">
+          <h2 className="font-semibold text-sm text-[var(--foreground)] mb-4">{t('detail.timeline')}</h2>
+          <div className="space-y-4">
+            {enrichedTimeline.map((event, i) => (
+              <div key={i} className="flex gap-3">
+                <div className="flex flex-col items-center">
+                  <div className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${event.done ? 'bg-brand-600' : 'bg-[var(--background-subtle)]'}`}>
+                    <event.icon className={`w-3.5 h-3.5 ${event.done ? 'text-white' : 'text-[var(--muted)]'}`} />
+                  </div>
+                  {i < enrichedTimeline.length - 1 && <div className={`w-px flex-1 my-1 ${event.done ? 'bg-brand-200 dark:bg-brand-800' : 'bg-[var(--border)]'}`} />}
+                </div>
+                <div className="pb-4">
+                  <p className={`text-sm font-medium ${event.done ? 'text-[var(--foreground)]' : 'text-[var(--muted)]'}`}>{event.label}</p>
+                  {event.status === 'CREATED' && (
+                    <p className="text-xs text-[var(--muted)]">{new Date(caseData.createdAt).toLocaleDateString('de-DE')}</p>
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
-        )}
-        <div className="bg-[var(--surface)] rounded-xl border border-[var(--border)] p-4">
-          <h2 className="font-semibold text-sm text-[var(--foreground)] mb-3">Aktionen</h2>
-          <div className="space-y-2">
-            <Link href={`/cases/${caseData.id}?tab=letter`} className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm border border-[var(--border)] text-[var(--foreground)] hover:bg-[var(--background-subtle)] transition-colors">
-              <FileText className="w-3.5 h-3.5 text-[var(--muted)]" /> Einspruch anzeigen
-            </Link>
+        </div>
+
+        <div className="space-y-4">
+          {/* Deadline box */}
+          {caseData.deadline && (
+            <div className={`rounded-xl border p-4 ${isOverdue ? 'bg-red-50 border-red-200 dark:bg-red-950/20 dark:border-red-900' : isUrgent ? 'bg-amber-50 border-amber-200 dark:bg-amber-950/20 dark:border-amber-900' : 'bg-[var(--surface)] border-[var(--border)]'}`}>
+              <h2 className={`font-semibold text-sm mb-1 ${isOverdue ? 'text-red-800 dark:text-red-400' : isUrgent ? 'text-amber-800 dark:text-amber-400' : 'text-[var(--foreground)]'}`}>
+                {isOverdue ? t('overdueLabel') : 'Einspruchsfrist'}
+              </h2>
+              <p className={`text-sm ${isOverdue ? 'text-red-700 dark:text-red-400' : isUrgent ? 'text-amber-700 dark:text-amber-400' : 'text-[var(--muted)]'}`}>
+                {new Date(caseData.deadline).toLocaleDateString('de-DE', { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' })}
+              </p>
+              {daysLeft !== null && !isOverdue && (
+                <p className={`text-xs mt-1 font-medium ${isUrgent ? 'text-amber-600 dark:text-amber-400' : 'text-[var(--muted)]'}`}>
+                  {t('detail.deadlineDaysLeft', { days: daysLeft })}
+                </p>
+              )}
+            </div>
+          )}
+
+          {/* Actions box */}
+          <div className="bg-[var(--surface)] rounded-xl border border-[var(--border)] p-4">
+            <h2 className="font-semibold text-sm text-[var(--foreground)] mb-3">{t('detail.actions')}</h2>
+            <div className="space-y-2">
+              <Link
+                href={`/cases/${caseData.id}?tab=letter`}
+                className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm border border-[var(--border)] text-[var(--foreground)] hover:bg-[var(--background-subtle)] transition-colors"
+              >
+                <FileText className="w-3.5 h-3.5 text-[var(--muted)]" />
+                {t('detail.viewLetter')}
+              </Link>
+              {caseData.status === 'DRAFT_READY' && finalDraft && (
+                <CaseDetailClient caseId={caseData.id} draft={finalDraft} status={caseData.status} />
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -325,16 +390,22 @@ function OverviewTab({ caseData, daysLeft, isUrgent, isOverdue }: { caseData: Ca
   )
 }
 
-function DocumentsTab({ documents, caseId }: { documents: { id: string; name: string; type: string; createdAt: Date }[]; caseId: string }) {
+function DocumentsTab({
+  documents,
+  t,
+}: {
+  documents: { id: string; name: string; type: string; createdAt: Date }[]
+  t: Translator
+}) {
   return (
     <div className="bg-[var(--surface)] rounded-xl border border-[var(--border)]">
       <div className="px-5 py-4 border-b border-[var(--border)]">
-        <h2 className="font-semibold text-sm text-[var(--foreground)]">Dokumente ({documents.length})</h2>
+        <h2 className="font-semibold text-sm text-[var(--foreground)]">{t('detail.documentsTitle')} ({documents.length})</h2>
       </div>
       {documents.length === 0 ? (
         <div className="text-center py-12 text-[var(--muted)]">
           <Paperclip className="w-8 h-8 mx-auto mb-3 opacity-30" />
-          <p className="text-sm">Noch keine Dokumente hochgeladen</p>
+          <p className="text-sm">{t('detail.noDocuments')}</p>
         </div>
       ) : (
         <div className="divide-y divide-[var(--border)]">
@@ -345,7 +416,6 @@ function DocumentsTab({ documents, caseId }: { documents: { id: string; name: st
                 <p className="text-sm font-medium text-[var(--foreground)] truncate">{doc.name}</p>
                 <p className="text-xs text-[var(--muted)]">{new Date(doc.createdAt).toLocaleDateString('de-DE')}</p>
               </div>
-              <Download className="w-3.5 h-3.5 text-[var(--muted)]" />
             </div>
           ))}
         </div>
@@ -354,20 +424,26 @@ function DocumentsTab({ documents, caseId }: { documents: { id: string; name: st
   )
 }
 
-function AIAnalysisTab({ outputs }: { outputs: { role: string; provider: string; model: string; durationMs: number; summary: string }[] }) {
+function AIAnalysisTab({
+  outputs,
+  t,
+}: {
+  outputs: { role: string; provider: string; model: string; durationMs: number; summary: string }[]
+  t: Translator
+}) {
   const roleConfig: Record<string, { label: string; color: string; bgColor: string; icon: React.ElementType }> = {
-    drafter: { label: 'Drafter', color: 'text-blue-700', bgColor: 'bg-blue-50 border-blue-200', icon: FileText },
-    reviewer: { label: 'Reviewer', color: 'text-purple-700', bgColor: 'bg-purple-50 border-purple-200', icon: CheckCircle2 },
-    factchecker: { label: 'Fact-Checker', color: 'text-green-700', bgColor: 'bg-green-50 border-green-200', icon: ExternalLink },
-    adversary: { label: 'Adversary', color: 'text-red-700', bgColor: 'bg-red-50 border-red-200', icon: AlertTriangle },
-    consolidator: { label: 'Consolidator', color: 'text-brand-700', bgColor: 'bg-brand-50 border-brand-200', icon: Cpu },
+    drafter: { label: 'Drafter', color: 'text-blue-700 dark:text-blue-400', bgColor: 'bg-blue-50 border-blue-200 dark:bg-blue-950/20 dark:border-blue-900', icon: FileText },
+    reviewer: { label: 'Reviewer', color: 'text-purple-700 dark:text-purple-400', bgColor: 'bg-purple-50 border-purple-200 dark:bg-purple-950/20 dark:border-purple-900', icon: CheckCircle2 },
+    factchecker: { label: 'Fact-Checker', color: 'text-green-700 dark:text-green-400', bgColor: 'bg-green-50 border-green-200 dark:bg-green-950/20 dark:border-green-900', icon: ExternalLink },
+    adversary: { label: 'Adversary', color: 'text-red-700 dark:text-red-400', bgColor: 'bg-red-50 border-red-200 dark:bg-red-950/20 dark:border-red-900', icon: AlertTriangle },
+    consolidator: { label: 'Consolidator', color: 'text-brand-700 dark:text-brand-400', bgColor: 'bg-brand-50 border-brand-200 dark:bg-brand-950/20 dark:border-brand-900', icon: Cpu },
   }
 
   if (outputs.length === 0) {
     return (
       <div className="bg-[var(--surface)] rounded-xl border border-[var(--border)] text-center py-12 text-[var(--muted)]">
         <Cpu className="w-8 h-8 mx-auto mb-3 opacity-30" />
-        <p className="text-sm">Noch keine KI-Analyse für diesen Fall</p>
+        <p className="text-sm">{t('detail.noAiOutputs')}</p>
       </div>
     )
   }
@@ -383,7 +459,7 @@ function AIAnalysisTab({ outputs }: { outputs: { role: string; provider: string;
               <div className="flex items-center gap-2">
                 <Icon className={`w-4 h-4 ${config.color}`} />
                 <span className={`text-sm font-semibold ${config.color}`}>{config.label}</span>
-                <span className="text-xs text-[var(--muted)] bg-white border border-[var(--border)] px-1.5 py-0.5 rounded-full font-mono">
+                <span className="text-xs text-[var(--muted)] bg-[var(--surface)] border border-[var(--border)] px-1.5 py-0.5 rounded-full font-mono">
                   {output.model.split('-').slice(0, 2).join('-')}
                 </span>
               </div>
@@ -397,15 +473,33 @@ function AIAnalysisTab({ outputs }: { outputs: { role: string; provider: string;
   )
 }
 
-function LetterTab({ draft, status, caseId }: { draft: string | null; status: string; caseId: string }) {
+function LetterTab({
+  draft,
+  status,
+  caseId,
+  t,
+}: {
+  draft: string | null
+  status: string
+  caseId: string
+  t: Translator
+}) {
   if (!draft) {
+    const isInProgress = ['CREATED', 'UPLOADING', 'ANALYZING', 'QUESTIONS'].includes(status)
+    const isGenerating = status === 'GENERATING'
     return (
       <div className="bg-[var(--surface)] rounded-xl border border-[var(--border)] text-center py-12 text-[var(--muted)]">
         <FileText className="w-8 h-8 mx-auto mb-3 opacity-30" />
-        <p className="text-sm font-medium">Kein Entwurf vorhanden</p>
-        <Link href="/einspruch" className="inline-flex items-center gap-1.5 mt-4 bg-brand-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-brand-700 transition-colors">
-          KI-Generierung starten
-        </Link>
+        <p className="text-sm font-medium">{t('detail.noDraft')}</p>
+        {isGenerating ? (
+          <p className="text-xs mt-2 text-[var(--muted)]">Wird generiert…</p>
+        ) : isInProgress ? (
+          <p className="text-xs mt-2 text-[var(--muted)]">Analyse läuft</p>
+        ) : (
+          <Link href="/einspruch" className="inline-flex items-center gap-1.5 mt-4 bg-brand-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-brand-700 transition-colors">
+            {t('detail.startGeneration')}
+          </Link>
+        )}
       </div>
     )
   }
@@ -413,16 +507,16 @@ function LetterTab({ draft, status, caseId }: { draft: string | null; status: st
     <div className="space-y-4">
       <div className="bg-[var(--surface)] rounded-xl border border-[var(--border)] px-5 py-3 flex items-center gap-3">
         <div className="flex-1">
-          <p className="text-sm font-semibold text-[var(--foreground)]">Einspruch — finaler Entwurf</p>
-          <p className="text-xs text-[var(--muted)]">Von der KI-Pipeline generiert · Bitte vor dem Einreichen prüfen</p>
+          <p className="text-sm font-semibold text-[var(--foreground)]">{t('detail.letterTitle')}</p>
+          <p className="text-xs text-[var(--muted)]">{t('detail.letterSubtitle')}</p>
         </div>
-        <CaseDetailClient draft={draft} />
+        <CaseDetailClient caseId={caseId} draft={draft} status={status} />
       </div>
       <div className="bg-[var(--surface)] rounded-xl border border-[var(--border)] p-6">
         <pre className="whitespace-pre-wrap font-sans text-sm text-[var(--foreground)] leading-relaxed">{draft}</pre>
       </div>
-      <div className="bg-amber-50 border border-amber-200 rounded-xl px-5 py-3.5 text-xs text-amber-800 leading-relaxed">
-        <strong>Hinweis:</strong> Dieser Einspruch wurde von einer KI generiert und stellt keinen Rechtsrat i.S.d. RDG dar. Bitte prüfen Sie den Text vor dem Einreichen.
+      <div className="bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900 rounded-xl px-5 py-3.5 text-xs text-amber-800 dark:text-amber-300 leading-relaxed">
+        <strong>Hinweis:</strong> {t('detail.legalNote')}
       </div>
     </div>
   )
@@ -430,14 +524,17 @@ function LetterTab({ draft, status, caseId }: { draft: string | null; status: st
 
 function StatusBadge({ status }: { status: string }) {
   const map: Record<string, { label: string; className: string }> = {
-    CREATED: { label: 'Neu', className: 'bg-gray-100 text-gray-600' },
-    QUESTIONS: { label: 'Rückfragen', className: 'bg-amber-50 text-amber-700' },
-    GENERATING: { label: 'Generierung', className: 'bg-purple-50 text-purple-600' },
-    DRAFT_READY: { label: 'Entwurf bereit', className: 'bg-blue-50 text-blue-700' },
-    SUBMITTED: { label: 'Eingereicht', className: 'bg-green-50 text-green-700' },
-    AWAITING_RESPONSE: { label: 'Ausstehend', className: 'bg-amber-50 text-amber-700' },
-    CLOSED_SUCCESS: { label: 'Erfolgreich', className: 'bg-green-50 text-green-700' },
-    REJECTED: { label: 'Abgelehnt', className: 'bg-red-50 text-red-700' },
+    CREATED:           { label: 'Neu',           className: 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400' },
+    UPLOADING:         { label: 'Upload',         className: 'bg-blue-50 text-blue-600 dark:bg-blue-950/30 dark:text-blue-400' },
+    ANALYZING:         { label: 'Analyse',        className: 'bg-purple-50 text-purple-600 dark:bg-purple-950/30 dark:text-purple-400' },
+    QUESTIONS:         { label: 'Rückfragen',     className: 'bg-amber-50 text-amber-700 dark:bg-amber-950/30 dark:text-amber-400' },
+    GENERATING:        { label: 'Generierung',    className: 'bg-purple-50 text-purple-600 dark:bg-purple-950/30 dark:text-purple-400' },
+    DRAFT_READY:       { label: 'Entwurf bereit', className: 'bg-blue-50 text-blue-700 dark:bg-blue-950/30 dark:text-blue-400' },
+    SUBMITTED:         { label: 'Eingereicht',    className: 'bg-green-50 text-green-700 dark:bg-green-950/30 dark:text-green-400' },
+    AWAITING_RESPONSE: { label: 'Ausstehend',     className: 'bg-amber-50 text-amber-700 dark:bg-amber-950/30 dark:text-amber-400' },
+    CLOSED_SUCCESS:    { label: 'Erfolgreich',    className: 'bg-green-50 text-green-700 dark:bg-green-950/30 dark:text-green-400' },
+    CLOSED_PARTIAL:    { label: 'Teilweise',      className: 'bg-yellow-50 text-yellow-700 dark:bg-yellow-950/30 dark:text-yellow-400' },
+    REJECTED:          { label: 'Abgelehnt',      className: 'bg-red-50 text-red-700 dark:bg-red-950/30 dark:text-red-400' },
   }
   const { label, className } = map[status] ?? { label: status, className: 'bg-gray-100 text-gray-600' }
   return <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${className}`}>{label}</span>
