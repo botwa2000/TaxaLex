@@ -44,6 +44,8 @@ import {
   type LucideIcon,
 } from 'lucide-react'
 import { Logo } from '@/components/Logo'
+import { PublicNav } from '@/components/PublicNav'
+import { useSession } from 'next-auth/react'
 import { brand } from '@/config/brand'
 import { languageNames } from '@/config/i18n'
 
@@ -192,6 +194,8 @@ function EinspruchPageInner() {
   const isDemoModeRef = useRef(false)
   const [isDemoMode, setIsDemoMode] = useState(false)
   const [additionalFiles, setAdditionalFiles] = useState<File[]>([])
+  const { status: sessionStatus } = useSession()
+  const isLoggedIn = sessionStatus === 'authenticated'
   const [hasAccess, setHasAccess] = useState<boolean | null>(null) // null = loading
   // Fields found specifically during the review step (subset of detectedFields)
   const [reviewFields, setReviewFields] = useState<DetectedField[]>([])
@@ -942,30 +946,34 @@ function EinspruchPageInner() {
   // ── Render ─────────────────────────────────────────────────────────────────
   return (
     <div className="min-h-screen bg-[var(--background)] flex flex-col">
-      <header className="border-b border-[var(--border)] bg-[var(--surface)] sticky top-0 z-10">
-        <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Link
-              href={`/${locale}/dashboard`}
-              className="flex items-center gap-1.5 text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition-colors"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              <span className="hidden sm:inline">{tNav('dashboard')}</span>
-            </Link>
-            <div className="w-px h-5 bg-[var(--border)] hidden sm:block" />
-            <Logo size="sm" href={`/${locale}`} />
+      {isLoggedIn ? (
+        <header className="border-b border-[var(--border)] bg-[var(--surface)] sticky top-0 z-10">
+          <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <Link
+                href={`/${locale}/dashboard`}
+                className="flex items-center gap-1.5 text-sm text-[var(--muted)] hover:text-[var(--foreground)] transition-colors"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                <span className="hidden sm:inline">{tNav('dashboard')}</span>
+              </Link>
+              <div className="w-px h-5 bg-[var(--border)] hidden sm:block" />
+              <Logo size="sm" href={`/${locale}`} />
+            </div>
+            <div className="flex items-center gap-3">
+              {caseId && step !== 'upload' && (
+                <span className="hidden sm:flex items-center gap-1.5 text-xs text-[var(--muted)] bg-[var(--background-subtle)] border border-[var(--border)] px-2.5 py-1 rounded-full">
+                  <FileText className="w-3 h-3" />
+                  {t('header.case')} #{caseId.slice(-8).toUpperCase()}
+                </span>
+              )}
+              <span className="text-sm text-[var(--muted)]">{t('header.create')}</span>
+            </div>
           </div>
-          <div className="flex items-center gap-3">
-            {caseId && step !== 'upload' && (
-              <span className="hidden sm:flex items-center gap-1.5 text-xs text-[var(--muted)] bg-[var(--background-subtle)] border border-[var(--border)] px-2.5 py-1 rounded-full">
-                <FileText className="w-3 h-3" />
-                {t('header.case')} #{caseId.slice(-8).toUpperCase()}
-              </span>
-            )}
-            <span className="text-sm text-[var(--muted)]">{t('header.create')}</span>
-          </div>
-        </div>
-      </header>
+        </header>
+      ) : (
+        <PublicNav locale={locale} />
+      )}
 
       <main className="flex-1 max-w-screen-xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8">
         {/* Step indicator — capped so it doesn't stretch across the full 1280px on wide screens */}

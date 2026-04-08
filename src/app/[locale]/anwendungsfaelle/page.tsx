@@ -163,7 +163,8 @@ export default async function AnwendungsfaellePage({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
-  const isEN = locale === 'en'
+  // Show German only for 'de'; all other locales fall back to English (international fallback)
+  const isDE = locale === 'de'
 
   return (
     <>
@@ -174,22 +175,22 @@ export default async function AnwendungsfaellePage({
         <div className="max-w-4xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 bg-brand-50 dark:bg-brand-950 text-brand-700 dark:text-brand-300 text-sm font-medium px-4 py-1.5 rounded-full mb-6">
             <Scale className="w-4 h-4" />
-            {isEN ? '8 supported case types' : '8 Bescheid-Typen unterstützt'}
+            {isDE ? '8 Bescheid-Typen unterstützt' : '8 supported case types'}
           </div>
           <h1 className="text-4xl sm:text-5xl font-bold text-[var(--foreground)] mb-5 leading-tight">
-            {isEN ? 'When can you object?' : 'Wann können Sie Einspruch einlegen?'}
+            {isDE ? 'Wann können Sie Einspruch einlegen?' : 'When can you object?'}
           </h1>
           <p className="text-lg text-[var(--muted)] max-w-2xl mx-auto leading-relaxed mb-8">
-            {isEN
-              ? 'Learn about your rights for the most common German administrative notices — with deadlines, legal basis, and success rates.'
-              : 'Erfahren Sie Ihre Rechte bei den häufigsten deutschen Verwaltungsbescheiden — mit Fristen, Rechtsgrundlagen und Erfolgsquoten.'}
+            {isDE
+              ? 'Erfahren Sie Ihre Rechte bei den häufigsten deutschen Verwaltungsbescheiden — mit Fristen, Rechtsgrundlagen und Erfolgsquoten.'
+              : 'Learn about your rights for the most common German administrative notices — with deadlines, legal basis, and success rates.'}
           </p>
           <Link
             href="/einspruch?demo=true"
             className="inline-flex items-center gap-2 bg-brand-600 hover:bg-brand-700 text-white font-bold px-8 py-4 rounded-2xl transition-colors text-lg shadow-sm"
           >
             <Zap className="w-5 h-5" />
-            {isEN ? 'Start with AI now' : 'Jetzt mit KI starten'}
+            {isDE ? 'Jetzt mit KI starten' : 'Start with AI now'}
           </Link>
         </div>
       </section>
@@ -199,11 +200,11 @@ export default async function AnwendungsfaellePage({
         <div className="max-w-5xl mx-auto space-y-6">
           {USE_CASES.map((uc) => {
             const Icon = uc.icon
-            const title = isEN ? uc.titleEN : uc.titleDE
-            const desc = isEN ? uc.descEN : uc.descDE
-            const deadline = isEN ? uc.deadlineEN : uc.deadlineDE
-            const success = isEN ? uc.successEN : uc.successDE
-            const tip = isEN ? uc.tipDE : uc.tipDE // same for now
+            const title = isDE ? uc.titleDE : uc.titleEN
+            const desc = isDE ? uc.descDE : uc.descEN
+            const deadline = isDE ? uc.deadlineDE : uc.deadlineEN
+            const success = isDE ? uc.successDE : uc.successEN
+            const tip = isDE ? uc.tipDE : uc.tipEN
 
             return (
               <div
@@ -228,7 +229,7 @@ export default async function AnwendungsfaellePage({
                       )}
                       {uc.urgent && (
                         <span className="text-[10px] bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300 font-bold px-2 py-0.5 rounded-full uppercase tracking-wide shrink-0">
-                          {isEN ? 'Urgent deadline' : 'Kurze Frist!'}
+                          {isDE ? 'Kurze Frist!' : 'Urgent deadline'}
                         </span>
                       )}
                     </div>
@@ -240,7 +241,7 @@ export default async function AnwendungsfaellePage({
                       </span>
                       <span className={`flex items-center gap-1 text-xs font-semibold ${uc.urgent ? 'text-red-600 dark:text-red-400' : 'text-[var(--muted)]'}`}>
                         <Clock className="w-3.5 h-3.5" />
-                        {isEN ? 'Deadline:' : 'Frist:'} {deadline}
+                        {isDE ? 'Frist:' : 'Deadline:'} {deadline}
                       </span>
                       <span className="flex items-center gap-1 text-xs text-green-700 dark:text-green-400">
                         <CheckCircle2 className="w-3.5 h-3.5" />
@@ -264,13 +265,13 @@ export default async function AnwendungsfaellePage({
                         className="inline-flex items-center gap-2 bg-brand-600 hover:bg-brand-700 text-white font-semibold px-5 py-2.5 rounded-xl text-sm transition-colors"
                       >
                         <Zap className="w-3.5 h-3.5" />
-                        {isEN ? 'Start objection with AI' : 'Einspruch mit KI starten'}
+                        {isDE ? 'Einspruch mit KI starten' : 'Start objection with AI'}
                       </Link>
                       <Link
                         href={`/vorlagen?category=${uc.id}`}
                         className="inline-flex items-center gap-2 border border-[var(--border)] text-[var(--foreground)] hover:border-brand-300 font-medium px-5 py-2.5 rounded-xl text-sm transition-colors"
                       >
-                        {isEN ? 'View template' : 'Vorlage ansehen'}
+                        {isDE ? 'Vorlage ansehen' : 'View template'}
                         <ArrowRight className="w-3.5 h-3.5" />
                       </Link>
                     </div>
@@ -286,19 +287,19 @@ export default async function AnwendungsfaellePage({
       <section className="py-16 px-4 bg-brand-600">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-3xl font-bold text-white mb-4">
-            {isEN ? 'Not sure which type applies?' : 'Nicht sicher, welcher Typ zutrifft?'}
+            {isDE ? 'Nicht sicher, welcher Typ zutrifft?' : 'Not sure which type applies?'}
           </h2>
           <p className="text-brand-100 text-lg mb-8 leading-relaxed">
-            {isEN
-              ? 'Upload any official notice — our AI identifies the type automatically, finds objection grounds, and drafts a professional letter in minutes.'
-              : 'Laden Sie einfach Ihren Bescheid hoch — unsere KI erkennt den Typ automatisch, findet Einspruchsgründe und erstellt in Minuten ein professionelles Schreiben.'}
+            {isDE
+              ? 'Laden Sie einfach Ihren Bescheid hoch — unsere KI erkennt den Typ automatisch, findet Einspruchsgründe und erstellt in Minuten ein professionelles Schreiben.'
+              : 'Upload any official notice — our AI identifies the type automatically, finds objection grounds, and drafts a professional letter in minutes.'}
           </p>
           <Link
             href="/einspruch?demo=true"
             className="inline-flex items-center gap-2 bg-white text-brand-700 hover:bg-brand-50 font-bold px-8 py-4 rounded-2xl transition-colors text-lg"
           >
             <Zap className="w-5 h-5" />
-            {isEN ? 'Upload notice & start' : 'Bescheid hochladen & starten'}
+            {isDE ? 'Bescheid hochladen & starten' : 'Upload notice & start'}
           </Link>
         </div>
       </section>
