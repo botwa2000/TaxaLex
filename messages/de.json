@@ -1008,7 +1008,17 @@
     },
     "demo": {
       "countdown": "Demo: weiter in {seconds} Sek…",
-      "skip": "Überspringen →"
+      "skip": "Überspringen →",
+      "badge": "Demo",
+      "banner": "Interaktive Demo — kein echtes Dokument erforderlich",
+      "steps": {
+        "upload": "Testen Sie den Assistenten ohne Dokument — die Demo startet gleich automatisch.",
+        "analyzing": "Die KI liest das Dokument und extrahiert Behörde, Aktenzeichen, Beträge und Fristen.",
+        "questions": "Kurze Rückfragen helfen, die rechtliche Argumentation gezielt auf Ihren Fall zuzuschneiden.",
+        "reviewing": "Die Antworten werden geprüft und für die KI-Agenten aufbereitet.",
+        "generating": "Vier KI-Agenten arbeiten parallel: Entwurf · Rechtsprüfung · Faktencheck · Konsolidierung.",
+        "result": "Der Einspruch ist fertig. Im echten Fall prüfen Sie ihn sorgfältig, bevor Sie ihn einreichen."
+      }
     },
     "errors": {
       "analyze": "Dokumentenanalyse fehlgeschlagen. Bitte versuchen Sie es erneut.",

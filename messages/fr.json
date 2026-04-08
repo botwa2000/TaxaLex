@@ -1014,7 +1014,17 @@
     },
     "demo": {
       "countdown": "Démo : continuation dans {seconds} s…",
-      "skip": "Passer →"
+      "skip": "Passer →",
+      "badge": "Démo",
+      "banner": "Démonstration interactive — aucun document réel nécessaire",
+      "steps": {
+        "upload": "Testez l'assistant sans document — la démo démarrera automatiquement dans un instant.",
+        "analyzing": "L'IA lit le document et extrait l'autorité, la référence, les montants et les délais.",
+        "questions": "De courtes questions permettent à l'IA d'adapter l'argumentation juridique à votre cas.",
+        "reviewing": "Vos réponses sont vérifiées et préparées pour les agents IA.",
+        "generating": "Quatre agents IA travaillent en parallèle : rédaction · révision juridique · vérification · consolidation.",
+        "result": "La lettre de recours est prête. Dans un vrai cas, relisez-la soigneusement avant l'envoi."
+      }
     }
   },
   "outputLanguage": {

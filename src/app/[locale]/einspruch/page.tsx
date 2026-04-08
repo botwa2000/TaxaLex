@@ -145,6 +145,9 @@ function EinspruchPageInner() {
   const router = useRouter()
   const params = useParams()
   const locale = typeof params?.locale === 'string' ? params.locale : 'de'
+  // Keep a ref so async functions always read the current locale even after re-renders
+  const localeRef = useRef(locale)
+  useEffect(() => { localeRef.current = locale }, [locale])
   const t = useTranslations('wizard')
   const tCommon = useTranslations('common')
   const tNav = useTranslations('nav')
@@ -252,7 +255,7 @@ function EinspruchPageInner() {
   // In demo mode: auto-fill answers then start a countdown before submitting
   useEffect(() => {
     if (!isDemoMode || step !== 'questions') return
-    const scenario = getDemoScenario(type ?? 'tax', locale)
+    const scenario = getDemoScenario(type ?? 'tax', localeRef.current)
     // Show questions for 3 s so the user can read them, then auto-fill
     const fillTimer = setTimeout(() => {
       const autoAnswers: Record<string, string> = {}
@@ -340,7 +343,7 @@ function EinspruchPageInner() {
     if (files.length === 0) {
       isDemoModeRef.current = true
       setIsDemoMode(true)
-      const scenario = getDemoScenario(type ?? 'tax', locale)
+      const scenario = getDemoScenario(type ?? 'tax', localeRef.current)
 
       await new Promise((r) => setTimeout(r, 300))
       setDetectedDocType(scenario.docType)
@@ -723,7 +726,7 @@ function EinspruchPageInner() {
 
     // ── Demo mode — simulate the full pipeline without calling real APIs ──────
     if (isDemoModeRef.current) {
-      const scenario = getDemoScenario(type ?? 'tax', locale)
+      const scenario = getDemoScenario(type ?? 'tax', localeRef.current)
       let agentIdx = 0
       for (const agent of scenario.agentOutputs) {
         setActiveAgent(agentIdx)
@@ -1060,6 +1063,25 @@ function EinspruchPageInner() {
         </div>
 
         </div>
+
+        {/* ── Demo mode banner ─────────────────────────────────────────────── */}
+        {isDemoMode && (
+          <div className="max-w-3xl mx-auto mb-6">
+            <div className="flex items-start gap-3 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-2xl px-4 py-3">
+              <span className="mt-0.5 bg-amber-500 text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider shrink-0">
+                {t('demo.badge')}
+              </span>
+              <div className="min-w-0">
+                <p className="text-sm font-semibold text-amber-900 dark:text-amber-200 leading-snug">
+                  {t('demo.banner')}
+                </p>
+                <p className="text-xs text-amber-700 dark:text-amber-400 mt-0.5 leading-relaxed">
+                  {t(`demo.steps.${step}`)}
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* ═══ Step 1 — Upload ═══ */}
         {step === 'upload' && (

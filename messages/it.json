@@ -1014,7 +1014,17 @@
     },
     "demo": {
       "countdown": "Demo: continuazione tra {seconds} s…",
-      "skip": "Salta →"
+      "skip": "Salta →",
+      "badge": "Demo",
+      "banner": "Dimostrazione interattiva — nessun documento reale necessario",
+      "steps": {
+        "upload": "Prova l'assistente senza documento — la demo inizierà automaticamente tra poco.",
+        "analyzing": "L'IA legge il documento ed estrae autorità, riferimento, importi e scadenze.",
+        "questions": "Brevi domande aiutano l'IA ad adattare gli argomenti legali al tuo caso specifico.",
+        "reviewing": "Le risposte vengono verificate e preparate per gli agenti IA.",
+        "generating": "Quattro agenti IA lavorano in parallelo: bozza · revisione legale · verifica fatti · consolidamento.",
+        "result": "La lettera di ricorso è pronta. In un caso reale, rivedila con attenzione prima dell'invio."
+      }
     }
   },
   "outputLanguage": {

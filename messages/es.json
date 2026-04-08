@@ -1014,7 +1014,17 @@
     },
     "demo": {
       "countdown": "Demo: continuando en {seconds} s…",
-      "skip": "Saltar →"
+      "skip": "Saltar →",
+      "badge": "Demo",
+      "banner": "Demostración interactiva — no se necesita documento real",
+      "steps": {
+        "upload": "Pruebe el asistente sin documento — la demo comenzará automáticamente en un momento.",
+        "analyzing": "La IA lee el documento y extrae la autoridad, referencia, importes y plazos.",
+        "questions": "Breves preguntas ayudan a la IA a adaptar los argumentos jurídicos a su caso específico.",
+        "reviewing": "Sus respuestas se están verificando y preparando para los agentes de IA.",
+        "generating": "Cuatro agentes de IA trabajan en paralelo: redacción · revisión legal · verificación · consolidación.",
+        "result": "La carta de recurso está lista. En un caso real, revísela con cuidado antes de enviarla."
+      }
     }
   },
   "outputLanguage": {

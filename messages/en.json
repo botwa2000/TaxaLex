@@ -1008,7 +1008,17 @@
     },
     "demo": {
       "countdown": "Demo: continuing in {seconds}s…",
-      "skip": "Skip →"
+      "skip": "Skip →",
+      "badge": "Demo",
+      "banner": "Interactive demo — no real document needed",
+      "steps": {
+        "upload": "Try the wizard without a document — the demo will start automatically in a moment.",
+        "analyzing": "The AI reads the document and extracts authority, reference number, amounts, and deadlines.",
+        "questions": "Short follow-up questions help the AI tailor the legal arguments to your specific case.",
+        "reviewing": "Your answers are being checked and prepared for the AI agents.",
+        "generating": "Four AI agents work in parallel: drafting · legal review · fact-checking · consolidating.",
+        "result": "The appeal letter is ready. In a real case, review it carefully before sending."
+      }
     },
     "errors": {
       "analyze": "Document analysis failed. Please try again.",

@@ -1014,7 +1014,17 @@
     },
     "demo": {
       "countdown": "Demo: {seconds} sn içinde devam ediyor…",
-      "skip": "Atla →"
+      "skip": "Atla →",
+      "badge": "Demo",
+      "banner": "Etkileşimli demo — gerçek belge gerekmez",
+      "steps": {
+        "upload": "Asistanı belge olmadan deneyin — demo kısa süre içinde otomatik olarak başlayacak.",
+        "analyzing": "Yapay zeka belgeyi okuyarak yetkili kurum, referans, tutarları ve son tarihleri çıkarır.",
+        "questions": "Kısa sorular, yapay zekanın hukuki argümanları davanıza özel uyarlamasına yardımcı olur.",
+        "reviewing": "Yanıtlarınız kontrol ediliyor ve yapay zeka ajanlarına hazırlanıyor.",
+        "generating": "Dört yapay zeka ajanı paralel çalışır: taslak · hukuki inceleme · gerçek kontrolü · konsolidasyon.",
+        "result": "İtiraz mektubu hazır. Gerçek bir davada göndermeden önce dikkatlice inceleyin."
+      }
     }
   },
   "outputLanguage": {

@@ -1014,7 +1014,17 @@
     },
     "demo": {
       "countdown": "Demo: kontynuacja za {seconds} s…",
-      "skip": "Pomiń →"
+      "skip": "Pomiń →",
+      "badge": "Demo",
+      "banner": "Interaktywna demonstracja — prawdziwy dokument nie jest potrzebny",
+      "steps": {
+        "upload": "Wypróbuj asystenta bez dokumentu — demonstracja uruchomi się automatycznie za chwilę.",
+        "analyzing": "AI odczytuje dokument i wyodrębnia organ, numer referencyjny, kwoty i terminy.",
+        "questions": "Krótkie pytania pomagają AI dostosować argumentację prawną do Twojego przypadku.",
+        "reviewing": "Twoje odpowiedzi są sprawdzane i przygotowywane dla agentów AI.",
+        "generating": "Czterech agentów AI pracuje równolegle: projekt · przegląd prawny · weryfikacja faktów · konsolidacja.",
+        "result": "Pismo odwoławcze jest gotowe. W prawdziwym przypadku sprawdź je uważnie przed wysłaniem."
+      }
     }
   },
   "outputLanguage": {
