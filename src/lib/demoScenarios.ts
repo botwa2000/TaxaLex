@@ -37,6 +37,13 @@ export interface DemoScenario {
   finalDraft: string
 }
 
+interface DemoScenarioTranslations {
+  docTypeLabel: string
+  fields: Record<string, string>
+  questions: Record<string, { question: string; background?: string; autoAnswer: string }>
+  agentLabels: Record<string, { label: string; summary: string }>
+}
+
 // ── Individual scenarios ──────────────────────────────────────────────────────
 
 const TAX_SCENARIO: DemoScenario = {
@@ -952,6 +959,282 @@ Hochachtungsvoll,
 [Adresse]`,
 }
 
+// ── Locale overrides (non-DE locales; 'en' is the fallback for all others) ────
+
+const LOCALE_OVERRIDES: Record<string, Record<string, DemoScenarioTranslations>> = {
+  tax: {
+    en: {
+      docTypeLabel: 'Income Tax Assessment',
+      fields: { authority: 'Tax Office', reference: 'Tax Number', date: 'Assessment Date', noticeType: 'Assessment Type', amount: 'Additional Payment' },
+      questions: {
+        dq1: { question: 'Did you have income from multiple sources in 2023 (e.g. employment and freelance)?', background: 'Multiple income types affect the tax progression under § 32a EStG.', autoAnswer: 'Yes' },
+        dq2: { question: 'What work-related expenses did you claim in your tax return?', background: 'Work-related expenses under § 9 EStG directly reduce taxable income.', autoAnswer: 'Home office flat rate, professional literature, commuting costs' },
+      },
+      agentLabels: {
+        drafter: { label: 'Draft', summary: 'Appeal letter under § 347 AO drafted. Work-related expenses and calculation errors identified as main arguments.' },
+        reviewer: { label: 'Review', summary: 'Legal arguments reviewed. Reference to BFH ruling VI R 2/21 on home office flat rate added.' },
+        factchecker: { label: 'Fact Check', summary: 'Current case law verified. § 9 Abs. 5 EStG and BMF letter of 15.08.2023 correctly cited.' },
+        adversary: { label: 'Counter-Check', summary: 'Tax office perspective adopted. Proof of professional necessity of expenses flagged as potentially weak point.' },
+        consolidator: { label: 'Consolidation', summary: 'All agent results merged. Wording sharpened and final letter optimised.' },
+      },
+    },
+    fr: {
+      docTypeLabel: 'Avis d\'imposition',
+      fields: { authority: 'Bureau des impôts', reference: 'Numéro fiscal', date: 'Date de l\'avis', noticeType: 'Type d\'avis', amount: 'Complément à payer' },
+      questions: {
+        dq1: { question: 'Aviez-vous des revenus provenant de plusieurs sources en 2023 (ex. emploi et freelance) ?', background: 'Plusieurs types de revenus affectent la progressivité de l\'impôt selon § 32a EStG.', autoAnswer: 'Oui' },
+        dq2: { question: 'Quels frais professionnels avez-vous déclarés dans votre déclaration d\'impôts ?', background: 'Les frais professionnels selon § 9 EStG réduisent directement le revenu imposable.', autoAnswer: 'Forfait bureau à domicile, littérature professionnelle, frais de transport domicile-travail' },
+      },
+      agentLabels: {
+        drafter: { label: 'Rédaction', summary: 'Lettre de recours selon § 347 AO rédigée. Frais professionnels et erreurs de calcul identifiés comme arguments principaux.' },
+        reviewer: { label: 'Révision', summary: 'Argumentation juridique vérifiée. Référence à l\'arrêt BFH VI R 2/21 sur le forfait bureau à domicile ajoutée.' },
+        factchecker: { label: 'Vérification', summary: 'Jurisprudence actuelle vérifiée. § 9 Abs. 5 EStG et lettre BMF du 15.08.2023 correctement cités.' },
+        adversary: { label: 'Contre-vérification', summary: 'Perspective du fisc adoptée. Preuve de la nécessité professionnelle des frais signalée comme point potentiellement faible.' },
+        consolidator: { label: 'Consolidation', summary: 'Tous les résultats des agents fusionnés. Formulation affinée et lettre finale optimisée.' },
+      },
+    },
+    es: {
+      docTypeLabel: 'Liquidación del IRPF',
+      fields: { authority: 'Oficina tributaria', reference: 'Número fiscal', date: 'Fecha de liquidación', noticeType: 'Tipo de liquidación', amount: 'Pago adicional' },
+      questions: {
+        dq1: { question: '¿Tuvo ingresos de varias fuentes en 2023 (p. ej. empleo y trabajo autónomo)?', background: 'Varios tipos de ingresos afectan la progresividad fiscal según § 32a EStG.', autoAnswer: 'Sí' },
+        dq2: { question: '¿Qué gastos deducibles declaró en su declaración de la renta?', background: 'Los gastos deducibles según § 9 EStG reducen directamente la base imponible.', autoAnswer: 'Tarifa plana de oficina en casa, literatura profesional, gastos de desplazamiento al trabajo' },
+      },
+      agentLabels: {
+        drafter: { label: 'Borrador', summary: 'Carta de recurso según § 347 AO redactada. Gastos deducibles y errores de cálculo identificados como argumentos principales.' },
+        reviewer: { label: 'Revisión', summary: 'Argumentación jurídica revisada. Referencia a la sentencia BFH VI R 2/21 sobre tarifa plana de oficina en casa añadida.' },
+        factchecker: { label: 'Verificación', summary: 'Jurisprudencia actual verificada. § 9 Abs. 5 EStG y carta BMF del 15.08.2023 citados correctamente.' },
+        adversary: { label: 'Contraverificación', summary: 'Perspectiva de la oficina tributaria adoptada. Prueba de la necesidad profesional de los gastos marcada como punto potencialmente débil.' },
+        consolidator: { label: 'Consolidación', summary: 'Todos los resultados de los agentes fusionados. Redacción perfeccionada y carta final optimizada.' },
+      },
+    },
+    it: {
+      docTypeLabel: 'Avviso di accertamento',
+      fields: { authority: 'Ufficio delle imposte', reference: 'Codice fiscale', date: 'Data dell\'avviso', noticeType: 'Tipo di avviso', amount: 'Pagamento aggiuntivo' },
+      questions: {
+        dq1: { question: 'Ha avuto redditi da più fonti nel 2023 (es. lavoro dipendente e lavoro autonomo)?', background: 'Più tipi di reddito influenzano la progressività fiscale ai sensi del § 32a EStG.', autoAnswer: 'Sì' },
+        dq2: { question: 'Quali spese deducibili ha indicato nella sua dichiarazione dei redditi?', background: 'Le spese deducibili ai sensi del § 9 EStG riducono direttamente il reddito imponibile.', autoAnswer: 'Forfait ufficio a casa, letteratura professionale, spese di trasporto al lavoro' },
+      },
+      agentLabels: {
+        drafter: { label: 'Bozza', summary: 'Lettera di ricorso ai sensi del § 347 AO redatta. Spese deducibili ed errori di calcolo identificati come argomenti principali.' },
+        reviewer: { label: 'Revisione', summary: 'Argomentazione giuridica verificata. Riferimento alla sentenza BFH VI R 2/21 sul forfait ufficio a casa aggiunto.' },
+        factchecker: { label: 'Verifica fatti', summary: 'Giurisprudenza attuale verificata. § 9 Abs. 5 EStG e lettera BMF del 15.08.2023 citati correttamente.' },
+        adversary: { label: 'Controanalisi', summary: 'Prospettiva dell\'ufficio tributario adottata. Prova della necessità professionale delle spese segnalata come punto potenzialmente debole.' },
+        consolidator: { label: 'Consolidamento', summary: 'Tutti i risultati degli agenti uniti. Formulazione affinata e lettera finale ottimizzata.' },
+      },
+    },
+    pl: {
+      docTypeLabel: 'Decyzja podatkowa',
+      fields: { authority: 'Urząd skarbowy', reference: 'Numer podatkowy', date: 'Data decyzji', noticeType: 'Rodzaj decyzji', amount: 'Dopłata' },
+      questions: {
+        dq1: { question: 'Czy w 2023 roku miał/a Pan/Pani dochody z kilku źródeł (np. etat i freelance)?', background: 'Kilka rodzajów dochodów wpływa na progresję podatkową zgodnie z § 32a EStG.', autoAnswer: 'Tak' },
+        dq2: { question: 'Jakie koszty uzyskania przychodu odliczył/a Pan/Pani w zeznaniu podatkowym?', background: 'Koszty uzyskania przychodu zgodnie z § 9 EStG bezpośrednio zmniejszają podstawę opodatkowania.', autoAnswer: 'Ryczałt za pracę z domu, literatura fachowa, koszty dojazdu do pracy' },
+      },
+      agentLabels: {
+        drafter: { label: 'Szkic', summary: 'Pismo odwoławcze na podstawie § 347 AO sporządzone. Koszty uzyskania przychodu i błędy obliczeniowe zidentyfikowane jako główne argumenty.' },
+        reviewer: { label: 'Weryfikacja', summary: 'Argumentacja prawna sprawdzona. Dodano odwołanie do wyroku BFH VI R 2/21 w sprawie ryczałtu za pracę z domu.' },
+        factchecker: { label: 'Sprawdzenie faktów', summary: 'Aktualne orzecznictwo zweryfikowane. § 9 Abs. 5 EStG i pismo BMF z 15.08.2023 poprawnie cytowane.' },
+        adversary: { label: 'Kontranaliza', summary: 'Przyjęta perspektywa urzędu skarbowego. Dowód zawodowej konieczności kosztów oznaczony jako potencjalnie słaby punkt.' },
+        consolidator: { label: 'Konsolidacja', summary: 'Wszystkie wyniki agentów połączone. Sformułowanie wyostrzone i ostateczne pismo zoptymalizowane.' },
+      },
+    },
+    ru: {
+      docTypeLabel: 'Налоговое уведомление',
+      fields: { authority: 'Налоговая инспекция', reference: 'Налоговый номер', date: 'Дата уведомления', noticeType: 'Тип уведомления', amount: 'Доплата' },
+      questions: {
+        dq1: { question: 'Были ли у вас в 2023 году доходы из нескольких источников (например, работа по найму и фриланс)?', background: 'Несколько видов доходов влияют на налоговую прогрессию согласно § 32a EStG.', autoAnswer: 'Да' },
+        dq2: { question: 'Какие расходы, связанные с работой, вы заявили в налоговой декларации?', background: 'Расходы, связанные с работой, согласно § 9 EStG напрямую уменьшают налогооблагаемый доход.', autoAnswer: 'Единовременная надбавка за домашний офис, профессиональная литература, расходы на проезд до работы' },
+      },
+      agentLabels: {
+        drafter: { label: 'Черновик', summary: 'Составлено письмо с возражением согласно § 347 AO. Расходы на работу и ошибки расчёта определены как основные аргументы.' },
+        reviewer: { label: 'Проверка', summary: 'Правовая аргументация проверена. Добавлена ссылка на решение BFH VI R 2/21 о надбавке за домашний офис.' },
+        factchecker: { label: 'Проверка фактов', summary: 'Актуальная судебная практика проверена. § 9 Abs. 5 EStG и письмо BMF от 15.08.2023 процитированы корректно.' },
+        adversary: { label: 'Контрпроверка', summary: 'Принята позиция налоговой инспекции. Доказательство профессиональной необходимости расходов отмечено как потенциально слабое место.' },
+        consolidator: { label: 'Консолидация', summary: 'Все результаты агентов объединены. Формулировки отточены, итоговое письмо оптимизировано.' },
+      },
+    },
+    tr: {
+      docTypeLabel: 'Vergi tebligatı',
+      fields: { authority: 'Vergi dairesi', reference: 'Vergi numarası', date: 'Tebligat tarihi', noticeType: 'Tebligat türü', amount: 'Ek ödeme' },
+      questions: {
+        dq1: { question: '2023 yılında birden fazla kaynaktan geliriniz var mıydı (örn. çalışan ve serbest meslek)?', background: 'Birden fazla gelir türü, § 32a EStG uyarınca vergi dilimine etki eder.', autoAnswer: 'Evet' },
+        dq2: { question: 'Vergi beyannamenizde hangi iş giderlerini talep ettiniz?', background: 'İş giderleri § 9 EStG uyarınca vergilendirilebilir geliri doğrudan azaltır.', autoAnswer: 'Evden çalışma götürü gideri, mesleki yayınlar, işe gidiş-dönüş ulaşım giderleri' },
+      },
+      agentLabels: {
+        drafter: { label: 'Taslak', summary: '§ 347 AO uyarınca itiraz mektubu hazırlandı. İş giderleri ve hesaplama hataları ana argüman olarak belirlendi.' },
+        reviewer: { label: 'İnceleme', summary: 'Hukuki argümantasyon incelendi. BFH kararı VI R 2/21\'in ev ofis götürü gideriyle ilgili atıfı eklendi.' },
+        factchecker: { label: 'Gerçek Kontrolü', summary: 'Güncel içtihat doğrulandı. § 9 Abs. 5 EStG ve 15.08.2023 tarihli BMF yazısı doğru aktarıldı.' },
+        adversary: { label: 'Karşı Kontrol', summary: 'Vergi dairesi perspektifi benimsendi. Giderlerin mesleki zorunluluğunun kanıtlanması potansiyel zayıf nokta olarak işaretlendi.' },
+        consolidator: { label: 'Konsolidasyon', summary: 'Tüm ajan sonuçları birleştirildi. İfade netleştirildi ve nihai mektup optimize edildi.' },
+      },
+    },
+    uk: {
+      docTypeLabel: 'Податкове повідомлення',
+      fields: { authority: 'Податкова інспекція', reference: 'Податковий номер', date: 'Дата повідомлення', noticeType: 'Тип повідомлення', amount: 'Доплата' },
+      questions: {
+        dq1: { question: 'Чи мали ви у 2023 році доходи з кількох джерел (наприклад, робота за наймом і фріланс)?', background: 'Кілька видів доходів впливають на прогресію оподаткування відповідно до § 32a EStG.', autoAnswer: 'Так' },
+        dq2: { question: 'Які витрати, пов\'язані з роботою, ви задекларували у своїй податковій декларації?', background: 'Витрати, пов\'язані з роботою, відповідно до § 9 EStG безпосередньо зменшують оподатковуваний дохід.', autoAnswer: 'Одноразова надбавка за домашній офіс, фахова література, витрати на проїзд до роботи' },
+      },
+      agentLabels: {
+        drafter: { label: 'Чернетка', summary: 'Складено лист із запереченням відповідно до § 347 AO. Витрати на роботу та помилки розрахунку визначено як основні аргументи.' },
+        reviewer: { label: 'Перевірка', summary: 'Правова аргументація перевірена. Додано посилання на рішення BFH VI R 2/21 щодо надбавки за домашній офіс.' },
+        factchecker: { label: 'Перевірка фактів', summary: 'Актуальна судова практика перевірена. § 9 Abs. 5 EStG і лист BMF від 15.08.2023 процитовані коректно.' },
+        adversary: { label: 'Контрперевірка', summary: 'Прийнято позицію податкової інспекції. Доказ професійної необхідності витрат позначено як потенційно слабке місце.' },
+        consolidator: { label: 'Консолідація', summary: 'Всі результати агентів об\'єднані. Формулювання відточені, підсумковий лист оптимізовано.' },
+      },
+    },
+    ar: {
+      docTypeLabel: 'إشعار ضريبي',
+      fields: { authority: 'مكتب الضرائب', reference: 'الرقم الضريبي', date: 'تاريخ الإشعار', noticeType: 'نوع الإشعار', amount: 'دفعة إضافية' },
+      questions: {
+        dq1: { question: 'هل كان لديك دخل من مصادر متعددة في عام 2023 (مثل الوظيفة والعمل الحر)؟', background: 'تؤثر أنواع الدخل المتعددة على التصاعد الضريبي وفق § 32a EStG.', autoAnswer: 'نعم' },
+        dq2: { question: 'ما هي نفقات العمل التي طالبت بها في إقرارك الضريبي؟', background: 'نفقات العمل وفق § 9 EStG تخفض الدخل الخاضع للضريبة مباشرةً.', autoAnswer: 'بدل مكتب منزلي مقطوع، أدبيات مهنية، تكاليف التنقل إلى العمل' },
+      },
+      agentLabels: {
+        drafter: { label: 'المسودة', summary: 'تمت صياغة خطاب اعتراض وفق § 347 AO. تحديد نفقات العمل وأخطاء الحساب كحجج رئيسية.' },
+        reviewer: { label: 'المراجعة', summary: 'مراجعة الحجج القانونية. إضافة إشارة إلى حكم BFH VI R 2/21 بشأن بدل مكتب منزلي.' },
+        factchecker: { label: 'التحقق من الوقائع', summary: 'التحقق من الاجتهاد القضائي الحالي. § 9 Abs. 5 EStG وخطاب BMF المؤرخ 15.08.2023 مُستشهد بهما بشكل صحيح.' },
+        adversary: { label: 'الفحص المضاد', summary: 'اعتماد منظور مكتب الضرائب. تحديد إثبات الضرورة المهنية للنفقات كنقطة ضعف محتملة.' },
+        consolidator: { label: 'التوحيد', summary: 'دمج جميع نتائج الوكلاء. صقل الصياغة وتحسين الخطاب النهائي.' },
+      },
+    },
+    pt: {
+      docTypeLabel: 'Aviso de liquidação fiscal',
+      fields: { authority: 'Repartição de finanças', reference: 'Número fiscal', date: 'Data do aviso', noticeType: 'Tipo de aviso', amount: 'Pagamento adicional' },
+      questions: {
+        dq1: { question: 'Teve rendimentos de várias fontes em 2023 (ex. emprego e trabalho independente)?', background: 'Vários tipos de rendimento afetam a progressividade fiscal ao abrigo do § 32a EStG.', autoAnswer: 'Sim' },
+        dq2: { question: 'Que despesas profissionais declarou na sua declaração de rendimentos?', background: 'As despesas profissionais ao abrigo do § 9 EStG reduzem diretamente o rendimento tributável.', autoAnswer: 'Forfait de escritório em casa, literatura profissional, despesas de deslocação para o trabalho' },
+      },
+      agentLabels: {
+        drafter: { label: 'Rascunho', summary: 'Carta de recurso ao abrigo do § 347 AO redigida. Despesas profissionais e erros de cálculo identificados como argumentos principais.' },
+        reviewer: { label: 'Revisão', summary: 'Argumentação jurídica revista. Referência ao acórdão BFH VI R 2/21 sobre o forfait de escritório em casa adicionada.' },
+        factchecker: { label: 'Verificação de Factos', summary: 'Jurisprudência atual verificada. § 9 Abs. 5 EStG e carta BMF de 15.08.2023 corretamente citados.' },
+        adversary: { label: 'Contra-análise', summary: 'Perspetiva da repartição de finanças adotada. Prova da necessidade profissional das despesas assinalada como ponto potencialmente fraco.' },
+        consolidator: { label: 'Consolidação', summary: 'Todos os resultados dos agentes fundidos. Redação apurada e carta final otimizada.' },
+      },
+    },
+  },
+  grundsteuer: {
+    en: {
+      docTypeLabel: 'Property Tax Assessment',
+      fields: { authority: 'Authority', reference: 'Case reference', date: 'Notice date', property: 'Property', amount: 'Annual property tax', area: 'Recorded area' },
+      questions: {
+        dq1: { question: 'Does the property area in the notice differ from your land register entry?', background: 'Area errors are the most common error in property tax assessments after the 2022 reform.', autoAnswer: 'Yes' },
+        dq2: { question: 'What is the actual property area according to your land register?', background: 'Under § 244 BewG, the actual land area is used for the calculation.', autoAnswer: '380 m² according to land register of 10.05.2022' },
+      },
+      agentLabels: {
+        drafter: { label: 'Draft', summary: 'Objection under § 347 AO in conjunction with GrStG drafted. Incorrect land area (420 m² instead of 380 m²) cited as main reason.' },
+        reviewer: { label: 'Review', summary: 'Reference to § 244 BewG and Property Tax Reform Act 2022 correct. Proof via land register recommended.' },
+        factchecker: { label: 'Fact Check', summary: 'Objection deadline (1 month under § 355 AO) and current error rates in 2022 property tax assessments verified.' },
+        adversary: { label: 'Counter-Check', summary: 'Possible counter-arguments from the authority analysed. Measurement error vs. database error identified as the central question.' },
+        consolidator: { label: 'Consolidation', summary: 'Final letter optimised. Clear application for recalculation and enclosure of land register extract formulated.' },
+      },
+    },
+  },
+  jobcenter: {
+    en: {
+      docTypeLabel: 'Bürgergeld Sanction Notice',
+      fields: { authority: 'Jobcenter', reference: 'Household number', date: 'Notice date', sanction: 'Sanction type', amount: 'Reduction amount' },
+      questions: {
+        dq1: { question: 'Did you receive a written invitation from the Jobcenter before the missed appointment?', background: 'A sanction under § 32 SGB II requires a proper written invitation with a legal consequences notice.', autoAnswer: 'No' },
+        dq2: { question: 'Was there an important reason for not attending (e.g., illness, accident)?', background: 'An important reason under § 31 SGB II excludes the sanction. Evidence such as sick notes must be enclosed.', autoAnswer: 'Yes' },
+      },
+      agentLabels: {
+        drafter: { label: 'Draft', summary: 'Objection under § 78 SGG drafted. Missing legal consequences notice and important reason (illness) cited as arguments.' },
+        reviewer: { label: 'Review', summary: 'BSG case law on missed appointments checked. BSG ruling B 14 AS 25/12 R cited as support for missing notice.' },
+        factchecker: { label: 'Fact Check', summary: 'Current legal situation on Bürgergeld sanctions under the Bürgergeld Act 2023 correctly presented.' },
+        adversary: { label: 'Counter-Check', summary: 'Jobcenter perspective analysed. Proof of illness by medical certificate assessed as decisive.' },
+        consolidator: { label: 'Consolidation', summary: 'Letter finalised. Application for suspensive effect and enclosure of certificate added.' },
+      },
+    },
+  },
+  rente: {
+    en: {
+      docTypeLabel: 'Pension Notice',
+      fields: { authority: 'Authority', reference: 'Insurance number', date: 'Notice date', type: 'Pension type', amount: 'Monthly pension', missingYears: 'Missing periods' },
+      questions: {
+        dq1: { question: 'Are there employment or contribution periods that may not have been recorded?', background: 'Missing contribution periods reduce the pension entitlement under § 63 SGB VI.', autoAnswer: 'Yes, approximately 3 years from 1995 to 1998' },
+        dq2: { question: 'Do you have documents for the missing periods (payslips, employment contracts)?', background: 'Documented missing periods can be corrected via an application under § 149 SGB VI.', autoAnswer: 'Yes, I have payslips and an employment contract' },
+      },
+      agentLabels: {
+        drafter: { label: 'Draft', summary: 'Objection under § 78 SGG drafted. Missing 3 contribution years (1995–1998) as main argument.' },
+        reviewer: { label: 'Review', summary: '§§ 63, 149 SGB VI correctly applied. Supplementary evidence procedure recommended.' },
+        factchecker: { label: 'Fact Check', summary: 'Current Deutsche Rentenversicherung guidelines on correction of insurance histories verified.' },
+        adversary: { label: 'Counter-Check', summary: 'DRV perspective: burden of proof for missing periods lies with the insured. Documents decisive.' },
+        consolidator: { label: 'Consolidation', summary: 'Objection finalised. Application for supplementary evidence procedure and enclosure of documents formulated.' },
+      },
+    },
+  },
+  krankenversicherung: {
+    en: {
+      docTypeLabel: 'Health Insurance Rejection',
+      fields: { authority: 'Health insurer', reference: 'Insurance number', date: 'Notice date', service: 'Rejected service', reason: 'Reason for rejection' },
+      questions: {
+        dq1: { question: 'Has your treating doctor confirmed medical necessity of the rejected treatment in writing?', background: 'Medical necessity is the central criterion for approval of services under § 12 SGB V.', autoAnswer: 'Yes, I have a medical certificate' },
+        dq2: { question: 'Did the health insurer decide within the 5-week deadline (§ 13 para. 3a SGB V)?', background: 'If the insurer does not decide within 5 weeks, the service is deemed approved under the approval fiction.', autoAnswer: 'No, it took more than 6 weeks' },
+      },
+      agentLabels: {
+        drafter: { label: 'Draft', summary: 'Objection under § 78 SGG drafted. Medical necessity and approval fiction under § 13 para. 3a SGB V as main arguments.' },
+        reviewer: { label: 'Review', summary: '§ 13 SGB V and BSG case law on approval fiction correctly applied.' },
+        factchecker: { label: 'Fact Check', summary: 'Current BSG rulings on medical necessity and MDK assessments verified.' },
+        adversary: { label: 'Counter-Check', summary: 'Insurer perspective: MDK assessment has evidentiary weight. Independent expert opinion recommended.' },
+        consolidator: { label: 'Consolidation', summary: 'Objection finalised. Request to disclose MDK report and obtain independent expert opinion included.' },
+      },
+    },
+  },
+  kuendigung: {
+    en: {
+      docTypeLabel: 'Dismissal Notice',
+      fields: { employer: 'Employer', date: 'Dismissal date', type: 'Type of dismissal', notice: 'Notice period', tenure: 'Length of service' },
+      questions: {
+        dq1: { question: 'Is there a works council at your workplace?', background: 'Without works council consultation under § 102 BetrVG, a dismissal is invalid — regardless of the reason.', autoAnswer: 'Yes' },
+        dq2: { question: 'Were you informed about the works council consultation?', background: 'Under § 102 para. 1 BetrVG, the works council must be consulted before any dismissal. A dismissal without consultation is void.', autoAnswer: 'No' },
+      },
+      agentLabels: {
+        drafter: { label: 'Draft', summary: 'Unfair dismissal claim under § 4 KSchG prepared. Missing works council consultation (§ 102 BetrVG) identified as strongest ground for invalidity.' },
+        reviewer: { label: 'Review', summary: 'Three-week deadline (§ 4 KSchG) correctly mentioned. Social justification (§ 1 KSchG) and continued employment application added.' },
+        factchecker: { label: 'Fact Check', summary: 'BAG case law on § 102 BetrVG correct. Dismissal without consultation is absolutely void under BAG ruling 2 AZR 296/13.' },
+        adversary: { label: 'Counter-Check', summary: 'Employer perspective: works council documentation might exist. Proof of consultation vs. missing consultation as key question.' },
+        consolidator: { label: 'Consolidation', summary: 'Letter to labour court finalised. Important note on 3-week deadline prominently placed.' },
+      },
+    },
+  },
+  miete: {
+    en: {
+      docTypeLabel: 'Rent Increase Notice',
+      fields: { landlord: 'Landlord', date: 'Letter date', currentRent: 'Current rent', newRent: 'Demanded rent', increase: 'Increase', apartment: 'Floor area' },
+      questions: {
+        dq1: { question: 'How long have you had your tenancy?', background: 'Rent increases under § 558 para. 1 BGB are only permitted at the earliest 15 months after the last increase or the start of the tenancy.', autoAnswer: '2019-03-01' },
+        dq2: { question: 'When was the last rent increase?', background: 'The statutory cap under § 558 para. 3 BGB limits increases to a maximum of 15% in 3 years (20% in areas with tight housing markets).', autoAnswer: '2021-06-01' },
+      },
+      agentLabels: {
+        drafter: { label: 'Draft', summary: 'Objection under § 558b BGB drafted. Exceeding the statutory cap and insufficient rent index justification as main arguments.' },
+        reviewer: { label: 'Review', summary: '§§ 558, 558a, 558b BGB correctly applied. Reference to Berlin Rent Index 2023 and statutory cap (15%) added.' },
+        factchecker: { label: 'Fact Check', summary: 'Berlin Rent Index 2023 for Berlin-Mitte, 75 m² researched. Comparative rent significantly below demanded amount.' },
+        adversary: { label: 'Counter-Check', summary: 'Landlord perspective: increase might be based on modernisation. Counter-argument on modernisation surcharge added.' },
+        consolidator: { label: 'Consolidation', summary: 'Objection finalised. Application to maintain current rent and deadline for evidence clearly formulated.' },
+      },
+    },
+  },
+  bussgeld: {
+    en: {
+      docTypeLabel: 'Fine / Penalty Notice',
+      fields: { authority: 'Fine authority', reference: 'Case reference', date: 'Notice date', offence: 'Alleged offence', fine: 'Fine amount', points: 'Points in Flensburg' },
+      questions: {
+        dq1: { question: 'Were you actually the driver at the time of the alleged offence?', background: 'As the vehicle owner, you are not automatically the driver. The authority must prove you were driving.', autoAnswer: 'Yes' },
+        dq2: { question: 'Do you have information about the measuring device or its calibration certificate?', background: 'An expired calibration certificate or measurement errors can lead to the case being dropped (§ 25 MessEG).', autoAnswer: 'I request file access to review the device and calibration certificate' },
+      },
+      agentLabels: {
+        drafter: { label: 'Draft', summary: 'Objection under § 67 OWiG drafted. File access request and review of calibration certificate as core strategy.' },
+        reviewer: { label: 'Review', summary: '§§ 67, 46 OWiG and measurement protocol requirements correct. Reference to standardised measurement procedure (ES 3.0) added.' },
+        factchecker: { label: 'Fact Check', summary: 'Calibration requirement under MessEG correctly presented. Current OLG case law on measurement errors and expired calibrations verified.' },
+        adversary: { label: 'Counter-Check', summary: 'Authority perspective: standardised measurement procedures have evidentiary weight. Substantiated objection to measurement needed, not blanket rejection.' },
+        consolidator: { label: 'Consolidation', summary: 'Objection finalised. File access request prominently formulated — reveals procedural defects in 30% of cases.' },
+      },
+    },
+  },
+}
+
 // ── Scenario registry ─────────────────────────────────────────────────────────
 
 const SCENARIOS: Record<string, DemoScenario> = {
@@ -966,10 +1249,35 @@ const SCENARIOS: Record<string, DemoScenario> = {
 }
 
 /**
- * Returns the demo scenario for the given use-case type.
- * Falls back to the `tax` scenario if the type is unknown.
- * The `_locale` parameter is reserved for future locale-specific variants.
+ * Returns the demo scenario for the given use-case type, optionally translated
+ * into the requested locale. German ('de') returns the base scenario unchanged.
+ * All non-German locales fall back to the 'en' override if an exact match is missing.
  */
-export function getDemoScenario(type: string, _locale?: string): DemoScenario {
-  return SCENARIOS[type] ?? SCENARIOS['tax']
+export function getDemoScenario(type: string, locale?: string): DemoScenario {
+  const base = SCENARIOS[type] ?? SCENARIOS['tax']
+
+  // German is the base language — return unchanged
+  if (!locale || locale === 'de') return base
+
+  // Find override: exact locale match, then fall back to 'en'
+  const scenarioOverrides = LOCALE_OVERRIDES[type] ?? LOCALE_OVERRIDES['tax']
+  const t = scenarioOverrides?.[locale] ?? scenarioOverrides?.['en']
+  if (!t) return base
+
+  return {
+    ...base,
+    docType: { ...base.docType, label: t.docTypeLabel },
+    fields: base.fields.map((f) => ({ ...f, label: t.fields[f.key] ?? f.label })),
+    questions: base.questions.map((q) => ({
+      ...q,
+      question: t.questions[q.id]?.question ?? q.question,
+      background: t.questions[q.id]?.background ?? q.background,
+      autoAnswer: t.questions[q.id]?.autoAnswer ?? q.autoAnswer,
+    })),
+    agentOutputs: base.agentOutputs.map((a) => ({
+      ...a,
+      label: t.agentLabels[a.role]?.label ?? a.label,
+      summary: t.agentLabels[a.role]?.summary ?? a.summary,
+    })),
+  }
 }
