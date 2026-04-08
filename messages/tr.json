@@ -257,11 +257,28 @@
   "footer": {
     "tagline": "Yapay zeka tarafından oluşturulan taslak. Hukuki danışmanlık değildir.",
     "allRightsReserved": "Tüm hakları saklıdır.",
+    "brandTagline": "Yapay zeka destekli itiraz mektubu oluşturucu",
     "columns": {
       "product": "Ürün",
       "company": "Şirket",
       "support": "Destek",
       "legal": "Hukuki"
+    },
+    "links": {
+      "howItWorks": "Nasıl çalışır",
+      "useCases": "Kullanım alanları",
+      "templates": "Şablonlar",
+      "pricing": "Fiyatlar",
+      "forAdvisors": "Danışmanlar ve avukatlar için",
+      "forExpats": "Expat'lar için",
+      "faq": "Sık sorulan sorular",
+      "contact": "İletişim",
+      "signIn": "Giriş yap",
+      "createAccount": "Hesap oluştur",
+      "imprint": "Künye",
+      "privacy": "Gizlilik politikası",
+      "terms": "Kullanım koşulları",
+      "cookiePolicy": "Çerez politikası"
     }
   },
   "auth": {

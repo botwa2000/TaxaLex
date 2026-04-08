@@ -1,3 +1,4 @@
+import { getTranslations } from 'next-intl/server'
 import { brand } from '@/config/brand'
 import { Logo } from './Logo'
 import { LanguageSelector } from './ui/LanguageSelector'
@@ -7,74 +8,41 @@ interface FooterProps {
   locale: string
 }
 
-const COLUMNS_DE = [
-  {
-    heading: 'Produkt',
-    links: [
-      { label: 'Wie es funktioniert', href: '/wie-es-funktioniert' },
-      { label: 'Anwendungsfälle', href: '/#use-cases' },
-      { label: 'Vorlagen', href: '/vorlagen' },
-      { label: 'Preise', href: '/preise' },
-      { label: 'Für Berater & Anwälte', href: '/advisor' },
-      { label: 'Für Expats', href: '/fuer-expats' },
-    ],
-  },
-  {
-    heading: 'Support',
-    links: [
-      { label: 'Häufige Fragen', href: '/#faq' },
-      { label: 'Kontakt', href: '/kontakt' },
-      { label: 'Anmelden', href: '/login' },
-      { label: 'Konto erstellen', href: '/register' },
-    ],
-  },
-  {
-    heading: 'Rechtliches',
-    links: [
-      { label: 'Impressum', href: '/impressum' },
-      { label: 'Datenschutz', href: '/datenschutz' },
-      { label: 'AGB', href: '/agb' },
-      { label: 'Cookie-Richtlinie', href: '/cookies' },
-    ],
-  },
-]
-
-const COLUMNS_EN = [
-  {
-    heading: 'Product',
-    links: [
-      { label: 'How it works', href: '/wie-es-funktioniert' },
-      { label: 'Use cases', href: '/#use-cases' },
-      { label: 'Templates', href: '/vorlagen' },
-      { label: 'Pricing', href: '/preise' },
-      { label: 'For advisors & lawyers', href: '/advisor' },
-      { label: 'For expats', href: '/fuer-expats' },
-    ],
-  },
-  {
-    heading: 'Support',
-    links: [
-      { label: 'FAQ', href: '/#faq' },
-      { label: 'Contact', href: '/kontakt' },
-      { label: 'Sign in', href: '/login' },
-      { label: 'Create account', href: '/register' },
-    ],
-  },
-  {
-    heading: 'Legal',
-    links: [
-      { label: 'Imprint', href: '/impressum' },
-      { label: 'Privacy policy', href: '/datenschutz' },
-      { label: 'Terms of service', href: '/agb' },
-      { label: 'Cookie policy', href: '/cookies' },
-    ],
-  },
-]
-
-export function Footer({ locale }: FooterProps) {
-  const isEN = locale === 'en'
-  const columns = isEN ? COLUMNS_EN : COLUMNS_DE
+export async function Footer({ locale }: FooterProps) {
+  const t = await getTranslations('footer')
   const year = new Date().getFullYear()
+
+  const columns = [
+    {
+      heading: t('columns.product'),
+      links: [
+        { label: t('links.howItWorks'), href: '/wie-es-funktioniert' },
+        { label: t('links.useCases'), href: '/#use-cases' },
+        { label: t('links.templates'), href: '/vorlagen' },
+        { label: t('links.pricing'), href: '/preise' },
+        { label: t('links.forAdvisors'), href: '/advisor' },
+        { label: t('links.forExpats'), href: '/fuer-expats' },
+      ],
+    },
+    {
+      heading: t('columns.support'),
+      links: [
+        { label: t('links.faq'), href: '/#faq' },
+        { label: t('links.contact'), href: '/kontakt' },
+        { label: t('links.signIn'), href: '/login' },
+        { label: t('links.createAccount'), href: '/register' },
+      ],
+    },
+    {
+      heading: t('columns.legal'),
+      links: [
+        { label: t('links.imprint'), href: '/impressum' },
+        { label: t('links.privacy'), href: '/datenschutz' },
+        { label: t('links.terms'), href: '/agb' },
+        { label: t('links.cookiePolicy'), href: '/cookies' },
+      ],
+    },
+  ]
 
   return (
     <footer className="border-t border-[var(--border)] bg-[var(--surface)]">
@@ -85,12 +53,10 @@ export function Footer({ locale }: FooterProps) {
           <div className="col-span-2 sm:col-span-3 lg:col-span-1">
             <div className="mb-3"><Logo size="md" /></div>
             <p className="text-sm text-[var(--muted)] leading-relaxed max-w-xs">
-              {isEN ? brand.taglineEn : brand.tagline}
+              {t('brandTagline')}
             </p>
             <p className="mt-3 text-xs text-[var(--muted)]">
-              {isEN
-                ? 'AI-generated drafts. Not legal advice.'
-                : 'KI-generierte Entwürfe. Kein Rechtsrat i.S.d. RDG.'}
+              {t('tagline')}
             </p>
           </div>
 
@@ -119,7 +85,7 @@ export function Footer({ locale }: FooterProps) {
         {/* Bottom bar */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-[var(--border)]">
           <p className="text-xs text-[var(--muted)] order-2 sm:order-1">
-            © {year} {brand.name}. {isEN ? 'All rights reserved.' : 'Alle Rechte vorbehalten.'}
+            © {year} {brand.name}. {t('allRightsReserved')}
           </p>
           <div className="order-1 sm:order-2">
             <LanguageSelector currentLocale={locale} />

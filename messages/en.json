@@ -257,11 +257,28 @@
   "footer": {
     "tagline": "AI-generated drafts. Not legal advice.",
     "allRightsReserved": "All rights reserved.",
+    "brandTagline": "AI-powered objection letter generator",
     "columns": {
       "product": "Product",
       "company": "Company",
       "support": "Support",
       "legal": "Legal"
+    },
+    "links": {
+      "howItWorks": "How it works",
+      "useCases": "Use cases",
+      "templates": "Templates",
+      "pricing": "Pricing",
+      "forAdvisors": "For advisors & lawyers",
+      "forExpats": "For expats",
+      "faq": "FAQ",
+      "contact": "Contact",
+      "signIn": "Sign in",
+      "createAccount": "Create account",
+      "imprint": "Imprint",
+      "privacy": "Privacy policy",
+      "terms": "Terms of service",
+      "cookiePolicy": "Cookie policy"
     }
   },
   "auth": {

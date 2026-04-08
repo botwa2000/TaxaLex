@@ -257,11 +257,28 @@
   "footer": {
     "tagline": "Rascunhos gerados por IA. Não constitui aconselhamento jurídico.",
     "allRightsReserved": "Todos os direitos reservados.",
+    "brandTagline": "Gerador de cartas de recurso com IA",
     "columns": {
       "product": "Produto",
       "company": "Empresa",
       "support": "Suporte",
       "legal": "Jurídico"
+    },
+    "links": {
+      "howItWorks": "Como funciona",
+      "useCases": "Casos de uso",
+      "templates": "Modelos",
+      "pricing": "Preços",
+      "forAdvisors": "Para consultores e advogados",
+      "forExpats": "Para expatriados",
+      "faq": "Perguntas frequentes",
+      "contact": "Contato",
+      "signIn": "Entrar",
+      "createAccount": "Criar conta",
+      "imprint": "Aviso legal",
+      "privacy": "Política de privacidade",
+      "terms": "Termos de uso",
+      "cookiePolicy": "Política de cookies"
     }
   },
   "auth": {

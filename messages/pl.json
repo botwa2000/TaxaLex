@@ -257,11 +257,28 @@
   "footer": {
     "tagline": "Szkice generowane przez AI. Nie jest to porada prawna.",
     "allRightsReserved": "Wszelkie prawa zastrzeżone.",
+    "brandTagline": "Generator pism odwoławczych oparty na AI",
     "columns": {
       "product": "Produkt",
       "company": "Firma",
       "support": "Wsparcie",
       "legal": "Informacje prawne"
+    },
+    "links": {
+      "howItWorks": "Jak to działa",
+      "useCases": "Przypadki użycia",
+      "templates": "Szablony",
+      "pricing": "Cennik",
+      "forAdvisors": "Dla doradców i prawników",
+      "forExpats": "Dla ekspatów",
+      "faq": "Często zadawane pytania",
+      "contact": "Kontakt",
+      "signIn": "Zaloguj się",
+      "createAccount": "Utwórz konto",
+      "imprint": "Stopka redakcyjna",
+      "privacy": "Polityka prywatności",
+      "terms": "Warunki korzystania",
+      "cookiePolicy": "Polityka cookies"
     }
   },
   "auth": {

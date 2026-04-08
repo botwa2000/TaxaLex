@@ -257,11 +257,28 @@
   "footer": {
     "tagline": "KI-generierte Entwürfe. Kein Rechtsrat i.S.d. RDG.",
     "allRightsReserved": "Alle Rechte vorbehalten.",
+    "brandTagline": "KI-gestützter Widerspruch & Einspruch",
     "columns": {
       "product": "Produkt",
       "company": "Unternehmen",
       "support": "Support",
       "legal": "Rechtliches"
+    },
+    "links": {
+      "howItWorks": "Wie es funktioniert",
+      "useCases": "Anwendungsfälle",
+      "templates": "Vorlagen",
+      "pricing": "Preise",
+      "forAdvisors": "Für Berater & Anwälte",
+      "forExpats": "Für Expats",
+      "faq": "Häufige Fragen",
+      "contact": "Kontakt",
+      "signIn": "Anmelden",
+      "createAccount": "Konto erstellen",
+      "imprint": "Impressum",
+      "privacy": "Datenschutz",
+      "terms": "AGB",
+      "cookiePolicy": "Cookie-Richtlinie"
     }
   },
   "auth": {

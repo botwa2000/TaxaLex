@@ -257,11 +257,28 @@
   "footer": {
     "tagline": "Bozze generate dall'IA. Non costituisce consulenza legale.",
     "allRightsReserved": "Tutti i diritti riservati.",
+    "brandTagline": "Generatore di lettere di ricorso con IA",
     "columns": {
       "product": "Prodotto",
       "company": "Azienda",
       "support": "Assistenza",
       "legal": "Legale"
+    },
+    "links": {
+      "howItWorks": "Come funziona",
+      "useCases": "Casi d'uso",
+      "templates": "Modelli",
+      "pricing": "Prezzi",
+      "forAdvisors": "Per consulenti e avvocati",
+      "forExpats": "Per gli expat",
+      "faq": "Domande frequenti",
+      "contact": "Contatto",
+      "signIn": "Accedi",
+      "createAccount": "Crea account",
+      "imprint": "Note legali",
+      "privacy": "Privacy policy",
+      "terms": "Termini di servizio",
+      "cookiePolicy": "Cookie policy"
     }
   },
   "auth": {

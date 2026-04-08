@@ -257,11 +257,28 @@
   "footer": {
     "tagline": "Brouillons générés par IA. Pas un conseil juridique.",
     "allRightsReserved": "Tous droits réservés.",
+    "brandTagline": "Générateur de lettres de recours par IA",
     "columns": {
       "product": "Produit",
       "company": "Entreprise",
       "support": "Assistance",
       "legal": "Mentions légales"
+    },
+    "links": {
+      "howItWorks": "Comment ça marche",
+      "useCases": "Cas d'usage",
+      "templates": "Modèles",
+      "pricing": "Tarifs",
+      "forAdvisors": "Pour conseillers & avocats",
+      "forExpats": "Pour les expatriés",
+      "faq": "FAQ",
+      "contact": "Contact",
+      "signIn": "Se connecter",
+      "createAccount": "Créer un compte",
+      "imprint": "Mentions légales",
+      "privacy": "Politique de confidentialité",
+      "terms": "Conditions d'utilisation",
+      "cookiePolicy": "Politique des cookies"
     }
   },
   "auth": {

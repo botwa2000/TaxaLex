@@ -257,11 +257,28 @@
   "footer": {
     "tagline": "Borradores generados por IA. No es asesoramiento jurídico.",
     "allRightsReserved": "Todos los derechos reservados.",
+    "brandTagline": "Generador de cartas de recurso con IA",
     "columns": {
       "product": "Producto",
       "company": "Empresa",
       "support": "Soporte",
       "legal": "Legal"
+    },
+    "links": {
+      "howItWorks": "Cómo funciona",
+      "useCases": "Casos de uso",
+      "templates": "Plantillas",
+      "pricing": "Precios",
+      "forAdvisors": "Para asesores y abogados",
+      "forExpats": "Para expatriados",
+      "faq": "Preguntas frecuentes",
+      "contact": "Contacto",
+      "signIn": "Iniciar sesión",
+      "createAccount": "Crear cuenta",
+      "imprint": "Aviso legal",
+      "privacy": "Política de privacidad",
+      "terms": "Términos de uso",
+      "cookiePolicy": "Política de cookies"
     }
   },
   "auth": {
