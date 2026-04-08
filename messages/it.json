@@ -165,7 +165,7 @@
       }
     },
     "sectionLabel": "I numeri",
-    "sectionHeading": "Fatti, non promesse",
+    "sectionHeading": "Numeri che parlano da soli",
     "sourceInternal": "Misurazione interna TaxaLex"
   },
   "pricing": {
@@ -902,7 +902,8 @@
         "noStore": "Non conservato"
       },
       "noCredits": "Nessun credito — vedrai un'anteprima della bozza alla fine.",
-      "topUpLink": "Ricarica ora →"
+      "topUpLink": "Ricarica ora →",
+      "demoAutoStarting": "Avvio della demo…"
     },
     "analyzing": {
       "title": "Analisi del documento in corso…",
@@ -1001,7 +1002,9 @@
       "draftEditable": "Bozza · modificabile",
       "lockedTitle": "Il Suo ricorso è pronto",
       "lockedHint": "Sblocchi il ricorso completo per scaricarlo, copiarlo e presentarlo.",
-      "unlockCta": "Sblocca ricorso completo"
+      "unlockCta": "Sblocca ricorso completo",
+      "demoBanner": "Modalità demo: Questo ricorso è stato creato con dati di esempio. Registrati per generare un vero ricorso con i tuoi documenti.",
+      "demoRegisterLink": "Registrati gratuitamente →"
     },
     "errors": {
       "analyze": "L'analisi del documento è fallita. Riprovi.",

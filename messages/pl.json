@@ -165,7 +165,7 @@
       }
     },
     "sectionLabel": "Liczby mówią same za siebie",
-    "sectionHeading": "Fakty, nie obietnice",
+    "sectionHeading": "Liczby, które mówią same za siebie",
     "sourceInternal": "Wewnętrzne pomiary TaxaLex"
   },
   "pricing": {
@@ -902,7 +902,8 @@
         "noStore": "Nie przechowywane"
       },
       "noCredits": "Brak kredytów — na końcu zobaczysz podgląd wersji roboczej.",
-      "topUpLink": "Doładuj teraz →"
+      "topUpLink": "Doładuj teraz →",
+      "demoAutoStarting": "Uruchamianie dema…"
     },
     "analyzing": {
       "title": "Analizowanie dokumentu…",
@@ -1001,7 +1002,9 @@
       "draftEditable": "Projekt · edytowalny",
       "lockedTitle": "Twoje pismo odwoławcze jest gotowe",
       "lockedHint": "Odblokuj pełne pismo, aby je pobrać, skopiować i złożyć.",
-      "unlockCta": "Odblokuj pełne pismo"
+      "unlockCta": "Odblokuj pełne pismo",
+      "demoBanner": "Tryb demo: To pismo zostało utworzone z przykładowych danych. Zarejestruj się, aby wygenerować prawdziwy sprzeciw ze swoimi dokumentami.",
+      "demoRegisterLink": "Zarejestruj się bezpłatnie →"
     },
     "errors": {
       "analyze": "Analiza dokumentu nie powiodła się. Proszę spróbować ponownie.",

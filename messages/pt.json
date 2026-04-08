@@ -165,7 +165,7 @@
       }
     },
     "sectionLabel": "Em números",
-    "sectionHeading": "Factos, não promessas",
+    "sectionHeading": "Números que falam por si mesmos",
     "sourceInternal": "Medição interna TaxaLex"
   },
   "pricing": {
@@ -902,7 +902,8 @@
         "noStore": "Não armazenado"
       },
       "noCredits": "Sem créditos — você verá uma prévia do rascunho no final.",
-      "topUpLink": "Recarregar agora →"
+      "topUpLink": "Recarregar agora →",
+      "demoAutoStarting": "A iniciar a demonstração…"
     },
     "analyzing": {
       "title": "Analisando seu documento…",
@@ -1001,7 +1002,9 @@
       "draftEditable": "Minuta · editável",
       "lockedTitle": "Sua petição de impugnação está pronta",
       "lockedHint": "Desbloqueie a petição completa para baixar, copiar e protocolar.",
-      "unlockCta": "Desbloquear petição completa"
+      "unlockCta": "Desbloquear petição completa",
+      "demoBanner": "Modo demo: Esta petição foi criada com dados de exemplo. Registre-se para gerar uma impugnação real com seus documentos.",
+      "demoRegisterLink": "Registrar gratuitamente →"
     },
     "errors": {
       "analyze": "A análise do documento falhou. Tente novamente.",

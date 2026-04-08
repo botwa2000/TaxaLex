@@ -4,6 +4,11 @@ import { stripe, PLAN_CREDITS, isAddonPlan } from '@/lib/stripe'
 import { db } from '@/lib/db'
 import { logger } from '@/lib/logger'
 import { config } from '@/config/env'
+import {
+  sendPaymentReceipt,
+  sendPaymentFailedNotification,
+  sendSubscriptionCanceledNotification,
+} from '@/lib/emails/paymentEmails'
 
 // Must run in Node.js runtime — not Edge — so req.text() gives raw body
 export const runtime = 'nodejs'
@@ -98,6 +103,20 @@ async function handleEvent(event: Stripe.Event): Promise<void> {
             }),
           ])
           logger.info('Credits granted', { userId, planSlug, creditCount, reason })
+
+          try {
+            await sendPaymentReceipt({
+              userId,
+              planName: planSlug,
+              creditsGranted: creditCount,
+              amountPaid: session.amount_total ?? 0,
+              currency: session.currency ?? 'eur',
+              mode: 'payment',
+            })
+          } catch (emailErr) {
+            // Email failure must never abort the webhook — credits already granted
+            logger.warn('sendPaymentReceipt failed (one-time)', { userId, planSlug, error: emailErr })
+          }
         }
         }
 
@@ -105,6 +124,19 @@ async function handleEvent(event: Stripe.Event): Promise<void> {
         // Subscription — provision immediately from the completed session
         const sub = await stripe.subscriptions.retrieve(session.subscription as string)
         await upsertSubscription(userId, planSlug, sub)
+
+        try {
+          await sendPaymentReceipt({
+            userId,
+            planName: planSlug,
+            amountPaid: session.amount_total ?? 0,
+            currency: session.currency ?? 'eur',
+            mode: 'subscription',
+          })
+        } catch (emailErr) {
+          // Email failure must never abort the webhook — subscription already provisioned
+          logger.warn('sendPaymentReceipt failed (subscription)', { userId, planSlug, error: emailErr })
+        }
       }
       break
     }
@@ -125,20 +157,57 @@ async function handleEvent(event: Stripe.Event): Promise<void> {
         data:  { status: 'CANCELED', canceledAt: new Date() },
       })
       logger.info('Subscription canceled', { stripeSubscriptionId: sub.id })
+
+      try {
+        const dbSub = await db.subscription.findUnique({
+          where: { stripeSubscriptionId: sub.id },
+          select: { userId: true, planSlug: true, currentPeriodEnd: true },
+        })
+        if (dbSub?.userId) {
+          const validUntil = dbSub.currentPeriodEnd
+            ? dbSub.currentPeriodEnd.toLocaleDateString('de-DE', { day: '2-digit', month: 'long', year: 'numeric' })
+            : undefined
+          await sendSubscriptionCanceledNotification({
+            userId: dbSub.userId,
+            planName: dbSub.planSlug,
+            validUntil,
+          })
+        }
+      } catch (emailErr) {
+        // Email failure must never abort the webhook
+        logger.warn('sendSubscriptionCanceledNotification failed', { stripeSubscriptionId: sub.id, error: emailErr })
+      }
       break
     }
 
     case 'invoice.payment_failed': {
       const invoice = event.data.object as Stripe.Invoice
       if (invoice.subscription) {
+        const stripeSubscriptionId = invoice.subscription as string
         await db.subscription.updateMany({
-          where: { stripeSubscriptionId: invoice.subscription as string },
+          where: { stripeSubscriptionId },
           data:  { status: 'PAST_DUE' },
         })
         logger.warn('Subscription payment failed', {
-          stripeSubscriptionId: invoice.subscription,
+          stripeSubscriptionId,
           customerId: invoice.customer,
         })
+
+        try {
+          const dbSub = await db.subscription.findUnique({
+            where: { stripeSubscriptionId },
+            select: { userId: true, planSlug: true },
+          })
+          if (dbSub?.userId) {
+            await sendPaymentFailedNotification({
+              userId: dbSub.userId,
+              planName: dbSub.planSlug,
+            })
+          }
+        } catch (emailErr) {
+          // Email failure must never abort the webhook
+          logger.warn('sendPaymentFailedNotification failed', { stripeSubscriptionId, error: emailErr })
+        }
       }
       break
     }

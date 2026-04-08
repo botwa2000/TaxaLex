@@ -165,7 +165,7 @@
       }
     },
     "sectionLabel": "Zahlen & Fakten",
-    "sectionHeading": "Fakten, keine Versprechen",
+    "sectionHeading": "Zahlen, die für sich sprechen",
     "sourceInternal": "TaxaLex intern gemessen"
   },
   "pricing": {
@@ -902,7 +902,8 @@
         "noStore": "Nicht gespeichert"
       },
       "noCredits": "Kein Guthaben — am Ende erhalten Sie eine Entwurfsvorschau.",
-      "topUpLink": "Jetzt aufladen →"
+      "topUpLink": "Jetzt aufladen →",
+      "demoAutoStarting": "Demo wird gestartet…"
     },
     "analyzing": {
       "title": "Dokument wird analysiert…",
@@ -1001,7 +1002,9 @@
       "draftEditable": "Entwurf · bearbeitbar",
       "lockedTitle": "Ihr Einspruch ist fertig",
       "lockedHint": "Schalten Sie das vollständige Schreiben frei, um es herunterzuladen und einzureichen.",
-      "unlockCta": "Vollständiges Schreiben freischalten"
+      "unlockCta": "Vollständiges Schreiben freischalten",
+      "demoBanner": "Demo-Modus: Dieser Einspruch wurde mit Beispieldaten erstellt. Für einen echten Einspruch mit Ihren Dokumenten registrieren Sie sich.",
+      "demoRegisterLink": "Jetzt kostenlos registrieren →"
     },
     "errors": {
       "analyze": "Dokumentenanalyse fehlgeschlagen. Bitte versuchen Sie es erneut.",

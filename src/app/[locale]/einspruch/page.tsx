@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect, Suspense } from 'react'
+import { getDemoScenario } from '@/lib/demoScenarios'
 import Link from 'next/link'
 import { useSearchParams, useRouter, useParams } from 'next/navigation'
 import { useTranslations } from 'next-intl'
@@ -188,6 +189,8 @@ function EinspruchPageInner() {
   const [retentionDays, setRetentionDays] = useState<number | null>(null) // null = stored permanently
   const [detectedFields, setDetectedFields] = useState<DetectedField[]>([])
   const [detectedDocType, setDetectedDocType] = useState<DetectedDocType | null>(null)
+  const isDemoModeRef = useRef(false)
+  const [isDemoMode, setIsDemoMode] = useState(false)
   const [additionalFiles, setAdditionalFiles] = useState<File[]>([])
   const [hasAccess, setHasAccess] = useState<boolean | null>(null) // null = loading
   // Fields found specifically during the review step (subset of detectedFields)
@@ -231,6 +234,31 @@ function EinspruchPageInner() {
       .catch(() => setHasAccess(true)) // fail open — API will enforce anyway
   }, [])
 
+  // Auto-start demo when landing from use-cases page with ?demo=true
+  useEffect(() => {
+    if (searchParams.get('demo') === 'true' && step === 'upload') {
+      const t = setTimeout(() => handleAnalyze(), 800)
+      return () => clearTimeout(t)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []) // only on mount
+
+  // In demo mode: auto-fill answers and proceed after a short delay
+  useEffect(() => {
+    if (!isDemoMode || step !== 'questions') return
+    const scenario = getDemoScenario(type ?? 'tax', locale)
+    const timer = setTimeout(() => {
+      const autoAnswers: Record<string, string> = {}
+      for (const q of scenario.questions) {
+        autoAnswers[q.id] = q.autoAnswer
+      }
+      setAnswers(autoAnswers)
+      setTimeout(() => handleReview(), 1500)
+    }, 2000)
+    return () => clearTimeout(timer)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isDemoMode, step])
+
   // ── Handlers ──────────────────────────────────────────────────────────────
   function addFiles(incoming: FileList | null) {
     if (!incoming) return
@@ -272,112 +300,23 @@ function EinspruchPageInner() {
     setDraftPreview('')
     setStep('analyzing')
 
-    // Demo mode — simulate streaming with staggered field reveals
+    // Demo mode — simulate streaming with staggered field reveals using scenario data
     if (files.length === 0) {
-      const demoDocType: DetectedDocType = {
-        category: 'tax_notice',
-        label: locale === 'de' ? 'Einkommensteuerbescheid' : 'Income Tax Notice',
-        icon: 'file-text',
-      }
-      const demoFields: DetectedField[] = [
-        {
-          key: 'authority',
-          label: locale === 'de' ? 'Finanzamt' : 'Tax Office',
-          value: 'Finanzamt München',
-          icon: 'building',
-          importance: 'high',
-        },
-        {
-          key: 'reference',
-          label: locale === 'de' ? 'Steuernummer' : 'Tax Number',
-          value: '143/234/56789',
-          icon: 'hash',
-          importance: 'high',
-        },
-        {
-          key: 'date',
-          label: locale === 'de' ? 'Bescheiddatum' : 'Notice Date',
-          value: '12.03.2023',
-          icon: 'calendar',
-          importance: 'medium',
-        },
-        {
-          key: 'noticeType',
-          label: locale === 'de' ? 'Art des Bescheids' : 'Notice Type',
-          value: locale === 'de' ? 'Einkommensteuer 2022' : 'Income Tax 2022',
-          icon: 'tag',
-          importance: 'high',
-        },
-        {
-          key: 'amount',
-          label: locale === 'de' ? 'Nachzahlung' : 'Amount Due',
-          value: '2.847,50 €',
-          icon: 'euro',
-          importance: 'high',
-        },
-      ]
-      const demoBescheid = {
-        docType: { category: 'tax_notice', label: demoDocType.label },
-        authority: 'Finanzamt München',
-        reference: '143/234/56789',
-        date: '12.03.2023',
-        noticeType: 'Einkommensteuer 2022',
-        amount: '2847.50',
-      }
-      const demoQuestions = [
-        {
-          id: 'dq1',
-          question:
-            locale === 'de'
-              ? 'Hatten Sie im Jahr 2022 Einnahmen aus mehreren Quellen (z.B. Anstellung und Freelance)?'
-              : 'Did you have income from multiple sources in 2022 (e.g. employment and freelance)?',
-          required: true,
-          type: 'yesno' as const,
-          background:
-            locale === 'de'
-              ? 'Mehrere Einkunftsarten können die Steuerprogression erhöhen. Nach § 32a EStG wird das Gesamteinkommen progressiv besteuert.'
-              : 'Multiple income types can affect tax progression. Under § 32a EStG, total income is taxed progressively.',
-        },
-        {
-          id: 'dq2',
-          question:
-            locale === 'de'
-              ? 'Wann haben Sie Ihre Steuererklärung für 2022 eingereicht?'
-              : 'When did you file your 2022 tax return?',
-          required: true,
-          type: 'date' as const,
-          background:
-            locale === 'de'
-              ? 'Das Einreichungsdatum ist relevant für die Einspruchsfrist (§ 355 AO: 1 Monat nach Bekanntgabe des Bescheids).'
-              : 'The filing date determines the objection deadline (§ 355 AO: 1 month after notice).',
-        },
-        {
-          id: 'dq3',
-          question:
-            locale === 'de'
-              ? 'Welche Werbungskosten bzw. Betriebsausgaben haben Sie geltend gemacht?'
-              : 'What work-related expenses or business costs did you claim?',
-          required: false,
-          type: 'text' as const,
-          background:
-            locale === 'de'
-              ? 'Werbungskosten (§ 9 EStG) und Betriebsausgaben (§ 4 Abs. 4 EStG) mindern das zu versteuernde Einkommen.'
-              : 'Work expenses (§ 9 EStG) and business costs (§ 4 para. 4 EStG) reduce taxable income.',
-        },
-      ]
+      isDemoModeRef.current = true
+      setIsDemoMode(true)
+      const scenario = getDemoScenario(type ?? 'tax', locale)
 
       await new Promise((r) => setTimeout(r, 300))
-      setDetectedDocType(demoDocType)
-      for (const field of demoFields) {
+      setDetectedDocType(scenario.docType)
+      for (const field of scenario.fields) {
         await new Promise((r) => setTimeout(r, 380))
         setDetectedFields((prev) => [...prev, field])
       }
       await new Promise((r) => setTimeout(r, 600))
-
-      bescheidDataRef.current = demoBescheid
-      questionsRef.current = demoQuestions
-      setBescheidData(demoBescheid)
-      setQuestions(demoQuestions)
+      bescheidDataRef.current = Object.fromEntries(scenario.fields.map((f) => [f.key, f.value]))
+      questionsRef.current = scenario.questions
+      setBescheidData(Object.fromEntries(scenario.fields.map((f) => [f.key, f.value])))
+      setQuestions(scenario.questions)
       setStep('questions')
       return
     }
@@ -745,6 +684,44 @@ function EinspruchPageInner() {
     setGenerateError(null)
     setStep('generating')
 
+    // ── Demo mode — simulate the full pipeline without calling real APIs ──────
+    if (isDemoModeRef.current) {
+      const scenario = getDemoScenario(type ?? 'tax', locale)
+      let agentIdx = 0
+      for (const agent of scenario.agentOutputs) {
+        setActiveAgent(agentIdx)
+        // Compress real durations for demo: max 4 s per agent so the user isn't waiting long
+        await new Promise((r) => setTimeout(r, Math.min(agent.durationMs / 10, 4000)))
+        const output: AgentOutputData = {
+          role: agent.role,
+          provider: agent.provider,
+          model: agent.model,
+          durationMs: agent.durationMs,
+          summary: agent.summary,
+        }
+        accOutputs.push(output)
+        setAgentOutputData([...accOutputs])
+        agentIdx++
+      }
+      setActiveAgent(accOutputs.length)
+      // Stream the draft text in small chunks for a typing effect
+      let preview = ''
+      for (let i = 0; i < scenario.finalDraft.length; i += 8) {
+        preview = scenario.finalDraft.slice(0, i + 8)
+        setDraftPreview(preview)
+        await new Promise((r) => setTimeout(r, 15))
+      }
+      setDraftPreview(scenario.finalDraft)
+      setEditedDraft(scenario.finalDraft)
+      setResult({
+        outputs: accOutputs.map((o) => ({ role: o.role, provider: o.provider, model: o.model })),
+        finalDraft: scenario.finalDraft,
+        caseId: null,
+      })
+      setStep('result')
+      return
+    }
+
     // All document content was already extracted during the analyze step (bescheidDataRef).
     // Do NOT re-encode files as base64 — LLMs cannot parse binary-encoded PDFs passed as text,
     // and large files exceed Zod's validation limit causing 400 errors.
@@ -958,6 +935,8 @@ function EinspruchPageInner() {
     caseIdRef.current = null
     bescheidDataRef.current = null
     questionsRef.current = null
+    isDemoModeRef.current = false
+    setIsDemoMode(false)
   }
 
   // ── Render ─────────────────────────────────────────────────────────────────
@@ -2050,6 +2029,21 @@ function EinspruchPageInner() {
         {/* ═══ Step 5 — Result ═══ */}
         {step === 'result' && result && (
           <div>
+            {/* Demo mode banner */}
+            {isDemoMode && (
+              <div className="mb-5 flex items-start gap-3 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-xl px-4 py-3">
+                <span className="text-amber-500 text-sm mt-0.5">⚠</span>
+                <div className="flex-1">
+                  <p className="text-sm font-medium text-amber-800 dark:text-amber-300">
+                    {t('result.demoBanner')}
+                  </p>
+                  <a href={`/${locale}/register`} className="text-xs text-amber-600 dark:text-amber-400 underline hover:no-underline">
+                    {t('result.demoRegisterLink')}
+                  </a>
+                </div>
+              </div>
+            )}
+
             {/* Generate error banner */}
             {generateError && (
               <div className="mb-5 flex items-start gap-3 bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-800 rounded-xl px-4 py-3">

@@ -165,7 +165,7 @@
       }
     },
     "sectionLabel": "En chiffres",
-    "sectionHeading": "Des faits, pas des promesses",
+    "sectionHeading": "Des chiffres qui parlent d'eux-mêmes",
     "sourceInternal": "Mesure interne TaxaLex"
   },
   "pricing": {
@@ -902,7 +902,8 @@
         "noStore": "Non conservé"
       },
       "noCredits": "Aucun crédit — vous verrez un aperçu du brouillon à la fin.",
-      "topUpLink": "Recharger maintenant →"
+      "topUpLink": "Recharger maintenant →",
+      "demoAutoStarting": "Démarrage de la démo…"
     },
     "analyzing": {
       "title": "Analyse de votre document…",
@@ -1001,7 +1002,9 @@
       "draftEditable": "Brouillon · modifiable",
       "lockedTitle": "Votre lettre de recours est prête",
       "lockedHint": "Déverrouillez la lettre complète pour la télécharger, la copier et la soumettre.",
-      "unlockCta": "Déverrouiller la lettre complète"
+      "unlockCta": "Déverrouiller la lettre complète",
+      "demoBanner": "Mode démo : Cette lettre a été créée avec des données d'exemple. Inscrivez-vous pour générer une vraie réclamation avec vos documents.",
+      "demoRegisterLink": "S'inscrire gratuitement →"
     },
     "errors": {
       "analyze": "L'analyse du document a échoué. Veuillez réessayer.",

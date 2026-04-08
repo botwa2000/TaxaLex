@@ -165,7 +165,7 @@
       }
     },
     "sectionLabel": "Rakamlarla",
-    "sectionHeading": "Vaatler değil, gerçekler",
+    "sectionHeading": "Kendinden söyleyen rakamlar",
     "sourceInternal": "TaxaLex iç ölçümü"
   },
   "pricing": {
@@ -902,7 +902,8 @@
         "noStore": "Saklanmaz"
       },
       "noCredits": "Kredi yok — sonunda taslak önizlemesi göreceksiniz.",
-      "topUpLink": "Şimdi yükle →"
+      "topUpLink": "Şimdi yükle →",
+      "demoAutoStarting": "Demo başlatılıyor…"
     },
     "analyzing": {
       "title": "Belgeniz analiz ediliyor…",
@@ -1001,7 +1002,9 @@
       "draftEditable": "Taslak · düzenlenebilir",
       "lockedTitle": "İtiraz mektubunuz hazır",
       "lockedHint": "Tam mektubu indirmek, kopyalamak ve göndermek için kilidi açın.",
-      "unlockCta": "Tam mektubun kilidini aç"
+      "unlockCta": "Tam mektubun kilidini aç",
+      "demoBanner": "Demo modu: Bu itiraz örnek verilerle oluşturuldu. Kendi belgelerinizle gerçek bir itiraz oluşturmak için kayıt olun.",
+      "demoRegisterLink": "Ücretsiz kaydol →"
     },
     "errors": {
       "analyze": "Belge analizi başarısız oldu. Lütfen tekrar deneyin.",

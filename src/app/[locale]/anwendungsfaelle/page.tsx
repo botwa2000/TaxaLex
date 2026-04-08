@@ -185,7 +185,7 @@ export default async function AnwendungsfaellePage({
               : 'Erfahren Sie Ihre Rechte bei den häufigsten deutschen Verwaltungsbescheiden — mit Fristen, Rechtsgrundlagen und Erfolgsquoten.'}
           </p>
           <Link
-            href="/einspruch"
+            href="/einspruch?demo=true"
             className="inline-flex items-center gap-2 bg-brand-600 hover:bg-brand-700 text-white font-bold px-8 py-4 rounded-2xl transition-colors text-lg shadow-sm"
           >
             <Zap className="w-5 h-5" />
@@ -260,7 +260,7 @@ export default async function AnwendungsfaellePage({
                     {/* CTA buttons */}
                     <div className="flex flex-wrap gap-3">
                       <Link
-                        href={`/einspruch?type=${uc.slug}`}
+                        href={`/einspruch?type=${uc.slug}&demo=true`}
                         className="inline-flex items-center gap-2 bg-brand-600 hover:bg-brand-700 text-white font-semibold px-5 py-2.5 rounded-xl text-sm transition-colors"
                       >
                         <Zap className="w-3.5 h-3.5" />
@@ -294,7 +294,7 @@ export default async function AnwendungsfaellePage({
               : 'Laden Sie einfach Ihren Bescheid hoch — unsere KI erkennt den Typ automatisch, findet Einspruchsgründe und erstellt in Minuten ein professionelles Schreiben.'}
           </p>
           <Link
-            href="/einspruch"
+            href="/einspruch?demo=true"
             className="inline-flex items-center gap-2 bg-white text-brand-700 hover:bg-brand-50 font-bold px-8 py-4 rounded-2xl transition-colors text-lg"
           >
             <Zap className="w-5 h-5" />

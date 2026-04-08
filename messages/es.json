@@ -165,7 +165,7 @@
       }
     },
     "sectionLabel": "En cifras",
-    "sectionHeading": "Hechos, no promesas",
+    "sectionHeading": "Cifras que hablan por sí solas",
     "sourceInternal": "Medición interna de TaxaLex"
   },
   "pricing": {
@@ -902,7 +902,8 @@
         "noStore": "No almacenado"
       },
       "noCredits": "Sin créditos — verá una vista previa del borrador al final.",
-      "topUpLink": "Recargar ahora →"
+      "topUpLink": "Recargar ahora →",
+      "demoAutoStarting": "Iniciando la demo…"
     },
     "analyzing": {
       "title": "Analizando su documento…",
@@ -1001,7 +1002,9 @@
       "draftEditable": "Borrador · editable",
       "lockedTitle": "Su escrito de recurso está listo",
       "lockedHint": "Desbloquee el escrito completo para descargarlo, copiarlo y presentarlo.",
-      "unlockCta": "Desbloquear escrito completo"
+      "unlockCta": "Desbloquear escrito completo",
+      "demoBanner": "Modo demo: Este escrito fue creado con datos de ejemplo. Regístrese para generar un recurso real con sus documentos.",
+      "demoRegisterLink": "Registrarse gratis →"
     },
     "errors": {
       "analyze": "El análisis del documento ha fallado. Por favor, inténtelo de nuevo.",

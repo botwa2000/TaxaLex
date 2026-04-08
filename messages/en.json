@@ -165,7 +165,7 @@
       }
     },
     "sectionLabel": "By the numbers",
-    "sectionHeading": "Facts, not promises",
+    "sectionHeading": "Numbers that speak for themselves",
     "sourceInternal": "TaxaLex internal measurement"
   },
   "pricing": {
@@ -902,7 +902,8 @@
         "noStore": "Not stored"
       },
       "noCredits": "No credits — you'll see a draft preview at the end.",
-      "topUpLink": "Top up now →"
+      "topUpLink": "Top up now →",
+      "demoAutoStarting": "Starting demo…"
     },
     "analyzing": {
       "title": "Analysing your document…",
@@ -1001,7 +1002,9 @@
       "draftEditable": "Draft · editable",
       "lockedTitle": "Your objection letter is ready",
       "lockedHint": "Unlock the full letter to download, copy and submit it.",
-      "unlockCta": "Unlock full letter"
+      "unlockCta": "Unlock full letter",
+      "demoBanner": "Demo mode: This objection was created with sample data. Register to generate a real objection with your own documents.",
+      "demoRegisterLink": "Register for free →"
     },
     "errors": {
       "analyze": "Document analysis failed. Please try again.",
