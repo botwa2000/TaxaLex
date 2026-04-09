@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { Cookie, Settings, X, Check } from 'lucide-react'
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 import { cn } from '@/lib/utils'
 import { Button } from './ui/Button'
 
@@ -36,6 +37,7 @@ export function CookieConsent({ locale = 'de' }: { locale?: string }) {
   const [analytics, setAnalytics] = useState(false)
   const [marketing, setMarketing] = useState(false)
   const [mounted, setMounted] = useState(false)
+  const t = useTranslations('cookieConsent')
 
   useEffect(() => {
     setMounted(true)
@@ -66,12 +68,10 @@ export function CookieConsent({ locale = 'de' }: { locale?: string }) {
 
   if (!mounted || !visible) return null
 
-  const t = locale === 'en' ? EN : DE
-
   return (
     <div
       role="dialog"
-      aria-label={t.title}
+      aria-label={t('title')}
       className={cn(
         'fixed bottom-0 left-0 right-0 z-50 p-4 md:p-6',
         'md:bottom-4 md:left-4 md:right-auto md:max-w-sm'
@@ -79,47 +79,46 @@ export function CookieConsent({ locale = 'de' }: { locale?: string }) {
     >
       <div className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl shadow-xl animate-slide-up p-5">
         {/* Header */}
-        <div className="flex items-start justify-between gap-3 mb-3">
+        <div className="flex items-start justify-between gap-2 mb-3">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-brand-50 dark:bg-brand-950 rounded-lg flex items-center justify-center">
-              <Cookie className="w-4 h-4 text-brand-600" />
-            </div>
-            <h3 className="text-sm font-semibold text-[var(--foreground)]">{t.title}</h3>
+            <Cookie className="w-4 h-4 text-brand-600 shrink-0" />
+            <p className="text-sm font-semibold text-[var(--foreground)]">{t('title')}</p>
           </div>
           <button
             onClick={acceptEssential}
-            aria-label="Accept essential only and close"
-            className="p-1 text-[var(--muted)] hover:text-[var(--foreground)] transition-colors"
+            className="text-[var(--muted)] hover:text-[var(--foreground)] transition-colors"
+            aria-label="Close"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
 
-        <p className="text-xs text-[var(--muted)] leading-relaxed mb-4">
-          {t.description}{' '}
-          <Link href={cookiePath} className="text-brand-600 hover:underline">
-            {t.learnMore}
+        {/* Description */}
+        <p className="text-xs text-[var(--muted)] leading-relaxed mb-3">
+          {t('description')}{' '}
+          <Link href={cookiePath} className="text-brand-600 hover:underline dark:text-brand-400">
+            {t('learnMore')}
           </Link>
         </p>
 
-        {/* Details toggle */}
+        {/* Detailed options */}
         {showDetails && (
-          <div className="space-y-2 mb-4 bg-[var(--background-subtle)] rounded-xl p-3">
+          <div className="space-y-3 mb-4 pt-3 border-t border-[var(--border)]">
             {/* Essential */}
             <div className="flex items-center justify-between gap-3">
               <div>
-                <p className="text-xs font-medium text-[var(--foreground)]">{t.essential}</p>
-                <p className="text-[11px] text-[var(--muted)]">{t.essentialDesc}</p>
+                <p className="text-xs font-medium text-[var(--foreground)]">{t('essential')}</p>
+                <p className="text-[11px] text-[var(--muted)]">{t('essentialDesc')}</p>
               </div>
-              <div className="w-8 h-5 bg-brand-600 rounded-full flex items-center justify-end px-0.5 shrink-0">
-                <div className="w-4 h-4 bg-white rounded-full" />
+              <div className="w-8 h-5 rounded-full bg-brand-600 flex items-center justify-end px-0.5 shrink-0">
+                <div className="w-4 h-4 bg-white rounded-full shadow-sm" />
               </div>
             </div>
             {/* Analytics */}
             <div className="flex items-center justify-between gap-3">
               <div>
-                <p className="text-xs font-medium text-[var(--foreground)]">{t.analyticsLabel}</p>
-                <p className="text-[11px] text-[var(--muted)]">{t.analyticsDesc}</p>
+                <p className="text-xs font-medium text-[var(--foreground)]">{t('analyticsLabel')}</p>
+                <p className="text-[11px] text-[var(--muted)]">{t('analyticsDesc')}</p>
               </div>
               <button
                 onClick={() => setAnalytics(!analytics)}
@@ -136,8 +135,8 @@ export function CookieConsent({ locale = 'de' }: { locale?: string }) {
             {/* Marketing */}
             <div className="flex items-center justify-between gap-3">
               <div>
-                <p className="text-xs font-medium text-[var(--foreground)]">{t.marketingLabel}</p>
-                <p className="text-[11px] text-[var(--muted)]">{t.marketingDesc}</p>
+                <p className="text-xs font-medium text-[var(--foreground)]">{t('marketingLabel')}</p>
+                <p className="text-[11px] text-[var(--muted)]">{t('marketingDesc')}</p>
               </div>
               <button
                 onClick={() => setMarketing(!marketing)}
@@ -158,7 +157,7 @@ export function CookieConsent({ locale = 'de' }: { locale?: string }) {
         <div className="flex flex-col gap-2">
           <Button onClick={acceptAll} size="sm" className="w-full justify-center">
             <Check className="w-3.5 h-3.5" />
-            {t.acceptAll}
+            {t('acceptAll')}
           </Button>
           <div className="flex gap-2">
             <Button
@@ -167,7 +166,7 @@ export function CookieConsent({ locale = 'de' }: { locale?: string }) {
               size="sm"
               className="flex-1 justify-center text-xs"
             >
-              {t.essentialOnly}
+              {t('essentialOnly')}
             </Button>
             <Button
               onClick={showDetails ? saveCustom : () => setShowDetails(true)}
@@ -176,43 +175,11 @@ export function CookieConsent({ locale = 'de' }: { locale?: string }) {
               className="flex-1 justify-center text-xs"
             >
               <Settings className="w-3.5 h-3.5" />
-              {showDetails ? t.save : t.customize}
+              {showDetails ? t('save') : t('customize')}
             </Button>
           </div>
         </div>
       </div>
     </div>
   )
-}
-
-const DE = {
-  title: 'Datenschutz-Einstellungen',
-  description: 'Wir verwenden Cookies, um diese Website zu betreiben und Ihnen das bestmögliche Erlebnis zu bieten.',
-  learnMore: 'Mehr erfahren',
-  essential: 'Notwendige Cookies',
-  essentialDesc: 'Sitzungsverwaltung, Sicherheit – immer aktiv',
-  analyticsLabel: 'Analyse-Cookies',
-  analyticsDesc: 'Google Analytics, PostHog – anonymisiert',
-  marketingLabel: 'Marketing-Cookies',
-  marketingDesc: 'Wird aktuell nicht verwendet',
-  acceptAll: 'Alle akzeptieren',
-  essentialOnly: 'Nur notwendige',
-  customize: 'Anpassen',
-  save: 'Speichern',
-}
-
-const EN = {
-  title: 'Privacy Settings',
-  description: 'We use cookies to operate this site and provide you the best experience.',
-  learnMore: 'Learn more',
-  essential: 'Essential cookies',
-  essentialDesc: 'Session management, security – always active',
-  analyticsLabel: 'Analytics cookies',
-  analyticsDesc: 'Google Analytics, PostHog – anonymised',
-  marketingLabel: 'Marketing cookies',
-  marketingDesc: 'Not currently used',
-  acceptAll: 'Accept all',
-  essentialOnly: 'Essential only',
-  customize: 'Customize',
-  save: 'Save preferences',
 }

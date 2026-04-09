@@ -140,7 +140,19 @@
     "expandDetails": "Mostrar detalhes",
     "collapseDetails": "Ocultar detalhes",
     "sectionLabel": "Tipos de notificação suportados",
-    "sonstige": "Outro ato administrativo"
+    "sonstige": "Outro ato administrativo",
+    "viewDetails": "Ver detalhes",
+    "law": "Lei",
+    "success": "Sucesso",
+    "partialFull": "parcial/total",
+    "type": "Tipo",
+    "objection": "Recurso",
+    "howHelps": "Como o TaxaLex ajuda",
+    "helperReads": "Lê e analisa automaticamente o seu aviso",
+    "helperIdentifies": "Identifica fundamentos do recurso com base na jurisprudência atual",
+    "helperDrafts": "Redige uma carta formal alemã pronta para envio",
+    "helperDeadline": "Cumpre o prazo de {days} dias",
+    "startNow": "Iniciar recurso agora"
   },
   "stats": {
     "title": "Números que importam",
@@ -198,7 +210,15 @@
     "sectionLabel": "Preços",
     "sectionHeading": "Preços simples e transparentes",
     "sectionSub": "Pague por caso ou subscreva para acesso ilimitado. Sem taxas ocultas.",
-    "viewAll": "Ver todos os planos, incluindo consultor e advogado →"
+    "viewAll": "Ver todos os planos, incluindo consultor e advogado →",
+    "free": "Grátis",
+    "month": "mês",
+    "perObjection": "por recurso",
+    "packNote": "único · 5 recursos · sem prazo de validade",
+    "orAnnual": "ou {currency}{annual}/ano (poupe {savings}\u00a0%)",
+    "mostPopular": "Mais popular",
+    "managePlan": "Gerir plano",
+    "getStarted": "Começar"
   },
   "features": {
     "title": "Porquê o TaxaLex?",
@@ -233,7 +253,14 @@
       "pricing": "Preços",
       "technical": "Técnico",
       "advisor": "Para consultores"
-    }
+    },
+    "search": "Pesquisar FAQ...",
+    "clearSearch": "Limpar",
+    "noResults": "Sem resultados",
+    "resultsCount": "{count} resultado(s)",
+    "noResultsFor": "Sem resultados para \"{search}\"",
+    "noCategoryFaqs": "Nenhuma FAQ nesta categoria.",
+    "resetSearch": "Limpar pesquisa"
   },
   "trust": {
     "title": "Segurança e privacidade",
@@ -1382,5 +1409,20 @@
     "previewUpdates": "Actualiza enquanto escreve",
     "previewDraft": "Rascunho editável",
     "missingFields": "campo(s) obrigatório(s) ainda vazio(s)"
+  },
+  "cookieConsent": {
+    "title": "Definições de privacidade",
+    "description": "Usamos cookies para operar este site e proporcionar-lhe a melhor experiência.",
+    "learnMore": "Saber mais",
+    "essential": "Cookies essenciais",
+    "essentialDesc": "Gestão de sessões, segurança – sempre ativos",
+    "analyticsLabel": "Cookies analíticos",
+    "analyticsDesc": "Google Analytics, PostHog – anonimizados",
+    "marketingLabel": "Cookies de marketing",
+    "marketingDesc": "Não utilizados atualmente",
+    "acceptAll": "Aceitar tudo",
+    "essentialOnly": "Apenas essenciais",
+    "customize": "Personalizar",
+    "save": "Guardar"
   }
 }

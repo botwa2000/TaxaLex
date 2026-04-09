@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { getTranslations } from 'next-intl/server'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { Mail, Clock } from 'lucide-react'
 import { PublicNav } from '@/components/PublicNav'
 import { Footer } from '@/components/Footer'
@@ -12,7 +12,8 @@ export const metadata: Metadata = {
 
 export default async function KontaktPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
-  const t = await getTranslations('contactPage')
+  setRequestLocale(locale)
+  const t = await getTranslations({ locale, namespace: 'contactPage' })
 
   return (
     <>

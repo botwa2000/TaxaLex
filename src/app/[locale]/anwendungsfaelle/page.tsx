@@ -1,4 +1,4 @@
-import { getTranslations } from 'next-intl/server'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { PublicNav } from '@/components/PublicNav'
 import { Footer } from '@/components/Footer'
 import { Link } from '@/i18n/navigation'
@@ -82,7 +82,8 @@ export default async function AnwendungsfaellePage({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
-  const t = await getTranslations('useCasePage')
+  setRequestLocale(locale)
+  const t = await getTranslations({ locale, namespace: 'useCasePage' })
 
   return (
     <>

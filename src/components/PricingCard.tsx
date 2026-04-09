@@ -1,4 +1,5 @@
 import { Check, Minus } from 'lucide-react'
+import { getTranslations } from 'next-intl/server'
 import { cn } from '@/lib/utils'
 import { Badge } from './ui/Badge'
 import { Button } from './ui/Button'
@@ -40,7 +41,9 @@ interface PricingCardProps {
   className?: string
 }
 
-export function PricingCard({ plan, locale, currentPlanSlug, className }: PricingCardProps) {
+export async function PricingCard({ plan, locale, currentPlanSlug, className }: PricingCardProps) {
+  const tPricing = await getTranslations({ locale, namespace: 'pricing' })
+
   // Normalise translations: handle both array (DB) and Record (seed/legacy) shapes
   const t = Array.isArray(plan.translations)
     ? (plan.translations[0] as PlanTranslation | undefined)
@@ -52,7 +55,7 @@ export function PricingCard({ plan, locale, currentPlanSlug, className }: Pricin
   const isCurrent = currentPlanSlug === plan.slug
   const isPopular = plan.isPopular
 
-  const priceLabel = getPriceLabel(plan, locale)
+  const priceLabel = getPriceLabel(plan, tPricing)
 
   return (
     <div
@@ -68,7 +71,7 @@ export function PricingCard({ plan, locale, currentPlanSlug, className }: Pricin
       {isPopular && (
         <div className="absolute -top-3 left-1/2 -translate-x-1/2">
           <Badge variant="brand" className="shadow-sm px-3 py-1 text-xs font-semibold">
-            {locale === 'en' ? 'Most popular' : 'Beliebtester Plan'}
+            {tPricing('mostPopular')}
           </Badge>
         </div>
       )}
@@ -77,7 +80,7 @@ export function PricingCard({ plan, locale, currentPlanSlug, className }: Pricin
       {isCurrent && !isPopular && (
         <div className="absolute -top-3 left-1/2 -translate-x-1/2">
           <Badge variant="success" className="shadow-sm px-3 py-1 text-xs">
-            {locale === 'en' ? 'Your current plan' : 'Ihr aktueller Plan'}
+            {tPricing('currentPlan')}
           </Badge>
         </div>
       )}
@@ -127,35 +130,45 @@ export function PricingCard({ plan, locale, currentPlanSlug, className }: Pricin
           className="w-full justify-center"
         >
           {isCurrent
-            ? locale === 'en' ? 'Manage plan' : 'Plan verwalten'
-            : t?.cta ?? (locale === 'en' ? 'Get started' : 'Jetzt starten')}
+            ? tPricing('managePlan')
+            : t?.cta ?? tPricing('getStarted')}
         </Button>
       </Link>
     </div>
   )
 }
 
-function getPriceLabel(plan: PricingCardPlan, locale: string) {
+type PricingTranslator = Awaited<ReturnType<typeof getTranslations<'pricing'>>>
+
+function getPriceLabel(plan: PricingCardPlan, tPricing: PricingTranslator) {
   const currency = plan.currency === 'EUR' ? '€' : plan.currency
-  const isEN = locale === 'en'
 
   if (plan.priceOnce !== null && plan.priceOnce !== undefined) {
     const once = Number(plan.priceOnce)
     const isPack = plan.slug.includes('pack')
     return {
-      amount: once === 0 ? (isEN ? 'Free' : 'Kostenlos') : `${currency}${once.toFixed(2).replace('.', ',')}`,
-      period: isPack ? null : (once === 0 ? null : isEN ? 'per objection' : 'pro Einspruch'),
-      note: isPack ? (isEN ? 'one-time · 5 objections · no expiry' : 'einmalig · 5 Einsprüche · kein Ablaufdatum') : null,
+      amount: once === 0 ? tPricing('free') : `${currency}${once.toFixed(2).replace('.', ',')}`,
+      period: isPack ? null : (once === 0 ? null : tPricing('perObjection')),
+      note: isPack ? tPricing('packNote') : null,
     }
   }
   if (plan.priceMonthly !== null && plan.priceMonthly !== undefined) {
+    const annual = plan.priceAnnual
+      ? (typeof plan.priceAnnual === 'object' && 'toNumber' in plan.priceAnnual
+          ? plan.priceAnnual.toNumber()
+          : Number(plan.priceAnnual))
+      : null
     return {
       amount: `${currency}${Number(plan.priceMonthly).toFixed(0)}`,
-      period: isEN ? 'month' : 'Monat',
-      note: plan.priceAnnual
-        ? `${isEN ? 'or' : 'oder'} ${currency}${Number(plan.priceAnnual).toFixed(0)}/${isEN ? 'yr' : 'Jahr'} (${isEN ? 'save' : 'spare'} ${Math.round((1 - (Number(plan.priceAnnual) / 12) / Number(plan.priceMonthly)) * 100)} %)`
+      period: tPricing('month'),
+      note: annual
+        ? tPricing('orAnnual', {
+            currency,
+            annual: annual.toFixed(0),
+            savings: Math.round((1 - (annual / 12) / Number(plan.priceMonthly)) * 100),
+          })
         : null,
     }
   }
-  return { amount: isEN ? 'Free' : 'Kostenlos', period: null, note: null }
+  return { amount: tPricing('free'), period: null, note: null }
 }

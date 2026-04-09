@@ -140,7 +140,19 @@
     "expandDetails": "Show details",
     "collapseDetails": "Hide details",
     "sectionLabel": "Supported notice types",
-    "sonstige": "Other notice"
+    "sonstige": "Other notice",
+    "viewDetails": "View details",
+    "law": "Law",
+    "success": "Success",
+    "partialFull": "partial/full",
+    "type": "Type",
+    "objection": "Objection",
+    "howHelps": "How TaxaLex helps",
+    "helperReads": "Reads and analyses your notice automatically",
+    "helperIdentifies": "Identifies objection grounds based on current case law",
+    "helperDrafts": "Drafts a formal German letter ready to send",
+    "helperDeadline": "Meets the {days}-day deadline requirement",
+    "startNow": "Start objection now"
   },
   "stats": {
     "title": "Numbers that matter",
@@ -198,7 +210,15 @@
     "sectionLabel": "Pricing",
     "sectionHeading": "Simple, transparent pricing",
     "sectionSub": "Pay per case, or subscribe for unlimited access. No hidden fees.",
-    "viewAll": "View all plans including advisor & lawyer →"
+    "viewAll": "View all plans including advisor & lawyer →",
+    "free": "Free",
+    "month": "month",
+    "perObjection": "per objection",
+    "packNote": "one-time · 5 objections · no expiry",
+    "orAnnual": "or {currency}{annual}/yr (save {savings}\u00a0%)",
+    "mostPopular": "Most popular",
+    "managePlan": "Manage plan",
+    "getStarted": "Get started"
   },
   "features": {
     "title": "Why TaxaLex?",
@@ -233,7 +253,14 @@
       "pricing": "Pricing",
       "technical": "Technical",
       "advisor": "For advisors"
-    }
+    },
+    "search": "Search FAQ...",
+    "clearSearch": "Clear search",
+    "noResults": "No results",
+    "resultsCount": "{count} result(s)",
+    "noResultsFor": "No results for \"{search}\"",
+    "noCategoryFaqs": "No FAQs in this category.",
+    "resetSearch": "Clear search"
   },
   "trust": {
     "title": "Security & Privacy",
@@ -1188,11 +1215,21 @@
     "legalNoteDesc": "The generated document is an AI-assisted draft. It is not legal advice within the meaning of the German Legal Services Act (RDG). For complex cases, consult a tax advisor or lawyer before submission.",
     "ctaDemo": "Try the demo",
     "agents": {
-      "drafter": { "description": "Creates the initial objection draft including all formal requirements, citations of legal basis, and argumentation structure." },
-      "reviewer": { "description": "Reviews the draft for logical errors, missing arguments, incorrect citations, and formal deficiencies." },
-      "factChecker": { "description": "Verifies all legal citations against current legislation and recent court rulings via Perplexity search." },
-      "adversary": { "description": "Takes the authority's perspective and identifies potential weaknesses in the objection — so they can be addressed proactively." },
-      "consolidator": { "description": "Merges the outputs of all four agents into a final, polished objection letter ready for submission." }
+      "drafter": {
+        "description": "Creates the initial objection draft including all formal requirements, citations of legal basis, and argumentation structure."
+      },
+      "reviewer": {
+        "description": "Reviews the draft for logical errors, missing arguments, incorrect citations, and formal deficiencies."
+      },
+      "factChecker": {
+        "description": "Verifies all legal citations against current legislation and recent court rulings via Perplexity search."
+      },
+      "adversary": {
+        "description": "Takes the authority's perspective and identifies potential weaknesses in the objection — so they can be addressed proactively."
+      },
+      "consolidator": {
+        "description": "Merges the outputs of all four agents into a final, polished objection letter ready for submission."
+      }
     }
   },
   "expatsPage": {
@@ -1382,5 +1419,20 @@
     "previewUpdates": "Updates as you type",
     "previewDraft": "Editable draft",
     "missingFields": "required field(s) still empty"
+  },
+  "cookieConsent": {
+    "title": "Privacy Settings",
+    "description": "We use cookies to operate this site and provide you the best experience.",
+    "learnMore": "Learn more",
+    "essential": "Essential cookies",
+    "essentialDesc": "Session management, security – always active",
+    "analyticsLabel": "Analytics cookies",
+    "analyticsDesc": "Google Analytics, PostHog – anonymised",
+    "marketingLabel": "Marketing cookies",
+    "marketingDesc": "Not currently used",
+    "acceptAll": "Accept all",
+    "essentialOnly": "Essential only",
+    "customize": "Customize",
+    "save": "Save preferences"
   }
 }

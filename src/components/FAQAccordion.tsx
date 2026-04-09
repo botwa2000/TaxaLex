@@ -2,28 +2,11 @@
 
 import { useState } from 'react'
 import { Search, X } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import { Tabs } from './ui/Tabs'
 import { Accordion } from './ui/Accordion'
 import type { FAQData } from '@/lib/contentFallbacks'
 import { cn } from '@/lib/utils'
-
-const CATEGORY_LABELS_DE: Record<string, string> = {
-  all: 'Alle',
-  general: 'Allgemein',
-  pricing: 'Preise',
-  legal: 'Rechtliches',
-  technical: 'Technisch',
-  advisor: 'Berater',
-}
-
-const CATEGORY_LABELS_EN: Record<string, string> = {
-  all: 'All',
-  general: 'General',
-  pricing: 'Pricing',
-  legal: 'Legal',
-  technical: 'Technical',
-  advisor: 'Advisors',
-}
 
 interface FAQAccordionProps {
   faqs: FAQData[]
@@ -31,10 +14,10 @@ interface FAQAccordionProps {
   className?: string
 }
 
-export function FAQAccordion({ faqs, locale = 'de', className }: FAQAccordionProps) {
+export function FAQAccordion({ faqs, className }: FAQAccordionProps) {
   const [activeCategory, setActiveCategory] = useState('all')
   const [search, setSearch] = useState('')
-  const labels = locale === 'en' ? CATEGORY_LABELS_EN : CATEGORY_LABELS_DE
+  const t = useTranslations('faq')
 
   const categories = ['all', ...Array.from(new Set(faqs.map((f) => f.category)))]
 
@@ -49,7 +32,7 @@ export function FAQAccordion({ faqs, locale = 'de', className }: FAQAccordionPro
 
   const tabItems = categories.map((cat) => ({
     id: cat,
-    label: labels[cat] ?? cat,
+    label: t(`categories.${cat}` as Parameters<typeof t>[0]) ?? cat,
     badge: cat === 'all' && !search ? String(faqs.length) : undefined,
   }))
 
@@ -73,7 +56,7 @@ export function FAQAccordion({ faqs, locale = 'de', className }: FAQAccordionPro
           type="search"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder={locale === 'en' ? 'Search FAQ...' : 'FAQ durchsuchen...'}
+          placeholder={t('search')}
           className="w-full pl-10 pr-10 py-3 text-sm bg-[var(--surface)] border border-[var(--border)] rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400 transition-colors placeholder:text-[var(--muted-foreground)]"
         />
         {search && (
@@ -81,7 +64,7 @@ export function FAQAccordion({ faqs, locale = 'de', className }: FAQAccordionPro
             type="button"
             onClick={() => setSearch('')}
             className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[var(--muted)] hover:text-[var(--foreground)] transition-colors"
-            aria-label={locale === 'en' ? 'Clear search' : 'Suche löschen'}
+            aria-label={t('clearSearch')}
           >
             <X className="w-4 h-4" />
           </button>
@@ -101,10 +84,8 @@ export function FAQAccordion({ faqs, locale = 'de', className }: FAQAccordionPro
       {search && (
         <p className="text-xs text-[var(--muted)] mb-3">
           {filtered.length === 0
-            ? locale === 'en' ? 'No results' : 'Keine Treffer'
-            : locale === 'en'
-              ? `${filtered.length} result${filtered.length !== 1 ? 's' : ''}`
-              : `${filtered.length} Treffer`}
+            ? t('noResults')
+            : t('resultsCount', { count: filtered.length })}
         </p>
       )}
 
@@ -117,8 +98,8 @@ export function FAQAccordion({ faqs, locale = 'de', className }: FAQAccordionPro
           <Search className="w-8 h-8 mx-auto mb-3 text-[var(--border)]" />
           <p className="text-sm text-[var(--muted)]">
             {search
-              ? locale === 'en' ? `No results for "${search}"` : `Keine Treffer für „${search}"`
-              : locale === 'en' ? 'No FAQs in this category.' : 'Keine FAQs in dieser Kategorie.'}
+              ? t('noResultsFor', { search })
+              : t('noCategoryFaqs')}
           </p>
           {search && (
             <button
@@ -126,7 +107,7 @@ export function FAQAccordion({ faqs, locale = 'de', className }: FAQAccordionPro
               onClick={() => setSearch('')}
               className="mt-2 text-sm text-brand-600 hover:underline dark:text-brand-400"
             >
-              {locale === 'en' ? 'Clear search' : 'Suche zurücksetzen'}
+              {t('resetSearch')}
             </button>
           )}
         </div>

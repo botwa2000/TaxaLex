@@ -15,7 +15,7 @@ import { MobileSidebarWrapper } from '@/components/MobileSidebarWrapper'
 import { LogoutButton } from '@/components/LogoutButton'
 import { IdleTimer } from '@/components/IdleTimer'
 import { LanguageSelector } from '@/components/ui/LanguageSelector'
-import { getTranslations } from 'next-intl/server'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 
 export default async function AppLayout({
   children,
@@ -24,7 +24,9 @@ export default async function AppLayout({
   children: React.ReactNode
   params: Promise<{ locale: string }>
 }) {
-  const [session, { locale }, t] = await Promise.all([auth(), params, getTranslations('nav')])
+  const [session, { locale }] = await Promise.all([auth(), params])
+  setRequestLocale(locale)
+  const t = await getTranslations({ locale, namespace: 'nav' })
   if (!session) redirect(`/${locale}/login`)
 
   const isAdmin = session!.user?.role === 'ADMIN'

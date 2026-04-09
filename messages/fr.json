@@ -140,7 +140,19 @@
     "expandDetails": "Afficher les détails",
     "collapseDetails": "Masquer les détails",
     "sectionLabel": "Types d'avis pris en charge",
-    "sonstige": "Autre décision"
+    "sonstige": "Autre décision",
+    "viewDetails": "Voir les détails",
+    "law": "Loi",
+    "success": "Succès",
+    "partialFull": "partiel/total",
+    "type": "Type",
+    "objection": "Réclamation",
+    "howHelps": "Comment TaxaLex aide",
+    "helperReads": "Lit et analyse automatiquement votre avis",
+    "helperIdentifies": "Identifie les motifs de réclamation selon le droit en vigueur",
+    "helperDrafts": "Rédige une lettre formelle allemande prête à envoyer",
+    "helperDeadline": "Respecte le délai de {days} jours",
+    "startNow": "Déposer une réclamation maintenant"
   },
   "stats": {
     "title": "Des chiffres qui comptent",
@@ -198,7 +210,15 @@
     "sectionLabel": "Tarifs",
     "sectionHeading": "Tarification simple et transparente",
     "sectionSub": "Payez par dossier ou abonnez-vous pour un accès illimité. Sans frais cachés.",
-    "viewAll": "Voir tous les forfaits, y compris conseiller & avocat →"
+    "viewAll": "Voir tous les forfaits, y compris conseiller & avocat →",
+    "free": "Gratuit",
+    "month": "mois",
+    "perObjection": "par réclamation",
+    "packNote": "unique · 5 réclamations · sans expiration",
+    "orAnnual": "ou {currency}{annual}/an (économisez {savings}\u00a0%)",
+    "mostPopular": "Le plus populaire",
+    "managePlan": "Gérer le forfait",
+    "getStarted": "Commencer"
   },
   "features": {
     "title": "Pourquoi TaxaLex ?",
@@ -233,7 +253,14 @@
       "pricing": "Tarifs",
       "technical": "Technique",
       "advisor": "Pour les conseillers"
-    }
+    },
+    "search": "Rechercher dans la FAQ...",
+    "clearSearch": "Effacer",
+    "noResults": "Aucun résultat",
+    "resultsCount": "{count} résultat(s)",
+    "noResultsFor": "Aucun résultat pour « {search} »",
+    "noCategoryFaqs": "Aucune FAQ dans cette catégorie.",
+    "resetSearch": "Réinitialiser"
   },
   "trust": {
     "title": "Sécurité & Confidentialité",
@@ -1188,11 +1215,21 @@
     "legalNoteDesc": "Le document généré est un projet assisté par IA. Il ne constitue pas un conseil juridique au sens de la loi allemande sur les services juridiques (RDG). Pour les cas complexes, consultez un conseiller fiscal ou un avocat avant de soumettre.",
     "ctaDemo": "Essayer la démo",
     "agents": {
-      "drafter": { "description": "Crée l'ébauche initiale de l'objection avec toutes les exigences formelles, les citations de bases légales et la structure d'argumentation." },
-      "reviewer": { "description": "Examine l'ébauche pour déceler les erreurs logiques, les arguments manquants, les citations incorrectes et les déficiences formelles." },
-      "factChecker": { "description": "Vérifie toutes les citations juridiques par rapport à la législation en vigueur et aux décisions de justice récentes via la recherche Perplexity." },
-      "adversary": { "description": "Adopte la perspective de l'autorité et identifie les faiblesses potentielles de l'objection — afin qu'elles puissent être traitées de manière proactive." },
-      "consolidator": { "description": "Fusionne les résultats des quatre agents en une lettre d'objection finale et soignée, prête à être soumise." }
+      "drafter": {
+        "description": "Crée l'ébauche initiale de l'objection avec toutes les exigences formelles, les citations de bases légales et la structure d'argumentation."
+      },
+      "reviewer": {
+        "description": "Examine l'ébauche pour déceler les erreurs logiques, les arguments manquants, les citations incorrectes et les déficiences formelles."
+      },
+      "factChecker": {
+        "description": "Vérifie toutes les citations juridiques par rapport à la législation en vigueur et aux décisions de justice récentes via la recherche Perplexity."
+      },
+      "adversary": {
+        "description": "Adopte la perspective de l'autorité et identifie les faiblesses potentielles de l'objection — afin qu'elles puissent être traitées de manière proactive."
+      },
+      "consolidator": {
+        "description": "Fusionne les résultats des quatre agents en une lettre d'objection finale et soignée, prête à être soumise."
+      }
     }
   },
   "expatsPage": {
@@ -1382,5 +1419,20 @@
     "previewUpdates": "Se met à jour au fil de la frappe",
     "previewDraft": "Brouillon modifiable",
     "missingFields": "champ(s) obligatoire(s) encore vide(s)"
+  },
+  "cookieConsent": {
+    "title": "Paramètres de confidentialité",
+    "description": "Nous utilisons des cookies pour faire fonctionner ce site et vous offrir la meilleure expérience.",
+    "learnMore": "En savoir plus",
+    "essential": "Cookies essentiels",
+    "essentialDesc": "Gestion des sessions, sécurité – toujours actifs",
+    "analyticsLabel": "Cookies analytiques",
+    "analyticsDesc": "Google Analytics, PostHog – anonymisés",
+    "marketingLabel": "Cookies marketing",
+    "marketingDesc": "Non utilisés actuellement",
+    "acceptAll": "Tout accepter",
+    "essentialOnly": "Essentiels seulement",
+    "customize": "Personnaliser",
+    "save": "Enregistrer"
   }
 }

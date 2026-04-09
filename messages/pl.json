@@ -140,7 +140,19 @@
     "expandDetails": "Pokaż szczegóły",
     "collapseDetails": "Ukryj szczegóły",
     "sectionLabel": "Obsługiwane rodzaje decyzji",
-    "sonstige": "Inne zawiadomienie"
+    "sonstige": "Inne zawiadomienie",
+    "viewDetails": "Zobacz szczegóły",
+    "law": "Prawo",
+    "success": "Sukces",
+    "partialFull": "częściowy/pełny",
+    "type": "Typ",
+    "objection": "Odwołanie",
+    "howHelps": "Jak pomaga TaxaLex",
+    "helperReads": "Automatycznie czyta i analizuje Twoje pismo",
+    "helperIdentifies": "Identyfikuje podstawy odwołania zgodnie z aktualnym prawem",
+    "helperDrafts": "Tworzy formalne pismo niemieckie gotowe do wysłania",
+    "helperDeadline": "Uwzględnia termin {days} dni",
+    "startNow": "Złóż odwołanie teraz"
   },
   "stats": {
     "title": "Liczby, które mają znaczenie",
@@ -198,7 +210,15 @@
     "sectionLabel": "Cennik",
     "sectionHeading": "Prosty, przejrzysty cennik",
     "sectionSub": "Płać za sprawę lub wykup subskrypcję na nieograniczony dostęp. Bez ukrytych opłat.",
-    "viewAll": "Pokaż wszystkie plany, w tym dla doradców i prawników →"
+    "viewAll": "Pokaż wszystkie plany, w tym dla doradców i prawników →",
+    "free": "Bezpłatny",
+    "month": "miesiąc",
+    "perObjection": "za odwołanie",
+    "packNote": "jednorazowo · 5 odwołań · bez wygaśnięcia",
+    "orAnnual": "lub {currency}{annual}/rok (zaoszczędź {savings}\u00a0%)",
+    "mostPopular": "Najpopularniejszy",
+    "managePlan": "Zarządzaj planem",
+    "getStarted": "Zacznij"
   },
   "features": {
     "title": "Dlaczego TaxaLex?",
@@ -233,7 +253,14 @@
       "pricing": "Cennik",
       "technical": "Techniczne",
       "advisor": "Dla doradców"
-    }
+    },
+    "search": "Szukaj w FAQ...",
+    "clearSearch": "Wyczyść",
+    "noResults": "Brak wyników",
+    "resultsCount": "{count} wynik(ów)",
+    "noResultsFor": "Brak wyników dla „{search}“",
+    "noCategoryFaqs": "Brak FAQ w tej kategorii.",
+    "resetSearch": "Resetuj"
   },
   "trust": {
     "title": "Bezpieczeństwo i prywatność",
@@ -1188,11 +1215,21 @@
     "legalNoteDesc": "Wygenerowany dokument jest szkicem wspomaganym przez AI. Nie stanowi porady prawnej w rozumieniu niemieckiej ustawy o usługach prawnych (RDG). W przypadku skomplikowanych spraw skonsultuj się z doradcą podatkowym lub prawnikiem przed złożeniem.",
     "ctaDemo": "Wypróbuj demo",
     "agents": {
-      "drafter": { "description": "Tworzy wstępny projekt sprzeciwu zawierający wszystkie wymagania formalne, cytaty podstawy prawnej i strukturę argumentacji." },
-      "reviewer": { "description": "Sprawdza projekt pod kątem błędów logicznych, brakujących argumentów, nieprawidłowych cytatów i uchybień formalnych." },
-      "factChecker": { "description": "Weryfikuje wszystkie cytaty prawne w oparciu o obowiązujące przepisy i najnowsze orzecznictwo za pomocą wyszukiwania Perplexity." },
-      "adversary": { "description": "Przyjmuje perspektywę organu i identyfikuje potencjalne słabości sprzeciwu — aby można je było proaktywnie zaadresować." },
-      "consolidator": { "description": "Łączy wyniki wszystkich czterech agentów w ostateczny, dopracowany list sprzeciw gotowy do złożenia." }
+      "drafter": {
+        "description": "Tworzy wstępny projekt sprzeciwu zawierający wszystkie wymagania formalne, cytaty podstawy prawnej i strukturę argumentacji."
+      },
+      "reviewer": {
+        "description": "Sprawdza projekt pod kątem błędów logicznych, brakujących argumentów, nieprawidłowych cytatów i uchybień formalnych."
+      },
+      "factChecker": {
+        "description": "Weryfikuje wszystkie cytaty prawne w oparciu o obowiązujące przepisy i najnowsze orzecznictwo za pomocą wyszukiwania Perplexity."
+      },
+      "adversary": {
+        "description": "Przyjmuje perspektywę organu i identyfikuje potencjalne słabości sprzeciwu — aby można je było proaktywnie zaadresować."
+      },
+      "consolidator": {
+        "description": "Łączy wyniki wszystkich czterech agentów w ostateczny, dopracowany list sprzeciw gotowy do złożenia."
+      }
     }
   },
   "expatsPage": {
@@ -1382,5 +1419,20 @@
     "previewUpdates": "Aktualizuje się podczas pisania",
     "previewDraft": "Edytowalny szkic",
     "missingFields": "wymagane pole(-a) nadal puste"
+  },
+  "cookieConsent": {
+    "title": "Ustawienia prywatności",
+    "description": "Używamy plików cookie, aby działać tą stroną i zapewnić Ci najlepsze doświadczenie.",
+    "learnMore": "Dowiedz się więcej",
+    "essential": "Niezbędne pliki cookie",
+    "essentialDesc": "Zarządzanie sesjami, bezpieczeństwo – zawsze aktywne",
+    "analyticsLabel": "Analityczne pliki cookie",
+    "analyticsDesc": "Google Analytics, PostHog – zanonimizowane",
+    "marketingLabel": "Marketingowe pliki cookie",
+    "marketingDesc": "Obecnie nie używane",
+    "acceptAll": "Akceptuj wszystkie",
+    "essentialOnly": "Tylko niezbędne",
+    "customize": "Dostosuj",
+    "save": "Zapisz"
   }
 }

@@ -1,4 +1,4 @@
-import { getTranslations } from 'next-intl/server'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { PublicNav } from '@/components/PublicNav'
 import { Footer } from '@/components/Footer'
 import { TrustBadges } from '@/components/TrustBadges'
@@ -19,7 +19,8 @@ export default async function HowItWorksPage({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
-  const t = await getTranslations('howItWorksPage')
+  setRequestLocale(locale)
+  const t = await getTranslations({ locale, namespace: 'howItWorksPage' })
 
   return (
     <>

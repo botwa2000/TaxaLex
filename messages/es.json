@@ -140,7 +140,19 @@
     "expandDetails": "Mostrar detalles",
     "collapseDetails": "Ocultar detalles",
     "sectionLabel": "Tipos de avisos admitidos",
-    "sonstige": "Otra resolución administrativa"
+    "sonstige": "Otra resolución administrativa",
+    "viewDetails": "Ver detalles",
+    "law": "Ley",
+    "success": "Éxito",
+    "partialFull": "parcial/total",
+    "type": "Tipo",
+    "objection": "Recurso",
+    "howHelps": "Cómo ayuda TaxaLex",
+    "helperReads": "Lee y analiza su aviso automáticamente",
+    "helperIdentifies": "Identifica motivos de recurso según la jurisprudencia actual",
+    "helperDrafts": "Redacta una carta formal alemana lista para enviar",
+    "helperDeadline": "Cumple el plazo de {days} días",
+    "startNow": "Iniciar recurso ahora"
   },
   "stats": {
     "title": "Cifras que importan",
@@ -198,7 +210,15 @@
     "sectionLabel": "Precios",
     "sectionHeading": "Precios simples y transparentes",
     "sectionSub": "Paga por caso o suscríbete para acceso ilimitado. Sin cargos ocultos.",
-    "viewAll": "Ver todos los planes, incluyendo asesor y abogado →"
+    "viewAll": "Ver todos los planes, incluyendo asesor y abogado →",
+    "free": "Gratis",
+    "month": "mes",
+    "perObjection": "por recurso",
+    "packNote": "pago único · 5 recursos · sin caducidad",
+    "orAnnual": "o {currency}{annual}/año (ahorra {savings}\u00a0%)",
+    "mostPopular": "Más popular",
+    "managePlan": "Gestionar plan",
+    "getStarted": "Empezar"
   },
   "features": {
     "title": "¿Por qué TaxaLex?",
@@ -233,7 +253,14 @@
       "pricing": "Precios",
       "technical": "Técnico",
       "advisor": "Para asesores"
-    }
+    },
+    "search": "Buscar en FAQ...",
+    "clearSearch": "Limpiar",
+    "noResults": "Sin resultados",
+    "resultsCount": "{count} resultado(s)",
+    "noResultsFor": "Sin resultados para \"{search}\"",
+    "noCategoryFaqs": "No hay FAQs en esta categoría.",
+    "resetSearch": "Limpiar búsqueda"
   },
   "trust": {
     "title": "Seguridad y privacidad",
@@ -1188,11 +1215,21 @@
     "legalNoteDesc": "El documento generado es un borrador asistido por IA. No constituye asesoramiento jurídico en el sentido de la Ley alemana de servicios jurídicos (RDG). Para casos complejos, consulte a un asesor fiscal o abogado antes de presentarlo.",
     "ctaDemo": "Probar la demo",
     "agents": {
-      "drafter": { "description": "Crea el borrador inicial de la oposición incluyendo todos los requisitos formales, citas de la base legal y la estructura de argumentación." },
-      "reviewer": { "description": "Revisa el borrador en busca de errores lógicos, argumentos faltantes, citas incorrectas y deficiencias formales." },
-      "factChecker": { "description": "Verifica todas las citas legales contra la legislación vigente y las sentencias judiciales recientes mediante la búsqueda de Perplexity." },
-      "adversary": { "description": "Adopta la perspectiva de la autoridad e identifica posibles puntos débiles de la oposición — para que puedan abordarse de forma proactiva." },
-      "consolidator": { "description": "Fusiona los resultados de los cuatro agentes en una carta de oposición final y pulida, lista para su presentación." }
+      "drafter": {
+        "description": "Crea el borrador inicial de la oposición incluyendo todos los requisitos formales, citas de la base legal y la estructura de argumentación."
+      },
+      "reviewer": {
+        "description": "Revisa el borrador en busca de errores lógicos, argumentos faltantes, citas incorrectas y deficiencias formales."
+      },
+      "factChecker": {
+        "description": "Verifica todas las citas legales contra la legislación vigente y las sentencias judiciales recientes mediante la búsqueda de Perplexity."
+      },
+      "adversary": {
+        "description": "Adopta la perspectiva de la autoridad e identifica posibles puntos débiles de la oposición — para que puedan abordarse de forma proactiva."
+      },
+      "consolidator": {
+        "description": "Fusiona los resultados de los cuatro agentes en una carta de oposición final y pulida, lista para su presentación."
+      }
     }
   },
   "expatsPage": {
@@ -1382,5 +1419,20 @@
     "previewUpdates": "Se actualiza al escribir",
     "previewDraft": "Borrador editable",
     "missingFields": "campo(s) obligatorio(s) aún vacío(s)"
+  },
+  "cookieConsent": {
+    "title": "Configuración de privacidad",
+    "description": "Usamos cookies para operar este sitio y brindarle la mejor experiencia.",
+    "learnMore": "Saber más",
+    "essential": "Cookies esenciales",
+    "essentialDesc": "Gestión de sesión, seguridad – siempre activas",
+    "analyticsLabel": "Cookies analíticas",
+    "analyticsDesc": "Google Analytics, PostHog – anonimizados",
+    "marketingLabel": "Cookies de marketing",
+    "marketingDesc": "No utilizados actualmente",
+    "acceptAll": "Aceptar todo",
+    "essentialOnly": "Solo esenciales",
+    "customize": "Personalizar",
+    "save": "Guardar"
   }
 }

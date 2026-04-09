@@ -140,7 +140,19 @@
     "expandDetails": "Ayrıntıları göster",
     "collapseDetails": "Ayrıntıları gizle",
     "sectionLabel": "Desteklenen karar türleri",
-    "sonstige": "Diğer bildirim"
+    "sonstige": "Diğer bildirim",
+    "viewDetails": "Ayrıntıları gör",
+    "law": "Kanun",
+    "success": "Başarı",
+    "partialFull": "kısmî/tam",
+    "type": "Tür",
+    "objection": "İtiraz",
+    "howHelps": "TaxaLex nasıl yardımcı olur",
+    "helperReads": "Bildiriminizi otomatik olarak okur ve analiz eder",
+    "helperIdentifies": "Güncel hukuka göre itiraz gerekçelerini belirler",
+    "helperDrafts": "Gönderiye hazır resmi bir Almanca mektup yazar",
+    "helperDeadline": "{days} günlük süre koşulunu karşılar",
+    "startNow": "Şimdi itiraz başlat"
   },
   "stats": {
     "title": "Önemli rakamlar",
@@ -198,7 +210,15 @@
     "sectionLabel": "Fiyatlandırma",
     "sectionHeading": "Basit, şeffaf fiyatlandırma",
     "sectionSub": "Davaya göre ödeyin ya da sınırsız erişim için abone olun. Gizli ücret yok.",
-    "viewAll": "Danışman ve avukat planları dahil tüm planları görün →"
+    "viewAll": "Danışman ve avukat planları dahil tüm planları görün →",
+    "free": "Ücretsiz",
+    "month": "ay",
+    "perObjection": "itiraz başına",
+    "packNote": "tek seferlik · 5 itiraz · son kullanma tarihi yok",
+    "orAnnual": "veya {currency}{annual}/yıl ({savings}\u00a0% tasarruf)",
+    "mostPopular": "En popüler",
+    "managePlan": "Planı yönet",
+    "getStarted": "Başla"
   },
   "features": {
     "title": "Neden TaxaLex?",
@@ -233,7 +253,14 @@
       "pricing": "Fiyatlandırma",
       "technical": "Teknik",
       "advisor": "Danışmanlar için"
-    }
+    },
+    "search": "SSS'de ara...",
+    "clearSearch": "Temizle",
+    "noResults": "Sonuç yok",
+    "resultsCount": "{count} sonuç",
+    "noResultsFor": "\"{search}\" için sonuç yok",
+    "noCategoryFaqs": "Bu kategoride SSS yok.",
+    "resetSearch": "Sıfırla"
   },
   "trust": {
     "title": "Güvenlik ve Gizlilik",
@@ -1188,11 +1215,21 @@
     "legalNoteDesc": "Oluşturulan belge, yapay zeka destekli bir taslaktır. Alman Hukuki Hizmetler Kanunu (RDG) anlamında hukuki tavsiye niteliği taşımaz. Karmaşık davalar için başvurmadan önce bir vergi danışmanı veya avukata danışın.",
     "ctaDemo": "Demoyu deneyin",
     "agents": {
-      "drafter": { "description": "Tüm biçimsel gereksinimleri, yasal dayanak alıntılarını ve argumanrasyon yapısını içeren ilk itiraz taslağını oluşturur." },
-      "reviewer": { "description": "Taslağı mantıksal hatalar, eksik argümanlar, yanlış alıntılar ve biçimsel eksiklikler açısından inceler." },
-      "factChecker": { "description": "Tüm yasal alıntıları Perplexity araması aracılığıyla mevcut mevzuat ve son mahkeme kararlarına göre doğrular." },
-      "adversary": { "description": "Yetkili makamın bakış açısını benimser ve itirazın potansiyel zayıf noktalarını belirler — böylece proaktif olarak ele alınabilirler." },
-      "consolidator": { "description": "Dört ajanın tüm çıktılarını sunuma hazır, nihai ve cilalı bir itiraz mektubunda birleştirir." }
+      "drafter": {
+        "description": "Tüm biçimsel gereksinimleri, yasal dayanak alıntılarını ve argumanrasyon yapısını içeren ilk itiraz taslağını oluşturur."
+      },
+      "reviewer": {
+        "description": "Taslağı mantıksal hatalar, eksik argümanlar, yanlış alıntılar ve biçimsel eksiklikler açısından inceler."
+      },
+      "factChecker": {
+        "description": "Tüm yasal alıntıları Perplexity araması aracılığıyla mevcut mevzuat ve son mahkeme kararlarına göre doğrular."
+      },
+      "adversary": {
+        "description": "Yetkili makamın bakış açısını benimser ve itirazın potansiyel zayıf noktalarını belirler — böylece proaktif olarak ele alınabilirler."
+      },
+      "consolidator": {
+        "description": "Dört ajanın tüm çıktılarını sunuma hazır, nihai ve cilalı bir itiraz mektubunda birleştirir."
+      }
     }
   },
   "expatsPage": {
@@ -1382,5 +1419,20 @@
     "previewUpdates": "Siz yazarken güncellenir",
     "previewDraft": "Düzenlenebilir taslak",
     "missingFields": "zorunlu alan(lar) hâlâ boş"
+  },
+  "cookieConsent": {
+    "title": "Gizlilik Ayarları",
+    "description": "Bu siteyi işletmek ve size en iyi deneyimi sunmak için çerezler kullanıyoruz.",
+    "learnMore": "Daha fazla bilgi",
+    "essential": "Zorunlu çerezler",
+    "essentialDesc": "Oturum yönetimi, güvenlik – her zaman aktif",
+    "analyticsLabel": "Analitik çerezler",
+    "analyticsDesc": "Google Analytics, PostHog – anonimleştirilmiş",
+    "marketingLabel": "Pazarlama çerezleri",
+    "marketingDesc": "Şu an kullanılmıyor",
+    "acceptAll": "Tümünü kabul et",
+    "essentialOnly": "Yalnızca zorunlular",
+    "customize": "Özelleştir",
+    "save": "Kaydet"
   }
 }

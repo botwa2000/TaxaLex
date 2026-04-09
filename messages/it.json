@@ -140,7 +140,19 @@
     "expandDetails": "Mostra dettagli",
     "collapseDetails": "Nascondi dettagli",
     "sectionLabel": "Tipi di avviso supportati",
-    "sonstige": "Altro provvedimento"
+    "sonstige": "Altro provvedimento",
+    "viewDetails": "Vedi dettagli",
+    "law": "Legge",
+    "success": "Successo",
+    "partialFull": "parz./totale",
+    "type": "Tipo",
+    "objection": "Ricorso",
+    "howHelps": "Come aiuta TaxaLex",
+    "helperReads": "Legge e analizza automaticamente il tuo avviso",
+    "helperIdentifies": "Identifica i motivi di ricorso secondo la giurisprudenza attuale",
+    "helperDrafts": "Redige una lettera formale tedesca pronta per l'invio",
+    "helperDeadline": "Rispetta il termine di {days} giorni",
+    "startNow": "Avvia ricorso ora"
   },
   "stats": {
     "title": "I numeri che contano",
@@ -198,7 +210,15 @@
     "sectionLabel": "Prezzi",
     "sectionHeading": "Prezzi semplici e trasparenti",
     "sectionSub": "Paga per caso o abbonati per accesso illimitato. Nessun costo nascosto.",
-    "viewAll": "Vedi tutti i piani, inclusi consulente & avvocato →"
+    "viewAll": "Vedi tutti i piani, inclusi consulente & avvocato →",
+    "free": "Gratis",
+    "month": "mese",
+    "perObjection": "per ricorso",
+    "packNote": "una tantum · 5 ricorsi · senza scadenza",
+    "orAnnual": "o {currency}{annual}/anno (risparmia {savings}\u00a0%)",
+    "mostPopular": "Più popolare",
+    "managePlan": "Gestisci piano",
+    "getStarted": "Inizia"
   },
   "features": {
     "title": "Perché TaxaLex?",
@@ -233,7 +253,14 @@
       "pricing": "Prezzi",
       "technical": "Tecnico",
       "advisor": "Per i consulenti"
-    }
+    },
+    "search": "Cerca nelle FAQ...",
+    "clearSearch": "Cancella",
+    "noResults": "Nessun risultato",
+    "resultsCount": "{count} risultato/i",
+    "noResultsFor": "Nessun risultato per \"{search}\"",
+    "noCategoryFaqs": "Nessuna FAQ in questa categoria.",
+    "resetSearch": "Cancella ricerca"
   },
   "trust": {
     "title": "Sicurezza & Privacy",
@@ -1188,11 +1215,21 @@
     "legalNoteDesc": "Il documento generato è una bozza assistita dall'IA. Non costituisce consulenza legale ai sensi della legge tedesca sui servizi legali (RDG). Per i casi complessi, consulta un commercialista o un avvocato prima della presentazione.",
     "ctaDemo": "Prova la demo",
     "agents": {
-      "drafter": { "description": "Crea la bozza iniziale del ricorso includendo tutti i requisiti formali, le citazioni della base legale e la struttura dell'argomentazione." },
-      "reviewer": { "description": "Esamina la bozza per errori logici, argomenti mancanti, citazioni errate e carenze formali." },
-      "factChecker": { "description": "Verifica tutte le citazioni legali rispetto alla legislazione vigente e alle recenti sentenze dei tribunali tramite la ricerca Perplexity." },
-      "adversary": { "description": "Adotta la prospettiva dell'autorità e identifica i potenziali punti deboli del ricorso — in modo che possano essere affrontati proattivamente." },
-      "consolidator": { "description": "Fonde i risultati di tutti e quattro gli agenti in una lettera di ricorso finale e curata, pronta per la presentazione." }
+      "drafter": {
+        "description": "Crea la bozza iniziale del ricorso includendo tutti i requisiti formali, le citazioni della base legale e la struttura dell'argomentazione."
+      },
+      "reviewer": {
+        "description": "Esamina la bozza per errori logici, argomenti mancanti, citazioni errate e carenze formali."
+      },
+      "factChecker": {
+        "description": "Verifica tutte le citazioni legali rispetto alla legislazione vigente e alle recenti sentenze dei tribunali tramite la ricerca Perplexity."
+      },
+      "adversary": {
+        "description": "Adotta la prospettiva dell'autorità e identifica i potenziali punti deboli del ricorso — in modo che possano essere affrontati proattivamente."
+      },
+      "consolidator": {
+        "description": "Fonde i risultati di tutti e quattro gli agenti in una lettera di ricorso finale e curata, pronta per la presentazione."
+      }
     }
   },
   "expatsPage": {
@@ -1382,5 +1419,20 @@
     "previewUpdates": "Si aggiorna durante la digitazione",
     "previewDraft": "Bozza modificabile",
     "missingFields": "campo/i obbligatorio/i ancora vuoto/i"
+  },
+  "cookieConsent": {
+    "title": "Impostazioni privacy",
+    "description": "Utilizziamo i cookie per gestire questo sito e offrirti la migliore esperienza.",
+    "learnMore": "Scopri di più",
+    "essential": "Cookie essenziali",
+    "essentialDesc": "Gestione sessioni, sicurezza – sempre attivi",
+    "analyticsLabel": "Cookie analitici",
+    "analyticsDesc": "Google Analytics, PostHog – anonimizzati",
+    "marketingLabel": "Cookie di marketing",
+    "marketingDesc": "Non utilizzati al momento",
+    "acceptAll": "Accetta tutto",
+    "essentialOnly": "Solo essenziali",
+    "customize": "Personalizza",
+    "save": "Salva"
   }
 }

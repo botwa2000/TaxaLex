@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic'
 
-import { getTranslations } from 'next-intl/server'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { PublicNav } from '@/components/PublicNav'
 import { Footer } from '@/components/Footer'
 import { PricingCard } from '@/components/PricingCard'
@@ -15,7 +15,8 @@ interface PricingPageProps {
 
 export default async function PricingPage({ params }: PricingPageProps) {
   const { locale } = await params
-  const t = await getTranslations('pricingPage')
+  setRequestLocale(locale)
+  const t = await getTranslations({ locale, namespace: 'pricingPage' })
 
   const rawPlans = await db.pricingPlan.findMany({
     where: { isActive: true, userGroup: 'individual' },

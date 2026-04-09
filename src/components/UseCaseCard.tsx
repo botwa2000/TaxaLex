@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { Clock, Scale, TrendingUp, ArrowRight, X, FileText, Users, AlarmClock, AlertTriangle, Shield, Briefcase, Home, MapPin, ExternalLink } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import { cn } from '@/lib/utils'
 import { Badge } from './ui/Badge'
 import type { UseCaseData } from '@/lib/contentFallbacks'
@@ -16,9 +17,9 @@ interface UseCaseCardProps {
   locale: string
 }
 
-export function UseCaseCard({ useCase, locale }: UseCaseCardProps) {
+export function UseCaseCard({ useCase }: UseCaseCardProps) {
   const [modalOpen, setModalOpen] = useState(false)
-  const isEN = locale === 'en'
+  const t = useTranslations('useCases')
   const Icon = ICON_MAP[useCase.icon ?? 'FileText'] ?? FileText
 
   return (
@@ -71,7 +72,7 @@ export function UseCaseCard({ useCase, locale }: UseCaseCardProps) {
 
         {/* CTA hint */}
         <div className="flex items-center gap-1 text-xs text-brand-600 dark:text-brand-400 font-medium mt-auto">
-          {isEN ? 'View details' : 'Details ansehen'}
+          {t('viewDetails')}
           <ArrowRight className="w-3 h-3 transition-transform group-hover:translate-x-0.5" />
         </div>
       </button>
@@ -114,10 +115,10 @@ export function UseCaseCard({ useCase, locale }: UseCaseCardProps) {
                   <div className="flex items-center gap-1.5 mb-2">
                     <Clock className="w-4 h-4 text-brand-600" />
                     <span className="text-[11px] font-semibold uppercase tracking-wider text-[var(--muted)]">
-                      {isEN ? 'Deadline' : 'Frist'}
+                      {t('deadline')}
                     </span>
                   </div>
-                  <p className="text-base font-bold text-[var(--foreground)]">{useCase.deadlineDays} {isEN ? 'd.' : 'T.'}</p>
+                  <p className="text-base font-bold text-[var(--foreground)]">{useCase.deadlineDays} {t('days')}</p>
                   <p className="text-xs text-[var(--muted)] mt-0.5">{useCase.deadlineText}</p>
                 </div>
 
@@ -125,7 +126,7 @@ export function UseCaseCard({ useCase, locale }: UseCaseCardProps) {
                   <div className="flex items-center gap-1.5 mb-2">
                     <Scale className="w-4 h-4 text-brand-600" />
                     <span className="text-[11px] font-semibold uppercase tracking-wider text-[var(--muted)]">
-                      {isEN ? 'Law' : 'Gesetz'}
+                      {t('law')}
                     </span>
                   </div>
                   <p className="text-sm font-bold text-[var(--foreground)]">{useCase.legalBasis}</p>
@@ -136,12 +137,12 @@ export function UseCaseCard({ useCase, locale }: UseCaseCardProps) {
                     <div className="flex items-center gap-1.5 mb-2">
                       <TrendingUp className="w-4 h-4 text-[var(--success)]" />
                       <span className="text-[11px] font-semibold uppercase tracking-wider text-[var(--success)]">
-                        {isEN ? 'Success' : 'Erfolg'}
+                        {t('success')}
                       </span>
                     </div>
                     <p className="text-base font-bold text-[var(--success)]">{useCase.successRate}</p>
                     <p className="text-xs text-[var(--success)] opacity-80 mt-0.5">
-                      {isEN ? 'partial/full' : 'teilw./voll'}
+                      {t('partialFull')}
                     </p>
                   </div>
                 ) : (
@@ -149,11 +150,11 @@ export function UseCaseCard({ useCase, locale }: UseCaseCardProps) {
                     <div className="flex items-center gap-1.5 mb-2">
                       <ExternalLink className="w-4 h-4 text-brand-600" />
                       <span className="text-[11px] font-semibold uppercase tracking-wider text-[var(--muted)]">
-                        {isEN ? 'Type' : 'Art'}
+                        {t('type')}
                       </span>
                     </div>
                     <p className="text-sm font-bold text-[var(--foreground)]">
-                      {isEN ? 'Objection' : 'Widerspruch'}
+                      {t('objection')}
                     </p>
                   </div>
                 )}
@@ -163,24 +164,24 @@ export function UseCaseCard({ useCase, locale }: UseCaseCardProps) {
               <div className="bg-brand-50 dark:bg-brand-950/50 rounded-2xl p-4">
                 <h3 className="font-semibold text-[var(--foreground)] mb-2 flex items-center gap-2">
                   <Shield className="w-4 h-4 text-brand-600" />
-                  {isEN ? 'How TaxaLex helps' : 'So hilft TaxaLex'}
+                  {t('howHelps')}
                 </h3>
                 <ul className="space-y-1.5 text-sm text-[var(--muted)]">
                   <li className="flex items-start gap-2">
                     <span className="text-brand-500 mt-0.5">✓</span>
-                    {isEN ? 'Reads and analyses your notice automatically' : 'Liest und analysiert Ihren Bescheid automatisch'}
+                    {t('helperReads')}
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-brand-500 mt-0.5">✓</span>
-                    {isEN ? 'Identifies objection grounds based on current case law' : 'Identifiziert Einspruchsgründe nach aktuellem Recht'}
+                    {t('helperIdentifies')}
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-brand-500 mt-0.5">✓</span>
-                    {isEN ? 'Drafts a formal German letter ready to send' : 'Erstellt ein formal korrektes deutsches Schreiben'}
+                    {t('helperDrafts')}
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-brand-500 mt-0.5">✓</span>
-                    {isEN ? `Meets the ${useCase.deadlineDays}-day deadline requirement` : `Berücksichtigt die ${useCase.deadlineDays}-Tage-Frist`}
+                    {t('helperDeadline', { days: useCase.deadlineDays })}
                   </li>
                 </ul>
               </div>
@@ -191,7 +192,7 @@ export function UseCaseCard({ useCase, locale }: UseCaseCardProps) {
                 onClick={() => setModalOpen(false)}
                 className="flex items-center justify-center gap-2 w-full bg-brand-600 hover:bg-brand-700 text-white font-semibold py-3.5 rounded-2xl transition-colors"
               >
-                {isEN ? 'Start objection now' : 'Einspruch jetzt starten'}
+                {t('startNow')}
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </div>

@@ -1,4 +1,4 @@
-import { getTranslations } from 'next-intl/server'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { brand } from '@/config/brand'
 import { Logo } from './Logo'
 import { LanguageSelector } from './ui/LanguageSelector'
@@ -9,7 +9,7 @@ interface FooterProps {
 }
 
 export async function Footer({ locale }: FooterProps) {
-  const t = await getTranslations('footer')
+  const t = await getTranslations({ locale, namespace: 'footer' })
   const year = new Date().getFullYear()
 
   const columns = [

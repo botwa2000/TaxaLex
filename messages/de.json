@@ -140,7 +140,19 @@
     "expandDetails": "Details anzeigen",
     "collapseDetails": "Details ausblenden",
     "sectionLabel": "Unterstützte Bescheidarten",
-    "sonstige": "Sonstiger Bescheid"
+    "sonstige": "Sonstiger Bescheid",
+    "viewDetails": "Details ansehen",
+    "law": "Gesetz",
+    "success": "Erfolg",
+    "partialFull": "teilw./voll",
+    "type": "Art",
+    "objection": "Widerspruch",
+    "howHelps": "So hilft TaxaLex",
+    "helperReads": "Liest und analysiert Ihren Bescheid automatisch",
+    "helperIdentifies": "Identifiziert Einspruchsgründe nach aktuellem Recht",
+    "helperDrafts": "Erstellt ein formal korrektes deutsches Schreiben",
+    "helperDeadline": "Berücksichtigt die {days}-Tage-Frist",
+    "startNow": "Einspruch jetzt starten"
   },
   "stats": {
     "title": "Zahlen, die zählen",
@@ -198,7 +210,15 @@
     "sectionLabel": "Preise",
     "sectionHeading": "Einfache, transparente Preise",
     "sectionSub": "Pro Fall oder als Abo. Keine versteckten Kosten.",
-    "viewAll": "Alle Pläne inkl. Berater & Anwalt ansehen →"
+    "viewAll": "Alle Pläne inkl. Berater & Anwalt ansehen →",
+    "free": "Kostenlos",
+    "month": "Monat",
+    "perObjection": "pro Einspruch",
+    "packNote": "einmalig · 5 Einsprüche · kein Ablaufdatum",
+    "orAnnual": "oder {currency}{annual}/Jahr (spare {savings}\u00a0%)",
+    "mostPopular": "Beliebtester Plan",
+    "managePlan": "Plan verwalten",
+    "getStarted": "Jetzt starten"
   },
   "features": {
     "title": "Warum TaxaLex?",
@@ -233,7 +253,14 @@
       "pricing": "Preise",
       "technical": "Technik",
       "advisor": "Für Berater"
-    }
+    },
+    "search": "FAQ durchsuchen...",
+    "clearSearch": "Suche löschen",
+    "noResults": "Keine Treffer",
+    "resultsCount": "{count} Treffer",
+    "noResultsFor": "Keine Treffer für „{search}“",
+    "noCategoryFaqs": "Keine FAQs in dieser Kategorie.",
+    "resetSearch": "Suche zurücksetzen"
   },
   "trust": {
     "title": "Sicherheit & Datenschutz",
@@ -1188,11 +1215,21 @@
     "legalNoteDesc": "Das generierte Dokument ist ein KI-gestützter Entwurf. Es stellt keine Rechtsberatung i.S.d. RDG dar. Bei komplexen Fällen empfehlen wir die Prüfung durch einen Steuerberater oder Anwalt vor der Einreichung.",
     "ctaDemo": "Demo starten",
     "agents": {
-      "drafter": { "description": "Erstellt den ersten Einspruchsentwurf mit allen formalen Anforderungen, Rechtsgrundlagen und Argumentationsstruktur." },
-      "reviewer": { "description": "Prüft den Entwurf auf Logikfehler, fehlende Argumente, falsche Zitate und formale Mängel." },
-      "factChecker": { "description": "Verifiziert alle Rechtszitate gegen aktuelle Gesetzgebung und aktuelle BFH-Urteile über Perplexity-Recherche." },
-      "adversary": { "description": "Nimmt die Perspektive des Finanzamts ein und identifiziert potenzielle Schwächen des Einspruchs – damit diese proaktiv adressiert werden." },
-      "consolidator": { "description": "Fügt die Ausgaben aller vier Agenten zu einem finalen, ausgefeilten Einspruchsschreiben zusammen." }
+      "drafter": {
+        "description": "Erstellt den ersten Einspruchsentwurf mit allen formalen Anforderungen, Rechtsgrundlagen und Argumentationsstruktur."
+      },
+      "reviewer": {
+        "description": "Prüft den Entwurf auf Logikfehler, fehlende Argumente, falsche Zitate und formale Mängel."
+      },
+      "factChecker": {
+        "description": "Verifiziert alle Rechtszitate gegen aktuelle Gesetzgebung und aktuelle BFH-Urteile über Perplexity-Recherche."
+      },
+      "adversary": {
+        "description": "Nimmt die Perspektive des Finanzamts ein und identifiziert potenzielle Schwächen des Einspruchs – damit diese proaktiv adressiert werden."
+      },
+      "consolidator": {
+        "description": "Fügt die Ausgaben aller vier Agenten zu einem finalen, ausgefeilten Einspruchsschreiben zusammen."
+      }
     }
   },
   "expatsPage": {
@@ -1382,5 +1419,20 @@
     "previewUpdates": "Aktualisiert beim Tippen",
     "previewDraft": "Bearbeitbarer Entwurf",
     "missingFields": "Pflichtfeld(er) noch leer"
+  },
+  "cookieConsent": {
+    "title": "Datenschutz-Einstellungen",
+    "description": "Wir verwenden Cookies, um diese Website zu betreiben und Ihnen das bestmögliche Erlebnis zu bieten.",
+    "learnMore": "Mehr erfahren",
+    "essential": "Notwendige Cookies",
+    "essentialDesc": "Sitzungsverwaltung, Sicherheit – immer aktiv",
+    "analyticsLabel": "Analyse-Cookies",
+    "analyticsDesc": "Google Analytics, PostHog – anonymisiert",
+    "marketingLabel": "Marketing-Cookies",
+    "marketingDesc": "Wird aktuell nicht verwendet",
+    "acceptAll": "Alle akzeptieren",
+    "essentialOnly": "Nur notwendige",
+    "customize": "Anpassen",
+    "save": "Speichern"
   }
 }
