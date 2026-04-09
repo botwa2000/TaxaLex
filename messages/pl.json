@@ -947,7 +947,8 @@
       },
       "noCredits": "Brak kredytów — na końcu zobaczysz podgląd wersji roboczej.",
       "topUpLink": "Doładuj teraz →",
-      "demoAutoStarting": "Uruchamianie dema…"
+      "demoAutoStarting": "Uruchamianie dema…",
+      "demoDisabled": "Przesyłanie niedostępne w trybie demo"
     },
     "analyzing": {
       "title": "Analizowanie dokumentu…",
@@ -1048,7 +1049,13 @@
       "lockedHint": "Odblokuj pełne pismo, aby je pobrać, skopiować i złożyć.",
       "unlockCta": "Odblokuj pełne pismo",
       "demoBanner": "Tryb demo: To pismo zostało utworzone z przykładowych danych. Zarejestruj się, aby wygenerować prawdziwy sprzeciw ze swoimi dokumentami.",
-      "demoRegisterLink": "Zarejestruj się bezpłatnie →"
+      "demoRegisterLink": "Zarejestruj się bezpłatnie →",
+      "demoCta": {
+        "title": "Gotowy na swoje prawdziwe odwołanie?",
+        "subtitle": "Utwórz bezpłatne konto i wygeneruj swoje pierwsze prawdziwe odwołanie z własnymi dokumentami w kilka minut.",
+        "cta": "Utwórz bezpłatne konto",
+        "plans": "Zobacz plany"
+      }
     },
     "errors": {
       "analyze": "Analiza dokumentu nie powiodła się. Proszę spróbować ponownie.",

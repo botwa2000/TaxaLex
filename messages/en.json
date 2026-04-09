@@ -947,7 +947,8 @@
       },
       "noCredits": "No credits — you'll see a draft preview at the end.",
       "topUpLink": "Top up now →",
-      "demoAutoStarting": "Starting demo…"
+      "demoAutoStarting": "Starting demo…",
+      "demoDisabled": "Upload not available in demo mode"
     },
     "analyzing": {
       "title": "Analysing your document…",
@@ -1048,7 +1049,13 @@
       "lockedHint": "Unlock the full letter to download, copy and submit it.",
       "unlockCta": "Unlock full letter",
       "demoBanner": "Demo mode: This objection was created with sample data. Register to generate a real objection with your own documents.",
-      "demoRegisterLink": "Register for free →"
+      "demoRegisterLink": "Register for free →",
+      "demoCta": {
+        "title": "Ready for your real appeal?",
+        "subtitle": "Create a free account and generate your first real appeal using your own documents in minutes.",
+        "cta": "Create Free Account",
+        "plans": "View Plans"
+      }
     },
     "demo": {
       "countdown": "Demo: continuing in {seconds}s…",

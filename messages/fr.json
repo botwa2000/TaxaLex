@@ -947,7 +947,8 @@
       },
       "noCredits": "Aucun crédit — vous verrez un aperçu du brouillon à la fin.",
       "topUpLink": "Recharger maintenant →",
-      "demoAutoStarting": "Démarrage de la démo…"
+      "demoAutoStarting": "Démarrage de la démo…",
+      "demoDisabled": "Téléversement non disponible en mode démo"
     },
     "analyzing": {
       "title": "Analyse de votre document…",
@@ -1048,7 +1049,13 @@
       "lockedHint": "Déverrouillez la lettre complète pour la télécharger, la copier et la soumettre.",
       "unlockCta": "Déverrouiller la lettre complète",
       "demoBanner": "Mode démo : Cette lettre a été créée avec des données d'exemple. Inscrivez-vous pour générer une vraie réclamation avec vos documents.",
-      "demoRegisterLink": "S'inscrire gratuitement →"
+      "demoRegisterLink": "S'inscrire gratuitement →",
+      "demoCta": {
+        "title": "Prêt pour votre vrai recours?",
+        "subtitle": "Créez un compte gratuit et générez votre premier recours avec vos propres documents en quelques minutes.",
+        "cta": "Créer un compte gratuit",
+        "plans": "Voir les tarifs"
+      }
     },
     "errors": {
       "analyze": "L'analyse du document a échoué. Veuillez réessayer.",

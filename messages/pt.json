@@ -947,7 +947,8 @@
       },
       "noCredits": "Sem créditos — você verá uma prévia do rascunho no final.",
       "topUpLink": "Recarregar agora →",
-      "demoAutoStarting": "A iniciar a demonstração…"
+      "demoAutoStarting": "A iniciar a demonstração…",
+      "demoDisabled": "Upload não disponível no modo demo"
     },
     "analyzing": {
       "title": "Analisando seu documento…",
@@ -1048,7 +1049,13 @@
       "lockedHint": "Desbloqueie a petição completa para baixar, copiar e protocolar.",
       "unlockCta": "Desbloquear petição completa",
       "demoBanner": "Modo demo: Esta petição foi criada com dados de exemplo. Registre-se para gerar uma impugnação real com seus documentos.",
-      "demoRegisterLink": "Registrar gratuitamente →"
+      "demoRegisterLink": "Registrar gratuitamente →",
+      "demoCta": {
+        "title": "Pronto para o seu recurso real?",
+        "subtitle": "Crie uma conta gratuita e gere o seu primeiro recurso real com os seus documentos em minutos.",
+        "cta": "Criar conta gratuita",
+        "plans": "Ver planos"
+      }
     },
     "errors": {
       "analyze": "A análise do documento falhou. Tente novamente.",

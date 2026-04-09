@@ -1,8 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { use } from 'react'
 import { useTranslations } from 'next-intl'
+import { useSearchParams } from 'next/navigation'
 import { PublicNav } from '@/components/PublicNav'
 import { Footer } from '@/components/Footer'
 import { Link } from '@/i18n/navigation'
@@ -11,13 +12,9 @@ import {
   Home, MapPin, Download, Edit3, ArrowRight, Zap,
 } from 'lucide-react'
 
-export default function VorlagenPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>
-}) {
-  const { locale } = use(params)
+function VorlagenPageContent({ locale }: { locale: string }) {
   const t = useTranslations('templatesPage')
+  const searchParams = useSearchParams()
   const [activeCategory, setActiveCategory] = useState(0)
 
   const categories = [
@@ -211,6 +208,18 @@ export default function VorlagenPage({
     },
   ]
 
+  // Sync active category from URL param on mount (e.g. ?category=jobcenter)
+  useEffect(() => {
+    const param = searchParams.get('category')
+    if (!param || param === 'all') return
+    const tpl = templates.find((tpl) => tpl.id.includes(param) || tpl.slug === param)
+    if (tpl) {
+      const idx = categories.indexOf(tpl.category)
+      if (idx > 0) setActiveCategory(idx)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []) // only on mount — categories/templates are stable translations
+
   return (
     <>
       <PublicNav locale={locale} />
@@ -363,5 +372,18 @@ export default function VorlagenPage({
 
       <Footer locale={locale} />
     </>
+  )
+}
+
+export default function VorlagenPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = use(params)
+  return (
+    <Suspense fallback={null}>
+      <VorlagenPageContent locale={locale} />
+    </Suspense>
   )
 }

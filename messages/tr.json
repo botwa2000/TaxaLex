@@ -947,7 +947,8 @@
       },
       "noCredits": "Kredi yok — sonunda taslak önizlemesi göreceksiniz.",
       "topUpLink": "Şimdi yükle →",
-      "demoAutoStarting": "Demo başlatılıyor…"
+      "demoAutoStarting": "Demo başlatılıyor…",
+      "demoDisabled": "Demo modunda yükleme mevcut değil"
     },
     "analyzing": {
       "title": "Belgeniz analiz ediliyor…",
@@ -1048,7 +1049,13 @@
       "lockedHint": "Tam mektubu indirmek, kopyalamak ve göndermek için kilidi açın.",
       "unlockCta": "Tam mektubun kilidini aç",
       "demoBanner": "Demo modu: Bu itiraz örnek verilerle oluşturuldu. Kendi belgelerinizle gerçek bir itiraz oluşturmak için kayıt olun.",
-      "demoRegisterLink": "Ücretsiz kaydol →"
+      "demoRegisterLink": "Ücretsiz kaydol →",
+      "demoCta": {
+        "title": "Gerçek itirazınıza hazır mısınız?",
+        "subtitle": "Ücretsiz hesap oluşturun ve kendi belgelerinizle ilk gerçek itirazınızı dakikalar içinde oluşturun.",
+        "cta": "Ücretsiz Hesap Oluştur",
+        "plans": "Planları Görüntüle"
+      }
     },
     "errors": {
       "analyze": "Belge analizi başarısız oldu. Lütfen tekrar deneyin.",

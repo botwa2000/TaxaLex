@@ -947,7 +947,8 @@
       },
       "noCredits": "Nessun credito — vedrai un'anteprima della bozza alla fine.",
       "topUpLink": "Ricarica ora →",
-      "demoAutoStarting": "Avvio della demo…"
+      "demoAutoStarting": "Avvio della demo…",
+      "demoDisabled": "Caricamento non disponibile in modalità demo"
     },
     "analyzing": {
       "title": "Analisi del documento in corso…",
@@ -1048,7 +1049,13 @@
       "lockedHint": "Sblocchi il ricorso completo per scaricarlo, copiarlo e presentarlo.",
       "unlockCta": "Sblocca ricorso completo",
       "demoBanner": "Modalità demo: Questo ricorso è stato creato con dati di esempio. Registrati per generare un vero ricorso con i tuoi documenti.",
-      "demoRegisterLink": "Registrati gratuitamente →"
+      "demoRegisterLink": "Registrati gratuitamente →",
+      "demoCta": {
+        "title": "Pronto per il tuo ricorso reale?",
+        "subtitle": "Crea un account gratuito e genera il tuo primo ricorso reale con i tuoi documenti in pochi minuti.",
+        "cta": "Crea account gratuito",
+        "plans": "Vedi i prezzi"
+      }
     },
     "errors": {
       "analyze": "L'analisi del documento è fallita. Riprovi.",

@@ -10,11 +10,8 @@ import { features } from '@/config/features'
 import { TurnstileBox } from '@/components/Turnstile'
 
 const DEMO_ACCOUNTS = [
-  { label: 'Admin', email: 'admin@taxalex.de', password: 'Admin1234!', role: 'Administrator' },
-  { label: 'Steuerberater', email: 'advisor@demo.taxalex.de', password: 'Demo1234!', role: 'Advisor' },
-  { label: 'Rechtsanwalt', email: 'lawyer@demo.taxalex.de', password: 'Demo1234!', role: 'Lawyer' },
-  { label: 'Nutzer (DE)', email: 'user@demo.taxalex.de', password: 'Demo1234!', role: 'User' },
-  { label: 'Nutzer (EN)', email: 'expat@demo.taxalex.de', password: 'Demo1234!', role: 'Expat' },
+  { label: 'Demo User', email: 'user@demo.taxalex.de', password: 'Demo1234!', role: 'User' },
+  { label: 'Demo Expert', email: 'expert@demo.taxalex.de', password: 'Demo1234!', role: 'Expert' },
 ]
 
 export default function LoginPage() {

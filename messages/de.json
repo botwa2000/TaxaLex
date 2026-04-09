@@ -947,7 +947,8 @@
       },
       "noCredits": "Kein Guthaben — am Ende erhalten Sie eine Entwurfsvorschau.",
       "topUpLink": "Jetzt aufladen →",
-      "demoAutoStarting": "Demo wird gestartet…"
+      "demoAutoStarting": "Demo wird gestartet…",
+      "demoDisabled": "Hochladen im Demo-Modus nicht verfügbar"
     },
     "analyzing": {
       "title": "Dokument wird analysiert…",
@@ -1048,7 +1049,13 @@
       "lockedHint": "Schalten Sie das vollständige Schreiben frei, um es herunterzuladen und einzureichen.",
       "unlockCta": "Vollständiges Schreiben freischalten",
       "demoBanner": "Demo-Modus: Dieser Einspruch wurde mit Beispieldaten erstellt. Für einen echten Einspruch mit Ihren Dokumenten registrieren Sie sich.",
-      "demoRegisterLink": "Jetzt kostenlos registrieren →"
+      "demoRegisterLink": "Jetzt kostenlos registrieren →",
+      "demoCta": {
+        "title": "Bereit für Ihren echten Einspruch?",
+        "subtitle": "Erstellen Sie kostenlos ein Konto und generieren Sie Ihren ersten echten Einspruch mit Ihren eigenen Dokumenten in Minuten.",
+        "cta": "Kostenlos registrieren",
+        "plans": "Preise ansehen"
+      }
     },
     "demo": {
       "countdown": "Demo: weiter in {seconds} Sek…",

@@ -947,7 +947,8 @@
       },
       "noCredits": "Sin créditos — verá una vista previa del borrador al final.",
       "topUpLink": "Recargar ahora →",
-      "demoAutoStarting": "Iniciando la demo…"
+      "demoAutoStarting": "Iniciando la demo…",
+      "demoDisabled": "Carga no disponible en modo demo"
     },
     "analyzing": {
       "title": "Analizando su documento…",
@@ -1048,7 +1049,13 @@
       "lockedHint": "Desbloquee el escrito completo para descargarlo, copiarlo y presentarlo.",
       "unlockCta": "Desbloquear escrito completo",
       "demoBanner": "Modo demo: Este escrito fue creado con datos de ejemplo. Regístrese para generar un recurso real con sus documentos.",
-      "demoRegisterLink": "Registrarse gratis →"
+      "demoRegisterLink": "Registrarse gratis →",
+      "demoCta": {
+        "title": "¿Listo para tu recurso real?",
+        "subtitle": "Crea una cuenta gratuita y genera tu primer recurso real con tus propios documentos en minutos.",
+        "cta": "Crear cuenta gratuita",
+        "plans": "Ver precios"
+      }
     },
     "errors": {
       "analyze": "El análisis del documento ha fallado. Por favor, inténtelo de nuevo.",

@@ -199,8 +199,10 @@ function EinspruchPageInner() {
   const [demoCountdown, setDemoCountdown] = useState<{ remaining: number; total: number } | null>(null)
   const demoCountdownCallbackRef = useRef<(() => void) | null>(null)
   const [additionalFiles, setAdditionalFiles] = useState<File[]>([])
-  const { status: sessionStatus } = useSession()
+  const { data: session, status: sessionStatus } = useSession()
   const isLoggedIn = sessionStatus === 'authenticated'
+  // Demo accounts have IDs prefixed with 'demo_' — block real uploads for them
+  const isAccountDemo = session?.user?.id?.startsWith('demo_') ?? false
   const [hasAccess, setHasAccess] = useState<boolean | null>(null) // null = loading
   // Fields found specifically during the review step (subset of detectedFields)
   const [reviewFields, setReviewFields] = useState<DetectedField[]>([])
@@ -1098,19 +1100,32 @@ function EinspruchPageInner() {
               </div>
             )}
 
+            <div className="relative">
+              {isAccountDemo && (
+                <div className="absolute inset-0 z-10 flex flex-col items-center justify-center rounded-2xl bg-[var(--background-subtle)]/90 backdrop-blur-sm gap-2">
+                  <span className="bg-amber-500 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                    {t('demo.badge')}
+                  </span>
+                  <p className="text-sm font-semibold text-[var(--foreground)]">{t('upload.demoDisabled')}</p>
+                </div>
+              )}
             <div
-              className={`border-2 border-dashed rounded-2xl p-10 text-center cursor-pointer transition-all ${
-                isDragging
-                  ? 'border-brand-400 bg-brand-50 dark:bg-brand-950/30'
-                  : 'border-[var(--border)] hover:border-brand-300 hover:bg-brand-50/40 dark:hover:bg-brand-950/20'
+              className={`border-2 border-dashed rounded-2xl p-10 text-center transition-all ${
+                isAccountDemo
+                  ? 'border-[var(--border)] opacity-50 pointer-events-none cursor-default'
+                  : isDragging
+                    ? 'border-brand-400 bg-brand-50 dark:bg-brand-950/30 cursor-pointer'
+                    : 'border-[var(--border)] hover:border-brand-300 hover:bg-brand-50/40 dark:hover:bg-brand-950/20 cursor-pointer'
               }`}
-              onClick={() => fileInputRef.current?.click()}
+              onClick={() => !isAccountDemo && fileInputRef.current?.click()}
               onDragOver={(e) => {
+                if (isAccountDemo) return
                 e.preventDefault()
                 setIsDragging(true)
               }}
               onDragLeave={() => setIsDragging(false)}
               onDrop={(e) => {
+                if (isAccountDemo) return
                 e.preventDefault()
                 setIsDragging(false)
                 addFiles(e.dataTransfer.files)
@@ -1138,9 +1153,11 @@ function EinspruchPageInner() {
                 type="file"
                 multiple
                 className="hidden"
+                disabled={isAccountDemo}
                 accept=".pdf,.txt,.jpg,.jpeg,.png,.webp"
                 onChange={(e) => addFiles(e.target.files)}
               />
+            </div>
             </div>
 
             {files.length > 0 && (
@@ -1739,8 +1756,8 @@ function EinspruchPageInner() {
               )}
             </div>
 
-            {/* Additional documents upload */}
-            <div className="mt-6 border border-dashed border-[var(--border)] rounded-2xl p-4 bg-[var(--background-subtle)]">
+            {/* Additional documents upload — hidden for demo accounts */}
+            <div className={`mt-6 border border-dashed border-[var(--border)] rounded-2xl p-4 bg-[var(--background-subtle)] ${isAccountDemo ? 'opacity-40 pointer-events-none' : ''}`}>
               <div className="flex items-center gap-2 mb-2">
                 <Paperclip className="w-4 h-4 text-[var(--muted)]" />
                 <p className="text-sm font-semibold text-[var(--foreground)]">
@@ -2144,18 +2161,15 @@ function EinspruchPageInner() {
         {/* ═══ Step 5 — Result ═══ */}
         {step === 'result' && result && (
           <div>
-            {/* Demo mode banner */}
+            {/* Demo mode notice — compact top banner */}
             {isDemoMode && (
-              <div className="mb-5 flex items-start gap-3 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-xl px-4 py-3">
-                <span className="text-amber-500 text-sm mt-0.5">⚠</span>
-                <div className="flex-1">
-                  <p className="text-sm font-medium text-amber-800 dark:text-amber-300">
-                    {t('result.demoBanner')}
-                  </p>
-                  <a href={`/${locale}/register`} className="text-xs text-amber-600 dark:text-amber-400 underline hover:no-underline">
-                    {t('result.demoRegisterLink')}
-                  </a>
-                </div>
+              <div className="mb-5 flex items-center gap-2 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-xl px-4 py-2.5">
+                <span className="bg-amber-500 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider shrink-0">
+                  {t('demo.badge')}
+                </span>
+                <p className="text-xs text-amber-800 dark:text-amber-300">
+                  {t('result.demoBanner')}
+                </p>
               </div>
             )}
 
@@ -2384,6 +2398,35 @@ function EinspruchPageInner() {
                     ))}
                   </div>
                 </div>
+
+                {/* Demo CTA — prominent call-to-action after demo completion */}
+                {isDemoMode && (
+                  <div className="mb-5 bg-gradient-to-br from-brand-600 to-brand-700 rounded-2xl p-6 text-center">
+                    <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+                      <Sparkles className="w-6 h-6 text-white" />
+                    </div>
+                    <h2 className="text-xl font-bold text-white mb-2">
+                      {t('result.demoCta.title')}
+                    </h2>
+                    <p className="text-sm text-white/80 mb-5 max-w-sm mx-auto leading-relaxed">
+                      {t('result.demoCta.subtitle')}
+                    </p>
+                    <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                      <a
+                        href={`/${locale}/register`}
+                        className="bg-white text-brand-700 font-bold px-6 py-3 rounded-xl hover:bg-brand-50 transition-colors"
+                      >
+                        {t('result.demoCta.cta')}
+                      </a>
+                      <a
+                        href={`/${locale}/preise`}
+                        className="border border-white/40 text-white font-medium px-6 py-3 rounded-xl hover:bg-white/10 transition-colors"
+                      >
+                        {t('result.demoCta.plans')}
+                      </a>
+                    </div>
+                  </div>
+                )}
               </>
             ) : (
               /* No draft — generate failed entirely */
