@@ -39,7 +39,7 @@ export function UserGroupTabs({ className }: UserGroupTabsProps) {
         {/* CTAs */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
-            href="/einspruch"
+            href="/register"
             className="inline-flex items-center justify-center gap-2.5 rounded-2xl px-8 py-4 text-lg font-bold bg-brand-600 text-white hover:bg-brand-700 active:bg-brand-800 transition-colors shadow-md hover:shadow-lg"
           >
             <Zap className="w-5 h-5 shrink-0" />
