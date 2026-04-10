@@ -215,7 +215,7 @@
     "month": "mes",
     "perObjection": "por recurso",
     "packNote": "pago único · 5 recursos · sin caducidad",
-    "orAnnual": "o {currency}{annual}/año (ahorra {savings}\u00a0%)",
+    "orAnnual": "o {currency}{annual}/año (ahorra {savings} %)",
     "mostPopular": "Más popular",
     "managePlan": "Gestionar plan",
     "getStarted": "Empezar"
@@ -493,7 +493,9 @@
     "cancel": "Cancelar suscripción",
     "renewsOn": "Se renueva el {date}",
     "casesUsed": "{used} de {total} recursos utilizados",
-    "unlimited": "Ilimitado"
+    "unlimited": "Ilimitado",
+    "pendingDraftTitle": "Recurso pendiente",
+    "pendingDraftHint": "Su recurso {useCase} fue generado y está esperando ser desbloqueado."
   },
   "cases": {
     "title": "Mis casos",
@@ -576,8 +578,17 @@
       "deadlineLabel": "Plazo: {date}",
       "deadlineUrgent": "El plazo vence en {days} días",
       "deadlineDaysLeft": "Quedan {days} días",
-      "statusSubmitted": "Presentado"
-    }
+      "statusSubmitted": "Presentado",
+      "resumeCase": "Continuar caso",
+      "unlockDraft": "Desbloquear recurso",
+      "generating": "Generando…",
+      "generatingHint": "El pipeline de IA está ejecutándose. Vuelva en unos minutos.",
+      "draftLockedHint": "Su recurso ha sido generado — compre un crédito para desbloquearlo.",
+      "questionsHint": "Responda las preguntas de seguimiento para generar su recurso.",
+      "analysisPending": "El análisis aún está en curso."
+    },
+    "retryGeneration": "Reintentar generación",
+    "unlockDraft": "Desbloquear"
   },
   "account": {
     "title": "Perfil & ajustes",
@@ -1441,5 +1452,12 @@
     "essentialOnly": "Solo esenciales",
     "customize": "Personalizar",
     "save": "Guardar"
+  },
+  "checkout": {
+    "success": {
+      "draftReady": "Su recurso está listo",
+      "draftReadyHint": "Su recurso ha sido generado y ahora es totalmente accesible.",
+      "viewDraft": "Ver recurso"
+    }
   }
 }

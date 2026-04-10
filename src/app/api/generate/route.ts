@@ -170,9 +170,10 @@ export async function POST(req: NextRequest) {
           agentTimes: outputs.map((o) => ({ role: o.role, durationMs: o.durationMs })),
         })
 
-        // Persist outputs and deduct credit only when user has access
-        if (caseId && !isDemo && hasAccess) {
-          logger.debug('[GENERATE] ─── Saving outputs + deducting credit', { caseId, agentCount: outputs.length })
+        // Always save outputs — use draftLocked flag to gate access instead of discarding
+        if (caseId && !isDemo) {
+          const isLocked = !hasAccess
+          logger.debug('[GENERATE] ─── Saving outputs', { caseId, agentCount: outputs.length, isLocked })
           const t = Date.now()
           const { db } = await import('@/lib/db')
           await db.$transaction([
@@ -191,20 +192,21 @@ export async function POST(req: NextRequest) {
             ),
             db.case.updateMany({
               where: { id: caseId, userId },
-              data: { status: 'DRAFT_READY' },
+              data: { status: 'DRAFT_READY', draftLocked: isLocked },
             }),
-            db.creditLedger.create({
-              data: { userId, delta: -1, reason: 'CASE_CREATED', referenceId: caseId },
-            }),
-            db.user.update({
-              where: { id: userId },
-              data: { creditBalance: { decrement: 1 } },
-            }),
+            // Only deduct credit when user has access (subscription or credits)
+            ...(hasAccess ? [
+              db.creditLedger.create({
+                data: { userId, delta: -1, reason: 'CASE_CREATED', referenceId: caseId },
+              }),
+              db.user.update({
+                where: { id: userId },
+                data: { creditBalance: { decrement: 1 } },
+              }),
+            ] : []),
           ])
           logger.debug('[GENERATE] ─── DB transaction complete', { dbMs: Date.now() - t })
-          logger.info('Pipeline saved', { caseId, pipelineMode, agents: outputs.length })
-        } else if (caseId && !isDemo && !hasAccess) {
-          logger.debug('[GENERATE] ─── Skipping DB save + credit (no access, locked result)', { caseId })
+          logger.info('Pipeline saved', { caseId, pipelineMode, agents: outputs.length, isLocked })
         }
 
         send('pipeline_complete', {
@@ -212,11 +214,8 @@ export async function POST(req: NextRequest) {
           caseId: caseId ?? null,
           pipelineMode,
           agentCount: outputs.length,
-          // locked = true means pipeline ran but user needs to pay to see the full result
+          // locked = true means draft saved but user needs to pay to access it
           locked: !hasAccess && !isDemo,
-          // Free users: case data retained for 30 days then deleted.
-          // Paid users (credits > 0 or active sub) get null = stored indefinitely.
-          retentionDays: (!hasAccess && !isDemo) ? 30 : null,
         })
 
         logger.debug('[GENERATE] ─── pipeline_complete SSE sent', {

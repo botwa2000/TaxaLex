@@ -4,20 +4,25 @@ import { useEffect, useState, useCallback } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { CheckCircle2, Loader2, ArrowRight, Package, Zap } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
+import { useLocale, useTranslations } from 'next-intl'
 
 type BillingStatus = {
   creditBalance: number
   subscription: { planSlug: string; status: string } | null
+  recentlyUnlocked: { id: string; useCase: string } | null
 }
 
 export default function CheckoutSuccessPage() {
   const searchParams = useSearchParams()
   const router       = useRouter()
+  const locale       = useLocale()
+  const t            = useTranslations('checkout.success')
   const sessionId    = searchParams.get('session_id')
 
-  const [status,   setStatus  ] = useState<'loading' | 'active' | 'timeout'>('loading')
-  const [billing,  setBilling ] = useState<BillingStatus | null>(null)
-  const [attempts, setAttempts] = useState(0)
+  const [status,           setStatus          ] = useState<'loading' | 'active' | 'timeout'>('loading')
+  const [billing,          setBilling         ] = useState<BillingStatus | null>(null)
+  const [recentlyUnlocked, setRecentlyUnlocked] = useState<{ id: string; useCase: string } | null>(null)
+  const [attempts,         setAttempts        ] = useState(0)
 
   const poll = useCallback(async () => {
     const res  = await fetch('/api/stripe/status')
@@ -29,6 +34,7 @@ export default function CheckoutSuccessPage() {
 
     if (provisioned) {
       setBilling(data)
+      if (data.recentlyUnlocked) setRecentlyUnlocked(data.recentlyUnlocked)
       setStatus('active')
     } else {
       setAttempts((n) => n + 1)
@@ -120,21 +126,43 @@ export default function CheckoutSuccessPage() {
           )}
         </div>
 
-        <div className="flex flex-col gap-3">
-          <Link
-            href="/einspruch"
-            className="flex items-center justify-center gap-2 bg-brand-600 text-white px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-brand-700 transition-colors"
-          >
-            Einspruch erstellen
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-          <Link
-            href="/billing"
-            className="text-sm text-[var(--muted)] hover:text-[var(--foreground)] hover:underline"
-          >
-            Zur Abrechnung & Rechnungen
-          </Link>
-        </div>
+        {recentlyUnlocked ? (
+          <div className="bg-brand-50 dark:bg-brand-950/30 border border-brand-200 dark:border-brand-800 rounded-xl p-5 text-center">
+            <CheckCircle2 className="w-7 h-7 text-brand-600 mx-auto mb-2" />
+            <p className="font-semibold text-[var(--foreground)] mb-1">{t('draftReady')}</p>
+            <p className="text-xs text-[var(--muted)] mb-4">{t('draftReadyHint')}</p>
+            <Link
+              href={`/${locale}/cases/${recentlyUnlocked.id}?tab=letter`}
+              className="inline-flex items-center gap-1.5 bg-brand-600 text-white font-semibold px-5 py-2.5 rounded-xl text-sm hover:bg-brand-700 transition-colors"
+            >
+              {t('viewDraft')}
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        ) : (
+          <div className="flex flex-col gap-3">
+            <Link
+              href="/einspruch"
+              className="flex items-center justify-center gap-2 bg-brand-600 text-white px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-brand-700 transition-colors"
+            >
+              Einspruch erstellen
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+            <Link
+              href="/cases"
+              className="flex items-center justify-center gap-2 border border-[var(--border)] text-[var(--foreground)] px-5 py-2.5 rounded-xl text-sm font-medium hover:bg-[var(--background-subtle)] transition-colors"
+            >
+              Meine Fälle
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+            <Link
+              href="/billing"
+              className="text-sm text-[var(--muted)] hover:text-[var(--foreground)] hover:underline"
+            >
+              Zur Abrechnung & Rechnungen
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   )

@@ -215,7 +215,7 @@
     "month": "mês",
     "perObjection": "por recurso",
     "packNote": "único · 5 recursos · sem prazo de validade",
-    "orAnnual": "ou {currency}{annual}/ano (poupe {savings}\u00a0%)",
+    "orAnnual": "ou {currency}{annual}/ano (poupe {savings} %)",
     "mostPopular": "Mais popular",
     "managePlan": "Gerir plano",
     "getStarted": "Começar"
@@ -493,7 +493,9 @@
     "cancel": "Cancelar subscrição",
     "renewsOn": "Renova em {date}",
     "casesUsed": "{used} de {total} recursos utilizados",
-    "unlimited": "Ilimitado"
+    "unlimited": "Ilimitado",
+    "pendingDraftTitle": "Recurso pendente",
+    "pendingDraftHint": "O seu recurso {useCase} foi gerado e aguarda desbloqueio."
   },
   "cases": {
     "title": "Os meus casos",
@@ -576,8 +578,17 @@
       "deadlineLabel": "Prazo: {date}",
       "deadlineUrgent": "Prazo expira em {days} dias",
       "deadlineDaysLeft": "{days} dias restantes",
-      "statusSubmitted": "Submetido"
-    }
+      "statusSubmitted": "Submetido",
+      "resumeCase": "Retomar caso",
+      "unlockDraft": "Desbloquear recurso",
+      "generating": "A gerar…",
+      "generatingHint": "O pipeline de IA está a funcionar. Volte em alguns minutos.",
+      "draftLockedHint": "O seu recurso foi gerado — compre um crédito para o desbloquear.",
+      "questionsHint": "Responda às perguntas de acompanhamento para gerar o seu recurso.",
+      "analysisPending": "A análise ainda está em curso."
+    },
+    "retryGeneration": "Repetir geração",
+    "unlockDraft": "Desbloquear"
   },
   "account": {
     "title": "Perfil e definições",
@@ -1222,11 +1233,21 @@
     "legalNoteDesc": "O documento gerado é um rascunho assistido por IA. Não constitui aconselhamento jurídico no âmbito da lei alemã de serviços jurídicos (RDG). Para casos complexos, consulte um consultor fiscal ou advogado antes de submeter.",
     "ctaDemo": "Experimente a demo",
     "agents": {
-      "drafter": { "description": "Cria o rascunho inicial da oposição incluindo todos os requisitos formais, citações da base legal e a estrutura de argumentação." },
-      "reviewer": { "description": "Revê o rascunho em busca de erros lógicos, argumentos em falta, citações incorrectas e deficiências formais." },
-      "factChecker": { "description": "Verifica todas as citações legais face à legislação actual e decisões judiciais recentes através da pesquisa Perplexity." },
-      "adversary": { "description": "Adopta a perspectiva da autoridade e identifica potenciais pontos fracos na oposição — para que possam ser abordados de forma proactiva." },
-      "consolidator": { "description": "Funde os resultados dos quatro agentes numa carta de oposição final e polida, pronta para submissão." }
+      "drafter": {
+        "description": "Cria o rascunho inicial da oposição incluindo todos os requisitos formais, citações da base legal e a estrutura de argumentação."
+      },
+      "reviewer": {
+        "description": "Revê o rascunho em busca de erros lógicos, argumentos em falta, citações incorrectas e deficiências formais."
+      },
+      "factChecker": {
+        "description": "Verifica todas as citações legais face à legislação actual e decisões judiciais recentes através da pesquisa Perplexity."
+      },
+      "adversary": {
+        "description": "Adopta a perspectiva da autoridade e identifica potenciais pontos fracos na oposição — para que possam ser abordados de forma proactiva."
+      },
+      "consolidator": {
+        "description": "Funde os resultados dos quatro agentes numa carta de oposição final e polida, pronta para submissão."
+      }
     }
   },
   "expatsPage": {
@@ -1431,5 +1452,12 @@
     "essentialOnly": "Apenas essenciais",
     "customize": "Personalizar",
     "save": "Guardar"
+  },
+  "checkout": {
+    "success": {
+      "draftReady": "O seu recurso está pronto",
+      "draftReadyHint": "O seu recurso foi gerado e está agora totalmente acessível.",
+      "viewDraft": "Ver recurso"
+    }
   }
 }

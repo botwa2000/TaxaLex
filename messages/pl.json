@@ -215,7 +215,7 @@
     "month": "miesiąc",
     "perObjection": "za odwołanie",
     "packNote": "jednorazowo · 5 odwołań · bez wygaśnięcia",
-    "orAnnual": "lub {currency}{annual}/rok (zaoszczędź {savings}\u00a0%)",
+    "orAnnual": "lub {currency}{annual}/rok (zaoszczędź {savings} %)",
     "mostPopular": "Najpopularniejszy",
     "managePlan": "Zarządzaj planem",
     "getStarted": "Zacznij"
@@ -493,7 +493,9 @@
     "cancel": "Anuluj subskrypcję",
     "renewsOn": "Odnowienie {date}",
     "casesUsed": "Użyto {used} z {total} odwołań",
-    "unlimited": "Nieograniczony"
+    "unlimited": "Nieograniczony",
+    "pendingDraftTitle": "Oczekujące odwołanie",
+    "pendingDraftHint": "Twoje odwołanie {useCase} zostało wygenerowane i czeka na odblokowanie."
   },
   "cases": {
     "title": "Moje sprawy",
@@ -576,8 +578,17 @@
       "deadlineLabel": "Termin: {date}",
       "deadlineUrgent": "Termin upływa za {days} dni",
       "deadlineDaysLeft": "Pozostało {days} dni",
-      "statusSubmitted": "Złożone"
-    }
+      "statusSubmitted": "Złożone",
+      "resumeCase": "Wznów sprawę",
+      "unlockDraft": "Odblokuj odwołanie",
+      "generating": "Generowanie…",
+      "generatingHint": "Potók AI jest uruchomiony. Wróć za kilka minut.",
+      "draftLockedHint": "Twoje odwołanie zostało wygenerowane — kup kredyt, aby je odblokować.",
+      "questionsHint": "Odpowiedz na pytania uzupełniające, aby wygenerować odwołanie.",
+      "analysisPending": "Analiza jest nadal w toku."
+    },
+    "retryGeneration": "Ponów generowanie",
+    "unlockDraft": "Odblokuj"
   },
   "account": {
     "title": "Profil i ustawienia",
@@ -1441,5 +1452,12 @@
     "essentialOnly": "Tylko niezbędne",
     "customize": "Dostosuj",
     "save": "Zapisz"
+  },
+  "checkout": {
+    "success": {
+      "draftReady": "Twoje odwołanie jest gotowe",
+      "draftReadyHint": "Twoje odwołanie zostało wygenerowane i jest teraz w pełni dostępne.",
+      "viewDraft": "Wyświetl odwołanie"
+    }
   }
 }

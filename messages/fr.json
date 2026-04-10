@@ -215,7 +215,7 @@
     "month": "mois",
     "perObjection": "par réclamation",
     "packNote": "unique · 5 réclamations · sans expiration",
-    "orAnnual": "ou {currency}{annual}/an (économisez {savings}\u00a0%)",
+    "orAnnual": "ou {currency}{annual}/an (économisez {savings} %)",
     "mostPopular": "Le plus populaire",
     "managePlan": "Gérer le forfait",
     "getStarted": "Commencer"
@@ -493,7 +493,9 @@
     "cancel": "Résilier l'abonnement",
     "renewsOn": "Renouvellement le {date}",
     "casesUsed": "{used} sur {total} recours utilisés",
-    "unlimited": "Illimité"
+    "unlimited": "Illimité",
+    "pendingDraftTitle": "Recours en attente",
+    "pendingDraftHint": "Votre recours {useCase} a été généré et attend d’être débloqué."
   },
   "cases": {
     "title": "Mes dossiers",
@@ -576,8 +578,17 @@
       "deadlineLabel": "Délai : {date}",
       "deadlineUrgent": "Le délai expire dans {days} jours",
       "deadlineDaysLeft": "{days} jours restants",
-      "statusSubmitted": "Soumis"
-    }
+      "statusSubmitted": "Soumis",
+      "resumeCase": "Reprendre le dossier",
+      "unlockDraft": "Débloquer le recours",
+      "generating": "Génération en cours…",
+      "generatingHint": "Le pipeline IA est en cours d'exécution. Revenez dans quelques minutes.",
+      "draftLockedHint": "Votre recours a été généré — achetez un crédit pour le débloquer.",
+      "questionsHint": "Répondez aux questions de suivi pour générer votre recours.",
+      "analysisPending": "L'analyse est toujours en cours."
+    },
+    "retryGeneration": "Réessayer la génération",
+    "unlockDraft": "Débloquer"
   },
   "account": {
     "title": "Profil & paramètres",
@@ -1441,5 +1452,12 @@
     "essentialOnly": "Essentiels seulement",
     "customize": "Personnaliser",
     "save": "Enregistrer"
+  },
+  "checkout": {
+    "success": {
+      "draftReady": "Votre recours est prêt",
+      "draftReadyHint": "Votre recours a été généré et est maintenant entièrement accessible.",
+      "viewDraft": "Voir le recours"
+    }
   }
 }

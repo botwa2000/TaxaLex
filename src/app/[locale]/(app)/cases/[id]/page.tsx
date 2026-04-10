@@ -2,7 +2,7 @@ import { auth } from '@/auth'
 import { notFound } from 'next/navigation'
 import {
   ArrowLeft, FileText, Cpu, MessageSquare, CheckCircle2, Clock, AlertTriangle,
-  Paperclip, User, ExternalLink, Send, Trophy,
+  Paperclip, User, ExternalLink, Send, Trophy, Loader2, Lock, ArrowRight,
 } from 'lucide-react'
 import {
   DEMO_USER_ID, DEMO_CASES, DEMO_DOCUMENTS, DEMO_AGENT_OUTPUTS, DEMO_FINAL_DRAFT,
@@ -34,6 +34,7 @@ type CaseDetail = {
   updatedAt: Date
   bescheidData: Record<string, unknown> | null
   userAnswers: Record<string, string> | null
+  draftLocked: boolean
 }
 
 export default async function CaseDetailPage({
@@ -139,7 +140,7 @@ export default async function CaseDetailPage({
   } catch {
     const found = DEMO_CASES.find((c) => c.id === id)
     if (!found) notFound()
-    caseData = found as unknown as CaseDetail
+    caseData = { ...(found as unknown as CaseDetail), draftLocked: false }
     documents = DEMO_DOCUMENTS[id] ?? []
     agentOutputs = DEMO_AGENT_OUTPUTS[id] ?? []
     finalDraft = agentOutputs.length > 0 ? DEMO_FINAL_DRAFT : null
@@ -193,8 +194,35 @@ export default async function CaseDetailPage({
             )}
           </div>
 
-          {/* Action buttons — wired via CaseDetailClient */}
-          {caseData.status === 'DRAFT_READY' && finalDraft && (
+          {/* Header action — one definitive action per status */}
+          {caseData.status === 'QUESTIONS' && (
+            <Link
+              href={`/${locale}/einspruch?caseId=${caseData.id}`}
+              className="flex items-center gap-1.5 text-sm bg-amber-500 text-white px-4 py-2 rounded-lg hover:bg-amber-600 transition-colors font-semibold shrink-0"
+            >
+              <ArrowRight className="w-4 h-4" />
+              {t('detail.resumeCase')}
+            </Link>
+          )}
+          {caseData.status === 'GENERATING' && (
+            <div className="flex items-center gap-2 text-sm text-[var(--muted)] shrink-0">
+              <Loader2 className="w-4 h-4 animate-spin" />
+              {t('detail.generating')}
+            </div>
+          )}
+          {caseData.status === 'DRAFT_READY' && !caseData.draftLocked && finalDraft && (
+            <CaseDetailClient caseId={caseData.id} draft={finalDraft} status={caseData.status} />
+          )}
+          {caseData.status === 'DRAFT_READY' && caseData.draftLocked && (
+            <Link
+              href={`/${locale}/billing?caseId=${caseData.id}`}
+              className="flex items-center gap-1.5 text-sm bg-brand-600 text-white px-4 py-2 rounded-lg hover:bg-brand-700 transition-colors font-semibold shrink-0"
+            >
+              <Lock className="w-4 h-4" />
+              {t('detail.unlockDraft')}
+            </Link>
+          )}
+          {(caseData.status === 'APPROVED' || caseData.status === 'ADVISOR_REVIEW') && finalDraft && (
             <CaseDetailClient caseId={caseData.id} draft={finalDraft} status={caseData.status} />
           )}
           {caseData.status === 'SUBMITTED' && (
@@ -230,10 +258,10 @@ export default async function CaseDetailPage({
             docsCount={documents.length}
             answersCount={answersCount}
             fieldsCount={fieldsCount}
-            finalDraft={finalDraft}
+            locale={locale}
             t={t}
           />
-          {features.advisorModule && caseData.status === 'DRAFT_READY' && !hasActiveAssignment && (
+          {features.advisorModule && caseData.status === 'DRAFT_READY' && !caseData.draftLocked && !hasActiveAssignment && (
             <div className="mt-6">
               {hasActiveAddon ? (
                 <HandoffRequestForm caseId={caseData.id} useCase={caseData.useCase} />
@@ -262,7 +290,7 @@ export default async function CaseDetailPage({
       )}
       {tab === 'documents' && <DocumentsTab documents={documents} t={t} />}
       {tab === 'ai' && <AIAnalysisTab outputs={agentOutputs} t={t} />}
-      {tab === 'letter' && <LetterTab draft={finalDraft} status={caseData.status} caseId={caseData.id} t={t} />}
+      {tab === 'letter' && <LetterTab draft={finalDraft} status={caseData.status} caseId={caseData.id} draftLocked={caseData.draftLocked} locale={locale} t={t} />}
     </div>
   )
 }
@@ -279,7 +307,7 @@ function OverviewTab({
   docsCount,
   answersCount,
   fieldsCount,
-  finalDraft,
+  locale,
   t,
 }: {
   caseData: CaseDetail
@@ -289,7 +317,7 @@ function OverviewTab({
   docsCount: number
   answersCount: number
   fieldsCount: number
-  finalDraft: string | null
+  locale: string
   t: Translator
 }) {
   const timeline = [
@@ -368,7 +396,7 @@ function OverviewTab({
             </div>
           )}
 
-          {/* Actions box */}
+          {/* Actions box — shows status-specific guidance; header has the primary action button */}
           <div className="bg-[var(--surface)] rounded-xl border border-[var(--border)] p-4">
             <h2 className="font-semibold text-sm text-[var(--foreground)] mb-3">{t('detail.actions')}</h2>
             <div className="space-y-2">
@@ -379,8 +407,23 @@ function OverviewTab({
                 <FileText className="w-3.5 h-3.5 text-[var(--muted)]" />
                 {t('detail.viewLetter')}
               </Link>
-              {caseData.status === 'DRAFT_READY' && finalDraft && (
-                <CaseDetailClient caseId={caseData.id} draft={finalDraft} status={caseData.status} />
+              {caseData.status === 'QUESTIONS' && (
+                <Link
+                  href={`/${locale}/einspruch?caseId=${caseData.id}`}
+                  className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm border border-amber-300 bg-amber-50 text-amber-700 hover:bg-amber-100 dark:border-amber-700 dark:bg-amber-950/30 dark:text-amber-400 transition-colors"
+                >
+                  <ArrowRight className="w-3.5 h-3.5" />
+                  {t('detail.resumeCase')}
+                </Link>
+              )}
+              {caseData.status === 'DRAFT_READY' && caseData.draftLocked && (
+                <Link
+                  href={`/${locale}/billing?caseId=${caseData.id}`}
+                  className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm border border-brand-300 bg-brand-50 text-brand-700 hover:bg-brand-100 dark:border-brand-700 dark:bg-brand-950/30 dark:text-brand-400 transition-colors"
+                >
+                  <Lock className="w-3.5 h-3.5" />
+                  {t('detail.unlockDraft')}
+                </Link>
               )}
             </div>
           </div>
@@ -477,32 +520,66 @@ function LetterTab({
   draft,
   status,
   caseId,
+  draftLocked,
+  locale,
   t,
 }: {
   draft: string | null
   status: string
   caseId: string
+  draftLocked: boolean
+  locale: string
   t: Translator
 }) {
-  if (!draft) {
-    const isInProgress = ['CREATED', 'UPLOADING', 'ANALYZING', 'QUESTIONS'].includes(status)
-    const isGenerating = status === 'GENERATING'
+  const isInProgress = ['CREATED', 'UPLOADING', 'ANALYZING'].includes(status)
+  const isGenerating = status === 'GENERATING'
+
+  if (!draft || (status === 'DRAFT_READY' && draftLocked)) {
     return (
-      <div className="bg-[var(--surface)] rounded-xl border border-[var(--border)] text-center py-12 text-[var(--muted)]">
-        <FileText className="w-8 h-8 mx-auto mb-3 opacity-30" />
-        <p className="text-sm font-medium">{t('detail.noDraft')}</p>
+      <div className="bg-[var(--surface)] rounded-xl border border-[var(--border)] text-center py-16 text-[var(--muted)]">
+        <FileText className="w-10 h-10 mx-auto mb-4 opacity-30" />
+        <p className="font-medium text-[var(--foreground)]">{t('detail.noDraft')}</p>
         {isGenerating ? (
-          <p className="text-xs mt-2 text-[var(--muted)]">Wird generiert…</p>
+          <div className="flex items-center justify-center gap-2 mt-3 text-sm">
+            <Loader2 className="w-4 h-4 animate-spin" />
+            <span>{t('detail.generatingHint')}</span>
+          </div>
+        ) : status === 'DRAFT_READY' && draftLocked ? (
+          <div className="mt-4">
+            <p className="text-sm text-[var(--muted)] max-w-sm mx-auto">{t('detail.draftLockedHint')}</p>
+            <Link
+              href={`/${locale}/billing?caseId=${caseId}`}
+              className="inline-flex items-center gap-1.5 mt-4 bg-brand-600 text-white text-sm font-semibold px-5 py-2.5 rounded-lg hover:bg-brand-700 transition-colors"
+            >
+              <Lock className="w-4 h-4" />
+              {t('detail.unlockDraft')}
+            </Link>
+          </div>
+        ) : status === 'QUESTIONS' ? (
+          <div className="mt-4">
+            <p className="text-sm text-[var(--muted)] max-w-sm mx-auto">{t('detail.questionsHint')}</p>
+            <Link
+              href={`/${locale}/einspruch?caseId=${caseId}`}
+              className="inline-flex items-center gap-1.5 mt-4 bg-amber-500 text-white text-sm font-semibold px-5 py-2.5 rounded-lg hover:bg-amber-600 transition-colors"
+            >
+              <ArrowRight className="w-4 h-4" />
+              {t('detail.resumeCase')}
+            </Link>
+          </div>
         ) : isInProgress ? (
-          <p className="text-xs mt-2 text-[var(--muted)]">Analyse läuft</p>
+          <p className="text-sm mt-2">{t('detail.analysisPending')}</p>
         ) : (
-          <Link href="/einspruch" className="inline-flex items-center gap-1.5 mt-4 bg-brand-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-brand-700 transition-colors">
+          <Link
+            href={`/${locale}/einspruch`}
+            className="inline-flex items-center gap-1.5 mt-4 bg-brand-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-brand-700 transition-colors"
+          >
             {t('detail.startGeneration')}
           </Link>
         )}
       </div>
     )
   }
+
   return (
     <div className="space-y-4">
       <div className="bg-[var(--surface)] rounded-xl border border-[var(--border)] px-5 py-3 flex items-center gap-3">

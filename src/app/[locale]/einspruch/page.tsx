@@ -245,6 +245,38 @@ function EinspruchPageInner() {
       .catch(() => setHasAccess(true)) // fail open — API will enforce anyway
   }, [])
 
+  // ── Resume from ?caseId URL param — restores QUESTIONS state from DB ─────
+  const resumeCaseId = searchParams.get('caseId')
+  useEffect(() => {
+    if (!resumeCaseId || sessionStatus !== 'authenticated' || isAccountDemo) return
+    async function loadResume() {
+      const res = await fetch(`/api/cases/${resumeCaseId}`)
+      if (!res.ok) return
+      const c = await res.json() as {
+        id: string; status: string; bescheidData?: Record<string, unknown>
+        followUpQuestions?: Array<{ id: string; question: string; required?: boolean; type?: 'text' | 'yesno' | 'amount' | 'date'; background?: string; guidance?: string }>
+      }
+      caseIdRef.current = c.id
+      setCaseId(c.id)
+      if (c.status === 'QUESTIONS' && c.bescheidData && c.followUpQuestions?.length) {
+        bescheidDataRef.current = c.bescheidData
+        questionsRef.current = c.followUpQuestions
+        setBescheidData(c.bescheidData)
+        setQuestions(c.followUpQuestions)
+        setDetectedFields(
+          Object.entries(c.bescheidData).map(([key, value]) => ({
+            key, label: key, value: String(value), icon: 'file-text', importance: 'medium' as const,
+          }))
+        )
+        setStep('questions')
+      } else if (c.status === 'DRAFT_READY') {
+        router.replace(`/${locale}/cases/${c.id}?tab=letter`)
+      }
+    }
+    loadResume().catch(() => {/* non-fatal */})
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [resumeCaseId, sessionStatus])
+
   // Auto-start demo when landing from use-cases page with ?demo=true
   useEffect(() => {
     if (searchParams.get('demo') === 'true' && step === 'upload') {
@@ -342,7 +374,7 @@ function EinspruchPageInner() {
     setStep('analyzing')
 
     // Demo mode — simulate streaming with staggered field reveals using scenario data
-    if (files.length === 0) {
+    if (files.length === 0 || isAccountDemo) {
       isDemoModeRef.current = true
       setIsDemoMode(true)
       const scenario = getDemoScenario(type ?? 'tax', localeRef.current)
@@ -361,6 +393,26 @@ function EinspruchPageInner() {
       // Show extracted fields with a countdown before advancing to questions
       startDemoCountdown(8, () => setStep('questions'))
       return
+    }
+
+    // Create the case record early — persists bescheidData + questions for resume support
+    if (!caseIdRef.current) {
+      try {
+        const caseRes = await fetch('/api/cases', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ useCase: type ?? 'tax', uiLanguage: locale, outputLanguage: 'de' }),
+        })
+        if (caseRes.status === 401) {
+          router.push(`/${locale}/login?callbackUrl=/${locale}/einspruch`)
+          return
+        }
+        if (caseRes.ok) {
+          const { caseId: newId } = await caseRes.json()
+          caseIdRef.current = newId
+          setCaseId(newId)
+        }
+      } catch { /* non-critical: pipeline can run without DB case */ }
     }
 
     // ── Phase 1: XHR upload raw files to /api/upload ─────────────────────────
@@ -455,7 +507,7 @@ function EinspruchPageInner() {
       const res = await fetch('/api/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ uploadId, uiLanguage: locale }),
+        body: JSON.stringify({ uploadId, uiLanguage: locale, caseId: caseIdRef.current ?? undefined }),
         signal: abortCtrl.signal,
       })
 
@@ -780,33 +832,8 @@ function EinspruchPageInner() {
       remappedAnswers[text] = value
     }
 
-    // Create the case record now — user has committed to generating
+    // Case was already created in handleAnalyze — use it directly
     let activeCaseId = caseIdRef.current
-    if (!activeCaseId) {
-      try {
-        const caseRes = await fetch('/api/cases', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            useCase: type ?? 'tax',
-            uiLanguage: locale,
-            outputLanguage: 'de',
-          }),
-        })
-        if (caseRes.status === 401) {
-          router.push(`/${locale}/login?callbackUrl=/${locale}/einspruch`)
-          return
-        }
-        if (caseRes.ok) {
-          const { caseId: newId } = await caseRes.json()
-          activeCaseId = newId
-          caseIdRef.current = newId
-          setCaseId(newId)
-        }
-      } catch {
-        /* non-critical: pipeline can run without DB case */
-      }
-    }
 
     let finalDraft: string | null = null
     let completedCaseId = activeCaseId
@@ -832,10 +859,6 @@ function EinspruchPageInner() {
 
       if (res.status === 401) {
         router.push(`/${locale}/login?callbackUrl=/${locale}/einspruch`)
-        return
-      }
-      if (res.status === 402) {
-        router.push(`/${locale}/billing?reason=credits`)
         return
       }
 
@@ -898,7 +921,6 @@ function EinspruchPageInner() {
           } else if (eventName === 'pipeline_complete') {
             finalDraft = String(payload.finalDraft ?? '')
             if (payload.locked) setResultLocked(true)
-            if (typeof payload.retentionDays === 'number') setRetentionDays(payload.retentionDays)
             if (payload.caseId) {
               completedCaseId = String(payload.caseId)
               caseIdRef.current = completedCaseId
@@ -2312,7 +2334,7 @@ function EinspruchPageInner() {
                           {t('result.lockedHint')}
                         </p>
                         <a
-                          href={`/${locale}/billing`}
+                          href={`/${locale}/billing${caseId ? `?caseId=${caseId}` : ''}`}
                           className="bg-brand-600 text-white px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-brand-700 transition-colors flex items-center gap-2"
                         >
                           <Sparkles className="w-4 h-4" />

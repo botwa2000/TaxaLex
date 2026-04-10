@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useMemo, useCallback } from 'react'
-import { Plus, FolderOpen, ArrowRight, Search, Trash2 } from 'lucide-react'
+import { Plus, FolderOpen, ArrowRight, Search, Trash2, Lock } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -15,6 +15,7 @@ type CaseListItem = {
   updatedAt: Date
   _count: { documents: number }
   answersCount: number
+  draftLocked: boolean
 }
 
 type Filter = 'all' | 'active' | 'submitted' | 'closed'
@@ -53,16 +54,33 @@ const STATUS_DOTS: Record<string, string> = {
 
 /** Returns the href for the per-row CTA, or null if no CTA should be shown */
 function rowCtaHref(c: CaseListItem): string | null {
-  if (c.status === 'DRAFT_READY') return `/cases/${c.id}?tab=letter`
+  if (c.status === 'QUESTIONS') return `/einspruch?caseId=${c.id}`
+  if (c.status === 'GENERATING') return `/einspruch?caseId=${c.id}`
+  if (c.status === 'DRAFT_READY' && c.draftLocked) return `/billing?caseId=${c.id}`
+  if (c.status === 'DRAFT_READY' && !c.draftLocked) return `/cases/${c.id}?tab=letter`
+  if (c.status === 'ADVISOR_REVIEW') return `/cases/${c.id}`
   if (SUBMITTED_STATUSES.includes(c.status)) return `/cases/${c.id}`
   if (CLOSED_STATUSES.includes(c.status)) return `/cases/${c.id}`
   return null
 }
 
 function rowCtaLabel(c: CaseListItem, t: (key: string) => string): string {
+  if (c.status === 'QUESTIONS') return t('resume')
+  if (c.status === 'GENERATING') return t('retryGeneration')
+  if (c.status === 'DRAFT_READY' && c.draftLocked) return t('unlockDraft')
   if (c.status === 'DRAFT_READY') return t('resume')
   if (CLOSED_STATUSES.includes(c.status)) return t('viewResult')
   return t('viewDetails')
+}
+
+function rowCtaClass(c: CaseListItem): string {
+  if (c.status === 'QUESTIONS' || c.status === 'GENERATING') {
+    return 'border-amber-300 text-amber-700 bg-amber-50 hover:bg-amber-100 dark:border-amber-700 dark:text-amber-400 dark:bg-amber-950/30'
+  }
+  if (c.status === 'DRAFT_READY') {
+    return 'border-brand-300 text-brand-700 bg-brand-50 hover:bg-brand-100 dark:border-brand-700 dark:text-brand-400 dark:bg-brand-950/30'
+  }
+  return 'border-[var(--border)] text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-[var(--background-subtle)]'
 }
 
 interface Props {
@@ -267,14 +285,11 @@ export function CasesClient({ cases: initialCases }: Props) {
                   <Link
                     href={ctaHref}
                     onClick={(e) => e.stopPropagation()}
-                    className={`hidden sm:flex items-center gap-1 text-xs font-medium px-2.5 py-1.5 rounded-lg border transition-colors shrink-0 ${
-                      c.status === 'DRAFT_READY'
-                        ? 'border-brand-300 text-brand-700 bg-brand-50 hover:bg-brand-100 dark:border-brand-700 dark:text-brand-400 dark:bg-brand-950/30'
-                        : 'border-[var(--border)] text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-[var(--background-subtle)]'
-                    }`}
+                    className={`hidden sm:flex items-center gap-1 text-xs font-medium px-2.5 py-1.5 rounded-lg border transition-colors shrink-0 ${rowCtaClass(c)}`}
                   >
+                    {c.status === 'DRAFT_READY' && c.draftLocked && <Lock className="w-3 h-3" />}
                     {rowCtaLabel(c, (k) => t(k as Parameters<typeof t>[0]))}
-                    <ArrowRight className="w-3 h-3" />
+                    {!(c.status === 'DRAFT_READY' && c.draftLocked) && <ArrowRight className="w-3 h-3" />}
                   </Link>
                 )}
 

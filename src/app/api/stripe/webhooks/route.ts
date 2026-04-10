@@ -59,7 +59,7 @@ async function handleEvent(event: Stripe.Event): Promise<void> {
 
     case 'checkout.session.completed': {
       const session = event.data.object as Stripe.Checkout.Session
-      const { userId, planSlug, credits } = session.metadata ?? {}
+      const { userId, planSlug, credits, caseId } = session.metadata ?? {}
       if (!userId || !planSlug) {
         logger.warn('checkout.session.completed missing metadata', { sessionId: session.id })
         return
@@ -70,7 +70,6 @@ async function handleEvent(event: Stripe.Event): Promise<void> {
 
         if (isAddonPlan(planSlug)) {
           // Add-on purchase — create AddonPurchase record
-          const { caseId } = session.metadata ?? {}
           await db.addonPurchase.create({
             data: {
               userId,
@@ -84,46 +83,52 @@ async function handleEvent(event: Stripe.Event): Promise<void> {
           })
           logger.info('Addon purchase created', { userId, planSlug, caseId })
         } else {
-        // One-time purchase — add credits immediately
-        const creditCount = parseInt(credits ?? '0', 10)
-        if (creditCount > 0) {
-          const reason = creditCount === 1 ? 'PURCHASE_SINGLE' : 'PURCHASE_PACK'
-          await db.$transaction([
-            db.creditLedger.create({
-              data: {
-                userId,
-                delta:       creditCount,
-                reason,
-                referenceId: stripePaymentIntentId,
-              },
-            }),
-            db.user.update({
-              where: { id: userId },
-              data:  { creditBalance: { increment: creditCount } },
-            }),
-          ])
-          logger.info('Credits granted', { userId, planSlug, creditCount, reason })
+          // One-time purchase — add credits immediately, then unlock any locked drafts
+          const creditCount = parseInt(credits ?? '0', 10)
+          if (creditCount > 0) {
+            const reason = creditCount === 1 ? 'PURCHASE_SINGLE' : 'PURCHASE_PACK'
+            await db.$transaction([
+              db.creditLedger.create({
+                data: {
+                  userId,
+                  delta:       creditCount,
+                  reason,
+                  referenceId: stripePaymentIntentId,
+                },
+              }),
+              db.user.update({
+                where: { id: userId },
+                data:  { creditBalance: { increment: creditCount } },
+              }),
+            ])
+            logger.info('Credits granted', { userId, planSlug, creditCount, reason })
 
-          try {
-            await sendPaymentReceipt({
-              userId,
-              planName: planSlug,
-              creditsGranted: creditCount,
-              amountPaid: session.amount_total ?? 0,
-              currency: session.currency ?? 'eur',
-              mode: 'payment',
-            })
-          } catch (emailErr) {
-            // Email failure must never abort the webhook — credits already granted
-            logger.warn('sendPaymentReceipt failed (one-time)', { userId, planSlug, error: emailErr })
+            // Unlock locked drafts now that user has credits
+            await unlockPendingDrafts(userId, caseId ?? undefined)
+
+            try {
+              await sendPaymentReceipt({
+                userId,
+                planName: planSlug,
+                creditsGranted: creditCount,
+                amountPaid: session.amount_total ?? 0,
+                currency: session.currency ?? 'eur',
+                mode: 'payment',
+              })
+            } catch (emailErr) {
+              // Email failure must never abort the webhook — credits already granted
+              logger.warn('sendPaymentReceipt failed (one-time)', { userId, planSlug, error: emailErr })
+            }
           }
-        }
         }
 
       } else if (session.mode === 'subscription' && session.subscription) {
-        // Subscription — provision immediately from the completed session
+        // Subscription — provision immediately, then unlock any locked drafts
         const sub = await stripe.subscriptions.retrieve(session.subscription as string)
         await upsertSubscription(userId, planSlug, sub)
+
+        // Subscription unlocks all locked drafts — subscription users have unlimited access
+        await unlockPendingDrafts(userId, caseId ?? undefined)
 
         try {
           await sendPaymentReceipt({
@@ -220,12 +225,74 @@ async function handleEvent(event: Stripe.Event): Promise<void> {
           where: { stripeSubscriptionId: invoice.subscription as string },
           data:  { status: 'ACTIVE' },
         })
+        // Renewal restores access — unlock any drafts that were locked during a lapse
+        const dbSub = await db.subscription.findUnique({
+          where: { stripeSubscriptionId: invoice.subscription as string },
+          select: { userId: true },
+        })
+        if (dbSub?.userId) {
+          await unlockPendingDrafts(dbSub.userId)
+        }
       }
       break
     }
 
     default:
       logger.debug('Stripe webhook: unhandled event type', { type: event.type })
+  }
+}
+
+/**
+ * Unlocks DRAFT_READY cases that are gated behind draftLocked=true.
+ * Processes FIFO, priority case first. Deducts one credit per case for
+ * credit users; subscription users pay nothing per unlock.
+ */
+async function unlockPendingDrafts(userId: string, priorityCaseId?: string): Promise<void> {
+  const user = await db.user.findUnique({
+    where: { id: userId },
+    select: { creditBalance: true, subscription: { select: { status: true } } },
+  })
+  const hasSub = ['ACTIVE', 'TRIALING'].includes(user?.subscription?.status ?? '')
+  if (!hasSub && (user?.creditBalance ?? 0) <= 0) return
+
+  const lockedCases = await db.case.findMany({
+    where: { userId, status: 'DRAFT_READY', draftLocked: true },
+    orderBy: { createdAt: 'asc' },
+    select: { id: true },
+  })
+  if (lockedCases.length === 0) return
+
+  // Put priority case first
+  const ordered = priorityCaseId
+    ? [{ id: priorityCaseId }, ...lockedCases.filter((c) => c.id !== priorityCaseId)]
+    : lockedCases
+
+  for (const c of ordered) {
+    // Re-check balance before each unlock to avoid overdraft
+    const fresh = await db.user.findUnique({
+      where: { id: userId },
+      select: { creditBalance: true, subscription: { select: { status: true } } },
+    })
+    const freshSub = ['ACTIVE', 'TRIALING'].includes(fresh?.subscription?.status ?? '')
+    if (!freshSub && (fresh?.creditBalance ?? 0) <= 0) break
+
+    await db.$transaction([
+      db.case.updateMany({
+        where: { id: c.id, userId, draftLocked: true },
+        data: { draftLocked: false },
+      }),
+      // Deduct credit only for non-subscribers
+      ...(freshSub ? [] : [
+        db.creditLedger.create({
+          data: { userId, delta: -1, reason: 'CASE_CREATED', referenceId: c.id },
+        }),
+        db.user.update({
+          where: { id: userId },
+          data: { creditBalance: { decrement: 1 } },
+        }),
+      ]),
+    ])
+    logger.info('Draft unlocked', { userId, caseId: c.id, usedCredit: !freshSub })
   }
 }
 

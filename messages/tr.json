@@ -215,7 +215,7 @@
     "month": "ay",
     "perObjection": "itiraz başına",
     "packNote": "tek seferlik · 5 itiraz · son kullanma tarihi yok",
-    "orAnnual": "veya {currency}{annual}/yıl ({savings}\u00a0% tasarruf)",
+    "orAnnual": "veya {currency}{annual}/yıl ({savings} % tasarruf)",
     "mostPopular": "En popüler",
     "managePlan": "Planı yönet",
     "getStarted": "Başla"
@@ -493,7 +493,9 @@
     "cancel": "Aboneliği iptal et",
     "renewsOn": "{date} tarihinde yenilenir",
     "casesUsed": "{total} itirazdan {used} tanesi kullanıldı",
-    "unlimited": "Sınırsız"
+    "unlimited": "Sınırsız",
+    "pendingDraftTitle": "Bekleyen itiraz",
+    "pendingDraftHint": "{useCase} itirazınız oluşturuldu ve kilit açılması bekleniyor."
   },
   "cases": {
     "title": "Davalarım",
@@ -576,8 +578,17 @@
       "deadlineLabel": "Son tarih: {date}",
       "deadlineUrgent": "Son tarih {days} gün içinde doluyor",
       "deadlineDaysLeft": "{days} gün kaldı",
-      "statusSubmitted": "Gönderildi"
-    }
+      "statusSubmitted": "Gönderildi",
+      "resumeCase": "Davaya devam et",
+      "unlockDraft": "İtirazı aç",
+      "generating": "Oluşturuluyor…",
+      "generatingHint": "AI boru hattı çalışıyor. Birkaç dakika içinde geri dönün.",
+      "draftLockedHint": "İtirazınız oluşturuldu — kilidini açmak için kredi satın alın.",
+      "questionsHint": "İtirazınızı oluşturmak için takip sorularını yanıtlayın.",
+      "analysisPending": "Analiz hâlâ devam ediyor."
+    },
+    "retryGeneration": "Oluşturmayı yeniden dene",
+    "unlockDraft": "Kilidi aç"
   },
   "account": {
     "title": "Profil & Ayarlar",
@@ -1441,5 +1452,12 @@
     "essentialOnly": "Yalnızca zorunlular",
     "customize": "Özelleştir",
     "save": "Kaydet"
+  },
+  "checkout": {
+    "success": {
+      "draftReady": "İtirazınız hazır",
+      "draftReadyHint": "İtirazınız oluşturuldu ve artık tam erişilebilir durumda.",
+      "viewDraft": "İtirazı görüntüle"
+    }
   }
 }

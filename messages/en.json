@@ -215,7 +215,7 @@
     "month": "month",
     "perObjection": "per objection",
     "packNote": "one-time · 5 objections · no expiry",
-    "orAnnual": "or {currency}{annual}/yr (save {savings}\u00a0%)",
+    "orAnnual": "or {currency}{annual}/yr (save {savings} %)",
     "mostPopular": "Most popular",
     "managePlan": "Manage plan",
     "getStarted": "Get started"
@@ -493,7 +493,9 @@
     "cancel": "Cancel subscription",
     "renewsOn": "Renews on {date}",
     "casesUsed": "{used} of {total} objections used",
-    "unlimited": "Unlimited"
+    "unlimited": "Unlimited",
+    "pendingDraftTitle": "Pending appeal",
+    "pendingDraftHint": "Your {useCase} appeal was generated and is waiting to be unlocked."
   },
   "cases": {
     "title": "My cases",
@@ -576,8 +578,17 @@
       "deadlineLabel": "Deadline: {date}",
       "deadlineUrgent": "Deadline expires in {days} days",
       "deadlineDaysLeft": "{days} days left",
-      "statusSubmitted": "Submitted"
-    }
+      "statusSubmitted": "Submitted",
+      "resumeCase": "Resume case",
+      "unlockDraft": "Unlock appeal",
+      "generating": "Generating…",
+      "generatingHint": "The AI pipeline is running. Please check back in a few minutes.",
+      "draftLockedHint": "Your appeal was generated — purchase a credit to unlock it.",
+      "questionsHint": "Answer the follow-up questions to generate your appeal.",
+      "analysisPending": "Analysis is still running."
+    },
+    "retryGeneration": "Retry generation",
+    "unlockDraft": "Unlock"
   },
   "account": {
     "title": "Profile & settings",
@@ -1441,5 +1452,12 @@
     "essentialOnly": "Essential only",
     "customize": "Customize",
     "save": "Save preferences"
+  },
+  "checkout": {
+    "success": {
+      "draftReady": "Your appeal is ready",
+      "draftReadyHint": "Your appeal has been generated and is now fully accessible.",
+      "viewDraft": "View appeal"
+    }
   }
 }

@@ -365,6 +365,9 @@ Questions rules: Generate 3 to 6 questions. You MUST always generate at least 3 
                     bescheidData: bescheidData as Parameters<
                       typeof db.case.updateMany
                     >[0]['data']['bescheidData'],
+                    followUpQuestions: followUpQuestions as Parameters<
+                      typeof db.case.updateMany
+                    >[0]['data']['followUpQuestions'],
                   },
                 }),
                 ...files.map((file) =>

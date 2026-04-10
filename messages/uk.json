@@ -215,7 +215,7 @@
     "month": "місяць",
     "perObjection": "за оскарження",
     "packNote": "одноразово · 5 оскаржень · без терміну дії",
-    "orAnnual": "або {currency}{annual}/рік (економія {savings}\u00a0%)",
+    "orAnnual": "або {currency}{annual}/рік (економія {savings} %)",
     "mostPopular": "Найпопулярніший",
     "managePlan": "Керувати планом",
     "getStarted": "Почати"
@@ -493,7 +493,9 @@
     "cancel": "Скасувати підписку",
     "renewsOn": "Поновлюється {date}",
     "casesUsed": "{used} із {total} заперечень використано",
-    "unlimited": "Необмежено"
+    "unlimited": "Необмежено",
+    "pendingDraftTitle": "Очікуюча скарга",
+    "pendingDraftHint": "Вашу скаргу {useCase} створено і вона очікує розблокування."
   },
   "cases": {
     "title": "Мої справи",
@@ -576,8 +578,17 @@
       "deadlineLabel": "Термін: {date}",
       "deadlineUrgent": "Термін спливає через {days} дн.",
       "deadlineDaysLeft": "Залишилось {days} дн.",
-      "statusSubmitted": "Подано"
-    }
+      "statusSubmitted": "Подано",
+      "resumeCase": "Продовжити справу",
+      "unlockDraft": "Розблокувати скаргу",
+      "generating": "Генерація…",
+      "generatingHint": "Конвеєр ШІ працює. Поверніться через кілька хвилин.",
+      "draftLockedHint": "Вашу скаргу створено — придбаньте кредит, щоб розблокувати її.",
+      "questionsHint": "Дайте відповіді на уточнюючі запитання для генерації скарги.",
+      "analysisPending": "Аналіз ще виконується."
+    },
+    "retryGeneration": "Повторити генерацію",
+    "unlockDraft": "Розблокувати"
   },
   "account": {
     "title": "Профіль і налаштування",
@@ -1441,5 +1452,12 @@
     "essentialOnly": "Тільки необхідні",
     "customize": "Налаштувати",
     "save": "Зберегти"
+  },
+  "checkout": {
+    "success": {
+      "draftReady": "Вашу скаргу готово",
+      "draftReadyHint": "Вашу скаргу створено і вона тепер повністю доступна.",
+      "viewDraft": "Переглянути скаргу"
+    }
   }
 }

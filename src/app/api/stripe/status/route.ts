@@ -43,10 +43,24 @@ export async function GET() {
       }))
     }
 
+    // Return the most recently unlocked draft (within last 5 min) so the
+    // checkout success page can direct the user straight to their appeal
+    const recentlyUnlocked = await db.case.findFirst({
+      where: {
+        userId,
+        status: 'DRAFT_READY',
+        draftLocked: false,
+        updatedAt: { gte: new Date(Date.now() - 5 * 60 * 1000) },
+      },
+      orderBy: { updatedAt: 'desc' },
+      select: { id: true, useCase: true },
+    })
+
     return NextResponse.json({
       creditBalance: user?.creditBalance ?? 0,
       subscription:  user?.subscription ?? null,
       invoices,
+      recentlyUnlocked: recentlyUnlocked ?? null,
     })
   } catch (error) {
     logger.error('Stripe status fetch failed', { userId, error })

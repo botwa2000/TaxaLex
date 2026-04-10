@@ -4,11 +4,11 @@ import { stripe } from '@/lib/stripe'
 import {
   CreditCard, FileText, Package, Calendar, UserCheck,
   Info, CheckCircle2, AlertTriangle, Download, ExternalLink,
-  Zap, Shield, XCircle,
+  Zap, Shield, XCircle, Lock,
 } from 'lucide-react'
 import { CheckoutButton, PortalButton, CancelAddonButton, EarlyCancelButton } from './BillingActions'
 import { notFound } from 'next/navigation'
-import { getLocale } from 'next-intl/server'
+import { getLocale, getTranslations } from 'next-intl/server'
 import { ADDON } from '@/config/constants'
 
 // ── helpers ───────────────────────────────────────────────────────────────────
@@ -73,12 +73,18 @@ function getStatusInfo(sub: { status: string; planSlug: string; currentPeriodEnd
 
 // ── page ──────────────────────────────────────────────────────────────────────
 
-export default async function BillingPage() {
+export default async function BillingPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ caseId?: string }>
+}) {
   const session = await auth()
   if (!session?.user?.id) notFound()
 
   const locale = await getLocale()
+  const t      = await getTranslations('billing')
   const userId = session.user.id
+  const { caseId: pendingCaseId } = await searchParams
 
   // Fetch billing state from DB
   const user = await db.user.findUnique({
@@ -88,6 +94,14 @@ export default async function BillingPage() {
 
   const creditBalance = user?.creditBalance  ?? 0
   const sub           = user?.subscription   ?? null
+
+  // If ?caseId is present and points to a locked draft, show a contextual banner
+  const pendingCase = pendingCaseId && !userId.startsWith('demo_')
+    ? await db.case.findFirst({
+        where: { id: pendingCaseId, userId, status: 'DRAFT_READY', draftLocked: true },
+        select: { id: true, useCase: true },
+      }).catch(() => null)
+    : null
 
   // Fetch individual plans from DB — null means DB error, show error state
   const plans = await db.pricingPlan.findMany({
@@ -170,6 +184,23 @@ export default async function BillingPage() {
           Einsprüche einzeln, als Paket oder per Flat — alle Preise netto, keine versteckten Kosten.
         </p>
       </div>
+
+      {/* Pending draft banner — shown when user arrived via /billing?caseId=X */}
+      {pendingCase && (
+        <div className="mb-6 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800 rounded-xl p-5 flex items-start gap-3">
+          <div className="w-9 h-9 bg-amber-100 dark:bg-amber-900/40 text-amber-600 rounded-xl flex items-center justify-center shrink-0">
+            <Lock className="w-4 h-4" />
+          </div>
+          <div>
+            <p className="font-semibold text-amber-800 dark:text-amber-300 text-sm">
+              {t('pendingDraftTitle')}
+            </p>
+            <p className="text-xs text-amber-700 dark:text-amber-400 mt-0.5">
+              {t('pendingDraftHint', { useCase: pendingCase.useCase })}
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* ── Current status ─────────────────────────────────────────── */}
       <div className={`rounded-2xl border p-5 mb-8 ${c.bg} ${c.border}`}>
@@ -290,6 +321,7 @@ export default async function BillingPage() {
                     locale={locale}
                     disabled={isCurrent}
                     disabledReason="Dies ist Ihr aktueller Plan"
+                    caseId={pendingCase?.id}
                   />
                 </div>
               </div>

@@ -13,10 +13,11 @@ interface CheckoutButtonProps {
   locale:    string
   disabled?: boolean
   disabledReason?: string
+  caseId?:   string
 }
 
 export function CheckoutButton({
-  planSlug, cta, highlight, locale, disabled, disabledReason,
+  planSlug, cta, highlight, locale, disabled, disabledReason, caseId,
 }: CheckoutButtonProps) {
   const [loading, setLoading] = useState(false)
   const [error,   setError  ] = useState('')
@@ -28,7 +29,7 @@ export function CheckoutButton({
     const res  = await fetch('/api/stripe/checkout', {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify({ planSlug, locale }),
+      body:    JSON.stringify({ planSlug, locale, ...(caseId ? { caseId } : {}) }),
     })
     const data = await res.json()
 

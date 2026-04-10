@@ -215,7 +215,7 @@
     "month": "mese",
     "perObjection": "per ricorso",
     "packNote": "una tantum · 5 ricorsi · senza scadenza",
-    "orAnnual": "o {currency}{annual}/anno (risparmia {savings}\u00a0%)",
+    "orAnnual": "o {currency}{annual}/anno (risparmia {savings} %)",
     "mostPopular": "Più popolare",
     "managePlan": "Gestisci piano",
     "getStarted": "Inizia"
@@ -493,7 +493,9 @@
     "cancel": "Annulla abbonamento",
     "renewsOn": "Rinnovo il {date}",
     "casesUsed": "{used} di {total} ricorsi utilizzati",
-    "unlimited": "Illimitato"
+    "unlimited": "Illimitato",
+    "pendingDraftTitle": "Ricorso in attesa",
+    "pendingDraftHint": "Il tuo ricorso {useCase} è stato generato e attende di essere sbloccato."
   },
   "cases": {
     "title": "I miei casi",
@@ -576,8 +578,17 @@
       "deadlineLabel": "Scadenza: {date}",
       "deadlineUrgent": "La scadenza è tra {days} giorni",
       "deadlineDaysLeft": "{days} giorni rimanenti",
-      "statusSubmitted": "Presentato"
-    }
+      "statusSubmitted": "Presentato",
+      "resumeCase": "Riprendi il caso",
+      "unlockDraft": "Sblocca il ricorso",
+      "generating": "Generazione in corso…",
+      "generatingHint": "La pipeline IA è in esecuzione. Torna tra qualche minuto.",
+      "draftLockedHint": "Il tuo ricorso è stato generato — acquista un credito per sbloccarlo.",
+      "questionsHint": "Rispondi alle domande di follow-up per generare il tuo ricorso.",
+      "analysisPending": "L'analisi è ancora in corso."
+    },
+    "retryGeneration": "Riprova generazione",
+    "unlockDraft": "Sblocca"
   },
   "account": {
     "title": "Profilo & Impostazioni",
@@ -1441,5 +1452,12 @@
     "essentialOnly": "Solo essenziali",
     "customize": "Personalizza",
     "save": "Salva"
+  },
+  "checkout": {
+    "success": {
+      "draftReady": "Il tuo ricorso è pronto",
+      "draftReadyHint": "Il tuo ricorso è stato generato ed è ora completamente accessibile.",
+      "viewDraft": "Visualizza ricorso"
+    }
   }
 }

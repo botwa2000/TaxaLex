@@ -215,7 +215,7 @@
     "month": "شهر",
     "perObjection": "لكل اعتراض",
     "packNote": "مرة واحدة · 5 اعتراضات · بدون انتهاء صلاحية",
-    "orAnnual": "أو {currency}{annual}/سنة (وفّر {savings}\u00a0%)",
+    "orAnnual": "أو {currency}{annual}/سنة (وفّر {savings} %)",
     "mostPopular": "الأكثر شعبية",
     "managePlan": "إدارة الخطة",
     "getStarted": "ابدأ"
@@ -493,7 +493,9 @@
     "cancel": "إلغاء الاشتراك",
     "renewsOn": "يتجدد في {date}",
     "casesUsed": "تم استخدام {used} من {total} طعناً",
-    "unlimited": "غير محدود"
+    "unlimited": "غير محدود",
+    "pendingDraftTitle": "اعتراض معلق",
+    "pendingDraftHint": "تم إنشاء اعتراض {useCase} الخاص بك وينتظر فتح القفل."
   },
   "cases": {
     "title": "قضاياي",
@@ -576,8 +578,17 @@
       "deadlineLabel": "الموعد النهائي: {date}",
       "deadlineUrgent": "ينتهي الموعد النهائي خلال {days} أيام",
       "deadlineDaysLeft": "تبقّى {days} أيام",
-      "statusSubmitted": "مُقدَّم"
-    }
+      "statusSubmitted": "مُقدَّم",
+      "resumeCase": "استئناف القضية",
+      "unlockDraft": "فتح الاعتراض",
+      "generating": "جارٍ التوليد…",
+      "generatingHint": "خط أنابيب الذكاء الاصطناعي يعمل. يرجى العودة خلال دقائق.",
+      "draftLockedHint": "تم إنشاء اعتراضك — اشترِ رصيدًا لإلغاء قفله.",
+      "questionsHint": "أجب على أسئلة المتابعة لإنشاء اعتراضك.",
+      "analysisPending": "التحليل لا يزال جاريًا."
+    },
+    "retryGeneration": "إعادة التوليد",
+    "unlockDraft": "فتح القفل"
   },
   "account": {
     "title": "الملف الشخصي والإعدادات",
@@ -1441,5 +1452,12 @@
     "essentialOnly": "الأساسية فقط",
     "customize": "تخصيص",
     "save": "حفظ"
+  },
+  "checkout": {
+    "success": {
+      "draftReady": "اعتراضك جاهز",
+      "draftReadyHint": "تم إنشاء اعتراضك وهو الآن متاح بالكامل.",
+      "viewDraft": "عرض الاعتراض"
+    }
   }
 }

@@ -215,7 +215,7 @@
     "month": "Monat",
     "perObjection": "pro Einspruch",
     "packNote": "einmalig · 5 Einsprüche · kein Ablaufdatum",
-    "orAnnual": "oder {currency}{annual}/Jahr (spare {savings}\u00a0%)",
+    "orAnnual": "oder {currency}{annual}/Jahr (spare {savings} %)",
     "mostPopular": "Beliebtester Plan",
     "managePlan": "Plan verwalten",
     "getStarted": "Jetzt starten"
@@ -493,7 +493,9 @@
     "cancel": "Abo kündigen",
     "renewsOn": "Verlängert sich am {date}",
     "casesUsed": "{used} von {total} Einsprüchen genutzt",
-    "unlimited": "Unbegrenzt"
+    "unlimited": "Unbegrenzt",
+    "pendingDraftTitle": "Ausstehender Einspruch",
+    "pendingDraftHint": "Ihr {useCase}-Einspruch wurde generiert und wartet auf Freischaltung."
   },
   "cases": {
     "title": "Meine Fälle",
@@ -576,8 +578,17 @@
       "deadlineLabel": "Frist: {date}",
       "deadlineUrgent": "Frist läuft in {days} Tagen ab",
       "deadlineDaysLeft": "Noch {days} Tage",
-      "statusSubmitted": "Eingereicht"
-    }
+      "statusSubmitted": "Eingereicht",
+      "resumeCase": "Fall fortsetzen",
+      "unlockDraft": "Einspruch freischalten",
+      "generating": "Wird generiert…",
+      "generatingHint": "Die KI-Pipeline läuft. Bitte kehren Sie in wenigen Minuten zurück.",
+      "draftLockedHint": "Ihr Einspruch wurde erstellt — kaufen Sie ein Guthaben, um ihn freizuschalten.",
+      "questionsHint": "Beantworten Sie die Rückfragen, um Ihren Einspruch zu generieren.",
+      "analysisPending": "Die Analyse läuft noch."
+    },
+    "retryGeneration": "Erneut generieren",
+    "unlockDraft": "Freischalten"
   },
   "account": {
     "title": "Profil & Einstellungen",
@@ -1441,5 +1452,12 @@
     "essentialOnly": "Nur notwendige",
     "customize": "Anpassen",
     "save": "Speichern"
+  },
+  "checkout": {
+    "success": {
+      "draftReady": "Ihr Einspruch ist bereit",
+      "draftReadyHint": "Ihr Einspruch wurde generiert und ist jetzt vollständig zugänglich.",
+      "viewDraft": "Einspruch anzeigen"
+    }
   }
 }

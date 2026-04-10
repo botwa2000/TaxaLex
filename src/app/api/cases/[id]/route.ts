@@ -3,6 +3,44 @@ import { z } from 'zod'
 import { auth } from '@/auth'
 import { logger } from '@/lib/logger'
 
+export async function GET(
+  _req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const session = await auth()
+  if (!session?.user?.id) {
+    return NextResponse.json({ error: 'Nicht angemeldet' }, { status: 401 })
+  }
+
+  const userId = session.user.id as string
+  const { id } = await params
+
+  try {
+    const { db } = await import('@/lib/db')
+    const c = await db.case.findFirst({
+      where: { id, userId },
+      select: {
+        id: true,
+        status: true,
+        useCase: true,
+        uiLanguage: true,
+        outputLanguage: true,
+        bescheidData: true,
+        userAnswers: true,
+        followUpQuestions: true,
+        draftLocked: true,
+      },
+    })
+    if (!c) {
+      return NextResponse.json({ error: 'Fall nicht gefunden' }, { status: 404 })
+    }
+    return NextResponse.json(c)
+  } catch (error) {
+    logger.error('Case fetch failed', { error, caseId: id })
+    return NextResponse.json({ error: 'Laden fehlgeschlagen' }, { status: 500 })
+  }
+}
+
 export async function DELETE(
   _req: NextRequest,
   { params }: { params: Promise<{ id: string }> }

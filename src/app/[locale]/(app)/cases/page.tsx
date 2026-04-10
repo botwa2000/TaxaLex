@@ -12,6 +12,7 @@ type CaseListItem = {
   updatedAt: Date
   _count: { documents: number }
   answersCount: number
+  draftLocked: boolean
 }
 
 export default async function CasesPage() {
@@ -31,6 +32,7 @@ export default async function CasesPage() {
         id: true, useCase: true, status: true, deadline: true,
         createdAt: true, updatedAt: true,
         userAnswers: true,
+        draftLocked: true,
         _count: { select: { documents: true } },
       },
     })
@@ -43,11 +45,12 @@ export default async function CasesPage() {
       updatedAt: c.updatedAt,
       _count: c._count,
       answersCount: Object.keys((c.userAnswers as Record<string, unknown>) ?? {}).length,
+      draftLocked: c.draftLocked,
     }))
   } catch (err) {
     // Only show demo cases for demo accounts — real users with DB errors see empty list
     if (isDemo) {
-      cases = (DEMO_CASES as unknown as CaseListItem[]).map((c) => ({ ...c, answersCount: 0 }))
+      cases = (DEMO_CASES as unknown as CaseListItem[]).map((c) => ({ ...c, answersCount: 0, draftLocked: false }))
     } else {
       logger.error('Cases fetch failed', { error: err, userId: userId.slice(-8) })
     }

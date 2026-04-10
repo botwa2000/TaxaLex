@@ -215,7 +215,7 @@
     "month": "месяц",
     "perObjection": "за апелляцию",
     "packNote": "единовременно · 5 апелляций · без срока действия",
-    "orAnnual": "или {currency}{annual}/год (экономия {savings}\u00a0%)",
+    "orAnnual": "или {currency}{annual}/год (экономия {savings} %)",
     "mostPopular": "Наиболее популярный",
     "managePlan": "Управлять планом",
     "getStarted": "Начать"
@@ -493,7 +493,9 @@
     "cancel": "Отменить подписку",
     "renewsOn": "Продлевается {date}",
     "casesUsed": "Использовано {used} из {total} возражений",
-    "unlimited": "Неограниченно"
+    "unlimited": "Неограниченно",
+    "pendingDraftTitle": "Ожидающая жалоба",
+    "pendingDraftHint": "Ваша жалоба {useCase} создана и ожидает разблокировки."
   },
   "cases": {
     "title": "Мои дела",
@@ -576,8 +578,17 @@
       "deadlineLabel": "Срок: {date}",
       "deadlineUrgent": "Срок истекает через {days} дн.",
       "deadlineDaysLeft": "Осталось {days} дн.",
-      "statusSubmitted": "Подано"
-    }
+      "statusSubmitted": "Подано",
+      "resumeCase": "Продолжить дело",
+      "unlockDraft": "Разблокировать жалобу",
+      "generating": "Генерация…",
+      "generatingHint": "Конвейер ИИ работает. Вернитесь через несколько минут.",
+      "draftLockedHint": "Ваша жалоба создана — купите кредит, чтобы разблокировать её.",
+      "questionsHint": "Ответьте на уточняющие вопросы для генерации жалобы.",
+      "analysisPending": "Анализ ещё выполняется."
+    },
+    "retryGeneration": "Повторить генерацию",
+    "unlockDraft": "Разблокировать"
   },
   "account": {
     "title": "Профиль и настройки",
@@ -1441,5 +1452,12 @@
     "essentialOnly": "Только необходимые",
     "customize": "Настроить",
     "save": "Сохранить"
+  },
+  "checkout": {
+    "success": {
+      "draftReady": "Ваша жалоба готова",
+      "draftReadyHint": "Ваша жалоба создана и теперь полностью доступна.",
+      "viewDraft": "Просмотреть жалобу"
+    }
   }
 }
