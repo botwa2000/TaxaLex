@@ -480,7 +480,14 @@
     "updatedAt": "Updated {date}",
     "overdueLabel": "⚠ Deadline expired",
     "daysLeft": "{days}d left",
-    "urgentWarning": "{count, plural, one {# deadline expires} other {# deadlines expire}} in less than 7 days"
+    "urgentWarning": "{count, plural, one {# deadline expires} other {# deadlines expire}} in less than 7 days",
+    "plan": {
+      "label": "Your Plan",
+      "credits": "{count, plural, one {# credit} other {# credits}}",
+      "noPlan": "No active plan",
+      "viewBilling": "Plan & Billing",
+      "unlimitedAccess": "Unlimited access"
+    }
   },
   "billing": {
     "title": "Billing",
@@ -618,7 +625,8 @@
       "generatingHint": "The AI pipeline is running. Please check back in a few minutes.",
       "draftLockedHint": "Your appeal was generated — purchase a credit to unlock it.",
       "questionsHint": "Answer the follow-up questions to generate your appeal.",
-      "analysisPending": "Analysis is still running."
+      "analysisPending": "Analysis is still running.",
+      "unlockWithCredit": "Unlock with 1 credit"
     },
     "retryGeneration": "Retry generation",
     "unlockDraft": "Unlock"

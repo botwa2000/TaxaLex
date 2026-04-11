@@ -480,7 +480,14 @@
     "updatedAt": "{date} tarihinde güncellendi",
     "overdueLabel": "⚠ Son tarih geçti",
     "daysLeft": "{days} gün kaldı",
-    "urgentWarning": "7 günden az süre içinde {count, plural, one {# son tarih doluyor} other {# son tarih doluyor}}"
+    "urgentWarning": "7 günden az süre içinde {count, plural, one {# son tarih doluyor} other {# son tarih doluyor}}",
+    "plan": {
+      "label": "Planınız",
+      "credits": "{count} kredi",
+      "noPlan": "Aktif plan yok",
+      "viewBilling": "Plan ve faturalama",
+      "unlimitedAccess": "Sınırsız erişim"
+    }
   },
   "billing": {
     "title": "Faturalama",
@@ -618,7 +625,8 @@
       "generatingHint": "AI boru hattı çalışıyor. Birkaç dakika içinde geri dönün.",
       "draftLockedHint": "İtirazınız oluşturuldu — kilidini açmak için kredi satın alın.",
       "questionsHint": "İtirazınızı oluşturmak için takip sorularını yanıtlayın.",
-      "analysisPending": "Analiz hâlâ devam ediyor."
+      "analysisPending": "Analiz hâlâ devam ediyor.",
+      "unlockWithCredit": "1 krediyle aç"
     },
     "retryGeneration": "Oluşturmayı yeniden dene",
     "unlockDraft": "Kilidi aç"

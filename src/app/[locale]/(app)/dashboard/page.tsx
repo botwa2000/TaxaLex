@@ -1,6 +1,6 @@
 import { auth } from '@/auth'
 import { redirect } from 'next/navigation'
-import { AlertTriangle, FolderOpen, ArrowRight, TrendingUp, Clock, CheckCircle2, Plus, Trophy } from 'lucide-react'
+import { AlertTriangle, FolderOpen, ArrowRight, TrendingUp, Clock, CheckCircle2, Plus, Trophy, CreditCard, Zap, Package } from 'lucide-react'
 import { DEMO_CASES, getDemoStats } from '@/lib/mockData'
 import { Link } from '@/i18n/navigation'
 import { VerifyBanner } from './VerifyBanner'
@@ -34,6 +34,8 @@ export default async function DashboardPage() {
   let cases: CaseSummary[] = []
   let stats = { open: 0, submitted: 0, urgent: 0, total: 0, closed: 0 }
   let emailVerified: Date | null = null
+  let creditBalance = 0
+  let subscription: { status: string; planSlug: string; currentPeriodEnd: Date; cancelAtPeriodEnd: boolean } | null = null
 
   const isDemo = userId.startsWith('demo_')
 
@@ -49,11 +51,19 @@ export default async function DashboardPage() {
       }),
       db.user.findUnique({
         where: { id: userId },
-        select: { emailVerified: true },
+        select: {
+          emailVerified: true,
+          creditBalance: true,
+          subscription: {
+            select: { status: true, planSlug: true, currentPeriodEnd: true, cancelAtPeriodEnd: true },
+          },
+        },
       }),
     ])
     cases = rawCases as CaseSummary[]
     emailVerified = userRecord?.emailVerified ?? null
+    creditBalance = userRecord?.creditBalance ?? 0
+    subscription = userRecord?.subscription ?? null
     const now = new Date()
     const openStatuses = ['CREATED', 'UPLOADING', 'ANALYZING', 'QUESTIONS', 'GENERATING', 'DRAFT_READY']
     stats = {
@@ -164,13 +174,11 @@ export default async function DashboardPage() {
           <p className="font-bold text-base text-[var(--foreground)]">{t('quickActions.viewCases')}</p>
           <p className="text-sm text-[var(--muted)] mt-0.5">{t('quickActions.viewCasesSubtitle')}</p>
         </Link>
-        <Link href="/billing" className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-5 hover:border-brand-300 hover:shadow-md transition-all">
-          <div className="w-10 h-10 bg-[var(--background-subtle)] rounded-xl flex items-center justify-center mb-3">
-            <Clock className="w-5 h-5 text-[var(--muted)]" />
-          </div>
-          <p className="font-bold text-base text-[var(--foreground)]">{t('quickActions.upgradePlan')}</p>
-          <p className="text-sm text-[var(--muted)] mt-0.5">{t('quickActions.upgradePlanSubtitle')}</p>
-        </Link>
+        <PlanCard
+          creditBalance={creditBalance}
+          subscription={subscription}
+          t={t}
+        />
       </div>
 
       <div className="bg-[var(--surface)] rounded-xl border border-[var(--border)]">
@@ -202,4 +210,59 @@ function StatCard({ icon: Icon, label, value, iconClass, urgent }: {
 
 function daysBetween(a: Date, b: Date) {
   return Math.ceil((b.getTime() - a.getTime()) / (1000 * 60 * 60 * 24))
+}
+
+type DashboardTranslator = Awaited<ReturnType<typeof import('next-intl/server').getTranslations<'dashboard'>>>
+
+function PlanCard({
+  creditBalance,
+  subscription,
+  t,
+}: {
+  creditBalance: number
+  subscription: { status: string; planSlug: string; currentPeriodEnd: Date; cancelAtPeriodEnd: boolean } | null
+  t: DashboardTranslator
+}) {
+  const hasActiveSub = subscription?.status === 'ACTIVE' || subscription?.status === 'TRIALING'
+
+  if (hasActiveSub && subscription) {
+    const endDate = new Date(subscription.currentPeriodEnd).toLocaleDateString('de-DE', {
+      day: '2-digit', month: '2-digit', year: 'numeric',
+    })
+    return (
+      <Link href="/billing" className="bg-brand-50 dark:bg-brand-950/30 border border-brand-200 dark:border-brand-800 rounded-2xl p-5 hover:border-brand-400 hover:shadow-md transition-all">
+        <div className="w-10 h-10 bg-brand-100 dark:bg-brand-900/40 rounded-xl flex items-center justify-center mb-3">
+          <Zap className="w-5 h-5 text-brand-600 dark:text-brand-400" />
+        </div>
+        <p className="font-bold text-base text-[var(--foreground)]">{t('plan.label')}</p>
+        <p className="text-sm text-brand-700 dark:text-brand-400 mt-0.5 font-medium">{t('plan.unlimitedAccess')}</p>
+        <p className="text-xs text-[var(--muted)] mt-1">
+          {subscription.cancelAtPeriodEnd ? `Läuft ab ${endDate}` : `Verlängert ${endDate}`}
+        </p>
+      </Link>
+    )
+  }
+
+  if (creditBalance > 0) {
+    return (
+      <Link href="/billing" className="bg-green-50 dark:bg-green-950/20 border border-green-200 dark:border-green-800 rounded-2xl p-5 hover:border-green-400 hover:shadow-md transition-all">
+        <div className="w-10 h-10 bg-green-100 dark:bg-green-900/40 rounded-xl flex items-center justify-center mb-3">
+          <Package className="w-5 h-5 text-green-600 dark:text-green-400" />
+        </div>
+        <p className="font-bold text-base text-[var(--foreground)]">{t('plan.label')}</p>
+        <p className="text-sm text-green-700 dark:text-green-400 mt-0.5 font-medium">{t('plan.credits', { count: creditBalance })}</p>
+        <p className="text-xs text-[var(--muted)] mt-1">{t('plan.viewBilling')}</p>
+      </Link>
+    )
+  }
+
+  return (
+    <Link href="/billing" className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-5 hover:border-brand-300 hover:shadow-md transition-all">
+      <div className="w-10 h-10 bg-[var(--background-subtle)] rounded-xl flex items-center justify-center mb-3">
+        <CreditCard className="w-5 h-5 text-[var(--muted)]" />
+      </div>
+      <p className="font-bold text-base text-[var(--foreground)]">{t('plan.noPlan')}</p>
+      <p className="text-sm text-[var(--muted)] mt-0.5">{t('plan.viewBilling')}</p>
+    </Link>
+  )
 }

@@ -480,7 +480,14 @@
     "updatedAt": "Aggiornato il {date}",
     "overdueLabel": "⚠ Scadenza superata",
     "daysLeft": "{days}g rimanenti",
-    "urgentWarning": "{count, plural, one {# scadenza tra} other {# scadenze tra}} meno di 7 giorni"
+    "urgentWarning": "{count, plural, one {# scadenza tra} other {# scadenze tra}} meno di 7 giorni",
+    "plan": {
+      "label": "Il tuo piano",
+      "credits": "{count, plural, one {# credito} other {# crediti}}",
+      "noPlan": "Nessun piano attivo",
+      "viewBilling": "Piano e fatturazione",
+      "unlimitedAccess": "Accesso illimitato"
+    }
   },
   "billing": {
     "title": "Fatturazione",
@@ -618,7 +625,8 @@
       "generatingHint": "La pipeline IA è in esecuzione. Torna tra qualche minuto.",
       "draftLockedHint": "Il tuo ricorso è stato generato — acquista un credito per sbloccarlo.",
       "questionsHint": "Rispondi alle domande di follow-up per generare il tuo ricorso.",
-      "analysisPending": "L'analisi è ancora in corso."
+      "analysisPending": "L'analisi è ancora in corso.",
+      "unlockWithCredit": "Sblocca con 1 credito"
     },
     "retryGeneration": "Riprova generazione",
     "unlockDraft": "Sblocca"

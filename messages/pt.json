@@ -480,7 +480,14 @@
     "updatedAt": "Atualizado em {date}",
     "overdueLabel": "⚠ Prazo expirado",
     "daysLeft": "{days}d restantes",
-    "urgentWarning": "{count, plural, one {# prazo vence} other {# prazos vencem}} em menos de 7 dias"
+    "urgentWarning": "{count, plural, one {# prazo vence} other {# prazos vencem}} em menos de 7 dias",
+    "plan": {
+      "label": "Seu plano",
+      "credits": "{count, plural, one {# crédito} other {# créditos}}",
+      "noPlan": "Sem plano ativo",
+      "viewBilling": "Plano e faturamento",
+      "unlimitedAccess": "Acesso ilimitado"
+    }
   },
   "billing": {
     "title": "Faturação",
@@ -618,7 +625,8 @@
       "generatingHint": "O pipeline de IA está a funcionar. Volte em alguns minutos.",
       "draftLockedHint": "O seu recurso foi gerado — compre um crédito para o desbloquear.",
       "questionsHint": "Responda às perguntas de acompanhamento para gerar o seu recurso.",
-      "analysisPending": "A análise ainda está em curso."
+      "analysisPending": "A análise ainda está em curso.",
+      "unlockWithCredit": "Desbloquear com 1 crédito"
     },
     "retryGeneration": "Repetir geração",
     "unlockDraft": "Desbloquear"

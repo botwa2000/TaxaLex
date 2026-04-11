@@ -480,7 +480,14 @@
     "updatedAt": "تم التحديث {date}",
     "overdueLabel": "⚠ انتهى الموعد النهائي",
     "daysLeft": "متبقٍّ {days} يوم",
-    "urgentWarning": "{count, plural, one {ينتهي # موعد نهائي} other {تنتهي # مواعيد نهائية}} في أقل من 7 أيام"
+    "urgentWarning": "{count, plural, one {ينتهي # موعد نهائي} other {تنتهي # مواعيد نهائية}} في أقل من 7 أيام",
+    "plan": {
+      "label": "خطتك",
+      "credits": "{count} رصيد",
+      "noPlan": "لا يوجد خطة نشطة",
+      "viewBilling": "الخطة والفواتير",
+      "unlimitedAccess": "وصول غير محدود"
+    }
   },
   "billing": {
     "title": "الفواتير",
@@ -618,7 +625,8 @@
       "generatingHint": "خط أنابيب الذكاء الاصطناعي يعمل. يرجى العودة خلال دقائق.",
       "draftLockedHint": "تم إنشاء اعتراضك — اشترِ رصيدًا لإلغاء قفله.",
       "questionsHint": "أجب على أسئلة المتابعة لإنشاء اعتراضك.",
-      "analysisPending": "التحليل لا يزال جاريًا."
+      "analysisPending": "التحليل لا يزال جاريًا.",
+      "unlockWithCredit": "فتح بـ 1 رصيد"
     },
     "retryGeneration": "إعادة التوليد",
     "unlockDraft": "فتح القفل"

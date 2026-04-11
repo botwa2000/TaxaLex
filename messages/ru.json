@@ -480,7 +480,14 @@
     "updatedAt": "Обновлено {date}",
     "overdueLabel": "⚠ Срок истёк",
     "daysLeft": "Осталось {days}д",
-    "urgentWarning": "{count, plural, one {# срок истекает} few {# срока истекают} other {# сроков истекают}} менее чем через 7 дней"
+    "urgentWarning": "{count, plural, one {# срок истекает} few {# срока истекают} other {# сроков истекают}} менее чем через 7 дней",
+    "plan": {
+      "label": "Ваш тариф",
+      "credits": "{count, plural, one {# кредит} few {# кредита} other {# кредитов}}",
+      "noPlan": "Нет активного тарифа",
+      "viewBilling": "Тарифы и оплата",
+      "unlimitedAccess": "Безлимитный доступ"
+    }
   },
   "billing": {
     "title": "Оплата",
@@ -618,7 +625,8 @@
       "generatingHint": "Конвейер ИИ работает. Вернитесь через несколько минут.",
       "draftLockedHint": "Ваша жалоба создана — купите кредит, чтобы разблокировать её.",
       "questionsHint": "Ответьте на уточняющие вопросы для генерации жалобы.",
-      "analysisPending": "Анализ ещё выполняется."
+      "analysisPending": "Анализ ещё выполняется.",
+      "unlockWithCredit": "Разблокировать за 1 кредит"
     },
     "retryGeneration": "Повторить генерацию",
     "unlockDraft": "Разблокировать"

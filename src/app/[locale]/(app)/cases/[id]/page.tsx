@@ -11,6 +11,7 @@ import { CaseDetailClient } from './CaseDetailClient'
 import { HandoffRequestForm } from '@/components/client/HandoffRequestForm'
 import { ExpertReviewCTA } from '@/components/client/ExpertReviewCTA'
 import { AnnotationReplyCard } from '@/components/client/AnnotationReplyCard'
+import { UnlockDraftButton } from '@/components/client/UnlockDraftButton'
 import { features } from '@/config/features'
 import { Link } from '@/i18n/navigation'
 import type { AnnotationData } from '@/types'
@@ -62,6 +63,7 @@ export default async function CaseDetailPage({
   let addonPlanSlug: 'expert-review' | 'expert-review-subscriber' = 'expert-review'
   let isSubscriber = false
   let standardPriceCents = 9900
+  let hasAccess = false
 
   try {
     if (userId === DEMO_USER_ID) throw new Error('demo')
@@ -114,6 +116,14 @@ export default async function CaseDetailPage({
 
     const finalOutput = dbOutputs.find((o) => o.isFinal) ?? dbOutputs.find((o) => o.role === 'consolidator')
     finalDraft = finalOutput?.content ?? null
+
+    // Check if user can unlock locked drafts with their current balance
+    const userAccess = await db.user.findUnique({
+      where: { id: userId },
+      select: { creditBalance: true, subscription: { select: { status: true } } },
+    })
+    hasAccess = (userAccess?.creditBalance ?? 0) > 0 ||
+      ['ACTIVE', 'TRIALING'].includes(userAccess?.subscription?.status ?? '')
 
     if (features.advisorModule) {
       const addon = await db.addonPurchase.findFirst({
@@ -214,13 +224,15 @@ export default async function CaseDetailPage({
             <CaseDetailClient caseId={caseData.id} draft={finalDraft} status={caseData.status} />
           )}
           {caseData.status === 'DRAFT_READY' && caseData.draftLocked && (
-            <Link
-              href={`/billing?caseId=${caseData.id}`}
-              className="flex items-center gap-1.5 text-sm bg-brand-600 text-white px-4 py-2 rounded-lg hover:bg-brand-700 transition-colors font-semibold shrink-0"
-            >
-              <Lock className="w-4 h-4" />
-              {t('detail.unlockDraft')}
-            </Link>
+            hasAccess
+              ? <UnlockDraftButton caseId={caseData.id} locale={locale} />
+              : <Link
+                  href={`/billing?caseId=${caseData.id}`}
+                  className="flex items-center gap-1.5 text-sm bg-brand-600 text-white px-4 py-2 rounded-lg hover:bg-brand-700 transition-colors font-semibold shrink-0"
+                >
+                  <Lock className="w-4 h-4" />
+                  {t('detail.unlockDraft')}
+                </Link>
           )}
           {(caseData.status === 'APPROVED' || caseData.status === 'ADVISOR_REVIEW') && finalDraft && (
             <CaseDetailClient caseId={caseData.id} draft={finalDraft} status={caseData.status} />
@@ -259,6 +271,7 @@ export default async function CaseDetailPage({
             answersCount={answersCount}
             fieldsCount={fieldsCount}
             locale={locale}
+            hasAccess={hasAccess}
             t={t}
           />
           {features.advisorModule && caseData.status === 'DRAFT_READY' && !caseData.draftLocked && !hasActiveAssignment && (
@@ -290,7 +303,7 @@ export default async function CaseDetailPage({
       )}
       {tab === 'documents' && <DocumentsTab documents={documents} t={t} />}
       {tab === 'ai' && <AIAnalysisTab outputs={agentOutputs} t={t} />}
-      {tab === 'letter' && <LetterTab draft={finalDraft} status={caseData.status} caseId={caseData.id} draftLocked={caseData.draftLocked} locale={locale} t={t} />}
+      {tab === 'letter' && <LetterTab draft={finalDraft} status={caseData.status} caseId={caseData.id} draftLocked={caseData.draftLocked} locale={locale} hasAccess={hasAccess} t={t} />}
     </div>
   )
 }
@@ -308,6 +321,7 @@ function OverviewTab({
   answersCount,
   fieldsCount,
   locale,
+  hasAccess,
   t,
 }: {
   caseData: CaseDetail
@@ -318,6 +332,7 @@ function OverviewTab({
   answersCount: number
   fieldsCount: number
   locale: string
+  hasAccess: boolean
   t: Translator
 }) {
   const timeline = [
@@ -417,13 +432,15 @@ function OverviewTab({
                 </Link>
               )}
               {caseData.status === 'DRAFT_READY' && caseData.draftLocked && (
-                <Link
-                  href={`/billing?caseId=${caseData.id}`}
-                  className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm border border-brand-300 bg-brand-50 text-brand-700 hover:bg-brand-100 dark:border-brand-700 dark:bg-brand-950/30 dark:text-brand-400 transition-colors"
-                >
-                  <Lock className="w-3.5 h-3.5" />
-                  {t('detail.unlockDraft')}
-                </Link>
+                hasAccess
+                  ? <UnlockDraftButton caseId={caseData.id} locale={locale} variant="inline" />
+                  : <Link
+                      href={`/billing?caseId=${caseData.id}`}
+                      className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm border border-brand-300 bg-brand-50 text-brand-700 hover:bg-brand-100 dark:border-brand-700 dark:bg-brand-950/30 dark:text-brand-400 transition-colors"
+                    >
+                      <Lock className="w-3.5 h-3.5" />
+                      {t('detail.unlockDraft')}
+                    </Link>
               )}
             </div>
           </div>
@@ -522,6 +539,7 @@ function LetterTab({
   caseId,
   draftLocked,
   locale,
+  hasAccess,
   t,
 }: {
   draft: string | null
@@ -529,6 +547,7 @@ function LetterTab({
   caseId: string
   draftLocked: boolean
   locale: string
+  hasAccess: boolean
   t: Translator
 }) {
   const isInProgress = ['CREATED', 'UPLOADING', 'ANALYZING'].includes(status)
@@ -547,13 +566,16 @@ function LetterTab({
         ) : status === 'DRAFT_READY' && draftLocked ? (
           <div className="mt-4">
             <p className="text-sm text-[var(--muted)] max-w-sm mx-auto">{t('detail.draftLockedHint')}</p>
-            <Link
-              href={`/billing?caseId=${caseId}`}
-              className="inline-flex items-center gap-1.5 mt-4 bg-brand-600 text-white text-sm font-semibold px-5 py-2.5 rounded-lg hover:bg-brand-700 transition-colors"
-            >
-              <Lock className="w-4 h-4" />
-              {t('detail.unlockDraft')}
-            </Link>
+            {hasAccess
+              ? <UnlockDraftButton caseId={caseId} locale={locale} />
+              : <Link
+                  href={`/billing?caseId=${caseId}`}
+                  className="inline-flex items-center gap-1.5 mt-4 bg-brand-600 text-white text-sm font-semibold px-5 py-2.5 rounded-lg hover:bg-brand-700 transition-colors"
+                >
+                  <Lock className="w-4 h-4" />
+                  {t('detail.unlockDraft')}
+                </Link>
+            }
           </div>
         ) : status === 'QUESTIONS' ? (
           <div className="mt-4">

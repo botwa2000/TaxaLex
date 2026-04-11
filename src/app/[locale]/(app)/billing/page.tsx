@@ -8,8 +8,9 @@ import {
 } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
 import { CheckoutButton, PortalButton, CancelAddonButton, EarlyCancelButton } from './BillingActions'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { getLocale, getTranslations } from 'next-intl/server'
+import { logger } from '@/lib/logger'
 import { ADDON } from '@/config/constants'
 
 // ── helpers ───────────────────────────────────────────────────────────────────
@@ -112,6 +113,32 @@ export default async function BillingPage({
         select: { id: true, useCase: true },
       }).catch(() => null)
     : null
+
+  // Auto-unlock: if user already has credits or subscription, use them immediately
+  // and redirect straight to the draft — no manual "unlock" step needed.
+  const hasSub = sub?.status === 'ACTIVE' || sub?.status === 'TRIALING'
+  if (pendingCase && (hasSub || creditBalance > 0)) {
+    try {
+      await db.$transaction(async (tx) => {
+        const updated = await tx.case.updateMany({
+          where: { id: pendingCase.id, userId, draftLocked: true },
+          data: { draftLocked: false },
+        })
+        if (updated.count > 0 && !hasSub) {
+          await tx.creditLedger.create({
+            data: { userId, delta: -1, reason: 'CASE_CREATED', referenceId: pendingCase.id },
+          })
+          await tx.user.update({
+            where: { id: userId },
+            data: { creditBalance: { decrement: 1 } },
+          })
+        }
+      })
+    } catch (err) {
+      logger.error('Billing page auto-unlock failed', { userId, caseId: pendingCase.id, err })
+    }
+    redirect(`/${locale}/cases/${pendingCase.id}?tab=letter`)
+  }
 
   // Fetch individual plans from DB — null means DB error, show error state
   const plans = await db.pricingPlan.findMany({
@@ -451,12 +478,12 @@ export default async function BillingPage({
                     {inv.lines.data[0]?.description ?? 'TaxaLex'}
                   </p>
                   <p className="text-xs text-[var(--muted)] mt-0.5">
-                    {inv.number ?? inv.id} · {new Intl.DateTimeFormat(locale).format(new Date(inv.created * 1000))}
+                    {inv.number ?? inv.id} · {new Intl.DateTimeFormat('de-DE').format(new Date(inv.created * 1000))}
                   </p>
                 </div>
                 <div className="flex items-center gap-3 shrink-0">
                   <span className="text-sm font-semibold text-[var(--foreground)]">
-                    {new Intl.NumberFormat(locale, { style: 'currency', currency: inv.currency.toUpperCase() }).format(inv.amount_paid / 100)}
+                    {new Intl.NumberFormat('de-DE', { style: 'currency', currency: inv.currency.toUpperCase() }).format(inv.amount_paid / 100)}
                   </span>
                   <div className="flex gap-1.5">
                     {inv.invoice_pdf ? (

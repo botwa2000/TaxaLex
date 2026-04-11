@@ -480,7 +480,14 @@
     "updatedAt": "Zaktualizowano {date}",
     "overdueLabel": "⚠ Termin minął",
     "daysLeft": "Pozostało {days}d",
-    "urgentWarning": "{count, plural, one {# termin wygasa} few {# terminy wygasają} other {# terminów wygasa}} w ciągu mniej niż 7 dni"
+    "urgentWarning": "{count, plural, one {# termin wygasa} few {# terminy wygasają} other {# terminów wygasa}} w ciągu mniej niż 7 dni",
+    "plan": {
+      "label": "Twój plan",
+      "credits": "{count, plural, one {# kredyt} other {# kredytów}}",
+      "noPlan": "Brak aktywnego planu",
+      "viewBilling": "Plan i rozliczenia",
+      "unlimitedAccess": "Nieograniczony dostęp"
+    }
   },
   "billing": {
     "title": "Rozliczenia",
@@ -618,7 +625,8 @@
       "generatingHint": "Potók AI jest uruchomiony. Wróć za kilka minut.",
       "draftLockedHint": "Twoje odwołanie zostało wygenerowane — kup kredyt, aby je odblokować.",
       "questionsHint": "Odpowiedz na pytania uzupełniające, aby wygenerować odwołanie.",
-      "analysisPending": "Analiza jest nadal w toku."
+      "analysisPending": "Analiza jest nadal w toku.",
+      "unlockWithCredit": "Odblokuj za 1 kredyt"
     },
     "retryGeneration": "Ponów generowanie",
     "unlockDraft": "Odblokuj"

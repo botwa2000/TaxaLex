@@ -480,7 +480,14 @@
     "updatedAt": "Aktualisiert {date}",
     "overdueLabel": "⚠ Frist abgelaufen",
     "daysLeft": "{days}d Frist",
-    "urgentWarning": "{count, plural, one {# Frist läuft} other {# Fristen laufen}} in weniger als 7 Tagen ab"
+    "urgentWarning": "{count, plural, one {# Frist läuft} other {# Fristen laufen}} in weniger als 7 Tagen ab",
+    "plan": {
+      "label": "Ihr Plan",
+      "credits": "{count, plural, one {# Guthaben} other {# Guthaben}}",
+      "noPlan": "Kein Plan aktiv",
+      "viewBilling": "Plan & Abrechnung",
+      "unlimitedAccess": "Unbegrenzte Nutzung"
+    }
   },
   "billing": {
     "title": "Abrechnung",
@@ -618,7 +625,8 @@
       "generatingHint": "Die KI-Pipeline läuft. Bitte kehren Sie in wenigen Minuten zurück.",
       "draftLockedHint": "Ihr Einspruch wurde erstellt — kaufen Sie ein Guthaben, um ihn freizuschalten.",
       "questionsHint": "Beantworten Sie die Rückfragen, um Ihren Einspruch zu generieren.",
-      "analysisPending": "Die Analyse läuft noch."
+      "analysisPending": "Die Analyse läuft noch.",
+      "unlockWithCredit": "Mit 1 Guthaben freischalten"
     },
     "retryGeneration": "Erneut generieren",
     "unlockDraft": "Freischalten"
