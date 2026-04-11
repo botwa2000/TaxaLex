@@ -197,7 +197,7 @@ export default async function CaseDetailPage({
           {/* Header action — one definitive action per status */}
           {caseData.status === 'QUESTIONS' && (
             <Link
-              href={`/${locale}/einspruch?caseId=${caseData.id}`}
+              href={`/einspruch?caseId=${caseData.id}`}
               className="flex items-center gap-1.5 text-sm bg-amber-500 text-white px-4 py-2 rounded-lg hover:bg-amber-600 transition-colors font-semibold shrink-0"
             >
               <ArrowRight className="w-4 h-4" />
@@ -215,7 +215,7 @@ export default async function CaseDetailPage({
           )}
           {caseData.status === 'DRAFT_READY' && caseData.draftLocked && (
             <Link
-              href={`/${locale}/billing?caseId=${caseData.id}`}
+              href={`/billing?caseId=${caseData.id}`}
               className="flex items-center gap-1.5 text-sm bg-brand-600 text-white px-4 py-2 rounded-lg hover:bg-brand-700 transition-colors font-semibold shrink-0"
             >
               <Lock className="w-4 h-4" />
@@ -409,7 +409,7 @@ function OverviewTab({
               </Link>
               {caseData.status === 'QUESTIONS' && (
                 <Link
-                  href={`/${locale}/einspruch?caseId=${caseData.id}`}
+                  href={`/einspruch?caseId=${caseData.id}`}
                   className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm border border-amber-300 bg-amber-50 text-amber-700 hover:bg-amber-100 dark:border-amber-700 dark:bg-amber-950/30 dark:text-amber-400 transition-colors"
                 >
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -418,7 +418,7 @@ function OverviewTab({
               )}
               {caseData.status === 'DRAFT_READY' && caseData.draftLocked && (
                 <Link
-                  href={`/${locale}/billing?caseId=${caseData.id}`}
+                  href={`/billing?caseId=${caseData.id}`}
                   className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm border border-brand-300 bg-brand-50 text-brand-700 hover:bg-brand-100 dark:border-brand-700 dark:bg-brand-950/30 dark:text-brand-400 transition-colors"
                 >
                   <Lock className="w-3.5 h-3.5" />
@@ -548,7 +548,7 @@ function LetterTab({
           <div className="mt-4">
             <p className="text-sm text-[var(--muted)] max-w-sm mx-auto">{t('detail.draftLockedHint')}</p>
             <Link
-              href={`/${locale}/billing?caseId=${caseId}`}
+              href={`/billing?caseId=${caseId}`}
               className="inline-flex items-center gap-1.5 mt-4 bg-brand-600 text-white text-sm font-semibold px-5 py-2.5 rounded-lg hover:bg-brand-700 transition-colors"
             >
               <Lock className="w-4 h-4" />
@@ -559,7 +559,7 @@ function LetterTab({
           <div className="mt-4">
             <p className="text-sm text-[var(--muted)] max-w-sm mx-auto">{t('detail.questionsHint')}</p>
             <Link
-              href={`/${locale}/einspruch?caseId=${caseId}`}
+              href={`/einspruch?caseId=${caseId}`}
               className="inline-flex items-center gap-1.5 mt-4 bg-amber-500 text-white text-sm font-semibold px-5 py-2.5 rounded-lg hover:bg-amber-600 transition-colors"
             >
               <ArrowRight className="w-4 h-4" />
@@ -570,7 +570,7 @@ function LetterTab({
           <p className="text-sm mt-2">{t('detail.analysisPending')}</p>
         ) : (
           <Link
-            href={`/${locale}/einspruch`}
+            href="/einspruch"
             className="inline-flex items-center gap-1.5 mt-4 bg-brand-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-brand-700 transition-colors"
           >
             {t('detail.startGeneration')}

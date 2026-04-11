@@ -26,15 +26,14 @@ export function ExpertReviewCTA({
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
-  const price = (priceCents / 100).toLocaleString(locale === 'de' ? 'de-DE' : 'en-GB', {
+  const price = (priceCents / 100).toLocaleString(locale, {
     style: 'currency',
     currency: 'EUR',
     minimumFractionDigits: 0,
   })
-  const standardPrice = (standardPriceCents / 100).toLocaleString(
-    locale === 'de' ? 'de-DE' : 'en-GB',
-    { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 }
-  )
+  const standardPrice = (standardPriceCents / 100).toLocaleString(locale, {
+    style: 'currency', currency: 'EUR', minimumFractionDigits: 0,
+  })
 
   async function handlePurchase() {
     setLoading(true)

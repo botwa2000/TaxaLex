@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { Loader2, ExternalLink, X, AlertTriangle } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 
 // ── Checkout button ────────────────────────────────────────────────────────────
 
@@ -19,6 +20,7 @@ interface CheckoutButtonProps {
 export function CheckoutButton({
   planSlug, cta, highlight, locale, disabled, disabledReason, caseId,
 }: CheckoutButtonProps) {
+  const t = useTranslations('billing')
   const [loading, setLoading] = useState(false)
   const [error,   setError  ] = useState('')
 
@@ -54,7 +56,7 @@ export function CheckoutButton({
         }`}
       >
         {loading && <Loader2 className="w-4 h-4 animate-spin" />}
-        {loading ? 'Weiterleitung zu Stripe…' : cta}
+        {loading ? t('redirectingToStripe') : cta}
       </button>
       {error && <p className="text-xs text-red-600 mt-2 text-center">{error}</p>}
     </div>
@@ -68,6 +70,7 @@ interface PortalButtonProps {
 }
 
 export function PortalButton({ locale }: PortalButtonProps) {
+  const t = useTranslations('billing')
   const [loading, setLoading] = useState(false)
   const [error,   setError  ] = useState('')
 
@@ -101,7 +104,7 @@ export function PortalButton({ locale }: PortalButtonProps) {
           ? <Loader2 className="w-3.5 h-3.5 animate-spin" />
           : <ExternalLink className="w-3.5 h-3.5" />
         }
-        {loading ? 'Öffne Portal…' : 'Abo verwalten / kündigen'}
+        {loading ? t('openPortal') : t('manageSubscription')}
       </button>
       {error && <p className="text-xs text-red-600 mt-1">{error}</p>}
     </div>
@@ -115,6 +118,7 @@ interface CancelAddonButtonProps {
 }
 
 export function CancelAddonButton({ addonId }: CancelAddonButtonProps) {
+  const t = useTranslations('billing')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [confirmed, setConfirmed] = useState(false)
@@ -140,14 +144,14 @@ export function CancelAddonButton({ addonId }: CancelAddonButtonProps) {
         onClick={() => setConfirmed(true)}
         className="flex items-center gap-1 text-xs text-red-600 hover:underline"
       >
-        <X className="w-3 h-3" /> Stornieren & erstatten
+        <X className="w-3 h-3" /> {t('cancelAddon')}
       </button>
     )
   }
 
   return (
     <div className="flex flex-col gap-1.5">
-      <p className="text-xs font-medium text-red-700">Sicher stornieren? Der Betrag wird erstattet.</p>
+      <p className="text-xs font-medium text-red-700">{t('cancelAddonConfirm')}</p>
       <div className="flex gap-2">
         <button
           onClick={handleCancel}
@@ -155,10 +159,10 @@ export function CancelAddonButton({ addonId }: CancelAddonButtonProps) {
           className="flex items-center gap-1 text-xs bg-red-600 text-white px-2.5 py-1 rounded-md hover:bg-red-700 disabled:opacity-50"
         >
           {loading && <Loader2 className="w-3 h-3 animate-spin" />}
-          Ja, stornieren
+          {t('confirmCancel')}
         </button>
         <button onClick={() => setConfirmed(false)} className="text-xs text-[var(--muted)] hover:text-[var(--foreground)]">
-          Abbrechen
+          {t('cancelBtn')}
         </button>
       </div>
       {error && <p className="text-xs text-red-600">{error}</p>}
@@ -170,13 +174,19 @@ export function CancelAddonButton({ addonId }: CancelAddonButtonProps) {
 
 interface EarlyCancelButtonProps {
   periodEndDate: string // ISO
+  locale:        string
 }
 
-export function EarlyCancelButton({ periodEndDate }: EarlyCancelButtonProps) {
+export function EarlyCancelButton({ periodEndDate, locale }: EarlyCancelButtonProps) {
+  const t = useTranslations('billing')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [confirmed, setConfirmed] = useState(false)
   const router = useRouter()
+
+  const formattedEndDate = new Intl.DateTimeFormat(locale, {
+    day: '2-digit', month: '2-digit', year: 'numeric',
+  }).format(new Date(periodEndDate))
 
   async function handleCancel() {
     setLoading(true)
@@ -202,7 +212,7 @@ export function EarlyCancelButton({ periodEndDate }: EarlyCancelButtonProps) {
         onClick={() => setConfirmed(true)}
         className="flex items-center gap-1.5 text-xs text-red-600 hover:underline font-medium"
       >
-        <AlertTriangle className="w-3.5 h-3.5" /> Abo sofort kündigen & erstatten
+        <AlertTriangle className="w-3.5 h-3.5" /> {t('immediateCancelBtn')}
       </button>
     )
   }
@@ -210,8 +220,7 @@ export function EarlyCancelButton({ periodEndDate }: EarlyCancelButtonProps) {
   return (
     <div className="flex flex-col gap-1.5 mt-1">
       <p className="text-xs font-medium text-red-700">
-        Abo wird sofort beendet und der Betrag vollständig erstattet. Noch nicht genutzte Laufzeit bis{' '}
-        {new Intl.DateTimeFormat('de-DE').format(new Date(periodEndDate))} verfällt.
+        {t('immediateCancelConfirm', { date: formattedEndDate })}
       </p>
       <div className="flex gap-2">
         <button
@@ -220,10 +229,10 @@ export function EarlyCancelButton({ periodEndDate }: EarlyCancelButtonProps) {
           className="flex items-center gap-1 text-xs bg-red-600 text-white px-2.5 py-1 rounded-md hover:bg-red-700 disabled:opacity-50"
         >
           {loading && <Loader2 className="w-3 h-3 animate-spin" />}
-          Ja, sofort kündigen
+          {t('immediateConfirmBtn')}
         </button>
         <button onClick={() => setConfirmed(false)} className="text-xs text-[var(--muted)] hover:text-[var(--foreground)]">
-          Abbrechen
+          {t('cancelBtn')}
         </button>
       </div>
       {error && <p className="text-xs text-red-600">{error}</p>}

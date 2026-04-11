@@ -4,8 +4,9 @@ import { stripe } from '@/lib/stripe'
 import {
   CreditCard, FileText, Package, Calendar, UserCheck,
   Info, CheckCircle2, AlertTriangle, Download, ExternalLink,
-  Zap, Shield, XCircle, Lock,
+  Zap, Shield, XCircle, Lock, ArrowRight,
 } from 'lucide-react'
+import { Link } from '@/i18n/navigation'
 import { CheckoutButton, PortalButton, CancelAddonButton, EarlyCancelButton } from './BillingActions'
 import { notFound } from 'next/navigation'
 import { getLocale, getTranslations } from 'next-intl/server'
@@ -19,14 +20,16 @@ function planIcon(slug: string) {
   return FileText
 }
 
-function formatEur(cents: number): string {
-  return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(cents / 100)
+function formatEur(cents: number, locale: string): string {
+  return new Intl.NumberFormat(locale, { style: 'currency', currency: 'EUR' }).format(cents / 100)
 }
 
-function formatDate(iso: string | Date): string {
-  return new Intl.DateTimeFormat('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' })
+function formatDate(iso: string | Date, locale: string): string {
+  return new Intl.DateTimeFormat(locale, { day: '2-digit', month: '2-digit', year: 'numeric' })
     .format(new Date(iso))
 }
+
+type BillingTranslator = Awaited<ReturnType<typeof getTranslations<'billing'>>>
 
 type StatusInfo = {
   label:     string
@@ -35,37 +38,44 @@ type StatusInfo = {
   icon:      typeof CheckCircle2
 }
 
-function getStatusInfo(sub: { status: string; planSlug: string; currentPeriodEnd: Date; cancelAtPeriodEnd: boolean } | null, credits: number, planName?: string): StatusInfo {
+function getStatusInfo(
+  sub: { status: string; planSlug: string; currentPeriodEnd: Date; cancelAtPeriodEnd: boolean } | null,
+  credits: number,
+  t: BillingTranslator,
+  locale: string,
+  planName?: string,
+): StatusInfo {
   if (sub?.status === 'ACTIVE' || sub?.status === 'TRIALING') {
     const name = planName ?? sub.planSlug
+    const date = formatDate(sub.currentPeriodEnd, locale)
     return {
-      label:    `${name} — aktiv`,
+      label:    t('statusActive', { name }),
       sublabel: sub.cancelAtPeriodEnd
-        ? `Läuft ab am ${formatDate(sub.currentPeriodEnd)} (nicht verlängert)`
-        : `Verlängert sich am ${formatDate(sub.currentPeriodEnd)}`,
+        ? t('statusExpiresOn', { date })
+        : t('statusRenewsOn', { date }),
       color: sub.cancelAtPeriodEnd ? 'amber' : 'green',
       icon: sub.cancelAtPeriodEnd ? AlertTriangle : CheckCircle2,
     }
   }
   if (sub?.status === 'PAST_DUE') {
     return {
-      label:    'Zahlung ausstehend',
-      sublabel: 'Bitte Zahlungsmethode im Abo-Portal aktualisieren.',
+      label:    t('statusPastDue'),
+      sublabel: t('statusPastDueHint'),
       color:    'amber',
       icon:     AlertTriangle,
     }
   }
   if (credits > 0) {
     return {
-      label:    `${credits} Einspruch${credits === 1 ? '' : '·e'} verfügbar`,
-      sublabel: 'Guthaben ohne Ablaufdatum',
+      label:    t('statusCredits', { count: credits }),
+      sublabel: t('statusCreditsHint'),
       color:    'green',
       icon:     CheckCircle2,
     }
   }
   return {
-    label:    'Kein aktiver Plan',
-    sublabel: 'Wählen Sie ein Paket, um zu starten.',
+    label:    t('statusNoPlan'),
+    sublabel: t('statusNoPlanHint'),
     color:    'gray',
     icon:     CreditCard,
   }
@@ -157,7 +167,7 @@ export default async function BillingPage({
       }).then((r: { data: unknown[] }) => r.data as import('stripe').Stripe.Invoice[]).catch(() => [])
     : []
 
-  const status = getStatusInfo(sub, creditBalance, subPlanName)
+  const status = getStatusInfo(sub, creditBalance, t, locale, subPlanName)
   const StatusIcon = status.icon
 
   const colorMap = {
@@ -179,10 +189,8 @@ export default async function BillingPage({
   return (
     <div className="max-w-3xl">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-[var(--foreground)]">Abrechnung & Plan</h1>
-        <p className="text-sm text-[var(--muted)] mt-1">
-          Einsprüche einzeln, als Paket oder per Flat — alle Preise netto, keine versteckten Kosten.
-        </p>
+        <h1 className="text-2xl font-bold text-[var(--foreground)]">{t('pageTitle')}</h1>
+        <p className="text-sm text-[var(--muted)] mt-1">{t('pageSubtitle')}</p>
       </div>
 
       {/* Pending draft banner — shown when user arrived via /billing?caseId=X */}
@@ -191,13 +199,20 @@ export default async function BillingPage({
           <div className="w-9 h-9 bg-amber-100 dark:bg-amber-900/40 text-amber-600 rounded-xl flex items-center justify-center shrink-0">
             <Lock className="w-4 h-4" />
           </div>
-          <div>
+          <div className="flex-1">
             <p className="font-semibold text-amber-800 dark:text-amber-300 text-sm">
               {t('pendingDraftTitle')}
             </p>
             <p className="text-xs text-amber-700 dark:text-amber-400 mt-0.5">
               {t('pendingDraftHint', { useCase: pendingCase.useCase })}
             </p>
+            <Link
+              href={`/cases/${pendingCase.id}?tab=letter`}
+              className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold bg-amber-600 text-white px-4 py-2 rounded-lg hover:bg-amber-700 transition-colors"
+            >
+              {t('viewDraft')}
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
           </div>
         </div>
       )}
@@ -217,7 +232,7 @@ export default async function BillingPage({
           <div className="flex flex-col items-end gap-2">
             {hasActiveSub && <PortalButton locale={locale} />}
             {canEarlyCancel && sub && (
-              <EarlyCancelButton periodEndDate={sub.currentPeriodEnd.toISOString()} />
+              <EarlyCancelButton periodEndDate={sub.currentPeriodEnd.toISOString()} locale={locale} />
             )}
           </div>
         </div>
@@ -228,18 +243,18 @@ export default async function BillingPage({
             {hasActiveSub && (
               <span className="flex items-center gap-1.5 text-xs font-medium bg-white/60 dark:bg-black/20 border border-[var(--border)] rounded-full px-3 py-1 text-[var(--foreground)]">
                 <Zap className="w-3 h-3 text-brand-500" />
-                Unbegrenzte Einsprüche
+                {t('unlimitedChip')}
               </span>
             )}
             {!hasActiveSub && creditBalance > 0 && (
               <span className="flex items-center gap-1.5 text-xs font-medium bg-white/60 dark:bg-black/20 border border-[var(--border)] rounded-full px-3 py-1 text-[var(--foreground)]">
                 <Package className="w-3 h-3 text-brand-500" />
-                {creditBalance} {creditBalance === 1 ? 'Einspruch' : 'Einsprüche'} im Guthaben
+                {t('creditChip', { count: creditBalance })}
               </span>
             )}
             <span className="flex items-center gap-1.5 text-xs font-medium bg-white/60 dark:bg-black/20 border border-[var(--border)] rounded-full px-3 py-1 text-[var(--foreground)]">
               <Shield className="w-3 h-3 text-green-500" />
-              Zahlung via Stripe · DSGVO-konform
+              {t('stripeChip')}
             </span>
           </div>
         )}
@@ -247,13 +262,11 @@ export default async function BillingPage({
 
       {/* ── Plans ──────────────────────────────────────────────────── */}
       <h2 className="text-base font-semibold text-[var(--foreground)] mb-4">
-        {hasActiveSub ? 'Plan wechseln' : 'Plan auswählen'}
+        {hasActiveSub ? t('switchPlan') : t('selectPlan')}
       </h2>
       {plans === null ? (
         <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-8 text-center mb-8">
-          <p className="text-sm text-[var(--muted)]">
-            Daten konnten nicht geladen werden. Bitte versuchen Sie es später erneut.
-          </p>
+          <p className="text-sm text-[var(--muted)]">{t('plansLoadError')}</p>
         </div>
       ) : (
         <div className="grid md:grid-cols-3 gap-4 mb-8">
@@ -280,12 +293,12 @@ export default async function BillingPage({
               >
                 {isCurrent && (
                   <div className="bg-green-600 text-white text-xs font-semibold text-center py-1.5 rounded-t-[14px]">
-                    Ihr aktueller Plan
+                    {t('currentPlanLabel')}
                   </div>
                 )}
                 {!isCurrent && plan.isPopular && (
                   <div className="bg-brand-600 text-white text-xs font-semibold text-center py-1.5 rounded-t-[14px]">
-                    Beliebteste Wahl
+                    {t('popularChoice')}
                   </div>
                 )}
 
@@ -316,11 +329,11 @@ export default async function BillingPage({
 
                   <CheckoutButton
                     planSlug={plan.slug}
-                    cta={isCurrent ? '✓ Aktiver Plan' : cta}
+                    cta={isCurrent ? `✓ ${t('currentPlanLabel')}` : cta}
                     highlight={plan.isPopular && !isCurrent}
                     locale={locale}
                     disabled={isCurrent}
-                    disabledReason="Dies ist Ihr aktueller Plan"
+                    disabledReason={t('currentPlanLabel')}
                     caseId={pendingCase?.id}
                   />
                 </div>
@@ -348,12 +361,12 @@ export default async function BillingPage({
             </p>
             <div className="flex items-center gap-4 flex-wrap text-sm">
               <div>
-                <span className="font-bold text-[var(--foreground)]">{formatEur(stdAddonPriceCents)}</span>
+                <span className="font-bold text-[var(--foreground)]">{formatEur(stdAddonPriceCents, locale)}</span>
                 <span className="text-[var(--muted)] ml-1">/ Fall</span>
               </div>
               {hasActiveSub && (
                 <div className="flex items-center gap-1 text-amber-700 dark:text-amber-400 text-xs font-medium">
-                  <span className="font-bold text-base">{formatEur(subAddonPriceCents)}</span>
+                  <span className="font-bold text-base">{formatEur(subAddonPriceCents, locale)}</span>
                   <span>/ Fall für Abonnenten</span>
                 </div>
               )}
@@ -391,13 +404,13 @@ export default async function BillingPage({
                       <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${statusBadge.cls}`}>{statusBadge.label}</span>
                     </div>
                     <p className="text-xs text-[var(--muted)] mt-0.5">
-                      {formatDate(ap.purchasedAt)} · {formatEur(ap.amountCents)}
+                      {formatDate(ap.purchasedAt, locale)} · {formatEur(ap.amountCents, locale)}
                       {ap.case && ` · Fall: ${ap.case.useCase}`}
                     </p>
                     {canCancel && (
                       <p className="text-xs text-amber-700 dark:text-amber-400 mt-1 flex items-center gap-1">
                         <Info className="w-3 h-3" />
-                        Stornierbar bis {formatDate(new Date(new Date(ap.purchasedAt).getTime() + ADDON.cancellationWindowDays * 86400000))}
+                        Stornierbar bis {formatDate(new Date(new Date(ap.purchasedAt).getTime() + ADDON.cancellationWindowDays * 86400000), locale)}
                       </p>
                     )}
                   </div>
@@ -405,7 +418,7 @@ export default async function BillingPage({
                     {canCancel && <CancelAddonButton addonId={ap.id} />}
                     {ap.status === 'CANCELLED' && (
                       <span className="flex items-center gap-1 text-xs text-[var(--muted)]">
-                        <XCircle className="w-3.5 h-3.5" /> {ap.cancelledAt ? formatDate(ap.cancelledAt) : ''}
+                        <XCircle className="w-3.5 h-3.5" /> {ap.cancelledAt ? formatDate(ap.cancelledAt, locale) : ''}
                       </span>
                     )}
                   </div>
@@ -426,8 +439,8 @@ export default async function BillingPage({
         {invoices.length === 0 ? (
           <div className="text-center py-8 text-[var(--muted)]">
             <FileText className="w-8 h-8 mx-auto mb-2 opacity-30" />
-            <p className="text-sm">Noch keine Rechnungen vorhanden.</p>
-            <p className="text-xs mt-1">Rechnungen erscheinen hier nach dem ersten Kauf.</p>
+            <p className="text-sm">{t('noInvoices')}</p>
+            <p className="text-xs mt-1">{t('noInvoicesHint')}</p>
           </div>
         ) : (
           <div className="divide-y divide-[var(--border)]">
@@ -438,15 +451,15 @@ export default async function BillingPage({
                     {inv.lines.data[0]?.description ?? 'TaxaLex'}
                   </p>
                   <p className="text-xs text-[var(--muted)] mt-0.5">
-                    {inv.number ?? inv.id} · {new Intl.DateTimeFormat('de-DE').format(new Date(inv.created * 1000))}
+                    {inv.number ?? inv.id} · {new Intl.DateTimeFormat(locale).format(new Date(inv.created * 1000))}
                   </p>
                 </div>
                 <div className="flex items-center gap-3 shrink-0">
                   <span className="text-sm font-semibold text-[var(--foreground)]">
-                    {new Intl.NumberFormat('de-DE', { style: 'currency', currency: inv.currency.toUpperCase() }).format(inv.amount_paid / 100)}
+                    {new Intl.NumberFormat(locale, { style: 'currency', currency: inv.currency.toUpperCase() }).format(inv.amount_paid / 100)}
                   </span>
                   <div className="flex gap-1.5">
-                    {inv.invoice_pdf && (
+                    {inv.invoice_pdf ? (
                       <a
                         href={inv.invoice_pdf}
                         target="_blank"
@@ -456,6 +469,14 @@ export default async function BillingPage({
                       >
                         <Download className="w-3.5 h-3.5" />
                       </a>
+                    ) : (
+                      <button
+                        disabled
+                        className="p-1.5 rounded-lg border border-[var(--border)] text-[var(--muted)] opacity-40 cursor-not-allowed"
+                        title={t('pdfGenerating')}
+                      >
+                        <Download className="w-3.5 h-3.5" />
+                      </button>
                     )}
                     {inv.hosted_invoice_url && (
                       <a
@@ -477,7 +498,7 @@ export default async function BillingPage({
 
         {invoices.length > 0 && (
           <p className="text-xs text-[var(--muted)] mt-4 pt-3 border-t border-[var(--border)]">
-            Alle Rechnungen tragen den Hinweis: „Gemäß §19 UStG wird keine Umsatzsteuer berechnet."
+            {t('invoiceLegalNote')}
           </p>
         )}
       </div>

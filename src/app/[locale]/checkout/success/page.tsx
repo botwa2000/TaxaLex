@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState, useCallback } from 'react'
-import { useSearchParams, useRouter } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import { CheckCircle2, Loader2, ArrowRight, Package, Zap } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
 import { useLocale, useTranslations } from 'next-intl'
@@ -14,7 +14,6 @@ type BillingStatus = {
 
 export default function CheckoutSuccessPage() {
   const searchParams = useSearchParams()
-  const router       = useRouter()
   const locale       = useLocale()
   const t            = useTranslations('checkout.success')
   const sessionId    = searchParams.get('session_id')
@@ -43,7 +42,7 @@ export default function CheckoutSuccessPage() {
 
   useEffect(() => {
     if (status !== 'loading') return
-    if (attempts >= 15) {
+    if (attempts >= 25) {
       setStatus('timeout')
       return
     }
@@ -61,8 +60,8 @@ export default function CheckoutSuccessPage() {
           <div className="w-16 h-16 bg-brand-50 dark:bg-brand-950 rounded-full flex items-center justify-center mx-auto mb-5">
             <Loader2 className="w-8 h-8 text-brand-600 animate-spin" />
           </div>
-          <h1 className="text-xl font-bold text-[var(--foreground)] mb-2">Zahlung wird verarbeitet…</h1>
-          <p className="text-sm text-[var(--muted)]">Bitte einen Moment warten.</p>
+          <h1 className="text-xl font-bold text-[var(--foreground)] mb-2">{t('loading')}</h1>
+          <p className="text-sm text-[var(--muted)]">{t('loadingHint')}</p>
         </div>
       </div>
     )
@@ -75,15 +74,13 @@ export default function CheckoutSuccessPage() {
           <div className="w-16 h-16 bg-amber-100 dark:bg-amber-900/40 rounded-full flex items-center justify-center mx-auto mb-5">
             <CheckCircle2 className="w-8 h-8 text-amber-600" />
           </div>
-          <h1 className="text-xl font-bold text-[var(--foreground)] mb-2">Zahlung erhalten</h1>
-          <p className="text-sm text-[var(--muted)] mb-6">
-            Ihre Zahlung wurde registriert. Es kann noch wenige Sekunden dauern, bis Ihr Guthaben erscheint.
-          </p>
+          <h1 className="text-xl font-bold text-[var(--foreground)] mb-2">{t('timeoutTitle')}</h1>
+          <p className="text-sm text-[var(--muted)] mb-6">{t('timeoutHint')}</p>
           <Link
-            href="/billing"
+            href="/cases"
             className="inline-flex items-center gap-2 bg-brand-600 text-white px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-brand-700 transition-colors"
           >
-            Zur Abrechnung
+            {t('timeoutCta')}
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
@@ -98,10 +95,8 @@ export default function CheckoutSuccessPage() {
           <CheckCircle2 className="w-8 h-8 text-green-600" />
         </div>
 
-        <h1 className="text-2xl font-bold text-[var(--foreground)] mb-2">Vielen Dank!</h1>
-        <p className="text-sm text-[var(--muted)] mb-6">
-          Ihre Zahlung war erfolgreich. Sie können sofort loslegen.
-        </p>
+        <h1 className="text-2xl font-bold text-[var(--foreground)] mb-2">{t('thankYou')}</h1>
+        <p className="text-sm text-[var(--muted)] mb-6">{t('successHint')}</p>
 
         {/* What they got */}
         <div className="bg-[var(--background-subtle)] rounded-xl p-4 mb-6 text-left">
@@ -109,8 +104,8 @@ export default function CheckoutSuccessPage() {
             <div className="flex items-center gap-3">
               <Zap className="w-5 h-5 text-brand-600 shrink-0" />
               <div>
-                <p className="text-sm font-semibold text-[var(--foreground)]">Abo aktiv</p>
-                <p className="text-xs text-[var(--muted)]">Unbegrenzte Einsprüche · jederzeit kündbar</p>
+                <p className="text-sm font-semibold text-[var(--foreground)]">{t('subscriptionActive')}</p>
+                <p className="text-xs text-[var(--muted)]">{t('subscriptionDesc')}</p>
               </div>
             </div>
           ) : (
@@ -118,9 +113,9 @@ export default function CheckoutSuccessPage() {
               <Package className="w-5 h-5 text-brand-600 shrink-0" />
               <div>
                 <p className="text-sm font-semibold text-[var(--foreground)]">
-                  {credits} {credits === 1 ? 'Einspruch' : 'Einsprüche'} freigeschaltet
+                  {t('creditsUnlocked', { count: credits })}
                 </p>
-                <p className="text-xs text-[var(--muted)]">Kein Ablaufdatum · sofort nutzbar</p>
+                <p className="text-xs text-[var(--muted)]">{t('creditsDesc')}</p>
               </div>
             </div>
           )}
@@ -132,7 +127,7 @@ export default function CheckoutSuccessPage() {
             <p className="font-semibold text-[var(--foreground)] mb-1">{t('draftReady')}</p>
             <p className="text-xs text-[var(--muted)] mb-4">{t('draftReadyHint')}</p>
             <Link
-              href={`/${locale}/cases/${recentlyUnlocked.id}?tab=letter`}
+              href={`/cases/${recentlyUnlocked.id}?tab=letter`}
               className="inline-flex items-center gap-1.5 bg-brand-600 text-white font-semibold px-5 py-2.5 rounded-xl text-sm hover:bg-brand-700 transition-colors"
             >
               {t('viewDraft')}
@@ -145,21 +140,21 @@ export default function CheckoutSuccessPage() {
               href="/einspruch"
               className="flex items-center justify-center gap-2 bg-brand-600 text-white px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-brand-700 transition-colors"
             >
-              Einspruch erstellen
+              {t('newCase')}
               <ArrowRight className="w-4 h-4" />
             </Link>
             <Link
               href="/cases"
               className="flex items-center justify-center gap-2 border border-[var(--border)] text-[var(--foreground)] px-5 py-2.5 rounded-xl text-sm font-medium hover:bg-[var(--background-subtle)] transition-colors"
             >
-              Meine Fälle
+              {t('myCases')}
               <ArrowRight className="w-4 h-4" />
             </Link>
             <Link
               href="/billing"
               className="text-sm text-[var(--muted)] hover:text-[var(--foreground)] hover:underline"
             >
-              Zur Abrechnung & Rechnungen
+              {t('toBilling')}
             </Link>
           </div>
         )}
