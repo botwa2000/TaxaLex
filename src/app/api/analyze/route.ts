@@ -33,12 +33,14 @@ const AnalyzeByIdSchema = ReviewExtras.extend({
   uploadId: z.string().uuid(),
   caseId: z.string().optional(),
   uiLanguage: z.string().length(2).optional().default('de'),
+  userContext: z.string().max(1000).optional(),
 })
 
 const AnalyzeByFilesSchema = ReviewExtras.extend({
   files: z.array(FileSchema).min(1).max(PIPELINE.maxDocuments),
   caseId: z.string().optional(),
   uiLanguage: z.string().length(2).optional().default('de'),
+  userContext: z.string().max(1000).optional(),
 })
 
 const AnalyzeSchema = z.union([AnalyzeByIdSchema, AnalyzeByFilesSchema])
@@ -73,7 +75,7 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    const { caseId, uiLanguage, reviewMode, existingBescheidData, userAnswers } = parsed.data
+    const { caseId, uiLanguage, reviewMode, existingBescheidData, userAnswers, userContext } = parsed.data
     type AnalysisFile = { name: string; type: string; base64: string; sizeBytes: number }
     let files: AnalysisFile[]
 
@@ -118,7 +120,10 @@ export async function POST(req: NextRequest) {
       const { db } = await import('@/lib/db')
       await db.case.updateMany({
         where: { id: caseId, userId },
-        data: { status: 'ANALYZING' },
+        data: {
+          status: 'ANALYZING',
+          ...(userContext ? { userContext } : {}),
+        },
       })
       logger.debug('[ANALYZE] ─── DB: case status → ANALYZING', { caseId })
     }
@@ -377,7 +382,11 @@ Questions rules:
               const qAgents = buildQuestionAgents(qModels, uiLangName)
 
               // Context for proposers: structured extracted data (all agents can read JSON)
-              const proposerContext = `Extracted data from official document:\n${JSON.stringify(bescheidData, null, 2)}\n\nInitial follow-up questions already identified:\n${JSON.stringify(followUpQuestions, null, 2)}`
+              const proposerContext = [
+                userContext?.trim() ? `User's explanation of what they want to object and why:\n${userContext.trim()}` : null,
+                `Extracted data from official document:\n${JSON.stringify(bescheidData, null, 2)}`,
+                `Initial follow-up questions already identified:\n${JSON.stringify(followUpQuestions, null, 2)}`,
+              ].filter(Boolean).join('\n\n')
 
               logger.debug('[ANALYZE] ─── Running 3 question-proposer agents in parallel')
               const t0Proposers = Date.now()

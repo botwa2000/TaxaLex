@@ -684,7 +684,8 @@ export async function orchestrate(
   outputLanguage = 'de',
   uiLanguage = 'de',
   onProgress?: (event: ProgressEvent) => void,
-  questionProposals?: string
+  questionProposals?: string,
+  userContext?: string
 ): Promise<{ outputs: AgentOutput[]; finalDraft: string; pipelineMode: string }> {
   const t0Pipeline = Date.now()
   const { models, mode: pipelineModeUsed } = await getActiveModels()
@@ -707,7 +708,7 @@ export async function orchestrate(
 
   const AGENTS = buildAgents(models, uiLanguage, outputLanguage)
   const outputs: AgentOutput[] = []
-  const context = buildContext(bescheidData, documents, userAnswers)
+  const context = buildContext(bescheidData, documents, userAnswers, userContext)
 
   logger.debug('[PIPELINE] ─── Context built', {
     contextChars: context.length,
@@ -889,9 +890,17 @@ ${adversaryFinalContent}`
 function buildContext(
   bescheid: BescheidData,
   documents: { name: string; text: string }[],
-  answers: Record<string, string>
+  answers: Record<string, string>,
+  userContext?: string
 ): string {
   const parts: string[] = []
+
+  // User-supplied explanation of what they want to object and why — placed first so all
+  // agents see it before any extracted fields. Critical for non-standard cases (e.g. civil
+  // expert reports, neighbour disputes) where the document alone does not reveal the intent.
+  if (userContext?.trim()) {
+    parts.push(`## Kontext des Antragstellers (warum Widerspruch eingelegt wird)\n${userContext.trim()}`)
+  }
 
   const docTypeInfo = bescheid.docType as { category?: string; label?: string } | undefined
   const sectionHeading = docTypeInfo?.label ?? 'Dokument-Daten'

@@ -1003,7 +1003,10 @@
       "noCredits": "Sin créditos — verá una vista previa del borrador al final.",
       "topUpLink": "Recargar ahora →",
       "demoAutoStarting": "Iniciando la demo…",
-      "demoDisabled": "Carga no disponible en modo demo"
+      "demoDisabled": "Carga no disponible en modo demo",
+      "contextLabel": "¿Qué está impugnando?",
+      "contextOptional": "(opcional)",
+      "contextPlaceholder": "Describa brevemente qué desea impugnar y por qué — p. ej. «Quiero impugnar el informe pericial que afirma que los daños por agua en el vecino provienen de mi terraza.»"
     },
     "analyzing": {
       "title": "Analizando su documento…",

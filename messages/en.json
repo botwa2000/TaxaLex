@@ -1003,7 +1003,10 @@
       "noCredits": "No credits — you'll see a draft preview at the end.",
       "topUpLink": "Top up now →",
       "demoAutoStarting": "Starting demo…",
-      "demoDisabled": "Upload not available in demo mode"
+      "demoDisabled": "Upload not available in demo mode",
+      "contextLabel": "What are you objecting to?",
+      "contextOptional": "(optional)",
+      "contextPlaceholder": "Briefly describe what you want to challenge and why — e.g. \"I want to object to the expert's report claiming water damage to my neighbour came from my terrace.\""
     },
     "analyzing": {
       "title": "Analysing your document…",

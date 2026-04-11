@@ -233,6 +233,7 @@ model Case {
   draftLocked       Boolean   @default(false)
   followUpQuestions Json?
   questionProposals Json?
+  userContext       String?   @db.Text
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
 

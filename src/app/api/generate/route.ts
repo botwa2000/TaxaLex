@@ -155,15 +155,19 @@ export async function POST(req: NextRequest) {
         // Load question proposals saved during analyze — reporter uses them to explain
         // how the final questions were developed from the multi-agent proposals.
         let questionProposals: string | undefined
+        let userContext: string | undefined
         if (caseId && !isDemo) {
           try {
             const { db } = await import('@/lib/db')
             const caseRecord = await db.case.findFirst({
               where: { id: caseId, userId },
-              select: { questionProposals: true },
+              select: { questionProposals: true, userContext: true },
             })
             if (caseRecord?.questionProposals) {
               questionProposals = JSON.stringify(caseRecord.questionProposals)
+            }
+            if (caseRecord?.userContext) {
+              userContext = caseRecord.userContext
             }
           } catch {
             // Non-fatal — reporter will just omit the question-development section
@@ -178,7 +182,8 @@ export async function POST(req: NextRequest) {
           outputLanguage,
           uiLanguage,
           (event) => send(event.type, event.data),  // forwards agent_start + agent_complete
-          questionProposals
+          questionProposals,
+          userContext
         )
 
         logger.debug('[GENERATE] ─── Pipeline complete', {

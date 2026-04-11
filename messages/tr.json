@@ -1003,7 +1003,10 @@
       "noCredits": "Kredi yok — sonunda taslak önizlemesi göreceksiniz.",
       "topUpLink": "Şimdi yükle →",
       "demoAutoStarting": "Demo başlatılıyor…",
-      "demoDisabled": "Demo modunda yükleme mevcut değil"
+      "demoDisabled": "Demo modunda yükleme mevcut değil",
+      "contextLabel": "Neye itiraz ediyorsunuz?",
+      "contextOptional": "(isteğe bağlı)",
+      "contextPlaceholder": "Kısaca ne ve neden itiraz etmek istediğinizi açıklayın — örn. «Komşumdaki su hasarının terastan kaynaklandığını iddia eden bilirkişi raporuna itiraz etmek istiyorum.»"
     },
     "analyzing": {
       "title": "Belgeniz analiz ediliyor…",

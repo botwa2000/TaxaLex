@@ -1003,7 +1003,10 @@
       "noCredits": "Sem créditos — você verá uma prévia do rascunho no final.",
       "topUpLink": "Recarregar agora →",
       "demoAutoStarting": "A iniciar a demonstração…",
-      "demoDisabled": "Upload não disponível no modo demo"
+      "demoDisabled": "Upload não disponível no modo demo",
+      "contextLabel": "O que está a contestar?",
+      "contextOptional": "(opcional)",
+      "contextPlaceholder": "Descreva brevemente o que pretende contestar e porquê — p. ex. «Quero contestar o relatório do perito que afirma que os danos causados pela água ao vizinho têm origem no meu terraço.»"
     },
     "analyzing": {
       "title": "Analisando seu documento…",

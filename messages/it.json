@@ -1003,7 +1003,10 @@
       "noCredits": "Nessun credito — vedrai un'anteprima della bozza alla fine.",
       "topUpLink": "Ricarica ora →",
       "demoAutoStarting": "Avvio della demo…",
-      "demoDisabled": "Caricamento non disponibile in modalità demo"
+      "demoDisabled": "Caricamento non disponibile in modalità demo",
+      "contextLabel": "Cosa sta contestando?",
+      "contextOptional": "(facoltativo)",
+      "contextPlaceholder": "Descriva brevemente cosa vuole contestare e perché — es. «Voglio contestare la perizia che afferma che il danno da acqua al vicino proviene dalla mia terrazza.»"
     },
     "analyzing": {
       "title": "Analisi del documento in corso…",

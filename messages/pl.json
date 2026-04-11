@@ -1003,7 +1003,10 @@
       "noCredits": "Brak kredytów — na końcu zobaczysz podgląd wersji roboczej.",
       "topUpLink": "Doładuj teraz →",
       "demoAutoStarting": "Uruchamianie dema…",
-      "demoDisabled": "Przesyłanie niedostępne w trybie demo"
+      "demoDisabled": "Przesyłanie niedostępne w trybie demo",
+      "contextLabel": "Czego dotyczy Twój sprzeciw?",
+      "contextOptional": "(opcjonalne)",
+      "contextPlaceholder": "Krótko opisz, co chcesz zakwestionować i dlaczego — np. „Chcę zakwestionować opinię rzeczoznawcy, który twierdzi, że szkody wodne u sąsiada pochodzą z mojego tarasu.”"
     },
     "analyzing": {
       "title": "Analizowanie dokumentu…",

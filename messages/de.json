@@ -1003,7 +1003,10 @@
       "noCredits": "Kein Guthaben — am Ende erhalten Sie eine Entwurfsvorschau.",
       "topUpLink": "Jetzt aufladen →",
       "demoAutoStarting": "Demo wird gestartet…",
-      "demoDisabled": "Hochladen im Demo-Modus nicht verfügbar"
+      "demoDisabled": "Hochladen im Demo-Modus nicht verfügbar",
+      "contextLabel": "Worum geht es in Ihrem Widerspruch?",
+      "contextOptional": "(optional)",
+      "contextPlaceholder": "Beschreiben Sie kurz, was Sie anfechten und warum — z. B. „Ich möchte das Gutachten des Sachverständigen anfechten, das behauptet, Wasserschäden beim Nachbarn stammten von meiner Terrasse.”"
     },
     "analyzing": {
       "title": "Dokument wird analysiert…",

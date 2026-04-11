@@ -188,6 +188,7 @@ function EinspruchPageInner() {
   const [draftPreview, setDraftPreview] = useState<string>('')
   const [generateError, setGenerateError] = useState<string | null>(null)
   const [analyzeError, setAnalyzeError] = useState<string | null>(null)
+  const [userContext, setUserContext] = useState('')
   const [refiningQuestions, setRefiningQuestions] = useState(false)
   const [resultLocked, setResultLocked] = useState(false) // true = freemium gate active
   const [editedDraft, setEditedDraft] = useState<string>('')
@@ -509,7 +510,7 @@ function EinspruchPageInner() {
       const res = await fetch('/api/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ uploadId, uiLanguage: locale, caseId: caseIdRef.current ?? undefined }),
+        body: JSON.stringify({ uploadId, uiLanguage: locale, caseId: caseIdRef.current ?? undefined, userContext: userContext.trim() || undefined }),
         signal: abortCtrl.signal,
       })
 
@@ -1219,6 +1220,32 @@ function EinspruchPageInner() {
                 ))}
               </div>
             )}
+
+            <div className="mt-5">
+              <label
+                htmlFor="user-context"
+                className="block text-sm font-medium text-[var(--foreground)] mb-1.5"
+              >
+                {t('upload.contextLabel')}
+                <span className="ml-1.5 text-xs font-normal text-[var(--muted)]">
+                  {t('upload.contextOptional')}
+                </span>
+              </label>
+              <textarea
+                id="user-context"
+                value={userContext}
+                onChange={(e) => setUserContext(e.target.value)}
+                maxLength={1000}
+                rows={3}
+                placeholder={t('upload.contextPlaceholder')}
+                className="w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-sm text-[var(--foreground)] placeholder:text-[var(--muted)] resize-none focus:outline-none focus:ring-2 focus:ring-brand-400 focus:border-transparent transition-colors"
+              />
+              {userContext.length > 800 && (
+                <p className="text-xs text-[var(--muted)] mt-1 text-right">
+                  {userContext.length}/1000
+                </p>
+              )}
+            </div>
 
             {hasAccess === false && files.length > 0 && (
               <div className="mt-5 flex items-start gap-3 bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 rounded-xl px-4 py-3.5">
