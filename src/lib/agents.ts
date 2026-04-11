@@ -1,19 +1,24 @@
 /**
- * Multi-Agent Orchestrator
+ * Multi-Agent Orchestrator — Enhanced Pipeline
  *
- * Pipeline: Draft → [Review + FactCheck + Adversary in parallel] → Consolidate
- * Steps 2–4 work independently on the same draft, so they run concurrently.
- * This reduces typical prod pipeline time from ~240s to ~150s (37% faster).
+ * Generate pipeline (7 steps):
+ *  1. Drafter      (Claude Sonnet / Gemini Flash)   — argument-skeleton JSON extraction
+ *  2. Reviewer     (Gemini Pro)                     — legal-layer JSON per skeleton point
+ *  3. FactChecker  (Perplexity Sonar Pro)           — fact-layer JSON per skeleton point
+ *  4. Adversary    (Grok 3 / Gemini Flash)          — stress-test JSON per skeleton point
+ *  Steps 2–4 run in parallel.
+ *  5. Consolidator (GPT-4o / Gemini Flash)          — assembles formal letter with ARGUE/CAUTION/DROP gating
+ *  6. AdversaryFinal (Grok 3 / Gemini Flash)        — final adversarial pass on assembled letter
+ *  7. Reporter     (Claude Sonnet)                  — full audit-trail narrative
  *
- * Prod provider assignment (one distinct model per provider):
- *   Drafter      → Claude Sonnet  (Anthropic)  — legal writing
- *   Reviewer     → Gemini 1.5 Pro (Google)     — structured error analysis
- *   FactChecker  → Sonar Pro      (Perplexity) — live-web citation verification
- *   Adversary    → Grok 3         (xAI)        — adversarial reasoning, authority POV
- *   Consolidator → GPT-4o         (OpenAI)     — multi-source synthesis, final letter
+ * Question pipeline (used by /api/analyze, 4 steps):
+ *  A. Three proposers in parallel (reviewer / factchecker / adversary perspective)
+ *  B. FactAuditor (Claude) — tags questions CONFIRMED / SINGLE / DISPUTED / UNSUPPORTED
+ *  C. Consolidator — 5-step reasoning to atomic, sourced final questions
  *
- * Dev provider assignment (all Gemini Flash — zero marginal cost):
- *   All five pipeline agents → gemini-2.5-flash
+ * Dev: all non-analyzer agents → Gemini Flash (free quota, zero marginal cost)
+ *      question-consolidator, question-fact-auditor, reporter → Claude Haiku
+ * Prod: five distinct best-in-class providers, one per role class
  */
 
 import Anthropic from '@anthropic-ai/sdk'
@@ -72,17 +77,19 @@ function getGoogleAI(): GoogleGenerativeAI {
 }
 
 // --- Agent configurations ---
-// Models are injected at call time from pipelineMode so dev/prod can be toggled live.
 //
 // Language split:
-//   • Letter agents (drafter, consolidator) write in `outputLanguage` (default: German).
-//   • Analysis agents (reviewer, factchecker, adversary) communicate in `uiLanguage`
-//     so the user reads feedback in their own language, not in German.
+//   • Letter agents (drafter/consolidator) write in `outputLanguage` (default: German).
+//   • Analysis agents (reviewer, factchecker, adversary, adversary-final) respond in `uiLanguage`
+//     so the user reads feedback in their own language.
+//   • Question agents all communicate in `uiLanguage`.
 
 type PipelineModels = Record<
   | 'drafter' | 'reviewer' | 'factchecker' | 'adversary' | 'consolidator'
+  | 'adversary-final'
   | 'question-proposer-reviewer' | 'question-proposer-factchecker'
-  | 'question-proposer-adversary' | 'question-consolidator' | 'reporter',
+  | 'question-proposer-adversary' | 'question-fact-auditor' | 'question-consolidator'
+  | 'reporter',
   ModelSpec
 >
 
@@ -95,167 +102,369 @@ function buildAgents(
   const outLang = languageNames[outputLanguage] ?? outputLanguage
 
   return {
+
+    // ── STEP 1: Argument-Skeleton Extractor ──────────────────────────────────
+    // Claude extracts WHAT can be argued (JSON), not HOW to argue it.
+    // Downstream specialist agents enrich each point; the consolidator writes the letter.
     drafter: {
       role: 'drafter',
       provider: models.drafter.provider,
       model: models.drafter.model,
-      systemPrompt: `You are an experienced German legal specialist in formal objection and appeal proceedings. Based on the document type in the case data, apply the correct legal framework and draft a complete formal letter:
+      systemPrompt: `You are a German legal case analyst. Your task: extract the structured argument skeleton from the case — the distinct contested factual and legal points that could form the basis of a formal objection or appeal.
 
-• Steuerbescheid → Einspruch (§347 AO), cite BFH case law, account for aggravation under §367 Abs. 2 AO
-• Bußgeldbescheid / Verwarnung → Einspruch (§67 OWiG), challenge evidence and proportionality
-• Kindergeld-Bescheid → Einspruch (§68 EStG, §355 AO), cite FG/BFH case law
-• Jobcenter / Bürgergeld-Bescheid → Widerspruch (§§83–86 SGG, §44 SGB X)
-• Krankenkassen-Bescheid → Widerspruch (§§78ff SGG) or Beschwerde under VVG
-• Kündigung → formal legal objection citing §4 KSchG, §622 BGB, BAG case law
-• Mieterhöhung → Widerspruch (§558b BGB), challenge formalities and comparables
-• Other → formal Widerspruch/Einspruch citing the applicable statutory basis
+For each point identify: what the authority claims, what counter-position the case data supports, what evidence is available, how confident the argument is, and which primary legal provision applies.
 
-Structure: Introduction and specific application → Facts → Legal grounds (numbered sub-points with §§ and case law) → Formal request.
+Confidence guide:
+- HIGH: clear evidence in the documents + well-established legal basis
+- MEDIUM: plausible counter-argument, some supporting evidence, may need clarification
+- LOW: arguable but weakly supported — specialist agents may decide to DROP
 
-LANGUAGE DIRECTIVE: Write the complete letter in ${outLang}. This document will be submitted to German-speaking authorities.`,
+Output ONLY a valid JSON array. No prose, no markdown, no commentary outside the JSON:
+[
+  {
+    "id": "point_1",
+    "authority_claim": "What the authority states in their decision as the basis for the ruling",
+    "user_counter": "The specific counter-argument supported by the case data",
+    "evidence_available": ["specific evidence items found in the documents"],
+    "confidence": "HIGH|MEDIUM|LOW",
+    "financial_impact": "exact EUR amount disputed by this point, or null",
+    "legal_hook": "primary §§ or legal provision",
+    "notes": "context needed by specialist agents, or null"
+  }
+]
+
+Extract 3–7 contested points. Include only points with at least LOW confidence — do not speculate beyond the case data.
+Do NOT write the letter. Only identify the skeleton.`,
     },
+
+    // ── STEP 2: Legal-Layer Contributor ──────────────────────────────────────
+    // Receives skeleton JSON, adds legal depth to each point.
     reviewer: {
       role: 'reviewer',
       provider: models.reviewer.provider,
       model: models.reviewer.model,
-      systemPrompt: `You are a legal adviser reviewing a formal objection or appeal letter for errors. Based on the document type, check: correct legal terminology for the applicable law, arithmetic where relevant, completeness of argumentation, accuracy of statutory citations and case law references, consistency of the factual narrative, and whether all claims are properly substantiated. Return a numbered list of concrete errors and improvement suggestions.
+      systemPrompt: `You are a German legal specialist. You receive a structured argument skeleton — a JSON array of contested points. For each point, add your legal assessment.
 
-LANGUAGE DIRECTIVE: Write your entire review in ${uiLang}. Quote German legal terms verbatim only where necessary, and explain them in ${uiLang}.`,
+Assess: the strongest applicable §§ and legal principles, relevant court rulings (BFH, BAG, BSG, OLG, FG, BVerwG etc. with case numbers where possible), whether the confidence rating is accurate from a legal standpoint, any additional legal arguments that strengthen the point, and whether any point should be DROPPED (legally time-barred, impossible to argue, or the authority is clearly correct on settled law).
+
+Return ONLY a valid JSON array with one entry per skeleton point, using the same IDs:
+[
+  {
+    "id": "point_1",
+    "legal_strength": "STRONG|MODERATE|WEAK",
+    "applicable_law": ["§347 AO", "§362 AO", "BFH Urt. v. 12.03.2019, IX R 2/18"],
+    "additional_args": "additional legal reasoning that strengthens this point",
+    "drop_reason": null
+  }
+]
+
+Set drop_reason to a non-null string only if the point should be excluded from the letter. Otherwise null.
+LANGUAGE DIRECTIVE: Write additional_args and drop_reason in ${uiLang}.`,
     },
+
+    // ── STEP 3: Fact-Layer Contributor ───────────────────────────────────────
+    // Receives skeleton JSON, verifies factual basis of each point.
     factchecker: {
       role: 'factchecker',
       provider: models.factchecker.provider,
       model: models.factchecker.model,
-      systemPrompt: `You are a legal expert verifying references in a formal objection letter using live web sources. Check: Do cited court rulings (BGH, BFH, BAG, BVerwG, BSG, OLG, FG, etc.) exist with correct case numbers? Are cited statutory paragraphs (AO, BGB, SGB, OWiG, KSchG, VVG, etc.) valid and current? Is there newer case law that strengthens or weakens the argument? Return concrete corrections with source references.
+      systemPrompt: `You are a fact-verification specialist. You receive a structured argument skeleton — a JSON array of contested points — together with the original case data. For each point, verify the factual basis.
 
-LANGUAGE DIRECTIVE: Write your entire fact-check report in ${uiLang}. Quote German legal terms verbatim where necessary, and explain them in ${uiLang}.`,
+Assess: whether the stated facts are accurate based on the documents, whether dates/amounts/procedural steps are verifiable, whether the claimed evidence actually appears in the case data, and any factual reason to DROP a point (amounts don't match, dates are wrong, claimed evidence doesn't exist).
+
+Return ONLY a valid JSON array with one entry per skeleton point, using the same IDs:
+[
+  {
+    "id": "point_1",
+    "facts_verified": true,
+    "factual_notes": "The amount of €1,250 is confirmed in the Bescheid dated 15.03.2024. Bank statements are referenced in the documents.",
+    "evidence_strength": "STRONG|MODERATE|WEAK",
+    "concerns": null,
+    "drop_reason": null
+  }
+]
+
+Set drop_reason to a non-null string only if the point should be excluded due to a factual problem. Otherwise null.
+LANGUAGE DIRECTIVE: Write factual_notes, concerns, and drop_reason in ${uiLang}.`,
     },
+
+    // ── STEP 4: Adversarial Stress-Test ──────────────────────────────────────
+    // Receives skeleton JSON, simulates authority counter-arguments per point.
     adversary: {
       role: 'adversary',
       provider: models.adversary.provider,
       model: models.adversary.model,
-      systemPrompt: `You are an experienced German civil servant at the relevant authority handling this case. Analyse the objection letter from the authority's perspective. Identify every weakness they could exploit: missing evidence, procedural gaps, vulnerable legal arguments, factual inconsistencies, missed deadlines, insufficient substantiation. Rate each weakness: high / medium / low risk.
+      systemPrompt: `You are simulating the German authority (Finanzamt, Jobcenter, Bußgeldstelle, Krankenkasse, etc.) that issued this official decision. For each contested point in the skeleton, identify exactly how the authority will respond in their counter-objection and what weaknesses they will exploit.
 
-LANGUAGE DIRECTIVE: Write your entire analysis in ${uiLang}. Use German technical terms only where unavoidable, and explain them in ${uiLang}.`,
+Return ONLY a valid JSON array with one entry per skeleton point, using the same IDs:
+[
+  {
+    "id": "point_1",
+    "authority_counter": "The exact counter-argument the authority will use to reject this point in their Einspruchsentscheidung",
+    "exploitable_weakness": "The specific weakness in the appellant's position that the authority will attack",
+    "risk": "HIGH|MEDIUM|LOW",
+    "mitigation": "How the objection letter should pre-empt this counter-argument"
+  }
+]
+
+Risk: HIGH = authority likely to prevail on this point without pre-emption; MEDIUM = contested; LOW = appellant likely to win as stated.
+LANGUAGE DIRECTIVE: Write authority_counter, exploitable_weakness, and mitigation in ${uiLang}.`,
     },
+
+    // ── STEP 5: Assembler ─────────────────────────────────────────────────────
+    // Receives skeleton + 3 layers, applies gating logic, writes the formal letter.
     consolidator: {
       role: 'consolidator',
       provider: models.consolidator.provider,
       model: models.consolidator.model,
-      systemPrompt: `You are a senior legal adviser producing the final objection or appeal letter. You have four inputs: (1) a draft letter, (2) a reviewer's error list, (3) a fact-checker's legal-reference report, (4) an adversarial weakness analysis. Produce the final version: correct all errors, verify all legal references, pre-emptively address every identified weakness. The result must be legally watertight, formally precise, and ready for submission.
+      systemPrompt: `You are a senior German legal specialist assembling the final formal objection or appeal letter from a structured multi-layer analysis.
+
+You receive four inputs:
+1. Argument skeleton (contested points with confidence levels)
+2. Legal layer (legal strength, applicable §§, case law per point)
+3. Factual verification layer (evidence assessment per point)
+4. Adversarial stress-test layer (authority counter-arguments per point)
+
+GATING — apply before writing:
+- ARGUE: Include if legal_strength is STRONG or MODERATE AND evidence_strength is STRONG or MODERATE AND adversary risk is LOW or MEDIUM
+- CAUTION: Include but frame carefully if exactly one layer is WEAK and no drop_reason is set
+- DROP: Exclude entirely if any drop_reason is non-null, OR all three layers are WEAK, OR adversary risk is HIGH with no viable mitigation
+
+For every ARGUED and CAUTION point, address the authority's mitigation in the Begründung subsection — this is the pre-emptive counter.
+
+Structure the letter based on the document type:
+• Steuerbescheid → Einspruch (§347 AO); cite BFH case law; address aggravation risk under §367 Abs. 2 AO
+• Bußgeldbescheid → Einspruch (§67 OWiG); challenge evidence and proportionality
+• Jobcenter / Bürgergeld → Widerspruch (§§83–86 SGG, §44 SGB X)
+• Krankenversicherung → Widerspruch (§§78ff SGG)
+• Kündigung → formal objection citing §4 KSchG, §622 BGB, BAG case law
+• Mieterhöhung → Widerspruch (§558b BGB)
+• Other → Widerspruch/Einspruch citing the applicable statutory basis
+
+Formal structure:
+1. Header: Betreff referencing the Bescheid date and file number
+2. Antrag: Formal application in one clear sentence
+3. Sachverhalt: Objective factual background (third-person)
+4. Begründung: Numbered subsections — one per ARGUED/CAUTION point
+   Each: legal principle → appellant's facts → applicable §§ and case law → pre-emption of authority counter
+5. Beweismittel: Numbered evidence list
+6. Formal closing and submission statement
 
 LANGUAGE DIRECTIVE: Write the complete letter in ${outLang}. This document will be submitted to German-speaking authorities.`,
     },
+
+    // ── STEP 6: Final Adversarial Review ─────────────────────────────────────
+    // Reviews the assembled letter, surfaces remaining vulnerabilities as JSON.
+    'adversary-final': {
+      role: 'adversary-final',
+      provider: models['adversary-final'].provider,
+      model: models['adversary-final'].model,
+      systemPrompt: `You are performing the final adversarial quality review of an assembled formal objection letter before submission to German authorities. Your role: identify any remaining vulnerabilities the authority could exploit.
+
+Specifically check for:
+- Procedural gaps (missing Vollmacht, signature, deadline references, Aktenzeichen)
+- Legal arguments that cite outdated §§ or case law superseded since 2022
+- Factual claims in the Begründung that lack corresponding Beweismittel
+- Phrasing that inadvertently weakens the legal position
+- Missing pre-emptions for HIGH-risk authority counter-arguments
+- Structural issues that allow rejection on formal grounds
+
+Return ONLY a valid JSON array:
+[
+  {
+    "severity": "HIGH|MEDIUM|LOW",
+    "section": "Antrag|Sachverhalt|Begründung|Beweismittel|formal|other",
+    "concern": "specific and precise description of the issue",
+    "suggestion": "concrete fix"
+  }
+]
+
+Report only HIGH and MEDIUM severity issues. If the letter is legally sound, return [].
+LANGUAGE DIRECTIVE: Write concern and suggestion in ${uiLang}.`,
+    },
+
+    // ── Question Pipeline: Proposers ─────────────────────────────────────────
+
     'question-proposer-reviewer': {
       role: 'question-proposer-reviewer',
       provider: models['question-proposer-reviewer'].provider,
       model: models['question-proposer-reviewer'].model,
-      systemPrompt: `You are a legal expert reviewing structured data extracted from an official German document. Your task: identify legal information gaps that would weaken a formal objection or appeal, and propose targeted follow-up questions to fill those gaps.
+      systemPrompt: `You are a legal expert reviewing structured data extracted from an official German document. Identify legal information gaps that would weaken a formal objection, and propose targeted follow-up questions to fill those gaps.
 
 Rules:
-- Each question must address exactly ONE specific thing. Never combine two questions into one.
-- If a yes/no question implies a follow-up detail, split into TWO separate questions.
+- Each question addresses exactly ONE thing. Never combine two questions into one.
+- If a yes/no answer implies a follow-up detail, split into TWO separate questions.
 - Only propose questions that DIRECTLY strengthen the appeal. No generic background questions.
-- Write in plain language — assume the reader is an intelligent non-expert, not a lawyer.
-- Questions must target legal gaps: missing §§ evidence, unclear procedural steps, unchallengeable assumptions.
+- Every question must be grounded in a specific field from the extracted document data.
+- Write in plain language — assume an intelligent non-expert, not a lawyer.
 
-Return a JSON array only — no other text:
-[{"question":"...","why":"1-2 sentence plain-language explanation of why this specific question matters for winning the appeal","type":"yesno|text|amount|date","legalBasis":"relevant §§ or court rulings"}]
+Return ONLY a valid JSON array:
+[
+  {
+    "question": "...",
+    "why": "1-2 sentence plain-language explanation of why this gap matters for winning the appeal",
+    "type": "yesno|text|amount|date",
+    "legalBasis": "relevant §§ or court rulings",
+    "source_fact": "the exact bescheidData field or document detail that justifies this question"
+  }
+]
 
-Propose 2-4 questions maximum. Focus on legal gaps, missing evidence, challengeable assumptions.
-
+Propose 2–4 questions. Focus on legal gaps, missing evidence, challengeable assumptions.
 LANGUAGE DIRECTIVE: Write ALL text (question, why) in ${uiLang}.`,
     },
+
     'question-proposer-factchecker': {
       role: 'question-proposer-factchecker',
       provider: models['question-proposer-factchecker'].provider,
       model: models['question-proposer-factchecker'].model,
-      systemPrompt: `You are a fact-checking expert reviewing structured data extracted from an official German document. Your task: identify factual claims, dates, amounts, and procedural details that must be verified or clarified before writing a credible objection or appeal.
+      systemPrompt: `You are a fact-checking expert reviewing structured data extracted from an official German document. Identify factual claims, dates, amounts, and procedural details that must be verified or clarified before writing a credible objection.
 
 Rules:
-- Each question must address exactly ONE specific thing. Never combine two questions into one.
-- If a yes/no question implies a follow-up detail, split into TWO separate questions.
+- Each question addresses exactly ONE thing. Never combine two questions into one.
+- If a yes/no answer implies a follow-up detail, split into TWO separate questions.
 - Only propose questions where the answer would materially change the appeal's argumentation.
-- Write in plain language — assume the reader is an intelligent non-expert.
-- Focus lens: dates, deadlines, amounts, procedural compliance, prior correspondence, official notifications.
+- Every question must be grounded in a specific field from the extracted document data.
+- Write in plain language — assume an intelligent non-expert.
 
-Return a JSON array only — no other text:
-[{"question":"...","why":"1-2 sentence plain-language explanation of why this fact needs verification for the appeal","type":"yesno|text|amount|date","legalBasis":"relevant §§ or regulations"}]
+Return ONLY a valid JSON array:
+[
+  {
+    "question": "...",
+    "why": "1-2 sentence plain-language explanation of why this fact needs verification",
+    "type": "yesno|text|amount|date",
+    "legalBasis": "relevant §§ or regulations",
+    "source_fact": "the exact bescheidData field or document detail that justifies this question"
+  }
+]
 
-Propose 2-4 questions maximum.
-
+Propose 2–4 questions. Focus on dates, deadlines, amounts, procedural compliance, prior correspondence.
 LANGUAGE DIRECTIVE: Write ALL text (question, why) in ${uiLang}.`,
     },
+
     'question-proposer-adversary': {
       role: 'question-proposer-adversary',
       provider: models['question-proposer-adversary'].provider,
       model: models['question-proposer-adversary'].model,
-      systemPrompt: `You are simulating the German authority that issued this official document. Your task: identify information the authority will demand in their response to an objection, and propose questions to pre-emptively gather that information.
+      systemPrompt: `You are simulating the German authority that issued this official document. Identify information the authority will demand in response to an objection, and propose questions to pre-emptively gather that information.
 
 Rules:
-- Each question must address exactly ONE specific thing. Never combine two questions into one.
-- If a yes/no question implies a follow-up detail, split into TWO separate questions.
+- Each question addresses exactly ONE thing. Never combine two questions into one.
+- If a yes/no answer implies a follow-up detail, split into TWO separate questions.
 - Only propose questions that address genuine authority counter-arguments — not hypothetical edge cases.
+- Every question must be grounded in a specific field from the extracted document data.
 - Write in plain language — the appellant is an intelligent non-expert.
-- Focus lens: missing documentation the authority expects, procedural requirements the appellant may have missed, weaknesses the authority will exploit.
 
-Return a JSON array only — no other text:
-[{"question":"...","why":"1-2 sentence plain-language explanation of what the authority will challenge and why this answer helps defend against it","type":"yesno|text|amount|date","legalBasis":"relevant §§ or procedural rules"}]
+Return ONLY a valid JSON array:
+[
+  {
+    "question": "...",
+    "why": "1-2 sentence plain-language explanation of what the authority will challenge and why this helps defend against it",
+    "type": "yesno|text|amount|date",
+    "legalBasis": "relevant §§ or procedural rules",
+    "source_fact": "the exact bescheidData field or document detail that justifies this question"
+  }
+]
 
-Propose 2-4 questions maximum.
-
+Propose 2–4 questions. Focus on documentation the authority expects, procedural requirements, weaknesses they will exploit.
 LANGUAGE DIRECTIVE: Write ALL text (question, why) in ${uiLang}.`,
     },
+
+    // ── Question Pipeline: Fact Auditor ──────────────────────────────────────
+    // Claude acts as dirigent: tags and filters proposals before consolidation.
+    // Prevents hallucinated or speculative questions from reaching the user.
+    'question-fact-auditor': {
+      role: 'question-fact-auditor',
+      provider: models['question-fact-auditor'].provider,
+      model: models['question-fact-auditor'].model,
+      systemPrompt: `You are auditing follow-up question proposals from three specialist agents. Your role: tag each proposed question against the actual extracted document data to filter out questions not grounded in evidence.
+
+Tagging rules:
+- CONFIRMED: The question is directly grounded in a field present in the extracted bescheidData. At least two agents proposed it, or it targets a clearly documented fact.
+- SINGLE: Only one agent proposed it. Possibly valid but niche — retain if the source_fact is traceable.
+- DISPUTED: Agents contradict each other on this topic, or the question is ambiguous.
+- UNSUPPORTED: Not traceable to any field in the extracted data. Likely hallucinated or too speculative.
+
+Remove UNSUPPORTED questions entirely. Retain CONFIRMED, SINGLE, and DISPUTED — the consolidator will decide final inclusion.
+
+Return ONLY a valid JSON array of surviving questions:
+[
+  {
+    "question": "...",
+    "why": "...",
+    "type": "yesno|text|amount|date",
+    "legalBasis": "...",
+    "source_fact": "the bescheidData field that grounds this question",
+    "tag": "CONFIRMED|SINGLE|DISPUTED",
+    "proposers": ["reviewer", "factchecker", "adversary", "initial"]
+  }
+]
+
+LANGUAGE DIRECTIVE: Preserve the language of each question exactly as proposed. Do not rephrase.`,
+    },
+
+    // ── Question Pipeline: Consolidator ──────────────────────────────────────
+    // Multi-step reasoning to produce the final, atomic, sourced question list.
     'question-consolidator': {
       role: 'question-consolidator',
       provider: models['question-consolidator'].provider,
       model: models['question-consolidator'].model,
-      systemPrompt: `You are consolidating follow-up question proposals from three legal specialists (Legal Reviewer, Fact-Checker, Adversary) plus an initial AI analysis. Produce the final, optimised question list.
+      systemPrompt: `You are consolidating audited follow-up question proposals into the final question list. The input includes questions from three specialist agents (tagged CONFIRMED, SINGLE, or DISPUTED by a fact-auditor) plus the initial AI analysis.
 
-Consolidation rules:
-- Merge duplicate or overlapping questions — keep the clearest wording from any source.
-- Enforce strict atomicity: each final question asks exactly ONE thing. Split any compound questions.
-- Remove generic questions not tied to the specific facts of this case.
-- For each question, add a "why" field: a 1-2 sentence plain-language explanation a non-expert can understand.
-- Add a "guidance" field: 2-3 sentences explaining what factors determine the answer and concrete examples (if X then answer A because...).
-- Produce exactly 4-6 final questions total (no fewer, no more).
+Work through these steps in your reasoning, then produce the final output:
 
-Return ONLY a JSON object — no other text:
-{"questions":[{"id":"q1","question":"...","required":true,"type":"text|yesno|amount|date","background":"§§ and legal basis in ${uiLang}","guidance":"2-3 sentence practical guidance in ${uiLang}","why":"1-2 sentence plain-language explanation in ${uiLang}"}],"rationale":"1 paragraph explaining which questions were merged, removed, or split and why"}
+Step 1 — Enumerate: List all questions from all sources (tagged + initial).
+Step 2 — Prioritise: CONFIRMED questions have highest priority. SINGLE questions include only if the source_fact is concrete. DISPUTED questions: resolve by checking the source_fact against the document data.
+Step 3 — Deduplicate: Merge questions that address the same gap. Keep the clearest wording from any source.
+Step 4 — Atomicity: Each final question asks exactly ONE thing. Split any compound questions.
+Step 5 — Enrich: For each surviving question, write: a "why" field (1-2 sentence plain-language explanation), a "guidance" field (2-3 sentences: what factors determine the answer, concrete examples like "if X then answer A because..., if Y then answer B because..."), and a "background" field (§§ and legal basis).
+Step 6 — Select: Choose the 4–6 most impactful questions. No fewer, no more.
+
+Return ONLY a valid JSON object:
+{"questions":[{"id":"q1","question":"...","required":true,"type":"text|yesno|amount|date","background":"§§ and legal basis in ${uiLang}","guidance":"2-3 sentence practical guidance in ${uiLang}","why":"1-2 sentence plain-language explanation in ${uiLang}"}],"rationale":"1 paragraph: which questions were merged, removed, split, or promoted — and why"}
 
 LANGUAGE DIRECTIVE: Write ALL text (question, background, guidance, why, rationale) in ${uiLang}.`,
     },
+
+    // ── STEP 7: Reporter ─────────────────────────────────────────────────────
+    // Full audit-trail narrative covering all pipeline decisions.
     reporter: {
       role: 'reporter',
       provider: models.reporter.provider,
       model: models.reporter.model,
-      systemPrompt: `You are writing a comprehensive analysis report for the appellant explaining exactly how their case was researched, what each AI specialist found, and how their objection was drafted. Write for an intelligent non-expert — clear, accessible, specific.
+      systemPrompt: `You are writing a comprehensive analysis report for the appellant explaining exactly how their case was researched, what each AI specialist found, which arguments were made and which were dropped — and why.
+
+Write for an intelligent non-expert: clear, accessible, specific. Reference actual §§, argument IDs, confidence levels, and amounts throughout. Avoid vague generalisations.
 
 The report must have these sections with markdown headings:
 
 ## Dokumentenanalyse
-What key facts and legal details were extracted from the uploaded document. Reference specific fields found (amounts, dates, authorities, legal §§). Explain why each is relevant to the appeal.
+Key facts and legal details extracted from the uploaded document. Reference specific fields (amounts, dates, authority, §§). Explain why each is relevant to the appeal.
+
+## Argument-Skelett
+The contested points identified, with their confidence levels (HIGH/MEDIUM/LOW). Explain which points were ARGUED, which were marked CAUTION, and which were DROPPED — with the specific reason for each drop decision.
 
 ## Entwicklung der Rückfragen
-What each specialist was looking for when proposing follow-up questions. How the questions were consolidated and refined. Which questions were merged, removed, or split — and why.
-
-## Strategie des Einspruchs
-The legal approach the initial draft took. Which §§ and case law were invoked and why. What the core argument is.
+What each specialist was looking for when proposing questions. How the fact-auditor tagged them (CONFIRMED/SINGLE/DISPUTED/UNSUPPORTED — and what was removed). How the consolidator merged, split, or removed questions. Which final questions carry the most weight.
 
 ## Rechtliche Überprüfung
-Concrete errors or improvements the Legal Reviewer found. How they changed the final letter.
+Concrete findings from the legal layer: strongest applicable §§ and case law per argument, points where legal strength was WEAK, any points the legal layer flagged for dropping.
 
 ## Faktenprüfung
-Which legal references were verified, corrected, or updated with current case law. Specific §§ or court rulings that were confirmed or replaced.
+What the fact-checking layer verified: confirmed evidence, factual concerns, points strengthened or weakened by available documentation.
 
 ## Behörden-Perspektive
-The specific weaknesses the adversarial analysis identified. How the final letter pre-emptively addresses each one.
+The adversarial stress-test findings: specific authority counter-arguments identified per point, risk levels (HIGH/MEDIUM/LOW), and how the assembled letter pre-empts each one.
+
+## Finales Schreiben
+How the consolidator assembled the letter: gating decisions applied, structure chosen based on document type, how pre-emptions were woven into the Begründung subsections.
+
+## Abschließende Qualitätsprüfung
+What the adversary-final agent flagged as remaining concerns (severity and section), and whether each was material or acceptable. Overall quality assessment.
 
 ## Endergebnis
-How all four inputs were synthesised into the final letter. What makes it legally sound.
+The strongest arguments in the final letter, known limitations, and what the appellant should be prepared for in the authority's response.
 
-Length: 600-1000 words. Use concrete specifics throughout — reference actual §§, findings, and arguments from the case. Avoid vague generalisations.
-
+Length: 700–1100 words. Use concrete specifics throughout.
 LANGUAGE DIRECTIVE: Write the entire report in ${uiLang}.`,
     },
   }
@@ -263,13 +472,17 @@ LANGUAGE DIRECTIVE: Write the entire report in ${uiLang}.`,
 
 // ── Question-phase agent helper ───────────────────────────────────────────────
 // Used exclusively by /api/analyze to run the multi-agent question pipeline.
-// Returns only the 4 question-phase agents (proposers + consolidator).
+// Returns the 5 question-phase agents (3 proposers + fact-auditor + consolidator).
 
 export function buildQuestionAgents(
   models: PipelineModels,
   uiLanguage: string
 ): Record<
-  'question-proposer-reviewer' | 'question-proposer-factchecker' | 'question-proposer-adversary' | 'question-consolidator',
+  | 'question-proposer-reviewer'
+  | 'question-proposer-factchecker'
+  | 'question-proposer-adversary'
+  | 'question-fact-auditor'
+  | 'question-consolidator',
   AgentConfig
 > {
   const allAgents = buildAgents(models, uiLanguage, 'de')
@@ -277,6 +490,7 @@ export function buildQuestionAgents(
     'question-proposer-reviewer':    allAgents['question-proposer-reviewer'],
     'question-proposer-factchecker': allAgents['question-proposer-factchecker'],
     'question-proposer-adversary':   allAgents['question-proposer-adversary'],
+    'question-fact-auditor':         allAgents['question-fact-auditor'],
     'question-consolidator':         allAgents['question-consolidator'],
   }
 }
@@ -428,14 +642,15 @@ export async function callAgent(
 }
 
 /**
- * Full multi-agent pipeline:
- * 1. Drafter      (Claude Sonnet / Gemini Flash in dev)  — creates initial Einspruch
- * 2. Reviewer     (Gemini Pro)                           — checks for legal/math errors
- * 3. FactCheck    (Perplexity Sonar Pro)                 — verifies citations with live web
- * 4. Adversary    (Grok 3 / Gemini Flash in dev)         — attacks from authority perspective
- * 5. Consolidator (GPT-4o / Gemini Flash in dev)         — final bulletproof version
- *
- * Steps 2–4 run in parallel (Promise.all) — reduces wall-clock time by ~37%.
+ * Enhanced multi-agent pipeline — 7 steps:
+ * 1. Drafter       (Claude Sonnet / Gemini Flash)  — argument-skeleton JSON extraction
+ * 2. Reviewer      (Gemini Pro)                    — legal-layer JSON per point
+ * 3. FactChecker   (Perplexity Sonar Pro)          — fact-layer JSON per point
+ * 4. Adversary     (Grok 3 / Gemini Flash)         — stress-test JSON per point
+ *    Steps 2–4 run in parallel (Promise.all).
+ * 5. Consolidator  (GPT-4o / Gemini Flash)         — assembles formal letter with gating
+ * 6. AdversaryFinal (Grok 3 / Gemini Flash)        — final adversarial pass on letter
+ * 7. Reporter      (Claude Sonnet)                 — full audit-trail narrative
  */
 type ProgressEvent =
   | { type: 'agent_start'; data: { role: AgentRole } }
@@ -470,11 +685,12 @@ export async function orchestrate(
     docCount: documents.length,
     answerCount: Object.keys(userAnswers).length,
     agents: {
-      drafter:      `${models.drafter.provider}/${models.drafter.model}`,
-      reviewer:     `${models.reviewer.provider}/${models.reviewer.model}`,
-      factchecker:  `${models.factchecker.provider}/${models.factchecker.model}`,
-      adversary:    `${models.adversary.provider}/${models.adversary.model}`,
-      consolidator: `${models.consolidator.provider}/${models.consolidator.model}`,
+      drafter:        `${models.drafter.provider}/${models.drafter.model}`,
+      reviewer:       `${models.reviewer.provider}/${models.reviewer.model}`,
+      factchecker:    `${models.factchecker.provider}/${models.factchecker.model}`,
+      adversary:      `${models.adversary.provider}/${models.adversary.model}`,
+      consolidator:   `${models.consolidator.provider}/${models.consolidator.model}`,
+      adversaryFinal: `${models['adversary-final'].provider}/${models['adversary-final'].model}`,
     },
   })
 
@@ -524,80 +740,94 @@ export async function orchestrate(
     return content
   }
 
-  // Step 1: Draft
-  logger.debug('[PIPELINE] ─── STEP 1: Drafter (sequential)')
-  const draftContent = await runAgent(
+  // Step 1: Argument-skeleton extraction
+  // Drafter outputs structured JSON — not a prose draft. Specialist agents receive
+  // this skeleton and add their layer; the consolidator assembles the final letter.
+  logger.debug('[PIPELINE] ─── STEP 1: Skeleton extractor (drafter)')
+  const skeletonRaw = await runAgent(
     'drafter',
     AGENTS.drafter,
-    `Draft an objection letter based on the following case data:\n\n${context}`,
-    { draftPreview: true }
+    `Extract the argument skeleton for this case:\n\n${context}`
   )
+
+  // Parse skeleton for logging; pass raw text downstream so agents are robust to minor JSON issues.
+  let skeletonPointCount = 0
+  try {
+    const parsed = JSON.parse(skeletonRaw.match(/\[[\s\S]*\]/)?.[0] ?? skeletonRaw)
+    if (Array.isArray(parsed)) skeletonPointCount = parsed.length
+  } catch { /* non-fatal */ }
+
   logger.debug('[PIPELINE] ─── STEP 1 complete', {
-    draftChars: draftContent.length,
+    skeletonChars: skeletonRaw.length,
+    skeletonPoints: skeletonPointCount,
     elapsedMs: Date.now() - t0Pipeline,
   })
 
-  // Steps 2–4: Run in parallel — all analyse the same draft independently.
-  // Reviewer, FactChecker and Adversary do not depend on each other's output,
-  // so Promise.all() cuts the middle-stage wall-clock time to max(three) instead of sum(three).
-  logger.debug('[PIPELINE] ─── STEP 2–4: Reviewer + FactChecker + Adversary (parallel)')
+  // Steps 2–4: Specialist layers — all receive the skeleton JSON and case data.
+  // They run in parallel since each analyses the same skeleton independently.
+  logger.debug('[PIPELINE] ─── STEP 2–4: Legal + Fact + Adversary layers (parallel)')
   const t0Parallel = Date.now()
+
+  const skeletonInput = `Argument skeleton:\n${skeletonRaw}\n\nOriginal case data:\n${context}`
+
   const [reviewContent, factCheckContent, adversaryContent] = await Promise.all([
-    runAgent(
-      'reviewer',
-      AGENTS.reviewer,
-      `Review this objection letter for errors:\n\n${draftContent}\n\nOriginal case data:\n${context}`
-    ),
-    runAgent(
-      'factchecker',
-      AGENTS.factchecker,
-      `Verify the legal references in this objection letter:\n\n${draftContent}`
-    ),
-    runAgent(
-      'adversary',
-      AGENTS.adversary,
-      `Analyse this objection letter from the authority's perspective:\n\n${draftContent}\n\nOriginal case data:\n${context}`
-    ),
+    runAgent('reviewer', AGENTS.reviewer, `Add legal assessment to each point:\n\n${skeletonInput}`),
+    runAgent('factchecker', AGENTS.factchecker, `Verify factual basis of each point:\n\n${skeletonInput}`),
+    runAgent('adversary', AGENTS.adversary, `Adversarial stress-test of each point:\n\n${skeletonInput}`),
   ])
-  logger.debug('[PIPELINE] ─── STEP 2–4 complete (all parallel)', {
+
+  logger.debug('[PIPELINE] ─── STEP 2–4 complete', {
     wallClockMs: Date.now() - t0Parallel,
     reviewChars: reviewContent.length,
     factCheckChars: factCheckContent.length,
     adversaryChars: adversaryContent.length,
   })
 
-  // Step 5: Consolidate — receives ALL four prior agent outputs.
-  logger.debug('[PIPELINE] ─── STEP 5: Consolidator (sequential)')
+  // Step 5: Assembler — applies ARGUE/CAUTION/DROP gating and writes the formal letter.
+  logger.debug('[PIPELINE] ─── STEP 5: Assembler (consolidator)')
   const finalDraft = await runAgent(
     'consolidator',
     AGENTS.consolidator,
-    `Produce the final objection letter using all four inputs below.
+    `Assemble the formal objection letter from all four inputs below.
 
-DRAFT:
-${draftContent}
+ARGUMENT SKELETON:
+${skeletonRaw}
 
-REVIEW — errors found:
+LEGAL LAYER — legal strength and applicable §§ per point:
 ${reviewContent}
 
-FACT-CHECK — verified legal references:
+FACT-CHECK LAYER — factual verification per point:
 ${factCheckContent}
 
-ADVERSARIAL ANALYSIS — weaknesses from the authority's perspective:
+ADVERSARIAL STRESS-TEST — authority counter-arguments per point:
 ${adversaryContent}
 
 ORIGINAL CASE DATA:
-${context}`
+${context}`,
+    { draftPreview: true }
   )
 
-  // Step 6: Reporter — synthesises the entire pipeline into a readable analysis report.
-  // This runs after the final draft is complete so it can reference all outcomes.
-  logger.debug('[PIPELINE] ─── STEP 6: Reporter (sequential)')
-  const reporterPrompt = `Write the analysis report for this case based on the complete pipeline output below.
+  logger.debug('[PIPELINE] ─── STEP 5 complete', {
+    finalDraftChars: finalDraft.length,
+    elapsedMs: Date.now() - t0Pipeline,
+  })
+
+  // Step 6: Final adversarial pass — reviews the assembled letter, surfaces remaining issues.
+  logger.debug('[PIPELINE] ─── STEP 6: Adversary-final')
+  const adversaryFinalContent = await runAgent(
+    'adversary-final',
+    AGENTS['adversary-final'],
+    `Final adversarial review of this assembled objection letter:\n\n${finalDraft}\n\nOriginal case data:\n${context}`
+  )
+
+  // Step 7: Reporter — comprehensive audit-trail narrative for the appellant.
+  logger.debug('[PIPELINE] ─── STEP 7: Reporter')
+  const reporterPrompt = `Write the analysis report based on the complete pipeline output below.
 
 EXTRACTED DOCUMENT DATA:
 ${context}
 
-${questionProposals ? `QUESTION DEVELOPMENT (proposals from 3 specialists):
+${questionProposals ? `QUESTION DEVELOPMENT (proposals from 3 specialists + fact-audit + consolidation):
 ${questionProposals}
 
 ` : ''}USER ANSWERS TO FOLLOW-UP QUESTIONS:
@@ -605,20 +835,23 @@ ${Object.keys(userAnswers).length > 0
   ? Object.entries(userAnswers).map(([q, a]) => `${q}: ${a || '(not answered)'}`).join('\n')
   : '(no answers — questions were skipped)'}
 
-INITIAL DRAFT:
-${draftContent}
+ARGUMENT SKELETON (step 1):
+${skeletonRaw}
 
-LEGAL REVIEW — errors and improvements found:
+LEGAL LAYER (step 2):
 ${reviewContent}
 
-FACT-CHECK — legal references verified:
+FACT-CHECK LAYER (step 3):
 ${factCheckContent}
 
-ADVERSARIAL ANALYSIS — authority perspective and weaknesses:
+ADVERSARIAL STRESS-TEST (step 4):
 ${adversaryContent}
 
-FINAL LETTER (after consolidation):
-${finalDraft}`
+ASSEMBLED LETTER (step 5, after gating):
+${finalDraft}
+
+FINAL ADVERSARIAL REVIEW (step 6 — remaining concerns):
+${adversaryFinalContent}`
 
   await runAgent('reporter', AGENTS.reporter, reporterPrompt)
 

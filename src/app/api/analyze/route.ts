@@ -382,8 +382,32 @@ Questions rules: Generate 3 to 6 questions. You MUST always generate at least 3 
 
               logger.debug('[ANALYZE] ─── Proposers complete', { wallClockMs: Date.now() - t0Proposers })
 
-              // Consolidate all proposals
-              const consolidatorInput = `Legal Reviewer proposed:\n${reviewerOut}\n\nFact-Checker proposed:\n${factcheckerOut}\n\nAdversary (authority perspective) proposed:\n${adversaryOut}\n\nInitial AI analysis proposed:\n${JSON.stringify(followUpQuestions, null, 2)}`
+              // Fact-audit pass: Claude tags each proposed question as CONFIRMED/SINGLE/DISPUTED/UNSUPPORTED
+              // and removes questions not grounded in the extracted data (prevents hallucinated questions).
+              const factAuditorInput = `Extracted document data (bescheidData):
+${JSON.stringify(bescheidData, null, 2)}
+
+Legal Reviewer proposed:
+${reviewerOut}
+
+Fact-Checker proposed:
+${factcheckerOut}
+
+Adversary (authority perspective) proposed:
+${adversaryOut}
+
+Initial AI analysis proposed:
+${JSON.stringify(followUpQuestions, null, 2)}`
+
+              logger.debug('[ANALYZE] ─── Running question-fact-auditor')
+              const auditedQuestionsRaw = await callQAgent(qAgents['question-fact-auditor'], factAuditorInput)
+
+              // Consolidate all proposals — now with fact-audit tags attached
+              const consolidatorInput = `Fact-audited question proposals (tagged CONFIRMED/SINGLE/DISPUTED — UNSUPPORTED already removed):
+${auditedQuestionsRaw}
+
+Initial AI analysis proposed (for reference):
+${JSON.stringify(followUpQuestions, null, 2)}`
               const consolidatedRaw = await callQAgent(qAgents['question-consolidator'], consolidatorInput)
 
               // Parse consolidated output — multiple fallback attempts
@@ -403,6 +427,7 @@ Questions rules: Generate 3 to 6 questions. You MUST always generate at least 3 
                   reviewer: reviewerOut,
                   factchecker: factcheckerOut,
                   adversary: adversaryOut,
+                  auditedQuestions: auditedQuestionsRaw,
                   rationale: parsedConsolidated.rationale ?? '',
                 }
                 logger.debug('[ANALYZE] ─── Questions consolidated', {

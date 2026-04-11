@@ -39,7 +39,9 @@ export const MODELS_DEV = {
   'question-proposer-factchecker': { provider: 'google',    model: 'gemini-2.5-flash' },
   'question-proposer-adversary':   { provider: 'google',    model: 'gemini-2.5-flash' },
   'question-consolidator':         { provider: 'anthropic', model: 'claude-haiku-4-5-20251001' },
+  'question-fact-auditor':         { provider: 'anthropic', model: 'claude-haiku-4-5-20251001' },
   'reporter':                      { provider: 'anthropic', model: 'claude-haiku-4-5-20251001' },
+  'adversary-final':               { provider: 'google',    model: 'gemini-2.5-flash' },
 } as const satisfies Record<string, ModelSpec>
 
 /**
@@ -61,7 +63,9 @@ export const MODELS_PROD = {
   'question-proposer-factchecker': { provider: 'perplexity', model: 'sonar-pro' },
   'question-proposer-adversary':   { provider: 'xai',        model: 'grok-3' },
   'question-consolidator':         { provider: 'anthropic',  model: 'claude-sonnet-4-6' },
+  'question-fact-auditor':         { provider: 'anthropic',  model: 'claude-sonnet-4-6' },
   'reporter':                      { provider: 'anthropic',  model: 'claude-sonnet-4-6' },
+  'adversary-final':               { provider: 'xai',        model: 'grok-3' },
 } as const satisfies Record<string, ModelSpec>
 
 // ── AI Pipeline ───────────────────────────────────────────────────────────────

@@ -1,441 +1,384 @@
-# TaxAlex — Product Strategy & Build Guide
+# TaxAlex — Product Documentation
 
-**Last Updated:** 2026-03-29
-**Status:** Pre-build / Mockup phase
-**Live URLs:** https://taxalex.de · https://dev.taxalex.de
-**Repo:** github.com/botwa2000/TaxPax
+**Last updated:** April 2026
+**Live:** taxalex.de · dev.taxalex.de
 
 ---
 
-## 1. What TaxAlex Is
-
-An AI-powered tax objection letter generator for the DACH region (Germany, Austria, Switzerland).
-Users upload a tax assessment notice, the app identifies grounds for appeal, and generates a
-legally-structured objection letter ready to send to the tax authority — in minutes, not days.
-
-**Core insight:** 3.3 million Einsprüche were filed in Germany in 2020 alone. Over two-thirds
-were at least partially successful. Not a single consumer-grade AI product owns this space.
+## ENGLISH
 
 ---
 
-## 2. The Competitive Landscape
+### What TaxAlex Does
 
-### What exists today
+TaxAlex is an AI-powered platform that generates formal legal objection letters against official German administrative decisions. Users upload a document they want to challenge — a tax notice, a traffic fine, a Jobcenter decision — and receive a complete, legally structured objection letter in minutes.
 
-| Tool | Einspruch support | AI | English | Standalone* | DACH |
-|---|---|---|---|---|---|
-| WISO Steuer | Yes (via SteuerGPT) | Partial | No | No | DE only |
-| SteuerSparErklärung | Named generator module | No | No | No | DE only |
-| SteuerGo | Template letters | No | Yes | No | DE only |
-| Taxfix | Static templates / guides | No | Yes | No | DE only |
-| Lohnsteuer-Kompakt | Template letters | Partial | Yes | No | DE only |
-| Accountable / finanzamt-brief.de | Explains letters only | Yes | Yes | Yes | DE only |
-| DATEV Einspruchsgenerator | Full AI generation | Yes | No | No | DE only |
-| Finanztip | Free static template | No | No | Yes | DE only |
-| RelaxTax (AT) | None | No | Yes | — | AT only |
-| myright.ch (CH) | Static Word template | No | No | Yes | CH only |
-
-*Standalone = works regardless of how you originally filed your return
-
-### The gaps we own
-
-1. **The standalone problem**: Every incumbent requires you to have filed your return through
-   their own software. Anyone who filed via ELSTER directly, through a Steuerberater, or through
-   a different tool has no AI product to help them appeal. That is the majority of Einspruch filers.
-
-2. **No English-first Einspruch generator exists**: Wundertax, SteuerGo, and Taxfix offer
-   English filing — but their objection tools are templates at best, absent at worst. Germany
-   has 13+ million foreign nationals. Zero dedicated English-first Einspruch tools exist.
-
-3. **AI is either professional-only or superficial**: DATEV's Einspruchsgenerator is the only
-   serious AI-powered letter generator — locked behind Steuerberater credentials. Consumer
-   AI tools only explain what a notice says; none generate a reasoned objection.
-
-4. **Austria and Switzerland are blank**: No dedicated app for Beschwerde (AT) or
-   Einsprache (CH). Only government portals and static Word templates.
-
-5. **No product combines all five**: analysis + AI generation + multilingual + standalone + DACH.
-   TaxAlex can own all five simultaneously.
+The letter is produced by a multi-agent AI pipeline, cross-checked by five independent AI models from different providers, and synthesised by a senior-level Claude model acting as a neutral arbitrator. The result is a complete, submission-ready letter in formal German, accompanied by a full audit-trail report that explains every decision the AI made.
 
 ---
 
-## 3. Target Users
+### Who It Is For
 
-### B2C
+**Private individuals** who have received an official German decision they believe is incorrect or unfair. The most common use cases:
 
-| Segment | Characteristics | Key need |
+- Tax assessment (Steuerbescheid) from the Finanzamt
+- Property tax notice (Grundsteuerbescheid)
+- Kindergeld rejection or reduction
+- Jobcenter / Bürgergeld decision (increase, reduction, repayment demand)
+- Traffic fine or parking ticket
+- Health insurance decision (Krankenkasse)
+- Employment termination (Kündigung)
+- Rent increase notice (Mieterhöhung)
+
+**Expats and non-German speakers.** The platform supports 11 interface languages (German, English, French, Spanish, Italian, Polish, Russian, Turkish, Ukrainian, Arabic, Portuguese). Users interact entirely in their own language; all generated letters are written in formal German as legally required.
+
+**Tax and legal advisors.** The advisor module allows professionals to handle cases on behalf of clients, with structured case management, expert review workflows, and case handoff packets.
+
+---
+
+### User Journey
+
+#### Step 1 — Upload
+
+The user uploads one or more documents (PDF, DOCX, image, or plain text). Documents are accepted up to 30 MB total, up to 10 files per case. No account required to explore the platform, but authentication is required to save and retrieve cases.
+
+#### Step 2 — AI Analysis
+
+Claude reads the document and immediately begins streaming results to the user:
+
+- The document type is identified (e.g. "Tax assessment notice — income tax 2023")
+- Every relevant field is extracted and displayed in real time (dates, amounts, authority name, disputed position, applicable §§, deadline)
+- The filing deadline is calculated automatically (30 days for most cases under §355 AO; 14 days for traffic fines)
+
+This step takes 15–40 seconds depending on document complexity.
+
+#### Step 3 — Question Refinement
+
+Three specialist AI agents (legal reviewer, fact-checker, authority-perspective adversary) independently review the extracted data and each proposes follow-up questions. A fourth AI (Claude acting as fact-auditor) tags every proposed question:
+
+- **CONFIRMED** — grounded in a specific extracted field, high confidence
+- **SINGLE** — raised by one agent only, evaluated individually
+- **DISPUTED** — conflicting signals, resolved by auditor
+- **UNSUPPORTED** — not traceable to any document field, removed
+
+A consolidation agent then produces the final 4–6 questions using a structured 5-step reasoning process: prioritise by tag, deduplicate, enforce atomicity, enrich with guidance, select. Each question shows a plain-language explanation of why it matters for the appeal.
+
+This refinement step takes 30–60 additional seconds and is indicated in the UI with a spinner ("Specialists are refining your questions…").
+
+#### Step 4 — User Answers
+
+The user answers the follow-up questions. Each question includes:
+
+- **Why this matters** — a plain-language explanation of its relevance to the appeal
+- **Guidance** — practical examples that help the user understand what answer to give and how the AI will use it
+- **Legal background** — the applicable §§ and case law (expandable)
+
+Questions may ask for yes/no answers, text, amounts, or dates. Users may also upload additional documents alongside their answers.
+
+#### Step 5 — Multi-Agent Draft Generation
+
+Seven AI agents run in sequence (with steps 2–4 in parallel):
+
+1. **Skeleton Extractor** (Claude Sonnet) — identifies all contested points as structured JSON. For each: what the authority claims, what the counter-argument is, what evidence exists, confidence level (HIGH / MEDIUM / LOW), financial impact, and primary legal provision.
+
+2. **Legal Layer** (Gemini Pro on prod) — adds legal depth to each skeleton point: applicable §§, relevant court rulings (BFH, BAG, BSG, OLG), legal strength assessment, additional arguments, and DROP flags for legally invalid points.
+
+3. **Fact Layer** (Perplexity Sonar Pro on prod) — verifies the factual basis of each point: are the dates, amounts, and claims accurate given the documents? Evidence strength rating, factual concerns, DROP flags.
+
+4. **Adversarial Layer** (Grok 3 on prod) — simulates the authority's response to each point: the exact counter-argument the authority will use, what weakness they will exploit, risk level (HIGH / MEDIUM / LOW), and how to pre-empt each counter.
+
+   Steps 2–4 run in parallel, cutting pipeline time by ~40%.
+
+5. **Assembler** (GPT-4o on prod) — applies gating logic to every contested point (ARGUE / CAUTION / DROP), then writes the complete formal letter. For every included point, the adversary's counter-argument is addressed directly in the Begründung. Dropped points are documented.
+
+6. **Final Adversarial Review** (Grok 3 on prod) — reviews the assembled letter for remaining vulnerabilities: procedural gaps, outdated citations, claims without corresponding evidence, structural weaknesses. Returns a severity-tagged list of concerns.
+
+7. **Reporter** (Claude Sonnet) — writes a 700–1,100 word audit-trail narrative documenting every decision: which arguments were included and dropped, what each agent found, how conflicts between agents were resolved, what the adversary-final review flagged, and the overall confidence assessment.
+
+The pipeline completes in 90–180 seconds on production.
+
+#### Step 6 — Payment and Access
+
+After the pipeline completes, the draft is available to paid users. Unpaid users see a summary. Payment unlocks the full letter, which also unlocks any drafts created while the user's balance was zero.
+
+#### Step 7 — Review and Download
+
+The user sees:
+
+- The complete letter (formatted for direct submission)
+- The full AI analysis report (reporter output, visible to paid users)
+- Individual agent cards with expandable details (legal review findings, fact-check results, adversary stress-test, assembler gating decisions)
+- The deadline countdown
+- Download as PDF, or copy text for submission
+
+Optionally, users can request expert review by a human advisor.
+
+---
+
+### AI Analysis Tab — What Paid Users See
+
+For paying users, the case detail page includes a full AI Analysis tab:
+
+- **Audit-trail report** — the reporter's narrative in full (no truncation), explaining the entire process from document analysis through final letter in plain language
+- **Agent cards** — one card per pipeline agent (skeleton, legal, fact, adversary, assembler, adversary-final), each expandable to show the full structured output
+- **Question proposals** — the raw proposals from each specialist agent, the fact-auditor's tagging, and the consolidator's reasoning
+
+For non-paying users, summaries are shown with a note that the full analysis is available to paying users.
+
+---
+
+### Expert Advisor Module
+
+Paying users can purchase an expert review add-on (€99, or €69 for subscribers). This assigns a qualified human advisor to the case. The advisor:
+
+- Receives a structured handoff packet: brief summary, extracted facts, AI analysis, draft letter, and client context
+- Can annotate any section of the draft with questions or corrections
+- Approves, requests changes, or finalises the letter
+- Communicates with the client through the platform
+
+The advisor module includes:
+- Assignment management (accept / decline / withdraw)
+- Annotation and reply workflow
+- Authorization scope setting (review only vs. full representation)
+- Case finalization and status tracking
+
+---
+
+### Monetization
+
+**Credits model for one-time users:**
+- 1 credit = 1 case unlock
+- `individual-single`: €5.99 — 1 credit
+- `individual-pack`: €19.99 — 5 credits (most economical per-case)
+
+**Subscription for recurring users:**
+- `individual-monthly`: €9.99/month — unlimited case access
+
+**Expert review add-on:**
+- `expert-review`: €99 — human advisor review for non-subscribers
+- `expert-review-subscriber`: €69 — discounted rate for active subscribers
+
+**Payment processing:** Stripe. Webhooks handle credit provisioning automatically after payment confirmation. Credits are stored in a ledger (every change is audited). When a user pays, any drafts locked during zero-balance are automatically unlocked FIFO.
+
+---
+
+### Supported Languages (Interface)
+
+German (DE), English (EN), French (FR), Spanish (ES), Italian (IT), Polish (PL), Russian (RU), Turkish (TR), Ukrainian (UK), Arabic (AR, RTL), Portuguese (PT).
+
+The generated letter is always in German, as required by German-speaking authorities.
+
+---
+
+### Supported Document / Case Types
+
+| Type | Legal framework | Deadline |
 |---|---|---|
-| **Employed individual (DE)** | German national, employed, receives Steuerbescheid | Fast, guided appeal; don't want to pay a Steuerberater for one letter |
-| **Expat in DACH** | Foreign national, English preferred, unfamiliar with German tax system | English UI, German output, explanation of what the letter argues |
-| **Self-employed / freelancer** | More complex returns, recurring appeals | Recurring use, possibly subscription |
-| **Property owner** | Grundsteuer reform 2025 created wave of new assessments | Dedicated vertical; time-limited high-volume opportunity |
+| Tax assessment (Steuerbescheid) | §347 AO, BFH case law | 30 days |
+| Property tax (Grundsteuerbescheid) | §355 AO, §347 AO | 30 days |
+| Traffic fine / warning (Bußgeldbescheid) | §67 OWiG | 14 days |
+| Kindergeld decision | §68 EStG, §355 AO | 30 days |
+| Jobcenter / Bürgergeld (SGB II) | §§83–86 SGG, §44 SGB X | 30 days |
+| Health insurance decision | §§78ff SGG, VVG | 30 days |
+| Employment termination | §4 KSchG, §622 BGB | 21 days |
+| Rent increase | §558b BGB | 60 days |
+| Other official decisions | Applicable statutory basis | 30 days |
 
-### B2B — Tax
+---
 
-| Segment | Characteristics | Key need |
+### Environments
+
+**Production (taxalex.de):** Full model suite — Claude Sonnet, Gemini 1.5 Pro, Perplexity Sonar Pro, Grok 3, GPT-4o. Five distinct providers, one per agent class.
+
+**Development (dev.taxalex.de):** All pipeline agents run on Gemini Flash (zero marginal cost). Claude Haiku handles the question-consolidator, fact-auditor, and reporter. The analyzer always uses Claude Haiku regardless of environment (required for native PDF/image processing).
+
+The active pipeline mode can be toggled live from the admin panel without a redeploy.
+
+---
+
+---
+
+## DEUTSCH
+
+---
+
+### Was TaxAlex macht
+
+TaxAlex ist eine KI-gestützte Plattform, die formale Einspruchs- und Widerspruchsschreiben gegen amtliche deutsche Verwaltungsentscheidungen generiert. Nutzer laden ein Dokument hoch, das sie anfechten möchten — einen Steuerbescheid, einen Bußgeldbescheid, einen Jobcenter-Bescheid — und erhalten in wenigen Minuten ein vollständiges, rechtlich strukturiertes Einspruchsschreiben.
+
+Das Schreiben wird durch eine mehrstufige KI-Pipeline erstellt, von fünf unabhängigen KI-Modellen verschiedener Anbieter gegengeprüft und von einem hochrangigen Claude-Modell als neutralem Dirigenten zusammengeführt. Das Ergebnis ist ein vollständiges, einreichungsfertiges Schreiben in formaler Amtssprache — begleitet von einem vollständigen Prüfprotokoll, das jede Entscheidung der KI erklärt.
+
+---
+
+### Für wen es gedacht ist
+
+**Privatpersonen**, die einen amtlichen deutschen Bescheid erhalten haben, den sie für unrichtig oder unbillig halten. Die häufigsten Anwendungsfälle:
+
+- Steuerbescheid vom Finanzamt
+- Grundsteuerbescheid
+- Ablehnungs- oder Kürzungsbescheid beim Kindergeld
+- Jobcenter- / Bürgergeld-Bescheid (Erhöhung, Kürzung, Rückforderung)
+- Bußgeld- oder Verwarnungsgeld-Bescheid
+- Bescheid der Krankenversicherung
+- Kündigung des Arbeitsverhältnisses
+- Mieterhöhungsverlangen
+
+**Expats und Nicht-Deutschsprachige.** Die Plattform unterstützt 11 Oberflächensprachen (Deutsch, Englisch, Französisch, Spanisch, Italienisch, Polnisch, Russisch, Türkisch, Ukrainisch, Arabisch, Portugiesisch). Nutzer interagieren vollständig in ihrer Sprache; alle generierten Schreiben werden in formalem Deutsch verfasst, wie es rechtlich vorgeschrieben ist.
+
+**Steuerberater und Rechtsanwälte.** Das Beratermodul ermöglicht Fachleuten, Fälle im Auftrag von Mandanten zu bearbeiten — mit strukturierter Fallverwaltung, Prüfabläufen und Übergabepaketen.
+
+---
+
+### Nutzungsablauf
+
+#### Schritt 1 — Hochladen
+
+Der Nutzer lädt ein oder mehrere Dokumente hoch (PDF, DOCX, Bild oder Klartext). Bis zu 30 MB Gesamtgröße, bis zu 10 Dateien pro Fall. Für die Plattformerkundung ist kein Konto erforderlich; zum Speichern und Abrufen von Fällen ist eine Anmeldung nötig.
+
+#### Schritt 2 — KI-Analyse
+
+Claude liest das Dokument und streamt die Ergebnisse sofort an den Nutzer:
+
+- Die Dokumentenart wird erkannt (z. B. „Einkommensteuerbescheid 2023")
+- Alle relevanten Felder werden in Echtzeit extrahiert (Daten, Beträge, Behördenname, Streitpunkte, einschlägige §§, Fristablauf)
+- Die Einspruchsfrist wird automatisch berechnet (30 Tage für die meisten Fälle nach §355 AO; 14 Tage bei Bußgeldbescheiden)
+
+Dieser Schritt dauert je nach Dokumentkomplexität 15–40 Sekunden.
+
+#### Schritt 3 — Frageverfeinerung
+
+Drei spezialisierte KI-Agenten (Rechtsprüfer, Faktenchecker, Behördenperspektive) analysieren die extrahierten Daten unabhängig voneinander und schlagen jeweils Rückfragen vor. Ein vierter Agent (Claude als Faktenprüfer) vergibt Bewertungen für jede vorgeschlagene Frage:
+
+- **CONFIRMED** — direkt aus einem extrahierten Feld abgeleitet, hohe Konfidenz
+- **SINGLE** — nur von einem Agenten vorgeschlagen, wird einzeln bewertet
+- **DISPUTED** — widersprüchliche Signale, durch den Prüfagenten aufgelöst
+- **UNSUPPORTED** — nicht auf ein Dokumentenfeld zurückführbar, wird entfernt
+
+Ein Konsolidierungsagent erstellt dann die endgültigen 4–6 Fragen in einem strukturierten 5-Schritte-Verfahren: Priorisierung nach Bewertung, Entduplizierung, Atomizität sicherstellen, Hinweise ergänzen, Auswahl treffen. Jede Frage enthält eine verständliche Erklärung, warum sie für den Einspruch relevant ist.
+
+Dieser Verfeinerungsschritt dauert 30–60 Sekunden zusätzlich und wird im Interface mit einem Hinweis angezeigt.
+
+#### Schritt 4 — Nutzerantworten
+
+Der Nutzer beantwortet die Rückfragen. Jede Frage enthält:
+
+- **Warum das wichtig ist** — eine verständliche Erklärung der Relevanz für den Einspruch
+- **Hinweise** — praktische Beispiele, wie die Frage zu beantworten ist und wie die KI die Antwort nutzt
+- **Rechtlicher Hintergrund** — die anwendbaren §§ und Rechtsprechung (aufklappbar)
+
+Fragen können Ja/Nein-Antworten, Freitexte, Beträge oder Daten erfragen. Nutzer können neben den Antworten auch weitere Dokumente hochladen.
+
+#### Schritt 5 — Mehrstufige Schreiben-Generierung
+
+Sieben KI-Agenten laufen sequenziell (mit den Schritten 2–4 parallel):
+
+1. **Skelett-Extraktion** (Claude Sonnet) — identifiziert alle Streitpunkte als strukturiertes JSON. Pro Punkt: Behördenbehauptung, Gegenargument, verfügbare Belege, Konfidenz (HOCH / MITTEL / NIEDRIG), finanzieller Einfluss, primäre Rechtsgrundlage.
+
+2. **Rechtliche Schicht** (Gemini Pro im Produktivbetrieb) — ergänzt jeden Punkt rechtlich: anwendbare §§, einschlägige Urteile (BFH, BAG, BSG, OLG), Stärkebewertung, zusätzliche Argumente, ENTFALLEN-Markierungen für rechtlich aussichtslose Punkte.
+
+3. **Faktische Schicht** (Perplexity Sonar Pro im Produktivbetrieb) — überprüft die Tatsachengrundlage: Sind Daten, Beträge und Behauptungen durch die Dokumente belegbar? Belegnoten, Konflikte, ENTFALLEN-Markierungen.
+
+4. **Adversarielle Schicht** (Grok 3 im Produktivbetrieb) — simuliert die Behördenantwort auf jeden Punkt: das genaue Gegenargument der Behörde, ausgenutzte Schwächen, Risikograd (HOCH / MITTEL / NIEDRIG), Gegenstrategie.
+
+   Die Schritte 2–4 laufen parallel und reduzieren die Laufzeit um ~40 %.
+
+5. **Montage** (GPT-4o im Produktivbetrieb) — wendet Einschlusslogik (ARGUMENTIEREN / VORSICHT / ENTFALLEN) auf jeden Punkt an und verfasst das vollständige formale Schreiben. Für jeden einbezogenen Punkt wird das Behördengegenargument direkt in der Begründung vorweggenommen. Ausgelassene Punkte werden dokumentiert.
+
+6. **Abschließende adversarielle Prüfung** (Grok 3 im Produktivbetrieb) — durchleuchtet das fertige Schreiben auf verbliebene Schwachstellen: Verfahrenslücken, veraltete Zitate, nicht belegte Behauptungen, strukturelle Mängel. Rückgabe als priorisierte Liste mit Schweregrad.
+
+7. **Bericht** (Claude Sonnet) — erstellt ein 700–1.100 Wörter langes Prüfprotokoll, das alle Entscheidungen dokumentiert: welche Argumente einbezogen oder ausgelassen wurden, was jeder Agent gefunden hat, wie Konflikte gelöst wurden, was die abschließende Prüfung beanstandete.
+
+Die Pipeline dauert im Produktivbetrieb 90–180 Sekunden.
+
+#### Schritt 6 — Zahlung und Freischaltung
+
+Nach Abschluss der Pipeline ist das Schreiben für zahlende Nutzer verfügbar. Nichtsbezahlende Nutzer sehen eine Zusammenfassung. Die Zahlung schaltet das vollständige Schreiben frei und entsperrt gleichzeitig alle während des Nullsaldos gesperrten Entwürfe (nach FIFO-Reihenfolge).
+
+#### Schritt 7 — Prüfen und Herunterladen
+
+Der Nutzer sieht:
+
+- Das vollständige Schreiben (einreichungsfertig formatiert)
+- Den vollständigen KI-Analysebericht (Reporter-Ausgabe, für zahlende Nutzer sichtbar)
+- Einzelne Agentenkarten mit aufklappbaren Details (Rechtsprüfung, Faktencheck, Adversarielle Analyse, Montageentscheidungen)
+- Den Fristablauf-Countdown
+- Download als PDF oder Textkopie
+
+Optional kann eine Expertenbegutachtung durch einen menschlichen Berater angefordert werden.
+
+---
+
+### KI-Analyse-Tab — Was zahlende Nutzer sehen
+
+Für zahlende Nutzer enthält die Falldetailseite einen vollständigen KI-Analyse-Tab:
+
+- **Prüfprotokoll** — der vollständige Reporter-Bericht (ungekürzt), der den gesamten Prozess von der Dokumentanalyse bis zum fertigen Schreiben verständlich erklärt
+- **Agentenkarten** — je eine Karte pro Pipeline-Agent (Skelett, Rechtlich, Faktisch, Adversariell, Montage, Abschlussprüfung), aufklappbar auf die vollständige strukturierte Ausgabe
+- **Frage-Protokoll** — die Rohentwürfe der drei Spezialisten-Agenten, die Bewertungen des Faktenprüfers und das Konsolidierungsergebnis
+
+Für nichtzahlende Nutzer werden Zusammenfassungen angezeigt mit dem Hinweis, dass der vollständige Bericht zahlenden Nutzern vorbehalten ist.
+
+---
+
+### Expertenberater-Modul
+
+Zahlende Nutzer können einen Expertenbegutachtungs-Zusatz erwerben (€99, bzw. €69 für Abonnenten). Dies weist dem Fall einen qualifizierten menschlichen Berater zu. Der Berater:
+
+- Erhält ein strukturiertes Übergabepaket: Kurzzusammenfassung, extrahierte Fakten, KI-Analyse, Entwurfsschreiben und Mandantenkontext
+- Kann jeden Abschnitt des Entwurfs mit Fragen oder Korrekturen versehen
+- Genehmigt, fordert Änderungen oder finalisiert das Schreiben
+- Kommuniziert über die Plattform mit dem Mandanten
+
+Das Beratermodul umfasst: Auftragsverwaltung (annehmen / ablehnen / zurückziehen), Anmerkungen und Antwortablauf, Vollmachtsumfang (nur Prüfung vs. vollständige Vertretung), Fallfinalisierung und Statusnachverfolgung.
+
+---
+
+### Monetarisierung
+
+**Kredit-Modell für Einzelnutzer:**
+- 1 Kredit = 1 Fallfreischaltung
+- `individual-single`: €5,99 — 1 Kredit
+- `individual-pack`: €19,99 — 5 Kredits (günstigster Einzelpreis)
+
+**Abonnement für regelmäßige Nutzer:**
+- `individual-monthly`: €9,99/Monat — unbegrenzte Fallfreischaltung
+
+**Expertenbegutachtungs-Zusatz:**
+- `expert-review`: €99 — menschliche Beraterbegutachtung für Nicht-Abonnenten
+- `expert-review-subscriber`: €69 — reduzierter Satz für aktive Abonnenten
+
+**Zahlungsabwicklung:** Stripe. Webhooks übernehmen die Kreditvergabe nach Zahlungsbestätigung automatisch. Kredits werden in einem Buchungsjournal verwaltet (jede Änderung ist auditierbar). Bei Zahlung werden automatisch alle gesperrten Entwürfe aus der Nullsaldo-Phase entsperrt.
+
+---
+
+### Unterstützte Sprachen (Oberfläche)
+
+Deutsch (DE), Englisch (EN), Französisch (FR), Spanisch (ES), Italienisch (IT), Polnisch (PL), Russisch (RU), Türkisch (TR), Ukrainisch (UK), Arabisch (AR, RTL), Portugiesisch (PT).
+
+Das generierte Schreiben ist immer auf Deutsch, da dies von deutschsprachigen Behörden verlangt wird.
+
+---
+
+### Unterstützte Dokumenten- / Falltypen
+
+| Typ | Rechtsgrundlage | Frist |
 |---|---|---|
-| **Steuerberater (solo)** | Individual tax advisor, 20–100 clients | Bulk processing, client management, time saving |
-| **Steuerberatungskanzlei** | Small/mid firm | White-label or firm account, multi-user |
-| **Buchhalter / accountant** | Not licensed, handles basic cases | Basic appeal tool for clients |
-
-### B2B — Legal
-
-| Segment | Characteristics | Key need |
-|---|---|---|
-| **Fachanwalt für Steuerrecht** | Tax lawyer, handles Finanzgericht cases | Letter drafting for court prep, different templates |
-| **General lawyer** | Handles some tax disputes | Same as above |
-
-### B2B — Corporate
-
-| Segment | Characteristics | Key need |
-|---|---|---|
-| **HR / Payroll** | Companies with expat workforce | Employee tax support as a benefit; bulk volume |
-| **CFO / In-house finance** | Corporate tax disputes (KStG) | Different legal framework; enterprise pricing |
-
-### Priority for launch
-1. Employed individuals + expats (volume, simple cases, validates core product)
-2. Steuerberater (B2B revenue, validates with professionals)
-3. Lawyer tier (waitlist/manual initially)
-4. Corporate/HR (needs more product maturity)
+| Steuerbescheid | §347 AO, BFH-Rechtsprechung | 30 Tage |
+| Grundsteuerbescheid | §355 AO, §347 AO | 30 Tage |
+| Bußgeldbescheid / Verwarnung | §67 OWiG | 14 Tage |
+| Kindergeld-Bescheid | §68 EStG, §355 AO | 30 Tage |
+| Jobcenter / Bürgergeld (SGB II) | §§83–86 SGG, §44 SGB X | 30 Tage |
+| Krankenversicherungsbescheid | §§78ff SGG, VVG | 30 Tage |
+| Kündigung | §4 KSchG, §622 BGB | 21 Tage |
+| Mieterhöhungsverlangen | §558b BGB | 60 Tage |
+| Sonstige amtliche Bescheide | Einschlägige Rechtsgrundlage | 30 Tage |
 
 ---
 
-## 4. User Flows
+### Betriebsumgebungen
 
-### Onboarding
-```
-Landing → Who are you?
-├── I received a tax notice        → private flow
-├── I'm a tax advisor              → advisor flow
-├── I'm a lawyer / legal firm      → legal flow
-└── I have a Grundsteuer notice    → Grundsteuer vertical
-```
+**Produktivbetrieb (taxalex.de):** Vollständige Modellausstattung — Claude Sonnet, Gemini 1.5 Pro, Perplexity Sonar Pro, Grok 3, GPT-4o. Fünf verschiedene Anbieter, einer pro Agentenklasse.
 
-### Private User Flow (core)
-```
-1. Sign up / Login (Gmail · Apple · Facebook)
-2. Select region (DE / AT / CH)
-3. Upload tax notice (Steuerbescheid / Finanzbescheid / Veranlagungsverfügung)
-4. AI analyzes: identifies deviations and grounds for appeal
-5. Show results:
-   - "We found 3 grounds for appeal"
-   - Estimated refund range
-   - DEADLINE COUNTDOWN: "You have 23 days to file"
-6. User selects which grounds to include
-7. AI generates formal letter (always in German regardless of UI language)
-8. [GATE] Show blurred preview → Pay to unlock full letter
-9. Download PDF / Copy text
-10. Optional: Add lawyer review (+€49, 24h turnaround)
-11. Optional: Submit via ELSTER (placeholder → waitlist)
-12. Appeal saved to history with status tracking
-```
+**Entwicklungsbetrieb (dev.taxalex.de):** Alle Pipeline-Agenten laufen auf Gemini Flash (marginalkostenfrei). Claude Haiku übernimmt Fragen-Konsolidierung, Faktenprüfung und Bericht. Der Analyseschritt verwendet stets Claude Haiku, unabhängig von der Umgebung (nötig für native PDF-/Bildverarbeitung).
 
-### Tax Advisor Flow
-```
-1. Sign up as professional → verify (email domain or Steuernummer)
-2. Advisor dashboard → client list
-3. Add client → upload their tax notice
-4. Same analysis flow as private, but on behalf of client
-5. Letter generated in client's name
-6. Download / send to client or submit for them
-7. Bulk view: all open appeals, deadlines, statuses
-8. Template manager: save custom letter variations
-9. Billing: flat monthly fee, unlimited appeals
-```
-
-### Escalation / Lawyer Flow
-```
-Finanzamt rejects appeal → TaxAlex notifies user
-→ "Your appeal was rejected. Next step: Finanzgericht."
-→ Option A: Connect with partner lawyer (referral marketplace)
-→ Option B: Generate Klageschrift draft (Finanzgericht) — premium
-→ Option C: Download case file for your own lawyer
-```
-
----
-
-## 5. Portal Structure
-
-### Public (marketing)
-```
-/                          Landing — value prop, social proof, CTA
-/wie-es-funktioniert       How it works (3-step visual)
-/preise                    Pricing
-/fuer-steuerberater        Advisor landing page
-/fuer-expats               Expat-specific landing (EN/DE)
-/grundsteuer               Grundsteuer vertical landing
-/blog                      SEO content hub
-/blog/[slug]               Individual articles (per objection type)
-```
-
-### App (authenticated)
-```
-/app/dashboard             Home: open appeals, deadlines, quick-start CTA
-/app/appeal/new            Start a new appeal (upload + flow)
-/app/appeal/[id]           View / edit / download a specific appeal
-/app/appeals               Appeal history + statuses
-/app/documents             Document vault (uploaded notices)
-/app/settings              Profile, language, region, billing
-/app/billing               Subscription, payment history, invoices
-```
-
-### Advisor (authenticated, professional account)
-```
-/advisor/dashboard         Client list + all deadlines
-/advisor/clients/new       Add client
-/advisor/clients/[id]      Per-client view + appeal history
-/advisor/appeals           All appeals across all clients
-/advisor/templates         Custom letter template manager
-/advisor/settings          Firm details, team members, API access
-/advisor/billing           Subscription management
-```
-
----
-
-## 6. Monetization
-
-### Individual users — Pay-to-unlock
-
-Do NOT use subscription for one-time users. Generate the full letter, then gate it:
-
-1. Upload → analyze → show results (grounds found, estimated refund)
-2. Show blurred letter preview with structure visible
-3. "Unlock your letter" → one-time payment
-
-Suggested pricing:
-- Standard letter: **€29**
-- Standard + lawyer review (24h): **€79**
-- Unlimited plan (annual, for self-employed): **€79/year**
-
-### Tax advisors — Subscription
-
-- Solo plan: **€49/month** — unlimited appeals, client management
-- Firm plan: **€149/month** — multi-user, white-label, API access
-- Annual discount: 2 months free
-
-### Lawyer marketplace — Revenue share
-
-- User pays lawyer **€49–149** for letter review or Finanzgericht prep
-- TaxAlex takes **25–30%**
-- Lawyers get qualified, pre-analyzed leads — better than cold cases
-
-### Future
-- Enterprise / HR: custom pricing
-- API access for third-party integrations
-- ELSTER direct submission (once certified): premium add-on
-
----
-
-## 7. Document Storage
-
-Store, but with user control.
-
-- All uploaded documents encrypted at rest (AES-256), per-user keys
-- Users can delete any document or their entire account at any time (GDPR)
-- Default retention: 12 months, then auto-delete (configurable)
-- Option to connect Google Drive or OneDrive — store in user's own cloud, nothing on our servers
-- Tax advisors: documents stored per client, accessible to advisor account only
-- Final generated letters: stored as PDF in the user's vault
-
-Do NOT store documents in plaintext. Do NOT retain anything after user deletion.
-
----
-
-## 8. Regional Strategy
-
-**Phase 1 (launch): Germany only**
-
-DE is the largest market (83M population, highest Einspruch volume) and has the most
-developed legal framework for AI tools to work with.
-
-**Phase 2: Austria**
-
-Similar legal system (AO-equivalent: BAO), FinanzOnline as the submission portal.
-Key difference: appeal is called Beschwerde, goes to Bundesfinanzgericht (BFG).
-Relatively easy to add as a region toggle once DE templates are solid.
-
-**Phase 3: Switzerland**
-
-Hardest — cantonal tax law means ~26 different frameworks. Start with major cantons
-(Zurich, Bern, Vaud). No unified submission portal. High-income market justifies the complexity.
-
-### Region affects:
-- Letter template (different legal references, authority names, deadlines)
-- AI prompt (region-specific legal context)
-- UI labels (Einspruch / Beschwerde / Einsprache)
-- Deadline logic (DE: 1 month, AT: 1 month, CH: 30 days cantonal)
-- Submission options (ELSTER / FinanzOnline / cantonal portals)
-
-Implementation: `region` field on each case, template and prompt selection by region.
-
----
-
-## 9. Language Strategy
-
-**UI language**: Full multilingual support. User selects preferred language in profile;
-default detected from browser locale. Priority languages for UI translation:
-DE, EN, RU, PL, RO, TR, AR, UK, FR, ES, IT (cover the largest expat communities in DACH).
-
-**Input**: Any language. User can upload documents, type descriptions, or answer questions
-in whatever language they are comfortable with. No restriction. The AI handles translation
-and legal reasoning internally.
-
-**Document OCR**: Tax notices are always in German/French/Italian (CH) or German (DE/AT).
-OCR extracts the German text; the user's chosen language only affects the UI and summaries.
-
-**Processing**: AI always reasons in the DE/AT/CH legal context regardless of input language.
-The prompt is constructed in German for legal accuracy; input context is translated internally.
-
-**Output letter**: Always formal German (DE/AT) or German/French/Italian (CH) —
-this is a legal requirement and cannot be changed. The letter must be in the language of
-the tax authority.
-
-**User-facing summary**: Shown in the user's chosen language alongside the formal letter.
-Explains what each argument means, what the user is claiming, and what to expect.
-This is the key differentiator — a Turkish expat in Munich gets the full letter in German
-plus a plain-language summary in Turkish explaining exactly what they are submitting.
-
-**Lawyer review**: If the user requests lawyer review, the lawyer receives the German letter
-plus an internal EN summary. The lawyer communicates with the user in the user's language
-if possible (language preference shown to matched lawyers).
-
-**SEO**: German-language content for high-volume DE keywords. English content for expat
-segment. Consider landing pages in RU, PL, RO for the largest non-German expat groups —
-virtually no competition exists for those languages in this space.
-
----
-
-## 10. Integrations
-
-### Phase 1 (mockup): Placeholders only
-Show integration UI, capture interest / waitlist signups.
-
-### Phase 2: ELSTER (Germany)
-- Direct electronic submission of Einspruch
-- Requires official ERIC certification from German tax authority
-- Complex process (6–12 months minimum) — plan early
-
-### Phase 3: FinanzOnline (Austria)
-- Simpler API than ELSTER, similar concept
-
-### Phase 4: DATEV
-- Export case data to DATEV format for advisors who use it
-- Not letter generation (DATEV has their own) — data portability
-
-### Payment
-- Stripe (already configured in Docker secrets)
-
-### Auth
-- NextAuth with Google, Apple, Facebook providers
-
-### Document processing
-- OCR for uploaded PDFs (tax notices are often scanned)
-- Consider AWS Textract or Azure Document Intelligence for German-language OCR accuracy
-
-### AI
-- Anthropic Claude for letter generation (API key already in secrets)
-- OpenAI as fallback / comparison (already in secrets)
-
----
-
-## 11. Compliance & Legal
-
-**RDG (Rechtsdienstleistungsgesetz)**: TaxAlex is a drafting tool, not legal advice.
-Every letter and output must include: "Dieses Schreiben wurde mit KI-Unterstützung erstellt und
-stellt keine Rechtsberatung oder Steuerberatung dar."
-
-**GDPR**:
-- Cookie consent banner
-- Privacy policy covering AI processing of tax documents
-- Data processing agreement (DPA) for B2B advisor accounts
-- Right to erasure implemented for all user data and documents
-- Data residency: EU servers only (Hetzner DE is compliant)
-
-**Tax disclaimer**: Partner with a licensed Steuerberater for content review and as a trust signal.
-Consider having a Steuerberater listed as "fachlich geprüft" (professionally reviewed).
-
-**Finanzgericht note**: Letters for Finanzgericht proceedings (level 2 appeal) carry higher legal
-risk. Always recommend lawyer review before submission at this stage.
-
----
-
-## 12. SEO Strategy
-
-### High-value German keywords
-- "Einspruch Steuerbescheid" (~8,000/mo)
-- "Einspruch Steuerbescheid Muster" (~4,000/mo)
-- "Einspruchsfrist Finanzamt" (~2,500/mo)
-- "Steuereinspruch einlegen" (~2,000/mo)
-- "Widerspruch Steuerbescheid" (common misnomer → capture and redirect)
-
-### Expat / English keywords
-- "appeal tax notice Germany" (low competition, high intent)
-- "Einspruch in English"
-- "Germany tax assessment letter English"
-- "expat tax appeal Germany"
-
-### Vertical landing pages (one per objection ground)
-- "Einspruch Homeoffice-Pauschale"
-- "Einspruch Pendlerpauschale"
-- "Einspruch Grundsteuer 2025"
-- "Einspruch Schätzungsbescheid"
-- "Einspruch Verspätungszuschlag"
-
-Each page: what the issue is, who it affects, how TaxAlex solves it, direct CTA.
-
----
-
-## 13. Trust Signals
-
-- Number of letters generated (show on landing page once live)
-- "Durchschnittliche Rückerstattung: €1.100" (match SteuerGo's data point)
-- Data security: GDPR badge, encrypted storage, EU servers
-- "Fachlich geprüft von [Steuerberater Name]" once partnership confirmed
-- Deadline urgency on dashboard (always show days remaining)
-- No dark patterns — show price before generating, not after
-
----
-
-## 14. Build Order (Mockup Phase)
-
-All UI is static / mock data at this stage. No real API calls, no real auth.
-Goal: clickable end-to-end user journey for UX testing and demo.
-
-1. **Landing page** — value prop, how it works, pricing, social proof, CTA
-2. **Onboarding** — sign up form, user type selection, region selection
-3. **Private user flow** — upload screen → analysis results → letter preview (blurred) → pay gate
-4. **Advisor dashboard** — client list, per-client appeals, deadline list
-5. **Document vault** — uploaded documents list, statuses
-6. **Settings + billing UI** — profile, language toggle, subscription management
-7. **Blog / SEO pages** — structure and navigation, placeholder articles
-8. **Lawyer marketplace UI** — review request flow, placeholder lawyer profiles
-
-Then layer in: real auth → real AI processing → real payments → real document storage → ELSTER.
-
----
-
-## 15. Open Questions
-
-- [ ] Grundsteuer as a separate vertical at launch or phase 2?
-- [ ] Lawyer marketplace: build in-house or white-label a legal marketplace (e.g., Advocado)?
-- [ ] Do we want a "no win, no fee" option like Taxefy (10% of refund)?
-- [ ] Partnership with a licensed Steuerberater for content credibility — who?
-- [ ] ELSTER certification: start the process early as it takes 6–12 months
-- [ ] White-label offering for large Steuerberatungskanzleien?
-- [ ] App Store presence (mobile) — phase 1 or phase 2?
-- [ ] Grundsteuer notices — different format, different authority (Grundsteueramt vs Finanzamt)
-
----
-
-## 16. Competitor Quick Reference
-
-| Competitor | Our edge over them |
-|---|---|
-| WISO Steuer / SteuerSparErklärung | Standalone (no filing lock-in), English, AI-first |
-| SteuerGo | AI generation (not just templates), DACH expansion, standalone |
-| Taxfix | Actual integrated tool, not just support articles |
-| Lohnsteuer-Kompakt | AI generation, DACH, self-employed coverage |
-| Accountable / finanzamt-brief.de | We generate the response, not just explain the notice |
-| DATEV Einspruchsgenerator | Consumer-accessible, English, no professional credentials needed |
-| Finanztip | Personalized AI letter vs one-size-fits-all template |
-| Austrian/Swiss tools | We exist (they effectively don't) |
+Der aktive Pipeline-Modus kann im Admin-Panel live umgeschaltet werden, ohne Neubereitstellung.

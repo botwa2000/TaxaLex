@@ -6,9 +6,11 @@ export type AgentRole =
   | 'factchecker'
   | 'adversary'
   | 'consolidator'
+  | 'adversary-final'
   | 'question-proposer-reviewer'
   | 'question-proposer-factchecker'
   | 'question-proposer-adversary'
+  | 'question-fact-auditor'
   | 'question-consolidator'
   | 'reporter'
 
