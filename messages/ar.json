@@ -626,7 +626,10 @@
       "draftLockedHint": "تم إنشاء اعتراضك — اشترِ رصيدًا لإلغاء قفله.",
       "questionsHint": "أجب على أسئلة المتابعة لإنشاء اعتراضك.",
       "analysisPending": "التحليل لا يزال جاريًا.",
-      "unlockWithCredit": "فتح بـ 1 رصيد"
+      "unlockWithCredit": "فتح بـ 1 رصيد",
+      "aiReport": "التحليل الكامل",
+      "aiReportSubtitle": "كيف عمل وكلاء الذكاء الاصطناعي",
+      "reportGatedHint": "التحليل الكامل متاح للمستخدمين المدفوعين."
     },
     "retryGeneration": "إعادة التوليد",
     "unlockDraft": "فتح القفل"
@@ -1514,5 +1517,8 @@
       "myCases": "قضاياي",
       "toBilling": "إلى الفواتير والمدفوعات"
     }
+  },
+  "questions": {
+    "refining": "يقوم المتخصصون بتحسين أسئلتك…"
   }
 }

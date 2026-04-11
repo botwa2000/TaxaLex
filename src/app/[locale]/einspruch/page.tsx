@@ -168,6 +168,7 @@ function EinspruchPageInner() {
       type?: 'text' | 'yesno' | 'amount' | 'date'
       background?: string
       guidance?: string
+      why?: string
     }>
   >([])
   const [answers, setAnswers] = useState<Record<string, string>>({})
@@ -187,6 +188,7 @@ function EinspruchPageInner() {
   const [draftPreview, setDraftPreview] = useState<string>('')
   const [generateError, setGenerateError] = useState<string | null>(null)
   const [analyzeError, setAnalyzeError] = useState<string | null>(null)
+  const [refiningQuestions, setRefiningQuestions] = useState(false)
   const [resultLocked, setResultLocked] = useState(false) // true = freemium gate active
   const [editedDraft, setEditedDraft] = useState<string>('')
   const [outputLanguage, setOutputLanguage] = useState('de')
@@ -551,7 +553,10 @@ function EinspruchPageInner() {
               setDetectedDocType(payload as DetectedDocType)
             } else if (eventName === 'field') {
               setDetectedFields((prev) => [...prev, payload as DetectedField])
+            } else if (eventName === 'refining_questions') {
+              setRefiningQuestions(true)
             } else if (eventName === 'complete') {
+              setRefiningQuestions(false)
               bescheidDataRef.current = payload.bescheidData ?? null
               questionsRef.current = payload.followUpQuestions ?? null
               setBescheidData(payload.bescheidData)
@@ -563,6 +568,7 @@ function EinspruchPageInner() {
                   type?: 'text' | 'yesno' | 'amount' | 'date'
                   background?: string
                   guidance?: string
+                  why?: string
                 }>
               )
             } else if (eventName === 'error') {
@@ -1403,6 +1409,14 @@ function EinspruchPageInner() {
               </p>
             )}
 
+            {/* Refining questions indicator — shown while specialist agents propose and consolidate questions */}
+            {refiningQuestions && (
+              <div className="mt-5 flex items-center gap-2.5 text-sm text-brand-600 dark:text-brand-400 animate-pulse">
+                <Loader2 className="w-4 h-4 animate-spin shrink-0" />
+                <span>{t('questions.refining')}</span>
+              </div>
+            )}
+
             {/* Demo countdown bar — shown after fields are extracted, before advancing */}
             {isDemoMode && demoCountdown && (
               <div className="mt-6 w-full max-w-sm">
@@ -1524,6 +1538,13 @@ function EinspruchPageInner() {
                               </span>
                             )}
                           </label>
+
+                          {/* Why this question matters — plain-language explanation from the consolidator */}
+                          {q.why && (
+                            <p className="text-xs text-[var(--muted)] mb-3 leading-relaxed italic">
+                              {q.why}
+                            </p>
+                          )}
 
                           {/* Context toggle — legal basis + practical guidance */}
                           {(q.background || q.guidance) && (

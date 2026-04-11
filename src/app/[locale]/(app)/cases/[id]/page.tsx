@@ -36,6 +36,7 @@ type CaseDetail = {
   bescheidData: Record<string, unknown> | null
   userAnswers: Record<string, string> | null
   draftLocked: boolean
+  questionProposals: Record<string, unknown> | null
 }
 
 export default async function CaseDetailPage({
@@ -54,7 +55,7 @@ export default async function CaseDetailPage({
 
   let caseData: CaseDetail | null = null
   let documents: { id: string; name: string; type: string; createdAt: Date }[] = []
-  let agentOutputs: { role: string; provider: string; model: string; durationMs: number; summary: string }[] = []
+  let agentOutputs: { role: string; provider: string; model: string; durationMs: number; summary: string; content: string }[] = []
   let finalDraft: string | null = null
   let annotations: AnnotationData[] = []
   let hasActiveAssignment = false
@@ -112,6 +113,7 @@ export default async function CaseDetailPage({
       model: o.model,
       durationMs: o.durationMs ?? 0,
       summary: extractOutputSummary(o.content),
+      content: o.content,
     }))
 
     const finalOutput = dbOutputs.find((o) => o.isFinal) ?? dbOutputs.find((o) => o.role === 'consolidator')
@@ -150,9 +152,12 @@ export default async function CaseDetailPage({
   } catch {
     const found = DEMO_CASES.find((c) => c.id === id)
     if (!found) notFound()
-    caseData = { ...(found as unknown as CaseDetail), draftLocked: false }
+    caseData = { ...(found as unknown as CaseDetail), draftLocked: false, questionProposals: null }
     documents = DEMO_DOCUMENTS[id] ?? []
-    agentOutputs = DEMO_AGENT_OUTPUTS[id] ?? []
+    agentOutputs = (DEMO_AGENT_OUTPUTS[id] ?? []).map((o) => ({
+      ...o,
+      content: 'summary' in o ? (o as { summary: string }).summary : '',
+    }))
     finalDraft = agentOutputs.length > 0 ? DEMO_FINAL_DRAFT : null
   }
 
@@ -302,7 +307,7 @@ export default async function CaseDetailPage({
         </>
       )}
       {tab === 'documents' && <DocumentsTab documents={documents} t={t} />}
-      {tab === 'ai' && <AIAnalysisTab outputs={agentOutputs} t={t} />}
+      {tab === 'ai' && <AIAnalysisTab outputs={agentOutputs} hasAccess={hasAccess} questionProposals={caseData.questionProposals} t={t} />}
       {tab === 'letter' && <LetterTab draft={finalDraft} status={caseData.status} caseId={caseData.id} draftLocked={caseData.draftLocked} locale={locale} hasAccess={hasAccess} t={t} />}
     </div>
   )
@@ -486,20 +491,29 @@ function DocumentsTab({
 
 function AIAnalysisTab({
   outputs,
+  hasAccess,
   t,
 }: {
-  outputs: { role: string; provider: string; model: string; durationMs: number; summary: string }[]
+  outputs: { role: string; provider: string; model: string; durationMs: number; summary: string; content: string }[]
+  hasAccess: boolean
+  questionProposals: Record<string, unknown> | null
   t: Translator
 }) {
   const roleConfig: Record<string, { label: string; color: string; bgColor: string; icon: React.ElementType }> = {
-    drafter: { label: 'Drafter', color: 'text-blue-700 dark:text-blue-400', bgColor: 'bg-blue-50 border-blue-200 dark:bg-blue-950/20 dark:border-blue-900', icon: FileText },
-    reviewer: { label: 'Reviewer', color: 'text-purple-700 dark:text-purple-400', bgColor: 'bg-purple-50 border-purple-200 dark:bg-purple-950/20 dark:border-purple-900', icon: CheckCircle2 },
-    factchecker: { label: 'Fact-Checker', color: 'text-green-700 dark:text-green-400', bgColor: 'bg-green-50 border-green-200 dark:bg-green-950/20 dark:border-green-900', icon: ExternalLink },
-    adversary: { label: 'Adversary', color: 'text-red-700 dark:text-red-400', bgColor: 'bg-red-50 border-red-200 dark:bg-red-950/20 dark:border-red-900', icon: AlertTriangle },
-    consolidator: { label: 'Consolidator', color: 'text-brand-700 dark:text-brand-400', bgColor: 'bg-brand-50 border-brand-200 dark:bg-brand-950/20 dark:border-brand-900', icon: Cpu },
+    drafter:      { label: 'Drafter',      color: 'text-blue-700 dark:text-blue-400',   bgColor: 'bg-blue-50 border-blue-200 dark:bg-blue-950/20 dark:border-blue-900',     icon: FileText },
+    reviewer:     { label: 'Reviewer',     color: 'text-purple-700 dark:text-purple-400', bgColor: 'bg-purple-50 border-purple-200 dark:bg-purple-950/20 dark:border-purple-900', icon: CheckCircle2 },
+    factchecker:  { label: 'Fact-Checker', color: 'text-green-700 dark:text-green-400',  bgColor: 'bg-green-50 border-green-200 dark:bg-green-950/20 dark:border-green-900',   icon: ExternalLink },
+    adversary:    { label: 'Adversary',    color: 'text-red-700 dark:text-red-400',      bgColor: 'bg-red-50 border-red-200 dark:bg-red-950/20 dark:border-red-900',           icon: AlertTriangle },
+    consolidator: { label: 'Consolidator', color: 'text-brand-700 dark:text-brand-400',  bgColor: 'bg-brand-50 border-brand-200 dark:bg-brand-950/20 dark:border-brand-900',   icon: Cpu },
+    reporter:     { label: t('detail.aiReport'), color: 'text-indigo-700 dark:text-indigo-400', bgColor: 'bg-indigo-50 border-indigo-200 dark:bg-indigo-950/20 dark:border-indigo-900', icon: User },
   }
 
-  if (outputs.length === 0) {
+  // Pipeline agents only (exclude question-proposer-* from display — their work is in the reporter)
+  const pipelineOutputs = outputs.filter((o) => !o.role.startsWith('question-proposer'))
+  const reporterOutput = pipelineOutputs.find((o) => o.role === 'reporter')
+  const agentOutputs = pipelineOutputs.filter((o) => o.role !== 'reporter')
+
+  if (pipelineOutputs.length === 0) {
     return (
       <div className="bg-[var(--surface)] rounded-xl border border-[var(--border)] text-center py-12 text-[var(--muted)]">
         <Cpu className="w-8 h-8 mx-auto mb-3 opacity-30" />
@@ -510,22 +524,62 @@ function AIAnalysisTab({
 
   return (
     <div className="space-y-4">
-      {outputs.map((output, i) => {
-        const config = roleConfig[output.role] ?? { label: output.role, color: 'text-gray-700', bgColor: 'bg-gray-50 border-gray-200', icon: Cpu }
-        const Icon = config.icon
+      {/* Reporter output — full analysis report for paid users */}
+      {reporterOutput && hasAccess && (
+        <div className="rounded-xl border border-indigo-200 dark:border-indigo-900 bg-indigo-50 dark:bg-indigo-950/20 p-6">
+          <div className="flex items-center gap-2 mb-1">
+            <User className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+            <span className="text-sm font-semibold text-indigo-700 dark:text-indigo-400">{t('detail.aiReport')}</span>
+            <span className="text-xs text-[var(--muted)] bg-[var(--surface)] border border-[var(--border)] px-1.5 py-0.5 rounded-full font-mono">
+              {reporterOutput.model.split('-').slice(0, 2).join('-')}
+            </span>
+          </div>
+          <p className="text-xs text-[var(--muted)] mb-4">{t('detail.aiReportSubtitle')}</p>
+          <div className="prose prose-sm dark:prose-invert max-w-none">
+            <pre className="whitespace-pre-wrap font-sans text-sm text-[var(--foreground)] leading-relaxed">
+              {reporterOutput.content}
+            </pre>
+          </div>
+        </div>
+      )}
+
+      {/* Teaser for free users when reporter output exists */}
+      {reporterOutput && !hasAccess && (
+        <div className="rounded-xl border border-indigo-200 dark:border-indigo-900 bg-indigo-50 dark:bg-indigo-950/20 p-5">
+          <div className="flex items-center gap-2 mb-2">
+            <User className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+            <span className="text-sm font-semibold text-indigo-700 dark:text-indigo-400">{t('detail.aiReport')}</span>
+          </div>
+          <p className="text-sm text-[var(--muted)] leading-relaxed line-clamp-4">
+            {reporterOutput.summary}
+          </p>
+          <p className="text-xs text-indigo-600 dark:text-indigo-400 mt-3 font-medium">{t('detail.reportGatedHint')}</p>
+        </div>
+      )}
+
+      {/* Pipeline agent cards */}
+      {agentOutputs.map((output, i) => {
+        const cfg = roleConfig[output.role] ?? { label: output.role, color: 'text-gray-700', bgColor: 'bg-gray-50 border-gray-200', icon: Cpu }
+        const Icon = cfg.icon
         return (
-          <div key={i} className={`rounded-xl border p-5 ${config.bgColor}`}>
+          <div key={i} className={`rounded-xl border p-5 ${cfg.bgColor}`}>
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
-                <Icon className={`w-4 h-4 ${config.color}`} />
-                <span className={`text-sm font-semibold ${config.color}`}>{config.label}</span>
+                <Icon className={`w-4 h-4 ${cfg.color}`} />
+                <span className={`text-sm font-semibold ${cfg.color}`}>{cfg.label}</span>
                 <span className="text-xs text-[var(--muted)] bg-[var(--surface)] border border-[var(--border)] px-1.5 py-0.5 rounded-full font-mono">
                   {output.model.split('-').slice(0, 2).join('-')}
                 </span>
               </div>
               <span className="text-xs text-[var(--muted)]">{(output.durationMs / 1000).toFixed(1)}s</span>
             </div>
-            <p className="text-sm text-[var(--foreground)] leading-relaxed">{output.summary}</p>
+            {hasAccess ? (
+              <pre className="whitespace-pre-wrap font-sans text-sm text-[var(--foreground)] leading-relaxed">
+                {output.content}
+              </pre>
+            ) : (
+              <p className="text-sm text-[var(--foreground)] leading-relaxed">{output.summary}</p>
+            )}
           </div>
         )
       })}

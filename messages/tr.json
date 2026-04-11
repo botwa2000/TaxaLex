@@ -626,7 +626,10 @@
       "draftLockedHint": "İtirazınız oluşturuldu — kilidini açmak için kredi satın alın.",
       "questionsHint": "İtirazınızı oluşturmak için takip sorularını yanıtlayın.",
       "analysisPending": "Analiz hâlâ devam ediyor.",
-      "unlockWithCredit": "1 krediyle aç"
+      "unlockWithCredit": "1 krediyle aç",
+      "aiReport": "Tam analiz",
+      "aiReportSubtitle": "Yapay zeka ajanlarınız nasıl çalıştı",
+      "reportGatedHint": "Tam analiz ödeme yapan kullanıcılar için müsait."
     },
     "retryGeneration": "Oluşturmayı yeniden dene",
     "unlockDraft": "Kilidi aç"
@@ -1514,5 +1517,8 @@
       "myCases": "Davalarım",
       "toBilling": "Faturalandırma ve faturalar"
     }
+  },
+  "questions": {
+    "refining": "Uzmanlar sorularınızı iyileştiriyor…"
   }
 }

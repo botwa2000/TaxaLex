@@ -10,7 +10,7 @@ import { config } from '@/config/env'
 import { languageNames } from '@/config/i18n'
 import { consumeUpload } from '@/lib/uploadStore'
 
-export const maxDuration = 120
+export const maxDuration = 240
 
 const MAX_TOTAL_BYTES = PIPELINE.maxUploadBytes
 
@@ -354,6 +354,70 @@ Questions rules: Generate 3 to 6 questions. You MUST always generate at least 3 
 
           const bescheidData = { ...collectedFields }
 
+          // ── Multi-agent question refinement ──────────────────────────────────
+          // Three specialist agents propose questions from different angles, then
+          // Claude consolidates into atomic, plain-language questions with "why" fields.
+          // Runs only when we have at least one question from the initial extraction.
+          // If any step fails, we silently fall back to the original questions.
+          let questionProposalsRecord: Record<string, unknown> | null = null
+          if (followUpQuestions.length > 0) {
+            try {
+              send('refining_questions', { status: 'refining' })
+
+              const { buildQuestionAgents, callAgent: callQAgent } = await import('@/lib/agents')
+              const { models: qModels } = await getActiveModels()
+              const qAgents = buildQuestionAgents(qModels, uiLangName)
+
+              // Context for proposers: structured extracted data (all agents can read JSON)
+              const proposerContext = `Extracted data from official document:\n${JSON.stringify(bescheidData, null, 2)}\n\nInitial follow-up questions already identified:\n${JSON.stringify(followUpQuestions, null, 2)}`
+
+              logger.debug('[ANALYZE] ─── Running 3 question-proposer agents in parallel')
+              const t0Proposers = Date.now()
+
+              const [reviewerOut, factcheckerOut, adversaryOut] = await Promise.all([
+                callQAgent(qAgents['question-proposer-reviewer'], proposerContext),
+                callQAgent(qAgents['question-proposer-factchecker'], proposerContext),
+                callQAgent(qAgents['question-proposer-adversary'], proposerContext),
+              ])
+
+              logger.debug('[ANALYZE] ─── Proposers complete', { wallClockMs: Date.now() - t0Proposers })
+
+              // Consolidate all proposals
+              const consolidatorInput = `Legal Reviewer proposed:\n${reviewerOut}\n\nFact-Checker proposed:\n${factcheckerOut}\n\nAdversary (authority perspective) proposed:\n${adversaryOut}\n\nInitial AI analysis proposed:\n${JSON.stringify(followUpQuestions, null, 2)}`
+              const consolidatedRaw = await callQAgent(qAgents['question-consolidator'], consolidatorInput)
+
+              // Parse consolidated output — multiple fallback attempts
+              let parsedConsolidated: { questions?: unknown[]; rationale?: string } | null = null
+              try {
+                parsedConsolidated = JSON.parse(consolidatedRaw)
+              } catch {
+                const match = consolidatedRaw.match(/\{[\s\S]*\}/)
+                if (match) {
+                  try { parsedConsolidated = JSON.parse(match[0]) } catch { /* ignore */ }
+                }
+              }
+
+              if (parsedConsolidated?.questions && Array.isArray(parsedConsolidated.questions) && parsedConsolidated.questions.length > 0) {
+                followUpQuestions = parsedConsolidated.questions
+                questionProposalsRecord = {
+                  reviewer: reviewerOut,
+                  factchecker: factcheckerOut,
+                  adversary: adversaryOut,
+                  rationale: parsedConsolidated.rationale ?? '',
+                }
+                logger.debug('[ANALYZE] ─── Questions consolidated', {
+                  originalCount: Object.keys(collectedFields).length,
+                  consolidatedCount: followUpQuestions.length,
+                })
+              } else {
+                logger.debug('[ANALYZE] ─── Consolidation parse failed — keeping original questions')
+              }
+            } catch (refinementErr) {
+              // Non-fatal — user still gets original questions
+              logger.error('[ANALYZE] Question refinement failed', { error: refinementErr })
+            }
+          }
+
           if (caseId && !isDemo) {
             try {
               const { db } = await import('@/lib/db')
@@ -368,6 +432,9 @@ Questions rules: Generate 3 to 6 questions. You MUST always generate at least 3 
                     followUpQuestions: followUpQuestions as Parameters<
                       typeof db.case.updateMany
                     >[0]['data']['followUpQuestions'],
+                    ...(questionProposalsRecord
+                      ? { questionProposals: questionProposalsRecord as Parameters<typeof db.case.updateMany>[0]['data']['questionProposals'] }
+                      : {}),
                   },
                 }),
                 ...files.map((file) =>
@@ -386,6 +453,7 @@ Questions rules: Generate 3 to 6 questions. You MUST always generate at least 3 
               logger.debug('[ANALYZE] ─── DB: case saved', {
                 caseId,
                 docCount: files.length,
+                hasProposals: !!questionProposalsRecord,
               })
             } catch (dbErr) {
               logger.error('[ANALYZE] DB save failed', { error: dbErr })

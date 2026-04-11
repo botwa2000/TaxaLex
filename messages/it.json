@@ -626,7 +626,10 @@
       "draftLockedHint": "Il tuo ricorso è stato generato — acquista un credito per sbloccarlo.",
       "questionsHint": "Rispondi alle domande di follow-up per generare il tuo ricorso.",
       "analysisPending": "L'analisi è ancora in corso.",
-      "unlockWithCredit": "Sblocca con 1 credito"
+      "unlockWithCredit": "Sblocca con 1 credito",
+      "aiReport": "Analisi completa",
+      "aiReportSubtitle": "Come hanno lavorato i tuoi agenti AI",
+      "reportGatedHint": "Analisi completa disponibile per gli utenti paganti."
     },
     "retryGeneration": "Riprova generazione",
     "unlockDraft": "Sblocca"
@@ -1514,5 +1517,8 @@
       "myCases": "I miei casi",
       "toBilling": "Alla fatturazione e alle fatture"
     }
+  },
+  "questions": {
+    "refining": "Gli specialisti stanno affinando le tue domande…"
   }
 }

@@ -29,12 +29,17 @@ export type ModelSpec = {
  * PDF/image content blocks — there is no provider-agnostic equivalent.
  */
 export const MODELS_DEV = {
-  analyzer:     { provider: 'anthropic', model: 'claude-haiku-4-5-20251001' },
-  drafter:      { provider: 'google',    model: 'gemini-2.5-flash' },
-  reviewer:     { provider: 'google',    model: 'gemini-2.5-flash' },
-  factchecker:  { provider: 'google',    model: 'gemini-2.5-flash' },
-  adversary:    { provider: 'google',    model: 'gemini-2.5-flash' },
-  consolidator: { provider: 'google',    model: 'gemini-2.5-flash' },
+  analyzer:                    { provider: 'anthropic', model: 'claude-haiku-4-5-20251001' },
+  drafter:                     { provider: 'google',    model: 'gemini-2.5-flash' },
+  reviewer:                    { provider: 'google',    model: 'gemini-2.5-flash' },
+  factchecker:                 { provider: 'google',    model: 'gemini-2.5-flash' },
+  adversary:                   { provider: 'google',    model: 'gemini-2.5-flash' },
+  consolidator:                { provider: 'google',    model: 'gemini-2.5-flash' },
+  'question-proposer-reviewer':    { provider: 'google',    model: 'gemini-2.5-flash' },
+  'question-proposer-factchecker': { provider: 'google',    model: 'gemini-2.5-flash' },
+  'question-proposer-adversary':   { provider: 'google',    model: 'gemini-2.5-flash' },
+  'question-consolidator':         { provider: 'anthropic', model: 'claude-haiku-4-5-20251001' },
+  'reporter':                      { provider: 'anthropic', model: 'claude-haiku-4-5-20251001' },
 } as const satisfies Record<string, ModelSpec>
 
 /**
@@ -46,12 +51,17 @@ export const MODELS_DEV = {
  *   Consolidator → GPT-4o         (OpenAI)     — multi-source synthesis, final letter
  */
 export const MODELS_PROD = {
-  analyzer:     { provider: 'anthropic',  model: 'claude-haiku-4-5-20251001' },
-  drafter:      { provider: 'anthropic',  model: 'claude-sonnet-4-6' },
-  reviewer:     { provider: 'google',     model: 'gemini-1.5-pro' },
-  factchecker:  { provider: 'perplexity', model: 'sonar-pro' },
-  adversary:    { provider: 'xai',        model: 'grok-3' },
-  consolidator: { provider: 'openai',     model: 'gpt-4o' },
+  analyzer:                    { provider: 'anthropic',  model: 'claude-haiku-4-5-20251001' },
+  drafter:                     { provider: 'anthropic',  model: 'claude-sonnet-4-6' },
+  reviewer:                    { provider: 'google',     model: 'gemini-1.5-pro' },
+  factchecker:                 { provider: 'perplexity', model: 'sonar-pro' },
+  adversary:                   { provider: 'xai',        model: 'grok-3' },
+  consolidator:                { provider: 'openai',     model: 'gpt-4o' },
+  'question-proposer-reviewer':    { provider: 'google',     model: 'gemini-1.5-pro' },
+  'question-proposer-factchecker': { provider: 'perplexity', model: 'sonar-pro' },
+  'question-proposer-adversary':   { provider: 'xai',        model: 'grok-3' },
+  'question-consolidator':         { provider: 'anthropic',  model: 'claude-sonnet-4-6' },
+  'reporter':                      { provider: 'anthropic',  model: 'claude-sonnet-4-6' },
 } as const satisfies Record<string, ModelSpec>
 
 // ── AI Pipeline ───────────────────────────────────────────────────────────────

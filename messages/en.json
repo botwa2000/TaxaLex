@@ -626,7 +626,10 @@
       "draftLockedHint": "Your appeal was generated — purchase a credit to unlock it.",
       "questionsHint": "Answer the follow-up questions to generate your appeal.",
       "analysisPending": "Analysis is still running.",
-      "unlockWithCredit": "Unlock with 1 credit"
+      "unlockWithCredit": "Unlock with 1 credit",
+      "aiReport": "Full Analysis",
+      "aiReportSubtitle": "How your AI agents worked",
+      "reportGatedHint": "Full analysis available for paying users."
     },
     "retryGeneration": "Retry generation",
     "unlockDraft": "Unlock"
@@ -1514,5 +1517,8 @@
       "myCases": "My Cases",
       "toBilling": "To Billing & Invoices"
     }
+  },
+  "questions": {
+    "refining": "Specialists are refining your questions…"
   }
 }

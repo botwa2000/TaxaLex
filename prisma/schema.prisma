@@ -232,6 +232,7 @@ model Case {
   submittedAt       DateTime?
   draftLocked       Boolean   @default(false)
   followUpQuestions Json?
+  questionProposals Json?
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
 

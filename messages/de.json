@@ -626,7 +626,10 @@
       "draftLockedHint": "Ihr Einspruch wurde erstellt — kaufen Sie ein Guthaben, um ihn freizuschalten.",
       "questionsHint": "Beantworten Sie die Rückfragen, um Ihren Einspruch zu generieren.",
       "analysisPending": "Die Analyse läuft noch.",
-      "unlockWithCredit": "Mit 1 Guthaben freischalten"
+      "unlockWithCredit": "Mit 1 Guthaben freischalten",
+      "aiReport": "Vollständige Analyse",
+      "aiReportSubtitle": "Wie Ihre KI-Agenten gearbeitet haben",
+      "reportGatedHint": "Vollständige Analyse verfügbar für zahlende Nutzer."
     },
     "retryGeneration": "Erneut generieren",
     "unlockDraft": "Freischalten"
@@ -1514,5 +1517,8 @@
       "myCases": "Meine Fälle",
       "toBilling": "Zur Abrechnung & Rechnungen"
     }
+  },
+  "questions": {
+    "refining": "Spezialisten verfeinern Ihre Fragen…"
   }
 }

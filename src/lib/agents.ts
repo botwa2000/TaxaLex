@@ -80,7 +80,9 @@ function getGoogleAI(): GoogleGenerativeAI {
 //     so the user reads feedback in their own language, not in German.
 
 type PipelineModels = Record<
-  'drafter' | 'reviewer' | 'factchecker' | 'adversary' | 'consolidator',
+  | 'drafter' | 'reviewer' | 'factchecker' | 'adversary' | 'consolidator'
+  | 'question-proposer-reviewer' | 'question-proposer-factchecker'
+  | 'question-proposer-adversary' | 'question-consolidator' | 'reporter',
   ModelSpec
 >
 
@@ -144,6 +146,138 @@ LANGUAGE DIRECTIVE: Write your entire analysis in ${uiLang}. Use German technica
 
 LANGUAGE DIRECTIVE: Write the complete letter in ${outLang}. This document will be submitted to German-speaking authorities.`,
     },
+    'question-proposer-reviewer': {
+      role: 'question-proposer-reviewer',
+      provider: models['question-proposer-reviewer'].provider,
+      model: models['question-proposer-reviewer'].model,
+      systemPrompt: `You are a legal expert reviewing structured data extracted from an official German document. Your task: identify legal information gaps that would weaken a formal objection or appeal, and propose targeted follow-up questions to fill those gaps.
+
+Rules:
+- Each question must address exactly ONE specific thing. Never combine two questions into one.
+- If a yes/no question implies a follow-up detail, split into TWO separate questions.
+- Only propose questions that DIRECTLY strengthen the appeal. No generic background questions.
+- Write in plain language — assume the reader is an intelligent non-expert, not a lawyer.
+- Questions must target legal gaps: missing §§ evidence, unclear procedural steps, unchallengeable assumptions.
+
+Return a JSON array only — no other text:
+[{"question":"...","why":"1-2 sentence plain-language explanation of why this specific question matters for winning the appeal","type":"yesno|text|amount|date","legalBasis":"relevant §§ or court rulings"}]
+
+Propose 2-4 questions maximum. Focus on legal gaps, missing evidence, challengeable assumptions.
+
+LANGUAGE DIRECTIVE: Write ALL text (question, why) in ${uiLang}.`,
+    },
+    'question-proposer-factchecker': {
+      role: 'question-proposer-factchecker',
+      provider: models['question-proposer-factchecker'].provider,
+      model: models['question-proposer-factchecker'].model,
+      systemPrompt: `You are a fact-checking expert reviewing structured data extracted from an official German document. Your task: identify factual claims, dates, amounts, and procedural details that must be verified or clarified before writing a credible objection or appeal.
+
+Rules:
+- Each question must address exactly ONE specific thing. Never combine two questions into one.
+- If a yes/no question implies a follow-up detail, split into TWO separate questions.
+- Only propose questions where the answer would materially change the appeal's argumentation.
+- Write in plain language — assume the reader is an intelligent non-expert.
+- Focus lens: dates, deadlines, amounts, procedural compliance, prior correspondence, official notifications.
+
+Return a JSON array only — no other text:
+[{"question":"...","why":"1-2 sentence plain-language explanation of why this fact needs verification for the appeal","type":"yesno|text|amount|date","legalBasis":"relevant §§ or regulations"}]
+
+Propose 2-4 questions maximum.
+
+LANGUAGE DIRECTIVE: Write ALL text (question, why) in ${uiLang}.`,
+    },
+    'question-proposer-adversary': {
+      role: 'question-proposer-adversary',
+      provider: models['question-proposer-adversary'].provider,
+      model: models['question-proposer-adversary'].model,
+      systemPrompt: `You are simulating the German authority that issued this official document. Your task: identify information the authority will demand in their response to an objection, and propose questions to pre-emptively gather that information.
+
+Rules:
+- Each question must address exactly ONE specific thing. Never combine two questions into one.
+- If a yes/no question implies a follow-up detail, split into TWO separate questions.
+- Only propose questions that address genuine authority counter-arguments — not hypothetical edge cases.
+- Write in plain language — the appellant is an intelligent non-expert.
+- Focus lens: missing documentation the authority expects, procedural requirements the appellant may have missed, weaknesses the authority will exploit.
+
+Return a JSON array only — no other text:
+[{"question":"...","why":"1-2 sentence plain-language explanation of what the authority will challenge and why this answer helps defend against it","type":"yesno|text|amount|date","legalBasis":"relevant §§ or procedural rules"}]
+
+Propose 2-4 questions maximum.
+
+LANGUAGE DIRECTIVE: Write ALL text (question, why) in ${uiLang}.`,
+    },
+    'question-consolidator': {
+      role: 'question-consolidator',
+      provider: models['question-consolidator'].provider,
+      model: models['question-consolidator'].model,
+      systemPrompt: `You are consolidating follow-up question proposals from three legal specialists (Legal Reviewer, Fact-Checker, Adversary) plus an initial AI analysis. Produce the final, optimised question list.
+
+Consolidation rules:
+- Merge duplicate or overlapping questions — keep the clearest wording from any source.
+- Enforce strict atomicity: each final question asks exactly ONE thing. Split any compound questions.
+- Remove generic questions not tied to the specific facts of this case.
+- For each question, add a "why" field: a 1-2 sentence plain-language explanation a non-expert can understand.
+- Add a "guidance" field: 2-3 sentences explaining what factors determine the answer and concrete examples (if X then answer A because...).
+- Produce exactly 4-6 final questions total (no fewer, no more).
+
+Return ONLY a JSON object — no other text:
+{"questions":[{"id":"q1","question":"...","required":true,"type":"text|yesno|amount|date","background":"§§ and legal basis in ${uiLang}","guidance":"2-3 sentence practical guidance in ${uiLang}","why":"1-2 sentence plain-language explanation in ${uiLang}"}],"rationale":"1 paragraph explaining which questions were merged, removed, or split and why"}
+
+LANGUAGE DIRECTIVE: Write ALL text (question, background, guidance, why, rationale) in ${uiLang}.`,
+    },
+    reporter: {
+      role: 'reporter',
+      provider: models.reporter.provider,
+      model: models.reporter.model,
+      systemPrompt: `You are writing a comprehensive analysis report for the appellant explaining exactly how their case was researched, what each AI specialist found, and how their objection was drafted. Write for an intelligent non-expert — clear, accessible, specific.
+
+The report must have these sections with markdown headings:
+
+## Dokumentenanalyse
+What key facts and legal details were extracted from the uploaded document. Reference specific fields found (amounts, dates, authorities, legal §§). Explain why each is relevant to the appeal.
+
+## Entwicklung der Rückfragen
+What each specialist was looking for when proposing follow-up questions. How the questions were consolidated and refined. Which questions were merged, removed, or split — and why.
+
+## Strategie des Einspruchs
+The legal approach the initial draft took. Which §§ and case law were invoked and why. What the core argument is.
+
+## Rechtliche Überprüfung
+Concrete errors or improvements the Legal Reviewer found. How they changed the final letter.
+
+## Faktenprüfung
+Which legal references were verified, corrected, or updated with current case law. Specific §§ or court rulings that were confirmed or replaced.
+
+## Behörden-Perspektive
+The specific weaknesses the adversarial analysis identified. How the final letter pre-emptively addresses each one.
+
+## Endergebnis
+How all four inputs were synthesised into the final letter. What makes it legally sound.
+
+Length: 600-1000 words. Use concrete specifics throughout — reference actual §§, findings, and arguments from the case. Avoid vague generalisations.
+
+LANGUAGE DIRECTIVE: Write the entire report in ${uiLang}.`,
+    },
+  }
+}
+
+// ── Question-phase agent helper ───────────────────────────────────────────────
+// Used exclusively by /api/analyze to run the multi-agent question pipeline.
+// Returns only the 4 question-phase agents (proposers + consolidator).
+
+export function buildQuestionAgents(
+  models: PipelineModels,
+  uiLanguage: string
+): Record<
+  'question-proposer-reviewer' | 'question-proposer-factchecker' | 'question-proposer-adversary' | 'question-consolidator',
+  AgentConfig
+> {
+  const allAgents = buildAgents(models, uiLanguage, 'de')
+  return {
+    'question-proposer-reviewer':    allAgents['question-proposer-reviewer'],
+    'question-proposer-factchecker': allAgents['question-proposer-factchecker'],
+    'question-proposer-adversary':   allAgents['question-proposer-adversary'],
+    'question-consolidator':         allAgents['question-consolidator'],
   }
 }
 
@@ -323,7 +457,8 @@ export async function orchestrate(
   userAnswers: Record<string, string>,
   outputLanguage = 'de',
   uiLanguage = 'de',
-  onProgress?: (event: ProgressEvent) => void
+  onProgress?: (event: ProgressEvent) => void,
+  questionProposals?: string
 ): Promise<{ outputs: AgentOutput[]; finalDraft: string; pipelineMode: string }> {
   const t0Pipeline = Date.now()
   const { models, mode: pipelineModeUsed } = await getActiveModels()
@@ -453,6 +588,39 @@ ${adversaryContent}
 ORIGINAL CASE DATA:
 ${context}`
   )
+
+  // Step 6: Reporter — synthesises the entire pipeline into a readable analysis report.
+  // This runs after the final draft is complete so it can reference all outcomes.
+  logger.debug('[PIPELINE] ─── STEP 6: Reporter (sequential)')
+  const reporterPrompt = `Write the analysis report for this case based on the complete pipeline output below.
+
+EXTRACTED DOCUMENT DATA:
+${context}
+
+${questionProposals ? `QUESTION DEVELOPMENT (proposals from 3 specialists):
+${questionProposals}
+
+` : ''}USER ANSWERS TO FOLLOW-UP QUESTIONS:
+${Object.keys(userAnswers).length > 0
+  ? Object.entries(userAnswers).map(([q, a]) => `${q}: ${a || '(not answered)'}`).join('\n')
+  : '(no answers — questions were skipped)'}
+
+INITIAL DRAFT:
+${draftContent}
+
+LEGAL REVIEW — errors and improvements found:
+${reviewContent}
+
+FACT-CHECK — legal references verified:
+${factCheckContent}
+
+ADVERSARIAL ANALYSIS — authority perspective and weaknesses:
+${adversaryContent}
+
+FINAL LETTER (after consolidation):
+${finalDraft}`
+
+  await runAgent('reporter', AGENTS.reporter, reporterPrompt)
 
   const totalMs = Date.now() - t0Pipeline
   logger.info('Pipeline complete', {

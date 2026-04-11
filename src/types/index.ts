@@ -6,6 +6,11 @@ export type AgentRole =
   | 'factchecker'
   | 'adversary'
   | 'consolidator'
+  | 'question-proposer-reviewer'
+  | 'question-proposer-factchecker'
+  | 'question-proposer-adversary'
+  | 'question-consolidator'
+  | 'reporter'
 
 export type AgentProvider = 'anthropic' | 'openai' | 'google' | 'perplexity' | 'xai'
 

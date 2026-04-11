@@ -152,14 +152,33 @@ export async function POST(req: NextRequest) {
         logger.debug('[GENERATE] ─── Starting orchestrate()', { caseId: caseId ?? 'none' })
         const t0Pipeline = Date.now()
 
-        // Run the 5-agent pipeline with per-agent SSE events
+        // Load question proposals saved during analyze — reporter uses them to explain
+        // how the final questions were developed from the multi-agent proposals.
+        let questionProposals: string | undefined
+        if (caseId && !isDemo) {
+          try {
+            const { db } = await import('@/lib/db')
+            const caseRecord = await db.case.findFirst({
+              where: { id: caseId, userId },
+              select: { questionProposals: true },
+            })
+            if (caseRecord?.questionProposals) {
+              questionProposals = JSON.stringify(caseRecord.questionProposals)
+            }
+          } catch {
+            // Non-fatal — reporter will just omit the question-development section
+          }
+        }
+
+        // Run the 5-agent pipeline + reporter with per-agent SSE events
         const { outputs, finalDraft, pipelineMode } = await orchestrate(
           bescheidData,
           documents,
           userAnswers,
           outputLanguage,
           uiLanguage,
-          (event) => send(event.type, event.data)  // forwards agent_start + agent_complete
+          (event) => send(event.type, event.data),  // forwards agent_start + agent_complete
+          questionProposals
         )
 
         logger.debug('[GENERATE] ─── Pipeline complete', {

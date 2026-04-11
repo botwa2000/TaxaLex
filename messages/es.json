@@ -626,7 +626,10 @@
       "draftLockedHint": "Su recurso ha sido generado — compre un crédito para desbloquearlo.",
       "questionsHint": "Responda las preguntas de seguimiento para generar su recurso.",
       "analysisPending": "El análisis aún está en curso.",
-      "unlockWithCredit": "Desbloquear con 1 crédito"
+      "unlockWithCredit": "Desbloquear con 1 crédito",
+      "aiReport": "Análisis completo",
+      "aiReportSubtitle": "Cómo trabajaron sus agentes de IA",
+      "reportGatedHint": "Análisis completo disponible para usuarios de pago."
     },
     "retryGeneration": "Reintentar generación",
     "unlockDraft": "Desbloquear"
@@ -1514,5 +1517,8 @@
       "myCases": "Mis casos",
       "toBilling": "A facturación y facturas"
     }
+  },
+  "questions": {
+    "refining": "Los especialistas están refinando sus preguntas…"
   }
 }

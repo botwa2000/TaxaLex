@@ -626,7 +626,10 @@
       "draftLockedHint": "Twoje odwołanie zostało wygenerowane — kup kredyt, aby je odblokować.",
       "questionsHint": "Odpowiedz na pytania uzupełniające, aby wygenerować odwołanie.",
       "analysisPending": "Analiza jest nadal w toku.",
-      "unlockWithCredit": "Odblokuj za 1 kredyt"
+      "unlockWithCredit": "Odblokuj za 1 kredyt",
+      "aiReport": "Pełna analiza",
+      "aiReportSubtitle": "Jak pracowały Twoje agenty AI",
+      "reportGatedHint": "Pełna analiza dostępna dla płatnych użytkowników."
     },
     "retryGeneration": "Ponów generowanie",
     "unlockDraft": "Odblokuj"
@@ -1514,5 +1517,8 @@
       "myCases": "Moje sprawy",
       "toBilling": "Do rozliczeń i faktur"
     }
+  },
+  "questions": {
+    "refining": "Specjaliści dopracowują Twoje pytania…"
   }
 }
