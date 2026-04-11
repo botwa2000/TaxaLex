@@ -17,6 +17,16 @@ import { Link } from '@/i18n/navigation'
 import type { AnnotationData } from '@/types'
 import { getTranslations } from 'next-intl/server'
 
+/** Returns the AI-detected document type label, or null if not available */
+function getDocTypeLabel(bescheidData: Record<string, unknown> | null): string | null {
+  const dt = bescheidData?.docType
+  if (dt && typeof dt === 'object' && 'label' in dt) {
+    const label = (dt as Record<string, unknown>).label
+    if (typeof label === 'string' && label.trim()) return label.trim()
+  }
+  return null
+}
+
 function extractOutputSummary(content: string): string {
   const lines = content
     .split('\n')
@@ -190,7 +200,9 @@ export default async function CaseDetailPage({
         <div className="flex flex-col sm:flex-row sm:items-start gap-4">
           <div className="flex-1 min-w-0">
             <div className="flex flex-wrap items-center gap-2 mb-1">
-              <h1 className="text-xl font-bold text-[var(--foreground)]">{useCaseLabel(caseData.useCase)}</h1>
+              <h1 className="text-xl font-bold text-[var(--foreground)]">
+                {getDocTypeLabel(caseData.bescheidData) ?? useCaseLabel(caseData.useCase)}
+              </h1>
               <StatusBadge status={caseData.status} />
             </div>
             <p className="text-sm text-[var(--muted)]">
@@ -226,7 +238,7 @@ export default async function CaseDetailPage({
             </div>
           )}
           {caseData.status === 'DRAFT_READY' && !caseData.draftLocked && finalDraft && (
-            <CaseDetailClient caseId={caseData.id} draft={finalDraft} status={caseData.status} />
+            <CaseDetailClient caseId={caseData.id} draft={finalDraft} status={caseData.status} docTypeLabel={getDocTypeLabel(caseData.bescheidData)} />
           )}
           {caseData.status === 'DRAFT_READY' && caseData.draftLocked && (
             hasAccess
@@ -240,7 +252,7 @@ export default async function CaseDetailPage({
                 </Link>
           )}
           {(caseData.status === 'APPROVED' || caseData.status === 'ADVISOR_REVIEW') && finalDraft && (
-            <CaseDetailClient caseId={caseData.id} draft={finalDraft} status={caseData.status} />
+            <CaseDetailClient caseId={caseData.id} draft={finalDraft} status={caseData.status} docTypeLabel={getDocTypeLabel(caseData.bescheidData)} />
           )}
           {caseData.status === 'SUBMITTED' && (
             <span className="flex items-center gap-1.5 bg-green-50 text-green-700 dark:bg-green-950/30 dark:text-green-400 text-sm font-medium px-3 py-1.5 rounded-lg shrink-0">
@@ -308,7 +320,7 @@ export default async function CaseDetailPage({
       )}
       {tab === 'documents' && <DocumentsTab documents={documents} t={t} />}
       {tab === 'ai' && <AIAnalysisTab outputs={agentOutputs} hasAccess={hasAccess} questionProposals={caseData.questionProposals} caseId={caseData.id} locale={locale} t={t} />}
-      {tab === 'letter' && <LetterTab draft={finalDraft} status={caseData.status} caseId={caseData.id} draftLocked={caseData.draftLocked} locale={locale} hasAccess={hasAccess} t={t} />}
+      {tab === 'letter' && <LetterTab draft={finalDraft} status={caseData.status} caseId={caseData.id} draftLocked={caseData.draftLocked} locale={locale} hasAccess={hasAccess} docTypeLabel={getDocTypeLabel(caseData.bescheidData)} t={t} />}
     </div>
   )
 }
@@ -607,6 +619,7 @@ function LetterTab({
   draftLocked,
   locale,
   hasAccess,
+  docTypeLabel,
   t,
 }: {
   draft: string | null
@@ -615,6 +628,7 @@ function LetterTab({
   draftLocked: boolean
   locale: string
   hasAccess: boolean
+  docTypeLabel?: string | null
   t: Translator
 }) {
   const isInProgress = ['CREATED', 'UPLOADING', 'ANALYZING'].includes(status)
@@ -676,7 +690,7 @@ function LetterTab({
           <p className="text-sm font-semibold text-[var(--foreground)]">{t('detail.letterTitle')}</p>
           <p className="text-xs text-[var(--muted)]">{t('detail.letterSubtitle')}</p>
         </div>
-        <CaseDetailClient caseId={caseId} draft={draft} status={status} />
+        <CaseDetailClient caseId={caseId} draft={draft} status={status} docTypeLabel={docTypeLabel} />
       </div>
       <div className="bg-[var(--surface)] rounded-xl border border-[var(--border)] p-6">
         <pre className="whitespace-pre-wrap font-sans text-sm text-[var(--foreground)] leading-relaxed">{draft}</pre>

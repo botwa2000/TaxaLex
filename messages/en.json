@@ -631,7 +631,8 @@
       "aiReport": "Full Analysis",
       "aiReportSubtitle": "How your AI agents worked",
       "reportGatedHint": "Full analysis available for paying users.",
-      "downloadReport": "Download Process Report (PDF)"
+      "downloadReport": "Download Process Report (PDF)",
+      "downloadWord": "Download as Word (.docx)"
     },
     "retryGeneration": "Retry generation",
     "unlockDraft": "Unlock"
@@ -1066,7 +1067,8 @@
       "legalBasis": "Legal basis",
       "guidance": "How to answer",
       "na": "N/A / Unknown",
-      "requiredUnanswered": "Please answer all required questions before generating."
+      "requiredUnanswered": "Please answer all required questions before generating.",
+      "refining": "Specialists are refining your questions…"
     },
     "generating": {
       "title": "Multi-AI pipeline running…",

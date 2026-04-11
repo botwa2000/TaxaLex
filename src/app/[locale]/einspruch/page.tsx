@@ -1004,7 +1004,13 @@ function EinspruchPageInner() {
   function appealFilename(ext: string) {
     const date = new Date().toISOString().slice(0, 10).replace(/-/g, '')
     const id = caseId ? `_${caseId.slice(-8).toUpperCase()}` : ''
-    return `${date}_Einspruch${id}.${ext}`
+    const topic = detectedDocType?.label
+      ? detectedDocType.label
+          .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue')
+          .replace(/Ä/g, 'Ae').replace(/Ö/g, 'Oe').replace(/Ü/g, 'Ue').replace(/ß/g, 'ss')
+          .replace(/[^a-zA-Z0-9]/g, '_').replace(/_+/g, '_').replace(/^_|_$/g, '').slice(0, 30)
+      : 'Einspruch'
+    return `${date}_${topic}${id}.${ext}`
   }
 
   function handleDownload() {
@@ -2511,7 +2517,7 @@ function EinspruchPageInner() {
                         <div className="w-2.5 h-2.5 rounded-full bg-green-400/60" />
                       </div>
                       <span className="text-xs text-[var(--muted)] ml-1">
-                        {brand.name}-Einspruch.txt
+                        {appealFilename('txt')}
                       </span>
                     </div>
                     <span className="text-xs text-[var(--muted)]">

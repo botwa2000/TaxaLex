@@ -631,7 +631,8 @@
       "aiReport": "Análisis completo",
       "aiReportSubtitle": "Cómo trabajaron sus agentes de IA",
       "reportGatedHint": "Análisis completo disponible para usuarios de pago.",
-      "downloadReport": "Descargar informe del proceso (PDF)"
+      "downloadReport": "Descargar informe del proceso (PDF)",
+      "downloadWord": "Descargar como Word (.docx)"
     },
     "retryGeneration": "Reintentar generación",
     "unlockDraft": "Desbloquear"
@@ -1066,7 +1067,8 @@
       "legalBasis": "Base legal",
       "guidance": "Cómo responder",
       "na": "N/A / Desconocido",
-      "requiredUnanswered": "Por favor, responda todas las preguntas obligatorias antes de generar."
+      "requiredUnanswered": "Por favor, responda todas las preguntas obligatorias antes de generar.",
+      "refining": "Los especialistas están refinando sus preguntas…"
     },
     "generating": {
       "title": "Pipeline multi-IA en ejecución…",

@@ -631,7 +631,8 @@
       "aiReport": "Tam analiz",
       "aiReportSubtitle": "Yapay zeka ajanlarınız nasıl çalıştı",
       "reportGatedHint": "Tam analiz ödeme yapan kullanıcılar için müsait.",
-      "downloadReport": "Süreç raporunu indir (PDF)"
+      "downloadReport": "Süreç raporunu indir (PDF)",
+      "downloadWord": "Word olarak indir (.docx)"
     },
     "retryGeneration": "Oluşturmayı yeniden dene",
     "unlockDraft": "Kilidi aç"
@@ -1066,7 +1067,8 @@
       "legalBasis": "Hukuki dayanak",
       "guidance": "Nasıl yanıtlanır",
       "na": "Y/B / Bilinmiyor",
-      "requiredUnanswered": "Lütfen oluşturmadan önce tüm zorunlu soruları yanıtlayın."
+      "requiredUnanswered": "Lütfen oluşturmadan önce tüm zorunlu soruları yanıtlayın.",
+      "refining": "Uzmanlar sorularınızı iyileştiriyor…"
     },
     "generating": {
       "title": "Çok ajanli yapay zeka hattı çalışıyor…",

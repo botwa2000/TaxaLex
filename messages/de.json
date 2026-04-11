@@ -631,7 +631,8 @@
       "aiReport": "Vollständige Analyse",
       "aiReportSubtitle": "Wie Ihre KI-Agenten gearbeitet haben",
       "reportGatedHint": "Vollständige Analyse verfügbar für zahlende Nutzer.",
-      "downloadReport": "Prozessbericht herunterladen (PDF)"
+      "downloadReport": "Prozessbericht herunterladen (PDF)",
+      "downloadWord": "Als Word (.docx)"
     },
     "retryGeneration": "Erneut generieren",
     "unlockDraft": "Freischalten"
@@ -1066,7 +1067,8 @@
       "legalBasis": "Rechtsgrundlage",
       "guidance": "Wie antworten",
       "na": "N/A / Unbekannt",
-      "requiredUnanswered": "Bitte beantworten Sie zuerst alle Pflichtfragen."
+      "requiredUnanswered": "Bitte beantworten Sie zuerst alle Pflichtfragen.",
+      "refining": "Spezialisten verfeinern Ihre Fragen…"
     },
     "generating": {
       "title": "Multi-KI-Pipeline läuft…",

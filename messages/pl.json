@@ -631,7 +631,8 @@
       "aiReport": "Pełna analiza",
       "aiReportSubtitle": "Jak pracowały Twoje agenty AI",
       "reportGatedHint": "Pełna analiza dostępna dla płatnych użytkowników.",
-      "downloadReport": "Pobierz raport procesu (PDF)"
+      "downloadReport": "Pobierz raport procesu (PDF)",
+      "downloadWord": "Pobierz jako Word (.docx)"
     },
     "retryGeneration": "Ponów generowanie",
     "unlockDraft": "Odblokuj"
@@ -1066,7 +1067,8 @@
       "legalBasis": "Podstawa prawna",
       "guidance": "Jak odpowiedzieć",
       "na": "N/D / Nieznane",
-      "requiredUnanswered": "Proszę odpowiedzieć na wszystkie wymagane pytania przed generowaniem."
+      "requiredUnanswered": "Proszę odpowiedzieć na wszystkie wymagane pytania przed generowaniem.",
+      "refining": "Specjaliści dopracowują Twoje pytania…"
     },
     "generating": {
       "title": "Uruchomiono wieloagentowy potok AI…",

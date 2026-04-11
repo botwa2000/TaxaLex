@@ -16,6 +16,17 @@ type CaseListItem = {
   _count: { documents: number }
   answersCount: number
   draftLocked: boolean
+  bescheidData: Record<string, unknown> | null
+}
+
+/** Extract the AI-detected document type label from bescheidData, if present */
+function getDocTypeLabel(bescheidData: Record<string, unknown> | null): string | null {
+  const dt = bescheidData?.docType
+  if (dt && typeof dt === 'object' && 'label' in dt) {
+    const label = (dt as Record<string, unknown>).label
+    if (typeof label === 'string' && label.trim()) return label.trim()
+  }
+  return null
 }
 
 type Filter = 'all' | 'active' | 'submitted' | 'closed'
@@ -198,10 +209,14 @@ export function CasesClient({ cases: initialCases }: Props) {
     if (!search.trim()) return byFilter
     const q = search.toLowerCase()
     return byFilter.filter(
-      (c) =>
-        (ucLabels[c.useCase] ?? c.useCase).toLowerCase().includes(q) ||
-        c.id.toLowerCase().includes(q) ||
-        c.status.toLowerCase().includes(q)
+      (c) => {
+        const title = getDocTypeLabel(c.bescheidData) ?? ucLabels[c.useCase] ?? c.useCase
+        return (
+          title.toLowerCase().includes(q) ||
+          c.id.toLowerCase().includes(q) ||
+          c.status.toLowerCase().includes(q)
+        )
+      }
     )
     // ucLabels is stable — built from translations, not a dependency that changes
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -306,7 +321,9 @@ export function CasesClient({ cases: initialCases }: Props) {
                 <Link href={`/cases/${c.id}`} className="flex items-center gap-4 flex-1 min-w-0">
                   <div className={`w-2 h-2 rounded-full shrink-0 ${STATUS_DOTS[c.status] ?? 'bg-gray-300'}`} />
                   <div className="flex-1 min-w-0">
-                    <p className="font-medium text-sm text-[var(--foreground)]">{ucLabels[c.useCase] ?? c.useCase}</p>
+                    <p className="font-medium text-sm text-[var(--foreground)]">
+                      {getDocTypeLabel(c.bescheidData) ?? ucLabels[c.useCase] ?? c.useCase}
+                    </p>
                     <p className="text-xs text-[var(--muted)] mt-0.5">
                       #{c.id.slice(-8).toUpperCase()} · {new Date(c.createdAt).toLocaleDateString()} ·{' '}
                       {t('documents', { count: c._count.documents })}

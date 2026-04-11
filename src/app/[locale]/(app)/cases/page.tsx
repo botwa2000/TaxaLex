@@ -13,6 +13,7 @@ type CaseListItem = {
   _count: { documents: number }
   answersCount: number
   draftLocked: boolean
+  bescheidData: Record<string, unknown> | null
 }
 
 export default async function CasesPage() {
@@ -33,6 +34,7 @@ export default async function CasesPage() {
         createdAt: true, updatedAt: true,
         userAnswers: true,
         draftLocked: true,
+        bescheidData: true,
         _count: { select: { documents: true } },
       },
     })
@@ -46,6 +48,7 @@ export default async function CasesPage() {
       _count: c._count,
       answersCount: Object.keys((c.userAnswers as Record<string, unknown>) ?? {}).length,
       draftLocked: c.draftLocked,
+      bescheidData: (c.bescheidData as Record<string, unknown>) ?? null,
     }))
   } catch (err) {
     // Only show demo cases for demo accounts — real users with DB errors see empty list
