@@ -1081,9 +1081,11 @@
         "reviewer": "جارٍ مراجعة الأخطاء… (Gemini)",
         "factchecker": "جارٍ التحقق من المراجع القانونية… (Perplexity)",
         "adversary": "جارٍ فحص منظور الجهة الإدارية… (Claude)",
-        "consolidator": "جارٍ دمج النسخة النهائية… (Claude)"
+        "consolidator": "جارٍ دمج النسخة النهائية… (Claude)",
+        "adversary-final": "المراجعة النهائية",
+        "reporter": "تقرير التحليل"
       },
-            "reviewingDraft": "مراجعة المسودة بحثاً عن نقاط الضعف…",
+      "reviewingDraft": "مراجعة المسودة بحثاً عن نقاط الضعف…",
       "writingReport": "كتابة تقرير التحليل…",
       "finalising": "جارٍ إتمام الخطاب…"
     },

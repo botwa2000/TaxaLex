@@ -1081,9 +1081,11 @@
         "reviewer": "Hatalar inceleniyor… (Gemini)",
         "factchecker": "Hukuki atıflar kontrol ediliyor… (Perplexity)",
         "adversary": "Kurum perspektifi değerlendiriliyor… (Claude)",
-        "consolidator": "Nihai sürüm birleştiriliyor… (Claude)"
+        "consolidator": "Nihai sürüm birleştiriliyor… (Claude)",
+        "adversary-final": "Son kontrol",
+        "reporter": "Analiz raporu"
       },
-            "reviewingDraft": "Taslak zayıflıklar için inceleniyor…",
+      "reviewingDraft": "Taslak zayıflıklar için inceleniyor…",
       "writingReport": "Analiz raporu yazılıyor…",
       "finalising": "Mektup sonlandırılıyor…"
     },

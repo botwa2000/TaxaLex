@@ -1081,9 +1081,11 @@
         "reviewer": "Sprawdzanie błędów… (Gemini)",
         "factchecker": "Weryfikacja powołań prawnych… (Perplexity)",
         "adversary": "Analiza perspektywy organu… (Claude)",
-        "consolidator": "Konsolidacja wersji finalnej… (Claude)"
+        "consolidator": "Konsolidacja wersji finalnej… (Claude)",
+        "adversary-final": "Ostateczna kontrola",
+        "reporter": "Raport analityczny"
       },
-            "reviewingDraft": "Sprawdzanie projektu pod kątem luk…",
+      "reviewingDraft": "Sprawdzanie projektu pod kątem luk…",
       "writingReport": "Pisanie raportu analitycznego…",
       "finalising": "Finalizowanie pisma…"
     },

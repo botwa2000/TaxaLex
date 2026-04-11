@@ -1081,9 +1081,11 @@
         "reviewer": "Vérification des erreurs… (Gemini)",
         "factchecker": "Vérification des références juridiques… (Perplexity)",
         "adversary": "Analyse de la perspective de l'autorité… (Claude)",
-        "consolidator": "Consolidation de la version finale… (Claude)"
+        "consolidator": "Consolidation de la version finale… (Claude)",
+        "adversary-final": "Contrôle final",
+        "reporter": "Rapport d'analyse"
       },
-            "reviewingDraft": "Vérification du brouillon pour les failles…",
+      "reviewingDraft": "Vérification du brouillon pour les failles…",
       "writingReport": "Rédaction du rapport d'analyse…",
       "finalising": "Finalisation de la lettre…"
     },

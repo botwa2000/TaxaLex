@@ -1001,6 +1001,12 @@ function EinspruchPageInner() {
     setStep('result')
   }
 
+  function appealFilename(ext: string) {
+    const date = new Date().toISOString().slice(0, 10).replace(/-/g, '')
+    const id = caseId ? `_${caseId.slice(-8).toUpperCase()}` : ''
+    return `${date}_Einspruch${id}.${ext}`
+  }
+
   function handleDownload() {
     if (!editedDraft) return
     const url = URL.createObjectURL(
@@ -1008,7 +1014,7 @@ function EinspruchPageInner() {
     )
     Object.assign(document.createElement('a'), {
       href: url,
-      download: `${brand.name}-Einspruch.txt`,
+      download: appealFilename('txt'),
     }).click()
     URL.revokeObjectURL(url)
   }
@@ -1016,7 +1022,7 @@ function EinspruchPageInner() {
   async function handleDownloadDocx() {
     if (!editedDraft) return
     const { downloadAsDocx } = await import('@/lib/exportDocx')
-    await downloadAsDocx(editedDraft, `${brand.name}-Einspruch`)
+    await downloadAsDocx(editedDraft, appealFilename('docx'))
   }
 
   async function handleCopy() {

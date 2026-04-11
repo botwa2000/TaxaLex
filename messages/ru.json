@@ -1081,9 +1081,11 @@
         "reviewer": "Проверка ошибок… (Gemini)",
         "factchecker": "Проверка правовых ссылок… (Perplexity)",
         "adversary": "Проверка позиции органа… (Claude)",
-        "consolidator": "Формирование финальной версии… (Claude)"
+        "consolidator": "Формирование финальной версии… (Claude)",
+        "adversary-final": "Финальная проверка",
+        "reporter": "Аналитический отчёт"
       },
-            "reviewingDraft": "Проверка черновика на уязвимости…",
+      "reviewingDraft": "Проверка черновика на уязвимости…",
       "writingReport": "Написание аналитического отчёта…",
       "finalising": "Финализация письма…"
     },

@@ -1081,9 +1081,11 @@
         "reviewer": "Перевірка помилок… (Gemini)",
         "factchecker": "Перевірка правових посилань… (Perplexity)",
         "adversary": "Перевірка позиції органу… (Claude)",
-        "consolidator": "Формування фінальної версії… (Claude)"
+        "consolidator": "Формування фінальної версії… (Claude)",
+        "adversary-final": "Фінальна перевірка",
+        "reporter": "Аналітичний звіт"
       },
-            "reviewingDraft": "Перевірка чернетки на вразливості…",
+      "reviewingDraft": "Перевірка чернетки на вразливості…",
       "writingReport": "Написання аналітичного звіту…",
       "finalising": "Фіналізація листа…"
     },

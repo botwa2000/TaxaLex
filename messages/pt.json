@@ -1081,9 +1081,11 @@
         "reviewer": "Revisando erros… (Gemini)",
         "factchecker": "Verificando citações legais… (Perplexity)",
         "adversary": "Análise sob a perspectiva da autoridade… (Claude)",
-        "consolidator": "Consolidando versão final… (Claude)"
+        "consolidator": "Consolidando versão final… (Claude)",
+        "adversary-final": "Revisão final",
+        "reporter": "Relatório de análise"
       },
-            "reviewingDraft": "A rever o rascunho para vulnerabilidades…",
+      "reviewingDraft": "A rever o rascunho para vulnerabilidades…",
       "writingReport": "A redigir o relatório de análise…",
       "finalising": "Finalizando petição…"
     },
