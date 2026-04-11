@@ -574,6 +574,7 @@
     "startFirst": "Erste Anfrage starten",
     "overdueLabel": "⚠ Frist abgelaufen",
     "deadlineLabel": "Frist: {date}",
+    "urgentBanner": "{count, plural, one {1 Fall hat eine ablaufende oder überschrittene Frist — handeln Sie jetzt.} other {# Fälle haben ablaufende oder überschrittene Fristen — handeln Sie jetzt.}}",
     "documents": "{count, plural, one {# Dokument} other {# Dokumente}}",
     "deleteCase": "Fall löschen",
     "deleteConfirm": "Diesen Fall löschen? Dies kann nicht rückgängig gemacht werden.",
@@ -629,7 +630,8 @@
       "unlockWithCredit": "Mit 1 Guthaben freischalten",
       "aiReport": "Vollständige Analyse",
       "aiReportSubtitle": "Wie Ihre KI-Agenten gearbeitet haben",
-      "reportGatedHint": "Vollständige Analyse verfügbar für zahlende Nutzer."
+      "reportGatedHint": "Vollständige Analyse verfügbar für zahlende Nutzer.",
+      "downloadReport": "Prozessbericht herunterladen (PDF)"
     },
     "retryGeneration": "Erneut generieren",
     "unlockDraft": "Freischalten"
@@ -1006,7 +1008,13 @@
       "demoDisabled": "Hochladen im Demo-Modus nicht verfügbar",
       "contextLabel": "Worum geht es in Ihrem Widerspruch?",
       "contextOptional": "(optional)",
-      "contextPlaceholder": "Beschreiben Sie kurz, was Sie anfechten und warum — z. B. „Ich möchte das Gutachten des Sachverständigen anfechten, das behauptet, Wasserschäden beim Nachbarn stammten von meiner Terrasse.”"
+      "contextPlaceholder": "Beschreiben Sie kurz, was Sie anfechten und warum — z. B. „Ich möchte das Gutachten des Sachverständigen anfechten, das behauptet, Wasserschäden beim Nachbarn stammten von meiner Terrasse.“",
+      "fileLabel": {
+        "default": "Dokumentrolle (optional)",
+        "contested": "Angefochtenes Dokument",
+        "evidence": "Beweismittel",
+        "correspondence": "Schriftverkehr"
+      }
     },
     "analyzing": {
       "title": "Dokument wird analysiert…",
@@ -1073,8 +1081,12 @@
         "reviewer": "Fehlerprüfung läuft… (Gemini)",
         "factchecker": "Faktencheck läuft… (Perplexity)",
         "adversary": "Finanzamt-Perspektive… (Claude)",
-        "consolidator": "Konsolidierung… (Claude)"
+        "consolidator": "Konsolidierung… (Claude)",
+        "adversary-final": "Abschlusskontrolle",
+        "reporter": "Analysebericht"
       },
+      "reviewingDraft": "Entwurf wird auf Schwachstellen geprüft…",
+      "writingReport": "Analysebericht wird geschrieben…",
       "finalising": "Schreiben wird finalisiert…"
     },
     "result": {
@@ -1094,7 +1106,8 @@
         "title": "Nächste Schritte",
         "check": "Prüfen Sie Name, Adresse und Steuernummer im Entwurf",
         "print": "Drucken Sie das Schreiben aus und unterschreiben Sie es",
-        "send": "Senden Sie es per Einschreiben oder Fax an die Behörde"
+        "send": "Senden Sie es per Einschreiben oder Fax an die Behörde",
+        "wait": "Bewahren Sie eine Kopie auf und warten Sie auf die Stellungnahme der Behörde (Frist: je nach Verfahren 1–6 Monate)"
       },
       "retentionNotice": "Ihre Falldaten werden {days} Tage gespeichert und dann dauerhaft gelöscht. Kaufen Sie einen Plan, um Ihre Daten dauerhaft zu behalten.",
       "retentionCta": "Pläne ansehen",
@@ -1102,6 +1115,12 @@
       "agentLog": "KI-Agenten-Protokoll",
       "outputLanguageWarning": "Dieses Dokument wurde in {language} erstellt. Für die Einreichung beim Finanzamt ist die deutsche Version erforderlich.",
       "downloadTxt": "Als TXT herunterladen",
+      "downloadWord": "Als Word-Datei herunterladen (.docx)",
+      "skeletonPreview": "Analysierte Einwände (Vorschau)",
+      "unlockToSeeFullLetter": "Schalten Sie das vollständige Schreiben frei, um alle ausgearbeiteten Argumente und die rechtliche Begründung zu sehen.",
+      "expertTitle": "Lassen Sie diesen Einspruch von einem Experten prüfen",
+      "expertSubtitle": "Ein zertifizierter Berater überprüft Ihr Schreiben, bevor Sie es einreichen.",
+      "expertCta": "Überprüfung anfragen",
       "draftEditable": "Entwurf · bearbeitbar",
       "lockedTitle": "Ihr Einspruch ist fertig",
       "lockedHint": "Kaufen Sie ein Guthaben — Sie werden direkt zu Ihrem fertigen Einspruch weitergeleitet.",

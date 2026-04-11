@@ -159,6 +159,16 @@ Return ONLY a valid JSON array with one entry per skeleton point, using the same
 ]
 
 Set drop_reason to a non-null string only if the point should be excluded from the letter. Otherwise null.
+
+LEGAL FRAMEWORK DETECTION: Before assigning applicable_law, determine the legal domain from the case context and userContext:
+• Civil matters (property damage, expert opinion challenge, neighbour dispute, water damage, contract dispute, tort claim):
+  - Expert opinion challenge: ZPO §§402–414 (Sachverständigenbeweis), ZPO §404 (counter-expert), ZPO §412 (supplementary opinion); BGH Urt. v. 26.01.2021, VI ZR 128/19 and VI ZR 75/21 on expert opinion standards; challenge grounds: methodology errors, factual inaccuracies, conflict of interest (ZPO §406)
+  - Water/property damage: BGB §906 (immissions), BGB §1004 (injunction), BGB §823 (tort), BGB §249ff (damages); §278 BGB for third-party liability
+  - General tort: BGB §§823, 831, 840; relevant OLG/LG case law
+  Do NOT cite AO, SGB, SGG, OWiG, or KSchG for civil matters.
+• Administrative/tax matters: cite AO, SGB, SGG, OWiG, KSchG, etc. as appropriate.
+Determination basis: document category, use-case type, and userContext field.
+
 LANGUAGE DIRECTIVE: Write additional_args and drop_reason in ${uiLang}.`,
     },
 
@@ -194,7 +204,10 @@ LANGUAGE DIRECTIVE: Write factual_notes, concerns, and drop_reason in ${uiLang}.
       role: 'adversary',
       provider: models.adversary.provider,
       model: models.adversary.model,
-      systemPrompt: `You are simulating the German authority (Finanzamt, Jobcenter, Bußgeldstelle, Krankenkasse, etc.) that issued this official decision. For each contested point in the skeleton, identify exactly how the authority will respond in their counter-objection and what weaknesses they will exploit.
+      systemPrompt: `You are simulating the opposing party in this dispute — which could be:
+• For administrative/tax matters: the German authority (Finanzamt, Jobcenter, Bußgeldstelle, Krankenkasse, etc.) that issued the official decision
+• For civil matters (expert opinion challenge, property damage, neighbour dispute): the opposing expert, the counterparty, or their legal representative
+Determine which role applies from the case context and userContext. Then, for each contested point in the skeleton, identify exactly how the opposing party will respond and what weaknesses they will exploit.
 
 Return ONLY a valid JSON array with one entry per skeleton point, using the same IDs:
 [
@@ -230,23 +243,26 @@ GATING — apply before writing:
 - CAUTION: Include but frame carefully if exactly one layer is WEAK and no drop_reason is set
 - DROP: Exclude entirely if any drop_reason is non-null, OR all three layers are WEAK, OR adversary risk is HIGH with no viable mitigation
 
-For every ARGUED and CAUTION point, address the authority's mitigation in the Begründung subsection — this is the pre-emptive counter.
+CLEAN LETTER RULE: Each Begründung subsection must state only the appellant's position — do NOT embed authority objections, rebuttals, or "the authority may argue…" language inline. The letter reads as a clean, professional one-sided argument. The adversarial analysis (expected counter-arguments and pre-emptions) is documented separately in the AI process report.
 
-Structure the letter based on the document type:
-• Steuerbescheid → Einspruch (§347 AO); cite BFH case law; address aggravation risk under §367 Abs. 2 AO
+DOCUMENT TYPE — determine the appropriate letter format and statutory framework from the case context and userContext:
+• Steuerbescheid → Einspruch (§347 AO); cite BFH case law; note aggravation risk under §367 Abs. 2 AO
 • Bußgeldbescheid → Einspruch (§67 OWiG); challenge evidence and proportionality
 • Jobcenter / Bürgergeld → Widerspruch (§§83–86 SGG, §44 SGB X)
 • Krankenversicherung → Widerspruch (§§78ff SGG)
 • Kündigung → formal objection citing §4 KSchG, §622 BGB, BAG case law
 • Mieterhöhung → Widerspruch (§558b BGB)
-• Other → Widerspruch/Einspruch citing the applicable statutory basis
+• Sachverständigengutachten (expert opinion) → Einwendungen gegen das Gutachten; cite ZPO §§402–414; request counter-expert (ZPO §404) or supplementary opinion (ZPO §412) in the Antrag; structure: Vorbemerkung → Konkrete Einwendungen (numbered per contested finding) → Beweismittel → Antrag
+• Property / water damage / neighbour dispute → Aufforderungsschreiben or formal civil claim under BGB §1004, §906, §823; cite relevant BGH/OLG case law
+• General civil → formal letter citing applicable BGB §§ and ZPO for procedural steps
+• Administrative other → Widerspruch citing the applicable statutory basis
 
-Formal structure:
-1. Header: Betreff referencing the Bescheid date and file number
-2. Antrag: Formal application in one clear sentence
+Formal structure (adapt headings to document type):
+1. Header: Betreff referencing the document date, file number, and parties
+2. Antrag: Formal application in one clear sentence (what the appellant is requesting)
 3. Sachverhalt: Objective factual background (third-person)
 4. Begründung: Numbered subsections — one per ARGUED/CAUTION point
-   Each: legal principle → appellant's facts → applicable §§ and case law → pre-emption of authority counter
+   Each subsection: legal principle → appellant's facts → applicable §§ and case law → conclusion for the appellant
 5. Beweismittel: Numbered evidence list
 6. Formal closing and submission statement
 
@@ -464,7 +480,7 @@ Concrete findings from the legal layer: strongest applicable §§ and case law p
 What the fact-checking layer verified: confirmed evidence, factual concerns, points strengthened or weakened by available documentation.
 
 ## Behörden-Perspektive
-The adversarial stress-test findings: specific authority counter-arguments identified per point, risk levels (HIGH/MEDIUM/LOW), and how the assembled letter pre-empts each one.
+The adversarial stress-test findings: specific counter-arguments identified per point (from the opposing authority, expert, or counterparty as relevant to the case type), risk levels (HIGH/MEDIUM/LOW), and the recommended pre-emption strategy for each. Note: these pre-emptions were intentionally kept out of the clean appeal letter and are documented here for the appellant's awareness.
 
 ## Finales Schreiben
 How the consolidator assembled the letter: gating decisions applied, structure chosen based on document type, how pre-emptions were woven into the Begründung subsections.
@@ -747,6 +763,8 @@ export async function orchestrate(
         durationMs,
         summary: extractSummary(content),
         ...(opts?.draftPreview ? { draftPreview: content } : {}),
+        // Include raw content for drafter so the wizard can show a skeleton preview teaser to free users
+        ...(role === 'drafter' ? { content } : {}),
       },
     })
     return content

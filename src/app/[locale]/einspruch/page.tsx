@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useEffect, Suspense } from 'react'
+import { useState, useRef, useEffect, Suspense, useMemo } from 'react'
 import { getDemoScenario } from '@/lib/demoScenarios'
 import Link from 'next/link'
 import { useSearchParams, useRouter, useParams } from 'next/navigation'
@@ -61,12 +61,22 @@ const AGENT_IDS = [
 ] as const
 type AgentId = (typeof AGENT_IDS)[number]
 
+// Post-processing agents run after the draft appears — shown separately so the
+// user sees the pipeline is still active and the draft isn't frozen.
+const POST_AGENT_IDS = ['adversary-final', 'reporter'] as const
+type PostAgentId = (typeof POST_AGENT_IDS)[number]
+
 const AGENT_PROVIDERS: Record<AgentId, string> = {
   drafter: 'Claude',
   reviewer: 'Gemini',
   factchecker: 'Perplexity',
   adversary: 'Grok',
   consolidator: 'GPT-4o',
+}
+
+const POST_AGENT_PROVIDERS: Record<PostAgentId, string> = {
+  'adversary-final': 'Grok',
+  reporter: 'Claude',
 }
 
 const AGENT_COLORS: Record<AgentId, string> = {
@@ -132,6 +142,7 @@ interface AgentOutputData {
   model: string
   durationMs: number
   summary: string
+  content?: string
 }
 
 interface GenerateResult {
@@ -189,6 +200,7 @@ function EinspruchPageInner() {
   const [generateError, setGenerateError] = useState<string | null>(null)
   const [analyzeError, setAnalyzeError] = useState<string | null>(null)
   const [userContext, setUserContext] = useState('')
+  const [fileLabels, setFileLabels] = useState<Record<string, string>>({})
   const [refiningQuestions, setRefiningQuestions] = useState(false)
   const [resultLocked, setResultLocked] = useState(false) // true = freemium gate active
   const [editedDraft, setEditedDraft] = useState<string>('')
@@ -240,6 +252,35 @@ function EinspruchPageInner() {
   }
   const answeredCount = questions.filter((q) => isAnswered(q.id)).length
   const requiredUnanswered = questions.filter((q) => q.required && !isAnswered(q.id)).length
+  // ── Auto-save / restore question answers per case ────────────────────────
+  useEffect(() => {
+    if (!caseIdRef.current || Object.keys(answers).length === 0) return
+    localStorage.setItem(`taxalex_answers_${caseIdRef.current}`, JSON.stringify(answers))
+  }, [answers])
+
+  useEffect(() => {
+    if (!caseIdRef.current || questions.length === 0 || Object.keys(answers).length > 0) return
+    const saved = localStorage.getItem(`taxalex_answers_${caseIdRef.current}`)
+    if (saved) {
+      try { setAnswers(JSON.parse(saved)) } catch { /* ignore corrupt data */ }
+    }
+  }, [questions, answers])
+
+  // ── Skeleton point titles — extracted from drafter output for free-user teaser ──
+  const skeletonPoints = useMemo(() => {
+    if (!resultLocked) return []
+    const drafterOutput = agentOutputData.find((o) => o.role === 'drafter')
+    if (!drafterOutput?.content) return []
+    try {
+      const match = drafterOutput.content.match(/\[[\s\S]*\]/)
+      if (!match) return []
+      const parsed = JSON.parse(match[0]) as Array<{ id: string; authority_claim: string; confidence: string }>
+      return parsed.slice(0, 5)
+    } catch {
+      return []
+    }
+  }, [resultLocked, agentOutputData])
+
   // ── Check user access on mount ────────────────────────────────────────────
   useEffect(() => {
     fetch('/api/user/access')
@@ -510,7 +551,7 @@ function EinspruchPageInner() {
       const res = await fetch('/api/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ uploadId, uiLanguage: locale, caseId: caseIdRef.current ?? undefined, userContext: userContext.trim() || undefined }),
+        body: JSON.stringify({ uploadId, uiLanguage: locale, caseId: caseIdRef.current ?? undefined, userContext: userContext.trim() || undefined, fileLabels: Object.keys(fileLabels).length > 0 ? fileLabels : undefined }),
         signal: abortCtrl.signal,
       })
 
@@ -914,6 +955,7 @@ function EinspruchPageInner() {
               model: String(payload.model ?? ''),
               durationMs: Number(payload.durationMs ?? 0),
               summary: String(payload.summary ?? ''),
+              content: payload.content ? String(payload.content) : undefined,
             }
             accOutputs.push(out)
             setAgentOutputData([...accOutputs])
@@ -942,6 +984,8 @@ function EinspruchPageInner() {
       setGenerateError(t('errors.connection'))
     } finally {
       clearTimeout(generateTimeout)
+      // Clear auto-saved answers once generation is complete
+      if (caseIdRef.current) localStorage.removeItem(`taxalex_answers_${caseIdRef.current}`)
     }
 
     setEditedDraft(finalDraft ?? '')
@@ -969,6 +1013,12 @@ function EinspruchPageInner() {
     URL.revokeObjectURL(url)
   }
 
+  async function handleDownloadDocx() {
+    if (!editedDraft) return
+    const { downloadAsDocx } = await import('@/lib/exportDocx')
+    await downloadAsDocx(editedDraft, `${brand.name}-Einspruch`)
+  }
+
   async function handleCopy() {
     if (!editedDraft) return
     await navigator.clipboard.writeText(editedDraft)
@@ -980,6 +1030,7 @@ function EinspruchPageInner() {
     setStep('upload')
     setFiles([])
     setAdditionalFiles([])
+    setFileLabels({})
     setResult(null)
     setAnswers({})
     setBescheidData(null)
@@ -1203,9 +1254,22 @@ function EinspruchPageInner() {
                       <p className="text-sm font-medium text-[var(--foreground)] truncate">
                         {f.name}
                       </p>
-                      <p className="text-xs text-[var(--muted)]">
-                        {(f.size / 1024 / 1024).toFixed(1)} MB
-                      </p>
+                      <div className="flex items-center gap-2 mt-1">
+                        <p className="text-xs text-[var(--muted)]">
+                          {(f.size / 1024 / 1024).toFixed(1)} MB
+                        </p>
+                        <select
+                          value={fileLabels[f.name] ?? ''}
+                          onChange={(e) => setFileLabels((prev) => ({ ...prev, [f.name]: e.target.value }))}
+                          onClick={(e) => e.stopPropagation()}
+                          className="text-xs border border-[var(--border)] rounded-lg px-2 py-0.5 bg-[var(--surface)] text-[var(--foreground)] cursor-pointer"
+                        >
+                          <option value="">{t('upload.fileLabel.default')}</option>
+                          <option value="contested">{t('upload.fileLabel.contested')}</option>
+                          <option value="evidence">{t('upload.fileLabel.evidence')}</option>
+                          <option value="correspondence">{t('upload.fileLabel.correspondence')}</option>
+                        </select>
+                      </div>
                     </div>
                     <button
                       onClick={(e) => {
@@ -2176,6 +2240,51 @@ function EinspruchPageInner() {
                   })}
                 </div>
 
+                {/* Post-processing: adversary-final + reporter run after draft appears */}
+                <div className="mt-3 pt-3 border-t border-[var(--border)] space-y-1.5">
+                  <p className="text-[10px] uppercase tracking-wider text-[var(--muted)] font-semibold mb-2">
+                    Post-processing
+                  </p>
+                  {POST_AGENT_IDS.map((id) => {
+                    const done = agentOutputData.some((o) => o.role === id)
+                    const active = activeAgentRoles.has(id) && !done
+                    return (
+                      <div
+                        key={id}
+                        className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm transition-all duration-300 ${
+                          done
+                            ? 'bg-green-50 dark:bg-green-950/30 border border-green-100 dark:border-green-900'
+                            : active
+                              ? 'bg-brand-50 dark:bg-brand-950/40 border border-brand-200 dark:border-brand-800 shadow-sm'
+                              : 'bg-[var(--background-subtle)] border border-transparent'
+                        }`}
+                      >
+                        <div className="shrink-0">
+                          {done ? (
+                            <CheckCircle2 className="w-4 h-4 text-green-500" />
+                          ) : active ? (
+                            <Loader2 className="w-4 h-4 text-brand-500 animate-spin" />
+                          ) : (
+                            <div className="w-4 h-4 rounded-full border-2 border-[var(--border)]" />
+                          )}
+                        </div>
+                        <p className={`flex-1 text-xs font-medium ${done ? 'text-green-700 dark:text-green-400' : active ? 'text-[var(--foreground)]' : 'text-[var(--muted)]'}`}>
+                          {t(`generating.agents.${id}`)}
+                        </p>
+                        <span className={`text-[10px] font-medium px-2 py-0.5 rounded-full ${
+                          done
+                            ? 'bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-400'
+                            : active
+                              ? 'bg-brand-100 dark:bg-brand-900/40 text-brand-700 dark:text-brand-300'
+                              : 'bg-[var(--border)] text-[var(--muted)]'
+                        }`}>
+                          {POST_AGENT_PROVIDERS[id]}
+                        </span>
+                      </div>
+                    )
+                  })}
+                </div>
+
                 <div className="flex items-center gap-2 mt-4 text-xs text-[var(--muted)]">
                   <Clock className="w-3.5 h-3.5 shrink-0" />
                   <span>{t('generating.timeWarning')}</span>
@@ -2187,10 +2296,14 @@ function EinspruchPageInner() {
                   <p className="text-xs font-semibold uppercase tracking-wider text-[var(--muted)]">
                     {t('generating.draftTitle')}
                   </p>
-                  {activeAgent < AGENT_IDS.length && (
+                  {(activeAgent < AGENT_IDS.length || activeAgentRoles.has('adversary-final') || activeAgentRoles.has('reporter')) && (
                     <span className="flex items-center gap-1.5 text-xs text-brand-600 dark:text-brand-400">
                       <Loader2 className="w-3 h-3 animate-spin" />
-                      {t('generating.writing')}
+                      {activeAgentRoles.has('adversary-final')
+                        ? t('generating.reviewingDraft')
+                        : activeAgentRoles.has('reporter')
+                          ? t('generating.writingReport')
+                          : t('generating.writing')}
                     </span>
                   )}
                 </div>
@@ -2212,7 +2325,7 @@ function EinspruchPageInner() {
                     {draftPreview ? (
                       <>
                         {draftPreview}
-                        {activeAgent < AGENT_IDS.length && (
+                        {(activeAgent < AGENT_IDS.length || activeAgentRoles.has('adversary-final') || activeAgentRoles.has('reporter')) && (
                           <span className="animate-pulse text-brand-500">▌</span>
                         )}
                       </>
@@ -2222,6 +2335,17 @@ function EinspruchPageInner() {
                       </span>
                     )}
                   </pre>
+                  {/* Post-draft status line — visible when steps 6–7 run after draft appears */}
+                  {draftPreview && (activeAgentRoles.has('adversary-final') || activeAgentRoles.has('reporter')) && (
+                    <div className="flex items-center gap-1.5 text-xs text-[var(--muted)] px-4 py-2 border-t border-[var(--border)] animate-pulse">
+                      <Loader2 className="w-3 h-3 animate-spin shrink-0" />
+                      <span>
+                        {activeAgentRoles.has('adversary-final')
+                          ? t('generating.reviewingDraft')
+                          : t('generating.writingReport')}
+                      </span>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -2347,6 +2471,30 @@ function EinspruchPageInner() {
                   </div>
                 )}
 
+                {/* Skeleton preview — contested point titles shown to free users as a value teaser */}
+                {resultLocked && skeletonPoints.length > 0 && (
+                  <div className="mb-5 bg-[var(--background-subtle)] border border-[var(--border)] rounded-2xl p-5">
+                    <p className="text-sm font-semibold text-[var(--foreground)] mb-3">
+                      {t('result.skeletonPreview')}
+                    </p>
+                    <ul className="space-y-2">
+                      {skeletonPoints.map((p, i) => (
+                        <li key={i} className="flex items-start gap-2 text-sm text-[var(--muted)]">
+                          <span className="w-5 h-5 rounded-full bg-brand-100 dark:bg-brand-900/40 text-brand-600 dark:text-brand-400 text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
+                            {i + 1}
+                          </span>
+                          <span className="leading-snug">
+                            {(p.authority_claim ?? '').slice(0, 80)}{(p.authority_claim ?? '').length > 80 ? '…' : ''}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                    <p className="text-xs text-[var(--muted)] mt-3 italic">
+                      {t('result.unlockToSeeFullLetter')}
+                    </p>
+                  </div>
+                )}
+
                 {/* Draft preview — locked (freemium) or full */}
                 <div className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl overflow-hidden mb-5">
                   <div className="flex items-center justify-between px-5 py-3 border-b border-[var(--border)] bg-[var(--background-subtle)]">
@@ -2395,13 +2543,20 @@ function EinspruchPageInner() {
 
                 {/* Actions — hidden when locked */}
                 {!resultLocked && (
-                  <div className="flex gap-3 mb-4">
+                  <div className="flex gap-3 mb-4 flex-wrap">
                     <button
                       onClick={handleDownload}
-                      className="flex-1 flex items-center justify-center gap-2 bg-brand-600 text-white py-3 rounded-xl font-semibold hover:bg-brand-700 transition-colors"
+                      className="flex items-center justify-center gap-2 bg-brand-600 text-white px-5 py-3 rounded-xl font-semibold hover:bg-brand-700 transition-colors"
                     >
                       <Download className="w-4 h-4" />
                       {t('result.download')}
+                    </button>
+                    <button
+                      onClick={handleDownloadDocx}
+                      className="flex items-center justify-center gap-2 border border-brand-300 dark:border-brand-700 text-brand-700 dark:text-brand-300 px-5 py-3 rounded-xl font-semibold hover:bg-brand-50 dark:hover:bg-brand-950/30 transition-colors"
+                    >
+                      <Download className="w-4 h-4" />
+                      {t('result.downloadWord')}
                     </button>
                     <button
                       onClick={handleCopy}
@@ -2456,7 +2611,7 @@ function EinspruchPageInner() {
                     {t('result.nextSteps.title')}
                   </p>
                   <div className="space-y-3">
-                    {(['check', 'print', 'send'] as const).map((key, i) => (
+                    {(['check', 'print', 'send', 'wait'] as const).map((key, i) => (
                       <div key={key} className="flex items-start gap-3 text-sm">
                         <span className="w-5 h-5 rounded-full bg-brand-100 dark:bg-brand-900/40 text-brand-600 dark:text-brand-400 text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
                           {i + 1}
@@ -2468,6 +2623,31 @@ function EinspruchPageInner() {
                     ))}
                   </div>
                 </div>
+
+                {/* Expert advisor CTA — shown when result is unlocked and a real case was saved */}
+                {!resultLocked && !isDemoMode && result?.caseId && (
+                  <div className="mb-5 border border-indigo-200 dark:border-indigo-800 rounded-2xl p-5 bg-indigo-50 dark:bg-indigo-950/20">
+                    <div className="flex items-start gap-4">
+                      <div className="w-10 h-10 bg-white dark:bg-indigo-900 rounded-xl flex items-center justify-center shrink-0 border border-indigo-100 dark:border-indigo-800">
+                        <User className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-semibold text-sm text-indigo-900 dark:text-indigo-200">
+                          {t('result.expertTitle')}
+                        </p>
+                        <p className="text-xs text-indigo-700 dark:text-indigo-400 mt-0.5 leading-relaxed">
+                          {t('result.expertSubtitle')}
+                        </p>
+                      </div>
+                      <Link
+                        href={`/${locale}/cases/${result.caseId}#expert`}
+                        className="shrink-0 text-xs font-semibold px-3 py-1.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors whitespace-nowrap"
+                      >
+                        {t('result.expertCta')}
+                      </Link>
+                    </div>
+                  </div>
+                )}
 
                 {/* Demo CTA — prominent call-to-action after demo completion */}
                 {isDemoMode && (

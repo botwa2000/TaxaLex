@@ -307,7 +307,7 @@ export default async function CaseDetailPage({
         </>
       )}
       {tab === 'documents' && <DocumentsTab documents={documents} t={t} />}
-      {tab === 'ai' && <AIAnalysisTab outputs={agentOutputs} hasAccess={hasAccess} questionProposals={caseData.questionProposals} t={t} />}
+      {tab === 'ai' && <AIAnalysisTab outputs={agentOutputs} hasAccess={hasAccess} questionProposals={caseData.questionProposals} caseId={caseData.id} locale={locale} t={t} />}
       {tab === 'letter' && <LetterTab draft={finalDraft} status={caseData.status} caseId={caseData.id} draftLocked={caseData.draftLocked} locale={locale} hasAccess={hasAccess} t={t} />}
     </div>
   )
@@ -492,11 +492,15 @@ function DocumentsTab({
 function AIAnalysisTab({
   outputs,
   hasAccess,
+  caseId,
+  locale,
   t,
 }: {
   outputs: { role: string; provider: string; model: string; durationMs: number; summary: string; content: string }[]
   hasAccess: boolean
   questionProposals: Record<string, unknown> | null
+  caseId: string
+  locale: string
   t: Translator
 }) {
   const roleConfig: Record<string, { label: string; color: string; bgColor: string; icon: React.ElementType }> = {
@@ -534,7 +538,16 @@ function AIAnalysisTab({
               {reporterOutput.model.split('-').slice(0, 2).join('-')}
             </span>
           </div>
-          <p className="text-xs text-[var(--muted)] mb-4">{t('detail.aiReportSubtitle')}</p>
+          <p className="text-xs text-[var(--muted)] mb-3">{t('detail.aiReportSubtitle')}</p>
+          <a
+            href={`/${locale}/cases/${caseId}/report`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 mb-4 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+          >
+            <ExternalLink className="w-3 h-3" />
+            {t('detail.downloadReport')}
+          </a>
           <div className="prose prose-sm dark:prose-invert max-w-none">
             <pre className="whitespace-pre-wrap font-sans text-sm text-[var(--foreground)] leading-relaxed">
               {reporterOutput.content}

@@ -34,6 +34,7 @@ const AnalyzeByIdSchema = ReviewExtras.extend({
   caseId: z.string().optional(),
   uiLanguage: z.string().length(2).optional().default('de'),
   userContext: z.string().max(1000).optional(),
+  fileLabels: z.record(z.string(), z.string()).optional(),
 })
 
 const AnalyzeByFilesSchema = ReviewExtras.extend({
@@ -41,6 +42,7 @@ const AnalyzeByFilesSchema = ReviewExtras.extend({
   caseId: z.string().optional(),
   uiLanguage: z.string().length(2).optional().default('de'),
   userContext: z.string().max(1000).optional(),
+  fileLabels: z.record(z.string(), z.string()).optional(),
 })
 
 const AnalyzeSchema = z.union([AnalyzeByIdSchema, AnalyzeByFilesSchema])
@@ -75,7 +77,7 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    const { caseId, uiLanguage, reviewMode, existingBescheidData, userAnswers, userContext } = parsed.data
+    const { caseId, uiLanguage, reviewMode, existingBescheidData, userAnswers, userContext, fileLabels } = parsed.data
     type AnalysisFile = { name: string; type: string; base64: string; sizeBytes: number }
     let files: AnalysisFile[]
 
@@ -152,6 +154,19 @@ export async function POST(req: NextRequest) {
       } else {
         const text = Buffer.from(file.base64, 'base64').toString('utf-8')
         contentBlocks.push({ type: 'text', text: `### ${file.name}\n${text}` })
+      }
+    }
+
+    // Prepend file role labels so the AI knows which document to treat as contested
+    if (fileLabels && Object.keys(fileLabels).length > 0) {
+      const labelLines = Object.entries(fileLabels)
+        .filter(([, label]) => label)
+        .map(([name, label]) => `  - "${name}": ${label}`)
+      if (labelLines.length > 0) {
+        contentBlocks.unshift({
+          type: 'text',
+          text: `Document roles (user-assigned):\n${labelLines.join('\n')}\nUse these roles to understand which document is being contested and which are supporting evidence.`,
+        })
       }
     }
 

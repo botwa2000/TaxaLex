@@ -574,6 +574,7 @@
     "startFirst": "Utwórz pierwsze zgłoszenie",
     "overdueLabel": "⚠ Termin minął",
     "deadlineLabel": "Termin: {date}",
+    "urgentBanner": "{count, plural, one {1 sprawa ma zbliżający się lub przekroczony termin — działaj teraz.} other {# spraw ma zbliżające się lub przekroczone terminy — działaj teraz.}}",
     "documents": "{count, plural, one {# dokument} few {# dokumenty} other {# dokumentów}}",
     "deleteCase": "Usuń sprawę",
     "deleteConfirm": "Usunąć tę sprawę? Tej operacji nie można cofnąć.",
@@ -629,7 +630,8 @@
       "unlockWithCredit": "Odblokuj za 1 kredyt",
       "aiReport": "Pełna analiza",
       "aiReportSubtitle": "Jak pracowały Twoje agenty AI",
-      "reportGatedHint": "Pełna analiza dostępna dla płatnych użytkowników."
+      "reportGatedHint": "Pełna analiza dostępna dla płatnych użytkowników.",
+      "downloadReport": "Pobierz raport procesu (PDF)"
     },
     "retryGeneration": "Ponów generowanie",
     "unlockDraft": "Odblokuj"
@@ -1006,7 +1008,13 @@
       "demoDisabled": "Przesyłanie niedostępne w trybie demo",
       "contextLabel": "Czego dotyczy Twój sprzeciw?",
       "contextOptional": "(opcjonalne)",
-      "contextPlaceholder": "Krótko opisz, co chcesz zakwestionować i dlaczego — np. „Chcę zakwestionować opinię rzeczoznawcy, który twierdzi, że szkody wodne u sąsiada pochodzą z mojego tarasu.”"
+      "contextPlaceholder": "Krótko opisz, co chcesz zakwestionować i dlaczego — np. „Chcę zakwestionować opinię rzeczoznawcy, który twierdzi, że szkody wodne u sąsiada pochodzą z mojego tarasu.”",
+      "fileLabel": {
+        "default": "Rola dokumentu (opcjonalnie)",
+        "contested": "Kwestionowany dokument",
+        "evidence": "Dowód pomocniczy",
+        "correspondence": "Korespondencja"
+      }
     },
     "analyzing": {
       "title": "Analizowanie dokumentu…",
@@ -1075,6 +1083,8 @@
         "adversary": "Analiza perspektywy organu… (Claude)",
         "consolidator": "Konsolidacja wersji finalnej… (Claude)"
       },
+            "reviewingDraft": "Sprawdzanie projektu pod kątem luk…",
+      "writingReport": "Pisanie raportu analitycznego…",
       "finalising": "Finalizowanie pisma…"
     },
     "result": {
@@ -1094,7 +1104,8 @@
         "title": "Kolejne kroki",
         "check": "Sprawdź imię i nazwisko, adres oraz numer podatkowy w projekcie",
         "print": "Wydrukuj pismo i podpisz je",
-        "send": "Wyślij listem poleconym lub faksem do właściwego organu"
+        "send": "Wyślij listem poleconym lub faksem do właściwego organu",
+        "wait": "Zachowaj kopię i czekaj na odpowiedź organu (termin: 1-6 miesięcy w zależności od procedury)"
       },
       "retentionNotice": "Dane Twojej sprawy są przechowywane przez {days} dni, a następnie trwale usuwane. Kup plan, aby przechowywać pliki bezterminowo.",
       "retentionCta": "Zobacz plany",
@@ -1102,6 +1113,12 @@
       "agentLog": "Dziennik agentów AI",
       "outputLanguageWarning": "Dokument został wygenerowany w języku: {language}. Do złożenia w niemieckich organach administracji wymagana jest wersja niemieckojęzyczna.",
       "downloadTxt": "Pobierz jako TXT",
+      "downloadWord": "Pobierz jako Word (.docx)",
+      "skeletonPreview": "Przeanalizowane punkty sprzeciwu (podgląd)",
+      "unlockToSeeFullLetter": "Odblokuj pełny list, aby zobaczyć wszystkie opracowane argumenty i uzasadnienie prawne.",
+      "expertTitle": "Zlecić sprawdzenie tego odwołania ekspertowi",
+      "expertSubtitle": "Certyfikowany doradca sprawdza Twój list przed złożeniem.",
+      "expertCta": "Poproś o przegląd",
       "draftEditable": "Projekt · edytowalny",
       "lockedTitle": "Twoje pismo odwoławcze jest gotowe",
       "lockedHint": "Kup kredyt — zostaniesz przekłerowany bezpośrednio do gotowego odwołania.",

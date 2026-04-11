@@ -574,6 +574,7 @@
     "startFirst": "İlk talebi oluştur",
     "overdueLabel": "⚠ Son tarih geçti",
     "deadlineLabel": "Son tarih: {date}",
+    "urgentBanner": "{count, plural, one {1 davanın son tarihi yaklaşıyor veya geçti — şimdi harekete geçin.} other {# davanın son tarihleri yaklaşıyor veya geçti — şimdi harekete geçin.}}",
     "documents": "{count, plural, one {# belge} other {# belge}}",
     "deleteCase": "Davayı sil",
     "deleteConfirm": "Bu dava silinsin mi? Bu işlem geri alınamaz.",
@@ -629,7 +630,8 @@
       "unlockWithCredit": "1 krediyle aç",
       "aiReport": "Tam analiz",
       "aiReportSubtitle": "Yapay zeka ajanlarınız nasıl çalıştı",
-      "reportGatedHint": "Tam analiz ödeme yapan kullanıcılar için müsait."
+      "reportGatedHint": "Tam analiz ödeme yapan kullanıcılar için müsait.",
+      "downloadReport": "Süreç raporunu indir (PDF)"
     },
     "retryGeneration": "Oluşturmayı yeniden dene",
     "unlockDraft": "Kilidi aç"
@@ -1006,7 +1008,13 @@
       "demoDisabled": "Demo modunda yükleme mevcut değil",
       "contextLabel": "Neye itiraz ediyorsunuz?",
       "contextOptional": "(isteğe bağlı)",
-      "contextPlaceholder": "Kısaca ne ve neden itiraz etmek istediğinizi açıklayın — örn. «Komşumdaki su hasarının terastan kaynaklandığını iddia eden bilirkişi raporuna itiraz etmek istiyorum.»"
+      "contextPlaceholder": "Kısaca ne ve neden itiraz etmek istediğinizi açıklayın — örn. «Komşumdaki su hasarının terastan kaynaklandığını iddia eden bilirkişi raporuna itiraz etmek istiyorum.»",
+      "fileLabel": {
+        "default": "Belge rolü (isteğe bağlı)",
+        "contested": "İtiraz edilen belge",
+        "evidence": "Destekleyici kanıt",
+        "correspondence": "Yazışma"
+      }
     },
     "analyzing": {
       "title": "Belgeniz analiz ediliyor…",
@@ -1075,6 +1083,8 @@
         "adversary": "Kurum perspektifi değerlendiriliyor… (Claude)",
         "consolidator": "Nihai sürüm birleştiriliyor… (Claude)"
       },
+            "reviewingDraft": "Taslak zayıflıklar için inceleniyor…",
+      "writingReport": "Analiz raporu yazılıyor…",
       "finalising": "Mektup sonlandırılıyor…"
     },
     "result": {
@@ -1094,7 +1104,8 @@
         "title": "Sonraki adımlar",
         "check": "Taslaktaki adınızı, adresinizi ve vergi numaranızı kontrol edin",
         "print": "Mektubu yazdırın ve imzalayın",
-        "send": "Taahhütlü posta veya faks ile yetkili kuruma gönderin"
+        "send": "Taahhütlü posta veya faks ile yetkili kuruma gönderin",
+        "wait": "Bir kopya saklayın ve kurumun yanıtını bekleyin (süre: prosedüre göre 1-6 ay)"
       },
       "retentionNotice": "Dava verileriniz {days} gün boyunca saklanır, ardından kalıcı olarak silinir. Dosyalarınızı süresiz tutmak için bir plan satın alın.",
       "retentionCta": "Planları görüntüle",
@@ -1102,6 +1113,12 @@
       "agentLog": "Yapay Zeka Ajan Günlüğü",
       "outputLanguageWarning": "Bu belge {language} dilinde oluşturulmuştur. Alman makamlarına sunmak için Almanca sürüm gereklidir.",
       "downloadTxt": "TXT olarak indir",
+      "downloadWord": "Word olarak indir (.docx)",
+      "skeletonPreview": "Analiz edilen itiraz noktaları (önizleme)",
+      "unlockToSeeFullLetter": "Tüm geliştirilmiş argümanları ve hukuki gerekçeyi görmek için tam mektubu açın.",
+      "expertTitle": "Bu itirazı bir uzman tarafından inceletin",
+      "expertSubtitle": "Sertifikalı bir danışman mektubunuzu göndermeden önce kontrol eder.",
+      "expertCta": "İnceleme talep et",
       "draftEditable": "Taslak · düzenlenebilir",
       "lockedTitle": "İtiraz mektubunuz hazır",
       "lockedHint": "Bir kredi satın alın — tamamlanmış başvurunuza doğrudan yönlendirileceksiniz.",

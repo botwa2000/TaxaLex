@@ -574,6 +574,7 @@
     "startFirst": "Crea la prima richiesta",
     "overdueLabel": "⚠ Scadenza superata",
     "deadlineLabel": "Scadenza: {date}",
+    "urgentBanner": "{count, plural, one {1 caso ha una scadenza imminente o scaduta — agisca ora.} other {# casi hanno scadenze imminenti o scadute — agisca ora.}}",
     "documents": "{count, plural, one {# documento} other {# documenti}}",
     "deleteCase": "Elimina fascicolo",
     "deleteConfirm": "Eliminare questo fascicolo? Questa operazione è irreversibile.",
@@ -629,7 +630,8 @@
       "unlockWithCredit": "Sblocca con 1 credito",
       "aiReport": "Analisi completa",
       "aiReportSubtitle": "Come hanno lavorato i tuoi agenti AI",
-      "reportGatedHint": "Analisi completa disponibile per gli utenti paganti."
+      "reportGatedHint": "Analisi completa disponibile per gli utenti paganti.",
+      "downloadReport": "Scarica il rapporto del processo (PDF)"
     },
     "retryGeneration": "Riprova generazione",
     "unlockDraft": "Sblocca"
@@ -1006,7 +1008,13 @@
       "demoDisabled": "Caricamento non disponibile in modalità demo",
       "contextLabel": "Cosa sta contestando?",
       "contextOptional": "(facoltativo)",
-      "contextPlaceholder": "Descriva brevemente cosa vuole contestare e perché — es. «Voglio contestare la perizia che afferma che il danno da acqua al vicino proviene dalla mia terrazza.»"
+      "contextPlaceholder": "Descriva brevemente cosa vuole contestare e perché — es. «Voglio contestare la perizia che afferma che il danno da acqua al vicino proviene dalla mia terrazza.»",
+      "fileLabel": {
+        "default": "Ruolo del documento (opzionale)",
+        "contested": "Documento contestato",
+        "evidence": "Prova a sostegno",
+        "correspondence": "Corrispondenza"
+      }
     },
     "analyzing": {
       "title": "Analisi del documento in corso…",
@@ -1075,6 +1083,8 @@
         "adversary": "Analisi della prospettiva dell'autorità… (Claude)",
         "consolidator": "Consolidamento della versione finale… (Claude)"
       },
+            "reviewingDraft": "Revisione della bozza per vulnerabilità…",
+      "writingReport": "Scrittura del rapporto di analisi…",
       "finalising": "Finalizzazione del ricorso…"
     },
     "result": {
@@ -1094,7 +1104,8 @@
         "title": "Passi successivi",
         "check": "Verifichi nome, indirizzo e codice fiscale nella bozza",
         "print": "Stampi la lettera e la firmi",
-        "send": "La invii tramite raccomandata o fax all'autorità competente"
+        "send": "La invii tramite raccomandata o fax all'autorità competente",
+        "wait": "Conservate una copia e aspettate la risposta dell'autorità (termine: 1-6 mesi a seconda della procedura)"
       },
       "retentionNotice": "I dati del suo caso vengono conservati per {days} giorni, poi eliminati definitivamente. Acquisti un piano per conservare i file a tempo indeterminato.",
       "retentionCta": "Vedi i piani",
@@ -1102,6 +1113,12 @@
       "agentLog": "Registro agenti IA",
       "outputLanguageWarning": "Questo documento è stato generato in {language}. La versione in tedesco è richiesta per la presentazione alle autorità tedesche.",
       "downloadTxt": "Scarica come TXT",
+      "downloadWord": "Scarica come Word (.docx)",
+      "skeletonPreview": "Punti di obiezione analizzati (anteprima)",
+      "unlockToSeeFullLetter": "Sblocca la lettera completa per vedere tutti gli argomenti sviluppati e il ragionamento legale.",
+      "expertTitle": "Fai revisionare questo ricorso da un esperto",
+      "expertSubtitle": "Un consulente certificato verifica la tua lettera prima che tu la presenti.",
+      "expertCta": "Richiedi revisione",
       "draftEditable": "Bozza · modificabile",
       "lockedTitle": "Il Suo ricorso è pronto",
       "lockedHint": "Acquista un credito — verrai reindirizzato direttamente al tuo ricorso completato.",

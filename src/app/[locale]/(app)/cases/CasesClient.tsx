@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useMemo, useCallback } from 'react'
-import { Plus, FolderOpen, ArrowRight, Search, Trash2, Lock } from 'lucide-react'
+import { Plus, FolderOpen, ArrowRight, Search, Trash2, Lock, AlertCircle } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -83,6 +83,45 @@ function rowCtaClass(c: CaseListItem): string {
   return 'border-[var(--border)] text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-[var(--background-subtle)]'
 }
 
+function DeadlineBadge({ deadline, t }: { deadline: Date; t: (key: string, opts?: Record<string, string | number | Date>) => string }) {
+  const now = new Date()
+  const days = Math.ceil((deadline.getTime() - now.getTime()) / 86400000)
+  if (days < 0) {
+    return (
+      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-100 text-red-700 dark:bg-red-950/40 dark:text-red-400 shrink-0">
+        <AlertCircle className="w-2.5 h-2.5" />
+        {t('overdueLabel')}
+      </span>
+    )
+  }
+  if (days <= 3) {
+    return (
+      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-100 text-red-700 dark:bg-red-950/40 dark:text-red-400 animate-pulse shrink-0">
+        {days}d !
+      </span>
+    )
+  }
+  if (days <= 7) {
+    return (
+      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-amber-100 text-amber-700 dark:bg-amber-950/40 dark:text-amber-400 shrink-0">
+        {days}d
+      </span>
+    )
+  }
+  if (days <= 14) {
+    return (
+      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-yellow-50 text-yellow-700 dark:bg-yellow-950/40 dark:text-yellow-400 shrink-0">
+        {days}d
+      </span>
+    )
+  }
+  return (
+    <span className="text-xs text-[var(--muted)] shrink-0">
+      {t('deadlineLabel', { date: new Date(deadline).toLocaleDateString() })}
+    </span>
+  )
+}
+
 interface Props {
   cases: CaseListItem[]
 }
@@ -131,6 +170,13 @@ export function CasesClient({ cases: initialCases }: Props) {
 
   const now = new Date()
 
+  // Detect any case that is overdue or ≤3 days away for the urgency banner
+  const urgentCases = cases.filter((c) => {
+    if (!c.deadline) return false
+    const days = Math.ceil((c.deadline.getTime() - now.getTime()) / 86400000)
+    return days <= 3
+  })
+
   // Pre-build label maps once
   const statusLabels: Record<string, string> = {
     CREATED: t('status.CREATED'), UPLOADING: t('status.UPLOADING'),
@@ -177,6 +223,16 @@ export function CasesClient({ cases: initialCases }: Props) {
 
   return (
     <div>
+      {/* Urgency banner — shown when any active case has ≤3 days left or is overdue */}
+      {urgentCases.length > 0 && (
+        <div className="mb-5 flex items-start gap-3 bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-800 rounded-xl px-4 py-3">
+          <AlertCircle className="w-4 h-4 text-red-600 dark:text-red-400 shrink-0 mt-0.5" />
+          <p className="text-sm text-red-800 dark:text-red-300">
+            {t('urgentBanner', { count: urgentCases.length })}
+          </p>
+        </div>
+      )}
+
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-2xl font-bold text-[var(--foreground)]">{t('title')}</h1>
@@ -243,11 +299,6 @@ export function CasesClient({ cases: initialCases }: Props) {
       ) : (
         <div className="bg-[var(--surface)] rounded-xl border border-[var(--border)] divide-y divide-[var(--border)]">
           {filtered.map((c) => {
-            const daysLeft = c.deadline
-              ? Math.ceil((c.deadline.getTime() - now.getTime()) / 86400000)
-              : null
-            const isUrgent = daysLeft !== null && daysLeft <= 7 && daysLeft >= 0
-            const isOverdue = daysLeft !== null && daysLeft < 0
             const ctaHref = rowCtaHref(c)
 
             return (
@@ -265,15 +316,9 @@ export function CasesClient({ cases: initialCases }: Props) {
                     </p>
                   </div>
                   {c.deadline && (
-                    <p
-                      className={`text-xs font-medium shrink-0 hidden sm:block ${
-                        isOverdue ? 'text-red-600' : isUrgent ? 'text-amber-600' : 'text-[var(--muted)]'
-                      }`}
-                    >
-                      {isOverdue
-                        ? t('overdueLabel')
-                        : t('deadlineLabel', { date: new Date(c.deadline).toLocaleDateString() })}
-                    </p>
+                    <div className="hidden sm:block">
+                      <DeadlineBadge deadline={new Date(c.deadline)} t={t} />
+                    </div>
                   )}
                   <span className={`text-xs font-medium px-2 py-0.5 rounded-full whitespace-nowrap shrink-0 ${STATUS_COLORS[c.status] ?? 'bg-gray-100 text-gray-600'}`}>
                     {statusLabels[c.status] ?? c.status}

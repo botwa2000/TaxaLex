@@ -574,6 +574,7 @@
     "startFirst": "Créer votre première demande",
     "overdueLabel": "⚠ Délai expiré",
     "deadlineLabel": "Délai : {date}",
+    "urgentBanner": "{count, plural, one {1 dossier a une échéance imminente ou dépassée — agissez maintenant.} other {# dossiers ont des échéances imminentes ou dépassées — agissez maintenant.}}",
     "documents": "{count, plural, one {# document} other {# documents}}",
     "deleteCase": "Supprimer le dossier",
     "deleteConfirm": "Supprimer ce dossier ? Cette action est irréversible.",
@@ -629,7 +630,8 @@
       "unlockWithCredit": "Débloquer avec 1 crédit",
       "aiReport": "Analyse complète",
       "aiReportSubtitle": "Comment vos agents IA ont travaillé",
-      "reportGatedHint": "Analyse complète disponible pour les utilisateurs payants."
+      "reportGatedHint": "Analyse complète disponible pour les utilisateurs payants.",
+      "downloadReport": "Télécharger le rapport de processus (PDF)"
     },
     "retryGeneration": "Réessayer la génération",
     "unlockDraft": "Débloquer"
@@ -1006,7 +1008,13 @@
       "demoDisabled": "Téléversement non disponible en mode démo",
       "contextLabel": "Que contestez-vous ?",
       "contextOptional": "(facultatif)",
-      "contextPlaceholder": "Décrivez brièvement ce que vous souhaitez contester et pourquoi — par ex. « Je souhaite contester le rapport d'expert affirmant que les dégâts des eaux chez mon voisin proviennent de ma terrasse. »"
+      "contextPlaceholder": "Décrivez brièvement ce que vous souhaitez contester et pourquoi — par ex. « Je souhaite contester le rapport d'expert affirmant que les dégâts des eaux chez mon voisin proviennent de ma terrasse. »",
+      "fileLabel": {
+        "default": "Rôle du document (optionnel)",
+        "contested": "Document contesté",
+        "evidence": "Pièce justificative",
+        "correspondence": "Correspondance"
+      }
     },
     "analyzing": {
       "title": "Analyse de votre document…",
@@ -1075,6 +1083,8 @@
         "adversary": "Analyse de la perspective de l'autorité… (Claude)",
         "consolidator": "Consolidation de la version finale… (Claude)"
       },
+            "reviewingDraft": "Vérification du brouillon pour les failles…",
+      "writingReport": "Rédaction du rapport d'analyse…",
       "finalising": "Finalisation de la lettre…"
     },
     "result": {
@@ -1094,7 +1104,8 @@
         "title": "Prochaines étapes",
         "check": "Vérifiez vos nom, adresse et numéro fiscal dans le brouillon",
         "print": "Imprimez la lettre et signez-la",
-        "send": "Envoyez-la en recommandé ou par fax à l'autorité compétente"
+        "send": "Envoyez-la en recommandé ou par fax à l'autorité compétente",
+        "wait": "Conservez une copie et attendez la réponse de l'autorité (délai : 1 à 6 mois selon la procédure)"
       },
       "retentionNotice": "Les données de votre dossier sont conservées {days} jours, puis supprimées définitivement. Achetez un plan pour conserver vos fichiers indéfiniment.",
       "retentionCta": "Voir les offres",
@@ -1102,6 +1113,12 @@
       "agentLog": "Journal des agents IA",
       "outputLanguageWarning": "Ce document a été généré en {language}. La version en allemand est requise pour la soumission aux autorités allemandes.",
       "downloadTxt": "Télécharger en TXT",
+      "downloadWord": "Télécharger en Word (.docx)",
+      "skeletonPreview": "Points d'objection analysés (aperçu)",
+      "unlockToSeeFullLetter": "Débloquez la lettre complète pour voir tous les arguments développés et le raisonnement juridique.",
+      "expertTitle": "Faire réviser ce recours par un expert",
+      "expertSubtitle": "Un conseiller certifié vérifie votre lettre avant que vous la soumettez.",
+      "expertCta": "Demander une révision",
       "draftEditable": "Brouillon · modifiable",
       "lockedTitle": "Votre lettre de recours est prête",
       "lockedHint": "Achetez un crédit — vous serez redirigé directement vers votre recours complét.",

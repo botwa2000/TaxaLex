@@ -574,6 +574,7 @@
     "startFirst": "Crear primera solicitud",
     "overdueLabel": "⚠ Plazo vencido",
     "deadlineLabel": "Plazo: {date}",
+    "urgentBanner": "{count, plural, one {1 caso tiene un plazo próximo o vencido — actúe ahora.} other {# casos tienen plazos próximos o vencidos — actúe ahora.}}",
     "documents": "{count, plural, one {# documento} other {# documentos}}",
     "deleteCase": "Eliminar expediente",
     "deleteConfirm": "¿Eliminar este expediente? Esta acción no se puede deshacer.",
@@ -629,7 +630,8 @@
       "unlockWithCredit": "Desbloquear con 1 crédito",
       "aiReport": "Análisis completo",
       "aiReportSubtitle": "Cómo trabajaron sus agentes de IA",
-      "reportGatedHint": "Análisis completo disponible para usuarios de pago."
+      "reportGatedHint": "Análisis completo disponible para usuarios de pago.",
+      "downloadReport": "Descargar informe del proceso (PDF)"
     },
     "retryGeneration": "Reintentar generación",
     "unlockDraft": "Desbloquear"
@@ -1006,7 +1008,13 @@
       "demoDisabled": "Carga no disponible en modo demo",
       "contextLabel": "¿Qué está impugnando?",
       "contextOptional": "(opcional)",
-      "contextPlaceholder": "Describa brevemente qué desea impugnar y por qué — p. ej. «Quiero impugnar el informe pericial que afirma que los daños por agua en el vecino provienen de mi terraza.»"
+      "contextPlaceholder": "Describa brevemente qué desea impugnar y por qué — p. ej. «Quiero impugnar el informe pericial que afirma que los daños por agua en el vecino provienen de mi terraza.»",
+      "fileLabel": {
+        "default": "Rol del documento (opcional)",
+        "contested": "Documento impugnado",
+        "evidence": "Prueba de apoyo",
+        "correspondence": "Correspondencia"
+      }
     },
     "analyzing": {
       "title": "Analizando su documento…",
@@ -1075,6 +1083,8 @@
         "adversary": "Análisis desde la perspectiva de la autoridad… (Claude)",
         "consolidator": "Consolidando versión final… (Claude)"
       },
+            "reviewingDraft": "Revisando el borrador en busca de vulnerabilidades…",
+      "writingReport": "Redactando el informe de análisis…",
       "finalising": "Finalizando escrito…"
     },
     "result": {
@@ -1094,7 +1104,8 @@
         "title": "Próximos pasos",
         "check": "Verifique su nombre, dirección y número fiscal en el borrador",
         "print": "Imprima la carta y fírmela",
-        "send": "Envíela por correo certificado o fax a la autoridad competente"
+        "send": "Envíela por correo certificado o fax a la autoridad competente",
+        "wait": "Guarde una copia y espere la respuesta de la autoridad (plazo: 1-6 meses según el procedimiento)"
       },
       "retentionNotice": "Los datos de su caso se almacenan durante {days} días y luego se eliminan permanentemente. Adquiera un plan para conservar sus archivos indefinidamente.",
       "retentionCta": "Ver planes",
@@ -1102,6 +1113,12 @@
       "agentLog": "Registro de agentes IA",
       "outputLanguageWarning": "Este documento se generó en {language}. La versión en alemán es obligatoria para presentarlo ante las autoridades alemanas.",
       "downloadTxt": "Descargar como TXT",
+      "downloadWord": "Descargar como Word (.docx)",
+      "skeletonPreview": "Puntos de objeción analizados (vista previa)",
+      "unlockToSeeFullLetter": "Desbloquee la carta completa para ver todos los argumentos desarrollados y el razonamiento jurídico.",
+      "expertTitle": "Haga revisar este recurso por un experto",
+      "expertSubtitle": "Un asesor certificado revisa su carta antes de enviarla.",
+      "expertCta": "Solicitar revisión",
       "draftEditable": "Borrador · editable",
       "lockedTitle": "Su escrito de recurso está listo",
       "lockedHint": "Compre un crédito — será redirigido directamente a su recurso completado.",

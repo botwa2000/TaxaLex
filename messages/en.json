@@ -574,6 +574,7 @@
     "startFirst": "Start first request",
     "overdueLabel": "⚠ Deadline expired",
     "deadlineLabel": "Deadline: {date}",
+    "urgentBanner": "{count, plural, one {1 case has an expiring or overdue deadline — act now.} other {# cases have expiring or overdue deadlines — act now.}}",
     "documents": "{count, plural, one {# document} other {# documents}}",
     "deleteCase": "Delete case",
     "deleteConfirm": "Delete this case? This cannot be undone.",
@@ -629,7 +630,8 @@
       "unlockWithCredit": "Unlock with 1 credit",
       "aiReport": "Full Analysis",
       "aiReportSubtitle": "How your AI agents worked",
-      "reportGatedHint": "Full analysis available for paying users."
+      "reportGatedHint": "Full analysis available for paying users.",
+      "downloadReport": "Download Process Report (PDF)"
     },
     "retryGeneration": "Retry generation",
     "unlockDraft": "Unlock"
@@ -1006,7 +1008,13 @@
       "demoDisabled": "Upload not available in demo mode",
       "contextLabel": "What are you objecting to?",
       "contextOptional": "(optional)",
-      "contextPlaceholder": "Briefly describe what you want to challenge and why — e.g. \"I want to object to the expert's report claiming water damage to my neighbour came from my terrace.\""
+      "contextPlaceholder": "Briefly describe what you want to challenge and why — e.g. \"I want to object to the expert's report claiming water damage to my neighbour came from my terrace.\"",
+      "fileLabel": {
+        "default": "Document role (optional)",
+        "contested": "Document I'm objecting to",
+        "evidence": "Supporting evidence",
+        "correspondence": "Correspondence"
+      }
     },
     "analyzing": {
       "title": "Analysing your document…",
@@ -1073,8 +1081,12 @@
         "reviewer": "Reviewing for errors… (Gemini)",
         "factchecker": "Fact-checking legal citations… (Perplexity)",
         "adversary": "Authority perspective check… (Claude)",
-        "consolidator": "Consolidating final version… (Claude)"
+        "consolidator": "Consolidating final version… (Claude)",
+        "adversary-final": "Final Review",
+        "reporter": "Analysis Report"
       },
+      "reviewingDraft": "Reviewing draft for vulnerabilities…",
+      "writingReport": "Writing analysis report…",
       "finalising": "Finalising letter…"
     },
     "result": {
@@ -1094,7 +1106,8 @@
         "title": "Next steps",
         "check": "Check your name, address and tax number in the draft",
         "print": "Print the letter and sign it",
-        "send": "Send it by registered mail or fax to the authority"
+        "send": "Send it by registered mail or fax to the authority",
+        "wait": "Keep a copy and wait for the authority's response (timeline: 1–6 months depending on the procedure)"
       },
       "retentionNotice": "Your case data is stored for {days} days, then permanently deleted. Purchase a plan to keep your files indefinitely.",
       "retentionCta": "See plans",
@@ -1102,6 +1115,12 @@
       "agentLog": "AI Agent Log",
       "outputLanguageWarning": "This document was generated in {language}. The German version is required for submission to German authorities.",
       "downloadTxt": "Download as TXT",
+      "downloadWord": "Download as Word (.docx)",
+      "skeletonPreview": "Analysed objection points (preview)",
+      "unlockToSeeFullLetter": "Unlock the full letter to see all developed arguments and the legal reasoning.",
+      "expertTitle": "Have a legal expert review this appeal",
+      "expertSubtitle": "A certified advisor checks your letter before you submit it.",
+      "expertCta": "Request Review",
       "draftEditable": "Draft · editable",
       "lockedTitle": "Your objection letter is ready",
       "lockedHint": "Purchase a credit — you’ll be redirected straight to your completed appeal.",
