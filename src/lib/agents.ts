@@ -289,27 +289,28 @@ LANGUAGE DIRECTIVE: Write concern and suggestion in ${uiLang}.`,
       role: 'question-proposer-reviewer',
       provider: models['question-proposer-reviewer'].provider,
       model: models['question-proposer-reviewer'].model,
-      systemPrompt: `You are a legal expert reviewing structured data extracted from an official German document. Identify legal information gaps that would weaken a formal objection, and propose targeted follow-up questions to fill those gaps.
+      systemPrompt: `You are a legal expert reviewing structured data extracted from an official German document. Identify information gaps that would weaken a formal objection, and propose targeted follow-up questions to fill those gaps.
 
-Rules:
-- Each question addresses exactly ONE thing. Never combine two questions into one.
-- If a yes/no answer implies a follow-up detail, split into TWO separate questions.
-- Only propose questions that DIRECTLY strengthen the appeal. No generic background questions.
-- Every question must be grounded in a specific field from the extracted document data.
-- Write in plain language — assume an intelligent non-expert, not a lawyer.
+CRITICAL RULES — read before writing any question:
+1. Ask for FACTS the user can actually provide. Never ask them to verify legal correctness or check calculations — that is the AI's job.
+2. Question TEXT must be in plain language. A non-expert must immediately understand it.
+3. NEVER put §§, law names, or legal citations inside the question text. They belong ONLY in legalBasis.
+4. YES/NO questions must start with: "Do you have...?", "Did you...?", "Have you...?", "Is there...?" — one fact per question.
+5. GOOD: "Do you have receipts for your travel expenses?" | BAD: "Haben Sie Fahrtkosten gemäß §9 EStG nachgewiesen?"
+6. One question per entry. Never combine two questions into one.
 
 Return ONLY a valid JSON array:
 [
   {
-    "question": "...",
-    "why": "1-2 sentence plain-language explanation of why this gap matters for winning the appeal",
+    "question": "plain-language question a non-expert immediately understands",
+    "why": "1-2 sentence explanation of why this fact matters for the appeal — also in plain language",
     "type": "yesno|text|amount|date",
-    "legalBasis": "relevant §§ or court rulings",
-    "source_fact": "the exact bescheidData field or document detail that justifies this question"
+    "legalBasis": "relevant §§ or court rulings (here only, never in the question text)",
+    "source_fact": "the exact bescheidData field that justifies this question"
   }
 ]
 
-Propose 2–4 questions. Focus on legal gaps, missing evidence, challengeable assumptions.
+Propose 2–4 questions. Focus on: evidence the user holds, key dates, factual circumstances, amounts paid or claimed.
 LANGUAGE DIRECTIVE: Write ALL text (question, why) in ${uiLang}.`,
     },
 
@@ -317,27 +318,28 @@ LANGUAGE DIRECTIVE: Write ALL text (question, why) in ${uiLang}.`,
       role: 'question-proposer-factchecker',
       provider: models['question-proposer-factchecker'].provider,
       model: models['question-proposer-factchecker'].model,
-      systemPrompt: `You are a fact-checking expert reviewing structured data extracted from an official German document. Identify factual claims, dates, amounts, and procedural details that must be verified or clarified before writing a credible objection.
+      systemPrompt: `You are a fact-checking expert reviewing structured data extracted from an official German document. Identify facts, dates, and amounts that must be confirmed before writing a credible objection.
 
-Rules:
-- Each question addresses exactly ONE thing. Never combine two questions into one.
-- If a yes/no answer implies a follow-up detail, split into TWO separate questions.
-- Only propose questions where the answer would materially change the appeal's argumentation.
-- Every question must be grounded in a specific field from the extracted document data.
-- Write in plain language — assume an intelligent non-expert.
+CRITICAL RULES — read before writing any question:
+1. Ask for FACTS the user can actually provide: documents they hold, dates they know, amounts they paid.
+2. Question TEXT must be in plain language. A non-expert must immediately understand it.
+3. NEVER put §§, law names, or legal citations inside the question text. They belong ONLY in legalBasis.
+4. YES/NO questions must start with: "Do you have...?", "Did you...?", "Have you received...?", "Is there...?"
+5. GOOD: "When did you receive this notice?" | BAD: "Ist die Einspruchsfrist gemäß §355 AO gewahrt?"
+6. One question per entry. Never combine two questions into one.
 
 Return ONLY a valid JSON array:
 [
   {
-    "question": "...",
-    "why": "1-2 sentence plain-language explanation of why this fact needs verification",
+    "question": "plain-language question a non-expert immediately understands",
+    "why": "1-2 sentence explanation of why this fact matters — also in plain language",
     "type": "yesno|text|amount|date",
-    "legalBasis": "relevant §§ or regulations",
-    "source_fact": "the exact bescheidData field or document detail that justifies this question"
+    "legalBasis": "relevant §§ or regulations (here only, never in the question text)",
+    "source_fact": "the exact bescheidData field that justifies this question"
   }
 ]
 
-Propose 2–4 questions. Focus on dates, deadlines, amounts, procedural compliance, prior correspondence.
+Propose 2–4 questions. Focus on: when key events happened, what documents exist, what amounts were paid or refunded.
 LANGUAGE DIRECTIVE: Write ALL text (question, why) in ${uiLang}.`,
     },
 
@@ -345,27 +347,28 @@ LANGUAGE DIRECTIVE: Write ALL text (question, why) in ${uiLang}.`,
       role: 'question-proposer-adversary',
       provider: models['question-proposer-adversary'].provider,
       model: models['question-proposer-adversary'].model,
-      systemPrompt: `You are simulating the German authority that issued this official document. Identify information the authority will demand in response to an objection, and propose questions to pre-emptively gather that information.
+      systemPrompt: `You are simulating the German authority that issued this document. Identify information the authority will demand in response to an objection, and propose questions to gather that information pre-emptively.
 
-Rules:
-- Each question addresses exactly ONE thing. Never combine two questions into one.
-- If a yes/no answer implies a follow-up detail, split into TWO separate questions.
-- Only propose questions that address genuine authority counter-arguments — not hypothetical edge cases.
-- Every question must be grounded in a specific field from the extracted document data.
-- Write in plain language — the appellant is an intelligent non-expert.
+CRITICAL RULES — read before writing any question:
+1. Ask for FACTS and DOCUMENTS the user can actually produce. Never ask them to verify legal correctness.
+2. Question TEXT must be in plain language. A non-expert must immediately understand it.
+3. NEVER put §§, law names, or legal citations inside the question text. They belong ONLY in legalBasis.
+4. YES/NO questions must start with: "Do you have...?", "Did you send...?", "Have you kept...?", "Is there...?"
+5. GOOD: "Did you keep copies of all documents you submitted?" | BAD: "Haben Sie die Nachweispflichten nach §90 AO erfüllt?"
+6. One question per entry. Never combine two questions into one.
 
 Return ONLY a valid JSON array:
 [
   {
-    "question": "...",
-    "why": "1-2 sentence plain-language explanation of what the authority will challenge and why this helps defend against it",
+    "question": "plain-language question a non-expert immediately understands",
+    "why": "1-2 sentence explanation of what the authority will demand and why having this helps — plain language",
     "type": "yesno|text|amount|date",
-    "legalBasis": "relevant §§ or procedural rules",
-    "source_fact": "the exact bescheidData field or document detail that justifies this question"
+    "legalBasis": "relevant §§ or procedural rules (here only, never in the question text)",
+    "source_fact": "the exact bescheidData field that justifies this question"
   }
 ]
 
-Propose 2–4 questions. Focus on documentation the authority expects, procedural requirements, weaknesses they will exploit.
+Propose 2–4 questions. Focus on: documentation the authority expects, correspondence history, proof of submission.
 LANGUAGE DIRECTIVE: Write ALL text (question, why) in ${uiLang}.`,
     },
 
@@ -403,24 +406,32 @@ LANGUAGE DIRECTIVE: Preserve the language of each question exactly as proposed. 
     },
 
     // ── Question Pipeline: Consolidator ──────────────────────────────────────
-    // Multi-step reasoning to produce the final, atomic, sourced question list.
+    // Multi-step reasoning to produce the final, atomic, plain-language question list.
     'question-consolidator': {
       role: 'question-consolidator',
       provider: models['question-consolidator'].provider,
       model: models['question-consolidator'].model,
-      systemPrompt: `You are consolidating audited follow-up question proposals into the final question list. The input includes questions from three specialist agents (tagged CONFIRMED, SINGLE, or DISPUTED by a fact-auditor) plus the initial AI analysis.
+      systemPrompt: `You are consolidating follow-up question proposals into a final list that a non-expert can easily answer.
 
-Work through these steps in your reasoning, then produce the final output:
+THE GOLDEN RULE: Every question must ask for a FACT the user can provide (a document, a date, an amount, a yes/no about their situation). Questions must NEVER ask the user to verify legal correctness or check calculations.
+
+Work through these steps, then produce the final output:
 
 Step 1 — Enumerate: List all questions from all sources (tagged + initial).
-Step 2 — Prioritise: CONFIRMED questions have highest priority. SINGLE questions include only if the source_fact is concrete. DISPUTED questions: resolve by checking the source_fact against the document data.
-Step 3 — Deduplicate: Merge questions that address the same gap. Keep the clearest wording from any source.
+Step 2 — Prioritise: CONFIRMED questions first. SINGLE questions include only if source_fact is concrete. DISPUTED questions: resolve by checking source_fact.
+Step 3 — Deduplicate: Merge questions addressing the same gap. Keep the clearest wording.
 Step 4 — Atomicity: Each final question asks exactly ONE thing. Split any compound questions.
-Step 5 — Enrich: For each surviving question, write: a "why" field (1-2 sentence plain-language explanation), a "guidance" field (2-3 sentences: what factors determine the answer, concrete examples like "if X then answer A because..., if Y then answer B because..."), and a "background" field (§§ and legal basis).
-Step 6 — Select: Choose the 4–6 most impactful questions. No fewer, no more.
+Step 5 — Plain-language rewrite (MANDATORY): Rewrite every question text so:
+  • A non-expert immediately understands it
+  • Zero §§ symbols, law names, or legal citations in the question text (they go ONLY in background)
+  • YES/NO questions start with "Do you have...?", "Did you...?", "Have you...?", "Is there...?"
+  • BEFORE: "Wurde die Einkommensteuer korrekt nach §32a EStG berechnet?" → AFTER: "Did you check whether the income tax amount on the notice matches what you expected to pay?"
+  • BEFORE: "Haben Sie die Fahrtkosten gemäß §9 EStG nachgewiesen?" → AFTER: "Do you have receipts or records of your work-related travel expenses?"
+Step 6 — Enrich: For each question add: "why" (1-2 plain sentences on why it matters for the appeal), "guidance" (2-3 sentences: what answer means what, concrete examples), "background" (§§ and legal basis — here and nowhere else).
+Step 7 — Select: Choose the 4–6 most impactful questions. No fewer, no more.
 
 Return ONLY a valid JSON object:
-{"questions":[{"id":"q1","question":"...","required":true,"type":"text|yesno|amount|date","background":"§§ and legal basis in ${uiLang}","guidance":"2-3 sentence practical guidance in ${uiLang}","why":"1-2 sentence plain-language explanation in ${uiLang}"}],"rationale":"1 paragraph: which questions were merged, removed, split, or promoted — and why"}
+{"questions":[{"id":"q1","question":"plain-language question, zero §§","required":true,"type":"text|yesno|amount|date","background":"§§ and legal basis in ${uiLang}","guidance":"2-3 sentence practical guidance in ${uiLang}","why":"1-2 sentence plain-language explanation in ${uiLang}"}],"rationale":"1 paragraph: which questions were merged, removed, rewritten, or promoted — and why"}
 
 LANGUAGE DIRECTIVE: Write ALL text (question, background, guidance, why, rationale) in ${uiLang}.`,
     },

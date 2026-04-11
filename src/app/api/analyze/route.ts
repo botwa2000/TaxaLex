@@ -193,7 +193,15 @@ Type rules (CRITICAL — do NOT mix types): "yesno" = the answer is yes/no/don't
 Valid categories: tax_notice | traffic_fine | parking_ticket | kindergeld | job_center | rent_increase | insurance_rejection | termination_letter | other_official
 Valid icons: building | hash | calendar | euro | scale | map-pin | clock | user | file-text | alert-circle | tag | shield | car | gavel | home | heart-pulse
 
-Questions rules: Generate 3 to 6 questions. You MUST always generate at least 3 — even if the document seems clear, there are always procedural details (deadlines, prior correspondence, taxpayer intent) worth confirming. Cover: (1) facts needed for the letter, (2) challengeable evidence or dates, (3) legal distinctions to clarify, (4) authority weaknesses to pre-empt. One question per entry. Include legal basis (§§, court rulings) in background field. Include practical answer guidance in guidance field. Write ALL text in ${uiLangName}.`,
+Questions rules:
+- Generate 3 to 6 questions. Always at least 3.
+- Ask for FACTS the user can actually provide: documents they hold, dates they know, amounts they paid, things that happened to them. NEVER ask the user to verify legal correctness or check calculations — that is the AI's job, not theirs.
+- Question TEXT must be plain language. A non-expert must immediately understand what is being asked. NEVER put §§ symbols, law names, or court citations inside the question text — they belong ONLY in the background field.
+- YES/NO questions must be phrased as simple declarative questions: "Do you have...?", "Did you receive...?", "Is there...?", "Have you ever...?" — one fact per question.
+- GOOD examples: "Do you have receipts for your work-related travel expenses?" / "When did you receive this notice?" / "Did the Finanzamt send you a separate letter about this deduction?"
+- BAD examples: "Was the Splittingtarif correctly applied per §32a EStG?" / "Ist die Einspruchsfrist gemäß §357 AO gewahrt?" / "Did you comply with the documentation requirements under §4 EStG?"
+- Cover: (1) documents or evidence the user holds, (2) key dates (when received, when paid, when notified), (3) factual circumstances (did X happen? is Y true for you?), (4) amounts already paid or claimed.
+- Write ALL text in ${uiLangName}.`,
     })
 
     const { models } = await getActiveModels()
@@ -248,7 +256,7 @@ Questions rules: Generate 3 to 6 questions. You MUST always generate at least 3 
 
           const systemPrompt = reviewMode
             ? `You are an expert legal analyst supplementing a prior document analysis with NEW evidence. Extract only information NOT already captured in the existing analysis. Your response must follow EXACTLY the JSONL format specified — document type first, then NEW fields only as compact single-line JSON objects. After all fields output ---QUESTIONS--- on its own line, then output an empty JSON array: []. No markdown, no explanations, no other text. CRITICAL: All output text must be written in ${uiLangName}.`
-            : `You are an expert legal analyst specialising in German administrative law and formal objection proceedings. Analyse official documents and extract structured information. Your response must follow EXACTLY the JSONL format specified — document type first, then each field as a compact single-line JSON object, then the ---QUESTIONS--- separator, then the questions JSON array. No markdown, no explanations, no other text. CRITICAL: All output text — every label, question, background, guidance — MUST be written in ${uiLangName}. The document language does not determine the output language.`
+            : `You are an expert legal analyst specialising in German administrative law and formal objection proceedings. Analyse official documents and extract structured information. Your response must follow EXACTLY the JSONL format specified — document type first, then each field as a compact single-line JSON object, then the ---QUESTIONS--- separator, then the questions JSON array. No markdown, no explanations, no other text. CRITICAL: All output text — every label, question, background, guidance — MUST be written in ${uiLangName}. The document language does not determine the output language. QUESTIONS MUST be in plain language a non-expert immediately understands — ask for facts the user can provide (documents, dates, amounts, yes/no about their situation), never ask them to verify legal correctness. §§ and legal citations go ONLY in the background field, never in the question text itself.`
 
           const messageStream = await client.messages.create({
             model: models.analyzer.model,
