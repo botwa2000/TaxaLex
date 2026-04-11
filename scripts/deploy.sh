@@ -190,12 +190,12 @@ elif [[ "$CMD" == "secrets" ]]; then
   create_or_replace "stripe_publishable_key_prod" "${STRIPE_PUBLISHABLE_KEY_PROD:-}"
   create_or_replace "stripe_publishable_key_dev"  "${STRIPE_PUBLISHABLE_KEY_DEV:-}"
   if [[ -n "${STRIPE_WEBHOOK_SECRET_PROD:-}" ]]; then
-    create_or_replace "taxalex_stripe_webhook_secret_prod" "$STRIPE_WEBHOOK_SECRET_PROD"
+    create_or_replace "taxalex_stripe_webhook_secret_prod_v2" "$STRIPE_WEBHOOK_SECRET_PROD"
   else
     echo "    STRIPE_WEBHOOK_SECRET_PROD not set — skipping (add after registering webhook)"
   fi
   if [[ -n "${STRIPE_WEBHOOK_SECRET_DEV:-}" ]]; then
-    create_or_replace "taxalex_stripe_webhook_secret_dev"  "$STRIPE_WEBHOOK_SECRET_DEV"
+    create_or_replace "taxalex_stripe_webhook_secret_dev_v2"  "$STRIPE_WEBHOOK_SECRET_DEV"
   else
     echo "    STRIPE_WEBHOOK_SECRET_DEV not set — skipping (add after registering webhook)"
   fi

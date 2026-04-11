@@ -29,7 +29,7 @@ services:
       - taxalex_app_url_dev
       - stripe_secret_key_dev
       - stripe_publishable_key_dev
-      - source: taxalex_stripe_webhook_secret_dev
+      - source: taxalex_stripe_webhook_secret_dev_v2
         target: stripe_webhook_secret_dev
       - turnstile_secret_key_dev
       - cron_secret_dev
@@ -98,7 +98,7 @@ secrets:
     external: true
   stripe_publishable_key_dev:
     external: true
-  taxalex_stripe_webhook_secret_dev:
+  taxalex_stripe_webhook_secret_dev_v2:
     external: true
   turnstile_secret_key_dev:
     external: true
