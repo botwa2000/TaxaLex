@@ -66,7 +66,13 @@ echo "--- [1/4] pull"
 $GIT_SSH git pull origin main
 
 echo "--- [2/4] build"
-docker build -t taxalex-frontend:dev .
+docker build -t taxalex-frontend:dev \
+  --build-arg NEXT_PUBLIC_SITE_URL=https://dev.taxalex.de \
+  --build-arg NEXT_PUBLIC_TURNSTILE_SITE_KEY=${TURNSTILE_SITE_KEY_DEV:-} \
+  --build-arg NEXT_PUBLIC_GA_MEASUREMENT_ID=${NEXT_PUBLIC_GA_MEASUREMENT_ID:-} \
+  --build-arg NEXT_PUBLIC_POSTHOG_KEY=${NEXT_PUBLIC_POSTHOG_KEY:-} \
+  --build-arg NEXT_PUBLIC_POSTHOG_HOST=${NEXT_PUBLIC_POSTHOG_HOST:-} \
+  .
 
 echo "--- [3/4] stack deploy"
 docker stack deploy -c docker-compose-dev.yml taxalex-dev
@@ -97,7 +103,13 @@ echo "--- [1/4] pull"
 $GIT_SSH git pull origin main
 
 echo "--- [2/4] build"
-docker build -t taxalex-frontend:latest .
+docker build -t taxalex-frontend:latest \
+  --build-arg NEXT_PUBLIC_SITE_URL=https://taxalex.de \
+  --build-arg NEXT_PUBLIC_TURNSTILE_SITE_KEY=${TURNSTILE_SITE_KEY_PROD:-} \
+  --build-arg NEXT_PUBLIC_GA_MEASUREMENT_ID=${NEXT_PUBLIC_GA_MEASUREMENT_ID:-} \
+  --build-arg NEXT_PUBLIC_POSTHOG_KEY=${NEXT_PUBLIC_POSTHOG_KEY:-} \
+  --build-arg NEXT_PUBLIC_POSTHOG_HOST=${NEXT_PUBLIC_POSTHOG_HOST:-} \
+  .
 
 echo "--- [3/4] stack deploy"
 docker stack deploy -c docker-compose.yml taxalex
