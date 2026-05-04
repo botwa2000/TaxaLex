@@ -406,7 +406,8 @@
       },
       "practiceAreasMin": "يرجى اختيار مجال ممارسة واحد على الأقل.",
       "practiceAreasSelfCert": "باختيارك، تؤكد أنك مرخَّص للممارسة في المجالات المختارة.",
-      "waitingForBotCheck": "جارٍ التحقق من الأمان…"
+      "waitingForBotCheck": "جارٍ التحقق من الأمان…",
+      "botCheckFailed": "فشل التحقق الأمني. يرجى إعادة تحميل الصفحة."
     },
     "layout": {
       "backToHome": "العودة إلى الرئيسية",

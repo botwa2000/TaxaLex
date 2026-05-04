@@ -406,7 +406,8 @@
       },
       "practiceAreasMin": "Bitte wählen Sie mindestens einen Fachbereich.",
       "practiceAreasSelfCert": "Durch Auswahl bestätigen Sie, dass Sie in den gewählten Bereichen lizenziert sind.",
-      "waitingForBotCheck": "Sicherheitsüberprüfung läuft…"
+      "waitingForBotCheck": "Sicherheitsüberprüfung läuft…",
+      "botCheckFailed": "Sicherheitsüberprüfung fehlgeschlagen. Bitte Seite neu laden."
     },
     "layout": {
       "backToHome": "Zurück zur Startseite",

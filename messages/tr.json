@@ -406,7 +406,8 @@
       },
       "practiceAreasMin": "Lütfen en az bir uzmanlık alanı seçin.",
       "practiceAreasSelfCert": "Seçim yaparak, seçilen alanlarda lisanslı olduğunuzu onaylıyorsunuz.",
-      "waitingForBotCheck": "Güvenlik kontrolü devam ediyor…"
+      "waitingForBotCheck": "Güvenlik kontrolü devam ediyor…",
+      "botCheckFailed": "Güvenlik kontrolü başarısız. Lütfen sayfayı yenileyin."
     },
     "layout": {
       "backToHome": "Ana sayfaya dön",

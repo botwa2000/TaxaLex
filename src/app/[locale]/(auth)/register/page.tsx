@@ -29,6 +29,7 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const [turnstileToken, setTurnstileToken] = useState('')
+  const [turnstileFailed, setTurnstileFailed] = useState(false)
 
   function toggleArea(area: 'TAX' | 'LEGAL') {
     setPracticeAreas(prev =>
@@ -247,14 +248,27 @@ export default function RegisterPage() {
           )}
         </div>
 
-        <TurnstileBox onSuccess={setTurnstileToken} className="mb-2" />
-        {!turnstileToken && (
-          <p className="text-xs text-[var(--muted)] -mt-1 mb-1 text-center">{t('waitingForBotCheck')}</p>
+        <TurnstileBox
+          onSuccess={(token) => { setTurnstileToken(token); setTurnstileFailed(false) }}
+          onExpire={() => setTurnstileToken('')}
+          onError={() => setTurnstileFailed(true)}
+          className="mb-2"
+        />
+        {!turnstileToken && !turnstileFailed && (
+          <div className="flex items-center gap-2 px-3 py-2.5 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800 rounded-lg -mt-1 mb-1">
+            <Loader2 className="w-4 h-4 animate-spin text-amber-600 dark:text-amber-400 shrink-0" />
+            <span className="text-sm font-medium text-amber-700 dark:text-amber-400">{t('waitingForBotCheck')}</span>
+          </div>
+        )}
+        {turnstileFailed && (
+          <div className="px-3 py-2.5 bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-800 rounded-lg -mt-1 mb-1">
+            <span className="text-sm font-medium text-red-700 dark:text-red-400">{t('botCheckFailed')}</span>
+          </div>
         )}
 
         <button
           type="submit"
-          disabled={loading || !turnstileToken}
+          disabled={loading || !turnstileToken || turnstileFailed}
           className="w-full bg-brand-600 text-white py-3.5 rounded-xl text-base font-bold hover:bg-brand-700 active:bg-brand-800 transition-colors disabled:opacity-50 flex items-center justify-center gap-2 mt-2"
         >
           {loading && <Loader2 className="w-4 h-4 animate-spin" />}

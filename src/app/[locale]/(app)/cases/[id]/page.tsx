@@ -61,7 +61,7 @@ export default async function CaseDetailPage({
   const { id, locale } = await params
   const { tab = 'overview' } = await searchParams
 
-  const t = await getTranslations('cases')
+  const t = await getTranslations({ locale, namespace: 'cases' })
 
   let caseData: CaseDetail | null = null
   let documents: { id: string; name: string; type: string; createdAt: Date }[] = []

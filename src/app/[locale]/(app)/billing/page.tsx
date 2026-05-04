@@ -93,7 +93,7 @@ export default async function BillingPage({
   if (!session?.user?.id) notFound()
 
   const locale = await getLocale()
-  const t      = await getTranslations('billing')
+  const t      = await getTranslations({ locale, namespace: 'billing' })
   const userId = session.user.id
   const { caseId: pendingCaseId } = await searchParams
 

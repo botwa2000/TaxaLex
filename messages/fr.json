@@ -406,7 +406,8 @@
       },
       "practiceAreasMin": "Veuillez sélectionner au moins un domaine d'exercice.",
       "practiceAreasSelfCert": "En sélectionnant, vous confirmez être autorisé à exercer dans les domaines choisis.",
-      "waitingForBotCheck": "Vérification de sécurité en cours…"
+      "waitingForBotCheck": "Vérification de sécurité en cours…",
+      "botCheckFailed": "Échec de la vérification. Veuillez recharger la page."
     },
     "layout": {
       "backToHome": "Retour à l'accueil",

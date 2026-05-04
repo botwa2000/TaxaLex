@@ -406,7 +406,8 @@
       },
       "practiceAreasMin": "Seleziona almeno un'area di pratica.",
       "practiceAreasSelfCert": "Selezionando, confermi di essere abilitato a esercitare nelle aree scelte.",
-      "waitingForBotCheck": "Verifica di sicurezza in corso…"
+      "waitingForBotCheck": "Verifica di sicurezza in corso…",
+      "botCheckFailed": "Verifica fallita. Ricarica la pagina."
     },
     "layout": {
       "backToHome": "Torna alla home",
