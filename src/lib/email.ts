@@ -5,6 +5,12 @@ import type { ReactElement } from 'react'
 import { config } from '@/config/env'
 import { logger } from '@/lib/logger'
 
+function maskEmail(email: string): string {
+  const [local, domain] = email.split('@')
+  if (!domain || local.length < 2) return '***@***'
+  return `${local[0]}***@${domain}`
+}
+
 const getClient = (() => {
   let client: BrevoClient | null = null
   return () => {
@@ -32,7 +38,7 @@ export async function sendEmail(options: {
   const subject = config.isDev ? `DEV - ${options.subject}` : options.subject
 
   if (!config.brevoApiKey) {
-    logger.warn('BREVO_API_KEY not set — email suppressed', { to, subject })
+    logger.warn('BREVO_API_KEY not set — email suppressed', { to: maskEmail(to), subject })
     return
   }
 
@@ -45,9 +51,9 @@ export async function sendEmail(options: {
       subject,
       htmlContent,
     })
-    logger.info('Email sent', { to, subject })
+    logger.info('Email sent', { to: maskEmail(to), subject })
   } catch (error) {
-    logger.error('Email send failed', { to, subject, error })
+    logger.error('Email send failed', { to: maskEmail(to), subject, error })
     throw error
   }
 }
