@@ -47,15 +47,14 @@ export default async function LocaleLayout({
       dir={isRtl ? 'rtl' : 'ltr'}
       suppressHydrationWarning
     >
-      <head>
-        {/* Anti-FOUC: use DB theme for logged-in users, localStorage/OS for guests */}
+      <body className="min-h-screen bg-[var(--background)] text-[var(--foreground)] antialiased">
+        {/* Anti-FOUC: must be first in body so it runs before any paint */}
         <script
+          suppressHydrationWarning
           dangerouslySetInnerHTML={{
             __html: `try{var t=${foucTheme}||localStorage.getItem('theme');if(t==='dark'||(t===null&&window.matchMedia('(prefers-color-scheme:dark)').matches)){document.documentElement.classList.add('dark')}}catch(_){}`,
           }}
         />
-      </head>
-      <body className="min-h-screen bg-[var(--background)] text-[var(--foreground)] antialiased">
         <SessionProvider session={session}>
           <NextIntlClientProvider messages={messages}>
             <ThemeProvider initialTheme={userTheme ?? undefined}>

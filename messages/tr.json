@@ -405,7 +405,8 @@
         "legal": "Genel hukuk"
       },
       "practiceAreasMin": "Lütfen en az bir uzmanlık alanı seçin.",
-      "practiceAreasSelfCert": "Seçim yaparak, seçilen alanlarda lisanslı olduğunuzu onaylıyorsunuz."
+      "practiceAreasSelfCert": "Seçim yaparak, seçilen alanlarda lisanslı olduğunuzu onaylıyorsunuz.",
+      "waitingForBotCheck": "Güvenlik kontrolü devam ediyor…"
     },
     "layout": {
       "backToHome": "Ana sayfaya dön",

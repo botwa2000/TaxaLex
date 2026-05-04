@@ -405,7 +405,8 @@
         "legal": "Allgemeines Recht"
       },
       "practiceAreasMin": "Bitte wählen Sie mindestens einen Fachbereich.",
-      "practiceAreasSelfCert": "Durch Auswahl bestätigen Sie, dass Sie in den gewählten Bereichen lizenziert sind."
+      "practiceAreasSelfCert": "Durch Auswahl bestätigen Sie, dass Sie in den gewählten Bereichen lizenziert sind.",
+      "waitingForBotCheck": "Sicherheitsüberprüfung läuft…"
     },
     "layout": {
       "backToHome": "Zurück zur Startseite",

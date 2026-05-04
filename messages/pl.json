@@ -405,7 +405,8 @@
         "legal": "Prawo ogólne"
       },
       "practiceAreasMin": "Proszę wybrać co najmniej jeden obszar praktyki.",
-      "practiceAreasSelfCert": "Wybierając, potwierdzasz, że posiadasz uprawnienia do wykonywania zawodu w wybranych obszarach."
+      "practiceAreasSelfCert": "Wybierając, potwierdzasz, że posiadasz uprawnienia do wykonywania zawodu w wybranych obszarach.",
+      "waitingForBotCheck": "Trwa weryfikacja bezpieczeństwa…"
     },
     "layout": {
       "backToHome": "Powrót do strony głównej",

@@ -248,10 +248,13 @@ export default function RegisterPage() {
         </div>
 
         <TurnstileBox onSuccess={setTurnstileToken} className="mb-2" />
+        {!turnstileToken && (
+          <p className="text-xs text-[var(--muted)] -mt-1 mb-1 text-center">{t('waitingForBotCheck')}</p>
+        )}
 
         <button
           type="submit"
-          disabled={loading}
+          disabled={loading || !turnstileToken}
           className="w-full bg-brand-600 text-white py-3.5 rounded-xl text-base font-bold hover:bg-brand-700 active:bg-brand-800 transition-colors disabled:opacity-50 flex items-center justify-center gap-2 mt-2"
         >
           {loading && <Loader2 className="w-4 h-4 animate-spin" />}

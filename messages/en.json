@@ -405,7 +405,8 @@
         "legal": "General law"
       },
       "practiceAreasMin": "Please select at least one practice area.",
-      "practiceAreasSelfCert": "By selecting, you confirm you are licensed to practise in the chosen areas."
+      "practiceAreasSelfCert": "By selecting, you confirm you are licensed to practise in the chosen areas.",
+      "waitingForBotCheck": "Security check in progress…"
     },
     "layout": {
       "backToHome": "Back to home",
