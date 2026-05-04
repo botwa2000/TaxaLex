@@ -342,7 +342,7 @@
       "email": "E-Mail-Adresse",
       "password": "Passwort",
       "confirmPassword": "Passwort wiederholen",
-      "agreeToTerms": "Ich stimme den {terms} und der {privacy} zu.",
+      "agreeToTerms": "Ich stimme den <terms>AGB</terms> und der <privacy>Datenschutzerklärung</privacy> zu.",
       "terms": "AGB",
       "privacy": "Datenschutzerklärung",
       "submit": "Konto erstellen",

@@ -342,7 +342,7 @@
       "email": "E-posta adresi",
       "password": "Şifre",
       "confirmPassword": "Şifreyi onayla",
-      "agreeToTerms": "{terms} ve {privacy} kabul ediyorum.",
+      "agreeToTerms": "<terms>Kullanım Koşulları</terms>'nı ve <privacy>Gizlilik Politikası</privacy>'nı kabul ediyorum.",
       "terms": "Kullanım Koşulları",
       "privacy": "Gizlilik Politikası",
       "submit": "Hesap oluştur",

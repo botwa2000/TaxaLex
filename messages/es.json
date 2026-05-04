@@ -342,7 +342,7 @@
       "email": "Dirección de correo electrónico",
       "password": "Contraseña",
       "confirmPassword": "Confirmar contraseña",
-      "agreeToTerms": "Acepto los {terms} y la {privacy}.",
+      "agreeToTerms": "Acepto los <terms>Condiciones de uso</terms> y la <privacy>Política de privacidad</privacy>.",
       "terms": "Condiciones de uso",
       "privacy": "Política de privacidad",
       "submit": "Crear cuenta",
